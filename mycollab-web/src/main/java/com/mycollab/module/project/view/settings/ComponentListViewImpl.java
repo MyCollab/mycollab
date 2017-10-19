@@ -19,10 +19,7 @@ package com.mycollab.module.project.view.settings;
 import com.mycollab.common.TableViewField;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
-import com.mycollab.module.project.CurrentProjectVariables;
-import com.mycollab.module.project.ProjectLinkBuilder;
-import com.mycollab.module.project.ProjectRolePermissionCollections;
-import com.mycollab.module.project.ProjectTooltipGenerator;
+import com.mycollab.module.project.*;
 import com.mycollab.module.project.i18n.ComponentI18nEnum;
 import com.mycollab.module.project.view.settings.component.ProjectUserLink;
 import com.mycollab.module.tracker.domain.SimpleComponent;
@@ -96,8 +93,8 @@ public class ComponentListViewImpl extends AbstractVerticalPageView implements C
 
         tableItem.addGeneratedColumn("name", (source, itemId, columnId) -> {
             SimpleComponent bugComponent = tableItem.getBeanByIndex(itemId);
-            LabelLink b = new LabelLink(bugComponent.getName(), ProjectLinkBuilder
-                    .generateComponentPreviewFullLink(bugComponent.getProjectid(), bugComponent.getId()));
+            LabelLink b = new LabelLink(bugComponent.getName(), ProjectLinkGenerator
+                    .generateBugComponentPreviewLink(bugComponent.getProjectid(), bugComponent.getId()));
             if (bugComponent.getStatus() != null && bugComponent.getStatus().equals(StatusI18nEnum.Closed.name())) {
                 b.addStyleName(WebThemes.LINK_COMPLETED);
             }

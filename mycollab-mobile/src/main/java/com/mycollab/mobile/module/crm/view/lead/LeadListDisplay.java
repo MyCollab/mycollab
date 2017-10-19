@@ -18,7 +18,7 @@ package com.mycollab.mobile.module.crm.view.lead;
 
 import com.hp.gagawa.java.elements.A;
 import com.mycollab.mobile.ui.DefaultPagedBeanList;
-import com.mycollab.module.crm.CrmLinkBuilder;
+import com.mycollab.module.crm.CrmLinkGenerator;
 import com.mycollab.module.crm.CrmTypeConstants;
 import com.mycollab.module.crm.domain.SimpleLead;
 import com.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
@@ -48,7 +48,7 @@ public class LeadListDisplay extends DefaultPagedBeanList<LeadService, LeadSearc
         @Override
         public Component generateRow(IBeanList<SimpleLead> host, final SimpleLead lead, int rowIndex) {
             MVerticalLayout rowLayout = new MVerticalLayout().withMargin(false).withSpacing(false).withFullWidth();
-            A itemLink = new A(CrmLinkBuilder.generateLeadPreviewLinkFull(lead.getId())).appendText(lead.getLeadName());
+            A itemLink = new A(CrmLinkGenerator.generateLeadPreviewLink(lead.getId())).appendText(lead.getLeadName());
             MCssLayout itemWrap = new MCssLayout(ELabel.html(itemLink.write()));
             rowLayout.addComponent(new MHorizontalLayout(ELabel.fontIcon(CrmAssetsManager.getAsset
                     (CrmTypeConstants.LEAD)), itemWrap).expand(itemWrap).withFullWidth());

@@ -162,5 +162,4 @@ class LeadRelayEmailNotificationActionImpl : CrmDefaultSendingRelayEmailAction<S
             }
         }
     }
-
 }

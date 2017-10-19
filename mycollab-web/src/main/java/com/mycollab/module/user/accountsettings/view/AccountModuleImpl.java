@@ -78,7 +78,7 @@ public class AccountModuleImpl extends AbstractSingleContainerPageView implement
         BrowserWindowOpener helpOpener = new BrowserWindowOpener(helpRes);
         helpOpener.extend(helpBtn);
 
-        topPanel.with(breadcrumb, helpBtn).expand(breadcrumb).alignAll(Alignment.MIDDLE_LEFT);
+        topPanel.with(breadcrumb, helpBtn).withAlign(helpBtn, Alignment.TOP_RIGHT);
 
         tabSheet = new VerticalTabsheet();
         tabSheet.setSizeFull();

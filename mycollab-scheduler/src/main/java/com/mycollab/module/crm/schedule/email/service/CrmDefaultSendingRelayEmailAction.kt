@@ -76,13 +76,13 @@ abstract class CrmDefaultSendingRelayEmailAction<B> : SendingRelayEmailNotificat
             bean = getBeanInContext(notification)
             if (bean != null) {
                 contentGenerator.putVariable("logoPath", LinkUtils.accountLogoPath(notification.saccountid, notification.accountLogo))
-                notifiers.forEach { user ->
-                    val notifierFullName = user.displayName
+                notifiers.forEach {
+                    val notifierFullName = it.displayName
                     if (StringUtils.isBlank(notifierFullName)) {
-                        LOG.error("Can not find user $user of notification $notification")
+                        LOG.error("Can not find user $it of notification $notification")
                         return
                     }
-                    val context = MailContext<B>(notification, user, siteUrl)
+                    val context = MailContext<B>(notification, it, siteUrl)
                     val subject = context.getMessage(getCreateSubjectKey(), context.changeByUserFullName, getItemName())
                     context.wrappedBean = bean
                     contentGenerator.putVariable("context", context)
@@ -92,7 +92,7 @@ abstract class CrmDefaultSendingRelayEmailAction<B> : SendingRelayEmailNotificat
                     contentGenerator.putVariable("copyRight", LocalizationHelper.getMessage(context.locale, MailI18nEnum.Copyright,
                             DateTimeUtils.getCurrentYear()))
                     buildExtraTemplateVariables(context)
-                    val userMail = MailRecipientField(user.email, user.username)
+                    val userMail = MailRecipientField(it.email, it.username)
                     val recipients = listOf(userMail)
                     extMailService.sendHTMLMail(SiteConfiguration.getNotifyEmail(), SiteConfiguration.getDefaultSiteName(), recipients,
                             subject, contentGenerator.parseFile("mailCrmItemCreatedNotifier.ftl", context.locale))
@@ -162,13 +162,13 @@ abstract class CrmDefaultSendingRelayEmailAction<B> : SendingRelayEmailNotificat
             contentGenerator.putVariable("lastComments", comments)
             contentGenerator.putVariable("logoPath", LinkUtils.accountLogoPath(notification.saccountid, notification.accountLogo))
 
-            notifiers.forEach lit@ { user ->
-                val notifierFullName = user.displayName
+            notifiers.forEach lit@ {
+                val notifierFullName = it.displayName
                 if (notifierFullName.isNullOrBlank()) {
-                    LOG.error("Can not find user $user of notification $notification")
+                    LOG.error("Can not find user $it of notification $notification")
                     return@lit
                 }
-                val context = MailContext<B>(notification, user, siteUrl)
+                val context = MailContext<B>(notification, it, siteUrl)
                 contentGenerator.putVariable("lastCommentsValue", LocalizationHelper.getMessage(context.locale,
                         MailI18nEnum.Last_Comments_Value, "" + comments.size))
                 contentGenerator.putVariable("copyRight", LocalizationHelper.getMessage(context.locale, MailI18nEnum.Copyright,
@@ -178,7 +178,7 @@ abstract class CrmDefaultSendingRelayEmailAction<B> : SendingRelayEmailNotificat
                 context.wrappedBean = bean
                 buildExtraTemplateVariables(context)
                 val subject = context.getMessage(getCommentSubjectKey(), context.changeByUserFullName, getItemName())
-                val userMail = MailRecipientField(user.email, user.username)
+                val userMail = MailRecipientField(it.email, it.username)
                 val recipients = listOf(userMail)
                 extMailService.sendHTMLMail(SiteConfiguration.getNotifyEmail(), SiteConfiguration.getDefaultSiteName(), recipients,
                         subject, contentGenerator.parseFile("mailCrmItemAddNoteNotifier.ftl", context.locale))

@@ -53,7 +53,7 @@ public class MessageReadViewImpl extends AbstractMobilePageView implements Messa
     private final VerticalLayout mainLayout;
 
     public MessageReadViewImpl() {
-        this.addStyleName("message-read-view");
+        this.addStyleName("messages-read-view");
         this.setCaption(UserUIContext.getMessage(MessageI18nEnum.SINGLE));
         mainLayout = new VerticalLayout();
         mainLayout.setWidth("100%");
@@ -67,7 +67,7 @@ public class MessageReadViewImpl extends AbstractMobilePageView implements Messa
 
     private void displayItem() {
         mainLayout.removeAllComponents();
-        MHorizontalLayout messageBlock = new MHorizontalLayout().withSpacing(false).withFullWidth().withStyleName("message-block");
+        MHorizontalLayout messageBlock = new MHorizontalLayout().withSpacing(false).withFullWidth().withStyleName("messages-block");
         Image userAvatarImg = UserAvatarControlFactory.createUserAvatarEmbeddedComponent(bean.getPostedUserAvatarId(), 32);
         userAvatarImg.addStyleName(UIConstants.CIRCLE_BOX);
         messageBlock.addComponent(userAvatarImg);
@@ -90,7 +90,7 @@ public class MessageReadViewImpl extends AbstractMobilePageView implements Messa
         titleRow.setWidth("100%");
         titleRow.setStyleName("title-row");
         Label messageTitle = new Label(bean.getTitle());
-        messageTitle.setStyleName("message-title");
+        messageTitle.setStyleName("messages-title");
         titleRow.addComponent(messageTitle);
         rightCol.addComponent(titleRow);
 

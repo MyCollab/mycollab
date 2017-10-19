@@ -17,7 +17,7 @@
 package com.mycollab.module.crm.view.activity;
 
 import com.mycollab.common.TableViewField;
-import com.mycollab.module.crm.CrmLinkBuilder;
+import com.mycollab.module.crm.CrmLinkGenerator;
 import com.mycollab.module.crm.domain.SimpleCall;
 import com.mycollab.module.crm.domain.criteria.CallSearchCriteria;
 import com.mycollab.module.crm.i18n.CallI18nEnum;
@@ -48,7 +48,7 @@ public class CallTableDisplay extends DefaultPagedBeanTable<CallService, CallSea
         this.addGeneratedColumn("subject", (source, itemId, columnId) -> {
             final SimpleCall call = getBeanByIndex(itemId);
 
-            LabelLink b = new LabelLink(call.getSubject(), CrmLinkBuilder.generateCallPreviewLinkFul(call.getId()));
+            LabelLink b = new LabelLink(call.getSubject(), CrmLinkGenerator.generateCallPreviewLink(call.getId()));
             if (CallStatus.Held.name().equals(call.getStatus())) {
                 b.addStyleName(WebThemes.LINK_COMPLETED);
             }

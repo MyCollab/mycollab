@@ -114,7 +114,7 @@ class OpportunityRelayEmailNotificationActionImpl : CrmDefaultSendingRelayEmailA
             put(Opportunity.Field.campaignid, CampaignFieldFormat(Opportunity.Field.campaignid.name, OpportunityI18nEnum.FORM_CAMPAIGN_NAME))
             put(Opportunity.Field.nextstep, OpportunityI18nEnum.FORM_NEXT_STEP)
             put(Opportunity.Field.assignuser, AssigneeFieldFormat(Opportunity.Field.assignuser.name, GenericI18Enum.FORM_ASSIGNEE))
-            put(Opportunity.Field.description, GenericI18Enum.FORM_DESCRIPTION, isColSpan = true)
+            put(Opportunity.Field.description, GenericI18Enum.FORM_DESCRIPTION, true)
         }
     }
 
@@ -124,8 +124,7 @@ class OpportunityRelayEmailNotificationActionImpl : CrmDefaultSendingRelayEmailA
             val simpleOpportunity = context.wrappedBean as SimpleOpportunity
             return if (simpleOpportunity.accountid != null) {
                 val img = Text(CrmResources.getFontIconHtml(CrmTypeConstants.ACCOUNT))
-                val accountLink = CrmLinkGenerator.generateAccountPreviewFullLink(context.siteUrl, simpleOpportunity
-                        .accountid)
+                val accountLink = CrmLinkGenerator.generateAccountPreviewFullLink(context.siteUrl, simpleOpportunity.accountid)
                 val link = FormatUtils.newA(accountLink, simpleOpportunity.accountName)
                 FormatUtils.newLink(img, link).write()
             } else {

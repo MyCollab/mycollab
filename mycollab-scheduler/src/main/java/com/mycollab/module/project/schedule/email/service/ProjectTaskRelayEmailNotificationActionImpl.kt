@@ -101,11 +101,23 @@ class ProjectTaskRelayEmailNotificationActionImpl : SendMailToFollowersAction<Si
     override fun getCreateSubject(context: MailContext<SimpleTask>): String =
             context.getMessage(TaskI18nEnum.MAIL_CREATE_ITEM_SUBJECT, bean!!.projectName, context.changeByUserFullName, getItemName())
 
+    override fun getCreateSubjectNotification(context: MailContext<SimpleTask>): String {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
     override fun getUpdateSubject(context: MailContext<SimpleTask>): String =
             context.getMessage(TaskI18nEnum.MAIL_UPDATE_ITEM_SUBJECT, bean!!.projectName, context.changeByUserFullName, getItemName())
 
+    override fun getUpdateSubjectNotification(context: MailContext<SimpleTask>): String {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
     override fun getCommentSubject(context: MailContext<SimpleTask>): String =
             context.getMessage(TaskI18nEnum.MAIL_COMMENT_ITEM_SUBJECT, bean!!.projectName, context.changeByUserFullName, getItemName())
+
+    override fun getCommentSubjectNotification(context: MailContext<SimpleTask>): String {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 
     override fun getItemFieldMapper(): ItemFieldMapper = mapper
 
@@ -139,6 +151,10 @@ class ProjectTaskRelayEmailNotificationActionImpl : SendMailToFollowersAction<Si
 
         return notifyUsers
     }
+
+    override fun getType(): String = ProjectTypeConstants.TASK
+
+    override fun getTypeId(): String = "${bean!!.id}"
 
     class TaskFieldNameMapper : ItemFieldMapper() {
         init {

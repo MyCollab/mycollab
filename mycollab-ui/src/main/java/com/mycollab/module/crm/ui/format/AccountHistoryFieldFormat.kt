@@ -21,6 +21,7 @@ import com.hp.gagawa.java.elements.Text
 import com.mycollab.common.i18n.GenericI18Enum
 import com.mycollab.html.DivLessFormatter
 import com.mycollab.module.crm.CrmLinkBuilder
+import com.mycollab.module.crm.CrmLinkGenerator
 import com.mycollab.module.crm.CrmTypeConstants
 import com.mycollab.module.crm.service.AccountService
 import com.mycollab.module.crm.ui.CrmAssetsManager
@@ -53,7 +54,7 @@ class AccountHistoryFieldFormat : HistoryFieldFormat {
 
         if (account != null) {
             return if (displayAsHtml) {
-                val link = A(CrmLinkBuilder.generateAccountPreviewLinkFull(accountId)).
+                val link = A(CrmLinkGenerator.generateAccountPreviewLink(accountId)).
                         setId("tag$TOOLTIP_ID").
                         appendChild(Text(account.accountname))
                 link.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(CrmTypeConstants.ACCOUNT, accountId.toString()))

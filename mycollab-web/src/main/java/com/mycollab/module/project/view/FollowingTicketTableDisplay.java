@@ -19,8 +19,7 @@ package com.mycollab.module.project.view;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Div;
 import com.mycollab.core.utils.DateTimeUtils;
-import com.mycollab.vaadin.EventBusFactory;
-import com.mycollab.module.project.ProjectLinkBuilder;
+import com.mycollab.module.project.ProjectLinkGenerator;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.domain.FollowingTicket;
 import com.mycollab.module.project.domain.criteria.FollowingTicketSearchCriteria;
@@ -33,6 +32,7 @@ import com.mycollab.module.project.view.parameters.ProjectScreenData;
 import com.mycollab.module.project.view.parameters.RiskScreenData;
 import com.mycollab.module.project.view.parameters.TaskScreenData;
 import com.mycollab.spring.AppContextUtil;
+import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.vaadin.mvp.PageActionChain;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.UIConstants;
@@ -131,7 +131,7 @@ public class FollowingTicketTableDisplay extends DefaultPagedBeanTable<ProjectFo
         this.addGeneratedColumn("projectName", (source, itemId, columnId) -> {
             final FollowingTicket ticket = getBeanByIndex(itemId);
             Div projectLinkDiv = new Div().appendText(ProjectAssetsManager.getAsset(ProjectTypeConstants.PROJECT).getHtml() + " ")
-                    .appendChild(new A(ProjectLinkBuilder.generateProjectFullLink(ticket.getProjectId()))
+                    .appendChild(new A(ProjectLinkGenerator.generateProjectLink(ticket.getProjectId()))
                             .appendText(ticket.getProjectName()));
             return new ELabel(projectLinkDiv.write(), ContentMode.HTML).withStyleName(UIConstants.LABEL_WORD_WRAP);
         });

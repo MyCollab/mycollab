@@ -104,12 +104,14 @@ public class ProjectModule extends AbstractSingleContainerPageView implements ID
             newBtn.addStyleName("add-btn-popup");
             newBtn.setIcon(FontAwesome.PLUS_CIRCLE);
             OptionPopupContent contentLayout = new OptionPopupContent();
-            MButton newPrjButton = new MButton(UserUIContext.getMessage(ProjectI18nEnum.SINGLE), clickEvent -> {
-                UI.getCurrent().addWindow(ViewManager.getCacheComponent(AbstractProjectAddWindow.class));
-                newBtn.setPopupVisible(false);
-            }).withIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.PROJECT))
-                    .withVisible(UserUIContext.canBeYes(RolePermissionCollections.CREATE_NEW_PROJECT));
-            contentLayout.addOption(newPrjButton);
+
+            if (UserUIContext.canBeYes(RolePermissionCollections.CREATE_NEW_PROJECT)) {
+                MButton newPrjButton = new MButton(UserUIContext.getMessage(ProjectI18nEnum.SINGLE), clickEvent -> {
+                    UI.getCurrent().addWindow(ViewManager.getCacheComponent(AbstractProjectAddWindow.class));
+                    newBtn.setPopupVisible(false);
+                }).withIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.PROJECT));
+                contentLayout.addOption(newPrjButton);
+            }
 
             MButton newTicketButton = new MButton(UserUIContext.getMessage(TicketI18nEnum.SINGLE), clickEvent -> {
                 UI.getCurrent().addWindow(AppContextUtil.getSpringBean(TicketComponentFactory.class)

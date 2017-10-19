@@ -22,10 +22,10 @@ import com.hp.gagawa.java.elements.Img;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.core.utils.NumberUtils;
 import com.mycollab.core.utils.StringUtils;
-import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.html.DivLessFormatter;
 import com.mycollab.module.file.StorageUtils;
 import com.mycollab.module.project.ProjectLinkBuilder;
+import com.mycollab.module.project.ProjectLinkGenerator;
 import com.mycollab.module.project.ProjectTooltipGenerator;
 import com.mycollab.module.project.domain.SimpleProject;
 import com.mycollab.module.project.domain.criteria.ProjectSearchCriteria;
@@ -37,6 +37,7 @@ import com.mycollab.module.project.service.ProjectService;
 import com.mycollab.module.project.ui.ProjectAssetsUtil;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppUI;
+import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.IBeanList;
@@ -86,7 +87,7 @@ public class ProjectPagedList extends DefaultBeanPagedList<ProjectService, Proje
             final VerticalLayout linkIconFix = new VerticalLayout();
             linkIconFix.setSpacing(true);
 
-            A projectDiv = new A(ProjectLinkBuilder.generateProjectFullLink(project.getId())).appendText(project.getName());
+            A projectDiv = new A(ProjectLinkGenerator.generateProjectLink(project.getId())).appendText(project.getName());
             ELabel projectLbl = ELabel.h3(projectDiv.write()).withStyleName(UIConstants.TEXT_ELLIPSIS).withFullWidth();
             projectLbl.setDescription(ProjectTooltipGenerator.generateToolTipProject(UserUIContext.getUserLocale(),
                     AppUI.getDateFormat(), project, AppUI.getSiteUrl(), UserUIContext.getUserTimeZone()));
@@ -110,7 +111,7 @@ public class ProjectPagedList extends DefaultBeanPagedList<ProjectService, Proje
             if (project.getLead() != null) {
                 Div leadDiv = new Div().appendChild(new Img("", StorageUtils.getAvatarPath(project
                                 .getLeadAvatarId(), 16)).setCSSClass(UIConstants.CIRCLE_BOX), DivLessFormatter.EMPTY_SPACE,
-                        new A(ProjectLinkBuilder.generateProjectMemberFullLink(project.getId(), project.getLead()))
+                        new A(ProjectLinkGenerator.generateProjectMemberLink(project.getId(), project.getLead()))
                                 .appendText(StringUtils.trim(project.getLeadFullName(), 30, true))).setTitle
                         (UserUIContext.getMessage(ProjectI18nEnum.FORM_LEADER));
                 metaDiv.appendChild(0, leadDiv);
@@ -127,7 +128,7 @@ public class ProjectPagedList extends DefaultBeanPagedList<ProjectService, Proje
                     accountDiv.appendChild(clientImg).appendChild(DivLessFormatter.EMPTY_SPACE);
                 }
 
-                accountDiv.appendChild(new A(ProjectLinkBuilder.generateClientPreviewFullLink(project.getAccountid()))
+                accountDiv.appendChild(new A(ProjectLinkGenerator.generateClientPreviewLink(project.getAccountid()))
                         .appendText(StringUtils.trim(project.getClientName(), 30, true))).setCSSClass(UIConstants.BLOCK)
                         .setTitle(project.getClientName());
                 metaDiv.appendChild(0, accountDiv);

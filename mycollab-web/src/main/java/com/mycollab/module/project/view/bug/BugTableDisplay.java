@@ -18,7 +18,7 @@ package com.mycollab.module.project.view.bug;
 
 import com.mycollab.common.TableViewField;
 import com.mycollab.core.utils.StringUtils;
-import com.mycollab.module.project.ProjectLinkBuilder;
+import com.mycollab.module.project.ProjectLinkGenerator;
 import com.mycollab.module.project.ProjectTooltipGenerator;
 import com.mycollab.module.project.i18n.OptionI18nEnum.BugResolution;
 import com.mycollab.module.project.i18n.OptionI18nEnum.BugSeverity;
@@ -69,7 +69,7 @@ class BugTableDisplay extends DefaultPagedBeanTable<BugService, BugSearchCriteri
 
         this.addGeneratedColumn("name", (source, itemId, columnId) -> {
             SimpleBug bug = getBeanByIndex(itemId);
-            LabelLink b = new LabelLink(bug.getName(), ProjectLinkBuilder.generateBugPreviewFullLink(bug.getBugkey(),
+            LabelLink b = new LabelLink(bug.getName(), ProjectLinkGenerator.generateBugPreviewLink(bug.getBugkey(),
                     bug.getProjectShortName()));
 
             if (StringUtils.isNotBlank(bug.getPriority())) {

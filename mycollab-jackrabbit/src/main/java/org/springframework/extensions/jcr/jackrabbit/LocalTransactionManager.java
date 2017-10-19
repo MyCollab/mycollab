@@ -41,17 +41,17 @@ import org.springframework.transaction.support.TransactionSynchronizationManager
  * PlatformTransactionManager implementation for a single JCR SessionFactory.
  * Binds a Jcr session from the specified SessionFactory to the thread,
  * potentially allowing for one thread session per session factory.
- * <p>
+ *
  * This local strategy is an alternative to executing JCR operations within JTA
  * transactions. Its advantage is that it is able to work in any environment,
  * for example a standalone application or a test suite. It is <i>not</i> able
  * to provide XA transactions, for example to share transactions with data
  * access.
- * <p>
+ *
  * JcrTemplate will auto-detect such thread-bound connection/session pairs and
  * automatically participate in them. There is currently no support for letting
  * plain JCR code participate in such transactions.
- * <p>
+ *
  * This transaction strategy will typically be used in combination with a single
  * JCR Repository for all JCR access to save resources, typically in a
  * standalone application.

@@ -64,7 +64,7 @@ abstract class UrlResolver {
                 } else {
                     val urlResolver = subResolvers?.get(key)
                     when (urlResolver) {
-                        null -> defaultUrlResolver?.handle(*params) ?: throw ResourceNotFoundException("Can not register resolver key $key for Resolver: $this")
+                        null -> defaultUrlResolver?.handle(*params) ?: throw ResourceNotFoundException("Can not find resolver key $key for Resolver: $this")
                         else -> urlResolver.handle(*params.drop(1).toTypedArray())
 
                     }

@@ -53,6 +53,7 @@ import org.springframework.stereotype.Component
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
 class AccountRelayEmailNotificationActionImpl : CrmDefaultSendingRelayEmailAction<SimpleAccount>(), AccountRelayEmailNotificationAction {
     @Autowired private lateinit var accountService: AccountService
+
     private val mapper = AccountFieldNameMapper()
 
     override fun getBeanInContext(notification: SimpleRelayEmailNotification): SimpleAccount? =

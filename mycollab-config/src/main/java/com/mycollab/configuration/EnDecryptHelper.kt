@@ -58,7 +58,6 @@ object EnDecryptHelper {
         } catch (e: UnsupportedEncodingException) {
             throw MyCollabException(e)
         }
-
     }
 
     @JvmStatic
@@ -93,10 +92,9 @@ object EnDecryptHelper {
      */
     @JvmStatic
     fun checkPassword(inputPassword: String, expectedPassword: String, isPasswordEncrypt: Boolean): Boolean {
-        return if (isPasswordEncrypt) {
-            inputPassword == expectedPassword
-        } else {
-            strongEncryptor.checkPassword(inputPassword, expectedPassword)
+        return when {
+            isPasswordEncrypt -> inputPassword == expectedPassword
+            else -> strongEncryptor.checkPassword(inputPassword, expectedPassword)
         }
     }
 }

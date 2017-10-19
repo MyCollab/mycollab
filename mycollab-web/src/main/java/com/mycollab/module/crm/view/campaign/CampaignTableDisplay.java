@@ -17,8 +17,8 @@
 package com.mycollab.module.crm.view.campaign;
 
 import com.mycollab.common.TableViewField;
+import com.mycollab.module.crm.CrmLinkGenerator;
 import com.mycollab.module.crm.CrmTooltipGenerator;
-import com.mycollab.module.crm.CrmLinkBuilder;
 import com.mycollab.module.crm.domain.SimpleCampaign;
 import com.mycollab.module.crm.domain.criteria.CampaignSearchCriteria;
 import com.mycollab.module.crm.i18n.OptionI18nEnum.CampaignStatus;
@@ -28,7 +28,10 @@ import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
-import com.mycollab.vaadin.web.ui.*;
+import com.mycollab.vaadin.web.ui.CheckBoxDecor;
+import com.mycollab.vaadin.web.ui.LabelLink;
+import com.mycollab.vaadin.web.ui.UserLink;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.mycollab.vaadin.web.ui.table.DefaultPagedBeanTable;
 import com.vaadin.ui.Label;
 
@@ -67,7 +70,7 @@ public class CampaignTableDisplay extends DefaultPagedBeanTable<CampaignService,
         this.addGeneratedColumn("campaignname", (source, itemId, columnId) -> {
             final SimpleCampaign campaign = getBeanByIndex(itemId);
 
-            LabelLink b = new LabelLink(campaign.getCampaignname(), CrmLinkBuilder.generateCampaignPreviewLinkFull(campaign.getId()));
+            LabelLink b = new LabelLink(campaign.getCampaignname(), CrmLinkGenerator.generateCampaignPreviewLink(campaign.getId()));
             b.setDescription(CrmTooltipGenerator.generateTooltipCampaign(UserUIContext.getUserLocale(), AppUI.getDateFormat(),
                     campaign, AppUI.getSiteUrl(), UserUIContext.getUserTimeZone()));
             b.setStyleName(WebThemes.BUTTON_LINK);

@@ -18,7 +18,7 @@ package com.mycollab.mobile.module.crm.view.campaign;
 
 import com.hp.gagawa.java.elements.A;
 import com.mycollab.mobile.ui.DefaultPagedBeanList;
-import com.mycollab.module.crm.CrmLinkBuilder;
+import com.mycollab.module.crm.CrmLinkGenerator;
 import com.mycollab.module.crm.CrmTypeConstants;
 import com.mycollab.module.crm.domain.SimpleCampaign;
 import com.mycollab.module.crm.domain.criteria.CampaignSearchCriteria;
@@ -48,7 +48,7 @@ public class CampaignListDisplay extends DefaultPagedBeanList<CampaignService, C
         @Override
         public Component generateRow(IBeanList<SimpleCampaign> host, final SimpleCampaign campaign, int rowIndex) {
             MVerticalLayout rowLayout = new MVerticalLayout().withMargin(false).withSpacing(false).withFullWidth();
-            A itemLink = new A(CrmLinkBuilder.generateCampaignPreviewLinkFull(campaign.getId())).appendText(campaign.getCampaignname());
+            A itemLink = new A(CrmLinkGenerator.generateCampaignPreviewLink(campaign.getId())).appendText(campaign.getCampaignname());
             MCssLayout itemWrap = new MCssLayout(ELabel.html(itemLink.write()));
             rowLayout.addComponent(new MHorizontalLayout(ELabel.fontIcon(CrmAssetsManager.getAsset
                     (CrmTypeConstants.CAMPAIGN)), itemWrap).expand(itemWrap).withFullWidth());

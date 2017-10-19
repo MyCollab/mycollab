@@ -57,6 +57,7 @@ import org.springframework.stereotype.Component
 class CaseRelayEmailNotificationActionImpl : CrmDefaultSendingRelayEmailAction<SimpleCase>(), CaseRelayEmailNotificationAction {
 
     @Autowired private lateinit var caseService: CaseService
+
     private val mapper = CaseFieldNameMapper()
 
     override fun getBeanInContext(notification: SimpleRelayEmailNotification): SimpleCase? =

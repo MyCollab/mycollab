@@ -16,8 +16,8 @@
  */
 package com.mycollab.module.crm.view.opportunity;
 
+import com.mycollab.module.crm.CrmLinkGenerator;
 import com.mycollab.module.crm.CrmTypeConstants;
-import com.mycollab.module.crm.CrmLinkBuilder;
 import com.mycollab.module.crm.domain.Opportunity;
 import com.mycollab.module.crm.domain.SimpleOpportunity;
 import com.mycollab.module.crm.i18n.OptionI18nEnum.OpportunityLeadSource;
@@ -53,11 +53,11 @@ public class OpportunityReadFormFieldFactory extends AbstractBeanFieldGroupViewF
 
         if (propertyId.equals("accountid")) {
             field = new LinkViewField(opportunity.getAccountName(),
-                    CrmLinkBuilder.generateAccountPreviewLinkFull(opportunity.getAccountid()),
+                    CrmLinkGenerator.generateAccountPreviewLink(opportunity.getAccountid()),
                     CrmAssetsManager.getAsset(CrmTypeConstants.ACCOUNT));
         } else if (propertyId.equals("campaignid")) {
             field = new LinkViewField(opportunity.getCampaignName(),
-                    CrmLinkBuilder.generateCampaignPreviewLinkFull(opportunity.getCampaignid()),
+                    CrmLinkGenerator.generateCampaignPreviewLink(opportunity.getCampaignid()),
                     CrmAssetsManager.getAsset(CrmTypeConstants.CAMPAIGN));
         } else if (propertyId.equals("assignuser")) {
             field = new UserLinkViewField(opportunity.getAssignuser(), opportunity.getAssignUserAvatarId(),

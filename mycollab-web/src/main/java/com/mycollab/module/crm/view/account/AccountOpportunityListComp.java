@@ -20,7 +20,7 @@ import com.hp.gagawa.java.elements.A;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.module.crm.CrmDataTypeFactory;
-import com.mycollab.module.crm.CrmLinkBuilder;
+import com.mycollab.module.crm.CrmLinkGenerator;
 import com.mycollab.module.crm.CrmTypeConstants;
 import com.mycollab.module.crm.domain.Account;
 import com.mycollab.module.crm.domain.SimpleOpportunity;
@@ -156,7 +156,7 @@ public class AccountOpportunityListComp extends RelatedListComp2<OpportunityServ
             blockContent.addComponent(btnDelete);
             blockContent.setComponentAlignment(btnDelete, Alignment.TOP_RIGHT);
 
-            A opportunityLink = new A(CrmLinkBuilder.generateOpportunityPreviewLinkFull(opportunity.getId()))
+            A opportunityLink = new A(CrmLinkGenerator.generateOpportunityPreviewLink(opportunity.getId()))
                     .appendText(opportunity.getOpportunityname());
             opportunityInfo.addComponent(ELabel.h3(opportunityLink.write()));
 

@@ -29,7 +29,7 @@ import org.springframework.transaction.support.TransactionSynchronizationManager
  * afterwards in case of any method outcome. If there already is a pre-bound Jcr Session (e.g. from
  * JcrTransactionManager, or from a surrounding JCR-intercepted method), the interceptor simply participates
  * in it.
- * <p>
+ *
  * Application code must retrieve a JCR Session via the <code>JcrSessionFactoryUtils.getSession</code> method,
  * to be able to detect a thread-bound Jcr Session. It is preferable to use <code>getSession</code> with
  * allowCreate=false, if the code relies on the interceptor to provide proper session handling. Typically, the
@@ -51,14 +51,14 @@ import org.springframework.transaction.support.TransactionSynchronizationManager
  * to the <code>JcrSessionFactoryUtils.convertJcrAccessException</code> method that converts them to
  * exceptions that are compatible with the <code>org.springframework.dao</code> exception hierarchy (like
  * JcrTemplate does).
- * <p>
+ *
  * This class can be considered a declarative alternative to JcrTemplate's callback approach. The advantages
  * are:
  * <ul>
  * <li>no anonymous classes necessary for callback implementations;
  * <li>the possibility to throw any application exceptions from within data access code.
  * </ul>
- * <p>
+ *
  * The drawbacks are:
  * <ul>
  * <li>the dependency on interceptor configuration;

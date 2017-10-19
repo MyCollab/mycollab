@@ -1,5 +1,5 @@
 CREATE TABLE `m_notification_item` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `module` varchar(45) NOT NULL,
   `type` varchar(45) NOT NULL,
   `typeId` varchar(45) NOT NULL,

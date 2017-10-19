@@ -19,7 +19,7 @@ package com.mycollab.mobile.module.crm.view.cases;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Div;
 import com.mycollab.html.DivLessFormatter;
-import com.mycollab.module.crm.CrmLinkBuilder;
+import com.mycollab.module.crm.CrmLinkGenerator;
 import com.mycollab.module.crm.CrmTypeConstants;
 import com.mycollab.module.crm.domain.CaseWithBLOBs;
 import com.mycollab.module.crm.domain.SimpleCase;
@@ -52,7 +52,7 @@ class CaseReadFormFieldFactory extends AbstractBeanFieldGroupViewFieldFactory<Si
 
         if (propertyId.equals("accountid")) {
             if (cases.getAccountid() != null) {
-                A accountLink = new A(CrmLinkBuilder.generateAccountPreviewLinkFull(cases.getAccountid()))
+                A accountLink = new A(CrmLinkGenerator.generateAccountPreviewLink(cases.getAccountid()))
                         .appendText(cases.getAccountName());
                 Div accountDiv = new Div().appendText(CrmAssetsManager.getAsset(CrmTypeConstants.ACCOUNT).getHtml()).appendChild(DivLessFormatter.EMPTY_SPACE, accountLink);
                 return new DefaultViewField(accountDiv.write(), ContentMode.HTML);

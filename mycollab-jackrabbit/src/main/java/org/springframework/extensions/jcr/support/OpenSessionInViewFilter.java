@@ -37,12 +37,12 @@ import org.springframework.extensions.jcr.SessionFactoryUtils;
  * Servlet 2.3 Filter that binds a JCR Session to the thread for the entire processing of the request.
  * Intended for the "Open Session in View" pattern, i.e. to allow for lazy loading in web views despite the
  * original transactions already being completed.
- * <p>
+ *
  * This filter works similar to the AOP JcrInterceptor: It just makes JCR Sessions available via the thread.
  * It is suitable for non-transactional execution but also for business layer transactions via
  * JcrTransactionManager or JtaTransactionManager. In the latter case, Sessions pre-bound by this filter will
  * automatically be used for the transactions.
- * <p>
+ *
  * Looks up the SessionFactory in Spring's root web application context. Supports a "SessionFactoryBeanName"
  * filter init-param in <code>web.xml</code> ; the default bean name is "SessionFactory". Looks up the
  * SessionFactory on each request, to avoid initialization order issues (when using ContextLoaderServlet, the
@@ -109,7 +109,7 @@ public class OpenSessionInViewFilter extends OncePerRequestFilter {
 
     /**
      * Look up the SessionFactory that this filter should use, taking the current HTTP request as argument.
-     * <p>
+     *
      * Default implementation delegates to the <code>lookupSessionFactory</code> without arguments.
      * @param request
      * @return the SessionFactory to use

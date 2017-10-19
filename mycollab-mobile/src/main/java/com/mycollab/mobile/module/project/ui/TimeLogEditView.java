@@ -28,7 +28,7 @@ import com.mycollab.mobile.ui.AbstractMobilePageView;
 import com.mycollab.mobile.ui.DefaultPagedBeanList;
 import com.mycollab.module.file.service.AbstractStorageService;
 import com.mycollab.module.project.CurrentProjectVariables;
-import com.mycollab.module.project.ProjectLinkBuilder;
+import com.mycollab.module.project.ProjectLinkGenerator;
 import com.mycollab.module.project.domain.SimpleItemTimeLogging;
 import com.mycollab.module.project.domain.criteria.ItemTimeLoggingSearchCriteria;
 import com.mycollab.module.project.i18n.TimeTrackingI18nEnum;
@@ -169,7 +169,7 @@ public abstract class TimeLogEditView<V extends ValuedBean> extends AbstractMobi
     private double getTotalInvest() {
         double total = 0;
         final ItemTimeLoggingSearchCriteria searchCriteria = this.getItemSearchCriteria();
-        final List<SimpleItemTimeLogging> listTime = (List<SimpleItemTimeLogging>)itemTimeLoggingService.findPageableListByCriteria(new BasicSearchRequest<>(searchCriteria));
+        final List<SimpleItemTimeLogging> listTime = (List<SimpleItemTimeLogging>) itemTimeLoggingService.findPageableListByCriteria(new BasicSearchRequest<>(searchCriteria));
         for (final SimpleItemTimeLogging simpleItemTimeLogging : listTime) {
             total += simpleItemTimeLogging.getLogvalue();
         }
@@ -206,7 +206,7 @@ public abstract class TimeLogEditView<V extends ValuedBean> extends AbstractMobi
                     .getAvatarPath(itemLogging.getLogUserAvatarId(), 16))
                     .setCSSClass(UIConstants.CIRCLE_BOX);
             Div memberLink = new DivLessFormatter().appendChild(avatar, DivLessFormatter.EMPTY_SPACE,
-                    new A(ProjectLinkBuilder.generateProjectMemberFullLink(CurrentProjectVariables.getProjectId(),
+                    new A(ProjectLinkGenerator.generateProjectMemberLink(CurrentProjectVariables.getProjectId(),
                             itemLogging.getLoguser())).appendText(itemLogging.getLogUserFullName()));
             MCssLayout memberLbl = new MCssLayout(ELabel.html(memberLink.write()).withStyleName(UIConstants
                     .TEXT_ELLIPSIS).withFullWidth());

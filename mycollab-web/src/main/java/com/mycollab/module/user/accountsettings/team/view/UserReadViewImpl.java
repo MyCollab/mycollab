@@ -23,7 +23,7 @@ import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.i18n.ShellI18nEnum;
 import com.mycollab.core.utils.TimezoneVal;
 import com.mycollab.i18n.LocalizationHelper;
-import com.mycollab.module.user.AccountLinkBuilder;
+import com.mycollab.module.user.AccountLinkGenerator;
 import com.mycollab.module.user.accountsettings.localization.RoleI18nEnum;
 import com.mycollab.module.user.accountsettings.localization.UserI18nEnum;
 import com.mycollab.module.user.accountsettings.profile.view.PasswordChangeWindow;
@@ -67,7 +67,6 @@ public class UserReadViewImpl extends AbstractVerticalPageView implements UserRe
     private SimpleUser user;
 
     public UserReadViewImpl() {
-        super();
         this.setMargin(new MarginInfo(false, true, true, true));
         header = new MHorizontalLayout().withMargin(new MarginInfo(true, false, false, false)).withFullWidth();
         addComponent(header);
@@ -106,7 +105,7 @@ public class UserReadViewImpl extends AbstractVerticalPageView implements UserRe
         if (Boolean.TRUE.equals(user.getIsAccountOwner())) {
             roleDiv = new Div().appendText(UserUIContext.getMessage(RoleI18nEnum.OPT_ACCOUNT_OWNER));
         } else {
-            roleDiv = new A(AccountLinkBuilder.generatePreviewFullRoleLink(user.getRoleid())).appendText(user.getRoleName());
+            roleDiv = new A(AccountLinkGenerator.generateRoleLink(user.getRoleid())).appendText(user.getRoleName());
         }
 
         userFormLayout.addComponent(ELabel.html(roleDiv.write()), UserUIContext.getMessage(UserI18nEnum.FORM_ROLE), 0, 0);
@@ -178,7 +177,7 @@ public class UserReadViewImpl extends AbstractVerticalPageView implements UserRe
                         if (Boolean.TRUE.equals(user.getIsAccountOwner())) {
                             return new DefaultViewField(UserUIContext.getMessage(RoleI18nEnum.OPT_ACCOUNT_OWNER));
                         } else {
-                            return new LinkViewField(user.getRoleName(), AccountLinkBuilder.generatePreviewFullRoleLink(user.getRoleid()));
+                            return new LinkViewField(user.getRoleName(), AccountLinkGenerator.generateRoleLink(user.getRoleid()));
                         }
                     } else if (propertyId.equals("website")) {
                         return new UrlLinkViewField(user.getWebsite());

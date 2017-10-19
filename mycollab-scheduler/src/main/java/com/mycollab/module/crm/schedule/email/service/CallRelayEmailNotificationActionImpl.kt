@@ -51,6 +51,7 @@ import org.springframework.stereotype.Component
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
 class CallRelayEmailNotificationActionImpl : CrmDefaultSendingRelayEmailAction<SimpleCall>(), CallRelayEmailNotificationAction {
     @Autowired private lateinit var callService: CallService
+
     private val mapper: CallFieldNameMapper = CallFieldNameMapper()
 
     override fun getBeanInContext(notification: SimpleRelayEmailNotification): SimpleCall? =

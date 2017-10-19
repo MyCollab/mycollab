@@ -21,7 +21,7 @@ import com.hp.gagawa.java.elements.Span;
 import com.mycollab.core.utils.NumberUtils;
 import com.mycollab.mobile.ui.DefaultPagedBeanList;
 import com.mycollab.module.project.CurrentProjectVariables;
-import com.mycollab.module.project.ProjectLinkBuilder;
+import com.mycollab.module.project.ProjectLinkGenerator;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.domain.SimpleProjectMember;
 import com.mycollab.module.project.domain.criteria.ProjectMemberSearchCriteria;
@@ -68,7 +68,7 @@ public class ProjectMemberListDisplay extends DefaultPagedBeanList<ProjectMember
             MVerticalLayout memberInfoLayout = new MVerticalLayout().withMargin(false);
             mainLayout.with(memberAvatar, memberInfoLayout).expand(memberInfoLayout);
 
-            A memberLink = new A(ProjectLinkBuilder.generateProjectMemberFullLink(CurrentProjectVariables
+            A memberLink = new A(ProjectLinkGenerator.generateProjectMemberLink(CurrentProjectVariables
                     .getProjectId(), member.getUsername())).appendText(member.getDisplayName());
             Label memberLbl = ELabel.html(memberLink.write()).withStyleName(UIConstants.TEXT_ELLIPSIS);
             memberInfoLayout.addComponent(memberLbl);

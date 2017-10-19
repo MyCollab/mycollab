@@ -17,8 +17,8 @@
 package com.mycollab.module.crm.view.contact;
 
 import com.mycollab.common.TableViewField;
+import com.mycollab.module.crm.CrmLinkGenerator;
 import com.mycollab.module.crm.CrmTooltipGenerator;
-import com.mycollab.module.crm.CrmLinkBuilder;
 import com.mycollab.module.crm.domain.SimpleContact;
 import com.mycollab.module.crm.domain.criteria.ContactSearchCriteria;
 import com.mycollab.module.crm.i18n.OptionI18nEnum.OpportunityLeadSource;
@@ -68,7 +68,7 @@ public class ContactTableDisplay extends DefaultPagedBeanTable<ContactService, C
         addGeneratedColumn("contactName", (source, itemId, columnId) -> {
             final SimpleContact contact = getBeanByIndex(itemId);
 
-            LabelLink b = new LabelLink(contact.getContactName(), CrmLinkBuilder.generateContactPreviewLinkFull(contact.getId()));
+            LabelLink b = new LabelLink(contact.getContactName(), CrmLinkGenerator.generateContactPreviewLink(contact.getId()));
             b.setDescription(CrmTooltipGenerator.generateToolTipContact(UserUIContext.getUserLocale(), AppUI.getDateFormat(),
                     contact, AppUI.getSiteUrl(), UserUIContext.getUserTimeZone()));
             return b;
@@ -92,7 +92,7 @@ public class ContactTableDisplay extends DefaultPagedBeanTable<ContactService, C
         addGeneratedColumn("accountName", (source, itemId, columnId) -> {
             final SimpleContact contact = getBeanByIndex(itemId);
             if (contact.getAccountName() != null) {
-                return new LabelLink(contact.getAccountName(), CrmLinkBuilder.generateAccountPreviewLinkFull(contact.getAccountid()));
+                return new LabelLink(contact.getAccountName(), CrmLinkGenerator.generateAccountPreviewLink(contact.getAccountid()));
             } else {
                 return new Label();
             }

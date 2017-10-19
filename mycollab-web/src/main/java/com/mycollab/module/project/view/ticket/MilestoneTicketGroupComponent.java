@@ -19,7 +19,7 @@ package com.mycollab.module.project.view.ticket;
 import com.hp.gagawa.java.elements.A;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.html.DivLessFormatter;
-import com.mycollab.module.project.ProjectLinkBuilder;
+import com.mycollab.module.project.ProjectLinkGenerator;
 import com.mycollab.module.project.domain.ProjectTicket;
 import com.mycollab.module.project.domain.SimpleMilestone;
 import com.mycollab.module.project.service.MilestoneService;
@@ -140,7 +140,7 @@ class MilestoneTicketGroupComponent extends MVerticalLayout implements IGroupCom
         if (milestone == null) {
             titleValue = String.format("%s (%d)", UserUIContext.getMessage(GenericI18Enum.OPT_UNDEFINED), wrapBody.getComponentCount());
         } else {
-            titleValue = new DivLessFormatter().appendChild(new A(ProjectLinkBuilder.generateMilestonePreviewFullLink(milestone.getProjectid(), milestone.getId())).
+            titleValue = new DivLessFormatter().appendChild(new A(ProjectLinkGenerator.generateMilestonePreviewLink(milestone.getProjectid(), milestone.getId())).
                     appendText(String.format("%s (%d)", milestone.getName(), wrapBody.getComponentCount()))).write();
         }
         headerLbl.setValue(titleValue);

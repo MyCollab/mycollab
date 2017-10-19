@@ -69,7 +69,7 @@ public class ProjectBreadcrumb extends MHorizontalLayout implements CacheableCom
 
     private void addSummaryLink() {
         removeAllComponents();
-        with(ELabel.h3(new A("#" + ProjectLinkGenerator.generateProjectLink(project.getId())).appendText(StringUtils
+        with(ELabel.h3(new A(ProjectLinkGenerator.generateProjectLink(project.getId())).appendText(StringUtils
                 .trim(project.getName(), 30, true)).write())).withDescription(ProjectTooltipGenerator.generateToolTipProject(UserUIContext.getUserLocale(), AppUI.getDateFormat(),
                 project, AppUI.getSiteUrl(), UserUIContext.getUserTimeZone()));
     }

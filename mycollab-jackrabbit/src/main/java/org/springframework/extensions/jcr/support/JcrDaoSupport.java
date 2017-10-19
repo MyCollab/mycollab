@@ -122,7 +122,7 @@ public abstract class JcrDaoSupport extends DaoSupport {
 	/**
 	 * Convert the given JCRException to an appropriate exception from the
 	 * org.springframework.dao hierarchy.
-	 * <p>
+	 *
 	 * Delegates to the convertJCRAccessException method of this DAO's
 	 * JCRTemplate.
 	 * 

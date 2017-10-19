@@ -112,7 +112,7 @@ public class AccountSettingBreadcrumb extends MHorizontalLayout implements Cache
         removeAllComponents();
         this.addComponent(new MButton(UserUIContext.getMessage(UserI18nEnum.LIST), new GotoUserListListener()).withStyleName(WebThemes.BUTTON_LINK));
         this.addComponent(new ELabel("/"));
-        this.addComponent(new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_ADD)));
+        this.addComponent(new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_ADD)).withStyleName(WebThemes.BUTTON_LINK));
         AppUI.addFragment("account/user/add", UserUIContext.getMessage(AdminI18nEnum.ACTION_INVITE_NEW_USER));
     }
 

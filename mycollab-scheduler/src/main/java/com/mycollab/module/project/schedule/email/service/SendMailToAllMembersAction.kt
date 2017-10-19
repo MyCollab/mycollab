@@ -16,12 +16,15 @@
  */
 package com.mycollab.module.project.schedule.email.service
 
+import com.google.common.eventbus.AsyncEventBus
 import com.hp.gagawa.java.elements.A
+import com.mycollab.common.ModuleNameConstants
 import com.mycollab.common.NotificationType
 import com.mycollab.common.domain.MailRecipientField
 import com.mycollab.common.domain.SimpleAuditLog
 import com.mycollab.common.domain.SimpleRelayEmailNotification
 import com.mycollab.common.domain.criteria.CommentSearchCriteria
+import com.mycollab.module.project.event.BatchInsertNotificationItemsEvent
 import com.mycollab.common.i18n.MailI18nEnum
 import com.mycollab.common.service.AuditLogService
 import com.mycollab.common.service.CommentService
@@ -59,7 +62,8 @@ abstract class SendMailToAllMembersAction<B> : SendingRelayEmailNotificationActi
     @Autowired private lateinit var projectNotificationService: ProjectNotificationSettingService
     @Autowired private lateinit var commentService: CommentService
     @Autowired private lateinit var auditLogService: AuditLogService
-    @Autowired lateinit protected var contentGenerator: IContentGenerator
+    @Autowired protected lateinit var contentGenerator: IContentGenerator
+    @Autowired private lateinit var eventBus: AsyncEventBus
 
     protected var bean: B? = null
     protected var projectMember: SimpleProjectMember? = null
@@ -88,23 +92,31 @@ abstract class SendMailToAllMembersAction<B> : SendingRelayEmailNotificationActi
         if (notifiers.isNotEmpty()) {
             onInitAction(projectRelayEmailNotification)
             bean = getBeanInContext(projectRelayEmailNotification)
+            val notifyUsersForCreateAction = mutableListOf<String>()
+            val notificationMessages = mutableListOf<String>()
             if (bean != null) {
                 contentGenerator.putVariable("logoPath", LinkUtils.accountLogoPath(notification.saccountid, notification.accountLogo))
-                notifiers.forEach { user ->
-                    val context = MailContext<B>(notification, user, siteUrl)
+                notifiers.forEach {
+                    val context = MailContext<B>(notification, it, siteUrl)
                     context.wrappedBean = bean
                     buildExtraTemplateVariables(context)
                     contentGenerator.putVariable("context", context)
                     contentGenerator.putVariable("mapper", getItemFieldMapper())
-                    contentGenerator.putVariable("userName", user.displayName)
+                    contentGenerator.putVariable("userName", it.displayName)
                     contentGenerator.putVariable("copyRight", LocalizationHelper.getMessage(context.locale, MailI18nEnum.Copyright,
                             DateTimeUtils.getCurrentYear()))
                     contentGenerator.putVariable("Project_Footer", getProjectFooter(context))
-                    val userMail = MailRecipientField(user.email, user.username)
+                    val userMail = MailRecipientField(it.email, it.username)
                     val recipients = listOf(userMail)
                     extMailService.sendHTMLMail(SiteConfiguration.getNotifyEmail(), SiteConfiguration.getDefaultSiteName(), recipients,
                             getCreateSubject(context), contentGenerator.parseFile("mailProjectItemCreatedNotifier.ftl", context.locale))
+                    if (it.username != notification.changeby) {
+                        notifyUsersForCreateAction.add(it.username)
+                        notificationMessages.add(getCreateSubjectNotification(context))
+                    }
                 }
+                eventBus.post(BatchInsertNotificationItemsEvent(notifyUsersForCreateAction, ModuleNameConstants.PRJ,
+                        getType(), getTypeId(), notificationMessages, notification.saccountid))
             }
         }
     }
@@ -125,8 +137,10 @@ abstract class SendMailToAllMembersAction<B> : SendingRelayEmailNotificationActi
                 searchCriteria.type = StringSearchField.and(notification.type)
                 searchCriteria.typeId = StringSearchField.and(notification.typeid)
                 searchCriteria.saccountid = null
-                val comments = commentService.findPageableListByCriteria(BasicSearchRequest<CommentSearchCriteria>(searchCriteria, 0, 5))
+                val comments = commentService.findPageableListByCriteria(BasicSearchRequest(searchCriteria, 0, 5))
                 contentGenerator.putVariable("lastComments", comments)
+                val notifyUsersForUpdateAction = mutableListOf<String>()
+                val notificationMessages = mutableListOf<String>()
 
                 notifiers.forEach {
                     val context = MailContext<B>(notification, it, siteUrl)
@@ -147,7 +161,14 @@ abstract class SendMailToAllMembersAction<B> : SendingRelayEmailNotificationActi
                     val recipients = listOf(userMail)
                     extMailService.sendHTMLMail(SiteConfiguration.getNotifyEmail(), SiteConfiguration.getDefaultSiteName(), recipients,
                             getUpdateSubject(context), contentGenerator.parseFile("mailProjectItemUpdatedNotifier.ftl", context.locale))
+                    if (it.username != notification.changeby) {
+                        notifyUsersForUpdateAction.add(it.username)
+                        notificationMessages.add(getUpdateSubjectNotification(context))
+                    }
                 }
+
+                eventBus.post(BatchInsertNotificationItemsEvent(notifyUsersForUpdateAction, ModuleNameConstants.PRJ,
+                        getType(), getTypeId(), notificationMessages, notification.saccountid))
             }
         }
     }
@@ -163,9 +184,12 @@ abstract class SendMailToAllMembersAction<B> : SendingRelayEmailNotificationActi
                 searchCriteria.type = StringSearchField.and(notification.type)
                 searchCriteria.typeId = StringSearchField.and(notification.typeid)
                 searchCriteria.saccountid = null
-                val comments = commentService.findPageableListByCriteria(BasicSearchRequest<CommentSearchCriteria>(searchCriteria, 0, 5))
+                val comments = commentService.findPageableListByCriteria(BasicSearchRequest(searchCriteria, 0, 5))
                 contentGenerator.putVariable("lastComments", comments)
                 contentGenerator.putVariable("logoPath", LinkUtils.accountLogoPath(notification.saccountid, notification.accountLogo))
+
+                val notifyUsersForCommentAction = mutableListOf<String>()
+                val notificationMessages = mutableListOf<String>()
 
                 notifiers.forEach {
                     val context = MailContext<B>(notification, it, siteUrl)
@@ -179,7 +203,13 @@ abstract class SendMailToAllMembersAction<B> : SendingRelayEmailNotificationActi
                     val recipients = listOf(userMail)
                     extMailService.sendHTMLMail(SiteConfiguration.getNotifyEmail(), SiteConfiguration.getDefaultSiteName(), recipients,
                             getCommentSubject(context), contentGenerator.parseFile("mailProjectItemCommentNotifier.ftl", context.locale))
+                    if (it.username != notification.changeby) {
+                        notifyUsersForCommentAction.add(it.username)
+                        notificationMessages.add(getCommentSubjectNotification(context))
+                    }
                 }
+                eventBus.post(BatchInsertNotificationItemsEvent(notifyUsersForCommentAction, ModuleNameConstants.PRJ,
+                        getType(), getTypeId(), notificationMessages, notification.saccountid))
             }
         }
     }
@@ -212,13 +242,23 @@ abstract class SendMailToAllMembersAction<B> : SendingRelayEmailNotificationActi
 
     abstract protected fun getItemName(): String
 
+    abstract protected fun getType(): String
+
+    abstract protected fun getTypeId(): String
+
     abstract protected fun getProjectName(): String
 
     abstract protected fun getCreateSubject(context: MailContext<B>): String
 
+    abstract protected fun getCreateSubjectNotification(context: MailContext<B>): String
+
     abstract protected fun getUpdateSubject(context: MailContext<B>): String
 
+    abstract protected fun getUpdateSubjectNotification(context: MailContext<B>): String
+
     abstract protected fun getCommentSubject(context: MailContext<B>): String
+
+    abstract protected fun getCommentSubjectNotification(context: MailContext<B>): String
 
     abstract protected fun getItemFieldMapper(): ItemFieldMapper
 }

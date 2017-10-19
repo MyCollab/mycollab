@@ -20,9 +20,7 @@ package com.mycollab.core
  * @author MyCollab Ltd
  * @since 5.3.5
  */
-class BroadcastMessage(private val sAccountId: Int?, val clientId: String?, val wrapObj: Any) {
+class BroadcastMessage(val sAccountId: Int?, val targetUser: String?, val wrapObj: Any) {
 
-    constructor(wrapObj: Any) : this(null, null, wrapObj) {}
-
-    fun getsAccountId(): Int? = sAccountId
+    constructor(wrapObj: Any) : this(null, null, wrapObj)
 }

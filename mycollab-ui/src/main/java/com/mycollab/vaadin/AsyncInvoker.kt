@@ -19,7 +19,6 @@ package com.mycollab.vaadin
 import com.mycollab.configuration.ServerConfiguration
 import com.mycollab.spring.AppContextUtil
 import com.vaadin.ui.UI
-import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
 /**
@@ -29,6 +28,7 @@ import org.slf4j.LoggerFactory
 object AsyncInvoker {
     private val LOG = LoggerFactory.getLogger(AsyncInvoker::class.java)
 
+    @JvmStatic
     fun access(ui: UI, pageCommand: PageCommand) {
         pageCommand.ui = ui
         if (pageCommand.isPush) {

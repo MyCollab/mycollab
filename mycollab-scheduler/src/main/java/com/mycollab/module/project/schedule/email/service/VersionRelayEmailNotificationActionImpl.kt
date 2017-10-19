@@ -16,6 +16,7 @@
  */
 package com.mycollab.module.project.schedule.email.service
 
+import com.hp.gagawa.java.elements.A
 import com.mycollab.common.MonitorTypeConstants
 import com.mycollab.common.i18n.GenericI18Enum
 import com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum
@@ -23,11 +24,13 @@ import com.mycollab.core.MyCollabException
 import com.mycollab.core.utils.StringUtils
 import com.mycollab.html.LinkUtils
 import com.mycollab.module.project.ProjectLinkGenerator
+import com.mycollab.module.project.ProjectTypeConstants
 import com.mycollab.module.project.domain.ProjectRelayEmailNotification
 import com.mycollab.module.project.i18n.VersionI18nEnum
 import com.mycollab.module.tracker.domain.SimpleVersion
 import com.mycollab.module.tracker.domain.Version
 import com.mycollab.module.tracker.service.VersionService
+import com.mycollab.module.user.AccountLinkGenerator
 import com.mycollab.schedule.email.ItemFieldMapper
 import com.mycollab.schedule.email.MailContext
 import com.mycollab.schedule.email.format.DateFieldFormat
@@ -72,23 +75,42 @@ class VersionRelayEmailNotificationActionImpl : SendMailToAllMembersAction<Simpl
         contentGenerator.putVariable("summaryLink", summaryLink)
     }
 
-    override fun getItemName(): String = StringUtils.trim(bean!!.description, 100)
+    override fun getItemName(): String = StringUtils.trim(bean!!.name, 100)
 
     override fun getProjectName(): String = bean!!.projectName
 
     override fun getCreateSubject(context: MailContext<SimpleVersion>): String = context.getMessage(
             VersionI18nEnum.MAIL_CREATE_ITEM_SUBJECT, bean!!.projectName, context.changeByUserFullName, getItemName())
 
+    override fun getCreateSubjectNotification(context: MailContext<SimpleVersion>): String =
+            context.getMessage(VersionI18nEnum.MAIL_CREATE_ITEM_SUBJECT, projectLink(), userLink(context), versionLink())
+
     override fun getUpdateSubject(context: MailContext<SimpleVersion>): String = context.getMessage(
             VersionI18nEnum.MAIL_UPDATE_ITEM_SUBJECT, bean!!.projectName, context.changeByUserFullName, getItemName())
 
+    override fun getUpdateSubjectNotification(context: MailContext<SimpleVersion>): String =
+            context.getMessage(VersionI18nEnum.MAIL_UPDATE_ITEM_SUBJECT, projectLink(), userLink(context), versionLink())
+
     override fun getCommentSubject(context: MailContext<SimpleVersion>): String = context.getMessage(
             VersionI18nEnum.MAIL_COMMENT_ITEM_SUBJECT, bean!!.projectName, context.changeByUserFullName, getItemName())
+
+    override fun getCommentSubjectNotification(context: MailContext<SimpleVersion>): String =
+            context.getMessage(VersionI18nEnum.MAIL_COMMENT_ITEM_SUBJECT, projectLink(), userLink(context), versionLink())
+
+    private fun projectLink() = A(ProjectLinkGenerator.generateProjectLink(bean!!.projectid)).appendText(bean!!.projectName).write()
+
+    private fun userLink(context: MailContext<SimpleVersion>) = A(AccountLinkGenerator.generateUserLink(context.user.username)).appendText(context.changeByUserFullName).write()
+
+    private fun versionLink() = A(ProjectLinkGenerator.generateBugVersionPreviewLink(bean!!.projectid, bean!!.id)).appendText(getItemName()).write()
 
     override fun getItemFieldMapper(): ItemFieldMapper = mapper
 
     override fun getBeanInContext(notification: ProjectRelayEmailNotification): SimpleVersion? =
             versionService.findById(notification.typeid.toInt(), notification.saccountid)
+
+    override fun getType(): String = ProjectTypeConstants.BUG_VERSION
+
+    override fun getTypeId(): String = "${bean!!.id}"
 
     class VersionFieldNameMapper : ItemFieldMapper() {
         init {

@@ -24,7 +24,6 @@ import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.db.arguments.SearchCriteria;
 import com.mycollab.db.arguments.SetSearchField;
 import com.mycollab.db.arguments.StringSearchField;
-import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.html.DivLessFormatter;
 import com.mycollab.module.project.*;
 import com.mycollab.module.project.domain.SimpleProjectMember;
@@ -37,16 +36,23 @@ import com.mycollab.module.project.i18n.TimeTrackingI18nEnum;
 import com.mycollab.module.project.service.ProjectMemberService;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.spring.AppContextUtil;
+import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.vaadin.TooltipHelper;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.IBeanList;
 import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.ui.UserAvatarControlFactory;
-import com.mycollab.vaadin.web.ui.*;
+import com.mycollab.vaadin.web.ui.DefaultBeanPagedList;
+import com.mycollab.vaadin.web.ui.Depot;
+import com.mycollab.vaadin.web.ui.SearchTextField;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
-import com.vaadin.ui.*;
+import com.vaadin.ui.Component;
+import com.vaadin.ui.CssLayout;
+import com.vaadin.ui.Image;
+import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
@@ -168,8 +174,8 @@ public class ProjectMembersWidget extends Depot {
 
         private String buildAssigneeValue(SimpleProjectMember member) {
             Div div = new DivLessFormatter();
-            A userLink = new A().setId("tag" + TooltipHelper.TOOLTIP_ID).setHref(ProjectLinkBuilder.generateProjectMemberFullLink(
-                    member.getProjectid(), member.getUsername()));
+            A userLink = new A().setId("tag" + TooltipHelper.TOOLTIP_ID).
+                    setHref(ProjectLinkGenerator.generateProjectMemberLink(member.getProjectid(), member.getUsername()));
 
             userLink.setAttribute("onmouseover", TooltipHelper.userHoverJsFunction(member.getUsername()));
             userLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction());

@@ -24,10 +24,7 @@ import com.mycollab.module.page.domain.Folder;
 import com.mycollab.module.page.domain.Page;
 import com.mycollab.module.page.domain.PageResource;
 import com.mycollab.module.page.service.PageService;
-import com.mycollab.module.project.CurrentProjectVariables;
-import com.mycollab.module.project.ProjectLinkBuilder;
-import com.mycollab.module.project.ProjectRolePermissionCollections;
-import com.mycollab.module.project.ProjectTypeConstants;
+import com.mycollab.module.project.*;
 import com.mycollab.module.project.event.PageEvent;
 import com.mycollab.module.project.i18n.PageI18nEnum;
 import com.mycollab.module.project.ui.components.ComponentUtils;
@@ -194,7 +191,7 @@ public class PageListViewImpl extends AbstractVerticalPageView implements PageLi
     private Layout displayFolderBlock(final Folder resource) {
         MVerticalLayout container = new MVerticalLayout().withFullWidth().withStyleName("page-item-block");
 
-        A folderHtml = new A(ProjectLinkBuilder.generatePageFolderFullLink(CurrentProjectVariables
+        A folderHtml = new A(ProjectLinkGenerator.generatePagesLink(CurrentProjectVariables
                 .getProjectId(), resource.getPath())).appendText(FontAwesome.FOLDER_OPEN.getHtml() + " " + resource.getName());
         ELabel folderLink = ELabel.h3(folderHtml.write());
         container.addComponent(folderLink);
@@ -235,7 +232,7 @@ public class PageListViewImpl extends AbstractVerticalPageView implements PageLi
 
     private Layout displayPageBlock(final Page resource) {
         MVerticalLayout container = new MVerticalLayout().withFullWidth().withStyleName("page-item-block");
-        A pageHtml = new A(ProjectLinkBuilder.generatePageFullLink(CurrentProjectVariables.getProjectId(), resource
+        A pageHtml = new A(ProjectLinkGenerator.generatePageRead(CurrentProjectVariables.getProjectId(), resource
                 .getPath())).appendText(FontAwesome.FILE_WORD_O.getHtml() + " " + resource.getSubject());
         ELabel pageLink = ELabel.h3(pageHtml.write());
 

@@ -41,7 +41,7 @@ class CurrencyFieldFormat(fieldName: String, displayName: Enum<*>) : FieldFormat
                 else -> Span().appendText(value as String).write()
             }
         } catch (e: Exception) {
-            LOG.error("Can not generate email field: " + fieldName, e)
+            LOG.error("Can not generate email field: $fieldName", e)
             Span().write()
         }
     }

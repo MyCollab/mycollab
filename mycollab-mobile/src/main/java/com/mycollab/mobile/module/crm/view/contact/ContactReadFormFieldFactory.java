@@ -20,7 +20,7 @@ import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Div;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.html.DivLessFormatter;
-import com.mycollab.module.crm.CrmLinkBuilder;
+import com.mycollab.module.crm.CrmLinkGenerator;
 import com.mycollab.module.crm.CrmTypeConstants;
 import com.mycollab.module.crm.domain.Contact;
 import com.mycollab.module.crm.domain.SimpleContact;
@@ -53,7 +53,7 @@ class ContactReadFormFieldFactory extends AbstractBeanFieldGroupViewFieldFactory
         SimpleContact contact = attachForm.getBean();
         if (Contact.Field.accountid.equalTo(propertyId)) {
             if (contact.getAccountid() != null) {
-                A accountLink = new A(CrmLinkBuilder.generateAccountPreviewLinkFull(contact.getAccountid()))
+                A accountLink = new A(CrmLinkGenerator.generateAccountPreviewLink(contact.getAccountid()))
                         .appendText(contact.getAccountName());
                 Div accountDiv = new Div().appendText(CrmAssetsManager.getAsset(CrmTypeConstants.ACCOUNT).getHtml()).appendChild(DivLessFormatter.EMPTY_SPACE, accountLink);
                 return new DefaultViewField(accountDiv.write(), ContentMode.HTML);

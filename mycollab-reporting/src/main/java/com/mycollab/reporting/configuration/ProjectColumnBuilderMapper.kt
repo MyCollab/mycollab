@@ -36,15 +36,13 @@ import com.mycollab.reporting.generator.HtmlBuilderGenerator
 import com.mycollab.reporting.generator.HyperlinkBuilderGenerator
 import com.mycollab.reporting.generator.SimpleExpressionBuilderGenerator
 import net.sf.dynamicreports.report.base.expression.AbstractSimpleExpression
+import net.sf.dynamicreports.report.builder.DynamicReports.cmp
 import net.sf.dynamicreports.report.builder.component.ComponentBuilder
 import net.sf.dynamicreports.report.definition.ReportParameters
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.InitializingBean
 import org.springframework.stereotype.Component
-
-import java.util.HashMap
-
-import net.sf.dynamicreports.report.builder.DynamicReports.cmp
+import java.util.*
 
 /**
  * @author MyCollab Ltd.
@@ -196,9 +194,9 @@ class ProjectColumnBuilderMapper : InitializingBean {
                 val projectShortName = reportParameters.getFieldValue<String>("projectShortName")
                 val siteUrl = reportParameters.getParameterValue<String>("siteUrl")
                 return if (ProjectTypeConstants.BUG == type || ProjectTypeConstants.TASK == type) {
-                    """$siteUrl${ProjectLinkGenerator.generateProjectItemLink(projectShortName, projectId!!, type, extraTypeId!!.toString() + "")}"""
+                    "$siteUrl${ProjectLinkGenerator.generateProjectItemLink(projectShortName, projectId!!, type, extraTypeId!!.toString())}"
                 } else {
-                    """$siteUrl${ProjectLinkGenerator.generateProjectItemLink(projectShortName, projectId!!, type, typeId!!.toString() + "")}"""
+                    "$siteUrl${ProjectLinkGenerator.generateProjectItemLink(projectShortName, projectId!!, type, typeId!!.toString())}"
                 }
             }
         }
@@ -245,13 +243,11 @@ class ProjectColumnBuilderMapper : InitializingBean {
 
             override fun evaluate(reportParameters: ReportParameters): String {
                 val milestoneId = reportParameters.getFieldValue<Int>("milestoneId")
-                if (milestoneId != null) {
+                return if (milestoneId != null) {
                     val siteUrl = reportParameters.getParameterValue<String>("siteUrl")
                     val projectId = reportParameters.getFieldValue<Int>("projectId")
-                    return ProjectLinkGenerator.generateMilestonePreviewFullLink(siteUrl, projectId!!, milestoneId)
-                }
-
-                return ""
+                    ProjectLinkGenerator.generateMilestonePreviewFullLink(siteUrl, projectId!!, milestoneId)
+                } else ""
             }
         }
         map.put("milestoneName", HyperlinkBuilderGenerator(milestoneTitleExpr, milestoneHrefExpr))
@@ -301,13 +297,11 @@ class ProjectColumnBuilderMapper : InitializingBean {
 
             override fun evaluate(reportParameters: ReportParameters): String {
                 val logByUser = reportParameters.getFieldValue<String>("logby")
-                if (logByUser != null) {
+                return if (logByUser != null) {
                     val siteUrl = reportParameters.getParameterValue<String>("siteUrl")
                     val projectId = reportParameters.getFieldValue<Int>("projectid")
-                    return ProjectLinkGenerator.generateProjectMemberFullLink(siteUrl, projectId!!, logByUser)
-                }
-
-                return ""
+                    ProjectLinkGenerator.generateProjectMemberFullLink(siteUrl, projectId!!, logByUser)
+                } else ""
             }
         }
         map.put(SimpleTask.Field.logByFullName.name, HyperlinkBuilderGenerator(logUserTitleExpr, logUserHrefExpr))
@@ -354,13 +348,11 @@ class ProjectColumnBuilderMapper : InitializingBean {
 
             override fun evaluate(reportParameters: ReportParameters): String {
                 val assignUser = reportParameters.getFieldValue<String>("assignuser")
-                if (assignUser != null) {
+                return if (assignUser != null) {
                     val siteUrl = reportParameters.getParameterValue<String>("siteUrl")
                     val projectId = reportParameters.getFieldValue<Int>("projectid")
-                    return ProjectLinkGenerator.generateProjectMemberFullLink(siteUrl, projectId!!, assignUser)
-                }
-
-                return ""
+                    ProjectLinkGenerator.generateProjectMemberFullLink(siteUrl, projectId!!, assignUser)
+                } else ""
             }
         }
 
@@ -369,13 +361,11 @@ class ProjectColumnBuilderMapper : InitializingBean {
 
             override fun evaluate(reportParameters: ReportParameters): String {
                 val logUser = reportParameters.getFieldValue<String>("logby")
-                if (logUser != null) {
+                return if (logUser != null) {
                     val siteUrl = reportParameters.getParameterValue<String>("siteUrl")
                     val projectId = reportParameters.getFieldValue<Int>("projectid")
                     return ProjectLinkGenerator.generateProjectMemberFullLink(siteUrl, projectId!!, logUser)
-                }
-
-                return ""
+                } else ""
             }
         }
 
@@ -503,18 +493,15 @@ class ProjectColumnBuilderMapper : InitializingBean {
 
             override fun evaluate(reportParameters: ReportParameters): String {
                 val assignUser = reportParameters.getFieldValue<String>(Risk.Field.assignuser.name)
-                if (assignUser != null) {
+                return if (assignUser != null) {
                     val siteUrl = reportParameters.getParameterValue<String>("siteUrl")
                     val projectId = reportParameters.getFieldValue<Int>("projectid")
-                    return ProjectLinkGenerator.generateProjectMemberFullLink(siteUrl, projectId!!, assignUser)
-                }
-
-                return ""
+                    ProjectLinkGenerator.generateProjectMemberFullLink(siteUrl, projectId!!, assignUser)
+                } else ""
             }
         }
 
         map.put(SimpleRisk.Field.assignedToUserFullName.name, HyperlinkBuilderGenerator(assigneeTitleExpr, assigneeHrefExpr))
-
         map.put(Risk.Field.status.name, SimpleExpressionBuilderGenerator(I18nExpression("status", StatusI18nEnum::class.java)))
         map.put(Risk.Field.priority.name, SimpleExpressionBuilderGenerator(I18nExpression("priority", OptionI18nEnum.Priority::class.java)))
         map.put(Risk.Field.duedate.name, SimpleExpressionBuilderGenerator(DateExpression(Risk.Field.duedate.name)))
@@ -577,13 +564,11 @@ class ProjectColumnBuilderMapper : InitializingBean {
 
             override fun evaluate(reportParameters: ReportParameters): String {
                 val assignUser = reportParameters.getFieldValue<String>("loguser")
-                if (assignUser != null) {
+                return if (assignUser != null) {
                     val siteUrl = reportParameters.getParameterValue<String>("siteUrl")
                     val projectId = reportParameters.getFieldValue<Int>("projectid")
-                    return ProjectLinkGenerator.generateProjectMemberFullLink(siteUrl, projectId!!, assignUser)
-                }
-
-                return ""
+                    ProjectLinkGenerator.generateProjectMemberFullLink(siteUrl, projectId!!, assignUser)
+                } else ""
             }
         }
 
@@ -594,12 +579,10 @@ class ProjectColumnBuilderMapper : InitializingBean {
 
             override fun evaluate(reportParameters: ReportParameters): String {
                 val projectId = reportParameters.getFieldValue<Int>("projectid")
-                if (projectId != null) {
+                return if (projectId != null) {
                     val siteUrl = reportParameters.getParameterValue<String>("siteUrl")
-                    return ProjectLinkGenerator.generateProjectFullLink(siteUrl, projectId)
-                }
-
-                return ""
+                    ProjectLinkGenerator.generateProjectFullLink(siteUrl, projectId)
+                } else ""
             }
         }
 

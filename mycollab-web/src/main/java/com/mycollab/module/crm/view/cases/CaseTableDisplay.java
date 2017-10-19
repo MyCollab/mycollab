@@ -17,8 +17,8 @@
 package com.mycollab.module.crm.view.cases;
 
 import com.mycollab.common.TableViewField;
+import com.mycollab.module.crm.CrmLinkGenerator;
 import com.mycollab.module.crm.CrmTooltipGenerator;
-import com.mycollab.module.crm.CrmLinkBuilder;
 import com.mycollab.module.crm.domain.SimpleCase;
 import com.mycollab.module.crm.domain.criteria.CaseSearchCriteria;
 import com.mycollab.module.crm.i18n.OptionI18nEnum.*;
@@ -27,7 +27,10 @@ import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
-import com.mycollab.vaadin.web.ui.*;
+import com.mycollab.vaadin.web.ui.CheckBoxDecor;
+import com.mycollab.vaadin.web.ui.LabelLink;
+import com.mycollab.vaadin.web.ui.UserLink;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.mycollab.vaadin.web.ui.table.DefaultPagedBeanTable;
 
 import java.util.List;
@@ -60,7 +63,7 @@ public class CaseTableDisplay extends DefaultPagedBeanTable<CaseService, CaseSea
 
         this.addGeneratedColumn("subject", (source, itemId, columnId) -> {
             SimpleCase cases = getBeanByIndex(itemId);
-            LabelLink b = new LabelLink(cases.getSubject(), CrmLinkBuilder.generateCasePreviewLinkFull(cases.getId()));
+            LabelLink b = new LabelLink(cases.getSubject(), CrmLinkGenerator.generateCasePreviewLink(cases.getId()));
 
             if (cases.isCompleted()) {
                 b.addStyleName(WebThemes.LINK_COMPLETED);
@@ -72,7 +75,7 @@ public class CaseTableDisplay extends DefaultPagedBeanTable<CaseService, CaseSea
 
         this.addGeneratedColumn("accountName", (source, itemId, columnId) -> {
             SimpleCase cases = getBeanByIndex(itemId);
-            return new LabelLink(cases.getAccountName(), CrmLinkBuilder.generateAccountPreviewLinkFull(cases.getAccountid()));
+            return new LabelLink(cases.getAccountName(), CrmLinkGenerator.generateAccountPreviewLink(cases.getAccountid()));
         });
 
         this.addGeneratedColumn("assignUserFullName", (source, itemId, columnId) -> {

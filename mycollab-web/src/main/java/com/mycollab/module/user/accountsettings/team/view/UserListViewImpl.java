@@ -25,7 +25,6 @@ import com.mycollab.db.arguments.StringSearchField;
 import com.mycollab.db.query.LazyValueInjector;
 import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.module.billing.RegisterStatusConstants;
-import com.mycollab.module.user.AccountLinkBuilder;
 import com.mycollab.module.user.AccountLinkGenerator;
 import com.mycollab.module.user.accountsettings.localization.RoleI18nEnum;
 import com.mycollab.module.user.accountsettings.localization.UserI18nEnum;
@@ -210,7 +209,7 @@ public class UserListViewImpl extends AbstractVerticalPageView implements UserLi
         memberInfo.addComponent(ELabel.hr());
 
         if (member.getRoleid() != null) {
-            String memberRoleLinkPrefix = String.format("<a href=\"%s\"", AccountLinkBuilder.generatePreviewFullRoleLink(member.getRoleid()));
+            String memberRoleLinkPrefix = String.format("<a href=\"%s\"", AccountLinkGenerator.generateRoleLink(member.getRoleid()));
             ELabel memberRole = new ELabel(ContentMode.HTML).withStyleName(UIConstants.TEXT_ELLIPSIS);
             if (Boolean.TRUE.equals(member.getIsAccountOwner())) {
                 memberRole.setValue(String.format("%sstyle=\"color: #B00000;\">%s</a>", memberRoleLinkPrefix,

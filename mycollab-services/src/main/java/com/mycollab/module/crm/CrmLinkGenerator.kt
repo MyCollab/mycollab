@@ -23,96 +23,96 @@ import com.mycollab.common.GenericLinkUtils
  * @since 1.0
  */
 object CrmLinkGenerator {
-    @JvmStatic fun generateAccountPreviewLink(accountId: Int?): String {
-        return "crm/account/preview/" + GenericLinkUtils.encodeParam(accountId!!)
+    @JvmStatic
+    fun generateAccountPreviewLink(accountId: Int?): String =
+            "${GenericLinkUtils.URL_PREFIX_PARAM}crm/account/preview/${GenericLinkUtils.encodeParam(accountId!!)}"
+
+    @JvmStatic
+    fun generateAccountPreviewFullLink(siteUrl: String, accountId: Int?): String =
+            "$siteUrl${generateAccountPreviewLink(accountId)}"
+
+    @JvmStatic
+    fun generateCampaignPreviewLink(campaignId: Int?): String =
+            "${GenericLinkUtils.URL_PREFIX_PARAM}crm/campaign/preview/" + GenericLinkUtils.encodeParam(campaignId!!)
+
+    @JvmStatic
+    fun generateCampaignPreviewFullLink(siteUrl: String, campaignId: Int?): String =
+            "$siteUrl${generateCampaignPreviewLink(campaignId)}"
+
+    @JvmStatic
+    fun generateCasePreviewLink(caseId: Int?): String =
+            "${GenericLinkUtils.URL_PREFIX_PARAM}crm/cases/preview/${GenericLinkUtils.encodeParam(caseId!!)}"
+
+    @JvmStatic
+    fun generateCasePreviewFullLink(siteUrl: String, caseId: Int?): String {
+        return "$siteUrl${generateCasePreviewLink(caseId)}"
     }
 
-    @JvmStatic fun generateAccountPreviewFullLink(siteUrl: String, accountId: Int?): String {
-        return siteUrl + "#" + generateAccountPreviewLink(accountId)
+    @JvmStatic
+    fun generateContactPreviewLink(contactId: Int?): String =
+            "${GenericLinkUtils.URL_PREFIX_PARAM}crm/contact/preview/${GenericLinkUtils.encodeParam(contactId!!)}"
+
+    @JvmStatic
+    fun generateContactPreviewFullLink(siteUrl: String, contactId: Int?): String {
+        return "$siteUrl${generateContactPreviewLink(contactId)}"
     }
 
-    @JvmStatic fun generateCampaignPreviewLink(campaignId: Int?): String {
-        return "crm/campaign/preview/" + GenericLinkUtils.encodeParam(campaignId!!)
-    }
+    @JvmStatic
+    fun generateLeadPreviewLink(leadId: Int?): String =
+            "${GenericLinkUtils.URL_PREFIX_PARAM}crm/lead/preview/${GenericLinkUtils.encodeParam(leadId!!)}"
 
-    @JvmStatic fun generateCampaignPreviewFullLink(siteUrl: String, campaignId: Int?): String {
-        return siteUrl + "#" + generateCampaignPreviewLink(campaignId)
-    }
+    @JvmStatic
+    fun generateLeadPreviewFullLink(siteUrl: String, leadId: Int?): String =
+            "$siteUrl${generateLeadPreviewLink(leadId)}"
 
-    @JvmStatic fun generateCasePreviewLink(caseId: Int?): String {
-        return "crm/cases/preview/" + GenericLinkUtils.encodeParam(caseId!!)
-    }
+    @JvmStatic
+    fun generateOpportunityPreviewLink(opportunityId: Int?): String =
+            "${GenericLinkUtils.URL_PREFIX_PARAM}crm/opportunity/preview/${GenericLinkUtils.encodeParam(opportunityId!!)}"
 
-    @JvmStatic fun generateCasePreviewFullLink(siteUrl: String, caseId: Int?): String {
-        return siteUrl + "#" + generateCasePreviewLink(caseId)
-    }
+    @JvmStatic
+    fun generateOpportunityPreviewFullLink(siteUrl: String, opportunityId: Int?): String =
+            "$siteUrl${generateOpportunityPreviewLink(opportunityId)}"
 
-    @JvmStatic fun generateContactPreviewLink(contactId: Int?): String {
-        return "crm/contact/preview/" + GenericLinkUtils.encodeParam(contactId!!)
-    }
+    @JvmStatic
+    fun generateTaskPreviewLink(taskId: Int?): String =
+            "${GenericLinkUtils.URL_PREFIX_PARAM}crm/activity/task/preview/${GenericLinkUtils.encodeParam(taskId!!)}"
 
-    @JvmStatic fun generateContactPreviewFullLink(siteUrl: String, contactId: Int?): String {
-        return siteUrl + "#" + generateContactPreviewLink(contactId)
-    }
+    @JvmStatic
+    fun generateTaskPreviewFullLink(siteUrl: String, taskId: Int?): String =
+            "$siteUrl${generateTaskPreviewLink(taskId)}"
 
-    @JvmStatic fun generateLeadPreviewLink(leadId: Int?): String {
-        return "crm/lead/preview/" + GenericLinkUtils.encodeParam(leadId!!)
-    }
+    @JvmStatic
+    fun generateMeetingPreviewLink(meetingId: Int?): String =
+            "${GenericLinkUtils.URL_PREFIX_PARAM}crm/activity/meeting/preview/${GenericLinkUtils.encodeParam(meetingId!!)}"
 
-    @JvmStatic fun generateLeadPreviewFullLink(siteUrl: String, leadId: Int?): String {
-        return siteUrl + "#" + generateLeadPreviewLink(leadId)
-    }
+    @JvmStatic
+    fun generateMeetingPreviewFullLink(siteUrl: String, meetingId: Int?): String =
+            "$siteUrl${generateMeetingPreviewLink(meetingId)}"
 
-    @JvmStatic fun generateOpportunityPreviewLink(opportunityId: Int?): String {
-        return "crm/opportunity/preview/" + GenericLinkUtils.encodeParam(opportunityId!!)
-    }
+    @JvmStatic
+    fun generateCallPreviewLink(callId: Int?): String =
+            "${GenericLinkUtils.URL_PREFIX_PARAM}crm/activity/call/preview/${GenericLinkUtils.encodeParam(callId!!)}"
 
-    @JvmStatic fun generateOpportunityPreviewFullLink(siteUrl: String, opportunityId: Int?): String {
-        return siteUrl + "#" + generateOpportunityPreviewLink(opportunityId)
-    }
+    @JvmStatic
+    fun generateCallPreviewFullLink(siteUrl: String, callId: Int?): String =
+            "$siteUrl${generateCallPreviewLink(callId)}"
 
-    @JvmStatic fun generateTaskPreviewLink(taskId: Int?): String {
-        return "crm/activity/task/preview/" + GenericLinkUtils.encodeParam(taskId!!)
-    }
-
-    @JvmStatic fun generateTaskPreviewFullLink(siteUrl: String, taskId: Int?): String {
-        return siteUrl + "#" + generateTaskPreviewLink(taskId)
-    }
-
-    @JvmStatic fun generateMeetingPreviewLink(meetingId: Int?): String {
-        return "crm/activity/meeting/preview/" + GenericLinkUtils.encodeParam(meetingId!!)
-    }
-
-    @JvmStatic fun generateMeetingPreviewFullLink(siteUrl: String, meetingId: Int?): String {
-        return siteUrl + "#" + generateMeetingPreviewLink(meetingId)
-    }
-
-    @JvmStatic fun generateCallPreviewLink(callId: Int?): String {
-        return "crm/activity/call/preview/" + GenericLinkUtils.encodeParam(callId!!)
-    }
-
-    @JvmStatic fun generateCallPreviewFullLink(siteUrl: String, callId: Int?): String {
-        return siteUrl + "#" + generateCallPreviewLink(callId)
-    }
-
-    @JvmStatic fun generateCrmItemLink(type: String, typeId: Int?): String {
-        var result = ""
-
-        when (type) {
-            CrmTypeConstants.ACCOUNT -> result = generateAccountPreviewLink(typeId)
-            CrmTypeConstants.CAMPAIGN -> result = generateCampaignPreviewLink(typeId)
-            CrmTypeConstants.CASE -> result = generateCasePreviewLink(typeId)
-            CrmTypeConstants.CONTACT -> result = generateContactPreviewLink(typeId)
-            CrmTypeConstants.LEAD -> result = generateLeadPreviewLink(typeId)
-            CrmTypeConstants.OPPORTUNITY -> result = generateOpportunityPreviewLink(typeId)
-            CrmTypeConstants.TASK -> result = generateTaskPreviewLink(typeId)
-            CrmTypeConstants.MEETING -> result = generateMeetingPreviewLink(typeId)
-            CrmTypeConstants.CALL -> result = generateCallPreviewLink(typeId)
+    @JvmStatic
+    fun generateCrmItemLink(type: String, typeId: Int?): String {
+        return when (type) {
+            CrmTypeConstants.ACCOUNT -> generateAccountPreviewLink(typeId)
+            CrmTypeConstants.CAMPAIGN -> generateCampaignPreviewLink(typeId)
+            CrmTypeConstants.CASE -> generateCasePreviewLink(typeId)
+            CrmTypeConstants.CONTACT -> generateContactPreviewLink(typeId)
+            CrmTypeConstants.LEAD -> generateLeadPreviewLink(typeId)
+            CrmTypeConstants.OPPORTUNITY -> generateOpportunityPreviewLink(typeId)
+            CrmTypeConstants.TASK -> generateTaskPreviewLink(typeId)
+            CrmTypeConstants.MEETING -> generateMeetingPreviewLink(typeId)
+            CrmTypeConstants.CALL -> generateCallPreviewLink(typeId)
+            else -> ""
         }
-        return "#" + result
     }
 
-    fun generateCrmItemFullLink(siteUrl: String, type: String, typeId: Int?): String {
-        return siteUrl + generateCrmItemLink(type, typeId)
-    }
+    fun generateCrmItemFullLink(siteUrl: String, type: String, typeId: Int?): String =
+            "$siteUrl${generateCrmItemLink(type, typeId)}"
 }

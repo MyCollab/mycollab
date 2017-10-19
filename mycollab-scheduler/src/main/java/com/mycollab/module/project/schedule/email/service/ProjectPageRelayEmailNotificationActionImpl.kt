@@ -19,6 +19,7 @@ package com.mycollab.module.project.schedule.email.service
 import com.mycollab.core.utils.StringUtils
 import com.mycollab.module.page.domain.Page
 import com.mycollab.module.page.service.PageService
+import com.mycollab.module.project.ProjectTypeConstants
 import com.mycollab.module.project.domain.ProjectRelayEmailNotification
 import com.mycollab.schedule.email.ItemFieldMapper
 import com.mycollab.schedule.email.MailContext
@@ -48,9 +49,19 @@ class ProjectPageRelayEmailNotificationActionImpl : SendMailToAllMembersAction<P
 
     override fun getCreateSubject(context: MailContext<Page>): String = ""
 
+    override fun getCreateSubjectNotification(context: MailContext<Page>): String = ""
+
     override fun getUpdateSubject(context: MailContext<Page>): String = ""
+
+    override fun getUpdateSubjectNotification(context: MailContext<Page>): String = ""
 
     override fun getCommentSubject(context: MailContext<Page>): String = ""
 
+    override fun getCommentSubjectNotification(context: MailContext<Page>): String = ""
+
     override fun getItemFieldMapper(): ItemFieldMapper = ItemFieldMapper()
+
+    override fun getType(): String = ProjectTypeConstants.PAGE
+
+    override fun getTypeId(): String = bean!!.path
 }

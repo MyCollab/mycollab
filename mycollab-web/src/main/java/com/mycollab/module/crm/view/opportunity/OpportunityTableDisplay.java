@@ -17,8 +17,8 @@
 package com.mycollab.module.crm.view.opportunity;
 
 import com.mycollab.common.TableViewField;
+import com.mycollab.module.crm.CrmLinkGenerator;
 import com.mycollab.module.crm.CrmTooltipGenerator;
-import com.mycollab.module.crm.CrmLinkBuilder;
 import com.mycollab.module.crm.domain.SimpleOpportunity;
 import com.mycollab.module.crm.domain.criteria.OpportunitySearchCriteria;
 import com.mycollab.module.crm.i18n.OptionI18nEnum.OpportunityLeadSource;
@@ -29,7 +29,10 @@ import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
-import com.mycollab.vaadin.web.ui.*;
+import com.mycollab.vaadin.web.ui.CheckBoxDecor;
+import com.mycollab.vaadin.web.ui.LabelLink;
+import com.mycollab.vaadin.web.ui.UserLink;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.mycollab.vaadin.web.ui.table.DefaultPagedBeanTable;
 import com.vaadin.ui.Label;
 
@@ -68,7 +71,7 @@ public class OpportunityTableDisplay extends DefaultPagedBeanTable<OpportunitySe
         this.addGeneratedColumn("opportunityname", (source, itemId, columnId) -> {
             final SimpleOpportunity opportunity = getBeanByIndex(itemId);
 
-            LabelLink b = new LabelLink(opportunity.getOpportunityname(), CrmLinkBuilder.generateOpportunityPreviewLinkFull(opportunity.getId()));
+            LabelLink b = new LabelLink(opportunity.getOpportunityname(), CrmLinkGenerator.generateOpportunityPreviewLink(opportunity.getId()));
             if (OpportunitySalesStage.Closed_Won.name().equals(opportunity.getSalesstage()) ||
                     OpportunitySalesStage.Closed_Lost.name().equals(opportunity.getSalesstage())) {
                 b.addStyleName(WebThemes.LINK_COMPLETED);
@@ -106,12 +109,12 @@ public class OpportunityTableDisplay extends DefaultPagedBeanTable<OpportunitySe
 
         this.addGeneratedColumn("accountName", (source, itemId, columnId) -> {
             final SimpleOpportunity opportunity = getBeanByIndex(itemId);
-            return new LabelLink(opportunity.getAccountName(), CrmLinkBuilder.generateAccountPreviewLinkFull(opportunity.getAccountid()));
+            return new LabelLink(opportunity.getAccountName(), CrmLinkGenerator.generateAccountPreviewLink(opportunity.getAccountid()));
         });
 
         this.addGeneratedColumn("campaignName", (source, itemId, columnId) -> {
             final SimpleOpportunity opportunity = getBeanByIndex(itemId);
-            return new LabelLink(opportunity.getCampaignName(), CrmLinkBuilder.generateCampaignPreviewLinkFull(opportunity.getCampaignid()));
+            return new LabelLink(opportunity.getCampaignName(), CrmLinkGenerator.generateCampaignPreviewLink(opportunity.getCampaignid()));
         });
 
         this.addGeneratedColumn("expectedcloseddate", (source, itemId, columnId) -> {

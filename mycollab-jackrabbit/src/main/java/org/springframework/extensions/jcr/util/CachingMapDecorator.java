@@ -36,7 +36,7 @@ import org.springframework.util.Assert;
  * A simple decorator for a Map, encapsulating the workflow for caching
  * expensive values in a target Map. Supports caching weak or strong keys.
  *
- * <p>This class is an abstract template. Caching Map implementations
+ * This class is an abstract template. Caching Map implementations
  * should subclass and override the <code>create(key)</code> method which
  * encapsulates expensive creation of a new object.
  * 
@@ -91,7 +91,7 @@ public abstract class CachingMapDecorator<K, V> implements Map<K, V>, Serializab
 
     /**
      * Create a CachingMapDecorator for the given Map.
-     * <p>The passed-in Map won't get synchronized explicitly,
+     * The passed-in Map won't get synchronized explicitly,
      * so make sure to pass in a properly synchronized Map, if desired.
      * @param targetMap the Map to decorate
      */
@@ -101,7 +101,7 @@ public abstract class CachingMapDecorator<K, V> implements Map<K, V>, Serializab
 
     /**
      * Create a CachingMapDecorator for the given Map.
-     * <p>The passed-in Map won't get synchronized explicitly unless
+     * The passed-in Map won't get synchronized explicitly unless
      * you specify "synchronize" as "true".
      * @param targetMap the Map to decorate
      * @param synchronize whether to synchronize on the given Map
@@ -273,7 +273,7 @@ public abstract class CachingMapDecorator<K, V> implements Map<K, V>, Serializab
     /**
      * Get value for key.
      * Creates and caches value if it doesn't already exist in the cache.
-     * <p>This implementation is <i>not</i> synchronized: This is highly
+     * This implementation is <i>not</i> synchronized: This is highly
      * concurrent but does not guarantee unique instances in the cache,
      * as multiple values for the same key could get created in parallel.
      * Consider overriding this method to synchronize it, if desired.

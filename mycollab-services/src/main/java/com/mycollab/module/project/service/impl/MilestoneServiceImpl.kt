@@ -73,7 +73,7 @@ class MilestoneServiceImpl(private val milestoneMapper: MilestoneMapper,
 
     @CleanCache
     fun postDirtyUpdate(sAccountId: Int?) {
-        asyncEventBus.post(CleanCacheEvent(sAccountId, arrayOf<Class<*>>(ProjectService::class.java, GanttAssignmentService::class.java, ProjectTicketService::class.java, ProjectActivityStreamService::class.java)))
+        asyncEventBus.post(CleanCacheEvent(sAccountId, arrayOf(ProjectService::class.java, GanttAssignmentService::class.java, ProjectTicketService::class.java, ProjectActivityStreamService::class.java)))
     }
 
     override fun massUpdateOptionIndexes(mapIndexes: List<Map<String, Int>>, @CacheKey sAccountId: Int) {

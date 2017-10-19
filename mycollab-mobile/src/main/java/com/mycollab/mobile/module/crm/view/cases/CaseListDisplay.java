@@ -19,7 +19,7 @@ package com.mycollab.mobile.module.crm.view.cases;
 import com.hp.gagawa.java.elements.A;
 import com.mycollab.mobile.ui.DefaultPagedBeanList;
 import com.mycollab.mobile.ui.MobileUIConstants;
-import com.mycollab.module.crm.CrmLinkBuilder;
+import com.mycollab.module.crm.CrmLinkGenerator;
 import com.mycollab.module.crm.CrmTypeConstants;
 import com.mycollab.module.crm.domain.SimpleCase;
 import com.mycollab.module.crm.domain.criteria.CaseSearchCriteria;
@@ -52,7 +52,7 @@ public class CaseListDisplay extends DefaultPagedBeanList<CaseService, CaseSearc
         @Override
         public Component generateRow(IBeanList<SimpleCase> host, final SimpleCase cases, int rowIndex) {
             MVerticalLayout rowLayout = new MVerticalLayout().withMargin(false).withSpacing(false).withFullWidth();
-            A itemLink = new A(CrmLinkBuilder.generateCasePreviewLinkFull(cases.getId())).appendText(cases.getSubject());
+            A itemLink = new A(CrmLinkGenerator.generateCasePreviewLink(cases.getId())).appendText(cases.getSubject());
             if (Closed.name().equals(cases.getStatus()) || Rejected.name().equals(cases.getStatus())) {
                 itemLink.setCSSClass(MobileUIConstants.LINK_COMPLETED);
             }

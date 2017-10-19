@@ -31,7 +31,7 @@
             ]]>
         </if>
         <if test="billingAccountName != null">
-            ${billingAccountName.operation} billingAccount.accountName like '%${billingAccountName.value}%'
+            ${billingAccountName.operation} _billingAccount.accountName like '%${billingAccountName.value}%'
         </if>
         <if test="billingContactName != null">
             ${billingContactName.operation}
@@ -193,7 +193,7 @@
                m_crm_quote.shippingcountry, m_crm_quote.description, m_crm_quote.paymentterm, m_crm_quote.originalpodate,
                concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) AS assignUserFullName,
                m_crm_opportunity.opportunityName as opportunityName,
-               billingAccount.accountName AS billingAccountName,
+               _billingAccount.accountName AS billingAccountName,
                concat(LTRIM(concat(IFNULL(billingContact.firstname, ''), ' ')), billingContact.lastname) AS billingContactName,
                shippingAccount.accountName AS shippingAccountName,
                concat(LTRIM(concat(IFNULL(shippingContact.firstname , ''), ' ')), shippingContact.lastname) AS shippingContactName,
@@ -201,7 +201,7 @@
                
         FROM m_crm_quote
              LEFT OUTER JOIN s_user ON (m_crm_quote.assignUser = s_user.username)
-             LEFT OUTER JOIN m_crm_account AS billingAccount ON (m_crm_quote.billaccount = billingAccount.id)
+             LEFT OUTER JOIN m_crm_account AS _billingAccount ON (m_crm_quote.billaccount = _billingAccount.id)
              LEFT OUTER JOIN m_crm_account AS shippingAccount ON (m_crm_quote.shipaccount = shippingAccount.id)
              LEFT OUTER JOIN m_crm_contact AS billingContact ON (m_crm_quote.billcontact = billingContact.id)
              LEFT OUTER JOIN m_crm_contact AS shippingContact ON (m_crm_quote.shipcontact = shippingContact.id)

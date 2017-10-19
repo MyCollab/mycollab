@@ -59,8 +59,7 @@ public class RoleTableDisplay extends DefaultPagedBeanTable<RoleService, RoleSea
 
         this.addGeneratedColumn("rolename", (source, itemId, columnId) -> {
             SimpleRole role = getBeanByIndex(itemId);
-            return new LabelLink(role.getRolename(), GenericLinkUtils.URL_PREFIX_PARAM
-                    + AccountLinkGenerator.generateRoleLink(role.getId()));
+            return new LabelLink(role.getRolename(), AccountLinkGenerator.generateRoleLink(role.getId()));
         });
     }
 }

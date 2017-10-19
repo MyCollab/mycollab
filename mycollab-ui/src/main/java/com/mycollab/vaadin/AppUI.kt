@@ -17,6 +17,7 @@
 package com.mycollab.vaadin
 
 import com.google.common.base.MoreObjects
+import com.mycollab.common.GenericLinkUtils
 import com.mycollab.common.SessionIdGenerator
 import com.mycollab.common.i18n.ErrorI18nEnum
 import com.mycollab.configuration.IDeploymentMode
@@ -24,6 +25,7 @@ import com.mycollab.configuration.SiteConfiguration
 import com.mycollab.core.utils.StringUtils
 import com.mycollab.db.arguments.GroupIdProvider
 import com.mycollab.module.billing.SubDomainNotExistException
+import com.mycollab.module.user.domain.BillingAccount
 import com.mycollab.module.user.domain.SimpleBillingAccount
 import com.mycollab.module.user.service.BillingAccountService
 import com.mycollab.spring.AppContextUtil
@@ -46,19 +48,19 @@ abstract class AppUI : UI() {
     protected var currentContext: UserUIContext? = null
 
     private var initialSubDomain = "1"
-    var currentFragmentUrl:String? = null
-    private var billingAccount: SimpleBillingAccount? = null
+    var currentFragmentUrl: String? = null
+    private var _billingAccount: SimpleBillingAccount? = null
     private val attributes = mutableMapOf<String, Any?>()
 
     protected fun postSetupApp(request: VaadinRequest) {
         initialSubDomain = Utils.getSubDomain(request)
         val billingService = AppContextUtil.getSpringBean(BillingAccountService::class.java)
-        billingAccount = billingService.getAccountByDomain(initialSubDomain)
+        _billingAccount = billingService.getAccountByDomain(initialSubDomain)
 
-        if (billingAccount == null) {
+        if (_billingAccount == null) {
             throw SubDomainNotExistException(UserUIContext.getMessage(ErrorI18nEnum.SUB_DOMAIN_IS_NOT_EXISTED, initialSubDomain))
         } else {
-            val accountId = billingAccount!!.id
+            val accountId = _billingAccount!!.id
             ThemeManager.loadDesktopTheme(accountId!!)
         }
     }
@@ -67,9 +69,13 @@ abstract class AppUI : UI() {
         attributes.put(key, value)
     }
 
-    fun getAttribute(key: String): Any? {
-        return attributes[key]
-    }
+    fun getAttribute(key: String): Any? = attributes[key]
+
+    val account: SimpleBillingAccount
+        get() = _billingAccount!!
+
+    val loggedInUser: String?
+        get() = currentContext?.session?.username;
 
     override fun close() {
         LOG.debug("Application is closed. Clean all resources")
@@ -105,13 +111,11 @@ abstract class AppUI : UI() {
         val siteUrl: String
             get() {
                 val deploymentMode = AppContextUtil.getSpringBean(IDeploymentMode::class.java)
-                return deploymentMode.getSiteUrl(getBillingAccount()!!.subdomain)
+                return deploymentMode.getSiteUrl(instance._billingAccount!!.subdomain)
             }
 
         @JvmStatic
-        fun getBillingAccount(): SimpleBillingAccount? {
-            return instance.billingAccount
-        }
+        fun getBillingAccount(): SimpleBillingAccount? = instance._billingAccount
 
         @JvmStatic
         val instance: AppUI
@@ -119,7 +123,7 @@ abstract class AppUI : UI() {
 
         @JvmStatic
         val subDomain: String
-            get() = instance.billingAccount!!.subdomain
+            get() = instance._billingAccount!!.subdomain
 
         /**
          * Get account id of current user
@@ -128,53 +132,48 @@ abstract class AppUI : UI() {
          */
         @JvmStatic
         val accountId: Int
-            get() {
-                try {
-                    return instance.billingAccount!!.id
-                } catch (e: Exception) {
-                    return 0
-                }
-
+            get() = try {
+                instance._billingAccount!!.id
+            } catch (e: Exception) {
+                0
             }
 
         @JvmStatic
         val siteName: String
-            get() {
-                return try {
-                    MoreObjects.firstNonNull(instance.billingAccount!!.sitename, SiteConfiguration.getDefaultSiteName())
-                } catch (e: Exception) {
-                    SiteConfiguration.getDefaultSiteName()
-                }
+            get() = try {
+                MoreObjects.firstNonNull(instance._billingAccount!!.sitename, SiteConfiguration.getDefaultSiteName())
+            } catch (e: Exception) {
+                SiteConfiguration.getDefaultSiteName()
             }
 
         @JvmStatic
         val defaultCurrency: Currency
-            get() = instance.billingAccount!!.currencyInstance
+            get() = instance._billingAccount!!.currencyInstance
 
         @JvmStatic
         val longDateFormat: String
-            get() = instance.billingAccount!!.longDateFormatInstance
+            get() = instance._billingAccount!!.longDateFormatInstance
 
         @JvmStatic
         fun showEmailPublicly(): Boolean? {
-            return instance.billingAccount!!.displayemailpublicly
+            return instance._billingAccount!!.displayemailpublicly
         }
 
         @JvmStatic
         val shortDateFormat: String
-            get() = instance.billingAccount!!.shortDateFormatInstance
+            get() = instance._billingAccount!!.shortDateFormatInstance
 
         @JvmStatic
         val dateFormat: String
-            get() = instance.billingAccount!!.dateFormatInstance
+            get() = instance._billingAccount!!.dateFormatInstance
 
         @JvmStatic
         val dateTimeFormat: String
-            get() = instance.billingAccount!!.dateTimeFormatInstance
+            get() = instance._billingAccount!!.dateTimeFormatInstance
 
         @JvmStatic
         val defaultLocale: Locale
-            get() = instance.billingAccount!!.localeInstance
+            get() = instance._billingAccount!!.localeInstance
 
         /**
          * @param fragment
@@ -182,8 +181,14 @@ abstract class AppUI : UI() {
          */
         @JvmStatic
         fun addFragment(fragment: String, windowTitle: String) {
-            Page.getCurrent().setUriFragment(fragment, false)
-            Page.getCurrent().setTitle(String.format("%s [%s]", StringUtils.trim(windowTitle, 150), siteName))
+            if (fragment.startsWith(GenericLinkUtils.URL_PREFIX_PARAM)) {
+                val newFragment = fragment.substring(1)
+                Page.getCurrent().setUriFragment(newFragment, false)
+            } else {
+                Page.getCurrent().setUriFragment(fragment, false)
+            }
+
+            Page.getCurrent().setTitle("${StringUtils.trim(windowTitle, 150)} [$siteName]")
         }
     }
 }

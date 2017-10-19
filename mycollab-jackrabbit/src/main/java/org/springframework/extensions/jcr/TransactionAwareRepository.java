@@ -120,7 +120,7 @@ public class TransactionAwareRepository implements InitializingBean, FactoryBean
     /**
      * Set whether the Repository proxy is allowed to create a non-transactional Session when no transactional
      * Session can be found for the current thread.
-     * <p>
+     *
      * Default is "true". Can be turned off to enforce access to transactional Sessionss, which safely allows
      * for DAOs written to get a Session without explicit closing (i.e. a <code>Session.login()</code> call
      * without corresponding <code>Session.logout()</code> call).
@@ -142,7 +142,7 @@ public class TransactionAwareRepository implements InitializingBean, FactoryBean
      * Set whether the Repository proxy is accepted even if it does not support transactions which allows the
      * functionality of thread-bound session but without the tx support. Such an option exists because
      * transaction support is optional for JSR-170 implementations.
-     * <p>
+     *
      * Default is "true". Can be turned off to enforce only transactional Sessions, which safely allows for
      * DAOs written to get a Session without explicit closing (i.e. a <code>Session.login()</code> call
      * without corresponding <code>Session.logout()</code> call).

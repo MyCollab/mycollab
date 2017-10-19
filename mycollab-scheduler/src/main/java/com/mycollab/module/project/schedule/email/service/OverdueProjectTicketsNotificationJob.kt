@@ -133,7 +133,7 @@ class OverdueProjectTicketsNotificationJob : GenericQuartzJobBean() {
             notificationSettings
                     .asSequence()
                     .filter { (NotificationType.None.name == it.level) || (NotificationType.Minimal.name == it.level) }
-                    .forEach { setting -> notifyUsers = notifyUsers.filter { !(it.username == setting.username) } }
+                    .forEach { setting -> notifyUsers = notifyUsers.filter { it.username != setting.username } }
         }
         return notifyUsers.toSet()
     }

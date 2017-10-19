@@ -45,7 +45,7 @@ class DateTimeFieldFormat(fieldName: String, displayName: Enum<*>) : FieldFormat
                         context.locale, TimezoneVal.valueOf(context.user.timezone))).write()
             }
         } catch (e: Exception) {
-            LOG.error("Can not generate email field: " + fieldName, e)
+            LOG.error("Can not generate email field: $fieldName", e)
             Span().write()
         }
     }

@@ -16,6 +16,7 @@
  */
 package com.mycollab.module.project.schedule.email.service
 
+import com.hp.gagawa.java.elements.A
 import com.hp.gagawa.java.elements.Span
 import com.mycollab.common.MonitorTypeConstants
 import com.mycollab.common.i18n.GenericI18Enum
@@ -26,6 +27,7 @@ import com.mycollab.html.FormatUtils
 import com.mycollab.html.LinkUtils
 import com.mycollab.module.mail.MailUtils
 import com.mycollab.module.project.ProjectLinkGenerator
+import com.mycollab.module.project.ProjectTypeConstants
 import com.mycollab.module.project.domain.ProjectRelayEmailNotification
 import com.mycollab.module.project.i18n.ComponentI18nEnum
 import com.mycollab.module.tracker.domain.Component.Field
@@ -78,9 +80,6 @@ class ComponentRelayEmailNotificationActionImpl : SendMailToAllMembersAction<Sim
         contentGenerator.putVariable("summaryLink", summaryLink)
     }
 
-    override fun getUpdateSubject(context: MailContext<SimpleComponent>): String = context.getMessage(
-            ComponentI18nEnum.MAIL_UPDATE_ITEM_SUBJECT, bean!!.projectName, context.changeByUserFullName, getItemName())
-
     override fun getBeanInContext(notification: ProjectRelayEmailNotification): SimpleComponent? =
             componentService.findById(notification.typeid.toInt(), notification.saccountid)
 
@@ -91,14 +90,36 @@ class ComponentRelayEmailNotificationActionImpl : SendMailToAllMembersAction<Sim
     override fun getCreateSubject(context: MailContext<SimpleComponent>): String = context.getMessage(
             ComponentI18nEnum.MAIL_CREATE_ITEM_SUBJECT, bean!!.projectName, context.changeByUserFullName, getItemName())
 
+    override fun getCreateSubjectNotification(context: MailContext<SimpleComponent>): String = context.getMessage(
+            ComponentI18nEnum.MAIL_CREATE_ITEM_SUBJECT, projectLink(), userLink(context), componentLink())
+
+    override fun getUpdateSubject(context: MailContext<SimpleComponent>): String = context.getMessage(
+            ComponentI18nEnum.MAIL_UPDATE_ITEM_SUBJECT, bean!!.projectName, context.changeByUserFullName, getItemName())
+
+    override fun getUpdateSubjectNotification(context: MailContext<SimpleComponent>): String = context.getMessage(
+            ComponentI18nEnum.MAIL_UPDATE_ITEM_SUBJECT, projectLink(), userLink(context), componentLink())
+
     override fun getCommentSubject(context: MailContext<SimpleComponent>): String = context.getMessage(
             ComponentI18nEnum.MAIL_COMMENT_ITEM_SUBJECT, bean!!.projectName, context.changeByUserFullName, getItemName())
 
+    override fun getCommentSubjectNotification(context: MailContext<SimpleComponent>): String = context.getMessage(
+            ComponentI18nEnum.MAIL_COMMENT_ITEM_SUBJECT, projectLink(), userLink(context), componentLink())
+
+    private fun projectLink() = A(ProjectLinkGenerator.generateProjectLink(bean!!.projectid)).appendText(bean!!.projectName).write()
+
+    private fun userLink(context: MailContext<SimpleComponent>) = A(AccountLinkGenerator.generateUserLink(context.user.username)).appendText(context.changeByUserFullName).write()
+
+    private fun componentLink() = A(ProjectLinkGenerator.generateBugComponentPreviewLink(bean!!.projectid, bean!!.id)).appendText(getItemName()).write()
+
     override fun getItemFieldMapper(): ItemFieldMapper = mapper
+
+    override fun getType(): String = ProjectTypeConstants.BUG_COMPONENT
+
+    override fun getTypeId(): String = "${bean!!.id}"
 
     class ComponentFieldNameMapper : ItemFieldMapper() {
         init {
-            put(Field.description, GenericI18Enum.FORM_DESCRIPTION, isColSpan = true)
+            put(Field.description, GenericI18Enum.FORM_DESCRIPTION, true)
             put(Field.status, I18nFieldFormat(Field.status.name, GenericI18Enum.FORM_STATUS,
                     OptionI18nEnum.StatusI18nEnum::class.java))
             put(Field.userlead, LeadFieldFormat(Field.userlead.name, ComponentI18nEnum.FORM_LEAD))

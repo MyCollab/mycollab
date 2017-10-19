@@ -22,8 +22,8 @@ import com.mycollab.common.i18n.ShellI18nEnum;
 import com.mycollab.common.ui.components.notification.RequestUploadAvatarNotification;
 import com.mycollab.common.ui.components.notification.SmtpSetupNotification;
 import com.mycollab.community.shell.view.components.AdRequestWindow;
+import com.mycollab.community.vaadin.web.ui.NotificationComponent;
 import com.mycollab.core.utils.StringUtils;
-import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.module.mail.service.ExtMailService;
 import com.mycollab.module.user.accountsettings.localization.AdminI18nEnum;
 import com.mycollab.module.user.domain.SimpleUser;
@@ -31,14 +31,14 @@ import com.mycollab.module.user.ui.SettingAssetsManager;
 import com.mycollab.module.user.ui.SettingUIConstants;
 import com.mycollab.shell.event.ShellEvent;
 import com.mycollab.shell.view.AbstractMainView;
-import com.mycollab.vaadin.web.ui.AbstractAboutWindow;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppUI;
+import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.mvp.ViewManager;
 import com.mycollab.vaadin.ui.UserAvatarControlFactory;
-import com.mycollab.vaadin.web.ui.NotificationComponent;
+import com.mycollab.vaadin.web.ui.AbstractAboutWindow;
 import com.mycollab.vaadin.web.ui.OptionPopupContent;
 import com.vaadin.server.BrowserWindowOpener;
 import com.vaadin.server.ExternalResource;
@@ -81,7 +81,6 @@ public class MainViewImpl extends AbstractMainView {
         if (StringUtils.isBlank(UserUIContext.getUser().getAvatarid())) {
             EventBusFactory.getInstance().post(new ShellEvent.NewNotification(this, new RequestUploadAvatarNotification()));
         }
-
 
         ExtMailService mailService = AppContextUtil.getSpringBean(ExtMailService.class);
         if (!mailService.isMailSetupValid()) {

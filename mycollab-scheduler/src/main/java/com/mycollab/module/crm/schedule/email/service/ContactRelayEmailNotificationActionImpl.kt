@@ -197,5 +197,4 @@ class ContactRelayEmailNotificationActionImpl : CrmDefaultSendingRelayEmailActio
             return value
         }
     }
-
 }

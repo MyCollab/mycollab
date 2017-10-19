@@ -16,8 +16,8 @@
  */
 package com.mycollab.module.crm.view.activity;
 
+import com.mycollab.module.crm.CrmLinkGenerator;
 import com.mycollab.module.crm.CrmTypeConstants;
-import com.mycollab.module.crm.CrmLinkBuilder;
 import com.mycollab.module.crm.domain.CrmTask;
 import com.mycollab.module.crm.domain.SimpleCrmTask;
 import com.mycollab.module.crm.i18n.OptionI18nEnum.TaskStatus;
@@ -55,7 +55,7 @@ class AssignmentReadFormFieldFactory extends AbstractBeanFieldGroupViewFieldFact
         } else if (propertyId.equals("duedate")) {
             return new DateTimeViewField(task.getDuedate());
         } else if (propertyId.equals("contactid")) {
-            return new LinkViewField(task.getContactName(), CrmLinkBuilder.generateContactPreviewLinkFull(task.getContactid()),
+            return new LinkViewField(task.getContactName(), CrmLinkGenerator.generateContactPreviewLink(task.getContactid()),
                     CrmAssetsManager.getAsset(CrmTypeConstants.CONTACT));
         } else if (propertyId.equals("type")) {
             return new RelatedReadItemField(task);

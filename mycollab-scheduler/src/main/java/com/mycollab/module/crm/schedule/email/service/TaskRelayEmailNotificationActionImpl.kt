@@ -68,7 +68,7 @@ class TaskRelayEmailNotificationActionImpl : CrmDefaultSendingRelayEmailAction<S
         val avatarId = if (changeUser != null) changeUser!!.avatarid else ""
         val userAvatar = LinkUtils.newAvatar(avatarId)
 
-        val makeChangeUser = userAvatar.write() + " " + emailNotification.changeByUserFullName
+        val makeChangeUser = "${userAvatar.write()} ${emailNotification.changeByUserFullName}"
         val actionEnum = when (emailNotification.action) {
             MonitorTypeConstants.CREATE_ACTION -> TaskI18nEnum.MAIL_CREATE_ITEM_HEADING
             MonitorTypeConstants.UPDATE_ACTION -> TaskI18nEnum.MAIL_UPDATE_ITEM_HEADING
@@ -103,7 +103,7 @@ class TaskRelayEmailNotificationActionImpl : CrmDefaultSendingRelayEmailAction<S
             put(CrmTask.Field.duedate, DateFieldFormat(CrmTask.Field.duedate.name, GenericI18Enum.FORM_DUE_DATE))
             put(CrmTask.Field.contactid, ContactFieldFormat(CrmTask.Field.contactid.name, TaskI18nEnum.FORM_CONTACT))
             put(CrmTask.Field.priority, TaskI18nEnum.FORM_PRIORITY)
-            put(CrmTask.Field.description, GenericI18Enum.FORM_DESCRIPTION, isColSpan = true)
+            put(CrmTask.Field.description, GenericI18Enum.FORM_DESCRIPTION, true)
         }
     }
 

@@ -61,7 +61,7 @@ public class MessageListViewImpl extends AbstractListPageView<MessageSearchCrite
 
     public MessageListViewImpl() {
         setCaption(UserUIContext.getMessage(MessageI18nEnum.LIST));
-        setStyleName("message-list-view");
+        setStyleName("messages-list-view");
     }
 
     @Override
@@ -99,7 +99,7 @@ public class MessageListViewImpl extends AbstractListPageView<MessageSearchCrite
 
         @Override
         public Component generateRow(IBeanList<SimpleMessage> host, final SimpleMessage message, int rowIndex) {
-            MHorizontalLayout mainLayout = new MHorizontalLayout().withStyleName("message-block").withFullWidth();
+            MHorizontalLayout mainLayout = new MHorizontalLayout().withStyleName("messages-block").withFullWidth();
             Image userAvatarImg = UserAvatarControlFactory.createUserAvatarEmbeddedComponent(message.getPostedUserAvatarId(), 32);
             userAvatarImg.addStyleName(UIConstants.CIRCLE_BOX);
             mainLayout.addComponent(userAvatarImg);
@@ -119,7 +119,7 @@ public class MessageListViewImpl extends AbstractListPageView<MessageSearchCrite
 
             MHorizontalLayout titleRow = new MHorizontalLayout().withFullWidth().withStyleName("title-row");
 
-            A messageLink = new A(ProjectLinkBuilder.generateMessagePreviewFullLink(CurrentProjectVariables
+            A messageLink = new A(ProjectLinkGenerator.generateMessagePreviewLink(CurrentProjectVariables
                     .getProjectId(), message.getId())).appendText(message.getTitle());
             ELabel messageTitle = ELabel.h3(messageLink.write());
             CssLayout messageWrap = new CssLayout(messageTitle);

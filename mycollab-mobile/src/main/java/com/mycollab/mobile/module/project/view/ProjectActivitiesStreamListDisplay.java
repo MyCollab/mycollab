@@ -26,7 +26,6 @@ import com.mycollab.html.DivLessFormatter;
 import com.mycollab.mobile.ui.AbstractPagedBeanList;
 import com.mycollab.mobile.ui.FormSectionBuilder;
 import com.mycollab.module.file.service.AbstractStorageService;
-import com.mycollab.module.project.ProjectLinkBuilder;
 import com.mycollab.module.project.ProjectLinkGenerator;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.domain.ProjectActivityStream;
@@ -131,7 +130,7 @@ class ProjectActivitiesStreamListDisplay extends AbstractPagedBeanList<ActivityS
         Img userAvatar = new Img("", AppContextUtil.getSpringBean(AbstractStorageService.class)
                 .getAvatarPath(activity.getCreatedUserAvatarId(), 16))
                 .setCSSClass(UIConstants.CIRCLE_BOX);
-        A userLink = new A(ProjectLinkBuilder.generateProjectMemberFullLink(activity.getExtratypeid(), activity
+        A userLink = new A(ProjectLinkGenerator.generateProjectMemberLink(activity.getExtratypeid(), activity
                 .getCreateduser())).appendText(StringUtils.trim(activity.getCreatedUserFullName(), 30, true));
         return new DivLessFormatter().appendChild(userAvatar, DivLessFormatter.EMPTY_SPACE, userLink).write();
     }

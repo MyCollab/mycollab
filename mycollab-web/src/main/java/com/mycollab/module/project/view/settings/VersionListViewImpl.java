@@ -19,10 +19,7 @@ package com.mycollab.module.project.view.settings;
 import com.mycollab.common.TableViewField;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
-import com.mycollab.module.project.CurrentProjectVariables;
-import com.mycollab.module.project.ProjectLinkBuilder;
-import com.mycollab.module.project.ProjectRolePermissionCollections;
-import com.mycollab.module.project.ProjectTooltipGenerator;
+import com.mycollab.module.project.*;
 import com.mycollab.module.tracker.domain.SimpleVersion;
 import com.mycollab.module.tracker.domain.Version;
 import com.mycollab.module.tracker.domain.criteria.VersionSearchCriteria;
@@ -91,16 +88,16 @@ public class VersionListViewImpl extends AbstractVerticalPageView implements Ver
         });
 
         tableItem.addGeneratedColumn("name", (source, itemId, columnId) -> {
-            final Version bugVersion = tableItem.getBeanByIndex(itemId);
-            final LabelLink b = new LabelLink(bugVersion.getName(), ProjectLinkBuilder
-                    .generateBugVersionPreviewFullLink(bugVersion.getProjectid(), bugVersion.getId()));
-            if (bugVersion.getStatus() != null && bugVersion.getStatus().equals(StatusI18nEnum.Closed.name())) {
+            final Version version = tableItem.getBeanByIndex(itemId);
+            final LabelLink b = new LabelLink(version.getName(), ProjectLinkGenerator
+                    .generateBugVersionPreviewLink(version.getProjectid(), version.getId()));
+            if (version.getStatus() != null && version.getStatus().equals(StatusI18nEnum.Closed.name())) {
                 b.addStyleName(WebThemes.LINK_COMPLETED);
-            } else if (bugVersion.getDuedate() != null && (bugVersion.getDuedate().before(new GregorianCalendar().getTime()))) {
+            } else if (version.getDuedate() != null && (version.getDuedate().before(new GregorianCalendar().getTime()))) {
                 b.addStyleName(WebThemes.LINK_OVERDUE);
             }
             b.setDescription(ProjectTooltipGenerator.generateToolTipVersion(UserUIContext.getUserLocale(), AppUI.getDateFormat(),
-                    bugVersion, AppUI.getSiteUrl(), UserUIContext.getUserTimeZone()));
+                    version, AppUI.getSiteUrl(), UserUIContext.getUserTimeZone()));
             return b;
         });
 

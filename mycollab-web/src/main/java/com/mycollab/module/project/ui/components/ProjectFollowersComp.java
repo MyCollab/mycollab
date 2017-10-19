@@ -129,7 +129,7 @@ public class ProjectFollowersComp<V extends ValuedBean> extends MVerticalLayout 
     }
 
     private void loadWatchers() {
-        AsyncInvoker.INSTANCE.access(getUI(), new AsyncInvoker.PageCommand() {
+        AsyncInvoker.access(getUI(), new AsyncInvoker.PageCommand() {
             @Override
             public void run() {
                 watcherLayout.removeAllComponents();

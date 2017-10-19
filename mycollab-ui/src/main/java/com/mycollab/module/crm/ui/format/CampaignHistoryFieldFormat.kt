@@ -20,7 +20,7 @@ import com.hp.gagawa.java.elements.A
 import com.hp.gagawa.java.elements.Text
 import com.mycollab.common.i18n.GenericI18Enum
 import com.mycollab.html.DivLessFormatter
-import com.mycollab.module.crm.CrmLinkBuilder
+import com.mycollab.module.crm.CrmLinkGenerator
 import com.mycollab.module.crm.CrmTypeConstants
 import com.mycollab.module.crm.service.CampaignService
 import com.mycollab.module.crm.ui.CrmAssetsManager
@@ -54,12 +54,11 @@ class CampaignHistoryFieldFormat : HistoryFieldFormat {
             val campaign = campaignService.findById(campaignId, AppUI.accountId)
 
             if (campaign != null) {
-                return if (displayAsHtml!!) {
-                    val link = A(CrmLinkBuilder.generateCampaignPreviewLinkFull(campaignId)).
-                            setId("tag" + TOOLTIP_ID).
-                            appendChild(Text(campaign.campaignname))
+                return if (displayAsHtml) {
+                    val link = A(CrmLinkGenerator.generateCampaignPreviewLink(campaignId)).
+                            setId("tag$TOOLTIP_ID").appendChild(Text(campaign.campaignname))
                     link.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(CrmTypeConstants.CAMPAIGN,
-                            campaignId.toString() + ""))
+                            campaignId.toString()))
                     link.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction())
                     val div = DivLessFormatter().appendChild(Text(CrmAssetsManager.getAsset(CrmTypeConstants.CAMPAIGN).html),
                             DivLessFormatter.EMPTY_SPACE, link)

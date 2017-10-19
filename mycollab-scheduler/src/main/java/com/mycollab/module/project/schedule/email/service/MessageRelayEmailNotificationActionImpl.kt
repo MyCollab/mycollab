@@ -21,6 +21,7 @@ import com.mycollab.core.MyCollabException
 import com.mycollab.core.utils.StringUtils
 import com.mycollab.html.LinkUtils
 import com.mycollab.module.project.ProjectLinkGenerator
+import com.mycollab.module.project.ProjectTypeConstants
 import com.mycollab.module.project.domain.ProjectRelayEmailNotification
 import com.mycollab.module.project.domain.SimpleMessage
 import com.mycollab.module.project.i18n.MessageI18nEnum
@@ -49,16 +50,32 @@ class MessageRelayEmailNotificationActionImpl : SendMailToAllMembersAction<Simpl
     override fun getCreateSubject(context: MailContext<SimpleMessage>): String = context.getMessage(
             MessageI18nEnum.MAIL_CREATE_ITEM_SUBJECT, bean!!.projectName, context.changeByUserFullName, getItemName())
 
+    override fun getCreateSubjectNotification(context: MailContext<SimpleMessage>): String {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
     override fun getUpdateSubject(context: MailContext<SimpleMessage>): String = context.getMessage(
             MessageI18nEnum.MAIL_UPDATE_ITEM_SUBJECT, bean!!.projectName, context.changeByUserFullName, getItemName())
 
+    override fun getUpdateSubjectNotification(context: MailContext<SimpleMessage>): String {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
     override fun getCommentSubject(context: MailContext<SimpleMessage>): String = context.getMessage(
             MessageI18nEnum.MAIL_COMMENT_ITEM_SUBJECT, bean!!.projectName, context.changeByUserFullName, getItemName())
+
+    override fun getCommentSubjectNotification(context: MailContext<SimpleMessage>): String {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 
     override fun getItemFieldMapper(): ItemFieldMapper = ItemFieldMapper()
 
     override fun getBeanInContext(notification: ProjectRelayEmailNotification): SimpleMessage? =
             messageService.findById(notification.typeid.toInt(), notification.saccountid)
+
+    override fun getType(): String = ProjectTypeConstants.MESSAGE
+
+    override fun getTypeId(): String = "${bean!!.id}"
 
     override fun buildExtraTemplateVariables(context: MailContext<SimpleMessage>) {
         val emailNotification = context.emailNotification

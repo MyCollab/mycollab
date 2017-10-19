@@ -25,6 +25,7 @@ import com.mycollab.html.FormatUtils
 import com.mycollab.html.LinkUtils
 import com.mycollab.module.mail.MailUtils
 import com.mycollab.module.project.ProjectLinkGenerator
+import com.mycollab.module.project.ProjectTypeConstants
 import com.mycollab.module.project.domain.Milestone
 import com.mycollab.module.project.domain.ProjectRelayEmailNotification
 import com.mycollab.module.project.domain.SimpleMilestone
@@ -64,26 +65,42 @@ class ProjectMilestoneRelayEmailNotificationActionImpl : SendMailToAllMembersAct
     override fun getCreateSubject(context: MailContext<SimpleMilestone>): String = context.getMessage(
             MilestoneI18nEnum.MAIL_CREATE_ITEM_SUBJECT, bean!!.projectName, context.changeByUserFullName, getItemName())
 
+    override fun getCreateSubjectNotification(context: MailContext<SimpleMilestone>): String {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
     override fun getUpdateSubject(context: MailContext<SimpleMilestone>): String = context.getMessage(
             MilestoneI18nEnum.MAIL_UPDATE_ITEM_SUBJECT, bean!!.projectName, context.changeByUserFullName, getItemName())
 
+    override fun getUpdateSubjectNotification(context: MailContext<SimpleMilestone>): String {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
     override fun getCommentSubject(context: MailContext<SimpleMilestone>): String = context.getMessage(
             MilestoneI18nEnum.MAIL_COMMENT_ITEM_SUBJECT, bean!!.projectName, context.changeByUserFullName, getItemName())
+
+    override fun getCommentSubjectNotification(context: MailContext<SimpleMilestone>): String {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 
     override fun getItemFieldMapper(): ItemFieldMapper = mapper
 
     override fun getBeanInContext(notification: ProjectRelayEmailNotification): SimpleMilestone? =
             milestoneService.findById(notification.typeid.toInt(), notification.saccountid)
 
-    class MilestoneFieldNameMapper() : ItemFieldMapper() {
+    override fun getType(): String = ProjectTypeConstants.MILESTONE
+
+    override fun getTypeId(): String = "${bean!!.id}"
+
+    class MilestoneFieldNameMapper : ItemFieldMapper() {
         init {
-            put(Milestone.Field.name, GenericI18Enum.FORM_NAME, isColSpan = true)
+            put(Milestone.Field.name, GenericI18Enum.FORM_NAME, true)
             put(Milestone.Field.status, I18nFieldFormat(Milestone.Field.status.name, GenericI18Enum.FORM_STATUS,
                     OptionI18nEnum.MilestoneStatus::class.java))
             put(Milestone.Field.assignuser, AssigneeFieldFormat(Milestone.Field.assignuser.name, GenericI18Enum.FORM_ASSIGNEE))
             put(Milestone.Field.startdate, DateFieldFormat(Milestone.Field.startdate.name, GenericI18Enum.FORM_START_DATE))
             put(Milestone.Field.enddate, DateFieldFormat(Milestone.Field.enddate.name, GenericI18Enum.FORM_END_DATE))
-            put(Milestone.Field.description, GenericI18Enum.FORM_DESCRIPTION, isColSpan = true)
+            put(Milestone.Field.description, GenericI18Enum.FORM_DESCRIPTION, true)
         }
     }
 

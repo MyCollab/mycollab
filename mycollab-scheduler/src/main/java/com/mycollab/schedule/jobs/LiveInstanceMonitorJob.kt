@@ -62,8 +62,7 @@ class LiveInstanceMonitorJob  : GenericQuartzJobBean() {
         liveInstance.installeddate = DateTime().toDate()
         liveInstance.javaversion = System.getProperty("java.version")
         liveInstance.sysid = appPropertiesService.sysId
-        liveInstance.sysproperties = System.getProperty("os.arch") + ":" + System.getProperty("os.name") + ":" +
-                System.getProperty("os.name")
+        liveInstance.sysproperties = "${System.getProperty("os.arch")}:${System.getProperty("os.name")}:${System.getProperty("os.name")}"
         liveInstance.numprojects = numProjects
         liveInstance.numusers = numUsers
         liveInstance.edition = appPropertiesService.edition

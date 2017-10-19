@@ -46,22 +46,14 @@ public class DefaultDynaFormLayout implements IDynaFormLayout {
     private Set<String> excludeFields;
 
     public DefaultDynaFormLayout(String moduleName, DynaForm defaultForm, String... excludeField) {
-        if (excludeField.length > 0) {
-            this.excludeFields = new HashSet<>(Arrays.asList(excludeField));
-        } else {
-            this.excludeFields = new HashSet<>();
-        }
+        this.excludeFields = excludeField.length > 0 ? new HashSet<>(Arrays.asList(excludeField)) : new HashSet<>();
         MasterFormService formService = AppContextUtil.getSpringBean(MasterFormService.class);
         DynaForm form = formService.findCustomForm(AppUI.getAccountId(), moduleName);
         this.dynaForm = (form != null) ? form : defaultForm;
     }
 
     public DefaultDynaFormLayout(DynaForm dynaForm, String... excludeField) {
-        if (excludeField.length > 0) {
-            this.excludeFields = new HashSet<>(Arrays.asList(excludeField));
-        } else {
-            this.excludeFields = new HashSet<>();
-        }
+        this.excludeFields = excludeField.length > 0 ? new HashSet<>(Arrays.asList(excludeField)) : new HashSet<>();
         this.dynaForm = dynaForm;
     }
 

@@ -23,7 +23,7 @@ import org.springframework.dao.DataAccessException;
 /**
  * Interface that specifies a basic set of JCR operations. Not often used, but a useful option to enhance
  * testability, as it can easily be mocked or stubbed.
- * <p>
+ *
  * Provides JcrTemplate's data access methods that mirror various Session methods. See the JCR Session
  * javadocs for details on those methods.
  * @author Costin Leau

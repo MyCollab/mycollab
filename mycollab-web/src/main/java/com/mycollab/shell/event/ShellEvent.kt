@@ -41,7 +41,7 @@ object ShellEvent {
 
     class GotoForgotPasswordPage(source: Any, val data: Any?) : ApplicationEvent(source)
 
-    class NewNotification(source: Any, val data: Any?) : ApplicationEvent(source)
+    class NewNotification(source: Any, val data: Any) : ApplicationEvent(source)
 
     class AddQueryParam(source: Any, val data: Any?) : ApplicationEvent(source)
 }

@@ -25,9 +25,8 @@ import com.mycollab.core.utils.StringUtils;
 import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.db.arguments.SearchField;
 import com.mycollab.db.arguments.SetSearchField;
-import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.module.project.CurrentProjectVariables;
-import com.mycollab.module.project.ProjectLinkBuilder;
+import com.mycollab.module.project.ProjectLinkGenerator;
 import com.mycollab.module.project.ProjectRolePermissionCollections;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.domain.SimpleMilestone;
@@ -41,6 +40,7 @@ import com.mycollab.module.project.service.ProjectTicketService;
 import com.mycollab.module.project.ui.components.BlockRowRender;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppUI;
+import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.UIConstants;
@@ -191,7 +191,7 @@ public class ToggleMilestoneSummaryField extends AbstractToggleSummaryField {
     }
 
     private String buildMilestoneLink() {
-        A milestoneLink = new A(ProjectLinkBuilder.generateMilestonePreviewFullLink(milestone.getProjectid(), milestone.getId()));
+        A milestoneLink = new A(ProjectLinkGenerator.generateMilestonePreviewLink(milestone.getProjectid(), milestone.getId()));
         milestoneLink.appendText(StringUtils.trim(milestone.getName(), maxLength, true));
 
         Div milestoneDiv = new Div().appendChild(milestoneLink);

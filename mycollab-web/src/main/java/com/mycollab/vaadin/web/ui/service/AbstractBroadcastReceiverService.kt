@@ -25,8 +25,6 @@ import com.mycollab.spring.AppContextUtil
 import com.mycollab.vaadin.ui.MyCollabSession
 import com.mycollab.web.DesktopApplication
 
-import com.mycollab.vaadin.ui.MyCollabSession.EVENT_BUS_VAL
-
 /**
  * @author MyCollab Ltd
  * @since 5.3.5
@@ -40,13 +38,24 @@ abstract class AbstractBroadcastReceiverService : BroadcastReceiverService {
     }
 
     override fun broadcast(message: BroadcastMessage) {
+        if (message.sAccountId == null) {
+            // do nothing now
+        } else if (message.sAccountId == myCollabApp.account.id) {
+            when {
+                message.targetUser != null && message.targetUser.equals(myCollabApp.loggedInUser) -> processMessage(message)
+                message.targetUser == null -> processMessage(message)
+            }
+        }
+    }
+
+    private fun processMessage(message: BroadcastMessage) {
         if (message.wrapObj is AbstractNotification) {
             val eventBus = myCollabApp.getAttribute(MyCollabSession.EVENT_BUS_VAL) as EventBus?
             eventBus!!.post(ShellEvent.NewNotification(this, message.wrapObj))
 
             val cacheService = AppContextUtil.getSpringBean(CacheService::class.java)
-            if (message.getsAccountId() != null) {
-                cacheService.putValue(message.getsAccountId()!!.toString(), "notification", message.wrapObj)
+            if (message.sAccountId != null) {
+                cacheService.putValue(message.sAccountId.toString(), "notification", message.wrapObj)
             }
         } else {
             onBroadcast(message)

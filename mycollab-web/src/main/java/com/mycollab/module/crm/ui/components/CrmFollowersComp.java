@@ -128,7 +128,7 @@ public class CrmFollowersComp<V extends ValuedBean> extends MVerticalLayout {
     }
 
     private void loadWatchers() {
-        INSTANCE.access(getUI(), new PageCommand() {
+        access(getUI(), new PageCommand() {
             @Override
             public void run() {
                 watcherLayout.removeAllComponents();

@@ -23,7 +23,7 @@ import java.util.HashMap;
 /**
  * Lets you replace all emoticons in a text with their corresponding Unicode
  * Emoji
- * <p>
+ *
  * Usage: String myEmojiString = Emoji.replaceInText(myString);
  */
 public class Emoji {

@@ -26,7 +26,7 @@ import org.springframework.dao.DataAccessException;
 /**
  * Base class for JcrTemplate and JcrInterceptor, defining common properties like JcrSessionFactory. The
  * required property is sessionFactory.
- * <p>
+ *
  * Not intended to be used directly. See JcrTemplate and JcrInterceptor.
  * @see JcrTemplate
  * @see JcrInterceptor
@@ -50,7 +50,7 @@ public abstract class JcrAccessor implements InitializingBean {
     /**
      * Convert the given RepositoryException to an appropriate exception from the
      * <code>org.springframework.dao</code> hierarchy.
-     * <p>
+     *
      * May be overridden in subclasses.
      * @param ex RepositoryException that occured
      * @return the corresponding DataAccessException instance
@@ -62,7 +62,7 @@ public abstract class JcrAccessor implements InitializingBean {
     /**
      * Convert the given IOException to an appropriate exception from the <code>org.springframework.dao</code>
      * hierarchy.
-     * <p>
+     *
      * May be overridden in subclasses.
      * @param ex IOException that occured
      * @return the corresponding DataAccessException instance
@@ -74,7 +74,7 @@ public abstract class JcrAccessor implements InitializingBean {
     /**
      * Convert the given RuntimeException to an appropriate exception from the
      * <code>org.springframework.dao</code> hierarchy.
-     * <p>
+     *
      * May be overridden in subclasses.
      * @param ex
      * @return

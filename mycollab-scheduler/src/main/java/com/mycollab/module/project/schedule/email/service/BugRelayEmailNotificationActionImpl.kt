@@ -103,11 +103,23 @@ class BugRelayEmailNotificationActionImpl : SendMailToFollowersAction<SimpleBug>
     override fun getCreateSubject(context: MailContext<SimpleBug>): String = context.getMessage(BugI18nEnum.MAIL_CREATE_ITEM_SUBJECT,
             bean!!.projectname, context.changeByUserFullName, getItemName())
 
+    override fun getCreateSubjectNotification(context: MailContext<SimpleBug>): String {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
     override fun getUpdateSubject(context: MailContext<SimpleBug>): String = context.getMessage(BugI18nEnum.MAIL_UPDATE_ITEM_SUBJECT,
             bean!!.projectname, context.changeByUserFullName, getItemName())
 
+    override fun getUpdateSubjectNotification(context: MailContext<SimpleBug>): String {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
     override fun getCommentSubject(context: MailContext<SimpleBug>): String = context.getMessage(BugI18nEnum.MAIL_COMMENT_ITEM_SUBJECT,
             bean!!.projectname, context.changeByUserFullName, getItemName())
+
+    override fun getCommentSubjectNotification(context: MailContext<SimpleBug>): String {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 
     override fun getItemFieldMapper(): ItemFieldMapper = mapper
 
@@ -137,6 +149,10 @@ class BugRelayEmailNotificationActionImpl : SendMailToFollowersAction<SimpleBug>
         }
         return notifyUsers
     }
+
+    override fun getType(): String = ProjectTypeConstants.BUG
+
+    override fun getTypeId(): String = "${bean!!.id}"
 
     class BugFieldNameMapper : ItemFieldMapper() {
         init {

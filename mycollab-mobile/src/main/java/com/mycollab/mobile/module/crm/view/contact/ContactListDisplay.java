@@ -18,7 +18,7 @@ package com.mycollab.mobile.module.crm.view.contact;
 
 import com.hp.gagawa.java.elements.A;
 import com.mycollab.mobile.ui.DefaultPagedBeanList;
-import com.mycollab.module.crm.CrmLinkBuilder;
+import com.mycollab.module.crm.CrmLinkGenerator;
 import com.mycollab.module.crm.CrmTypeConstants;
 import com.mycollab.module.crm.domain.SimpleContact;
 import com.mycollab.module.crm.domain.criteria.ContactSearchCriteria;
@@ -48,7 +48,8 @@ public class ContactListDisplay extends DefaultPagedBeanList<ContactService, Con
         @Override
         public Component generateRow(IBeanList<SimpleContact> host, final SimpleContact contact, int rowIndex) {
             MVerticalLayout rowLayout = new MVerticalLayout().withMargin(false).withSpacing(false).withFullWidth();
-            A itemLink = new A(CrmLinkBuilder.generateContactPreviewLinkFull(contact.getId())).appendText(contact.getContactName());
+            A itemLink = new A(CrmLinkGenerator.generateContactPreviewLink(contact.getId())).
+                    appendText(contact.getContactName());
             MCssLayout itemWrap = new MCssLayout(ELabel.html(itemLink.write()));
             rowLayout.addComponent(new MHorizontalLayout(ELabel.fontIcon(CrmAssetsManager.getAsset
                     (CrmTypeConstants.CONTACT)), itemWrap).expand(itemWrap).withFullWidth());

@@ -267,7 +267,7 @@ public class TicketKanbanBoardViewImpl extends AbstractVerticalPageView implemen
         kanbanBlocks = new ConcurrentHashMap<>();
 
         setProjectNavigatorVisibility(false);
-        AsyncInvoker.INSTANCE.access(getUI(), new AsyncInvoker.PageCommand() {
+        AsyncInvoker.access(getUI(), new AsyncInvoker.PageCommand() {
             @Override
             public void run() {
                 List<OptionVal> optionVals = optionValService.findOptionVals(ProjectTypeConstants.TASK,
@@ -304,7 +304,7 @@ public class TicketKanbanBoardViewImpl extends AbstractVerticalPageView implemen
 
     @Override
     public void addColumn(final OptionVal option) {
-        AsyncInvoker.INSTANCE.access(getUI(), new AsyncInvoker.PageCommand() {
+        AsyncInvoker.access(getUI(), new AsyncInvoker.PageCommand() {
             @Override
             public void run() {
                 KanbanBlock kanbanBlock = new KanbanBlock(option);

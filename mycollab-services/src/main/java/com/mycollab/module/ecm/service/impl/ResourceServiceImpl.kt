@@ -125,7 +125,7 @@ class ResourceServiceImpl(private val contentJcrDao: ContentJcrDao,
     }
 
     override fun removeResource(path: String, userDelete: String, isUpdateDriveInfo: Boolean?, sAccountId: Int?) {
-        val res = contentJcrDao.getResource(path)
+        val res = contentJcrDao.getResource(path) ?: return
 
         val event = when (res) {
             is Folder -> DeleteResourcesEvent(arrayOf(path), userDelete, isUpdateDriveInfo!!, sAccountId)

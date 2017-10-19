@@ -23,7 +23,7 @@ import com.mycollab.db.arguments.BasicSearchRequest;
 import com.mycollab.db.arguments.SearchCriteria;
 import com.mycollab.db.arguments.SetSearchField;
 import com.mycollab.module.project.CurrentProjectVariables;
-import com.mycollab.module.project.ProjectLinkBuilder;
+import com.mycollab.module.project.ProjectLinkGenerator;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.domain.Milestone;
 import com.mycollab.module.project.domain.SimpleMilestone;
@@ -47,8 +47,6 @@ import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 import java.util.Collections;
 import java.util.List;
-
-import static com.mycollab.vaadin.TooltipHelper.TOOLTIP_ID;
 
 /**
  * @author MyCollab Ltd
@@ -142,7 +140,7 @@ public class MilestoneTimelineWidget extends DDVerticalLayout {
 
             Div statusDiv = new Div();
 
-            A milestoneDiv = new A(ProjectLinkBuilder.generateMilestonePreviewFullLink
+            A milestoneDiv = new A(ProjectLinkGenerator.generateMilestonePreviewLink
                     (milestone.getProjectid(), milestone.getId())).appendText(ProjectAssetsManager.getAsset
                     (ProjectTypeConstants.MILESTONE).getHtml() + " " + StringUtils.trim(milestone.getName(), 30, true))
                     .setId("tag" + TooltipHelper.TOOLTIP_ID);

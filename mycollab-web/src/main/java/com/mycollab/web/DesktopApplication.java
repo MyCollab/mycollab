@@ -215,7 +215,7 @@ public class DesktopApplication extends AppUI {
         SecureAccessException secureAccessException = getExceptionType(e, SecureAccessException.class);
         if (secureAccessException != null) {
             NotificationUtil.showWarningNotification("You can not access the specific resource");
-            EventBusFactory.getInstance().post(new ShellEvent.GotoUserAccountModule(this, new String[]{"preview"}));
+//            EventBusFactory.getInstance().post(new ShellEvent.GotoUserAccountModule(this, new String[]{"preview"}));
             return;
         }
 
@@ -372,7 +372,7 @@ public class DesktopApplication extends AppUI {
         @Subscribe
         public void handle(ShellEvent.NotifyErrorEvent event) {
             final Throwable e = (Throwable) event.getData();
-            AsyncInvoker.INSTANCE.access(getUI(), new AsyncInvoker.PageCommand() {
+            AsyncInvoker.access(getUI(), new AsyncInvoker.PageCommand() {
                 @Override
                 public void run() {
                     handleException(null, e);

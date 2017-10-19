@@ -48,14 +48,14 @@ import java.util.Iterator;
  * HumanTime parses and formats time deltas for easier reading by humans. It can format time information without losing
  * information but its main purpose is to generate more easily understood approximations.
  * <h3>Using HumanTime</h3>
- * <p>
+ *
  * Use HumanTime by creating an instance that contains the time delta ({@link HumanTime#HumanTime(long)}), create an
  * empty instance through ({@link HumanTime#HumanTime()}) and set the delta using the {@link #y()}, {@link #d()},
  * {@link #h()}, {@link #s()} and {@link #ms()} methods or parse a {@link CharSequence} representation ({@link #eval(CharSequence)}).
  * Parsing ignores whitespace and is case insensitive.
  * </p>
  * <h3>HumanTime format</h3>
- * <p>
+ *
  * HumanTime will format time deltas in years ("y"), days ("d"), hours ("h"), minutes ("m"), seconds ("s") and
  * milliseconds ("ms"), separated by a blank character. For approximate representations, the time delta will be round up
  * or down if necessary.
@@ -234,7 +234,7 @@ public class HumanTime implements Externalizable, Comparable<HumanTime>, Cloneab
 
     /**
      * Parses and formats the given char sequence, preserving all data.
-     * <p>
+     *
      * Equivalent to <code>eval(in).getExactly()</code>
      *
      * @param in the char sequence, may not be <code>null</code>
@@ -246,7 +246,7 @@ public class HumanTime implements Externalizable, Comparable<HumanTime>, Cloneab
 
     /**
      * Formats the given time delta, preserving all data.
-     * <p>
+     *
      * Equivalent to <code>new HumanTime(in).getExactly()</code>
      *
      * @param l the time delta
@@ -259,7 +259,7 @@ public class HumanTime implements Externalizable, Comparable<HumanTime>, Cloneab
     /**
      * Parses and formats the given char sequence, potentially removing some data to make the output easier to
      * understand.
-     * <p>
+     *
      * Equivalent to <code>eval(in).getApproximately()</code>
      *
      * @param in the char sequence, may not be <code>null</code>
@@ -271,7 +271,7 @@ public class HumanTime implements Externalizable, Comparable<HumanTime>, Cloneab
 
     /**
      * Formats the given time delta, preserving all data.
-     * <p>
+     *
      * Equivalent to <code>new HumanTime(l).getApproximately()</code>
      *
      * @param l the time delta
@@ -288,7 +288,7 @@ public class HumanTime implements Externalizable, Comparable<HumanTime>, Cloneab
 
     /**
      * No-argument Constructor for HumanTime.
-     * <p>
+     *
      * Equivalent to calling <code>new HumanTime(0L)</code>.
      */
     public HumanTime() {
@@ -744,7 +744,7 @@ public class HumanTime implements Externalizable, Comparable<HumanTime>, Cloneab
 
     /**
      * Returns a String representation of this.
-     * <p>
+     *
      * The output is identical to {@link #getExactly()}.
      *
      * @return a String, never <code>null</code>

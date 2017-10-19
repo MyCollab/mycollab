@@ -21,7 +21,7 @@ package com.mycollab.core
  * @since 5.1.3
  */
 open class SecureAccessException : MyCollabException {
-    constructor() : super("") {}
+    constructor() : super("")
 
     constructor(message: String) : super(message) {}
 }

@@ -25,7 +25,6 @@ import com.mycollab.db.arguments.BasicSearchRequest;
 import com.mycollab.db.arguments.SearchCriteria;
 import com.mycollab.db.arguments.StringSearchField;
 import com.mycollab.db.query.LazyValueInjector;
-import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.module.project.*;
 import com.mycollab.module.project.domain.SimpleProjectMember;
 import com.mycollab.module.project.domain.criteria.ProjectMemberSearchCriteria;
@@ -40,6 +39,7 @@ import com.mycollab.module.project.ui.components.ComponentUtils;
 import com.mycollab.module.user.accountsettings.localization.UserI18nEnum;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppUI;
+import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.AbstractVerticalPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
@@ -194,7 +194,7 @@ public class ProjectMemberListViewImpl extends AbstractVerticalPageView implemen
         blockTop.addComponent(buttonControls);
         blockTop.setComponentAlignment(buttonControls, Alignment.TOP_RIGHT);
 
-        A memberLink = new A(ProjectLinkBuilder.generateProjectMemberFullLink(member.getProjectid(), member
+        A memberLink = new A(ProjectLinkGenerator.generateProjectMemberLink(member.getProjectid(), member
                 .getUsername())).appendText(member.getMemberFullName()).setTitle(member.getMemberFullName());
         ELabel memberNameLbl = ELabel.h3(memberLink.write()).withStyleName(UIConstants.TEXT_ELLIPSIS).withFullWidth();
 

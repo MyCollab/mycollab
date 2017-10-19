@@ -16,8 +16,8 @@
  */
 package com.mycollab.module.crm.view.cases;
 
+import com.mycollab.module.crm.CrmLinkGenerator;
 import com.mycollab.module.crm.CrmTypeConstants;
-import com.mycollab.module.crm.CrmLinkBuilder;
 import com.mycollab.module.crm.domain.CaseWithBLOBs;
 import com.mycollab.module.crm.domain.SimpleCase;
 import com.mycollab.module.crm.i18n.OptionI18nEnum.*;
@@ -48,7 +48,7 @@ class CaseReadFormFieldFactory extends AbstractBeanFieldGroupViewFieldFactory<Si
         final SimpleCase cases = attachForm.getBean();
         if (propertyId.equals("accountid")) {
             return new LinkViewField(cases.getAccountName(),
-                    CrmLinkBuilder.generateAccountPreviewLinkFull(cases.getAccountid()),
+                    CrmLinkGenerator.generateAccountPreviewLink(cases.getAccountid()),
                     CrmAssetsManager.getAsset(CrmTypeConstants.ACCOUNT));
         } else if (propertyId.equals("email")) {
             return new EmailViewField(cases.getEmail());

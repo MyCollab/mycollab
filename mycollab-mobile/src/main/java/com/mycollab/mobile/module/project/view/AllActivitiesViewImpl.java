@@ -23,7 +23,6 @@ import com.mycollab.common.ActivityStreamConstants;
 import com.mycollab.common.domain.criteria.ActivityStreamSearchCriteria;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.core.utils.StringUtils;
-import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.html.DivLessFormatter;
 import com.mycollab.mobile.module.project.event.ProjectEvent;
 import com.mycollab.mobile.module.project.ui.AbstractListPageView;
@@ -31,7 +30,6 @@ import com.mycollab.mobile.shell.event.ShellEvent;
 import com.mycollab.mobile.ui.AbstractPagedBeanList;
 import com.mycollab.mobile.ui.SearchInputField;
 import com.mycollab.module.file.service.AbstractStorageService;
-import com.mycollab.module.project.ProjectLinkBuilder;
 import com.mycollab.module.project.ProjectLinkGenerator;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.domain.ProjectActivityStream;
@@ -41,6 +39,7 @@ import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.module.project.ui.ProjectLocalizationTypeMap;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppUI;
+import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.ELabel;
@@ -48,7 +47,6 @@ import com.mycollab.vaadin.ui.IBeanList;
 import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.ui.registry.AuditLogRegistry;
 import com.vaadin.server.FontAwesome;
-import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
 import org.vaadin.teemu.VaadinIcons;
@@ -191,7 +189,7 @@ public class AllActivitiesViewImpl extends AbstractListPageView<ActivityStreamSe
         Img userAvatar = new Img("", AppContextUtil.getSpringBean(AbstractStorageService.class)
                 .getAvatarPath(activityStream.getCreatedUserAvatarId(), 16))
                 .setCSSClass(UIConstants.CIRCLE_BOX);
-        A userLink = new A().setHref(ProjectLinkBuilder.generateProjectMemberFullLink(
+        A userLink = new A().setHref(ProjectLinkGenerator.generateProjectMemberLink(
                 activityStream.getExtratypeid(), activityStream.getCreateduser()));
         userLink.appendText(StringUtils.trim(activityStream.getCreatedUserFullName(), 30, true));
 
@@ -221,7 +219,7 @@ public class AllActivitiesViewImpl extends AbstractListPageView<ActivityStreamSe
     private static String buildProjectValue(ProjectActivityStream activityStream) {
         DivLessFormatter div = new DivLessFormatter();
         Text prjImg = new Text(ProjectAssetsManager.getAsset(ProjectTypeConstants.PROJECT).getHtml());
-        A prjLink = new A(ProjectLinkBuilder.generateProjectFullLink(activityStream.getProjectId())).appendText(activityStream.getProjectName());
+        A prjLink = new A(ProjectLinkGenerator.generateProjectLink(activityStream.getProjectId())).appendText(activityStream.getProjectName());
         div.appendChild(prjImg, DivLessFormatter.EMPTY_SPACE, prjLink);
         return div.write();
     }

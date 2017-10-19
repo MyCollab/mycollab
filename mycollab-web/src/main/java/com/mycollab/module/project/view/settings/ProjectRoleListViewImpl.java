@@ -19,7 +19,7 @@ package com.mycollab.module.project.view.settings;
 import com.mycollab.common.TableViewField;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.module.project.CurrentProjectVariables;
-import com.mycollab.module.project.ProjectLinkBuilder;
+import com.mycollab.module.project.ProjectLinkGenerator;
 import com.mycollab.module.project.ProjectRolePermissionCollections;
 import com.mycollab.module.project.domain.ProjectRole;
 import com.mycollab.module.project.domain.SimpleProjectRole;
@@ -85,7 +85,7 @@ public class ProjectRoleListViewImpl extends AbstractVerticalPageView implements
         tableItem.addGeneratedColumn("rolename", (source, itemId, columnId) -> {
             ProjectRole role = tableItem.getBeanByIndex(itemId);
             return new LabelLink(role.getRolename(),
-                    ProjectLinkBuilder.generateRolePreviewFullLink(role.getProjectid(), role.getId()));
+                    ProjectLinkGenerator.generateRolePreviewLink(role.getProjectid(), role.getId()));
         });
 
         listLayout.addComponent(this.constructTableActionControls());
