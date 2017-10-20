@@ -86,9 +86,11 @@ class ProjectRiskRelayEmailNotificationActionImpl : SendMailToAllMembersAction<S
     override fun getCommentSubjectNotification(context: MailContext<SimpleRisk>): String =
             context.getMessage(RiskI18nEnum.MAIL_COMMENT_ITEM_SUBJECT, projectLink(), userLink(context), riskLink())
 
-    private fun projectLink() = A(ProjectLinkGenerator.generateProjectLink(bean!!.projectid)).appendText(bean!!.projectName).write()
+    private fun projectLink() = A(ProjectLinkGenerator.generateProjectLink(bean!!.projectid)).
+            appendText(StringUtils.trim(bean!!.projectName, 50)).setType(bean!!.projectName).write()
 
-    private fun userLink(context: MailContext<SimpleRisk>) = A(AccountLinkGenerator.generateUserLink(context.user.username)).appendText(context.changeByUserFullName).write()
+    private fun userLink(context: MailContext<SimpleRisk>) = A(AccountLinkGenerator.generateUserLink(context.user.username)).
+            appendText(StringUtils.trim(context.changeByUserFullName, 50)).write()
 
     private fun riskLink() = A(ProjectLinkGenerator.generateRiskPreviewLink(bean!!.projectid, bean!!.id)).appendText(getItemName()).write()
 
@@ -233,5 +235,4 @@ class ProjectRiskRelayEmailNotificationActionImpl : SendMailToAllMembersAction<S
             } else value
         }
     }
-
 }

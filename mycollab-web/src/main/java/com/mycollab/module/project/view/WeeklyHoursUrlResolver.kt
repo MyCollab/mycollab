@@ -33,7 +33,7 @@ class WeeklyHoursUrlResolver : ProjectUrlResolver() {
     }
 
     class DefaultUrlResolver : ProjectUrlResolver() {
-        protected override fun handlePage(vararg params: String) {
+        override fun handlePage(vararg params: String) {
             val projectId = UrlTokenizer(params[0]).getInt()
             val chain = PageActionChain(ProjectScreenData.Goto(projectId), ReportScreenData.GotoWeeklyTiming())
             EventBusFactory.getInstance().post(ProjectEvent.GotoMyProject(this, chain))

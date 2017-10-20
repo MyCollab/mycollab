@@ -168,11 +168,10 @@ class OverdueProjectTicketsNotificationJob : GenericQuartzJobBean() {
                 }
             }
 
-            fun formatAssignUser(subDomain: String, assignment: ProjectTicket): String {
-                return Div().appendChild(Img("", storageService().getAvatarPath(assignment.assignUserAvatarId, 16)),
-                        A(AccountLinkGenerator.generatePreviewFullUserLink(subDomain, assignment.assignUser)).
-                                appendText(assignment.assignUserFullName)).write()
-            }
+            fun formatAssignUser(subDomain: String, assignment: ProjectTicket): String =
+                    Div().appendChild(Img("", storageService().getAvatarPath(assignment.assignUserAvatarId, 16)),
+                            A(AccountLinkGenerator.generatePreviewFullUserLink(subDomain, assignment.assignUser)).
+                                    appendText(assignment.assignUserFullName)).write()
 
             fun storageService() = AppContextUtil.getSpringBean(AbstractStorageService::class.java)
         }

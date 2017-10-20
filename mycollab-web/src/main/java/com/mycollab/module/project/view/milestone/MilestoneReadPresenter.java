@@ -158,7 +158,7 @@ public class MilestoneReadPresenter extends ProjectGenericPresenter<MilestoneRea
                     throw new ResourceNotFoundException();
                 }
             } else {
-                throw new MyCollabException("Unhanddle this case yet");
+                throw new MyCollabException("Unhandle this case yet");
             }
         } else {
             throw new SecureAccessException();

@@ -23,7 +23,7 @@ class BatchInsertProjectNotificationItemsCommand(private val notificationItemsSe
         if (event.notifyUsers.isNotEmpty()) {
             notificationItemsService.batchInsertItems(event.notifyUsers, event.module, event.type, event.typeId, event.messages, event.sAccountId)
             event.notifyUsers.forEachIndexed { index, notifyUser -> Broadcaster.broadcast(BroadcastMessage(event.sAccountId, notifyUser,
-                    ProjectEntryUpdateNotification(event.type, event.typeId, event.messages[index]))) }
+                    ProjectEntryUpdateNotification(notifyUser, event.type, event.typeId, event.messages[index]))) }
         }
     }
 }

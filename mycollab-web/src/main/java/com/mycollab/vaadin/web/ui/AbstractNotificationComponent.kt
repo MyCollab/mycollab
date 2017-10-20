@@ -48,10 +48,11 @@ import org.vaadin.viritin.layouts.MVerticalLayout
 abstract class AbstractNotificationComponent : PopupButton(), PopupButton.PopupVisibilityListener, ApplicationEventListener<ShellEvent.NewNotification> {
 
     private val notificationItems = mutableSetOf<AbstractNotification>()
-    private val notificationContainer = MVerticalLayout().withSpacing(false).withMargin(false)
+    private val notificationContainer = MVerticalLayout().withSpacing(false).withMargin(false).
+            withStyleName(WebThemes.SCROLLABLE_CONTAINER)
 
     init {
-        Restrain(notificationContainer).setMaxWidth("500px")
+        Restrain(notificationContainer).setMaxWidth("500px").setMaxHeight("500px")
         this.content = notificationContainer
         this.icon = FontAwesome.BELL
         this.styleName = "notification-button"
@@ -73,21 +74,23 @@ abstract class AbstractNotificationComponent : PopupButton(), PopupButton.PopupV
         notificationContainer.removeAllComponents()
 
         if (notificationItems.isNotEmpty()) {
-            notificationItems.forEach {
-                val comp = buildComponentFromNotification(it)
-                if (comp != null) {
-                    comp.styleName = "notification-type"
-                    comp.addStyleName("notification-type-${it.kind}")
-                    notificationContainer.addComponent(comp)
-                }
-            }
+            notificationItems.forEach { addNotificationEntry(it) }
         } else {
             val noItemLbl = Label(UserUIContext.getMessage(ShellI18nEnum.OPT_NO_NOTIFICATION))
             notificationContainer.with(noItemLbl).withAlign(noItemLbl, Alignment.MIDDLE_CENTER)
         }
     }
 
-    private fun addNotification(notification: AbstractNotification) {
+    private fun addNotificationEntry(notification: AbstractNotification) {
+        val comp = buildComponentFromNotification(notification)
+        if (comp != null) {
+            comp.styleName = "notification-type"
+            comp.addStyleName("notification-type-${notification.kind}")
+            notificationContainer.addComponent(comp)
+        }
+    }
+
+    protected fun addNotification(notification: AbstractNotification) {
         notificationItems.add(notification)
         updateCaption()
         displayTrayNotification(notification)
@@ -120,7 +123,7 @@ abstract class AbstractNotificationComponent : PopupButton(), PopupButton.PopupV
 
     private fun displayTrayNotification(item: AbstractNotification) {
         if (item is NewUpdateAvailableNotification) {
-            val no: Notification = when {
+            val no = when {
                 UserUIContext.isAdmin() -> Notification(UserUIContext.getMessage(GenericI18Enum.WINDOW_INFORMATION_TITLE), UserUIContext.getMessage(ShellI18nEnum.OPT_HAVING_NEW_VERSION, item.version) + " "
                         + A("javascript:com.mycollab.scripts.upgrade('${item.version}','${item.autoDownloadLink}','${item.manualDownloadLink}')")
                         .appendText(UserUIContext.getMessage(ShellI18nEnum.ACTION_UPGRADE)),
@@ -132,13 +135,12 @@ abstract class AbstractNotificationComponent : PopupButton(), PopupButton.PopupV
             no.isHtmlContentAllowed = true
             no.delayMsec = 300000
 
-            val currentUI = this.ui
             AsyncInvoker.access(ui, object : AsyncInvoker.PageCommand() {
                 override fun run() {
-                    no.show(currentUI.page)
+                    no.show(ui.page)
                 }
             })
-        }
+        } else displayTrayNotificationExclusive(item)
     }
 
     private fun buildComponentFromNotification(item: AbstractNotification): Component? {
@@ -182,4 +184,6 @@ abstract class AbstractNotificationComponent : PopupButton(), PopupButton.PopupV
     }
 
     abstract protected fun buildComponentFromNotificationExclusive(item: AbstractNotification): Component?
+
+    abstract protected fun displayTrayNotificationExclusive(item: AbstractNotification)
 }

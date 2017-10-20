@@ -57,7 +57,7 @@ public class ConfirmDialog extends MWindow {
         layout.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
 
         VerticalLayout messageWrapper = new VerticalLayout();
-        messageWrapper.setStyleName("messages-wrapper");
+        messageWrapper.setStyleName("message-wrapper");
         messageWrapper.setWidth("100%");
         messageWrapper.setMargin(true);
 

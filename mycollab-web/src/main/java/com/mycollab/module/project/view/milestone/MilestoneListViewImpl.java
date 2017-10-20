@@ -233,19 +233,15 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
     }
 
     private void updateClosedMilestoneNumber(int closeMilestones) {
-        closedHeader.setValue(ProjectAssetsManager.getMilestoneStatus(MilestoneStatus.Closed.name()).getHtml() + " " +
-                UserUIContext.getMessage(MilestoneI18nEnum.WIDGET_CLOSED_PHASE_TITLE) + " (" + closeMilestones + ")");
+        closedHeader.setValue(String.format("%s %s (%d)", ProjectAssetsManager.getMilestoneStatus(MilestoneStatus.Closed.name()).getHtml(), UserUIContext.getMessage(MilestoneI18nEnum.WIDGET_CLOSED_PHASE_TITLE), closeMilestones));
     }
 
     private void updateFutureMilestoneNumber(int futureMilestones) {
-        futureHeader.setValue(ProjectAssetsManager.getMilestoneStatus(MilestoneStatus.Future.name()).getHtml() + " " +
-                UserUIContext.getMessage(MilestoneI18nEnum.WIDGET_FUTURE_PHASE_TITLE) + " (" + futureMilestones + ")");
+        futureHeader.setValue(String.format("%s %s (%d)", ProjectAssetsManager.getMilestoneStatus(MilestoneStatus.Future.name()).getHtml(), UserUIContext.getMessage(MilestoneI18nEnum.WIDGET_FUTURE_PHASE_TITLE), futureMilestones));
     }
 
     private void updateInProgressMilestoneNumber(int inProgressMilestones) {
-        inProgressHeader.setValue(ProjectAssetsManager.getMilestoneStatus(MilestoneStatus.InProgress.name()).getHtml() + " " +
-                UserUIContext.getMessage(MilestoneI18nEnum.WIDGET_INPROGRESS_PHASE_TITLE) + " (" + inProgressMilestones +
-                ")");
+        inProgressHeader.setValue(String.format("%s %s (%d)", ProjectAssetsManager.getMilestoneStatus(MilestoneStatus.InProgress.name()).getHtml(), UserUIContext.getMessage(MilestoneI18nEnum.WIDGET_INPROGRESS_PHASE_TITLE), inProgressMilestones));
     }
 
     private class MilestoneBox extends CssLayout {
@@ -253,7 +249,7 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
             this.addStyleName(WebThemes.MILESTONE_BOX);
             this.setWidth("100%");
 
-            String valId = UUID.randomUUID().toString() + "-" + milestone.hashCode();
+            String valId = String.format("%s-%d", UUID.randomUUID().toString(), milestone.hashCode());
             this.setId(valId);
             JavaScript.getCurrent().execute("$('#" + valId + "').css({'background-color':'#" + milestone.getColor() + "'});");
 

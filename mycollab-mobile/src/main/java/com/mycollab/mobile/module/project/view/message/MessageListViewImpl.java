@@ -61,7 +61,7 @@ public class MessageListViewImpl extends AbstractListPageView<MessageSearchCrite
 
     public MessageListViewImpl() {
         setCaption(UserUIContext.getMessage(MessageI18nEnum.LIST));
-        setStyleName("messages-list-view");
+        setStyleName("message-list-view");
     }
 
     @Override
@@ -99,7 +99,7 @@ public class MessageListViewImpl extends AbstractListPageView<MessageSearchCrite
 
         @Override
         public Component generateRow(IBeanList<SimpleMessage> host, final SimpleMessage message, int rowIndex) {
-            MHorizontalLayout mainLayout = new MHorizontalLayout().withStyleName("messages-block").withFullWidth();
+            MHorizontalLayout mainLayout = new MHorizontalLayout().withStyleName("message-block").withFullWidth();
             Image userAvatarImg = UserAvatarControlFactory.createUserAvatarEmbeddedComponent(message.getPostedUserAvatarId(), 32);
             userAvatarImg.addStyleName(UIConstants.CIRCLE_BOX);
             mainLayout.addComponent(userAvatarImg);

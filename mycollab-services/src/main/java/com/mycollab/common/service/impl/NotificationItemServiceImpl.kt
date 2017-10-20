@@ -2,6 +2,7 @@ package com.mycollab.common.service.impl
 
 import com.mycollab.common.dao.NotificationItemMapper
 import com.mycollab.common.domain.NotificationItem
+import com.mycollab.common.domain.NotificationItemExample
 import com.mycollab.common.service.NotificationItemService
 import com.mycollab.core.utils.DateTimeUtils
 import com.mycollab.db.persistence.ICrudGenericDAO
@@ -42,5 +43,19 @@ class NotificationItemServiceImpl(private val notificationItemMapper: Notificati
 
                     override fun getBatchSize(): Int = notificationUsers.size
                 })
+    }
+
+    override fun markNotificationRead(targetUser: String, module: String, type: String, typeId: String) {
+        val example = NotificationItemExample()
+        example.createCriteria().andNotificationuserEqualTo(targetUser).andModuleEqualTo(module).andTypeEqualTo(type).andTypeidEqualTo(typeId)
+        val notificationItem = NotificationItem()
+        notificationItem.isread = true
+        notificationItemMapper.updateByExampleSelective(notificationItem, example)
+    }
+
+    override fun findUnreadNotificationItemsByUser(targetUser: String, sAccountId: Int): List<NotificationItem> {
+        val example = NotificationItemExample()
+        example.createCriteria().andNotificationuserEqualTo(targetUser).andIsreadEqualTo(false)
+        return notificationItemMapper.selectByExample(example)
     }
 }

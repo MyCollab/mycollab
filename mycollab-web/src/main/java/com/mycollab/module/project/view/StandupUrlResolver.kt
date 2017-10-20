@@ -51,13 +51,10 @@ class StandupUrlResolver : ProjectUrlResolver() {
          * @param dateVal
          * @return
          */
-        private fun parseDate(dateVal: String?): Date {
-            return if (StringUtils.isBlank(dateVal)) {
-                GregorianCalendar().time
-            } else {
-                simpleDateFormat.parseDateTime(dateVal).toDate()
-            }
+        private fun parseDate(dateVal: String?): Date = if (StringUtils.isBlank(dateVal)) {
+            GregorianCalendar().time
+        } else {
+            simpleDateFormat.parseDateTime(dateVal).toDate()
         }
     }
-
 }

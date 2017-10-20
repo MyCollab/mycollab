@@ -47,8 +47,7 @@ class CrmSendingRelayEmailNotificationJob : GenericQuartzJobBean() {
         private val LOG = LoggerFactory.getLogger(CrmSendingRelayEmailNotificationJob::class.java)
     }
 
-    @Autowired private val relayEmailNotificationMapper: RelayEmailNotificationMapper? = null
-
+    @Autowired private lateinit var relayEmailNotificationMapper: RelayEmailNotificationMapper
     override fun executeJob(context: JobExecutionContext) {
         val relayEmailService = AppContextUtil.getSpringBean(RelayEmailNotificationService::class.java)
         val criteria = RelayEmailNotificationSearchCriteria()
@@ -70,7 +69,7 @@ class CrmSendingRelayEmailNotificationJob : GenericQuartzJobBean() {
             } catch (e: Exception) {
                 LOG.error("Error while send the schedule command $it.type", e)
             } finally {
-                relayEmailNotificationMapper!!.deleteByPrimaryKey(it.id)
+                relayEmailNotificationMapper.deleteByPrimaryKey(it.id)
             }
         }
     }

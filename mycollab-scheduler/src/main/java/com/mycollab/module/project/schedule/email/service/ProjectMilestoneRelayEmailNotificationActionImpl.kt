@@ -16,6 +16,7 @@
  */
 package com.mycollab.module.project.schedule.email.service
 
+import com.hp.gagawa.java.elements.A
 import com.hp.gagawa.java.elements.Span
 import com.mycollab.common.MonitorTypeConstants
 import com.mycollab.common.i18n.GenericI18Enum
@@ -65,23 +66,26 @@ class ProjectMilestoneRelayEmailNotificationActionImpl : SendMailToAllMembersAct
     override fun getCreateSubject(context: MailContext<SimpleMilestone>): String = context.getMessage(
             MilestoneI18nEnum.MAIL_CREATE_ITEM_SUBJECT, bean!!.projectName, context.changeByUserFullName, getItemName())
 
-    override fun getCreateSubjectNotification(context: MailContext<SimpleMilestone>): String {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun getCreateSubjectNotification(context: MailContext<SimpleMilestone>): String = context.getMessage(
+            MilestoneI18nEnum.MAIL_CREATE_ITEM_SUBJECT, projectLink(), userLink(context), milestoneLink())
 
     override fun getUpdateSubject(context: MailContext<SimpleMilestone>): String = context.getMessage(
             MilestoneI18nEnum.MAIL_UPDATE_ITEM_SUBJECT, bean!!.projectName, context.changeByUserFullName, getItemName())
 
-    override fun getUpdateSubjectNotification(context: MailContext<SimpleMilestone>): String {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun getUpdateSubjectNotification(context: MailContext<SimpleMilestone>): String = context.getMessage(
+            MilestoneI18nEnum.MAIL_UPDATE_ITEM_SUBJECT, projectLink(), userLink(context), milestoneLink())
 
     override fun getCommentSubject(context: MailContext<SimpleMilestone>): String = context.getMessage(
             MilestoneI18nEnum.MAIL_COMMENT_ITEM_SUBJECT, bean!!.projectName, context.changeByUserFullName, getItemName())
 
-    override fun getCommentSubjectNotification(context: MailContext<SimpleMilestone>): String {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun getCommentSubjectNotification(context: MailContext<SimpleMilestone>): String = context.getMessage(
+            MilestoneI18nEnum.MAIL_COMMENT_ITEM_SUBJECT, projectLink(), userLink(context), milestoneLink())
+
+    private fun projectLink() = A(ProjectLinkGenerator.generateProjectLink(bean!!.projectid)).appendText(bean!!.projectName).write()
+
+    private fun userLink(context: MailContext<SimpleMilestone>) = A(AccountLinkGenerator.generateUserLink(context.user.username)).appendText(context.changeByUserFullName).write()
+
+    private fun milestoneLink() = A(ProjectLinkGenerator.generateMilestonePreviewLink(bean!!.projectid, bean!!.id)).appendText(getItemName()).write()
 
     override fun getItemFieldMapper(): ItemFieldMapper = mapper
 

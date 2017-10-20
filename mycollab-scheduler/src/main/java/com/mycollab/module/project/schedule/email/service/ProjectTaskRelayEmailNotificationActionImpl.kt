@@ -16,6 +16,7 @@
  */
 package com.mycollab.module.project.schedule.email.service
 
+import com.hp.gagawa.java.elements.A
 import com.hp.gagawa.java.elements.Span
 import com.hp.gagawa.java.elements.Text
 import com.mycollab.common.MonitorTypeConstants
@@ -101,23 +102,26 @@ class ProjectTaskRelayEmailNotificationActionImpl : SendMailToFollowersAction<Si
     override fun getCreateSubject(context: MailContext<SimpleTask>): String =
             context.getMessage(TaskI18nEnum.MAIL_CREATE_ITEM_SUBJECT, bean!!.projectName, context.changeByUserFullName, getItemName())
 
-    override fun getCreateSubjectNotification(context: MailContext<SimpleTask>): String {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun getCreateSubjectNotification(context: MailContext<SimpleTask>): String =
+            context.getMessage(TaskI18nEnum.MAIL_CREATE_ITEM_SUBJECT, projectLink(), userLink(context), taskLink())
 
     override fun getUpdateSubject(context: MailContext<SimpleTask>): String =
             context.getMessage(TaskI18nEnum.MAIL_UPDATE_ITEM_SUBJECT, bean!!.projectName, context.changeByUserFullName, getItemName())
 
-    override fun getUpdateSubjectNotification(context: MailContext<SimpleTask>): String {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun getUpdateSubjectNotification(context: MailContext<SimpleTask>): String =
+            context.getMessage(TaskI18nEnum.MAIL_UPDATE_ITEM_SUBJECT, projectLink(), userLink(context), taskLink())
 
     override fun getCommentSubject(context: MailContext<SimpleTask>): String =
             context.getMessage(TaskI18nEnum.MAIL_COMMENT_ITEM_SUBJECT, bean!!.projectName, context.changeByUserFullName, getItemName())
 
-    override fun getCommentSubjectNotification(context: MailContext<SimpleTask>): String {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun getCommentSubjectNotification(context: MailContext<SimpleTask>): String =
+            context.getMessage(TaskI18nEnum.MAIL_COMMENT_ITEM_SUBJECT, projectLink(), userLink(context), taskLink())
+
+    private fun projectLink() = A(ProjectLinkGenerator.generateProjectLink(bean!!.projectid)).appendText(bean!!.projectName).write()
+
+    private fun userLink(context: MailContext<SimpleTask>) = A(AccountLinkGenerator.generateUserLink(context.user.username)).appendText(context.changeByUserFullName).write()
+
+    private fun taskLink() = A(ProjectLinkGenerator.generateTaskPreviewLink(bean!!.taskkey, bean!!.projectShortname)).appendText(getItemName()).write()
 
     override fun getItemFieldMapper(): ItemFieldMapper = mapper
 

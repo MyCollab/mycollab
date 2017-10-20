@@ -23,6 +23,10 @@ class NotificationComponent : AbstractNotificationComponent() {
         }
     }
 
+    override fun displayTrayNotificationExclusive(item: AbstractNotification) {
+
+    }
+
     class ProjectNotificationComponent(notification: ProjectEntryUpdateNotification) : CssLayout() {
         init {
             val noLabel = ELabel.html(notification.message)

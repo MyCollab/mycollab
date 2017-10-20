@@ -16,6 +16,7 @@
  */
 package com.mycollab.module.project.schedule.email.service
 
+import com.hp.gagawa.java.elements.A
 import com.hp.gagawa.java.elements.Span
 import com.hp.gagawa.java.elements.Text
 import com.mycollab.common.MonitorTypeConstants
@@ -103,23 +104,26 @@ class BugRelayEmailNotificationActionImpl : SendMailToFollowersAction<SimpleBug>
     override fun getCreateSubject(context: MailContext<SimpleBug>): String = context.getMessage(BugI18nEnum.MAIL_CREATE_ITEM_SUBJECT,
             bean!!.projectname, context.changeByUserFullName, getItemName())
 
-    override fun getCreateSubjectNotification(context: MailContext<SimpleBug>): String {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun getCreateSubjectNotification(context: MailContext<SimpleBug>): String = context.getMessage(BugI18nEnum.MAIL_CREATE_ITEM_SUBJECT,
+            projectLink(), userLink(context), bugLink())
 
     override fun getUpdateSubject(context: MailContext<SimpleBug>): String = context.getMessage(BugI18nEnum.MAIL_UPDATE_ITEM_SUBJECT,
             bean!!.projectname, context.changeByUserFullName, getItemName())
 
-    override fun getUpdateSubjectNotification(context: MailContext<SimpleBug>): String {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun getUpdateSubjectNotification(context: MailContext<SimpleBug>): String = context.getMessage(BugI18nEnum.MAIL_UPDATE_ITEM_SUBJECT,
+            projectLink(), userLink(context), bugLink())
 
     override fun getCommentSubject(context: MailContext<SimpleBug>): String = context.getMessage(BugI18nEnum.MAIL_COMMENT_ITEM_SUBJECT,
             bean!!.projectname, context.changeByUserFullName, getItemName())
 
-    override fun getCommentSubjectNotification(context: MailContext<SimpleBug>): String {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun getCommentSubjectNotification(context: MailContext<SimpleBug>): String  = context.getMessage(BugI18nEnum.MAIL_COMMENT_ITEM_SUBJECT,
+            projectLink(), userLink(context), bugLink())
+
+    private fun projectLink() = A(ProjectLinkGenerator.generateProjectLink(bean!!.projectid)).appendText(bean!!.projectname).write()
+
+    private fun userLink(context: MailContext<SimpleBug>) = A(AccountLinkGenerator.generateUserLink(context.user.username)).appendText(context.changeByUserFullName).write()
+
+    private fun bugLink() = A(ProjectLinkGenerator.generateBugPreviewLink(bean!!.bugkey, bean!!.projectShortName)).appendText(getItemName()).write()
 
     override fun getItemFieldMapper(): ItemFieldMapper = mapper
 
@@ -264,5 +268,4 @@ class BugRelayEmailNotificationActionImpl : SendMailToFollowersAction<SimpleBug>
             } else value
         }
     }
-
 }

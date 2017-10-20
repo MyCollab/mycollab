@@ -53,7 +53,7 @@ public class MessageReadViewImpl extends AbstractMobilePageView implements Messa
     private final VerticalLayout mainLayout;
 
     public MessageReadViewImpl() {
-        this.addStyleName("messages-read-view");
+        this.addStyleName("message-read-view");
         this.setCaption(UserUIContext.getMessage(MessageI18nEnum.SINGLE));
         mainLayout = new VerticalLayout();
         mainLayout.setWidth("100%");
@@ -90,7 +90,7 @@ public class MessageReadViewImpl extends AbstractMobilePageView implements Messa
         titleRow.setWidth("100%");
         titleRow.setStyleName("title-row");
         Label messageTitle = new Label(bean.getTitle());
-        messageTitle.setStyleName("messages-title");
+        messageTitle.setStyleName("message-title");
         titleRow.addComponent(messageTitle);
         rightCol.addComponent(titleRow);
 

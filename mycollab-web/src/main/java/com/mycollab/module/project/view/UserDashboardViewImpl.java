@@ -200,7 +200,7 @@ public class UserDashboardViewImpl extends AbstractVerticalPageView implements U
         return headerWrapper;
     }
 
-    private static final String headerTitle = FontAwesome.SEARCH.getHtml() + " Search for '%s' (Found: %d)";
+    private static final String headerTitle = String.format("%s Search for '%%s' (Found: %%d)", FontAwesome.SEARCH.getHtml());
 
     private void displaySearchResult(String value) {
         removeAllComponents();
