@@ -1,7 +1,7 @@
 package com.mycollab.community.vaadin.web.ui
 
 import com.mycollab.core.AbstractNotification
-import com.mycollab.module.project.ProjectEntryUpdateNotification
+import com.mycollab.common.EntryUpdateNotification
 import com.mycollab.vaadin.ui.ELabel
 import com.mycollab.vaadin.web.ui.AbstractNotificationComponent
 import com.vaadin.ui.Component
@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory
 class NotificationComponent : AbstractNotificationComponent() {
     override fun buildComponentFromNotificationExclusive(item: AbstractNotification): Component? {
         return when (item) {
-            is ProjectEntryUpdateNotification -> ProjectNotificationComponent(item)
+            is EntryUpdateNotification -> ProjectNotificationComponent(item)
             else -> {
                 LOG.error("Do not support notification type $item")
                 null
@@ -27,7 +27,7 @@ class NotificationComponent : AbstractNotificationComponent() {
 
     }
 
-    class ProjectNotificationComponent(notification: ProjectEntryUpdateNotification) : CssLayout() {
+    class ProjectNotificationComponent(notification: EntryUpdateNotification) : CssLayout() {
         init {
             val noLabel = ELabel.html(notification.message)
             addComponent(noLabel)

@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -20,7 +20,6 @@ import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Div;
 import com.hp.gagawa.java.elements.Span;
 import com.mycollab.core.utils.NumberUtils;
-import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.db.arguments.SearchCriteria;
 import com.mycollab.db.arguments.SetSearchField;
 import com.mycollab.db.arguments.StringSearchField;
@@ -117,7 +116,7 @@ public class ProjectMembersWidget extends Depot {
 
     void showInformation() {
         searchCriteria = new ProjectMemberSearchCriteria();
-        searchCriteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
+        searchCriteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
         searchCriteria.setStatuses(new SetSearchField<>(ProjectMemberStatusConstants.ACTIVE,
                 ProjectMemberStatusConstants.NOT_ACCESS_YET));
         searchCriteria.addOrderField(new SearchCriteria.OrderField("memberFullName", SearchCriteria.ASC));

@@ -177,13 +177,13 @@ public class ProjectMemberListViewImpl extends AbstractVerticalPageView implemen
             ConfirmDialogExt.show(UI.getCurrent(),
                     UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppUI.getSiteName()),
                     UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-                    UserUIContext.getMessage(GenericI18Enum.BUTTON_YES),
-                    UserUIContext.getMessage(GenericI18Enum.BUTTON_NO),
+                    UserUIContext.getMessage(GenericI18Enum.ACTION_YES),
+                    UserUIContext.getMessage(GenericI18Enum.ACTION_NO),
                     confirmDialog -> {
                         if (confirmDialog.isConfirmed()) {
                             ProjectMemberService prjMemberService = AppContextUtil.getSpringBean(ProjectMemberService.class);
                             prjMemberService.removeWithSession(member, UserUIContext.getUsername(), AppUI.getAccountId());
-                            EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoList(ProjectMemberListViewImpl.this, null));
+                            EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoList(ProjectMemberListViewImpl.this, CurrentProjectVariables.getProjectId()));
                         }
                     });
         }).withIcon(FontAwesome.TRASH_O).withStyleName(WebThemes.BUTTON_LINK)

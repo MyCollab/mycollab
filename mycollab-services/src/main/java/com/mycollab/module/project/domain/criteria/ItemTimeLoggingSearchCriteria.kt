@@ -17,6 +17,7 @@
 package com.mycollab.module.project.domain.criteria
 
 import com.mycollab.db.arguments.*
+import com.mycollab.db.query.BooleanParam
 import com.mycollab.db.query.CacheParamMapper
 import com.mycollab.db.query.DateParam
 import com.mycollab.db.query.PropertyListParam
@@ -45,5 +46,17 @@ class ItemTimeLoggingSearchCriteria : SearchCriteria() {
         @JvmField
         val p_logUsers = CacheParamMapper.register(ProjectTypeConstants.TIME,
                 UserI18nEnum.LIST, PropertyListParam<String>("loguser", "m_prj_time_logging", "loguser"))
+
+        @JvmField
+        val p_isBillable = CacheParamMapper.register(ProjectTypeConstants.TIME,
+                TimeTrackingI18nEnum.FORM_IS_BILLABLE, BooleanParam("isBillable", "m_prj_time_logging", "isBillable"))
+
+        @JvmField
+        val p_isOvertime = CacheParamMapper.register(ProjectTypeConstants.TIME,
+                TimeTrackingI18nEnum.FORM_IS_OVERTIME, BooleanParam("isOvertime", "m_prj_time_logging", "isOvertime"))
+
+        @JvmField
+        val p_isApproved = CacheParamMapper.register(ProjectTypeConstants.TIME,
+                TimeTrackingI18nEnum.FORM_IS_APPROVED, BooleanParam("isApproved", "m_prj_time_logging", "isApproved"))
     }
 }

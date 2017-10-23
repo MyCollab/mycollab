@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -18,7 +18,6 @@ package com.mycollab.module.project.view;
 
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.configuration.SiteConfiguration;
-import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.db.arguments.SetSearchField;
 import com.mycollab.module.file.PathUtils;
 import com.mycollab.module.project.CurrentProjectVariables;
@@ -134,7 +133,7 @@ public class ProjectViewImpl extends AbstractVerticalPageView implements Project
                     dashboardPresenter.go(ProjectViewImpl.this, null);
                 } else if (ProjectTypeConstants.MEMBER.equals(caption)) {
                     ProjectMemberSearchCriteria criteria = new ProjectMemberSearchCriteria();
-                    criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
+                    criteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
                     criteria.setStatuses(new SetSearchField<>(ProjectMemberStatusConstants.ACTIVE, ProjectMemberStatusConstants.NOT_ACCESS_YET));
                     userPresenter.go(ProjectViewImpl.this, new ProjectMemberScreenData.Search(criteria));
                 } else if (ProjectTypeConstants.FINANCE.equals(caption)) {
@@ -158,7 +157,7 @@ public class ProjectViewImpl extends AbstractVerticalPageView implements Project
 
             if (project.getContextask() == null || project.getContextask()) {
                 ProjectMemberSearchCriteria searchCriteria = new ProjectMemberSearchCriteria();
-                searchCriteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
+                searchCriteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
                 searchCriteria.setStatuses(new SetSearchField<>(ProjectMemberStatusConstants.ACTIVE, ProjectMemberStatusConstants.NOT_ACCESS_YET));
                 ProjectMemberService prjMemberService = AppContextUtil.getSpringBean(ProjectMemberService.class);
                 int totalMembers = prjMemberService.getTotalCount(searchCriteria);

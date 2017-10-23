@@ -21,7 +21,6 @@ import com.mycollab.common.domain.Tag
 import com.mycollab.core.utils.StringUtils
 import com.mycollab.db.arguments.NumberSearchField
 import com.mycollab.db.arguments.SetSearchField
-import com.mycollab.vaadin.ApplicationEventListener
 import com.mycollab.module.page.domain.Page
 import com.mycollab.module.project.CurrentProjectVariables
 import com.mycollab.module.project.ProjectMemberStatusConstants
@@ -48,6 +47,7 @@ import com.mycollab.module.tracker.domain.Version
 import com.mycollab.module.tracker.domain.criteria.ComponentSearchCriteria
 import com.mycollab.module.tracker.domain.criteria.VersionSearchCriteria
 import com.mycollab.vaadin.AppUI
+import com.mycollab.vaadin.ApplicationEventListener
 import com.mycollab.vaadin.mvp.AbstractController
 import com.mycollab.vaadin.mvp.PresenterResolver
 
@@ -372,11 +372,10 @@ class ProjectController(val projectView: ProjectView) : AbstractController() {
         })
         this.register(object : ApplicationEventListener<ProjectMemberEvent.GotoList> {
             @Subscribe override fun handle(event: ProjectMemberEvent.GotoList) {
-                val project = CurrentProjectVariables.project
                 val criteria = ProjectMemberSearchCriteria()
-                criteria.projectId = NumberSearchField(project!!.id)
+                criteria.projectIds = SetSearchField(event.projectId)
                 criteria.saccountid = NumberSearchField(AppUI.accountId)
-                criteria.statuses = SetSearchField<String>(ProjectMemberStatusConstants.ACTIVE, ProjectMemberStatusConstants.NOT_ACCESS_YET)
+                criteria.statuses = SetSearchField(ProjectMemberStatusConstants.ACTIVE, ProjectMemberStatusConstants.NOT_ACCESS_YET)
                 val presenter = PresenterResolver.getPresenter(UserSettingPresenter::class.java)
                 presenter.go(projectView, ProjectMemberScreenData.Search(criteria))
             }
@@ -441,7 +440,7 @@ class ProjectController(val projectView: ProjectView) : AbstractController() {
             @Subscribe override fun handle(event: PageEvent.GotoAdd) {
                 var pagePath = event.data as? String
                 if ("" == pagePath || pagePath == null) {
-                    pagePath = CurrentProjectVariables.currentPagePath + "/" + StringUtils.generateSoftUniqueId()
+                    pagePath = "${CurrentProjectVariables.currentPagePath}/${StringUtils.generateSoftUniqueId()}"
                 }
                 val page = Page()
                 page.path = pagePath

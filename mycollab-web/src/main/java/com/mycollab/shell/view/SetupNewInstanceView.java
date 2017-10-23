@@ -58,8 +58,7 @@ class SetupNewInstanceView extends MVerticalLayout {
         MHorizontalLayout content = new MHorizontalLayout().withFullHeight();
         this.with(content);
         content.with(new MHorizontalLayout(ELabel.html(UserUIContext.getMessage(ShellI18nEnum.OPT_SUPPORTED_LANGUAGES_INTRO))
-                .withStyleName(WebThemes.META_COLOR)).withMargin(true).withWidth("400px").withStyleName
-                ("separator"));
+                .withStyleName(WebThemes.META_COLOR)).withMargin(true).withWidth("400px").withStyleName("separator"));
         MVerticalLayout formLayout = new MVerticalLayout().withWidth("600px");
         content.with(formLayout).withAlign(formLayout, Alignment.TOP_LEFT);
         formLayout.with(ELabel.h2("Last step, you are almost there!").withWidthUndefined());

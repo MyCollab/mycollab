@@ -39,11 +39,8 @@ object CrmAssetsManager {
             CrmTypeConstants.NOTE to FontAwesome.PENCIL
     )
 
-    @JvmStatic fun getAsset(resId: String): FontAwesome {
-        return resources[resId] ?: throw MyCollabException("Can not find the resource with id $resId")
-    }
+    @JvmStatic fun getAsset(resId: String): FontAwesome =
+            resources[resId] ?: throw MyCollabException("Can not find the resource with id $resId")
 
-    @JvmStatic fun toHexString(resId: String): String {
-        return "&#x" + Integer.toHexString(resources[resId]!!.getCodepoint())
-    }
+    @JvmStatic fun toHexString(resId: String): String = "&#x" + Integer.toHexString(resources[resId]!!.getCodepoint())
 }

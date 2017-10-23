@@ -126,8 +126,8 @@ public class CaseContactListComp extends RelatedListComp2<ContactService, Contac
                     ConfirmDialogExt.show(UI.getCurrent(),
                             UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppUI.getSiteName()),
                             UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-                            UserUIContext.getMessage(GenericI18Enum.BUTTON_YES),
-                            UserUIContext.getMessage(GenericI18Enum.BUTTON_NO),
+                            UserUIContext.getMessage(GenericI18Enum.ACTION_YES),
+                            UserUIContext.getMessage(GenericI18Enum.ACTION_NO),
                             confirmDialog -> {
                                 if (confirmDialog.isConfirmed()) {
                                     final ContactService contactService = AppContextUtil.getSpringBean(ContactService.class);

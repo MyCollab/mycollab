@@ -43,5 +43,8 @@ open class AppEventBus {
 
     companion object {
         private val LOG = LoggerFactory.getLogger(AppEventBus::class.java)
+
+        @JvmStatic
+        fun getInstance(): AsyncEventBus = AppContextUtil.getSpringBean(AsyncEventBus::class.java)
     }
 }

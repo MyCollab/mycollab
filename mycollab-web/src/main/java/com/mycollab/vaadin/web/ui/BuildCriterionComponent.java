@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -253,6 +253,11 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
                 valueField.setValue(String.valueOf(searchFieldInfo.eval()));
                 valueField.setWidth(width);
                 valueBox.addComponent(valueField);
+            } else if (param instanceof BooleanParam) {
+                I18nValueComboBox valueField = new I18nValueComboBox(false, GenericI18Enum.ACTION_YES, GenericI18Enum.ACTION_NO);
+                valueField.setValue(String.valueOf(searchFieldInfo.eval()));
+                valueField.setWidth(width);
+                valueBox.addComponent(valueField);
             } else if (param instanceof DateParam) {
                 String compareItem = (String) compareSelectionBox.getValue();
                 if (DateParam.BETWEEN.equals(compareItem) || DateParam.NOT_BETWEEN.equals(compareItem)) {
@@ -327,6 +332,8 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
                         compareSelectionBox.loadData(Arrays.asList(StringParam.OPTIONS));
                     } else if (field instanceof NumberParam) {
                         compareSelectionBox.loadData(Arrays.asList(NumberParam.OPTIONS));
+                    } else if (field instanceof BooleanParam) {
+                        compareSelectionBox.loadData(BooleanParam.OPTIONS);
                     } else if (field instanceof DateParam) {
                         compareSelectionBox.loadData(DateParam.OPTIONS);
                     } else if (field instanceof PropertyParam) {
@@ -364,6 +371,10 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
                 TextField tempTextField = new TextField();
                 tempTextField.setWidth(width);
                 valueBox.addComponent(tempTextField);
+            } else if (field instanceof BooleanParam) {
+                I18nValueComboBox yesNoBox = new I18nValueComboBox(false, GenericI18Enum.ACTION_YES, GenericI18Enum.ACTION_NO);
+                yesNoBox.setWidth(width);
+                valueBox.addComponent(yesNoBox);
             } else if (field instanceof DateParam) {
                 if (DateParam.BETWEEN.equals(compareItem) || DateParam.NOT_BETWEEN.equals(compareItem)) {
                     PopupDateFieldExt field1 = new PopupDateFieldExt().withWidth(width);

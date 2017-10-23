@@ -37,8 +37,6 @@ class VersionFieldFormatter private constructor() : FieldGroupFormatter() {
     companion object {
         private val _instance = VersionFieldFormatter()
 
-        fun instance(): VersionFieldFormatter {
-            return _instance
-        }
+        fun instance(): VersionFieldFormatter = _instance
     }
 }

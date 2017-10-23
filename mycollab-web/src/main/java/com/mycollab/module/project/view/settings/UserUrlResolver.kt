@@ -18,9 +18,7 @@ package com.mycollab.module.project.view.settings
 
 import com.mycollab.common.UrlTokenizer
 import com.mycollab.core.ResourceNotFoundException
-import com.mycollab.db.arguments.NumberSearchField
 import com.mycollab.db.arguments.SetSearchField
-import com.mycollab.vaadin.EventBusFactory
 import com.mycollab.module.project.ProjectMemberStatusConstants
 import com.mycollab.module.project.domain.criteria.ProjectMemberSearchCriteria
 import com.mycollab.module.project.event.ProjectEvent
@@ -30,6 +28,7 @@ import com.mycollab.module.project.view.parameters.ProjectMemberScreenData
 import com.mycollab.module.project.view.parameters.ProjectScreenData
 import com.mycollab.spring.AppContextUtil
 import com.mycollab.vaadin.AppUI
+import com.mycollab.vaadin.EventBusFactory
 import com.mycollab.vaadin.mvp.PageActionChain
 
 /**
@@ -48,7 +47,7 @@ class UserUrlResolver : ProjectUrlResolver() {
         override fun handlePage(vararg params: String) {
             val projectId = UrlTokenizer(params[0]).getInt()
             val memberSearchCriteria = ProjectMemberSearchCriteria()
-            memberSearchCriteria.projectId = NumberSearchField(projectId)
+            memberSearchCriteria.projectIds = SetSearchField(projectId)
             memberSearchCriteria.statuses = SetSearchField(ProjectMemberStatusConstants.ACTIVE, ProjectMemberStatusConstants.NOT_ACCESS_YET)
             val chain = PageActionChain(ProjectScreenData.Goto(projectId), ProjectMemberScreenData.Search(memberSearchCriteria))
             EventBusFactory.getInstance().post(ProjectEvent.GotoMyProject(this, chain))

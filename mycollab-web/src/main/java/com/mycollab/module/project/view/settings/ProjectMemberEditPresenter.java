@@ -53,12 +53,12 @@ public class ProjectMemberEditPresenter extends AbstractPresenter<ProjectMemberE
             @Override
             public void onSave(final SimpleProjectMember projectMember) {
                 saveProjectMember(projectMember);
-                EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoList(this, null));
+                EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoList(this, projectMember.getProjectid()));
             }
 
             @Override
             public void onCancel() {
-                EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoList(this, null));
+                EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoList(this, CurrentProjectVariables.getProjectId()));
             }
 
             @Override
@@ -89,7 +89,7 @@ public class ProjectMemberEditPresenter extends AbstractPresenter<ProjectMemberE
 
     }
 
-    public void saveProjectMember(ProjectMember projectMember) {
+    private void saveProjectMember(ProjectMember projectMember) {
         ProjectMemberService projectMemberService = AppContextUtil.getSpringBean(ProjectMemberService.class);
 
         if (projectMember.getId() == null) {

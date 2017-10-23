@@ -45,8 +45,8 @@ object SystemUIChecker {
                         UserUIContext.isAdmin() -> ConfirmDialogExt.show(UI.getCurrent(),
                                 UserUIContext.getMessage(ShellI18nEnum.WINDOW_STMP_NOT_SETUP),
                                 UserUIContext.getMessage(ShellI18nEnum.WINDOW_SMTP_CONFIRM_SETUP_FOR_ADMIN),
-                                UserUIContext.getMessage(GenericI18Enum.BUTTON_YES),
-                                UserUIContext.getMessage(GenericI18Enum.BUTTON_NO)
+                                UserUIContext.getMessage(GenericI18Enum.ACTION_YES),
+                                UserUIContext.getMessage(GenericI18Enum.ACTION_NO)
                         ) { confirmDialog ->
                             if (confirmDialog.isConfirmed) {
                                 EventBusFactory.getInstance().post(ShellEvent.GotoUserAccountModule(UI.getCurrent(), arrayOf("setup")))

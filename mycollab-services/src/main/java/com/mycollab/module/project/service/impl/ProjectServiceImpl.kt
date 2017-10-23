@@ -114,7 +114,8 @@ class ProjectServiceImpl(private val projectMapper: ProjectMapper,
                             || it == ProjectRolePermissionCollections.ROLES
                             || it == ProjectRolePermissionCollections.TIME) {
                         permissionMapClient.addPath(it, AccessPermissionFlag.READ_ONLY)
-                    } else if (it == ProjectRolePermissionCollections.FINANCE) {
+                    } else if (it == ProjectRolePermissionCollections.FINANCE ||
+                            it == ProjectRolePermissionCollections.APPROVE_TIMESHEET) {
                         permissionMapClient.addPath(it, BooleanPermissionFlag.TRUE)
                     } else {
                         permissionMapClient.addPath(it, AccessPermissionFlag.READ_ONLY)
@@ -140,6 +141,8 @@ class ProjectServiceImpl(private val projectMapper: ProjectMapper,
                         permissionMapConsultant.addPath(it, AccessPermissionFlag.NO_ACCESS)
                     } else if (it == ProjectRolePermissionCollections.FINANCE) {
                         permissionMapConsultant.addPath(it, BooleanPermissionFlag.FALSE)
+                    } else if (it == ProjectRolePermissionCollections.APPROVE_TIMESHEET) {
+                        permissionMapConsultant.addPath(it, BooleanPermissionFlag.FALSE)
                     } else {
                         permissionMapConsultant.addPath(it, AccessPermissionFlag.ACCESS)
                     }
@@ -156,7 +159,8 @@ class ProjectServiceImpl(private val projectMapper: ProjectMapper,
         (0 until ProjectRolePermissionCollections.PROJECT_PERMISSIONS.size)
                 .map { ProjectRolePermissionCollections.PROJECT_PERMISSIONS[it] }
                 .forEach {
-                    if (it == ProjectRolePermissionCollections.FINANCE) {
+                    if (it == ProjectRolePermissionCollections.FINANCE ||
+                            it == ProjectRolePermissionCollections.APPROVE_TIMESHEET) {
                         permissionMapAdmin.addPath(it, BooleanPermissionFlag.TRUE)
                     } else {
                         permissionMapAdmin.addPath(it, AccessPermissionFlag.ACCESS)
@@ -192,8 +196,8 @@ class ProjectServiceImpl(private val projectMapper: ProjectMapper,
         return projectRole
     }
 
-    override fun findById(projectId: Int, sAccountId: Int): SimpleProject=
-         projectMapperExt.findProjectById(projectId)
+    override fun findById(projectId: Int, sAccountId: Int): SimpleProject =
+            projectMapperExt.findProjectById(projectId)
 
     override fun getProjectKeysUserInvolved(username: String, sAccountId: Int): List<Int> {
         val searchCriteria = ProjectSearchCriteria()
@@ -203,7 +207,7 @@ class ProjectServiceImpl(private val projectMapper: ProjectMapper,
     }
 
     override fun getAccountInfoOfProject(projectId: Int): BillingAccount =
-         projectMapperExt.getAccountInfoOfProject(projectId)
+            projectMapperExt.getAccountInfoOfProject(projectId)
 
     override fun massRemoveWithSession(projects: List<Project>, username: String?, sAccountId: Int) {
         super.massRemoveWithSession(projects, username, sAccountId)
@@ -219,10 +223,10 @@ class ProjectServiceImpl(private val projectMapper: ProjectMapper,
     }
 
     override fun findProjectRelayEmailNotifications(): List<ProjectRelayEmailNotification> =
-         projectMapperExt.findProjectRelayEmailNotifications()
+            projectMapperExt.findProjectRelayEmailNotifications()
 
     override fun getProjectsUserInvolved(username: String, sAccountId: Int): List<SimpleProject> =
-         projectMapperExt.getProjectsUserInvolved(username, sAccountId)
+            projectMapperExt.getProjectsUserInvolved(username, sAccountId)
 
     override fun getTotalActiveProjectsOfInvolvedUsers(username: String, @CacheKey sAccountId: Int?): Int? {
         val criteria = ProjectSearchCriteria()

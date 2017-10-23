@@ -66,8 +66,6 @@ class LeadFieldFormatter private constructor() : FieldGroupFormatter() {
     companion object {
         private val _instance = LeadFieldFormatter()
 
-        fun instance(): LeadFieldFormatter {
-            return _instance
-        }
+        fun instance(): LeadFieldFormatter = _instance
     }
 }

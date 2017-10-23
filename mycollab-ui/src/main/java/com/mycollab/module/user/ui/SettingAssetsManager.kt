@@ -33,7 +33,6 @@ object SettingAssetsManager {
             SettingUIConstants.SETUP to FontAwesome.WRENCH
     )
 
-    @JvmStatic fun getAsset(resId: String): FontAwesome {
-        return resources[resId] ?: throw MyCollabException("Can not find resource $resId")
-    }
+    @JvmStatic fun getAsset(resId: String): FontAwesome =
+            resources[resId] ?: throw MyCollabException("Can not find resource $resId")
 }

@@ -174,8 +174,8 @@ public class DesktopApplication extends AppUI {
                 ConfirmDialogExt.show(UI.getCurrent(),
                         UserUIContext.getMessage(GenericI18Enum.WINDOW_ATTENTION_TITLE, AppUI.getSiteName()),
                         UserUIContext.getMessage(GenericI18Enum.EXCEED_BILLING_PLAN_MSG_FOR_ADMIN),
-                        UserUIContext.getMessage(GenericI18Enum.BUTTON_YES),
-                        UserUIContext.getMessage(GenericI18Enum.BUTTON_NO),
+                        UserUIContext.getMessage(GenericI18Enum.ACTION_YES),
+                        UserUIContext.getMessage(GenericI18Enum.ACTION_NO),
                         confirmDialog -> {
                             if (confirmDialog.isConfirmed()) {
                                 Collection<Window> windowsList = UI.getCurrent().getWindows();
@@ -225,8 +225,8 @@ public class DesktopApplication extends AppUI {
                 ConfirmDialog dialog = ConfirmDialogExt.show(DesktopApplication.this,
                         UserUIContext.getMessage(GenericI18Enum.WINDOW_ERROR_TITLE, AppUI.getSiteName()),
                         UserUIContext.getMessage(GenericI18Enum.ERROR_USER_SYSTEM_ERROR, ex.getMessage()),
-                        UserUIContext.getMessage(GenericI18Enum.BUTTON_YES),
-                        UserUIContext.getMessage(GenericI18Enum.BUTTON_NO),
+                        UserUIContext.getMessage(GenericI18Enum.ACTION_YES),
+                        UserUIContext.getMessage(GenericI18Enum.ACTION_NO),
                         confirmDialog -> {
                         });
                 Button okBtn = dialog.getOkButton();
@@ -241,8 +241,8 @@ public class DesktopApplication extends AppUI {
             ConfirmDialog dialog = ConfirmDialogExt.show(DesktopApplication.this,
                     UserUIContext.getMessage(GenericI18Enum.WINDOW_ERROR_TITLE, AppUI.getSiteName()),
                     UserUIContext.getMessage(ErrorI18nEnum.WEBSOCKET_NOT_SUPPORT),
-                    UserUIContext.getMessage(GenericI18Enum.BUTTON_YES),
-                    UserUIContext.getMessage(GenericI18Enum.BUTTON_NO),
+                    UserUIContext.getMessage(GenericI18Enum.ACTION_YES),
+                    UserUIContext.getMessage(GenericI18Enum.ACTION_NO),
                     confirmDialog -> {
                     });
             Button okBtn = dialog.getOkButton();
@@ -264,8 +264,8 @@ public class DesktopApplication extends AppUI {
         ConfirmDialog dialog = ConfirmDialogExt.show(DesktopApplication.this,
                 UserUIContext.getMessage(GenericI18Enum.WINDOW_ERROR_TITLE, AppUI.getSiteName()),
                 UserUIContext.getMessage(GenericI18Enum.ERROR_USER_NOTICE_INFORMATION_MESSAGE),
-                UserUIContext.getMessage(GenericI18Enum.BUTTON_YES),
-                UserUIContext.getMessage(GenericI18Enum.BUTTON_NO),
+                UserUIContext.getMessage(GenericI18Enum.ACTION_YES),
+                UserUIContext.getMessage(GenericI18Enum.ACTION_NO),
                 confirmDialog -> {
                 });
         Button okBtn = dialog.getOkButton();

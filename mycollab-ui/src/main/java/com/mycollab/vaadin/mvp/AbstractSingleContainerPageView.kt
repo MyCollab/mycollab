@@ -35,9 +35,7 @@ open class AbstractSingleContainerPageView : CustomComponent(), PageView, Single
         setSizeFull()
     }
 
-    override fun getContent(): Component {
-        return contentLayout.getComponent(0)
-    }
+    override fun getContent(): Component = contentLayout.getComponent(0)
 
     override fun setContent(component: Component) {
         contentLayout.removeAllComponents()

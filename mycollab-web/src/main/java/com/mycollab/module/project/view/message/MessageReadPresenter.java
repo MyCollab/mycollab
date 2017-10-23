@@ -16,8 +16,11 @@
  */
 package com.mycollab.module.project.view.message;
 
+import com.mycollab.common.ModuleNameConstants;
 import com.mycollab.core.MyCollabException;
 import com.mycollab.core.SecureAccessException;
+import com.mycollab.module.project.event.UpdateNotificationItemReadStatusEvent;
+import com.mycollab.spring.AppEventBus;
 import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectRolePermissionCollections;
@@ -29,6 +32,7 @@ import com.mycollab.module.project.view.ProjectBreadcrumb;
 import com.mycollab.module.project.view.ProjectGenericPresenter;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.event.DefaultPreviewFormHandler;
 import com.mycollab.vaadin.mvp.LoadPolicy;
 import com.mycollab.vaadin.mvp.ScreenData;
@@ -69,10 +73,15 @@ public class MessageReadPresenter extends ProjectGenericPresenter<MessageReadVie
             if (data.getParams() instanceof Integer) {
                 MessageService messageService = AppContextUtil.getSpringBean(MessageService.class);
                 SimpleMessage message = messageService.findById((Integer) data.getParams(), AppUI.getAccountId());
-                view.previewItem(message);
+                if (message != null) {
+                    view.previewItem(message);
 
-                ProjectBreadcrumb breadCrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);
-                breadCrumb.gotoMessage(message);
+                    ProjectBreadcrumb breadCrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);
+                    breadCrumb.gotoMessage(message);
+
+                    AppEventBus.getInstance().post(new UpdateNotificationItemReadStatusEvent(UserUIContext.getUsername(),
+                            ModuleNameConstants.PRJ, ProjectTypeConstants.MESSAGE, message.getId().toString()));
+                }
             } else {
                 throw new MyCollabException("Unhanddle this case yet");
             }

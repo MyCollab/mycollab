@@ -53,8 +53,6 @@ class RiskFieldFormatter : FieldGroupFormatter() {
     companion object {
         private val _instance = RiskFieldFormatter()
 
-        fun instance(): RiskFieldFormatter {
-            return _instance
-        }
+        fun instance(): RiskFieldFormatter = _instance
     }
 }

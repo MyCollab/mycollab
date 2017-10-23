@@ -38,8 +38,6 @@ class CallFieldFormatter private constructor() : FieldGroupFormatter() {
     companion object {
         private val _instance = CallFieldFormatter()
 
-        fun instance(): CallFieldFormatter {
-            return _instance
-        }
+        fun instance(): CallFieldFormatter = _instance
     }
 }

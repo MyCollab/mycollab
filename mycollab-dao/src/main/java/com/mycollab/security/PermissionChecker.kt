@@ -58,7 +58,7 @@ object PermissionChecker {
                 AccessPermissionFlag.ACCESS -> AccessPermissionFlag.canAccess(flag)
                 else -> true
             }
-            else -> throw MyCollabException("Do not support permission category except boolean and access permission, the check permission is " + flag)
+            else -> throw MyCollabException("Do not support permission category except boolean and access permission, the check permission is $flag")
         }
     }
 }

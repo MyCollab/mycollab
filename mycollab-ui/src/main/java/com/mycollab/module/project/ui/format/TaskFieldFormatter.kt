@@ -79,8 +79,6 @@ class TaskFieldFormatter private constructor() : FieldGroupFormatter() {
         private val LOG = LoggerFactory.getLogger(TaskFieldFormatter::class.java)
         private val _instance = TaskFieldFormatter()
 
-        fun instance(): TaskFieldFormatter {
-            return _instance
-        }
+        fun instance(): TaskFieldFormatter = _instance
     }
 }

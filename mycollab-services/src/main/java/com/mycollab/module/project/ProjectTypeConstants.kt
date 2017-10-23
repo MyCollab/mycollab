@@ -37,6 +37,8 @@ object ProjectTypeConstants {
 
     @JvmField val BUG = "Project-Bug"
 
+    @JvmField val SPIKE = "Project-Spike"
+
     @JvmField val BUG_COMPONENT = "Project-Component"
 
     @JvmField val BUG_VERSION = "Project-Version"

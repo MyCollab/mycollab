@@ -119,8 +119,8 @@ public class MobileApplication extends AppUI {
                         if (UserUIContext.isAdmin()) {
                             ConfirmDialog.show(UI.getCurrent(),
                                     UserUIContext.getMessage(GenericI18Enum.EXCEED_BILLING_PLAN_MSG_FOR_ADMIN),
-                                    UserUIContext.getMessage(GenericI18Enum.BUTTON_YES),
-                                    UserUIContext.getMessage(GenericI18Enum.BUTTON_NO),
+                                    UserUIContext.getMessage(GenericI18Enum.ACTION_YES),
+                                    UserUIContext.getMessage(GenericI18Enum.ACTION_NO),
                                     dialog -> {
                                         if (dialog.isConfirmed()) {
                                             Collection<Window> windows = UI.getCurrent().getWindows();

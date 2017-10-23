@@ -37,8 +37,6 @@ class MeetingFieldFormatter private constructor() : FieldGroupFormatter() {
     companion object {
         private val _instance = MeetingFieldFormatter()
 
-        fun instance(): MeetingFieldFormatter {
-            return _instance
-        }
+        fun instance(): MeetingFieldFormatter = _instance
     }
 }

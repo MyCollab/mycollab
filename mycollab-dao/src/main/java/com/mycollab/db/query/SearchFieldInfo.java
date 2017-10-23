@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -140,6 +140,9 @@ public class SearchFieldInfo<S extends SearchCriteria> implements Serializable {
                 default:
                     throw new MyCollabException("Not support yet");
             }
+        } else if (param instanceof BooleanParam) {
+            BooleanParam wrapParam = (BooleanParam) param;
+            return wrapParam.buildSearchField(prefixOper, compareOper, (String) this.eval());
         } else if (param instanceof NumberParam) {
             NumberParam wrapParam = (NumberParam) param;
             String value = (String) this.eval();

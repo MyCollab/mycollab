@@ -144,7 +144,7 @@ class ResolvedInputView extends AbstractMobilePageView {
                     return BugResolutionListSelect.getInstanceForResolvedBugWindow();
                 } else if (BugWithBLOBs.Field.assignuser.equalTo(propertyId)) {
                     bug.setAssignuser(bug.getCreateduser());
-                    return new ProjectMemberListSelect();
+                    return new ProjectMemberListSelect(bean.getProjectid());
                 } else if (propertyId.equals("comment")) {
                     commentArea = new TextArea();
                     commentArea.setNullRepresentation("");

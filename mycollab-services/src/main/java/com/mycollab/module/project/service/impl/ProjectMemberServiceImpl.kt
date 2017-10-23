@@ -118,7 +118,7 @@ class ProjectMemberServiceImpl(private val projectMemberMapper: ProjectMemberMap
 
     override fun isUserBelongToProject(username: String, projectId: Int, sAccountId: Int): Boolean {
         val criteria = ProjectMemberSearchCriteria()
-        criteria.projectId = NumberSearchField(projectId)
+        criteria.projectIds = SetSearchField(projectId)
         criteria.saccountid = NumberSearchField(sAccountId)
         criteria.involvedMember = StringSearchField.and(username)
         criteria.statuses = SetSearchField(ProjectMemberStatusConstants.ACTIVE,

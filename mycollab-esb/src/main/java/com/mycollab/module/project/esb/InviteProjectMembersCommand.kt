@@ -73,12 +73,12 @@ class InviteProjectMembersCommand(private val userService: UserService,
             contentGenerator.putVariable("password", "")
             contentGenerator.putVariable("logoPath", LinkUtils.accountLogoPath(billingAccount.id, billingAccount.logopath))
 
-            event.emails.forEach { inviteeEmail ->
-                val invitee = userService.findUserInAccount(inviteeEmail, event.sAccountId)
-                contentGenerator.putVariable("inviteeEmail", inviteeEmail)
+            event.emails.forEach {
+                val invitee = userService.findUserInAccount(it, event.sAccountId)
+                contentGenerator.putVariable("inviteeEmail", it)
                 if (invitee != null) {
                     if (RegisterStatusConstants.ACTIVE != invitee.registerstatus) {
-                        userService.updateUserAccountStatus(inviteeEmail, event.sAccountId, RegisterStatusConstants.ACTIVE)
+                        userService.updateUserAccountStatus(it, event.sAccountId, RegisterStatusConstants.ACTIVE)
                     }
                 } else {
                     val systemGuestRoleId = roleService.getDefaultRoleId(event.sAccountId)
@@ -87,13 +87,13 @@ class InviteProjectMembersCommand(private val userService: UserService,
                     }
 
                     val newUser = User()
-                    newUser.email = inviteeEmail
+                    newUser.email = it
                     val password = RandomPasswordGenerator.generateRandomPassword()
                     contentGenerator.putVariable("password", password)
                     newUser.password = password
                     userService.saveUserAccount(newUser, systemGuestRoleId, billingAccount.subdomain, event.sAccountId, event.inviteUser, false)
                 }
-                val projectMember = projectMemberService.findMemberByUsername(inviteeEmail, event.projectId, event.sAccountId)
+                val projectMember = projectMemberService.findMemberByUsername(it, event.projectId, event.sAccountId)
                 if (projectMember != null) {
                     if (ProjectMemberStatusConstants.ACTIVE != projectMember.status) {
                         projectMember.status = ProjectMemberStatusConstants.NOT_ACCESS_YET
@@ -111,7 +111,7 @@ class InviteProjectMembersCommand(private val userService: UserService,
                 } else {
                     val member = ProjectMember()
                     member.projectid = event.projectId
-                    member.username = inviteeEmail
+                    member.username = it
                     member.joindate = Date()
                     member.saccountid = event.sAccountId
                     member.billingrate = project.defaultbillingrate
@@ -133,7 +133,7 @@ class InviteProjectMembersCommand(private val userService: UserService,
                 val subject = LocalizationHelper.getMessage(Locale.US, ProjectMemberI18nEnum.MAIL_INVITE_USERS_SUBJECT,
                         project.name, SiteConfiguration.getDefaultSiteName())
                 val content = contentGenerator.parseFile("mailMemberInvitationNotifier.ftl", Locale.US)
-                val toUser = listOf(MailRecipientField(inviteeEmail, inviteeEmail))
+                val toUser = listOf(MailRecipientField(it, it))
                 extMailService.sendHTMLMail(SiteConfiguration.getNotifyEmail(), SiteConfiguration.getDefaultSiteName(), toUser, subject, content)
             }
         } else {

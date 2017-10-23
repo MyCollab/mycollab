@@ -16,8 +16,11 @@
  */
 package com.mycollab.module.project.view.settings;
 
+import com.mycollab.common.ModuleNameConstants;
 import com.mycollab.core.MyCollabException;
 import com.mycollab.db.arguments.NumberSearchField;
+import com.mycollab.module.project.event.UpdateNotificationItemReadStatusEvent;
+import com.mycollab.spring.AppEventBus;
 import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectRolePermissionCollections;
@@ -136,6 +139,9 @@ public class VersionReadPresenter extends AbstractPresenter<VersionReadView> {
 
                     ProjectBreadcrumb breadcrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);
                     breadcrumb.gotoVersionRead(version);
+
+                    AppEventBus.getInstance().post(new UpdateNotificationItemReadStatusEvent(UserUIContext.getUsername(),
+                            ModuleNameConstants.PRJ, ProjectTypeConstants.BUG_VERSION, version.getId().toString()));
                 } else {
                     NotificationUtil.showRecordNotExistNotification();
                 }

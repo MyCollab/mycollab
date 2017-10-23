@@ -19,7 +19,6 @@ package com.mycollab.security
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.mycollab.core.arguments.ValuedBean
 import com.mycollab.core.utils.JsonDeSerializer
-import java.util.*
 
 /**
  * Map contains all permissions in MyCollab, it is used to all permissions if
@@ -31,7 +30,7 @@ import java.util.*
 class PermissionMap : ValuedBean() {
 
     @JsonProperty("perMap")
-    private val perMap = HashMap<String, Int>()
+    private val perMap = mutableMapOf<String, Int>()
 
     /**
      * @param permissionItem
@@ -54,9 +53,7 @@ class PermissionMap : ValuedBean() {
      * @param permissionItem
      * @return
      */
-    operator fun get(permissionItem: String): Int? {
-        return perMap[permissionItem]
-    }
+    operator fun get(permissionItem: String): Int? = perMap[permissionItem]
 
     /**
      * @param permissionItem
@@ -106,9 +103,7 @@ class PermissionMap : ValuedBean() {
     /**
      * @return
      */
-    fun toJsonString(): String {
-        return JsonDeSerializer.toJson(this)
-    }
+    fun toJsonString(): String = JsonDeSerializer.toJson(this)
 
     companion object {
         private val serialVersionUID = 1L
@@ -117,14 +112,14 @@ class PermissionMap : ValuedBean() {
          * @param json
          * @return
          */
-        @JvmStatic fun fromJsonString(json: String): PermissionMap {
-            return JsonDeSerializer.fromJson(json, PermissionMap::class.java)
-        }
+        @JvmStatic
+        fun fromJsonString(json: String): PermissionMap = JsonDeSerializer.fromJson(json, PermissionMap::class.java)
 
         /**
          * @return
          */
-        @JvmStatic fun buildAdminPermissionCollection(): PermissionMap {
+        @JvmStatic
+        fun buildAdminPermissionCollection(): PermissionMap {
             val permissionMap = PermissionMap()
             RolePermissionCollections.CRM_PERMISSIONS_ARR.forEach { (key) -> permissionMap.addPath(key, AccessPermissionFlag.ACCESS) }
 
@@ -144,7 +139,8 @@ class PermissionMap : ValuedBean() {
         /**
          * @return
          */
-        @JvmStatic fun buildEmployeePermissionCollection(): PermissionMap {
+        @JvmStatic
+        fun buildEmployeePermissionCollection(): PermissionMap {
             val permissionMap = PermissionMap()
             RolePermissionCollections.CRM_PERMISSIONS_ARR.forEach { permissionMap.addPath(it.key, AccessPermissionFlag.READ_ONLY) }
 
@@ -169,7 +165,8 @@ class PermissionMap : ValuedBean() {
         /**
          * @return
          */
-        @JvmStatic fun buildGuestPermissionCollection(): PermissionMap {
+        @JvmStatic
+        fun buildGuestPermissionCollection(): PermissionMap {
             val permissionMap = PermissionMap()
             RolePermissionCollections.CRM_PERMISSIONS_ARR.forEach { element -> permissionMap.addPath(element.key, AccessPermissionFlag.NO_ACCESS) }
 

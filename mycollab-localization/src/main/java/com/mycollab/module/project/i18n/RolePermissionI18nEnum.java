@@ -38,5 +38,6 @@ public enum RolePermissionI18nEnum {
     Invoice,
     User,
     Role,
-    Project
+    Project,
+    Approve_Timesheet
 }

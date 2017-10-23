@@ -16,13 +16,11 @@
  */
 package com.mycollab.vaadin.ui.formatter
 
+import com.hp.gagawa.java.elements.Span
 import com.mycollab.common.i18n.GenericI18Enum
 import com.mycollab.core.utils.DateTimeUtils
 import com.mycollab.core.utils.StringUtils
 import com.mycollab.vaadin.UserUIContext
-import com.hp.gagawa.java.elements.Span
-
-import java.util.Date
 
 /**
  * @author MyCollab Ltd
@@ -31,20 +29,19 @@ import java.util.Date
 class PrettyDateTimeHistoryFieldFormat : HistoryFieldFormat {
 
     override fun toString(value: String): String =
-         toString(value, true, UserUIContext.getMessage(GenericI18Enum.FORM_EMPTY))
+            toString(value, true, UserUIContext.getMessage(GenericI18Enum.FORM_EMPTY))
 
-    override fun toString(value: String, displayAsHtml: Boolean, msgIfBlank: String): String {
-        if (StringUtils.isNotBlank(value)) {
-            val formatDate = DateTimeUtils.parseDateByW3C(value)
-            if (displayAsHtml) {
-                val lbl = Span().appendText(UserUIContext.formatPrettyTime(formatDate))
-                lbl.title = UserUIContext.formatDateTime(formatDate)
-                return lbl.write()
+    override fun toString(value: String, displayAsHtml: Boolean, msgIfBlank: String): String =
+            if (StringUtils.isNotBlank(value)) {
+                val formatDate = DateTimeUtils.parseDateByW3C(value)
+                if (displayAsHtml) {
+                    val lbl = Span().appendText(UserUIContext.formatPrettyTime(formatDate))
+                    lbl.title = UserUIContext.formatDateTime(formatDate)
+                    lbl.write()
+                } else {
+                    UserUIContext.formatDateTime(formatDate)
+                }
             } else {
-                return UserUIContext.formatDateTime(formatDate)
+                msgIfBlank
             }
-        } else {
-            return msgIfBlank
-        }
-    }
 }

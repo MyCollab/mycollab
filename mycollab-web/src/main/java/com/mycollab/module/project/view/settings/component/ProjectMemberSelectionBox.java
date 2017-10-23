@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -18,7 +18,6 @@ package com.mycollab.module.project.view.settings.component;
 
 import com.mycollab.core.utils.StringUtils;
 import com.mycollab.db.arguments.BasicSearchRequest;
-import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.db.arguments.SearchCriteria;
 import com.mycollab.db.arguments.SetSearchField;
 import com.mycollab.module.project.CurrentProjectVariables;
@@ -45,7 +44,7 @@ public class ProjectMemberSelectionBox extends ComboBox {
         this.setNullSelectionAllowed(isNullAllowable);
 
         ProjectMemberSearchCriteria criteria = new ProjectMemberSearchCriteria();
-        criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
+        criteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
         criteria.setStatuses(new SetSearchField<>(ProjectMemberStatusConstants.ACTIVE));
         criteria.addOrderField(new SearchCriteria.OrderField("memberFullName", SearchCriteria.ASC));
 

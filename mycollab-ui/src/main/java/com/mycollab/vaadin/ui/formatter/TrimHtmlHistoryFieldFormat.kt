@@ -32,7 +32,7 @@ class TrimHtmlHistoryFieldFormat : HistoryFieldFormat {
             when {
                 StringUtils.isNotBlank(value) -> {
                     val content = StringUtils.trimHtmlTags(value)
-                    if (content.length > 150) content.substring(0, 150) + "..." else content
+                    if (content.length > 150) "${content.substring(0, 150)} ..." else content
                 }
                 else -> msgIfBlank
             }

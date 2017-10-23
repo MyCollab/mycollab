@@ -37,7 +37,7 @@ object ProjectLinkParams {
         val index = param.indexOf("-")
         return when {
             index > 0 -> param.substring(0, index)
-            else -> throw MyCollabException("Invalid param " + param)
+            else -> throw MyCollabException("Invalid param $param")
         }
     }
 
@@ -46,7 +46,7 @@ object ProjectLinkParams {
         return if (index > 0) {
             Integer.parseInt(param.substring(index + 1))
         } else {
-            throw MyCollabException("Invalid param " + param)
+            throw MyCollabException("Invalid param $param")
         }
     }
 }

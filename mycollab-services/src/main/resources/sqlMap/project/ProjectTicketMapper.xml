@@ -520,6 +520,7 @@
           #trimext("WHERE" "AND|OR")
             <include refid="queryTaskSearchCriteria" />
           #end
+          AND mainTbl.parentTaskId IS NULL
         #end
         )
         UNION

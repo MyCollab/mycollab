@@ -41,8 +41,6 @@ class ComponentFieldFormatter private constructor() : FieldGroupFormatter() {
     companion object {
         private val _instance = ComponentFieldFormatter()
 
-        fun instance(): ComponentFieldFormatter {
-            return _instance
-        }
+        fun instance(): ComponentFieldFormatter = _instance
     }
 }

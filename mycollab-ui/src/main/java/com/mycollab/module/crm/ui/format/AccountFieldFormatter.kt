@@ -62,8 +62,6 @@ class AccountFieldFormatter private constructor() : FieldGroupFormatter() {
     companion object {
         private val _instance = AccountFieldFormatter()
 
-        fun instance(): AccountFieldFormatter {
-            return _instance
-        }
+        fun instance(): AccountFieldFormatter = _instance
     }
 }

@@ -28,7 +28,7 @@ import org.springframework.scheduling.quartz.SpringBeanJobFactory
  * @see http://stackoverflow.com/questions/6990767/inject-bean-reference-into-a-quartz-job-in-spring/15211030.15211030
  */
 class AutowiringSpringBeanJobFactory : SpringBeanJobFactory(), ApplicationContextAware {
-    @Transient private var beanFactory: AutowireCapableBeanFactory? = null
+    @Transient private lateinit var beanFactory: AutowireCapableBeanFactory
 
     override fun setApplicationContext(context: ApplicationContext) {
         beanFactory = context.autowireCapableBeanFactory
@@ -37,7 +37,7 @@ class AutowiringSpringBeanJobFactory : SpringBeanJobFactory(), ApplicationContex
     @Throws(Exception::class)
     override fun createJobInstance(bundle: TriggerFiredBundle): Any {
         val job = super.createJobInstance(bundle)
-        beanFactory!!.autowireBean(job)
+        beanFactory.autowireBean(job)
         return job
     }
 }

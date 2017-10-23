@@ -43,5 +43,4 @@ public class ProjectActivityStreamPresenter extends ProjectListPresenter<Project
             NotificationUtil.showMessagePermissionAlert();
         }
     }
-
 }

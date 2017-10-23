@@ -66,8 +66,6 @@ class ContactFieldFormatter private constructor() : FieldGroupFormatter() {
     companion object {
         private val _instance = ContactFieldFormatter()
 
-        fun instance(): ContactFieldFormatter {
-            return _instance
-        }
+        fun instance(): ContactFieldFormatter = _instance
     }
 }

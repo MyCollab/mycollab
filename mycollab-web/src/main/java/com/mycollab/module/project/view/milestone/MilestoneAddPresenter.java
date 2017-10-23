@@ -136,8 +136,8 @@ public class MilestoneAddPresenter extends AbstractPresenter<MilestoneAddView> {
                 ConfirmDialogExt.show(UI.getCurrent(),
                         UserUIContext.getMessage(GenericI18Enum.OPT_QUESTION, AppUI.getSiteName()),
                         UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_CLOSE_SUB_ASSIGNMENTS),
-                        UserUIContext.getMessage(GenericI18Enum.BUTTON_YES),
-                        UserUIContext.getMessage(GenericI18Enum.BUTTON_NO),
+                        UserUIContext.getMessage(GenericI18Enum.ACTION_YES),
+                        UserUIContext.getMessage(GenericI18Enum.ACTION_NO),
                         confirmDialog -> {
                             if (confirmDialog.isConfirmed()) {
                                 genericTaskService.closeSubAssignmentOfMilestone(milestone.getId());

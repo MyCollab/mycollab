@@ -112,7 +112,7 @@ public class TaskPreviewForm extends AdvancedPreviewBeanForm<SimpleTask> {
                 }
             } else if (Task.Field.isestimated.equalTo(propertyId)) {
                 return new DefaultViewField(Boolean.TRUE.equals(beanItem.getIsestimated()) ?
-                        UserUIContext.getMessage(GenericI18Enum.BUTTON_YES) : UserUIContext.getMessage(GenericI18Enum.BUTTON_NO));
+                        UserUIContext.getMessage(GenericI18Enum.ACTION_YES) : UserUIContext.getMessage(GenericI18Enum.ACTION_NO));
             } else if (Task.Field.duration.equalTo(propertyId)) {
                 if (beanItem.getDuration() != null) {
                     HumanTime humanTime = new HumanTime(beanItem.getDuration());

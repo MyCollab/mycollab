@@ -16,12 +16,15 @@
  */
 package com.mycollab.module.project.view.bug;
 
+import com.mycollab.common.ModuleNameConstants;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.i18n.QueryI18nEnum.NumberI18nEnum;
 import com.mycollab.core.ResourceNotFoundException;
 import com.mycollab.core.SecureAccessException;
 import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.db.arguments.SearchField;
+import com.mycollab.module.project.event.UpdateNotificationItemReadStatusEvent;
+import com.mycollab.spring.AppEventBus;
 import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectRolePermissionCollections;
@@ -79,8 +82,8 @@ public class BugReadPresenter extends ProjectGenericPresenter<BugReadView> {
                 ConfirmDialogExt.show(UI.getCurrent(),
                         UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppUI.getSiteName()),
                         UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-                        UserUIContext.getMessage(GenericI18Enum.BUTTON_YES),
-                        UserUIContext.getMessage(GenericI18Enum.BUTTON_NO),
+                        UserUIContext.getMessage(GenericI18Enum.ACTION_YES),
+                        UserUIContext.getMessage(GenericI18Enum.ACTION_NO),
                         confirmDialog -> {
                             if (confirmDialog.isConfirmed()) {
                                 BugService bugService = AppContextUtil.getSpringBean(BugService.class);
@@ -157,6 +160,9 @@ public class BugReadPresenter extends ProjectGenericPresenter<BugReadView> {
 
                     ProjectBreadcrumb breadcrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);
                     breadcrumb.gotoBugRead(bug);
+
+                    AppEventBus.getInstance().post(new UpdateNotificationItemReadStatusEvent(UserUIContext.getUsername(),
+                            ModuleNameConstants.PRJ, ProjectTypeConstants.BUG, bug.getId().toString()));
                 } else {
                     throw new ResourceNotFoundException();
                 }

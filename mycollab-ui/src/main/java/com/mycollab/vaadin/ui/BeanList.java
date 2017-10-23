@@ -75,7 +75,7 @@ public class BeanList<SearchService extends ISearchableService<S>, S extends Sea
         return setSearchRequest(searchRequest);
     }
 
-    public int setSearchRequest(BasicSearchRequest<S> searchRequest) {
+    private int setSearchRequest(BasicSearchRequest<S> searchRequest) {
         List currentListData = searchService.findPageableListByCriteria(searchRequest);
         loadItems(currentListData);
         return currentListData.size();

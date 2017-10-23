@@ -60,12 +60,10 @@ public abstract class AbstractPagedBeanTable<S extends SearchCriteria, B> extend
     private Collection<B> currentListData;
     protected BasicSearchRequest<S> searchRequest;
 
-    private MHorizontalLayout pageManagement;
-
     private boolean isAscending = true;
     private Object sortColumnId;
 
-    protected int currentPage = 1;
+    private int currentPage = 1;
     private int totalPage = 1;
     private int currentViewCount;
     protected int totalCount;
@@ -228,7 +226,7 @@ public abstract class AbstractPagedBeanTable<S extends SearchCriteria, B> extend
         doSearch();
     }
 
-    protected void pageChange(final int currentPage) {
+    private void pageChange(final int currentPage) {
         if (searchRequest != null) {
             this.currentPage = currentPage;
             searchRequest.setCurrentPage(currentPage);
@@ -251,7 +249,7 @@ public abstract class AbstractPagedBeanTable<S extends SearchCriteria, B> extend
         controlBarWrapper.setWidth("100%");
         controlBarWrapper.setStyleName("listControl");
 
-        pageManagement = new MHorizontalLayout();
+        MHorizontalLayout pageManagement = new MHorizontalLayout();
 
         // defined layout here ---------------------------
 

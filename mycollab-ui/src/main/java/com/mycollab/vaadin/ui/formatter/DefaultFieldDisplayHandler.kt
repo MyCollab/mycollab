@@ -16,9 +16,9 @@
  */
 package com.mycollab.vaadin.ui.formatter
 
+import com.hp.gagawa.java.elements.Li
 import com.mycollab.common.domain.AuditChangeItem
 import com.mycollab.vaadin.UserUIContext
-import com.hp.gagawa.java.elements.Li
 
 /**
  * @author MyCollab Ltd
@@ -26,11 +26,6 @@ import com.hp.gagawa.java.elements.Li
  */
 class DefaultFieldDisplayHandler @JvmOverloads constructor(val displayName: Enum<*>, val format: HistoryFieldFormat = DefaultHistoryFieldFormat()) {
 
-    fun generateLogItem(item: AuditChangeItem): String {
-        val li = Li().appendText(UserUIContext.getMessage(displayName) + ": ")
-                .appendText(format.toString(item.oldvalue))
-                .appendText("&nbsp; &rarr; &nbsp; ")
-                .appendText(format.toString(item.newvalue))
-        return li.write()
-    }
+    fun generateLogItem(item: AuditChangeItem): String =
+            Li().appendText("${UserUIContext.getMessage(displayName)}:${format.toString(item.oldvalue)} &nbsp; &rarr; &nbsp; ${format.toString(item.newvalue)}").write()
 }

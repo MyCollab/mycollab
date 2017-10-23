@@ -87,7 +87,7 @@ public class ProjectMemberInvitePresenter extends AbstractPresenter<ProjectMembe
                         NotificationUtil.showNotification(UserUIContext.getMessage(ProjectMemberI18nEnum.OPT_INVITATION_SENT_SUCCESSFULLY),
                                 UserUIContext.getMessage(GenericI18Enum.HELP_SPAM_FILTER_PREVENT_MESSAGE),
                                 Notification.Type.HUMANIZED_MESSAGE);
-                        EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoList(this, null));
+                        EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoList(this, CurrentProjectVariables.getProjectId()));
                     } else {
                         UI.getCurrent().addWindow(new CanSendEmailInstructionWindow(inviteMembers));
                     }
@@ -151,7 +151,7 @@ public class ProjectMemberInvitePresenter extends AbstractPresenter<ProjectMembe
             }).withStyleName(WebThemes.BUTTON_ACTION);
 
             MButton doneBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.ACTION_DONE), clickEvent -> {
-                EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoList(this, null));
+                EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoList(this, CurrentProjectVariables.getProjectId()));
                 close();
             }).withStyleName(WebThemes.BUTTON_ACTION);
 

@@ -107,6 +107,6 @@ public class LocalizationHelper {
     }
 
     public static Enum localizeYesNo(Boolean value) {
-        return Boolean.TRUE.equals(value) ? GenericI18Enum.BUTTON_YES : GenericI18Enum.BUTTON_NO;
+        return Boolean.TRUE.equals(value) ? GenericI18Enum.ACTION_YES : GenericI18Enum.ACTION_NO;
     }
 }

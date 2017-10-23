@@ -43,68 +43,50 @@ object MyCollabSession {
 
     @JvmField val VIEW_MANAGER_VAL = "viewMap"
 
-    @JvmStatic fun putSessionVariable(key: String, value: Any) {
-        try {
-            VaadinSession.getCurrent().setAttribute(key, value)
-        } catch (e: Exception) {
-            throw SessionExpireException("Expire Exception")
-        }
-
+    @JvmStatic fun putSessionVariable(key: String, value: Any) = try {
+        VaadinSession.getCurrent().setAttribute(key, value)
+    } catch (e: Exception) {
+        throw SessionExpireException("Expire Exception")
     }
 
-    @JvmStatic fun getSessionVariable(key: String): Any? {
-        try {
-            return VaadinSession.getCurrent().getAttribute(key)
-        } catch (e: Exception) {
-            throw SessionExpireException("Expire Exception")
-        }
-
+    @JvmStatic fun getSessionVariable(key: String): Any? = try {
+        VaadinSession.getCurrent().getAttribute(key)
+    } catch (e: Exception) {
+        throw SessionExpireException("Expire Exception")
     }
 
-    @JvmStatic fun removeSessionVariable(key: String) {
-        try {
-            VaadinSession.getCurrent().setAttribute(key, null)
-        } catch (e: Exception) {
-            throw SessionExpireException("Expire Exception")
-        }
-
+    @JvmStatic fun removeSessionVariable(key: String) = try {
+        VaadinSession.getCurrent().setAttribute(key, null)
+    } catch (e: Exception) {
+        throw SessionExpireException("Expire Exception")
     }
 
     /**
      * @param key
      * @param value
      */
-    @JvmStatic fun putCurrentUIVariable(key: String, value: Any?) {
-        try {
-            (UI.getCurrent() as AppUI).setAttribute(key, value)
-        } catch (e: Exception) {
-            throw SessionExpireException("Expire Exception")
-        }
-
+    @JvmStatic fun putCurrentUIVariable(key: String, value: Any?) = try {
+        (UI.getCurrent() as AppUI).setAttribute(key, value)
+    } catch (e: Exception) {
+        throw SessionExpireException("Expire Exception")
     }
 
     /**
      * @param key
      */
-    @JvmStatic fun removeCurrentUIVariable(key: String) {
-        try {
-            (UI.getCurrent() as AppUI).setAttribute(key, null)
-        } catch (e: Exception) {
-            throw SessionExpireException("Expire Exception")
-        }
-
+    @JvmStatic fun removeCurrentUIVariable(key: String) = try {
+        (UI.getCurrent() as AppUI).setAttribute(key, null)
+    } catch (e: Exception) {
+        throw SessionExpireException("Expire Exception")
     }
 
     /**
      * @param key
      * @return
      */
-    @JvmStatic fun getCurrentUIVariable(key: String): Any? {
-        try {
-            return (UI.getCurrent() as AppUI).getAttribute(key)
-        } catch (e: Exception) {
-            throw SessionExpireException("Expire Exception")
-        }
-
+    @JvmStatic fun getCurrentUIVariable(key: String): Any? = try {
+        (UI.getCurrent() as AppUI).getAttribute(key)
+    } catch (e: Exception) {
+        throw SessionExpireException("Expire Exception")
     }
 }

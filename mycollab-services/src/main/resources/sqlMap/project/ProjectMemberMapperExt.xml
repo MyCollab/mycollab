@@ -30,9 +30,12 @@
                 @{status}
             #end
         #end
-        
-        #ifnotnull($searchCriteria.projectId)
-            ${searchCriteria.projectId.operation} m_prj_member.projectId ${searchCriteria.projectId.compareOperator} @{searchCriteria.projectId.value,jdbcType=NUMERIC}
+
+        #ifnotnull($searchCriteria.projectIds)
+            ${searchCriteria.projectIds.operation} m_prj_member.projectId IN
+            #repeat(${searchCriteria.projectIds.values} $projectId "," "(" ")")
+                @{projectId}
+            #end
         #end
         
         #ifnotnull($searchCriteria.saccountid)
@@ -72,8 +75,11 @@
             #end
         #end
         
-        #ifnotnull($searchCriteria.projectId)
-            ${searchCriteria.projectId.operation} m_prj_member.projectId ${searchCriteria.projectId.compareOperator} @{searchCriteria.projectId.value,jdbcType=NUMERIC}
+        #ifnotnull($searchCriteria.projectIds)
+            ${searchCriteria.projectIds.operation} m_prj_member.projectId IN
+            #repeat(${searchCriteria.projectIds.values} $projectId "," "(" ")")
+                @{projectId}
+            #end
         #end
         
         #ifnotnull($searchCriteria.saccountid)

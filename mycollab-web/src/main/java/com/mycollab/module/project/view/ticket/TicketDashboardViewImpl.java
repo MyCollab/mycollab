@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -29,8 +29,6 @@ import com.mycollab.db.arguments.SearchField;
 import com.mycollab.db.arguments.SetSearchField;
 import com.mycollab.db.query.LazyValueInjector;
 import com.mycollab.db.query.SearchFieldInfo;
-import com.mycollab.vaadin.ApplicationEventListener;
-import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.domain.ProjectTicket;
@@ -45,6 +43,8 @@ import com.mycollab.module.project.service.ProjectTicketService;
 import com.mycollab.module.project.view.service.TicketComponentFactory;
 import com.mycollab.shell.event.ShellEvent;
 import com.mycollab.spring.AppContextUtil;
+import com.mycollab.vaadin.ApplicationEventListener;
+import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.event.HasMassItemActionHandler;
 import com.mycollab.vaadin.event.HasSearchHandlers;
@@ -101,9 +101,7 @@ public class TicketDashboardViewImpl extends AbstractVerticalPageView implements
                 @Subscribe
                 public void handle(TicketEvent.SearchRequest event) {
                     ProjectTicketSearchCriteria criteria = event.getSearchCriteria();
-                    if (criteria != null) {
-                        queryTickets(criteria);
-                    }
+                    queryTickets(criteria);
                 }
             };
 
@@ -307,7 +305,7 @@ public class TicketDashboardViewImpl extends AbstractVerticalPageView implements
                 int newTotalTickets = projectTicketService.getTotalTicketsCount(baseCriteria);
                 int newNumPages = newTotalTickets / 100;
                 currentPage++;
-                List<ProjectTicket> otherTickets = (List<ProjectTicket>)projectTicketService.findTicketsByCriteria(new
+                List<ProjectTicket> otherTickets = (List<ProjectTicket>) projectTicketService.findTicketsByCriteria(new
                         BasicSearchRequest<>(baseCriteria, currentPage + 1, 100));
                 ticketGroupOrderComponent.insertTickets(otherTickets);
                 if (currentPage >= newNumPages) {
@@ -316,7 +314,7 @@ public class TicketDashboardViewImpl extends AbstractVerticalPageView implements
             }).withStyleName(WebThemes.BUTTON_ACTION).withIcon(FontAwesome.ANGLE_DOUBLE_DOWN);
             wrapBody.addComponent(moreBtn);
         }
-        List<ProjectTicket> tickets = (List<ProjectTicket>)projectTicketService.findTicketsByCriteria(new BasicSearchRequest<>
+        List<ProjectTicket> tickets = (List<ProjectTicket>) projectTicketService.findTicketsByCriteria(new BasicSearchRequest<>
                 (baseCriteria, currentPage + 1, 100));
         ticketGroupOrderComponent.insertTickets(tickets);
     }

@@ -17722,11 +17722,6 @@ div.v-stylecalendar .weekdays TD {
 	border: none;
 	font-size: 18px;
 	padding: 7px 10px;
-	color: #ffffff;
-}
-
-.v-Notification.v-Notification-warning h1, .v-Notification.v-Notification-warning p {
-	color: #2d2d2d;
 }
 
 .v-Notification p {
@@ -17739,11 +17734,8 @@ div.v-stylecalendar .weekdays TD {
 }
 
 .v-Notification.tray {
-	background-color: #d9a437;
-}
-
-.v-Notification.tray .v-Notification-description {
-	color: #ffffff;
+	background-color: #e6e6e6;
+	border: 1px solid #e5e5e5;
 }
 
 .v-Notification.humanized {

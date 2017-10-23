@@ -53,6 +53,9 @@ object ProjectRolePermissionCollections {
     val RISKS = "Risk"
 
     @JvmField
+    val SPIKE = "Spike"
+
+    @JvmField
     val USERS = "User"
 
     @JvmField
@@ -65,5 +68,9 @@ object ProjectRolePermissionCollections {
     val PROJECT = "Project"
 
     @JvmField
-    val PROJECT_PERMISSIONS = arrayOf(MESSAGES, MILESTONES, TASKS, BUGS, COMPONENTS, VERSIONS, PAGES, RISKS, TIME, INVOICE, USERS, ROLES, PROJECT, FINANCE)
+    val APPROVE_TIMESHEET = "Approve_Timesheet"
+
+    @JvmField
+    val PROJECT_PERMISSIONS = arrayOf(MESSAGES, MILESTONES, TASKS, BUGS, COMPONENTS, VERSIONS, PAGES, RISKS, TIME, INVOICE,
+            USERS, ROLES, PROJECT, FINANCE, APPROVE_TIMESHEET)
 }

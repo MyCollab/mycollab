@@ -28,7 +28,7 @@ object ProjectMemberEvent {
 
     class Search(source: Any, val data: Any?) : ApplicationEvent(source)
 
-    class GotoList(source: Any, val data: Any?) : ApplicationEvent(source)
+    class GotoList(source: Any, val projectId: Int) : ApplicationEvent(source)
 
     class GotoInviteMembers(source: Any, val data: Any?) : ApplicationEvent(source)
 

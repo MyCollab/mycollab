@@ -55,8 +55,6 @@ class BugFieldFormatter private constructor() : FieldGroupFormatter() {
     companion object {
         private val _instance = BugFieldFormatter()
 
-        fun instance(): BugFieldFormatter {
-            return _instance
-        }
+        fun instance(): BugFieldFormatter = _instance
     }
 }

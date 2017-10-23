@@ -49,8 +49,8 @@ public abstract class DefaultMassEditActionHandler implements MassItemActionHand
         if (ViewItemAction.DELETE_ACTION.equals(id)) {
             ConfirmDialogExt.show(UI.getCurrent(), UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppUI.getSiteName()),
                     UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_MULTIPLE_ITEMS_MESSAGE),
-                    UserUIContext.getMessage(GenericI18Enum.BUTTON_YES),
-                    UserUIContext.getMessage(GenericI18Enum.BUTTON_NO),
+                    UserUIContext.getMessage(GenericI18Enum.ACTION_YES),
+                    UserUIContext.getMessage(GenericI18Enum.ACTION_NO),
                     confirmDialog -> {
                         if (confirmDialog.isConfirmed()) {
                             presenter.deleteSelectedItems();

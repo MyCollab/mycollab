@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -19,7 +19,6 @@ package com.mycollab.mobile.ui;
 import com.mycollab.db.arguments.BasicSearchRequest;
 import com.mycollab.db.arguments.SearchCriteria;
 import com.mycollab.vaadin.touchkit.InfiniteScrollLayout;
-import com.mycollab.vaadin.ui.ELabel;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.VerticalLayout;
@@ -34,20 +33,17 @@ import java.util.List;
 public abstract class AbstractPagedBeanList<S extends SearchCriteria, B> extends CssLayout implements IPagedBeanList<S, B> {
     private static final long serialVersionUID = 1504984093640864283L;
 
-    protected int displayNumItems = BasicSearchRequest.DEFAULT_NUMBER_SEARCH_ITEMS;
+    private int displayNumItems = BasicSearchRequest.DEFAULT_NUMBER_SEARCH_ITEMS;
     protected List<B> currentListData;
     private RowDisplayHandler<B> rowDisplayHandler;
 
     protected VerticalLayout listContainer;
 
     protected BasicSearchRequest<S> searchRequest;
-    protected int currentPage = 1;
-    protected int totalPage = 1;
-    protected int currentViewCount;
-    protected int totalCount;
+    private int currentPage = 1;
+    private int currentViewCount;
 
     public AbstractPagedBeanList(RowDisplayHandler<B> rowDisplayHandler) {
-        super();
         setSizeFull();
         this.rowDisplayHandler = rowDisplayHandler;
         listContainer = new VerticalLayout();
@@ -89,11 +85,11 @@ public abstract class AbstractPagedBeanList<S extends SearchCriteria, B> extends
 
     abstract protected List<B> queryCurrentData();
 
-    protected Integer doSearch() {
-        totalCount = this.queryTotalCount();
-        this.totalPage = (totalCount - 1) / searchRequest.getNumberOfItems() + 1;
-        if (searchRequest.getCurrentPage() > this.totalPage) {
-            searchRequest.setCurrentPage(this.totalPage);
+    private Integer doSearch() {
+        int totalCount = this.queryTotalCount();
+        int totalPage = (totalCount - 1) / searchRequest.getNumberOfItems() + 1;
+        if (searchRequest.getCurrentPage() > totalPage) {
+            searchRequest.setCurrentPage(totalPage);
         }
 
         currentListData = this.queryCurrentData();
@@ -126,8 +122,8 @@ public abstract class AbstractPagedBeanList<S extends SearchCriteria, B> extends
         int i = currentViewCount + 1;
         for (final B item : currentData) {
             final Component row = rowDisplayHandler.generateRow(this, item, i);
-            row.addStyleName("row");
             if (row != null) {
+                row.addStyleName("row");
                 listContainer.addComponent(row);
             }
 
@@ -139,7 +135,7 @@ public abstract class AbstractPagedBeanList<S extends SearchCriteria, B> extends
         this.rowDisplayHandler = rowDisplayHandler;
     }
 
-    public RowDisplayHandler<B> getRowDisplayHandler() {
+    protected RowDisplayHandler<B> getRowDisplayHandler() {
         return this.rowDisplayHandler;
     }
 

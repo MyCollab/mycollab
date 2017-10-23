@@ -154,8 +154,8 @@ public class MessageListViewImpl extends AbstractVerticalPageView implements Mes
             MButton deleteBtn = new MButton("", clickEvent -> ConfirmDialogExt.show(UI.getCurrent(),
                     UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppUI.getSiteName()),
                     UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-                    UserUIContext.getMessage(GenericI18Enum.BUTTON_YES),
-                    UserUIContext.getMessage(GenericI18Enum.BUTTON_NO),
+                    UserUIContext.getMessage(GenericI18Enum.ACTION_YES),
+                    UserUIContext.getMessage(GenericI18Enum.ACTION_NO),
                     confirmDialog -> {
                         if (confirmDialog.isConfirmed()) {
                             MessageService messageService = AppContextUtil.getSpringBean(MessageService.class);
@@ -180,7 +180,7 @@ public class MessageListViewImpl extends AbstractVerticalPageView implements Mes
             notification.setSizeUndefined();
             if (message.getCommentsCount() > 0) {
                 MHorizontalLayout commentNotification = new MHorizontalLayout();
-                Label commentCountLbl = ELabel.html(Integer.toString(message.getCommentsCount()) + " " + FontAwesome.COMMENTS.getHtml());
+                Label commentCountLbl = ELabel.html(String.format("%s %s", Integer.toString(message.getCommentsCount()), FontAwesome.COMMENTS.getHtml()));
                 commentCountLbl.setSizeUndefined();
                 commentNotification.addComponent(commentCountLbl);
                 notification.addComponent(commentNotification);

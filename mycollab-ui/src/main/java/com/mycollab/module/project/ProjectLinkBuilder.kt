@@ -38,21 +38,19 @@ object ProjectLinkBuilder {
 
     @JvmStatic
     fun generateProjectMemberHtmlLink(projectId: Int, username: String?, displayName: String?, avatarId: String?,
-                                      isDisplayTooltip: Boolean): String {
-        return if (username != null) {
-            val userAvatar = Img("", AppContextUtil.getSpringBean(AbstractStorageService::class.java)
-                    .getAvatarPath(avatarId, 16)).setCSSClass(UIConstants.CIRCLE_BOX)
-            val link = A().setId("tag$TOOLTIP_ID").setHref(ProjectLinkGenerator.generateProjectMemberLink(projectId,
-                    username)).appendText(StringUtils.trim(displayName, 30, true))
-            if (isDisplayTooltip) {
-                link.setAttribute("onmouseover", TooltipHelper.userHoverJsFunction(username))
-                link.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction())
-                DivLessFormatter().appendChild(userAvatar, DivLessFormatter.EMPTY_SPACE, link).write()
-            } else {
-                DivLessFormatter().appendChild(userAvatar, DivLessFormatter.EMPTY_SPACE, link).write()
-            }
-        } else ""
-    }
+                                      isDisplayTooltip: Boolean): String = if (username != null) {
+        val userAvatar = Img("", AppContextUtil.getSpringBean(AbstractStorageService::class.java)
+                .getAvatarPath(avatarId, 16)).setCSSClass(UIConstants.CIRCLE_BOX)
+        val link = A().setId("tag$TOOLTIP_ID").setHref(ProjectLinkGenerator.generateProjectMemberLink(projectId,
+                username)).appendText(StringUtils.trim(displayName, 30, true))
+        if (isDisplayTooltip) {
+            link.setAttribute("onmouseover", TooltipHelper.userHoverJsFunction(username))
+            link.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction())
+            DivLessFormatter().appendChild(userAvatar, DivLessFormatter.EMPTY_SPACE, link).write()
+        } else {
+            DivLessFormatter().appendChild(userAvatar, DivLessFormatter.EMPTY_SPACE, link).write()
+        }
+    } else ""
 
     @JvmStatic
     fun generateProjectMemberHtmlLink(projectId: Int, username: String, isDisplayTooltip: Boolean): String? {

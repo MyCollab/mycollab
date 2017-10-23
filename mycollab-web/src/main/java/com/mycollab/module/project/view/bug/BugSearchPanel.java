@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -22,7 +22,6 @@ import com.mycollab.db.arguments.SearchField;
 import com.mycollab.db.query.ConstantValueInjector;
 import com.mycollab.db.query.Param;
 import com.mycollab.db.query.SearchFieldInfo;
-import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.event.BugEvent;
@@ -33,6 +32,7 @@ import com.mycollab.module.project.view.settings.component.ProjectMemberListSele
 import com.mycollab.module.project.view.settings.component.VersionListSelect;
 import com.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.mycollab.shell.event.ShellEvent;
+import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.web.ui.*;
@@ -44,6 +44,7 @@ import org.vaadin.viritin.fields.MTextField;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -68,10 +69,6 @@ public class BugSearchPanel extends DefaultGenericSearchPanel<BugSearchCriteria>
             BugSearchCriteria.p_assignee, BugSearchCriteria.p_resolveddate,
             BugSearchCriteria.p_duedate, BugSearchCriteria.p_createdtime,
             BugSearchCriteria.p_bugkey, BugSearchCriteria.p_lastupdatedtime};
-
-    public BugSearchPanel() {
-        super();
-    }
 
     public BugSearchPanel(boolean canSwitchToAdvanceLayout) {
         super(canSwitchToAdvanceLayout);
@@ -201,7 +198,7 @@ public class BugSearchPanel extends DefaultGenericSearchPanel<BugSearchCriteria>
         @Override
         protected Component buildSelectionComp(String fieldId) {
             if ("assignuser".equals(fieldId)) {
-                return new ProjectMemberListSelect(false);
+                return new ProjectMemberListSelect(false, Arrays.asList(CurrentProjectVariables.getProjectId()));
             } else if ("affected_versions".equals(fieldId)) {
                 return new VersionListSelect();
             } else if ("fixed_versions".equals(fieldId)) {

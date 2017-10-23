@@ -18,6 +18,7 @@ package com.mycollab.module.project.view.settings;
 
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.i18n.SecurityI18nEnum;
+import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.module.project.ProjectRolePermissionCollections;
 import com.mycollab.module.project.domain.SimpleProjectRole;
@@ -111,7 +112,7 @@ public class ProjectMemberInviteViewImpl extends AbstractVerticalPageView implem
         }).withIcon(FontAwesome.SEND).withStyleName(WebThemes.BUTTON_ACTION);
 
         MButton cancelBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
-                clickEvent -> EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoList(this, null)))
+                clickEvent -> EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoList(this, CurrentProjectVariables.getProjectId())))
                 .withStyleName(WebThemes.BUTTON_OPTION);
         return new MHorizontalLayout(cancelBtn, inviteBtn);
     }

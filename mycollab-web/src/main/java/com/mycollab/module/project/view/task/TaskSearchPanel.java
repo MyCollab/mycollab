@@ -43,6 +43,7 @@ import org.vaadin.viritin.fields.MTextField;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -206,7 +207,7 @@ public class TaskSearchPanel extends DefaultGenericSearchPanel<TaskSearchCriteri
         @Override
         protected Component buildSelectionComp(String fieldId) {
             if ("assignuser".equals(fieldId)) {
-                return new ProjectMemberListSelect(false);
+                return new ProjectMemberListSelect(false, Arrays.asList(CurrentProjectVariables.getProjectId()));
             } else if ("milestone".equals(fieldId)) {
                 return new MilestoneListSelect();
             } else if ("status".equals(fieldId)) {

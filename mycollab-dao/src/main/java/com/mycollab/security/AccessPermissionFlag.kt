@@ -42,11 +42,9 @@ class AccessPermissionFlag : PermissionFlag() {
          * @param flag
          * @return true of `flag` implies read permission
          */
-        fun canRead(flag: Int): Boolean {
-            return flag and READ_ONLY == READ_ONLY
-                    || flag and READ_WRITE == READ_WRITE
-                    || flag and ACCESS == ACCESS
-        }
+        fun canRead(flag: Int): Boolean = (flag and READ_ONLY == READ_ONLY
+                || flag and READ_WRITE == READ_WRITE
+                || flag and ACCESS == ACCESS)
 
         /**
          * Check whether `flag` implies write permission
@@ -54,9 +52,7 @@ class AccessPermissionFlag : PermissionFlag() {
          * @param flag
          * @return true of `flag` implies write permission
          */
-        fun canWrite(flag: Int): Boolean {
-            return flag and READ_WRITE == READ_WRITE || flag and ACCESS == ACCESS
-        }
+        fun canWrite(flag: Int): Boolean = flag and READ_WRITE == READ_WRITE || flag and ACCESS == ACCESS
 
         /**
          * Check whether `flag` implies access permission
@@ -64,8 +60,6 @@ class AccessPermissionFlag : PermissionFlag() {
          * @param flag
          * @return true of `flag` implies access permission
          */
-        fun canAccess(flag: Int): Boolean {
-            return flag and ACCESS == ACCESS
-        }
+        fun canAccess(flag: Int): Boolean = flag and ACCESS == ACCESS
     }
 }

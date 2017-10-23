@@ -39,17 +39,17 @@ class AddProjectCommand(private val optionValMapper: OptionValMapper) : GenericC
         ex.createCriteria().andIsdefaultEqualTo(true).andSaccountidEqualTo(event.accountId)
 
         val defaultOptions = optionValMapper.selectByExample(ex)
-        defaultOptions.forEach { option ->
+        defaultOptions.forEach {
             val prjOption = OptionVal()
             prjOption.createdtime = GregorianCalendar().time
-            prjOption.description = option.description
+            prjOption.description = it.description
             prjOption.extraid = event.projectId
             prjOption.isdefault = false
             prjOption.saccountid = event.accountId
-            prjOption.type = option.type
-            prjOption.typeval = option.typeval
-            prjOption.fieldgroup = option.fieldgroup
-            prjOption.refoption = option.id
+            prjOption.type = it.type
+            prjOption.typeval = it.typeval
+            prjOption.fieldgroup = it.fieldgroup
+            prjOption.refoption = it.id
             prjOption.color = "fdde86"
             optionValMapper.insert(prjOption)
         }

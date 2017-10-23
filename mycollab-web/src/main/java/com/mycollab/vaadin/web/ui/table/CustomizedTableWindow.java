@@ -71,11 +71,7 @@ public abstract class CustomizedTableWindow extends MWindow {
         listBuilder.setItemCaptionMode(ItemCaptionMode.EXPLICIT);
         final BeanItemContainer<TableViewField> container = new BeanItemContainer<>(TableViewField.class, this.getAvailableColumns());
         listBuilder.setContainerDataSource(container);
-        Iterator<TableViewField> iterator = getAvailableColumns().iterator();
-        while (iterator.hasNext()) {
-            TableViewField field = iterator.next();
-            listBuilder.setItemCaption(field, UserUIContext.getMessage(field.getDescKey()));
-        }
+        getAvailableColumns().forEach(field -> listBuilder.setItemCaption(field, UserUIContext.getMessage(field.getDescKey())));
         this.setSelectedViewColumns();
         contentLayout.with(listBuilder).withAlign(listBuilder, Alignment.TOP_CENTER);
 
@@ -138,7 +134,7 @@ public abstract class CustomizedTableWindow extends MWindow {
 
     abstract protected Collection<TableViewField> getAvailableColumns();
 
-    protected Collection<String> getViewColumns() {
+    private Collection<String> getViewColumns() {
         Object[] visibleColumns = tableItem.getVisibleColumns();
         String[] copyArr = Arrays.copyOf(visibleColumns, visibleColumns.length, String[].class);
         return Arrays.asList(copyArr);

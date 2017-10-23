@@ -47,8 +47,6 @@ class CaseFieldFormatter private constructor() : FieldGroupFormatter() {
     companion object {
         private val _instance = CaseFieldFormatter()
 
-        fun instance(): CaseFieldFormatter {
-            return _instance
-        }
+        fun instance(): CaseFieldFormatter = _instance
     }
 }

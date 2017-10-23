@@ -151,8 +151,8 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
     private void deleteResourceAction(final Collection<Resource> deletedResources) {
         ConfirmDialogExt.show(UI.getCurrent(), UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppUI.getSiteName()),
                 UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-                UserUIContext.getMessage(GenericI18Enum.BUTTON_YES),
-                UserUIContext.getMessage(GenericI18Enum.BUTTON_NO),
+                UserUIContext.getMessage(GenericI18Enum.ACTION_YES),
+                UserUIContext.getMessage(GenericI18Enum.ACTION_NO),
                 confirmDialog -> {
                     if (confirmDialog.isConfirmed()) {
                         for (Resource res : deletedResources) {

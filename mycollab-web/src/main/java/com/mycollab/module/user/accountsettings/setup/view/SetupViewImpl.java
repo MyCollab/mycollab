@@ -114,8 +114,8 @@ public class SetupViewImpl extends AbstractVerticalPageView implements SetupView
                         ConfirmDialogExt.show(UI.getCurrent(),
                                 UserUIContext.getMessage(ShellI18nEnum.OPT_INVALID_SMTP_ACCOUNT),
                                 UserUIContext.getMessage(ShellI18nEnum.OPT_CAN_NOT_ACCESS_SMTP_ACCOUNT, e.getMessage()),
-                                UserUIContext.getMessage(GenericI18Enum.BUTTON_YES),
-                                UserUIContext.getMessage(GenericI18Enum.BUTTON_NO),
+                                UserUIContext.getMessage(GenericI18Enum.ACTION_YES),
+                                UserUIContext.getMessage(GenericI18Enum.ACTION_NO),
                                 confirmDialog -> {
                                     if (confirmDialog.isConfirmed()) {
                                         saveEmailConfiguration();

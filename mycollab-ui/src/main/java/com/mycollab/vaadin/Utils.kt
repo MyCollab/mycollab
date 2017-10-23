@@ -33,13 +33,10 @@ object Utils {
         }
     }
 
-    @JvmStatic fun isTablet(request: VaadinRequest): Boolean {
-        return try {
-            val userAgent = request.getHeader("user-agent").toLowerCase()
-            userAgent.contains("ipad")
-        } catch (e: Exception) {
-            false
-        }
-
+    @JvmStatic fun isTablet(request: VaadinRequest): Boolean = try {
+        val userAgent = request.getHeader("user-agent").toLowerCase()
+        userAgent.contains("ipad")
+    } catch (e: Exception) {
+        false
     }
 }

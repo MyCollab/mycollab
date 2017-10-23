@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -101,7 +101,7 @@ public class ProjectRoleAddViewImpl extends AbstractEditItemComp<ProjectRole> im
                     if (isValidateForm) {
                         tf.setNullRepresentation("");
                         tf.setRequired(true);
-                        tf.setRequiredError("Please enter a projectRole name");
+                        tf.setRequiredError("Please enter a role name");
                     }
                     return tf;
                 }
@@ -128,7 +128,8 @@ public class ProjectRoleAddViewImpl extends AbstractEditItemComp<ProjectRole> im
             final String permissionPath = ProjectRolePermissionCollections.PROJECT_PERMISSIONS[i];
             KeyCaptionComboBox permissionBox;
             Enum captionHelp;
-            if (ProjectRolePermissionCollections.FINANCE.equals(permissionPath)) {
+            if (ProjectRolePermissionCollections.FINANCE.equals(permissionPath) ||
+                    ProjectRolePermissionCollections.APPROVE_TIMESHEET.equals(permissionPath)) {
                 permissionBox = new YesNoPermissionComboBox();
                 captionHelp = SecurityI18nEnum.BOOLEAN_PERMISSION_HELP;
             } else {

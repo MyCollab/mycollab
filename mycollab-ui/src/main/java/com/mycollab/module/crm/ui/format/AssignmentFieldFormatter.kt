@@ -44,8 +44,6 @@ class AssignmentFieldFormatter private constructor() : FieldGroupFormatter() {
     companion object {
         private val _instance = AssignmentFieldFormatter()
 
-        fun instance(): AssignmentFieldFormatter {
-            return _instance
-        }
+        fun instance(): AssignmentFieldFormatter = _instance
     }
 }

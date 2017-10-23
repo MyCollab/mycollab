@@ -27,7 +27,7 @@ import com.mycollab.db.arguments.StringSearchField
  */
 class ProjectMemberSearchCriteria : SearchCriteria() {
 
-    var projectId: NumberSearchField? = null
+    var projectIds: SetSearchField<Int>? = null
 
     var id: NumberSearchField? = null
 

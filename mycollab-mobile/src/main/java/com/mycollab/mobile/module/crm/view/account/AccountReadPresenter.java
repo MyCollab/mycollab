@@ -59,8 +59,8 @@ public class AccountReadPresenter extends AbstractCrmPresenter<AccountReadView> 
             public void onDelete(final SimpleAccount data) {
                 ConfirmDialog.show(UI.getCurrent(),
                         UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-                        UserUIContext.getMessage(GenericI18Enum.BUTTON_YES),
-                        UserUIContext.getMessage(GenericI18Enum.BUTTON_NO),
+                        UserUIContext.getMessage(GenericI18Enum.ACTION_YES),
+                        UserUIContext.getMessage(GenericI18Enum.ACTION_NO),
                         dialog -> {
                             if (dialog.isConfirmed()) {
                                 AccountService accountService = AppContextUtil.getSpringBean(AccountService.class);

@@ -74,7 +74,7 @@ public class ProjectMobileMenuPageView extends AbstractMobileMenuPageView {
 
         MButton userBtn = new MButton(UserUIContext.getMessage(ProjectMemberI18nEnum.LIST), clickEvent -> {
             closeMenu();
-            EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoList(this, null));
+            EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoList(this, CurrentProjectVariables.getProjectId()));
         }).withIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.MEMBER));
         addMenuItem(userBtn);
 

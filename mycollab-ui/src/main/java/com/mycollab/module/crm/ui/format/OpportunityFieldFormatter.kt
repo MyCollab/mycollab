@@ -49,8 +49,6 @@ class OpportunityFieldFormatter private constructor() : FieldGroupFormatter() {
     companion object {
         private val _instance = OpportunityFieldFormatter()
 
-        fun instance(): OpportunityFieldFormatter {
-            return _instance
-        }
+        fun instance(): OpportunityFieldFormatter = _instance
     }
 }

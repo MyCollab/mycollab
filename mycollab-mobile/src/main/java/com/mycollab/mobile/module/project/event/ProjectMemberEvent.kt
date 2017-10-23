@@ -26,7 +26,7 @@ object ProjectMemberEvent {
     class InviteProjectMembers(val inviteEmails: List<String>, val roleId: Int,
                                val inviteMessage: String)
 
-    class GotoList(source: Any, val data: Any?) : ApplicationEvent(source)
+    class GotoList(source: Any, val projectId: Int) : ApplicationEvent(source)
 
     class GotoInviteMembers(source: Any, val data: Any?) : ApplicationEvent(source)
 

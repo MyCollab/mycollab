@@ -288,8 +288,7 @@ public class FormReportTemplateExecutor<B> extends ReportTemplateExecutor {
                             (auditLog.getPosteddate())), Integer.MAX_VALUE)).setStyle(getReportStyles().getMetaInfoStyle());
             HorizontalListBuilder infoHeader = cmp.horizontalFlowList().add(authorField);
             VerticalListBuilder block = cmp.verticalList().add(infoHeader).setStyle(getReportStyles().getBorderStyle());
-            for (int i = 0; i < changeItems.size(); i++) {
-                AuditChangeItem item = changeItems.get(i);
+            for (AuditChangeItem item : changeItems) {
                 String fieldName = item.getField();
 
                 DefaultFieldDisplayHandler fieldDisplayHandler = fieldGroupFormatter.getFieldDisplayHandler(fieldName);

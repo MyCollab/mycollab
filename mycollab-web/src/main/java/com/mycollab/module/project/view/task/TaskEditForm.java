@@ -128,7 +128,7 @@ public class TaskEditForm extends AdvancedEditBeanForm<SimpleTask> {
                     .withStyleName(WebThemes.BUTTON_OPTION);
 
             MHorizontalLayout buttonControls = new MHorizontalLayout(cancelBtn, saveBtn)
-                    .withMargin(new MarginInfo(true, false, false, false)).alignAll(Alignment.MIDDLE_RIGHT);
+                    .withMargin(new MarginInfo(true, true, true, false)).alignAll(Alignment.MIDDLE_RIGHT);
 
             layout.addComponent(buttonControls);
             layout.setComponentAlignment(buttonControls, Alignment.MIDDLE_RIGHT);

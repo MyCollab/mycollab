@@ -64,9 +64,9 @@ class ContactReadFormFieldFactory extends AbstractBeanFieldGroupViewFieldFactory
             return new DefaultViewField(contact.getAssignUserFullName());
         } else if (Contact.Field.iscallable.equalTo(propertyId)) {
             if (Boolean.FALSE.equals(contact.getIscallable())) {
-                return new DefaultViewField(UserUIContext.getMessage(GenericI18Enum.BUTTON_NO));
+                return new DefaultViewField(UserUIContext.getMessage(GenericI18Enum.ACTION_NO));
             } else {
-                return new DefaultViewField(UserUIContext.getMessage(GenericI18Enum.BUTTON_YES));
+                return new DefaultViewField(UserUIContext.getMessage(GenericI18Enum.ACTION_YES));
             }
         } else if (Contact.Field.birthday.equalTo(propertyId)) {
             return new DefaultViewField(UserUIContext.formatDate(contact.getBirthday()));

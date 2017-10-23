@@ -46,22 +46,22 @@ class DateParam(id: String, table: String, column: String) : ColumnParam(id, tab
             }
 
     private fun buildDateValBetween(oper: String, value1: Date, value2: Date): BetweenValuesSearchField =
-            BetweenValuesSearchField(oper, String.format("DATE(%s.%s) BETWEEN", table, column), value1, value2)
+            BetweenValuesSearchField(oper, "DATE($table.$column) BETWEEN", value1, value2)
 
     private fun buildDateValNotBetween(oper: String, value1: Date, value2: Date): BetweenValuesSearchField =
-            BetweenValuesSearchField(oper, String.format("DATE(%s.%s) NOT BETWEEN", table, column), value1, value2)
+            BetweenValuesSearchField(oper, "DATE($table.$column) NOT BETWEEN", value1, value2)
 
     private fun buildDateIsEqual(oper: String, value: Date): OneValueSearchField =
-            OneValueSearchField(oper, String.format("DATE(%s.%s) = ", table, column), value)
+            OneValueSearchField(oper, "DATE($table.$column) = ", value)
 
     private fun buildDateIsNotEqual(oper: String, value: Date): OneValueSearchField =
-            OneValueSearchField(oper, String.format("DATE(%s.%s) <> ", table, column), value)
+            OneValueSearchField(oper, "DATE($table.$column) <> ", value)
 
     private fun buildDateIsGreaterThan(oper: String, value: Date): OneValueSearchField =
-            OneValueSearchField(oper, String.format("DATE(%s.%s) >= ", table, column), value)
+            OneValueSearchField(oper, "DATE($table.$column) >= ", value)
 
     private fun buildDateIsLessThan(oper: String, value: Date): OneValueSearchField =
-            OneValueSearchField(oper, String.format("DATE(%s.%s) <= ", table, column), value)
+            OneValueSearchField(oper, "DATE($table.$column) <= ", value)
 
     companion object {
         @JvmField
@@ -94,9 +94,7 @@ class DateParam(id: String, table: String, column: String) : ColumnParam(id, tab
                 } else {
                     dateParam.buildSearchField(SearchField.AND, BETWEEN, value as Date)
                 }
-            } else {
-                null
-            }
+            } else null
         }
     }
 }

@@ -25,9 +25,7 @@ import com.mycollab.db.arguments.NumberSearchField
 import com.mycollab.db.arguments.SearchField
 import com.mycollab.db.arguments.SetSearchField
 import com.mycollab.db.arguments.StringSearchField
-import com.mycollab.vaadin.ApplicationEventListener
 import com.mycollab.mobile.module.project.event.*
-import com.mycollab.mobile.module.project.event.TicketEvent
 import com.mycollab.mobile.module.project.view.message.MessagePresenter
 import com.mycollab.mobile.module.project.view.milestone.MilestonePresenter
 import com.mycollab.mobile.module.project.view.parameters.*
@@ -42,6 +40,7 @@ import com.mycollab.module.project.service.ProjectService
 import com.mycollab.module.tracker.domain.SimpleBug
 import com.mycollab.spring.AppContextUtil
 import com.mycollab.vaadin.AppUI
+import com.mycollab.vaadin.ApplicationEventListener
 import com.mycollab.vaadin.UserUIContext
 import com.mycollab.vaadin.mvp.AbstractController
 import com.mycollab.vaadin.mvp.PageActionChain
@@ -287,7 +286,7 @@ class ProjectModuleController(val navManager: NavigationManager) : AbstractContr
             @Subscribe
             override fun handle(event: ProjectMemberEvent.GotoList) {
                 val criteria = ProjectMemberSearchCriteria()
-                criteria.projectId = NumberSearchField.equal(CurrentProjectVariables.projectId)
+                criteria.projectIds = SetSearchField(event.projectId)
                 criteria.saccountid = NumberSearchField.equal(AppUI.accountId)
                 criteria.statuses = SetSearchField(ProjectMemberStatusConstants.ACTIVE, ProjectMemberStatusConstants.NOT_ACCESS_YET)
                 val presenter = PresenterResolver.getPresenter(ProjectUserPresenter::class.java)

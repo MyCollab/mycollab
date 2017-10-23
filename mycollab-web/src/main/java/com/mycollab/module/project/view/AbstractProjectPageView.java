@@ -38,7 +38,7 @@ public class AbstractProjectPageView extends AbstractVerticalPageView {
     protected MHorizontalLayout header;
 
     public AbstractProjectPageView(String headerText, FontAwesome icon) {
-        this.headerText = ELabel.h2(icon.getHtml() + " " + headerText);
+        this.headerText = ELabel.h2(String.format("%s %s", icon.getHtml(), headerText));
         super.addComponent(constructHeader());
 
         contentWrapper = new MCssLayout().withStyleName(WebThemes.CONTENT_WRAPPER);

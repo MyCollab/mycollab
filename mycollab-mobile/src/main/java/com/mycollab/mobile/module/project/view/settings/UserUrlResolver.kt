@@ -48,8 +48,8 @@ class UserUrlResolver : ProjectUrlResolver() {
         override fun handlePage(vararg params: String) {
             val projectId = UrlTokenizer(params[0]).getInt()
             val memberSearchCriteria = ProjectMemberSearchCriteria()
-            memberSearchCriteria.projectId = NumberSearchField(projectId)
-            memberSearchCriteria.statuses = SetSearchField<String>(ProjectMemberStatusConstants.ACTIVE, ProjectMemberStatusConstants.NOT_ACCESS_YET)
+            memberSearchCriteria.projectIds = SetSearchField(projectId)
+            memberSearchCriteria.statuses = SetSearchField(ProjectMemberStatusConstants.ACTIVE, ProjectMemberStatusConstants.NOT_ACCESS_YET)
             val chain = PageActionChain(ProjectScreenData.Goto(projectId), ProjectMemberScreenData.Search(memberSearchCriteria))
             EventBusFactory.getInstance().post(ProjectEvent.GotoMyProject(this, chain))
         }
@@ -76,7 +76,7 @@ class UserUrlResolver : ProjectUrlResolver() {
                 val chain = PageActionChain(ProjectScreenData.Goto(projectId), ProjectMemberScreenData.Edit(member))
                 EventBusFactory.getInstance().post(ProjectEvent.GotoMyProject(this, chain))
             } else {
-                throw ResourceNotFoundException("Can not find member ${memberId}")
+                throw ResourceNotFoundException("Can not find member $memberId")
             }
         }
     }

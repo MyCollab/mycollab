@@ -1,25 +1,23 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package com.mycollab.module.project.view.settings.component;
 
 import com.mycollab.db.arguments.BasicSearchRequest;
-import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.db.arguments.SetSearchField;
-import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectMemberStatusConstants;
 import com.mycollab.module.project.domain.SimpleProjectMember;
 import com.mycollab.module.project.domain.criteria.ProjectMemberSearchCriteria;
@@ -37,17 +35,17 @@ import java.util.List;
 public class ProjectMemberListSelect extends ListSelect {
     private static final long serialVersionUID = 1L;
 
-    public ProjectMemberListSelect() {
-        this(true);
+    public ProjectMemberListSelect(List<Integer> projectIds) {
+        this(true, projectIds);
     }
 
-    public ProjectMemberListSelect(boolean listActiveMembersOnly) {
+    public ProjectMemberListSelect(boolean listActiveMembersOnly, List<Integer> projectIds) {
         this.setItemCaptionMode(ItemCaptionMode.EXPLICIT);
         this.setNullSelectionAllowed(false);
         this.setMultiSelect(true);
 
         ProjectMemberSearchCriteria criteria = new ProjectMemberSearchCriteria();
-        criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
+        criteria.setProjectIds(new SetSearchField<>(projectIds));
 
         if (listActiveMembersOnly) {
             criteria.setStatuses(new SetSearchField<>(ProjectMemberStatusConstants.ACTIVE));

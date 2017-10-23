@@ -125,8 +125,8 @@ public class MobileAttachmentUtils {
         MButton removeAttachment = new MButton("", clickEvent -> {
             ConfirmDialog.show(UI.getCurrent(),
                     UserUIContext.getMessage(GenericI18Enum.CONFIRM_DELETE_ATTACHMENT),
-                    UserUIContext.getMessage(GenericI18Enum.BUTTON_YES),
-                    UserUIContext.getMessage(GenericI18Enum.BUTTON_NO),
+                    UserUIContext.getMessage(GenericI18Enum.ACTION_YES),
+                    UserUIContext.getMessage(GenericI18Enum.ACTION_NO),
                     dialog -> {
                         if (dialog.isConfirmed()) {
                             ResourceService attachmentService = AppContextUtil.getSpringBean(ResourceService.class);

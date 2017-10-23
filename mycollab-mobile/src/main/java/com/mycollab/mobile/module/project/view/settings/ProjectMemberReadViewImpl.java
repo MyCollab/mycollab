@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -19,7 +19,6 @@ package com.mycollab.mobile.module.project.view.settings;
 import com.mycollab.common.UrlEncodeDecoder;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.i18n.SecurityI18nEnum;
-import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.mobile.module.project.event.ProjectMemberEvent;
 import com.mycollab.mobile.ui.AbstractPreviewItemComp;
 import com.mycollab.mobile.ui.AdvancedPreviewBeanForm;
@@ -38,6 +37,7 @@ import com.mycollab.module.project.service.ProjectRoleService;
 import com.mycollab.security.PermissionMap;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppUI;
+import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.event.HasPreviewFormHandlers;
 import com.mycollab.vaadin.mvp.ViewComponent;
@@ -109,13 +109,13 @@ public class ProjectMemberReadViewImpl extends AbstractPreviewItemComp<SimplePro
 
         MButton deleteBtn = new MButton("", clickEvent -> ConfirmDialog.show(UI.getCurrent(),
                 UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-                UserUIContext.getMessage(GenericI18Enum.BUTTON_YES),
-                UserUIContext.getMessage(GenericI18Enum.BUTTON_NO),
+                UserUIContext.getMessage(GenericI18Enum.ACTION_YES),
+                UserUIContext.getMessage(GenericI18Enum.ACTION_NO),
                 dialog -> {
                     if (dialog.isConfirmed()) {
                         ProjectMemberService projectMemberService = AppContextUtil.getSpringBean(ProjectMemberService.class);
                         projectMemberService.removeWithSession(beanItem, UserUIContext.getUsername(), AppUI.getAccountId());
-                        EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoList(this, null));
+                        EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoList(this, CurrentProjectVariables.getProjectId()));
                     }
                 })).withIcon(FontAwesome.TRASH).withStyleName(UIConstants.CIRCLE_BOX)
                 .withVisible(CurrentProjectVariables.canAccess(ProjectRolePermissionCollections.USERS));

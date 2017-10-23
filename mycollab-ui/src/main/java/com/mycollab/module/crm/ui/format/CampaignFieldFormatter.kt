@@ -48,8 +48,6 @@ class CampaignFieldFormatter private constructor() : FieldGroupFormatter() {
     companion object {
         private val _instance = CampaignFieldFormatter()
 
-        fun instance(): CampaignFieldFormatter {
-            return _instance
-        }
+        fun instance(): CampaignFieldFormatter = _instance
     }
 }

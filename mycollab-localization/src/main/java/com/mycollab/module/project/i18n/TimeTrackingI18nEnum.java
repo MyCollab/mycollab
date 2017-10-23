@@ -40,6 +40,7 @@ public enum TimeTrackingI18nEnum {
     FORM_SUMMARY,
     FORM_IS_BILLABLE,
     FORM_IS_OVERTIME,
+    FORM_IS_APPROVED,
     FORM_WEEK,
     FORM_WHO,
 

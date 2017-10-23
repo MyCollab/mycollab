@@ -227,8 +227,8 @@ public class ProjectInfoComponent extends MHorizontalLayout {
                     ConfirmDialogExt.show(UI.getCurrent(),
                             UserUIContext.getMessage(GenericI18Enum.WINDOW_WARNING_TITLE, AppUI.getSiteName()),
                             UserUIContext.getMessage(ProjectCommonI18nEnum.DIALOG_CONFIRM_PROJECT_ARCHIVE_MESSAGE),
-                            UserUIContext.getMessage(GenericI18Enum.BUTTON_YES),
-                            UserUIContext.getMessage(GenericI18Enum.BUTTON_NO),
+                            UserUIContext.getMessage(GenericI18Enum.ACTION_YES),
+                            UserUIContext.getMessage(GenericI18Enum.ACTION_NO),
                             confirmDialog -> {
                                 if (confirmDialog.isConfirmed()) {
                                     ProjectService projectService = AppContextUtil.getSpringBean(ProjectService.class);
@@ -250,8 +250,8 @@ public class ProjectInfoComponent extends MHorizontalLayout {
                     ConfirmDialogExt.show(UI.getCurrent(),
                             UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppUI.getSiteName()),
                             UserUIContext.getMessage(ProjectCommonI18nEnum.DIALOG_CONFIRM_PROJECT_DELETE_MESSAGE),
-                            UserUIContext.getMessage(GenericI18Enum.BUTTON_YES),
-                            UserUIContext.getMessage(GenericI18Enum.BUTTON_NO),
+                            UserUIContext.getMessage(GenericI18Enum.ACTION_YES),
+                            UserUIContext.getMessage(GenericI18Enum.ACTION_NO),
                             confirmDialog -> {
                                 if (confirmDialog.isConfirmed()) {
                                     ProjectService projectService = AppContextUtil.getSpringBean(ProjectService.class);

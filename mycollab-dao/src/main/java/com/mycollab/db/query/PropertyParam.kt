@@ -39,16 +39,14 @@ class PropertyParam(id: String, table: String, column: String) : ColumnParam(id,
     }
 
     private fun buildPropertyIs(oper: String, value: Any): OneValueSearchField =
-            OneValueSearchField(oper, String.format(IS_EXPR, table, column), value)
+            OneValueSearchField(oper, "$table.$column = ", value)
 
     private fun buildPropertyIsNot(oper: String, value: Any): OneValueSearchField =
-            OneValueSearchField(oper, String.format(IS_NOT_EXPR, table, column), value)
+            OneValueSearchField(oper, "$table.$column <> ", value)
 
     companion object {
 
-        @JvmField val OPTIONS = arrayOf(IS, IS_NOT)
-
-        private val IS_EXPR = "%s.%s = "
-        private val IS_NOT_EXPR = "%s.%s <> "
+        @JvmField
+        val OPTIONS = arrayOf(IS, IS_NOT)
     }
 }

@@ -43,6 +43,7 @@ import org.vaadin.viritin.fields.MTextField;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -100,20 +101,14 @@ public class TicketSearchPanel extends DefaultGenericSearchPanel<ProjectTicketSe
         return new TicketAdvancedSearchLayout();
     }
 
-    public void setTextField(String name) {
-        if (getCompositionRoot() instanceof TicketBasicSearchLayout) {
-            ((TicketBasicSearchLayout) getCompositionRoot()).setNameField(name);
-        }
-    }
-
-    public void displaySearchFieldInfos(List<SearchFieldInfo<ProjectTicketSearchCriteria>> searchFieldInfos) {
+    void displaySearchFieldInfos(List<SearchFieldInfo<ProjectTicketSearchCriteria>> searchFieldInfos) {
         if (canSwitchToAdvanceLayout) {
             TicketAdvancedSearchLayout advancedSearchLayout = (TicketAdvancedSearchLayout) moveToAdvancedSearchLayout();
             advancedSearchLayout.displaySearchFieldInfos(searchFieldInfos);
         }
     }
 
-    public void selectQueryInfo(String queryId) {
+    void selectQueryInfo(String queryId) {
         savedFilterComboBox.selectQueryInfo(queryId);
     }
 
@@ -199,7 +194,7 @@ public class TicketSearchPanel extends DefaultGenericSearchPanel<ProjectTicketSe
         @Override
         protected Component buildSelectionComp(String fieldId) {
             if ("assignuser".equals(fieldId) || "createduser".equals(fieldId)) {
-                return new ProjectMemberListSelect(false);
+                return new ProjectMemberListSelect(false, Arrays.asList(CurrentProjectVariables.getProjectId()));
             } else if ("milestone".equals(fieldId)) {
                 return new MilestoneListSelect();
             } else if ("type".equals(fieldId)) {

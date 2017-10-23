@@ -1,28 +1,28 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package com.mycollab.module.project.view.milestone;
 
+import com.mycollab.common.ModuleNameConstants;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.core.MyCollabException;
 import com.mycollab.core.ResourceNotFoundException;
 import com.mycollab.core.SecureAccessException;
 import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.db.arguments.SetSearchField;
-import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectRolePermissionCollections;
 import com.mycollab.module.project.ProjectTypeConstants;
@@ -30,19 +30,22 @@ import com.mycollab.module.project.domain.Milestone;
 import com.mycollab.module.project.domain.SimpleMilestone;
 import com.mycollab.module.project.domain.criteria.MilestoneSearchCriteria;
 import com.mycollab.module.project.event.MilestoneEvent;
+import com.mycollab.module.project.event.UpdateNotificationItemReadStatusEvent;
 import com.mycollab.module.project.service.MilestoneService;
 import com.mycollab.module.project.view.ProjectBreadcrumb;
 import com.mycollab.module.project.view.ProjectGenericPresenter;
-import com.mycollab.vaadin.reporting.FormReportLayout;
-import com.mycollab.vaadin.reporting.PrintButton;
 import com.mycollab.spring.AppContextUtil;
+import com.mycollab.spring.AppEventBus;
 import com.mycollab.vaadin.AppUI;
+import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.event.DefaultPreviewFormHandler;
 import com.mycollab.vaadin.mvp.LoadPolicy;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.mvp.ViewManager;
 import com.mycollab.vaadin.mvp.ViewScope;
+import com.mycollab.vaadin.reporting.FormReportLayout;
+import com.mycollab.vaadin.reporting.PrintButton;
 import com.mycollab.vaadin.ui.NotificationUtil;
 import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.vaadin.ui.HasComponents;
@@ -78,8 +81,8 @@ public class MilestoneReadPresenter extends ProjectGenericPresenter<MilestoneRea
                 ConfirmDialogExt.show(UI.getCurrent(),
                         UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppUI.getSiteName()),
                         UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-                        UserUIContext.getMessage(GenericI18Enum.BUTTON_YES),
-                        UserUIContext.getMessage(GenericI18Enum.BUTTON_NO),
+                        UserUIContext.getMessage(GenericI18Enum.ACTION_YES),
+                        UserUIContext.getMessage(GenericI18Enum.ACTION_NO),
                         confirmDialog -> {
                             if (confirmDialog.isConfirmed()) {
                                 MilestoneService milestoneService = AppContextUtil.getSpringBean(MilestoneService.class);
@@ -154,6 +157,9 @@ public class MilestoneReadPresenter extends ProjectGenericPresenter<MilestoneRea
 
                     ProjectBreadcrumb breadcrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);
                     breadcrumb.gotoMilestoneRead(milestone);
+
+                    AppEventBus.getInstance().post(new UpdateNotificationItemReadStatusEvent(UserUIContext.getUsername(),
+                            ModuleNameConstants.PRJ, ProjectTypeConstants.MILESTONE, milestone.getId().toString()));
                 } else {
                     throw new ResourceNotFoundException();
                 }

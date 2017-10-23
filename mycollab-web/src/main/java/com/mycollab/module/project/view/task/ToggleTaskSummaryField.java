@@ -99,8 +99,8 @@ public class ToggleTaskSummaryField extends AbstractToggleSummaryField {
                         ConfirmDialogExt.show(UI.getCurrent(),
                                 UserUIContext.getMessage(GenericI18Enum.OPT_QUESTION, AppUI.getSiteName()),
                                 UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_CLOSE_SUB_ASSIGNMENTS),
-                                UserUIContext.getMessage(GenericI18Enum.BUTTON_YES),
-                                UserUIContext.getMessage(GenericI18Enum.BUTTON_NO),
+                                UserUIContext.getMessage(GenericI18Enum.ACTION_YES),
+                                UserUIContext.getMessage(GenericI18Enum.ACTION_NO),
                                 confirmDialog -> {
                                     if (confirmDialog.isConfirmed()) {
                                         projectTaskService.massUpdateTaskStatuses(task.getId(), StatusI18nEnum.Closed.name(),
@@ -143,8 +143,8 @@ public class ToggleTaskSummaryField extends AbstractToggleSummaryField {
                 ConfirmDialogExt.show(UI.getCurrent(),
                         UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppUI.getSiteName()),
                         UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-                        UserUIContext.getMessage(GenericI18Enum.BUTTON_YES),
-                        UserUIContext.getMessage(GenericI18Enum.BUTTON_NO),
+                        UserUIContext.getMessage(GenericI18Enum.ACTION_YES),
+                        UserUIContext.getMessage(GenericI18Enum.ACTION_NO),
                         confirmDialog -> {
                             if (confirmDialog.isConfirmed()) {
                                 AppContextUtil.getSpringBean(ProjectTaskService.class).removeWithSession(task,

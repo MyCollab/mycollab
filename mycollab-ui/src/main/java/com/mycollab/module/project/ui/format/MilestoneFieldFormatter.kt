@@ -42,8 +42,6 @@ class MilestoneFieldFormatter private constructor() : FieldGroupFormatter() {
     companion object {
         private val _instance = MilestoneFieldFormatter()
 
-        fun instance(): MilestoneFieldFormatter {
-            return _instance
-        }
+        fun instance(): MilestoneFieldFormatter = _instance
     }
 }

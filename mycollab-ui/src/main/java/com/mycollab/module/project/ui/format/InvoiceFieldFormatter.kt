@@ -44,8 +44,6 @@ class InvoiceFieldFormatter private constructor() : FieldGroupFormatter() {
     companion object {
         private val _instance = InvoiceFieldFormatter()
 
-        fun instance(): InvoiceFieldFormatter {
-            return _instance
-        }
+        fun instance(): InvoiceFieldFormatter = _instance
     }
 }

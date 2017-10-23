@@ -83,12 +83,10 @@ class CommentServiceImpl(private val commentMapper: CommentMapper,
         activityStream.typeid = record.typeid
         activityStream.namefield = record.comment
         activityStream.extratypeid = record.extratypeid
-        if (record.type != null && record.type.startsWith("Project-")) {
-            activityStream.module = ModuleNameConstants.PRJ
-        } else if (record.type != null && record.type.startsWith("Crm-")) {
-            activityStream.module = ModuleNameConstants.CRM
-        } else {
-            LOG.error("Can not define module type of bean $record")
+        when {
+            record.type != null && record.type.startsWith("Project-") -> activityStream.module = ModuleNameConstants.PRJ
+            record.type != null && record.type.startsWith("Crm-") -> activityStream.module = ModuleNameConstants.CRM
+            else -> LOG.error("Can not define module type of bean $record")
         }
         return activityStream
     }

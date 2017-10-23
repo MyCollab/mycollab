@@ -60,7 +60,6 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public abstract class CustomizeReportOutputWindow<S extends SearchCriteria, B extends ValuedBean> extends MWindow {
 
-    private VariableInjector<S> variableInjector;
     private ListBuilder listBuilder;
     private String viewId;
     private OptionGroup optionGroup;
@@ -72,7 +71,6 @@ public abstract class CustomizeReportOutputWindow<S extends SearchCriteria, B ex
         MVerticalLayout contentLayout = new MVerticalLayout();
         this.withModal(true).withResizable(false).withWidth("1000px").withCenter().withContent(contentLayout);
         this.viewId = viewId;
-        this.variableInjector = variableInjector;
 
         optionGroup = new OptionGroup();
         optionGroup.addStyleName("sortDirection");
