@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -20,7 +20,6 @@ import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.db.arguments.SetSearchField;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectTypeConstants;
-import com.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.mycollab.module.project.view.bug.BugRowRenderer;
 import com.mycollab.module.project.view.settings.component.ProjectUserFormLinkField;
 import com.mycollab.module.tracker.domain.Component;
@@ -44,6 +43,8 @@ import com.vaadin.ui.Field;
 import com.vaadin.ui.Label;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
+
+import static com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 
 /**
  * @author MyCollab Ltd
@@ -90,10 +91,10 @@ public class ComponentPreviewForm extends AdvancedPreviewBeanForm<SimpleComponen
             withMargin(false).withFullWidth();
             MHorizontalLayout header = new MHorizontalLayout().withFullWidth();
 
-            final CheckBox openSelection = new BugStatusCheckbox(BugStatus.Open, true);
-            CheckBox reOpenSelection = new BugStatusCheckbox(BugStatus.ReOpen, true);
-            CheckBox verifiedSelection = new BugStatusCheckbox(BugStatus.Verified, true);
-            CheckBox resolvedSelection = new BugStatusCheckbox(BugStatus.Resolved, true);
+            final CheckBox openSelection = new BugStatusCheckbox(StatusI18nEnum.Open, true);
+            CheckBox reOpenSelection = new BugStatusCheckbox(StatusI18nEnum.ReOpen, true);
+            CheckBox verifiedSelection = new BugStatusCheckbox(StatusI18nEnum.Verified, true);
+            CheckBox resolvedSelection = new BugStatusCheckbox(StatusI18nEnum.Resolved, true);
 
             Label spacingLbl1 = new Label("");
 
@@ -107,8 +108,8 @@ public class ComponentPreviewForm extends AdvancedPreviewBeanForm<SimpleComponen
             searchCriteria = new BugSearchCriteria();
             searchCriteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
             searchCriteria.setComponentids(new SetSearchField<>(beanItem.getId()));
-            searchCriteria.setStatuses(new SetSearchField<>(BugStatus.Open.name(), BugStatus.ReOpen.name(),
-                    BugStatus.Verified.name(), BugStatus.Resolved.name()));
+            searchCriteria.setStatuses(new SetSearchField<>(StatusI18nEnum.Open.name(), StatusI18nEnum.ReOpen.name(),
+                    StatusI18nEnum.Verified.name(), StatusI18nEnum.Resolved.name()));
             updateSearchStatus();
 
             this.with(header, bugList);

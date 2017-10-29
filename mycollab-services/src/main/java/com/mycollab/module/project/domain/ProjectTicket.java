@@ -21,7 +21,6 @@ import com.mycollab.core.arguments.ValuedBean;
 import com.mycollab.core.utils.DateTimeUtils;
 import com.mycollab.core.utils.StringUtils;
 import com.mycollab.module.project.ProjectTypeConstants;
-import com.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.mycollab.module.tracker.domain.SimpleBug;
 
 import java.io.Serializable;
@@ -242,7 +241,7 @@ public class ProjectTicket extends ValuedBean implements Serializable {
     }
 
     public boolean isClosed() {
-        return StatusI18nEnum.Closed.name().equals(getStatus()) || BugStatus.Verified.name().equals(getStatus());
+        return StatusI18nEnum.Closed.name().equals(getStatus()) || StatusI18nEnum.Verified.name().equals(getStatus());
     }
 
     public String getProjectShortName() {

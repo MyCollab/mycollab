@@ -34,9 +34,8 @@ import org.slf4j.LoggerFactory
  */
 class MilestoneHistoryFieldFormat : HistoryFieldFormat {
 
-    override fun toString(value: String): String {
-        return toString(value, true, UserUIContext.getMessage(GenericI18Enum.FORM_EMPTY))
-    }
+    override fun toString(value: String): String =
+            toString(value, true, UserUIContext.getMessage(GenericI18Enum.FORM_EMPTY))
 
     override fun toString(value: String, displayAsHtml: Boolean, msgIfBlank: String): String {
         if (StringUtils.isBlank(value)) {

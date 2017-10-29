@@ -28,12 +28,7 @@ import com.mycollab.core.MyCollabException;
 public class OptionI18nEnum {
     public static Priority[] priorities = {Priority.Urgent, Priority.High, Priority.Medium, Priority.Low, Priority.None};
 
-    public static BugStatus[] bug_statuses = {BugStatus.Open, BugStatus.Verified, BugStatus.Resolved, BugStatus.ReOpen};
-
     public static BugSeverity[] bug_severities = {BugSeverity.Critical, BugSeverity.Major, BugSeverity.Minor, BugSeverity.Trivial};
-
-    public static BugResolution[] bug_resolutions = {BugResolution.Fixed, BugResolution.Won_Fix, BugResolution.Duplicate,
-            BugResolution.Invalid, BugResolution.CannotReproduce, BugResolution.InComplete};
 
     public static InvoiceStatus[] invoiceStatuses = {InvoiceStatus.Paid,
             InvoiceStatus.Sent, InvoiceStatus.Scheduled};
@@ -54,12 +49,6 @@ public class OptionI18nEnum {
     @LocaleData(value = {@Locale("en-US")}, defaultCharset = "UTF-8")
     public enum Priority {
         Urgent, High, Medium, Low, None
-    }
-
-    @BaseName("project-bug-status")
-    @LocaleData(value = {@Locale("en-US")}, defaultCharset = "UTF-8")
-    public enum BugStatus {
-        Open, Verified, Resolved, ReOpen
     }
 
     @BaseName("project-bug-severity")

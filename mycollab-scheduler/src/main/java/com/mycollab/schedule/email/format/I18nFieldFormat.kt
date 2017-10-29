@@ -55,12 +55,10 @@ class I18nFieldFormat : FieldFormat {
         }
     }
 
-    override fun formatField(context: MailContext<*>, value: String): String {
-        return try {
-            LocalizationHelper.getMessage(context.locale, enumKey, value)
-        } catch (e: Exception) {
-            LOG.error("Can not generate of object field: $fieldName and $value", e)
-            Span().write()
-        }
+    override fun formatField(context: MailContext<*>, value: String): String = try {
+        LocalizationHelper.getMessage(context.locale, enumKey, value)
+    } catch (e: Exception) {
+        LOG.error("Can not generate of object field: $fieldName and $value", e)
+        Span().write()
     }
 }

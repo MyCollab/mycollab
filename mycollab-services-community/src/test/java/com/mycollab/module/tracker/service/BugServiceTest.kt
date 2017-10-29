@@ -70,9 +70,9 @@ class BugServiceTest : IntegrationServiceTest() {
         val bug = bugService.findById(1, 1)
         assertThat(bug!!.loguserFullName).isEqualTo("Nguyen Hai")
         assertThat(bug.assignuserFullName).isEqualTo("Nguyen Hai")
-        assertThat(bug.affectedVersions.size).isEqualTo(1)
-        assertThat(bug.fixedVersions.size).isEqualTo(2)
-        assertThat(bug.components.size).isEqualTo(1)
+        assertThat(bug.affectedVersions!!.size).isEqualTo(1)
+        assertThat(bug.fixedVersions!!.size).isEqualTo(2)
+        assertThat(bug.components!!.size).isEqualTo(1)
     }
 
     @DataSet

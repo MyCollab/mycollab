@@ -19,7 +19,6 @@ package com.mycollab.module.project.view.task
 import com.mycollab.common.UrlTokenizer
 import com.mycollab.core.MyCollabException
 import com.mycollab.core.ResourceNotFoundException
-import com.mycollab.vaadin.EventBusFactory
 import com.mycollab.module.project.ProjectLinkParams
 import com.mycollab.module.project.domain.SimpleTask
 import com.mycollab.module.project.event.ProjectEvent
@@ -29,6 +28,7 @@ import com.mycollab.module.project.view.parameters.ProjectScreenData
 import com.mycollab.module.project.view.parameters.TaskScreenData
 import com.mycollab.spring.AppContextUtil
 import com.mycollab.vaadin.AppUI
+import com.mycollab.vaadin.EventBusFactory
 import com.mycollab.vaadin.mvp.PageActionChain
 import java.util.*
 
@@ -41,16 +41,6 @@ class TaskUrlResolver : ProjectUrlResolver() {
         this.addSubResolver("preview", ReadUrlResolver())
         this.addSubResolver("add", AddUrlResolver())
         this.addSubResolver("edit", EditUrlResolver())
-        this.addSubResolver("kanban", KanbanUrlResolver())
-    }
-
-    private class KanbanUrlResolver : ProjectUrlResolver() {
-        override fun handlePage(vararg params: String) {
-            val projectId = UrlTokenizer(params[0]).getInt()
-            val chain = PageActionChain(ProjectScreenData.Goto(projectId),
-                    TaskScreenData.GotoKanbanView())
-            EventBusFactory.getInstance().post(ProjectEvent.GotoMyProject(this, chain))
-        }
     }
 
     private class ReadUrlResolver : ProjectUrlResolver() {

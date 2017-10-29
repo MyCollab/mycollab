@@ -49,10 +49,10 @@ class QuoteServiceImpl(private val quoteMapper: QuoteMapper,
         this.productMapper = productDAO
     }
 
-    override fun saveSimpleQuoteGroupProducts(accountid: Int, quoteId: Int, entity: List<SimpleQuoteGroupProduct>) {
+    override fun saveSimpleQuoteGroupProducts(accountid: Int, quoteId: Int, entities: List<SimpleQuoteGroupProduct>) {
         quoteGroupProductService.deleteQuoteGroupByQuoteId(quoteId)
 
-        for (simpleQuoteGroupProduct in entity) {
+        for (simpleQuoteGroupProduct in entities) {
             val quoteGroupProduct = simpleQuoteGroupProduct.quoteGroupProduct
             quoteGroupProductService.insertQuoteGroupExt(quoteGroupProduct)
 

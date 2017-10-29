@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -20,7 +20,6 @@ import com.hp.gagawa.java.elements.Img;
 import com.hp.gagawa.java.elements.Span;
 import com.mycollab.module.file.StorageUtils;
 import com.mycollab.module.project.ProjectTypeConstants;
-import com.mycollab.module.project.i18n.OptionI18nEnum;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.module.tracker.domain.SimpleBug;
 import com.mycollab.vaadin.UserUIContext;
@@ -31,6 +30,8 @@ import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Component;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
+
+import static com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 
 /**
  * @author MyCollab Ltd
@@ -48,7 +49,7 @@ public class BugRowRenderer implements IBeanList.RowDisplayHandler<SimpleBug> {
         String bugPriority = bug.getPriority();
         Span priorityLink = new Span().appendText(ProjectAssetsManager.getPriorityHtml(bugPriority)).setTitle(bugPriority);
 
-        Span statusSpan = new Span().appendText(UserUIContext.getMessage(OptionI18nEnum.BugStatus.class,
+        Span statusSpan = new Span().appendText(UserUIContext.getMessage(StatusI18nEnum.class,
                 bug.getStatus())).setCSSClass(UIConstants.BLOCK);
 
         String avatarLink = StorageUtils.getAvatarPath(bug.getAssignUserAvatarId(), 16);

@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -31,7 +31,6 @@ import com.mycollab.module.project.domain.ProjectTicket;
 import com.mycollab.module.project.domain.SimpleMilestone;
 import com.mycollab.module.project.domain.criteria.ProjectTicketSearchCriteria;
 import com.mycollab.module.project.i18n.BugI18nEnum;
-import com.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.mycollab.module.project.i18n.OptionI18nEnum.MilestoneStatus;
 import com.mycollab.module.project.i18n.RiskI18nEnum;
 import com.mycollab.module.project.i18n.TaskI18nEnum;
@@ -195,13 +194,9 @@ public class MilestonePreviewForm extends AdvancedPreviewBeanForm<SimpleMileston
             rowComp.setDefaultComponentAlignment(Alignment.TOP_LEFT);
             rowComp.with(ELabel.fontIcon(ProjectAssetsManager.getAsset(genericTask.getType())).withWidthUndefined());
             String status = "";
-            if (genericTask.isBug()) {
-                status = UserUIContext.getMessage(BugStatus.class, genericTask.getStatus());
-            } else if (genericTask.isMilestone()) {
+            if (genericTask.isMilestone()) {
                 status = UserUIContext.getMessage(MilestoneStatus.class, genericTask.getStatus());
-            } else if (genericTask.isRisk()) {
-                status = UserUIContext.getMessage(StatusI18nEnum.class, genericTask.getStatus());
-            } else if (genericTask.isTask()) {
+            } else {
                 status = UserUIContext.getMessage(StatusI18nEnum.class, genericTask.getStatus());
             }
             rowComp.with(new ELabel(status).withStyleName(UIConstants.BLOCK).withWidthUndefined());

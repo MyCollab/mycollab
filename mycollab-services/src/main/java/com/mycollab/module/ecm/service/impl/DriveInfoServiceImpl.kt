@@ -54,7 +54,7 @@ class DriveInfoServiceImpl(private val driveInfoMapper: DriveInfoMapper) : Defau
                 }
             }
         } catch (e: Exception) {
-            LOG.error("Error while save drive info " + BeanUtility.printBeanObj(driveInfo), e)
+            LOG.error("Error while save drive info ${BeanUtility.printBeanObj(driveInfo)}", e)
         } finally {
             DistributionLockUtil.removeLock("ecm-service$sAccountId")
             lock.unlock()

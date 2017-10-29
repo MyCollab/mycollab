@@ -68,5 +68,4 @@ open class CrmUrlResolver() : UrlResolver() {
             EventBusFactory.getInstance().post(CrmEvent.GotoActivitiesView(this, null))
         }
     }
-
 }

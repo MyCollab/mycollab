@@ -88,7 +88,7 @@ interface ResourceService : IService {
      * @param path
      * @return
      */
-    fun getContentStream(path: String): InputStream
+    fun getContentStream(path: String): InputStream?
 
     /**
      * @param oldPath

@@ -137,7 +137,9 @@ open class DefaultScheduleConfiguration {
     @Bean
     open fun quartzScheduler(): SchedulerFactoryBean {
         val bean = SchedulerFactoryBean()
-        bean.setDataSource(dataSource)
+        if (!deploymentMode.isCommunityEdition) {
+            bean.setDataSource(dataSource)
+        }
 
         bean.setQuartzProperties(buildProperties())
         bean.setOverwriteExistingJobs(true)

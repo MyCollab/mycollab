@@ -21,7 +21,6 @@ import org.slf4j.LoggerFactory
 import java.io.BufferedInputStream
 import java.io.BufferedOutputStream
 import java.io.IOException
-import java.io.InputStream
 import javax.servlet.ServletException
 import javax.servlet.http.HttpServlet
 import javax.servlet.http.HttpServletRequest
@@ -38,7 +37,7 @@ class AssetHttpServletRequestHandler : HttpServlet() {
         val path = request.pathInfo
         var resourcePath = "assets$path"
 
-        var inputStream: InputStream? = AssetHttpServletRequestHandler::class.java.classLoader.getResourceAsStream(resourcePath)
+        var inputStream = AssetHttpServletRequestHandler::class.java.classLoader.getResourceAsStream(resourcePath)
 
         if (inputStream == null) {
             resourcePath = "VAADIN/themes/mycollab$path"

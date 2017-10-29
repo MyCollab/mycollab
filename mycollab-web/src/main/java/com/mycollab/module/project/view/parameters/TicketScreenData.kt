@@ -24,4 +24,6 @@ import com.mycollab.vaadin.mvp.ScreenData
  */
 object TicketScreenData {
     class GotoDashboard(query: Any?) : ScreenData<Any>(query)
+
+    class GotoKanbanView : ScreenData<Any>(null)
 }

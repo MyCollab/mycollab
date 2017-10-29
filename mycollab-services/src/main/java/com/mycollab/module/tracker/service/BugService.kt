@@ -21,7 +21,6 @@ import com.mycollab.core.cache.CacheEvict
 import com.mycollab.core.cache.CacheKey
 import com.mycollab.core.cache.Cacheable
 import com.mycollab.db.persistence.service.IDefaultService
-import com.mycollab.module.tracker.domain.BugStatusGroupItem
 import com.mycollab.module.tracker.domain.BugWithBLOBs
 import com.mycollab.module.tracker.domain.SimpleBug
 import com.mycollab.module.tracker.domain.criteria.BugSearchCriteria
@@ -49,9 +48,6 @@ interface BugService : IDefaultService<Int, BugWithBLOBs, BugSearchCriteria> {
 
     @Cacheable
     fun getResolutionDefectsSummary(@CacheKey criteria: BugSearchCriteria): List<GroupItem>
-
-    @Cacheable
-    fun getBugStatusGroupItemBaseComponent(@CacheKey criteria: BugSearchCriteria): List<BugStatusGroupItem>
 
     @Cacheable
     fun getReporterDefectsSummary(@CacheKey criteria: BugSearchCriteria): List<GroupItem>

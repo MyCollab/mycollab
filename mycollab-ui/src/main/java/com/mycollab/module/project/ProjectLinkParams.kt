@@ -28,10 +28,7 @@ import java.util.regex.Pattern
 object ProjectLinkParams {
     private val PATTERN = Pattern.compile("^\\w{1,3}-\\d*$")
 
-    fun isValidParam(param: String): Boolean {
-        val matcher = PATTERN.matcher(param)
-        return matcher.find()
-    }
+    fun isValidParam(param: String): Boolean = PATTERN.matcher(param).find()
 
     fun getProjectShortName(param: String): String {
         val index = param.indexOf("-")

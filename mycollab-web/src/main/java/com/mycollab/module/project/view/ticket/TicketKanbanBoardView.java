@@ -16,7 +16,7 @@
  */
 package com.mycollab.module.project.view.ticket;
 
-import com.mycollab.module.project.domain.criteria.TaskSearchCriteria;
+import com.mycollab.module.project.domain.criteria.ProjectTicketSearchCriteria;
 import com.mycollab.module.project.view.IKanbanView;
 import com.mycollab.vaadin.event.HasSearchHandlers;
 import com.mycollab.vaadin.mvp.PageView;
@@ -26,9 +26,9 @@ import com.mycollab.vaadin.mvp.PageView;
  * @since 5.1.1
  */
 public interface TicketKanbanBoardView extends PageView, IKanbanView {
-    HasSearchHandlers<TaskSearchCriteria> getSearchHandlers();
+    HasSearchHandlers<ProjectTicketSearchCriteria> getSearchHandlers();
 
     void display();
 
-    void queryTask(TaskSearchCriteria searchCriteria);
+    void queryTickets(ProjectTicketSearchCriteria searchCriteria);
 }

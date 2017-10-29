@@ -195,7 +195,7 @@ object ProjectTooltipGenerator {
 
             val trRow3 = Tr()
             val cell31 = buildCellName(LocalizationHelper.getMessage(locale, GenericI18Enum.FORM_STATUS))
-            val cell32 = buildCellValue(LocalizationHelper.getMessage(locale, BugStatus::class.java, bug.status))
+            val cell32 = buildCellValue(LocalizationHelper.getMessage(locale, StatusI18nEnum::class.java, bug.status))
             val cell33 = buildCellName(LocalizationHelper.getMessage(locale, GenericI18Enum.FORM_PRIORITY))
             val cell34 = buildCellValue(LocalizationHelper.getMessage(locale, Priority::class.java, bug.priority))
             trRow3.appendChild(cell31, cell32, cell33, cell34)

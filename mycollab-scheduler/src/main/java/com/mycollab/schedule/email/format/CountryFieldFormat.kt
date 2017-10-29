@@ -46,6 +46,5 @@ class CountryFieldFormat(fieldName: String, displayName: Enum<*>) : FieldFormat(
                 Span().appendText(locale.getDisplayCountry(context.locale)).write()
             }
         }
-
     }
 }

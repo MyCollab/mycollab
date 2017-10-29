@@ -19,8 +19,7 @@ package com.mycollab.module.billing.esb
 import com.google.common.eventbus.AllowConcurrentEvents
 import com.google.common.eventbus.Subscribe
 import com.mycollab.common.NotificationType
-import com.mycollab.common.i18n.OptionI18nEnum
-import com.mycollab.common.i18n.OptionI18nEnum.*
+import com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum
 import com.mycollab.common.i18n.WikiI18nEnum
 import com.mycollab.common.service.OptionValService
 import com.mycollab.core.utils.BeanUtility
@@ -58,7 +57,7 @@ class AccountCreatedCommand(private val optionValService: OptionValService,
                             private val componentService: ComponentService,
                             private val versionService: VersionService,
                             private val pageService: PageService,
-                            private val projectNotificationSettingService: ProjectNotificationSettingService)  : GenericCommand() {
+                            private val projectNotificationSettingService: ProjectNotificationSettingService) : GenericCommand() {
 
 
     @AllowConcurrentEvents
@@ -178,7 +177,7 @@ class AccountCreatedCommand(private val optionValService: OptionValService,
         bugA.createduser = initialUser
         bugA.milestoneid = sampleMilestoneId
         bugA.name = "Bug A"
-        bugA.status = BugStatus.Open.name
+        bugA.status = StatusI18nEnum.Open.name
         bugA.priority = Priority.Medium.name
         bugA.projectid = projectId
         bugA.saccountid = accountId
@@ -187,7 +186,7 @@ class AccountCreatedCommand(private val optionValService: OptionValService,
         val bugB = BeanUtility.deepClone(bugA)
         bugB.id = null
         bugB.name = "Bug B"
-        bugB.status = BugStatus.Resolved.name
+        bugB.status = StatusI18nEnum.Resolved.name
         bugB.resolution = BugResolution.CannotReproduce.name
         bugB.priority = Priority.Low.name
         bugService.saveWithSession(bugB, initialUser)
@@ -198,7 +197,7 @@ class AccountCreatedCommand(private val optionValService: OptionValService,
         val page = Page()
         page.subject = "Welcome to sample workspace"
         page.content = "I hope you enjoy MyCollab!"
-        page.path = PathUtils.getProjectDocumentPath(accountId, projectId) + "/" + StringUtils.generateSoftUniqueId()
+        page.path = "${PathUtils.getProjectDocumentPath(accountId, projectId)}/${StringUtils.generateSoftUniqueId()}"
         page.status = WikiI18nEnum.status_public.name
         pageService.savePage(page, initialUser)
 
@@ -209,7 +208,7 @@ class AccountCreatedCommand(private val optionValService: OptionValService,
         pageService.createFolder(folder, initialUser)
 
         val timer = Timer("Set member notification")
-        timer.schedule(object: TimerTask() {
+        timer.schedule(object : TimerTask() {
             override fun run() {
                 projectNotificationSetting.level = NotificationType.Default.name
                 projectNotificationSettingService.updateWithSession(projectNotificationSetting, initialUser)

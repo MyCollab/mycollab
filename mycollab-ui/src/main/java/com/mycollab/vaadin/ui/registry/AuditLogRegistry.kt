@@ -51,9 +51,9 @@ class AuditLogRegistry : InitializingBean {
                 value != null -> {
                     val str = StringBuilder("")
                     var isAppended = false
-                    val changeItems = activityStream.assoAuditLog.changeItems
+                    val changeItems = activityStream.assoAuditLog?.changeItems
                     if (CollectionUtils.isNotEmpty(changeItems)) {
-                        changeItems.forEach {
+                        changeItems!!.forEach {
                             val fieldName = it.field
                             val fieldDisplayHandler = value.getFieldDisplayHandler(fieldName)
                             if (fieldDisplayHandler != null) {

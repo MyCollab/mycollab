@@ -68,7 +68,7 @@ class TaskFieldFormatter private constructor() : FieldGroupFormatter() {
                         val humanTime = HumanTime(duration)
                         humanTime.exactly
                     } catch (e: Exception) {
-                        LOG.error("Parse value failed " + value, e)
+                        LOG.error("Parse value failed $value", e)
                         msgIfBlank
                     }
                     else -> msgIfBlank

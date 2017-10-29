@@ -16,10 +16,10 @@
  */
 package com.mycollab.module.tracker.service.impl
 
+import com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum
 import com.mycollab.db.persistence.ICrudGenericDAO
 import com.mycollab.db.persistence.service.DefaultCrudService
 import com.mycollab.module.project.i18n.OptionI18nEnum.BugRelation
-import com.mycollab.module.project.i18n.OptionI18nEnum.BugStatus
 import com.mycollab.module.tracker.dao.RelatedBugMapper
 import com.mycollab.module.tracker.dao.RelatedBugMapperExt
 import com.mycollab.module.tracker.domain.RelatedBug
@@ -46,7 +46,7 @@ class BugRelationServiceImpl(private val relatedBugMapper: RelatedBugMapper,
         if (BugRelation.Duplicated.name == record.relatetype) {
             val bug = bugService.findById(bugId, 0)
             if (bug != null) {
-                bug.status = BugStatus.Resolved.name
+                bug.status = StatusI18nEnum.Resolved.name
                 bug.resolution = BugRelation.Duplicated.name
                 bugService.updateSelectiveWithSession(bug, username)
             }

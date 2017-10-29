@@ -36,7 +36,7 @@ import org.springframework.stereotype.Component
 class CleanupTimeTrackingCacheDataJob : GenericQuartzJobBean() {
 
     @Autowired
-    lateinit var timeTrackingCacheMapper: TimelineTrackingCachingMapper
+    private lateinit var timeTrackingCacheMapper: TimelineTrackingCachingMapper
 
     override fun executeJob(context: JobExecutionContext) {
         val ex = TimelineTrackingCachingExample()

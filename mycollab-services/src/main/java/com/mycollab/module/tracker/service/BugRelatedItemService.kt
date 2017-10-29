@@ -34,9 +34,9 @@ interface BugRelatedItemService : IService {
 
     fun saveComponentsOfBug(bugId: Int, components: List<Component>)
 
-    fun updateAffectedVersionsOfBug(bugId: Int, versions: List<Version>)
+    fun updateAffectedVersionsOfBug(bugId: Int, versions: List<Version>?)
 
-    fun updateFixedVersionsOfBug(bugId: Int, versions: List<Version>)
+    fun updateFixedVersionsOfBug(bugId: Int, versions: List<Version>?)
 
-    fun updateComponentsOfBug(bugId: Int, components: List<Component>)
+    fun updateComponentsOfBug(bugId: Int, components: List<Component>?)
 }

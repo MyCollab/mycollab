@@ -98,19 +98,17 @@ object CrmLinkGenerator {
             "$siteUrl${generateCallPreviewLink(callId)}"
 
     @JvmStatic
-    fun generateCrmItemLink(type: String, typeId: Int?): String {
-        return when (type) {
-            CrmTypeConstants.ACCOUNT -> generateAccountPreviewLink(typeId)
-            CrmTypeConstants.CAMPAIGN -> generateCampaignPreviewLink(typeId)
-            CrmTypeConstants.CASE -> generateCasePreviewLink(typeId)
-            CrmTypeConstants.CONTACT -> generateContactPreviewLink(typeId)
-            CrmTypeConstants.LEAD -> generateLeadPreviewLink(typeId)
-            CrmTypeConstants.OPPORTUNITY -> generateOpportunityPreviewLink(typeId)
-            CrmTypeConstants.TASK -> generateTaskPreviewLink(typeId)
-            CrmTypeConstants.MEETING -> generateMeetingPreviewLink(typeId)
-            CrmTypeConstants.CALL -> generateCallPreviewLink(typeId)
-            else -> ""
-        }
+    fun generateCrmItemLink(type: String, typeId: Int?): String = when (type) {
+        CrmTypeConstants.ACCOUNT -> generateAccountPreviewLink(typeId)
+        CrmTypeConstants.CAMPAIGN -> generateCampaignPreviewLink(typeId)
+        CrmTypeConstants.CASE -> generateCasePreviewLink(typeId)
+        CrmTypeConstants.CONTACT -> generateContactPreviewLink(typeId)
+        CrmTypeConstants.LEAD -> generateLeadPreviewLink(typeId)
+        CrmTypeConstants.OPPORTUNITY -> generateOpportunityPreviewLink(typeId)
+        CrmTypeConstants.TASK -> generateTaskPreviewLink(typeId)
+        CrmTypeConstants.MEETING -> generateMeetingPreviewLink(typeId)
+        CrmTypeConstants.CALL -> generateCallPreviewLink(typeId)
+        else -> ""
     }
 
     fun generateCrmItemFullLink(siteUrl: String, type: String, typeId: Int?): String =

@@ -246,7 +246,7 @@ class ProjectTaskRelayEmailNotificationActionImpl : SendMailToFollowersAction<Si
                 val img = Text(ProjectResources.getFontIconHtml(ProjectTypeConstants.MILESTONE))
                 val milestoneLink = ProjectLinkGenerator.generateMilestonePreviewFullLink(context.siteUrl, task.projectid,
                         task.milestoneid)
-                val link = FormatUtils.newA(milestoneLink, task.milestoneName)
+                val link = FormatUtils.newA(milestoneLink, task.milestoneName!!)
                 FormatUtils.newLink(img, link).write()
             } else Span().write()
         }

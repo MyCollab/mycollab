@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- * <p>
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * <p>
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- * <p>
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -27,7 +27,6 @@ import com.mycollab.mobile.ui.grid.GridFormLayoutHelper;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.i18n.BugI18nEnum;
-import com.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.mycollab.module.tracker.domain.BugWithBLOBs;
 import com.mycollab.module.tracker.domain.SimpleBug;
 import com.mycollab.module.tracker.service.BugService;
@@ -42,6 +41,8 @@ import com.mycollab.vaadin.ui.GenericBeanForm;
 import com.vaadin.ui.*;
 
 import java.util.GregorianCalendar;
+
+import static com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 
 /**
  * @author MyCollab Ltd.
@@ -67,7 +68,7 @@ class ApproveInputView extends AbstractMobilePageView {
         final Button approveBtn = new Button(UserUIContext.getMessage(BugI18nEnum.BUTTON_APPROVE_CLOSE), clickEvent -> {
             if (editForm.validateForm()) {
                 // Save bug status and assignee
-                ApproveInputView.this.bug.setStatus(BugStatus.Verified.name());
+                bug.setStatus(StatusI18nEnum.Verified.name());
                 final BugService bugService = AppContextUtil.getSpringBean(BugService.class);
                 bugService.updateSelectiveWithSession(ApproveInputView.this.bug, UserUIContext.getUsername());
 

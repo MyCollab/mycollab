@@ -36,7 +36,7 @@ public class DateTimeOptionViewField extends CustomField<String> {
 
     @Override
     protected Component initContent() {
-        String dateValue = (date == null) ? "" : UserUIContext.formatDateTime(date);
+        String dateValue = (date != null) ? UserUIContext.formatDateTime(date) : "";
         return new Label(dateValue);
     }
 

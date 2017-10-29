@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -21,14 +21,12 @@ import com.mycollab.cache.CleanCacheEvent;
 import com.mycollab.common.domain.MonitorItem;
 import com.mycollab.common.service.MonitorItemService;
 import com.mycollab.core.SecureAccessException;
-import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.module.file.AttachmentUtils;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectRolePermissionCollections;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.event.BugEvent;
 import com.mycollab.module.project.event.TicketEvent;
-import com.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.mycollab.module.project.view.ProjectBreadcrumb;
 import com.mycollab.module.project.view.ProjectGenericPresenter;
 import com.mycollab.module.tracker.domain.SimpleBug;
@@ -36,6 +34,7 @@ import com.mycollab.module.tracker.service.BugRelatedItemService;
 import com.mycollab.module.tracker.service.BugService;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppUI;
+import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.event.IEditFormHandler;
 import com.mycollab.vaadin.mvp.LoadPolicy;
@@ -48,6 +47,8 @@ import com.vaadin.ui.HasComponents;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
+
+import static com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 
 /**
  * @author MyCollab Ltd.
@@ -112,7 +113,7 @@ public class BugAddPresenter extends ProjectGenericPresenter<BugAddView> {
         bug.setSaccountid(AppUI.getAccountId());
         AsyncEventBus asyncEventBus = AppContextUtil.getSpringBean(AsyncEventBus.class);
         if (bug.getId() == null) {
-            bug.setStatus(BugStatus.Open.name());
+            bug.setStatus(StatusI18nEnum.Open.name());
             bug.setCreateduser(UserUIContext.getUsername());
             int bugId = bugService.saveWithSession(bug, UserUIContext.getUsername());
             AttachmentUploadField uploadField = view.getAttachUploadField();

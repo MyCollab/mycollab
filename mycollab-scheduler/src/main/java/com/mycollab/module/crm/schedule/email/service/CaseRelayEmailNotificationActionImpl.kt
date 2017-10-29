@@ -119,7 +119,7 @@ class CaseRelayEmailNotificationActionImpl : CrmDefaultSendingRelayEmailAction<S
             return if (simpleCase.accountid != null) {
                 val img = Text(CrmResources.getFontIconHtml(CrmTypeConstants.ACCOUNT))
                 val accountLink = CrmLinkGenerator.generateAccountPreviewFullLink(context.siteUrl, simpleCase.accountid)
-                val link = FormatUtils.newA(accountLink, simpleCase.accountName)
+                val link = FormatUtils.newA(accountLink, simpleCase.accountName!!)
                 FormatUtils.newLink(img, link).write()
             } else {
                 Span().write()

@@ -27,7 +27,7 @@ import com.mycollab.module.crm.domain.criteria.QuoteSearchCriteria
  */
 interface QuoteService : IDefaultService<Int, Quote, QuoteSearchCriteria> {
 
-    fun saveSimpleQuoteGroupProducts(accountid: Int, quoteId: Int, entity: List<SimpleQuoteGroupProduct>)
+    fun saveSimpleQuoteGroupProducts(accountid: Int, quoteId: Int, entities: List<SimpleQuoteGroupProduct>)
 
     fun getListSimpleQuoteGroupProducts(quoteId: Int): List<SimpleQuoteGroupProduct>
 }

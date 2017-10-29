@@ -19,7 +19,6 @@ package com.mycollab.module.tracker.service.impl
 import com.mycollab.module.tracker.dao.BugRelatedItemMapper
 import com.mycollab.module.tracker.domain.*
 import com.mycollab.module.tracker.service.BugRelatedItemService
-import org.apache.commons.collections.CollectionUtils
 import org.springframework.stereotype.Service
 
 /**
@@ -47,7 +46,7 @@ class BugRelatedItemServiceImpl(private val bugRelatedItemMapper: BugRelatedItem
         insertFixedVersionsOfBug(bugId, versions)
     }
 
-    private fun insertFixedVersionsOfBug(bugId: Int?, versions: List<Version>) {
+    private fun insertFixedVersionsOfBug(bugId: Int, versions: List<Version>) {
         versions.forEach {
             val relatedItem = BugRelatedItem()
             relatedItem.bugid = bugId
@@ -71,31 +70,30 @@ class BugRelatedItemServiceImpl(private val bugRelatedItemMapper: BugRelatedItem
         }
     }
 
-    private fun deleteTrackerBugRelatedItem(bugId: Int?, type: String) {
+    private fun deleteTrackerBugRelatedItem(bugId: Int, type: String) {
         val ex = BugRelatedItemExample()
         ex.createCriteria().andBugidEqualTo(bugId).andTypeEqualTo(type)
-
         bugRelatedItemMapper.deleteByExample(ex)
     }
 
 
-    override fun updateAffectedVersionsOfBug(bugId: Int, versions: List<Version>) {
+    override fun updateAffectedVersionsOfBug(bugId: Int, versions: List<Version>?) {
         deleteTrackerBugRelatedItem(bugId, SimpleRelatedBug.AFFVERSION)
-        if (CollectionUtils.isNotEmpty(versions)) {
+        if (versions != null) {
             insertAffectedVersionsOfBug(bugId, versions)
         }
     }
 
-    override fun updateFixedVersionsOfBug(bugId: Int, versions: List<Version>) {
+    override fun updateFixedVersionsOfBug(bugId: Int, versions: List<Version>?) {
         deleteTrackerBugRelatedItem(bugId, SimpleRelatedBug.FIXVERSION)
-        if (CollectionUtils.isNotEmpty(versions)) {
+        if (versions != null) {
             insertFixedVersionsOfBug(bugId, versions)
         }
     }
 
-    override fun updateComponentsOfBug(bugId: Int, components: List<Component>) {
+    override fun updateComponentsOfBug(bugId: Int, components: List<Component>?) {
         deleteTrackerBugRelatedItem(bugId, SimpleRelatedBug.COMPONENT)
-        if (CollectionUtils.isNotEmpty(components)) {
+        if (components != null) {
             insertComponentsOfBug(bugId, components)
         }
     }

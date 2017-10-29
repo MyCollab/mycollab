@@ -24,6 +24,7 @@ import com.mycollab.module.project.view.parameters.TaskScreenData;
 import com.mycollab.module.project.view.parameters.TicketScreenData;
 import com.mycollab.module.project.view.task.TaskAddPresenter;
 import com.mycollab.module.project.view.task.TaskReadPresenter;
+import com.mycollab.vaadin.mvp.IPresenter;
 import com.mycollab.vaadin.mvp.PresenterResolver;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.web.ui.AbstractPresenter;
@@ -45,14 +46,14 @@ public class TicketPresenter extends AbstractPresenter<TicketContainer> {
         ProjectView projectViewContainer = (ProjectView) container;
         projectViewContainer.gotoSubView(ProjectTypeConstants.TICKET);
 
-        AbstractPresenter<?> presenter;
+        IPresenter<?> presenter;
 
         if (data instanceof TaskScreenData.Read) {
             presenter = PresenterResolver.getPresenter(TaskReadPresenter.class);
         } else if (ClassUtils.instanceOf(data, TaskScreenData.Edit.class, TaskScreenData.Add.class)) {
             presenter = PresenterResolver.getPresenter(TaskAddPresenter.class);
-        } else if (data instanceof TaskScreenData.GotoKanbanView) {
-            presenter = PresenterResolver.getPresenter(TicketKanbanBoardPresenter.class);
+        } else if (data instanceof TicketScreenData.GotoKanbanView) {
+            presenter = PresenterResolver.getPresenter(ITicketKanbanPresenter.class);
         } else if (data == null || data instanceof TicketScreenData.GotoDashboard) {
             presenter = PresenterResolver.getPresenter(TicketDashboardPresenter.class);
         } else {

@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -21,7 +21,6 @@ import com.hp.gagawa.java.elements.Div;
 import com.hp.gagawa.java.elements.Img;
 import com.mycollab.common.i18n.DayI18nEnum;
 import com.mycollab.common.i18n.GenericI18Enum;
-import com.mycollab.common.i18n.OptionI18nEnum;
 import com.mycollab.core.IgnoreException;
 import com.mycollab.core.utils.StringUtils;
 import com.mycollab.html.DivLessFormatter;
@@ -30,7 +29,6 @@ import com.mycollab.module.file.service.AbstractStorageService;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectLinkGenerator;
 import com.mycollab.module.project.domain.ProjectTicket;
-import com.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.UserUIContext;
@@ -41,6 +39,8 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
+
+import static com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 
 /**
  * @author MyCollab Ltd
@@ -101,12 +101,7 @@ public class TicketRowDisplayHandler implements IBeanList.RowDisplayHandler<Proj
         ELabel assigneeLbl = ELabel.html(assigneeDiv.write()).withStyleName(UIConstants.META_INFO).withWidthUndefined();
         metaInfoLayout.addComponent(assigneeLbl);
 
-        String status;
-        if (ticket.isBug()) {
-            status = UserUIContext.getMessage(BugStatus.class, ticket.getStatus());
-        } else {
-            status = UserUIContext.getMessage(OptionI18nEnum.StatusI18nEnum.class, ticket.getStatus());
-        }
+        String status = UserUIContext.getMessage(StatusI18nEnum.class, ticket.getStatus());
         MHorizontalLayout statusLbl = new MHorizontalLayout(ELabel.html(UserUIContext.getMessage(GenericI18Enum.FORM_STATUS)).withStyleName
                 (UIConstants.META_INFO), new ELabel(status).withStyleName(UIConstants.BLOCK));
         metaInfoLayout.addComponent(statusLbl);

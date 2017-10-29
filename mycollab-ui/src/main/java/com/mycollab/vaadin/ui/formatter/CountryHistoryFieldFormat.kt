@@ -25,10 +25,10 @@ import java.util.*
  * @since 5.4.2
  */
 class CountryHistoryFieldFormat : HistoryFieldFormat {
-    override fun toString(countryCode: String): String =
+    override fun toString(value: String): String =
             when {
-                StringUtils.isNotBlank(countryCode) -> {
-                    val obj = Locale("", countryCode)
+                StringUtils.isNotBlank(value) -> {
+                    val obj = Locale("", value)
                     obj.getDisplayCountry(UserUIContext.getUserLocale())
                 }
                 else -> ""

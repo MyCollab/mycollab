@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -24,7 +24,6 @@ import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.domain.FollowingTicket;
 import com.mycollab.module.project.domain.criteria.FollowingTicketSearchCriteria;
 import com.mycollab.module.project.event.ProjectEvent;
-import com.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.mycollab.module.project.service.ProjectFollowingTicketService;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.module.project.view.parameters.BugScreenData;
@@ -47,6 +46,8 @@ import org.vaadin.viritin.button.MButton;
 import java.util.Arrays;
 import java.util.GregorianCalendar;
 
+import static com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
+
 /**
  * @author MyCollab Ltd.
  * @since 1.0
@@ -66,7 +67,7 @@ public class FollowingTicketTableDisplay extends DefaultPagedBeanTable<ProjectFo
             if (ProjectTypeConstants.BUG.equals(ticket.getType())) {
                 ticketLink.setIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG));
 
-                if (BugStatus.Verified.name().equals(ticket.getStatus())) {
+                if (StatusI18nEnum.Verified.name().equals(ticket.getStatus())) {
                     ticketLink.addStyleName(WebThemes.LINK_COMPLETED);
                 } else if (ticket.getDueDate() != null && ticket.getDueDate().before(DateTimeUtils.getCurrentDateWithoutMS())) {
                     ticketLink.addStyleName(WebThemes.LINK_OVERDUE);

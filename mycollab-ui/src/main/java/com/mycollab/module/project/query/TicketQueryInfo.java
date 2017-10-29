@@ -27,8 +27,6 @@ import org.joda.time.LocalDate;
 import java.util.Arrays;
 import java.util.Collections;
 
-import static com.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
-
 /**
  * @author MyCollab Ltd
  * @since 5.4.3
@@ -54,7 +52,7 @@ public class TicketQueryInfo {
             SearchFieldInfo.notInCollection(ProjectTicketSearchCriteria.p_status, new VariableInjector() {
                 @Override
                 public Object eval() {
-                    return Arrays.asList(StatusI18nEnum.Closed, BugStatus.Verified);
+                    return Arrays.asList(StatusI18nEnum.Closed, StatusI18nEnum.Verified);
                 }
 
                 @Override
@@ -83,7 +81,7 @@ public class TicketQueryInfo {
             }), SearchFieldInfo.notInCollection(ProjectTicketSearchCriteria.p_status, new VariableInjector() {
         @Override
         public Object eval() {
-            return Arrays.asList(StatusI18nEnum.Closed, BugStatus.Verified);
+            return Arrays.asList(StatusI18nEnum.Closed, StatusI18nEnum.Verified);
         }
 
         @Override
@@ -107,7 +105,7 @@ public class TicketQueryInfo {
             SearchFieldInfo.inCollection(ProjectTicketSearchCriteria.p_status, new VariableInjector() {
                 @Override
                 public Object eval() {
-                    return Arrays.asList(StatusI18nEnum.Closed, BugStatus.Verified);
+                    return Arrays.asList(StatusI18nEnum.Closed, StatusI18nEnum.Verified);
                 }
 
                 @Override

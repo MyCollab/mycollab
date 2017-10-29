@@ -17,12 +17,10 @@
 package com.mycollab.module.project.ui.format
 
 import com.mycollab.common.i18n.GenericI18Enum
+import com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum
 import com.mycollab.module.project.i18n.BugI18nEnum
 import com.mycollab.module.project.i18n.MilestoneI18nEnum
-import com.mycollab.module.project.i18n.OptionI18nEnum.BugResolution
-import com.mycollab.module.project.i18n.OptionI18nEnum.BugSeverity
-import com.mycollab.module.project.i18n.OptionI18nEnum.BugStatus
-import com.mycollab.module.project.i18n.OptionI18nEnum.Priority
+import com.mycollab.module.project.i18n.OptionI18nEnum.*
 import com.mycollab.module.tracker.domain.BugWithBLOBs
 import com.mycollab.vaadin.ui.formatter.FieldGroupFormatter
 import com.mycollab.vaadin.ui.formatter.I18nHistoryFieldFormat
@@ -34,19 +32,19 @@ import com.mycollab.vaadin.ui.formatter.I18nHistoryFieldFormat
 class BugFieldFormatter private constructor() : FieldGroupFormatter() {
 
     init {
-        generateFieldDisplayHandler("description", GenericI18Enum.FORM_DESCRIPTION, FieldGroupFormatter.Companion.TRIM_HTMLS)
-        generateFieldDisplayHandler("environment", BugI18nEnum.FORM_ENVIRONMENT, FieldGroupFormatter.Companion.TRIM_HTMLS)
+        generateFieldDisplayHandler("description", GenericI18Enum.FORM_DESCRIPTION, FieldGroupFormatter.TRIM_HTMLS)
+        generateFieldDisplayHandler("environment", BugI18nEnum.FORM_ENVIRONMENT, FieldGroupFormatter.TRIM_HTMLS)
         generateFieldDisplayHandler("name", BugI18nEnum.FORM_SUMMARY)
-        generateFieldDisplayHandler("status", GenericI18Enum.FORM_STATUS, I18nHistoryFieldFormat(BugStatus::class.java))
+        generateFieldDisplayHandler("status", GenericI18Enum.FORM_STATUS, I18nHistoryFieldFormat(StatusI18nEnum::class.java))
         generateFieldDisplayHandler("priority", GenericI18Enum.FORM_PRIORITY, I18nHistoryFieldFormat(Priority::class.java))
         generateFieldDisplayHandler("severity", BugI18nEnum.FORM_SEVERITY, I18nHistoryFieldFormat(BugSeverity::class.java))
         generateFieldDisplayHandler("resolution", BugI18nEnum.FORM_RESOLUTION, I18nHistoryFieldFormat(BugResolution::class.java))
         generateFieldDisplayHandler(BugWithBLOBs.Field.remainestimate.name, BugI18nEnum.FORM_REMAIN_ESTIMATE)
         generateFieldDisplayHandler(BugWithBLOBs.Field.originalestimate.name, BugI18nEnum.FORM_ORIGINAL_ESTIMATE)
-        generateFieldDisplayHandler("startdate", GenericI18Enum.FORM_START_DATE, FieldGroupFormatter.Companion.DATETIME_FIELD)
-        generateFieldDisplayHandler("enddate", GenericI18Enum.FORM_END_DATE, FieldGroupFormatter.Companion.DATETIME_FIELD)
-        generateFieldDisplayHandler("duedate", GenericI18Enum.FORM_DUE_DATE, FieldGroupFormatter.Companion.DATETIME_FIELD)
-        generateFieldDisplayHandler("createdTime", GenericI18Enum.FORM_CREATED_TIME, FieldGroupFormatter.Companion.PRETTY_DATE_TIME_FIELD)
+        generateFieldDisplayHandler("startdate", GenericI18Enum.FORM_START_DATE, FieldGroupFormatter.DATETIME_FIELD)
+        generateFieldDisplayHandler("enddate", GenericI18Enum.FORM_END_DATE, FieldGroupFormatter.DATETIME_FIELD)
+        generateFieldDisplayHandler("duedate", GenericI18Enum.FORM_DUE_DATE, FieldGroupFormatter.DATETIME_FIELD)
+        generateFieldDisplayHandler("createdTime", GenericI18Enum.FORM_CREATED_TIME, FieldGroupFormatter.PRETTY_DATE_TIME_FIELD)
         generateFieldDisplayHandler("loguserFullName", BugI18nEnum.FORM_LOG_BY, ProjectMemberHistoryFieldFormat())
         generateFieldDisplayHandler("assignuser", GenericI18Enum.FORM_ASSIGNEE, ProjectMemberHistoryFieldFormat())
         generateFieldDisplayHandler("milestoneid", MilestoneI18nEnum.SINGLE, MilestoneHistoryFieldFormat())

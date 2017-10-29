@@ -65,7 +65,7 @@ class ResourceServiceImpl(private val contentJcrDao: ContentJcrDao,
 
     override fun createNewFolder(baseFolderPath: String, folderName: String, description: String, createdBy: String): Folder {
         if (FileUtils.isValidFileName(folderName)) {
-            val folderPath = baseFolderPath + "/" + folderName
+            val folderPath = "$baseFolderPath/$folderName"
             val folder = Folder(folderPath)
             folder.name = folderName
             folder.description = description
@@ -142,9 +142,8 @@ class ResourceServiceImpl(private val contentJcrDao: ContentJcrDao,
         rawContentService.renamePath(oldPath, newPath)
     }
 
-    override fun searchResourcesByName(baseFolderPath: String, resourceName: String): List<Resource> {
-        return contentJcrDao.searchResourcesByName(baseFolderPath, resourceName)
-    }
+    override fun searchResourcesByName(baseFolderPath: String, resourceName: String): List<Resource> =
+            contentJcrDao.searchResourcesByName(baseFolderPath, resourceName)
 
     override fun moveResource(oldPath: String, newPath: String, userMove: String) {
         val oldResourceName = oldPath.substring(oldPath.lastIndexOf("/") + 1, oldPath.length)

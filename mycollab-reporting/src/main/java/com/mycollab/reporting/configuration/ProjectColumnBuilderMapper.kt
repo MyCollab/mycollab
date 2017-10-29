@@ -20,7 +20,7 @@ import com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum
 import com.mycollab.module.project.ProjectLinkGenerator
 import com.mycollab.module.project.ProjectTypeConstants
 import com.mycollab.module.project.domain.*
-import com.mycollab.module.project.i18n.OptionI18nEnum
+import com.mycollab.module.project.i18n.OptionI18nEnum.*
 import com.mycollab.module.tracker.domain.SimpleBug
 import com.mycollab.module.tracker.domain.SimpleComponent
 import com.mycollab.module.tracker.domain.SimpleVersion
@@ -127,7 +127,7 @@ class ProjectColumnBuilderMapper : InitializingBean {
         }
         map.put(Milestone.Field.name.name, HyperlinkBuilderGenerator(milestoneNameExpr, milestoneHrefExpr))
         map.put(Milestone.Field.status.name, SimpleExpressionBuilderGenerator(I18nExpression("status",
-                OptionI18nEnum.MilestoneStatus::class.java)))
+                MilestoneStatus::class.java)))
         map.put(Milestone.Field.startdate.name, SimpleExpressionBuilderGenerator(DateExpression(Milestone.Field.startdate.name)))
         map.put(Milestone.Field.enddate.name, SimpleExpressionBuilderGenerator(DateExpression(Milestone.Field.enddate.name)))
         val assigneeTitleExpr = PrimaryTypeFieldExpression<String>(SimpleMilestone.Field.ownerFullName.name)
@@ -387,10 +387,10 @@ class ProjectColumnBuilderMapper : InitializingBean {
         }
         map.put(SimpleBug.Field.milestoneName.name, HyperlinkBuilderGenerator(milestoneTitleExpr, milestoneHrefExpr))
 
-        map.put("severity", SimpleExpressionBuilderGenerator(I18nExpression("severity", OptionI18nEnum.BugSeverity::class.java)))
-        map.put("priority", SimpleExpressionBuilderGenerator(I18nExpression("priority", OptionI18nEnum.Priority::class.java)))
-        map.put("status", SimpleExpressionBuilderGenerator(I18nExpression("status", OptionI18nEnum.BugStatus::class.java)))
-        map.put("resolution", SimpleExpressionBuilderGenerator(I18nExpression("resolution", OptionI18nEnum.BugResolution::class.java)))
+        map.put("severity", SimpleExpressionBuilderGenerator(I18nExpression("severity", BugSeverity::class.java)))
+        map.put("priority", SimpleExpressionBuilderGenerator(I18nExpression("priority", Priority::class.java)))
+        map.put("status", SimpleExpressionBuilderGenerator(I18nExpression("status", StatusI18nEnum::class.java)))
+        map.put("resolution", SimpleExpressionBuilderGenerator(I18nExpression("resolution", BugResolution::class.java)))
         map.put("assignuserFullName", HyperlinkBuilderGenerator(assigneeTitleExpr, assigneeHrefExpr))
         map.put("loguserFullName", HyperlinkBuilderGenerator(logUserTitleExpr, logUserHrefExpr))
         map.put("duedate", SimpleExpressionBuilderGenerator(DateExpression("duedate")))
@@ -503,7 +503,7 @@ class ProjectColumnBuilderMapper : InitializingBean {
 
         map.put(SimpleRisk.Field.assignedToUserFullName.name, HyperlinkBuilderGenerator(assigneeTitleExpr, assigneeHrefExpr))
         map.put(Risk.Field.status.name, SimpleExpressionBuilderGenerator(I18nExpression("status", StatusI18nEnum::class.java)))
-        map.put(Risk.Field.priority.name, SimpleExpressionBuilderGenerator(I18nExpression("priority", OptionI18nEnum.Priority::class.java)))
+        map.put(Risk.Field.priority.name, SimpleExpressionBuilderGenerator(I18nExpression("priority", Priority::class.java)))
         map.put(Risk.Field.duedate.name, SimpleExpressionBuilderGenerator(DateExpression(Risk.Field.duedate.name)))
 
         return map

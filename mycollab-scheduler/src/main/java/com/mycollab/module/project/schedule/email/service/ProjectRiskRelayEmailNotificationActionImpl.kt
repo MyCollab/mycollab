@@ -214,7 +214,7 @@ class ProjectRiskRelayEmailNotificationActionImpl : SendMailToAllMembersAction<S
                 val img = Text(ProjectResources.getFontIconHtml(ProjectTypeConstants.MILESTONE))
                 val milestoneLink = ProjectLinkGenerator.generateMilestonePreviewFullLink(context.siteUrl, risk.projectid,
                         risk.milestoneid)
-                val link = FormatUtils.newA(milestoneLink, risk.milestoneName)
+                val link = FormatUtils.newA(milestoneLink, risk.milestoneName!!)
                 FormatUtils.newLink(img, link).write()
             } else Span().write()
         }

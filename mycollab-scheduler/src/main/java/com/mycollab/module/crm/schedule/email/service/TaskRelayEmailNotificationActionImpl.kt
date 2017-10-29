@@ -114,7 +114,7 @@ class TaskRelayEmailNotificationActionImpl : CrmDefaultSendingRelayEmailAction<S
             return if (task.contactid != null) {
                 val img = Text(CrmResources.getFontIconHtml(CrmTypeConstants.CONTACT))
                 val contactLink = CrmLinkGenerator.generateContactPreviewFullLink(context.siteUrl, task.contactid)
-                val link = newA(contactLink, task.contactName)
+                val link = newA(contactLink, task.contactName!!)
                 newLink(img, link).write()
             } else {
                 Span().write()

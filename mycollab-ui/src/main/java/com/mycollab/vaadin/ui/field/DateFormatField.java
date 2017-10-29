@@ -31,20 +31,18 @@ import org.vaadin.viritin.layouts.MHorizontalLayout;
  * @since 5.3.1
  */
 public class DateFormatField extends CustomField<String> {
-    private String dateFormat;
     private TextField dateInput;
     private Label dateExample;
     private DateTime now;
     private DateTimeFormatter dateFormatInstance;
 
     public DateFormatField(final String initialFormat) {
-        this.dateFormat = initialFormat;
         dateInput = new TextField(null, initialFormat);
         dateInput.setImmediate(true);
         dateInput.setTextChangeEventMode(AbstractTextField.TextChangeEventMode.EAGER);
         now = new DateTime();
         dateExample = new Label();
-        dateFormatInstance = DateTimeFormat.forPattern(dateFormat);
+        dateFormatInstance = DateTimeFormat.forPattern(initialFormat);
         dateExample.setValue(String.format("(%s)", dateFormatInstance.print(now)));
         dateExample.setWidthUndefined();
         dateInput.addTextChangeListener(textChangeEvent -> {

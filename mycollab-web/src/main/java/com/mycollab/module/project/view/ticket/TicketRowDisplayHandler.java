@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -26,7 +26,6 @@ import com.mycollab.module.file.StorageUtils;
 import com.mycollab.module.project.ProjectLinkGenerator;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.domain.ProjectTicket;
-import com.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.mycollab.module.project.i18n.OptionI18nEnum.MilestoneStatus;
 import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
@@ -37,10 +36,7 @@ import com.mycollab.vaadin.ui.IBeanList;
 import com.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Component;
-
 import org.vaadin.viritin.layouts.MHorizontalLayout;
-
-import static com.mycollab.vaadin.TooltipHelper.TOOLTIP_ID;
 
 /**
  * @author MyCollab Ltd
@@ -63,7 +59,7 @@ public class TicketRowDisplayHandler implements IBeanList.RowDisplayHandler<Proj
 
         String status = "";
         if (ticket.isBug()) {
-            status = UserUIContext.getMessage(BugStatus.class, ticket.getStatus());
+            status = UserUIContext.getMessage(StatusI18nEnum.class, ticket.getStatus());
             rowComp.addStyleName("bug");
         } else if (ticket.isMilestone()) {
             status = UserUIContext.getMessage(MilestoneStatus.class, ticket.getStatus());

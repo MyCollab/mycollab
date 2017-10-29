@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -25,7 +25,6 @@ import com.mycollab.community.vaadin.web.ui.field.MetaFieldBuilder;
 import com.mycollab.module.file.StorageUtils;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.i18n.MilestoneI18nEnum;
-import com.mycollab.module.project.i18n.OptionI18nEnum;
 import com.mycollab.module.project.i18n.TimeTrackingI18nEnum;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.module.project.view.service.BugComponentFactory;
@@ -36,6 +35,8 @@ import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.AbstractComponent;
 import org.springframework.stereotype.Service;
 import org.vaadin.teemu.VaadinIcons;
+
+import static com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 
 /**
  * @author MyCollab Ltd
@@ -86,7 +87,7 @@ public class BugComponentFactoryImpl implements BugComponentFactory {
 
     @Override
     public AbstractComponent createStatusPopupField(SimpleBug bug) {
-        return new MetaFieldBuilder().withCaptionAndIcon(FontAwesome.INFO_CIRCLE, UserUIContext.getMessage(OptionI18nEnum.BugStatus
+        return new MetaFieldBuilder().withCaptionAndIcon(FontAwesome.INFO_CIRCLE, UserUIContext.getMessage(StatusI18nEnum
                 .class, bug.getStatus())).withDescription(UserUIContext.getMessage(GenericI18Enum.FORM_STATUS)).build();
     }
 

@@ -17,18 +17,17 @@
 package com.mycollab.module.tracker.domain.criteria
 
 import com.mycollab.common.i18n.GenericI18Enum
+import com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum
 import com.mycollab.db.arguments.*
 import com.mycollab.db.query.*
 import com.mycollab.module.project.ProjectTypeConstants
 import com.mycollab.module.project.i18n.BugI18nEnum
 import com.mycollab.module.project.i18n.MilestoneI18nEnum
 import com.mycollab.module.project.i18n.OptionI18nEnum.BugSeverity
-import com.mycollab.module.project.i18n.OptionI18nEnum.BugStatus
 import com.mycollab.module.project.i18n.OptionI18nEnum.Priority
 import com.mycollab.module.project.i18n.ProjectCommonI18nEnum
 import org.apache.ibatis.jdbc.SQL
-
-import java.util.Arrays
+import java.util.*
 
 /**
  * @author MyCollab Ltd.
@@ -173,7 +172,7 @@ class BugSearchCriteria : SearchCriteria() {
         @JvmField
         val p_status = CacheParamMapper.register(ProjectTypeConstants.BUG, GenericI18Enum.FORM_STATUS,
                 I18nStringListParam("status", "m_tracker_bug", "status",
-                        Arrays.asList(BugStatus.Verified, BugStatus.Open, BugStatus.ReOpen, BugStatus.Resolved)))
+                        Arrays.asList(StatusI18nEnum.Verified, StatusI18nEnum.Open, StatusI18nEnum.ReOpen, StatusI18nEnum.Resolved)))
 
         @JvmField
         val p_affectedVersions = CacheParamMapper.register(ProjectTypeConstants.BUG, BugI18nEnum.FORM_AFFECTED_VERSIONS,

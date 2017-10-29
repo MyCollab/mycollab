@@ -155,7 +155,7 @@ class ProjectController(val projectView: ProjectView) : AbstractController() {
 
         this.register(object : ApplicationEventListener<TaskEvent.GotoKanbanView> {
             @Subscribe override fun handle(event: TaskEvent.GotoKanbanView) {
-                val data = TaskScreenData.GotoKanbanView()
+                val data = TicketScreenData.GotoKanbanView()
                 val presenter = PresenterResolver.getPresenter(TicketPresenter::class.java)
                 presenter.go(projectView, data)
             }

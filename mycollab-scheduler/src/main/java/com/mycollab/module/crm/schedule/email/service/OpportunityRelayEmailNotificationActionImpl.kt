@@ -125,7 +125,7 @@ class OpportunityRelayEmailNotificationActionImpl : CrmDefaultSendingRelayEmailA
             return if (simpleOpportunity.accountid != null) {
                 val img = Text(CrmResources.getFontIconHtml(CrmTypeConstants.ACCOUNT))
                 val accountLink = CrmLinkGenerator.generateAccountPreviewFullLink(context.siteUrl, simpleOpportunity.accountid)
-                val link = FormatUtils.newA(accountLink, simpleOpportunity.accountName)
+                val link = FormatUtils.newA(accountLink, simpleOpportunity.accountName!!)
                 FormatUtils.newLink(img, link).write()
             } else {
                 Span().write()
@@ -161,7 +161,7 @@ class OpportunityRelayEmailNotificationActionImpl : CrmDefaultSendingRelayEmailA
                 val img = Text(CrmResources.getFontIconHtml(CrmTypeConstants.CAMPAIGN))
                 val campaignLink = CrmLinkGenerator.generateCampaignPreviewFullLink(context.siteUrl, opportunity
                         .campaignid)
-                val link = FormatUtils.newA(campaignLink, opportunity.campaignName)
+                val link = FormatUtils.newA(campaignLink, opportunity.campaignName!!)
                 FormatUtils.newLink(img, link).write()
             } else {
                 Span().write()

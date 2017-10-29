@@ -50,20 +50,17 @@ object ProjectAssetsManager {
 
     @JvmStatic fun toHexString(resId: String): String ="&#x" + Integer.toHexString(resources[resId]!!.getCodepoint())
 
-    @JvmStatic fun getPriority(priority: String?): FontAwesome {
-        return if (Priority.Urgent.name == priority || Priority.High.name == priority || Priority.Medium.name == priority || priority == null) {
-            FontAwesome.ARROW_UP
-        } else {
-            FontAwesome.ARROW_DOWN
-        }
-    }
+    @JvmStatic fun getPriority(priority: String?): FontAwesome =
+            if (Priority.Urgent.name == priority || Priority.High.name == priority || Priority.Medium.name == priority || priority == null) {
+                FontAwesome.ARROW_UP
+            } else {
+                FontAwesome.ARROW_DOWN
+            }
 
-    @JvmStatic fun getMilestoneStatus(status: String): FontAwesome {
-        return when (status) {
-            MilestoneStatus.Closed.name -> FontAwesome.MINUS_CIRCLE
-            MilestoneStatus.InProgress.name -> FontAwesome.CLOCK_O
-            else -> FontAwesome.SPINNER
-        }
+    @JvmStatic fun getMilestoneStatus(status: String): FontAwesome = when (status) {
+        MilestoneStatus.Closed.name -> FontAwesome.MINUS_CIRCLE
+        MilestoneStatus.InProgress.name -> FontAwesome.CLOCK_O
+        else -> FontAwesome.SPINNER
     }
 
     @JvmStatic fun getPriorityHtml(priority: String): String {

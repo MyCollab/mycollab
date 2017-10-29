@@ -19,6 +19,7 @@ package com.mycollab.mobile.module.project.view.bug;
 import com.mycollab.common.domain.CommentWithBLOBs;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.service.CommentService;
+import com.mycollab.core.utils.StringUtils;
 import com.mycollab.mobile.module.project.view.settings.ProjectMemberListSelect;
 import com.mycollab.mobile.shell.event.ShellEvent;
 import com.mycollab.mobile.ui.AbstractMobilePageView;
@@ -26,7 +27,6 @@ import com.mycollab.mobile.ui.grid.GridFormLayoutHelper;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.i18n.BugI18nEnum;
-import com.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.mycollab.module.tracker.domain.BugWithBLOBs;
 import com.mycollab.module.tracker.domain.SimpleBug;
 import com.mycollab.module.tracker.service.BugService;
@@ -41,6 +41,8 @@ import com.mycollab.vaadin.ui.GenericBeanForm;
 import com.vaadin.ui.*;
 
 import java.util.GregorianCalendar;
+
+import static com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 
 /**
  * @author MyCollab Ltd.
@@ -69,7 +71,7 @@ class ReOpenView extends AbstractMobilePageView {
 
         final Button reOpenBtn = new Button(UserUIContext.getMessage(GenericI18Enum.BUTTON_REOPEN), clickEvent -> {
             if (editForm.validateForm()) {
-                bug.setStatus(BugStatus.ReOpen.name());
+                bug.setStatus(StatusI18nEnum.ReOpen.name());
 
                 // Save bug status and assignee
                 final BugService bugService = AppContextUtil.getSpringBean(BugService.class);
@@ -77,7 +79,7 @@ class ReOpenView extends AbstractMobilePageView {
 
                 // Save comment
                 final String commentValue = editForm.commentArea.getValue();
-                if (commentValue != null && !commentValue.trim().equals("")) {
+                if (StringUtils.isNotBlank(commentValue)) {
                     final CommentWithBLOBs comment = new CommentWithBLOBs();
                     comment.setComment(commentValue);
                     comment.setCreatedtime(new GregorianCalendar().getTime());

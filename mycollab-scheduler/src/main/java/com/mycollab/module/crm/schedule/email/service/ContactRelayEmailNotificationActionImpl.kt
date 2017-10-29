@@ -170,7 +170,7 @@ class ContactRelayEmailNotificationActionImpl : CrmDefaultSendingRelayEmailActio
             return if (contact.accountid != null) {
                 val img = Text(CrmResources.getFontIconHtml(CrmTypeConstants.ACCOUNT))
                 val accountLink = CrmLinkGenerator.generateAccountPreviewFullLink(context.siteUrl, contact.accountid)
-                val link = FormatUtils.newA(accountLink, contact.accountName)
+                val link = FormatUtils.newA(accountLink, contact.accountName!!)
                 FormatUtils.newLink(img, link).write()
             } else {
                 Span().write()

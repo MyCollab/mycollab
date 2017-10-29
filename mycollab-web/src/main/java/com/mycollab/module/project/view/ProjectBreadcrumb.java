@@ -279,6 +279,15 @@ public class ProjectBreadcrumb extends MHorizontalLayout implements CacheableCom
         AppUI.addFragment(fragment, UserUIContext.getMessage(TicketI18nEnum.LIST));
     }
 
+    public void gotoTicketKanbanView() {
+        addSummaryLink();
+        addEnabledLink(new Button(UserUIContext.getMessage(TicketI18nEnum.LIST), new GotoTicketDashboard()));
+        addLink(new Button(String.format("%s: %s", UserUIContext.getMessage(TicketI18nEnum.SINGLE),
+                UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_KANBAN))));
+        AppUI.addFragment("project/ticket/kanban/" + UrlEncodeDecoder.encode(project.getId()),
+                UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_KANBAN));
+    }
+
     public void gotoTaskAdd() {
         addSummaryLink();
         addEnabledLink(new Button(UserUIContext.getMessage(TicketI18nEnum.LIST), new GotoTicketDashboard()));
@@ -292,15 +301,6 @@ public class ProjectBreadcrumb extends MHorizontalLayout implements CacheableCom
         addLink(new Button(UserUIContext.getMessage(ProjectCommonI18nEnum.VIEW_GANTT_CHART)));
         AppUI.addFragment("project/gantt/" + UrlEncodeDecoder.encode(project.getId()),
                 UserUIContext.getMessage(ProjectCommonI18nEnum.VIEW_GANTT_CHART));
-    }
-
-    public void gotoTaskKanbanView() {
-        addSummaryLink();
-        addEnabledLink(new Button(UserUIContext.getMessage(TicketI18nEnum.LIST), new GotoTicketDashboard()));
-        addLink(new Button(String.format("%s: %s", UserUIContext.getMessage(TaskI18nEnum.SINGLE),
-                UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_KANBAN))));
-        AppUI.addFragment("project/task/kanban/" + UrlEncodeDecoder.encode(project.getId()),
-                UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_KANBAN));
     }
 
     public void gotoCalendar() {

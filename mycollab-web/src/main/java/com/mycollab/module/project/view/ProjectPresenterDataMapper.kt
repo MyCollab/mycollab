@@ -64,7 +64,7 @@ object ProjectPresenterDataMapper {
             TaskScreenData.Edit::class.java to TicketPresenter::class.java,
             TaskScreenData.Read::class.java to TicketPresenter::class.java,
             TicketScreenData.GotoDashboard::class.java to TicketPresenter::class.java,
-            TaskScreenData.GotoKanbanView::class.java to TicketPresenter::class.java)
+            TicketScreenData.GotoKanbanView::class.java to TicketPresenter::class.java)
 
     private val trackerMapper = mapOf<Class<out ScreenData<Any>>, Class<out IPresenter<*>>>(
             BugScreenData.Read::class.java to BugPresenter::class.java,
