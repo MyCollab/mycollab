@@ -124,7 +124,7 @@ class ProjectServiceImpl(private val projectMapper: ProjectMapper,
         projectRoleService.savePermission(projectId, clientRoleId, permissionMapClient, record.saccountid)
 
         // add consultant role to project
-        LOG.debug("Add consultant role to project {}", record.name)
+        LOG.debug("Add consultant role to project ${record.name}")
         val consultantRole = createProjectRole(projectId, record.saccountid, "Consultant",
                 "Default role for consultant")
         val consultantRoleId = projectRoleService.saveWithSession(consultantRole, username)
@@ -151,7 +151,7 @@ class ProjectServiceImpl(private val projectMapper: ProjectMapper,
                 permissionMapConsultant, record.saccountid)
 
         // add admin role to project
-        LOG.debug("Add admin role to project {}", record.name)
+        LOG.debug("Add admin role to project ${record.name}")
         val adminRole = createProjectRole(projectId, record.saccountid, "Admin", "Default role for admin")
         val adminRoleId = projectRoleService.saveWithSession(adminRole, username)
 
@@ -183,7 +183,7 @@ class ProjectServiceImpl(private val projectMapper: ProjectMapper,
             criteria.andIdNotEqualTo(projectId)
         }
         if (projectMapper.countByExample(ex) > 0) {
-            throw UserInvalidInputException(String.format("There is already project in the account has short name %s", shortName))
+            throw UserInvalidInputException("There is already project in the account has short name $shortName")
         }
     }
 

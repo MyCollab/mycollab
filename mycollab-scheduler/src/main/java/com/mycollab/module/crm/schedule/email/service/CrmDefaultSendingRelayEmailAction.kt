@@ -77,7 +77,7 @@ abstract class CrmDefaultSendingRelayEmailAction<B> : SendingRelayEmailNotificat
             if (bean != null) {
                 contentGenerator.putVariable("logoPath", LinkUtils.accountLogoPath(notification.saccountid, notification.accountLogo))
                 notifiers.forEach {
-                    val notifierFullName = it.displayName
+                    val notifierFullName = it.displayName!!
                     if (StringUtils.isBlank(notifierFullName)) {
                         LOG.error("Can not find user $it of notification $notification")
                         return
@@ -87,7 +87,6 @@ abstract class CrmDefaultSendingRelayEmailAction<B> : SendingRelayEmailNotificat
                     context.wrappedBean = bean
                     contentGenerator.putVariable("context", context)
                     contentGenerator.putVariable("mapper", getItemFieldMapper())
-                    contentGenerator.putVariable("userName", notifierFullName)
                     contentGenerator.putVariable("userName", notifierFullName)
                     contentGenerator.putVariable("copyRight", LocalizationHelper.getMessage(context.locale, MailI18nEnum.Copyright,
                             DateTimeUtils.getCurrentYear()))

@@ -24,11 +24,9 @@ import java.util.Locale
  * @since 5.3.1
  */
 object CurrencyUtils {
-    @JvmStatic fun getInstance(currencyCode: String?): Currency {
-        return try {
-            Currency.getInstance(currencyCode)
-        } catch (e: Exception) {
-            Currency.getInstance(Locale.US)
-        }
+    @JvmStatic fun getInstance(currencyCode: String?): Currency = try {
+        Currency.getInstance(currencyCode)
+    } catch (e: Exception) {
+        Currency.getInstance(Locale.US)
     }
 }

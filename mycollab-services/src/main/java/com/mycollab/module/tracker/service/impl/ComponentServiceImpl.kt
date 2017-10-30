@@ -61,7 +61,7 @@ class ComponentServiceImpl(private val componentMapper: ComponentMapper,
 
         val count = componentMapper.countByExample(ex)
         return if (count > 0) {
-            throw MyCollabException("There is an existing record has name " + record.name)
+            throw MyCollabException("There is an existing record has name ${record.name}")
         } else {
             super.saveWithSession(record, username)
         }

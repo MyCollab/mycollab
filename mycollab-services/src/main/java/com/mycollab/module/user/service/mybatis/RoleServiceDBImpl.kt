@@ -83,8 +83,7 @@ class RoleServiceDBImpl(private val roleMapper: RoleMapper,
         }
     }
 
-    override fun findById(roleId: Int, sAccountId: Int): SimpleRole =
-            roleMapperExt.findById(roleId)
+    override fun findById(roleId: Int, sAccountId: Int): SimpleRole? = roleMapperExt.findById(roleId)
 
     override fun getDefaultRoleId(sAccountId: Int): Int? {
         var ex = RoleExample()

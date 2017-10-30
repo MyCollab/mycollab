@@ -21,10 +21,8 @@ import com.mycollab.module.ecm.domain.Content
 import com.mycollab.module.ecm.service.ContentJcrDao
 import com.mycollab.module.file.AttachmentUtils
 import com.mycollab.spring.AppContextUtil
-import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-
-import java.util.ArrayList
+import java.util.*
 
 /**
  * @author MyCollab Ltd.

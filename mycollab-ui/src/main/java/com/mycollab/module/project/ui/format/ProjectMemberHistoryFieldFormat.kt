@@ -54,7 +54,7 @@ class ProjectMemberHistoryFieldFormat : HistoryFieldFormat {
                     link.setAttribute("onmouseover", TooltipHelper.userHoverJsFunction(user.username))
                     link.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction())
                     DivLessFormatter().appendChild(userAvatar, DivLessFormatter.EMPTY_SPACE, link).write()
-                } else user.displayName
+                } else user.displayName!!
             }
         } catch (e: Exception) {
             LOG.error("Error", e)

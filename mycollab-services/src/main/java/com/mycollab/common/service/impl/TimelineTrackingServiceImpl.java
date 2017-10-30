@@ -1,21 +1,22 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package com.mycollab.common.service.impl;
 
+import com.google.common.collect.Collections2;
 import com.mycollab.common.dao.TimelineTrackingCachingMapperExt;
 import com.mycollab.common.dao.TimelineTrackingMapper;
 import com.mycollab.common.dao.TimelineTrackingMapperExt;
@@ -28,8 +29,6 @@ import com.mycollab.db.arguments.SetSearchField;
 import com.mycollab.db.arguments.StringSearchField;
 import com.mycollab.db.persistence.ICrudGenericDAO;
 import com.mycollab.db.persistence.service.DefaultCrudService;
-import com.google.common.base.Predicate;
-import com.google.common.collect.Collections2;
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
 import org.joda.time.format.DateTimeFormat;
@@ -121,9 +120,9 @@ public class TimelineTrackingServiceImpl extends DefaultCrudService<Integer, Tim
                 }
                 final Integer extraTypeId = tmpExtraTypeId;
 
-                final List<Map> timelineItems = timelineTrackingMapperExt.findTimelineItems(groupVals, dates, criteria);
+                final List<Map> timelineItems = (List<Map>) timelineTrackingMapperExt.findTimelineItems(groupVals, dates, criteria);
                 if (isValidForBatchSave) {
-                    final Integer sAccountId = (Integer) criteria.getSaccountid().getValue();
+                    final Integer sAccountId = criteria.getSaccountid().getValue();
                     final String itemFieldGroup = criteria.getFieldgroup().getValue();
                     JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 

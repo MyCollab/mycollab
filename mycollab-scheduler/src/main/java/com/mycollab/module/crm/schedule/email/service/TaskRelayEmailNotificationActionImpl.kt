@@ -128,7 +128,7 @@ class TaskRelayEmailNotificationActionImpl : CrmDefaultSendingRelayEmailAction<S
             try {
                 val contactId = value.toInt()
                 val contactService = AppContextUtil.getSpringBean(ContactService::class.java)
-                val contact = contactService.findById(contactId, context.user.accountId)
+                val contact = contactService.findById(contactId, context.saccountid)
                 if (contact != null) {
                     val img = Text(CrmResources.getFontIconHtml(CrmTypeConstants.CONTACT))
                     val contactLink = CrmLinkGenerator.generateContactPreviewFullLink(context.siteUrl, contact.id)
@@ -162,14 +162,14 @@ class TaskRelayEmailNotificationActionImpl : CrmDefaultSendingRelayEmailAction<S
                 Span().write()
             } else {
                 val userService = AppContextUtil.getSpringBean(UserService::class.java)
-                val user = userService.findUserByUserNameInAccount(value, context.user.accountId)
+                val user = userService.findUserByUserNameInAccount(value, context.saccountid)
                 when {
                     user != null -> {
                         val userAvatarLink = MailUtils.getAvatarLink(user.avatarid, 16)
-                        val userLink = AccountLinkGenerator.generatePreviewFullUserLink(MailUtils.getSiteUrl(user.accountId),
+                        val userLink = AccountLinkGenerator.generatePreviewFullUserLink(MailUtils.getSiteUrl(context.saccountid),
                                 user.username)
                         val img = newImg("avatar", userAvatarLink)
-                        val link = newA(userLink, user.displayName)
+                        val link = newA(userLink, user.displayName!!)
                         newLink(img, link).write()
                     }
                     else -> value

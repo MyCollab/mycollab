@@ -127,9 +127,7 @@ class OpportunityRelayEmailNotificationActionImpl : CrmDefaultSendingRelayEmailA
                 val accountLink = CrmLinkGenerator.generateAccountPreviewFullLink(context.siteUrl, simpleOpportunity.accountid)
                 val link = FormatUtils.newA(accountLink, simpleOpportunity.accountName!!)
                 FormatUtils.newLink(img, link).write()
-            } else {
-                Span().write()
-            }
+            } else Span().write()
         }
 
         override fun formatField(context: MailContext<*>, value: String): String {
@@ -139,7 +137,7 @@ class OpportunityRelayEmailNotificationActionImpl : CrmDefaultSendingRelayEmailA
             try {
                 val accountId = value.toInt()
                 val accountService = AppContextUtil.getSpringBean(AccountService::class.java)
-                val account = accountService.findById(accountId, context.user.accountId)
+                val account = accountService.findById(accountId, context.saccountid)
                 if (account != null) {
                     val img = Text(CrmResources.getFontIconHtml(CrmTypeConstants.ACCOUNT))
                     val accountLink = CrmLinkGenerator.generateAccountPreviewFullLink(context.siteUrl, account.id)
@@ -163,9 +161,7 @@ class OpportunityRelayEmailNotificationActionImpl : CrmDefaultSendingRelayEmailA
                         .campaignid)
                 val link = FormatUtils.newA(campaignLink, opportunity.campaignName!!)
                 FormatUtils.newLink(img, link).write()
-            } else {
-                Span().write()
-            }
+            } else Span().write()
         }
 
         override fun formatField(context: MailContext<*>, value: String): String {
@@ -175,7 +171,7 @@ class OpportunityRelayEmailNotificationActionImpl : CrmDefaultSendingRelayEmailA
             try {
                 val campaignId = value.toInt()
                 val campaignService = AppContextUtil.getSpringBean(CampaignService::class.java)
-                val campaign = campaignService.findById(campaignId, context.user.accountId)
+                val campaign = campaignService.findById(campaignId, context.saccountid)
                 if (campaign != null) {
                     val img = Text(CrmResources.getFontIconHtml(CrmTypeConstants.CAMPAIGN))
                     val campaignLink = CrmLinkGenerator.generateCampaignPreviewFullLink(context.siteUrl, campaign.id)
@@ -211,18 +207,16 @@ class OpportunityRelayEmailNotificationActionImpl : CrmDefaultSendingRelayEmailA
                 Span().write()
             } else {
                 val userService = AppContextUtil.getSpringBean(UserService::class.java)
-                val user = userService.findUserByUserNameInAccount(value, context.user.accountId)
+                val user = userService.findUserByUserNameInAccount(value, context.saccountid)
                 if (user != null) {
                     val userAvatarLink = MailUtils.getAvatarLink(user.avatarid, 16)
-                    val userLink = AccountLinkGenerator.generatePreviewFullUserLink(MailUtils.getSiteUrl(user.accountId),
+                    val userLink = AccountLinkGenerator.generatePreviewFullUserLink(MailUtils.getSiteUrl(context.saccountid),
                             user.username)
                     val img = FormatUtils.newImg("avatar", userAvatarLink)
-                    val link = FormatUtils.newA(userLink, user.displayName)
+                    val link = FormatUtils.newA(userLink, user.displayName!!)
                     FormatUtils.newLink(img, link).write()
-                } else
-                    value
+                } else value
             }
         }
     }
-
 }

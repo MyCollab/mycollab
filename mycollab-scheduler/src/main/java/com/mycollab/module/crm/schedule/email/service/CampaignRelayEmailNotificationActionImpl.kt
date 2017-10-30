@@ -119,9 +119,7 @@ class CampaignRelayEmailNotificationActionImpl : CrmDefaultSendingRelayEmailActi
                         campaign.saccountid), campaign.assignuser)
                 val link = FormatUtils.newA(userLink, campaign.assignUserFullName)
                 FormatUtils.newLink(img, link).write()
-            } else {
-                ""
-            }
+            } else ""
         }
 
         override fun formatField(context: MailContext<*>, value: String): String {
@@ -129,16 +127,15 @@ class CampaignRelayEmailNotificationActionImpl : CrmDefaultSendingRelayEmailActi
                 ""
             } else {
                 val userService = AppContextUtil.getSpringBean(UserService::class.java)
-                val user = userService.findUserByUserNameInAccount(value, context.user.accountId)
+                val user = userService.findUserByUserNameInAccount(value, context.saccountid)
                 return if (user != null) {
                     val userAvatarLink = MailUtils.getAvatarLink(user.avatarid, 16)
                     val userLink = AccountLinkGenerator.generatePreviewFullUserLink(MailUtils.getSiteUrl(
-                            user.accountId), user.username)
+                            context.saccountid), user.username)
                     val img = FormatUtils.newImg("avatar", userAvatarLink)
-                    val link = FormatUtils.newA(userLink, user.displayName)
+                    val link = FormatUtils.newA(userLink, user.displayName!!)
                     FormatUtils.newLink(img, link).write()
-                } else
-                    value
+                } else value
             }
         }
     }

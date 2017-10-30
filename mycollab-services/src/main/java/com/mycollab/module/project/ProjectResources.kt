@@ -17,9 +17,7 @@
 package com.mycollab.module.project
 
 import com.mycollab.core.MyCollabException
-import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-
 import java.lang.reflect.Method
 
 /**
@@ -40,14 +38,11 @@ object ProjectResources {
 
     }
 
-    fun getFontIconHtml(type: String): String {
-        try {
-            val codePoint = getResMethod!!.invoke(null, type) as String
-            return String.format("<span class=\"v-icon\" style=\"font-family: FontAwesome;\">%s;</span>", codePoint)
-        } catch (e: Exception) {
-            LOG.error("Can not get resource type {}", type)
-            return ""
-        }
-
+    fun getFontIconHtml(type: String): String = try {
+        val codePoint = getResMethod!!.invoke(null, type) as String
+        "<span class=\"v-icon\" style=\"font-family: FontAwesome;\">$codePoint;</span>"
+    } catch (e: Exception) {
+        LOG.error("Can not get resource type {}", type)
+        ""
     }
 }

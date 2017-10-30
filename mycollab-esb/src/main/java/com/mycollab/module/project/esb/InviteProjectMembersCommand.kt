@@ -67,7 +67,7 @@ class InviteProjectMembersCommand(private val userService: UserService,
         val billingAccount = projectService.getAccountInfoOfProject(event.projectId)
 
         if (project!= null && user != null) {
-            contentGenerator.putVariable("inviteUser", user.displayName)
+            contentGenerator.putVariable("inviteUser", user.displayName!!)
             contentGenerator.putVariable("inviteMessage", event.inviteMessage)
             contentGenerator.putVariable("project", project)
             contentGenerator.putVariable("password", "")
@@ -83,7 +83,7 @@ class InviteProjectMembersCommand(private val userService: UserService,
                 } else {
                     val systemGuestRoleId = roleService.getDefaultRoleId(event.sAccountId)
                     if (systemGuestRoleId == null) {
-                        LOG.error("Can not find the guess role of account ", event.sAccountId)
+                        LOG.error("Can not find the guess role of account ${event.sAccountId}")
                     }
 
                     val newUser = User()

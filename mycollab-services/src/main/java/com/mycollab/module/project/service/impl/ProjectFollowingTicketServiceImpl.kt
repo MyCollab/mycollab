@@ -32,5 +32,4 @@ class ProjectFollowingTicketServiceImpl(private val projectFollowingTicketMapper
 
     override val searchMapper: ISearchableDAO<FollowingTicketSearchCriteria>
         get() = projectFollowingTicketMapperExt
-
 }

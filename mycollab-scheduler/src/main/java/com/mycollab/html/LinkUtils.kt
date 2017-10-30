@@ -29,7 +29,7 @@ object LinkUtils {
     fun storageService() = AppContextUtil.getSpringBean(AbstractStorageService::class.java)
 
     @JvmStatic
-    fun newAvatar(avatarId: String) = Img("", storageService().getAvatarPath(avatarId, 16)).setWidth("16").
+    fun newAvatar(avatarId: String?) = Img("", storageService().getAvatarPath(avatarId, 16)).setWidth("16").
             setHeight("16").setStyle("display: inline-block; vertical-align: top;").setCSSClass("circle-box")
 
     @JvmStatic

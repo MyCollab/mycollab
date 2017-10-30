@@ -32,14 +32,6 @@
         <result column="milestoneName" jdbcType="VARCHAR" property="milestoneName" />
     </resultMap>
 
-    <resultMap id="BaseResultTaskCountMap" type="com.mycollab.module.project.domain.ProjectTicketCount">
-        <result column="assignUser" jdbcType="VARCHAR" property="assignUser" />
-        <result column="assignUserFullName" jdbcType="VARCHAR" property="assignUserFullName" />
-        <result column="projectId" jdbcType="INTEGER" property="projectId" />
-        <result column="projectName" jdbcType="VARCHAR" property="projectName" />
-        <result column="taskCount" jdbcType="INTEGER" property="taskCount" />
-    </resultMap>
-
     <sql id="queryRiskSearchCriteria">
         <![CDATA[
         #set($searchCriteria = $_parameter.searchCriteria)

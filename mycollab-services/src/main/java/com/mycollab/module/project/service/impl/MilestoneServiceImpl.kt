@@ -85,9 +85,7 @@ class MilestoneServiceImpl(private val milestoneMapper: MilestoneMapper,
                 preparedStatement.setInt(2, mapIndexes[i]["id"]!!)
             }
 
-            override fun getBatchSize(): Int {
-                return mapIndexes.size
-            }
+            override fun getBatchSize(): Int = mapIndexes.size
         })
     }
 

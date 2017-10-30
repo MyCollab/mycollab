@@ -133,7 +133,7 @@ class CaseRelayEmailNotificationActionImpl : CrmDefaultSendingRelayEmailAction<S
             try {
                 val accountId = value.toInt()
                 val accountService = AppContextUtil.getSpringBean(AccountService::class.java)
-                val account = accountService.findById(accountId, context.user.accountId)
+                val account = accountService.findById(accountId, context.saccountid)
                 if (account != null) {
                     val img = Text(CrmResources.getFontIconHtml(CrmTypeConstants.ACCOUNT))
                     val accountLink = CrmLinkGenerator.generateAccountPreviewFullLink(context.siteUrl, account.id)
@@ -168,13 +168,13 @@ class CaseRelayEmailNotificationActionImpl : CrmDefaultSendingRelayEmailAction<S
                 Span().write()
             } else {
                 val userService = AppContextUtil.getSpringBean(UserService::class.java)
-                val user = userService.findUserByUserNameInAccount(value, context.user.accountId)
+                val user = userService.findUserByUserNameInAccount(value, context.saccountid)
                 if (user != null) {
                     val userAvatarLink = MailUtils.getAvatarLink(user.avatarid, 16)
-                    val userLink = AccountLinkGenerator.generatePreviewFullUserLink(MailUtils.getSiteUrl(user.accountId),
+                    val userLink = AccountLinkGenerator.generatePreviewFullUserLink(MailUtils.getSiteUrl(user.accountId!!),
                             user.username)
                     val img = FormatUtils.newImg("avatar", userAvatarLink)
-                    val link = FormatUtils.newA(userLink, user.displayName)
+                    val link = FormatUtils.newA(userLink, user.displayName!!)
                     FormatUtils.newLink(img, link).write()
                 } else
                     value

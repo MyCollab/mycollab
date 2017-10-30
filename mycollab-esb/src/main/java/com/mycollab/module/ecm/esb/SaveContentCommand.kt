@@ -48,7 +48,7 @@ class SaveContentCommand(private val driveInfoService: DriveInfoService,
         val lock = DistributionLockUtil.getLock("ecm-${event.sAccountId}")
         var totalSize = event.content.size
         if (StringUtils.isNotBlank(event.content.thumbnail)) {
-            totalSize += rawContentService.getSize(event.content.thumbnail)
+            totalSize += rawContentService.getSize(event.content.thumbnail!!)
         }
         try {
             if (lock.tryLock(1, TimeUnit.HOURS)) {

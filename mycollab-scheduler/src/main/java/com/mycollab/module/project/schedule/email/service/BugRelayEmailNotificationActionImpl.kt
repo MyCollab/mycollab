@@ -88,7 +88,7 @@ class BugRelayEmailNotificationActionImpl : SendMailToFollowersAction<SimpleBug>
             else -> throw MyCollabException("Not support action ${emailNotification.action}")
         }
 
-        contentGenerator.putVariable("projectName", bean!!.projectname!!)
+        contentGenerator.putVariable("projectName", bean!!.projectname)
         contentGenerator.putVariable("projectNotificationUrl", ProjectLinkGenerator.generateProjectSettingFullLink(siteUrl, bean!!.projectid))
         contentGenerator.putVariable("actionHeading", context.getMessage(actionEnum, makeChangeUser))
         contentGenerator.putVariable("name", summary)
@@ -197,7 +197,7 @@ class BugRelayEmailNotificationActionImpl : SendMailToFollowersAction<SimpleBug>
             } else {
                 val milestoneId = value.toInt()
                 val milestoneService = AppContextUtil.getSpringBean(MilestoneService::class.java)
-                val milestone = milestoneService.findById(milestoneId, context.user.accountId)
+                val milestone = milestoneService.findById(milestoneId, context.saccountid)
                 if (milestone != null) {
                     val img = Text(ProjectResources.getFontIconHtml(ProjectTypeConstants.MILESTONE))
                     val milestoneLink = ProjectLinkGenerator.generateMilestonePreviewFullLink(context.siteUrl,
@@ -219,9 +219,7 @@ class BugRelayEmailNotificationActionImpl : SendMailToFollowersAction<SimpleBug>
                 val userLink = AccountLinkGenerator.generatePreviewFullUserLink(MailUtils.getSiteUrl(bug.saccountid), bug.assignuser)
                 val link = newA(userLink, bug.assignuserFullName)
                 newLink(img, link).write()
-            } else {
-                Span().write()
-            }
+            } else Span().write()
         }
 
         override fun formatField(context: MailContext<*>, value: String): String {
@@ -229,12 +227,12 @@ class BugRelayEmailNotificationActionImpl : SendMailToFollowersAction<SimpleBug>
                 Span().write()
             } else {
                 val userService = AppContextUtil.getSpringBean(UserService::class.java)
-                val user = userService.findUserByUserNameInAccount(value, context.user.accountId)
+                val user = userService.findUserByUserNameInAccount(value, context.saccountid)
                 if (user != null) {
                     val userAvatarLink = MailUtils.getAvatarLink(user.avatarid, 16)
-                    val userLink = AccountLinkGenerator.generatePreviewFullUserLink(MailUtils.getSiteUrl(user.accountId), user.username)
+                    val userLink = AccountLinkGenerator.generatePreviewFullUserLink(MailUtils.getSiteUrl(context.saccountid), user.username)
                     val img = newImg("avatar", userAvatarLink)
-                    val link = newA(userLink, user.displayName)
+                    val link = newA(userLink, user.displayName!!)
                     newLink(img, link).write()
                 } else value
             }
@@ -259,12 +257,12 @@ class BugRelayEmailNotificationActionImpl : SendMailToFollowersAction<SimpleBug>
                 return Span().write()
 
             val userService = AppContextUtil.getSpringBean(UserService::class.java)
-            val user = userService.findUserByUserNameInAccount(value, context.user.accountId)
+            val user = userService.findUserByUserNameInAccount(value, context.saccountid)
             return if (user != null) {
                 val userAvatarLink = MailUtils.getAvatarLink(user.avatarid, 16)
-                val userLink = AccountLinkGenerator.generatePreviewFullUserLink(MailUtils.getSiteUrl(user.accountId), user.username)
+                val userLink = AccountLinkGenerator.generatePreviewFullUserLink(MailUtils.getSiteUrl(context.saccountid), user.username)
                 val img = newImg("avatar", userAvatarLink)
-                val link = newA(userLink, user.displayName)
+                val link = newA(userLink, user.displayName!!)
                 newLink(img, link).write()
             } else value
         }

@@ -138,27 +138,23 @@ class LeadRelayEmailNotificationActionImpl : CrmDefaultSendingRelayEmailAction<S
                         lead.assignuser)
                 val link = FormatUtils.newA(userLink, lead.assignUserFullName)
                 FormatUtils.newLink(img, link).write()
-            } else {
-                Span().write()
-            }
+            } else Span().write()
         }
 
         override fun formatField(context: MailContext<*>, value: String): String {
-            if (StringUtils.isBlank(value)) {
-                return Span().write()
+            return if (StringUtils.isBlank(value)) {
+                Span().write()
             } else {
                 val userService = AppContextUtil.getSpringBean(UserService::class.java)
-                val user = userService.findUserByUserNameInAccount(value, context.user.accountId)
-                return if (user != null) {
+                val user = userService.findUserByUserNameInAccount(value, context.saccountid)
+                if (user != null) {
                     val userAvatarLink = MailUtils.getAvatarLink(user.avatarid, 16)
-                    val userLink = AccountLinkGenerator.generatePreviewFullUserLink(MailUtils.getSiteUrl(user.accountId),
+                    val userLink = AccountLinkGenerator.generatePreviewFullUserLink(MailUtils.getSiteUrl(context.saccountid),
                             user.username)
                     val img = FormatUtils.newImg("avatar", userAvatarLink)
-                    val link = FormatUtils.newA(userLink, user.displayName)
+                    val link = FormatUtils.newA(userLink, user.displayName!!)
                     FormatUtils.newLink(img, link).write()
-                } else {
-                    value
-                }
+                } else value
             }
         }
     }

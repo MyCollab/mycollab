@@ -48,18 +48,16 @@ abstract class AbstractProjectTicketServiceImpl : DefaultSearchService<ProjectTi
     override val searchMapper: ISearchableDAO<ProjectTicketSearchCriteria>
         get() = projectTicketMapper
 
-    override fun getTotalCount(criteria: ProjectTicketSearchCriteria): Int {
-        return projectTicketMapper.getTotalCountFromRisk(criteria) +
-                projectTicketMapper.getTotalCountFromBug(criteria) +
-                projectTicketMapper.getTotalCountFromTask(criteria) +
-                projectTicketMapper.getTotalCountFromMilestone(criteria)
-    }
+    override fun getTotalCount(criteria: ProjectTicketSearchCriteria): Int =
+            projectTicketMapper.getTotalCountFromRisk(criteria) +
+                    projectTicketMapper.getTotalCountFromBug(criteria) +
+                    projectTicketMapper.getTotalCountFromTask(criteria) +
+                    projectTicketMapper.getTotalCountFromMilestone(criteria)
 
-    override fun getTotalTicketsCount(@CacheKey criteria: ProjectTicketSearchCriteria): Int {
-        return projectTicketMapper.getTotalCountFromRisk(criteria) +
-                projectTicketMapper.getTotalCountFromBug(criteria)!! +
-                projectTicketMapper.getTotalCountFromTask(criteria)!!
-    }
+    override fun getTotalTicketsCount(@CacheKey criteria: ProjectTicketSearchCriteria): Int =
+            projectTicketMapper.getTotalCountFromRisk(criteria) +
+                    projectTicketMapper.getTotalCountFromBug(criteria) +
+                    projectTicketMapper.getTotalCountFromTask(criteria)
 
     override fun isTicketIdSatisfyCriteria(type: String, typeId: Int, criteria: ProjectTicketSearchCriteria): Boolean {
         val newCriteria = BeanUtility.deepClone(criteria)

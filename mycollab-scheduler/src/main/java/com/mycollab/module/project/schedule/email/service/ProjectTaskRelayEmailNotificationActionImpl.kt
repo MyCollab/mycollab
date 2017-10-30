@@ -196,12 +196,12 @@ class ProjectTaskRelayEmailNotificationActionImpl : SendMailToFollowersAction<Si
                 Span().write()
             } else {
                 val userService = AppContextUtil.getSpringBean(UserService::class.java)
-                val user = userService.findUserByUserNameInAccount(value, context.user.accountId)
+                val user = userService.findUserByUserNameInAccount(value, context.saccountid)
                 if (user != null) {
                     val userAvatarLink = MailUtils.getAvatarLink(user.avatarid, 16)
-                    val userLink = AccountLinkGenerator.generatePreviewFullUserLink(MailUtils.getSiteUrl(user.accountId), user.username)
+                    val userLink = AccountLinkGenerator.generatePreviewFullUserLink(MailUtils.getSiteUrl(context.saccountid), user.username)
                     val img = FormatUtils.newImg("avatar", userAvatarLink)
-                    val link = FormatUtils.newA(userLink, user.displayName)
+                    val link = FormatUtils.newA(userLink, user.displayName!!)
                     FormatUtils.newLink(img, link).write()
                 } else value
             }
@@ -228,7 +228,7 @@ class ProjectTaskRelayEmailNotificationActionImpl : SendMailToFollowersAction<Si
 
             val taskId = value.toInt()
             val taskService = AppContextUtil.getSpringBean(ProjectTaskService::class.java)
-            val task = taskService.findById(taskId, context.user.accountId)
+            val task = taskService.findById(taskId, context.saccountid)
             return if (task != null) {
                 val img = Text(ProjectResources.getFontIconHtml(ProjectTypeConstants.TASK))
                 val taskListLink = ProjectLinkGenerator.generateTaskPreviewFullLink(context.siteUrl, task.taskkey, task.projectShortname)
@@ -258,7 +258,7 @@ class ProjectTaskRelayEmailNotificationActionImpl : SendMailToFollowersAction<Si
 
             val milestoneId = value.toInt()
             val milestoneService = AppContextUtil.getSpringBean(MilestoneService::class.java)
-            val milestone = milestoneService.findById(milestoneId, context.user.accountId)
+            val milestone = milestoneService.findById(milestoneId, context.saccountid)
             return if (milestone != null) {
                 val img = Text(ProjectResources.getFontIconHtml(ProjectTypeConstants.MILESTONE))
                 val milestoneLink = ProjectLinkGenerator.generateMilestonePreviewFullLink(context.siteUrl,
@@ -266,7 +266,6 @@ class ProjectTaskRelayEmailNotificationActionImpl : SendMailToFollowersAction<Si
                 val link = FormatUtils.newA(milestoneLink, milestone.name)
                 FormatUtils.newLink(img, link).write()
             } else value
-
         }
     }
 

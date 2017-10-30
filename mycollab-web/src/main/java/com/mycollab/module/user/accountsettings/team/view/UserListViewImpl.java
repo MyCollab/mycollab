@@ -211,7 +211,7 @@ public class UserListViewImpl extends AbstractVerticalPageView implements UserLi
         if (member.getRoleid() != null) {
             String memberRoleLinkPrefix = String.format("<a href=\"%s\"", AccountLinkGenerator.generateRoleLink(member.getRoleid()));
             ELabel memberRole = new ELabel(ContentMode.HTML).withStyleName(UIConstants.TEXT_ELLIPSIS);
-            if (Boolean.TRUE.equals(member.getIsAccountOwner())) {
+            if (Boolean.TRUE.equals(member.isAccountOwner())) {
                 memberRole.setValue(String.format("%sstyle=\"color: #B00000;\">%s</a>", memberRoleLinkPrefix,
                         UserUIContext.getMessage(RoleI18nEnum.OPT_ACCOUNT_OWNER)));
             } else {
@@ -219,7 +219,7 @@ public class UserListViewImpl extends AbstractVerticalPageView implements UserLi
                         memberRoleLinkPrefix, member.getRoleName()));
             }
             memberInfo.addComponent(memberRole);
-        } else if (Boolean.TRUE.equals(member.getIsAccountOwner())) {
+        } else if (Boolean.TRUE.equals(member.isAccountOwner())) {
             Label memberRole = new Label(String.format("<a style=\"color: #B00000;\">%s</a>", UserUIContext.getMessage
                     (RoleI18nEnum.OPT_ACCOUNT_OWNER)), ContentMode.HTML);
             memberInfo.addComponent(memberRole);

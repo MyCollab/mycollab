@@ -47,8 +47,8 @@ class AppServlet : TouchKitServlet() {
         val s = touchKitSettings
         s.webAppSettings.isWebAppCapable = true
         val contextPath = servletConfig.servletContext.contextPath
-        s.applicationIcons.addApplicationIcon(contextPath + "VAADIN/themes/" + Version.THEME_MOBILE_VERSION + "/icons/icon.png")
-        s.webAppSettings.startupImage = contextPath + "VAADIN/themes/" + Version.THEME_MOBILE_VERSION + "/icons/icon.png"
+        s.applicationIcons.addApplicationIcon("${contextPath}VAADIN/themes/${Version.THEME_MOBILE_VERSION}/icons/icon.png")
+        s.webAppSettings.startupImage = "${contextPath}VAADIN/themes/${Version.THEME_MOBILE_VERSION}/icons/icon.png"
 
         service.addSessionInitListener { sessionInitEvent ->
             sessionInitEvent.session.addBootstrapListener(bootstrapListener)

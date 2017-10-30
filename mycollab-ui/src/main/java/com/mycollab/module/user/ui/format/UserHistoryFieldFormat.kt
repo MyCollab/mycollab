@@ -51,11 +51,9 @@ class UserHistoryFieldFormat : HistoryFieldFormat {
                 val userLink = AccountLinkGenerator.generatePreviewFullUserLink(
                         MailUtils.getSiteUrl(AppUI.accountId), user.username)
 
-                val link = FormatUtils.newA(userLink, user.displayName)
+                val link = FormatUtils.newA(userLink, user.displayName!!)
                 FormatUtils.newLink(img, link).write()
-            } else {
-                user.displayName
-            }
+            } else user.displayName!!
         }
 
         return value

@@ -159,17 +159,14 @@ class ProjectTaskServiceImpl(private val taskMapper: TaskMapper,
         asyncEventBus.post(TimelineTrackingAdjustIfEntityDeleteEvent(ProjectTypeConstants.TASK, item.id, arrayOf("status"), item.projectid, item.saccountid))
     }
 
-    override fun getPrioritySummary(criteria: TaskSearchCriteria): List<GroupItem> {
-        return taskMapperExt.getPrioritySummary(criteria)
-    }
+    override fun getPrioritySummary(criteria: TaskSearchCriteria): List<GroupItem> =
+            taskMapperExt.getPrioritySummary(criteria)
 
-    override fun getStatusSummary(@CacheKey criteria: TaskSearchCriteria): List<GroupItem> {
-        return taskMapperExt.getStatusSummary(criteria)
-    }
+    override fun getStatusSummary(@CacheKey criteria: TaskSearchCriteria): List<GroupItem> =
+            taskMapperExt.getStatusSummary(criteria)
 
-    override fun getAssignedTasksSummary(criteria: TaskSearchCriteria): List<GroupItem> {
-        return taskMapperExt.getAssignedDefectsSummary(criteria)
-    }
+    override fun getAssignedTasksSummary(criteria: TaskSearchCriteria): List<GroupItem> =
+            taskMapperExt.getAssignedDefectsSummary(criteria)
 
     override fun findByProjectAndTaskKey(taskKey: Int, projectShortName: String, sAccountId: Int): SimpleTask? =
             taskMapperExt.findByProjectAndTaskKey(taskKey, projectShortName, sAccountId)
@@ -207,9 +204,7 @@ class ProjectTaskServiceImpl(private val taskMapper: TaskMapper,
                 preparedStatement.setInt(2, mapIndexes[i]["id"]!!)
             }
 
-            override fun getBatchSize(): Int {
-                return mapIndexes.size
-            }
+            override fun getBatchSize(): Int = mapIndexes.size
         })
     }
 

@@ -45,7 +45,7 @@ class DeleteResourcesCommand(private val rawContentService: RawContentService,
         if (event.sAccountId == null) {
             event.paths.forEach {
                 if (StringUtils.isNotBlank(it)) {
-                    rawContentService.removePath(it)
+                    rawContentService.removePath(it!!)
                 }
             }
             return
@@ -58,7 +58,7 @@ class DeleteResourcesCommand(private val rawContentService: RawContentService,
                     val driveInfo = driveInfoService.getDriveInfo(event.sAccountId)
                    event.paths.forEach {
                        if (StringUtils.isNotBlank(it)) {
-                           totalSize += rawContentService.getSize(it)
+                           totalSize += rawContentService.getSize(it!!)
                            rawContentService.removePath(it)
                        }
                    }

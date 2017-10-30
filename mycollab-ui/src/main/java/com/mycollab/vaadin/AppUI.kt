@@ -148,16 +148,14 @@ abstract class AppUI : UI() {
 
         @JvmStatic
         val defaultCurrency: Currency
-            get() = instance._billingAccount!!.currencyInstance
+            get() = instance._billingAccount!!.currencyInstance!!
 
         @JvmStatic
         val longDateFormat: String
             get() = instance._billingAccount!!.longDateFormatInstance
 
         @JvmStatic
-        fun showEmailPublicly(): Boolean? {
-            return instance._billingAccount!!.displayemailpublicly
-        }
+        fun showEmailPublicly(): Boolean? = instance._billingAccount!!.displayemailpublicly
 
         @JvmStatic
         val shortDateFormat: String
@@ -173,7 +171,7 @@ abstract class AppUI : UI() {
 
         @JvmStatic
         val defaultLocale: Locale
-            get() = instance._billingAccount!!.localeInstance
+            get() = instance._billingAccount!!.localeInstance!!
 
         /**
          * @param fragment

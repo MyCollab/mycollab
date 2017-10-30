@@ -67,11 +67,9 @@ class ProjectRoleServiceImpl(private val roleMapper: ProjectRoleMapper,
             data > 0 -> projectRolePermissionMapper.updateByExampleSelective(rolePer, ex)
             else -> projectRolePermissionMapper.insert(rolePer)
         }
-
     }
 
-    override fun findById(roleId: Int, sAccountId: Int): SimpleProjectRole? =
-            roleMapperExt.findRoleById(roleId)
+    override fun findById(roleId: Int, sAccountId: Int): SimpleProjectRole? = roleMapperExt.findRoleById(roleId)
 
     companion object {
 

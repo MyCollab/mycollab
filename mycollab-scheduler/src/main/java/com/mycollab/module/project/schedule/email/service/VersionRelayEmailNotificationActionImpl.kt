@@ -68,7 +68,7 @@ class VersionRelayEmailNotificationActionImpl : SendMailToAllMembersAction<Simpl
             else -> throw MyCollabException("Not support action ${emailNotification.action}")
         }
 
-        contentGenerator.putVariable("projectName", bean!!.projectName!!)
+        contentGenerator.putVariable("projectName", bean!!.projectName)
         contentGenerator.putVariable("projectNotificationUrl", ProjectLinkGenerator.generateProjectSettingFullLink(siteUrl, bean!!.projectid))
         contentGenerator.putVariable("actionHeading", context.getMessage(actionEnum, makeChangeUser))
         contentGenerator.putVariable("name", summary)

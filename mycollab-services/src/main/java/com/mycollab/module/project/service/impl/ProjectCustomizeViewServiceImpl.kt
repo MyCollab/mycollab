@@ -32,5 +32,4 @@ class ProjectCustomizeViewServiceImpl(private val projectCustomizeMapper: Projec
 
     override val crudMapper: ICrudGenericDAO<Int, ProjectCustomizeView>
         get() = projectCustomizeMapper as ICrudGenericDAO<Int, ProjectCustomizeView>
-
 }

@@ -259,12 +259,12 @@ class UserServiceDBImpl(private val userMapper: UserMapper,
             }
 
             if (RegisterStatusConstants.NOT_LOG_IN_YET == user.registerstatus) {
-                updateUserAccountStatus(user.username, user.accountId, RegisterStatusConstants.ACTIVE)
-                asyncEventBus.post(NewUserJoinEvent(user.username, user.accountId))
+                updateUserAccountStatus(user.username, user.accountId!!, RegisterStatusConstants.ACTIVE)
+                asyncEventBus.post(NewUserJoinEvent(user.username, user.accountId!!))
             }
             LOG.debug("User $username login to system successfully!")
 
-            if (user.isAccountOwner == null || user.isAccountOwner != null && !user.isAccountOwner) {
+            if (user.isAccountOwner == null || (user.isAccountOwner != null && !user.isAccountOwner!!)) {
                 if (user.roleid != null) {
                     val ex = RolePermissionExample()
                     ex.createCriteria().andRoleidEqualTo(user.roleid)
@@ -273,12 +273,12 @@ class UserServiceDBImpl(private val userMapper: UserMapper,
                         val rolePer = roles[0] as RolePermission
                         val permissionMap = PermissionMap.fromJsonString(rolePer.roleval)
                         user.permissionMaps = permissionMap
-                        LOG.debug(String.format("Find role match to user %s", username))
+                        LOG.debug("Find role match to user $username")
                     } else {
-                        LOG.debug(String.format("We can not find any role associate to user %s", username))
+                        LOG.debug("We can not find any role associate to user $username")
                     }
                 } else {
-                    LOG.debug(String.format("User %s has no any role", username))
+                    LOG.debug("User %s has no any role $username")
                 }
             }
             user.password = null
@@ -286,9 +286,8 @@ class UserServiceDBImpl(private val userMapper: UserMapper,
         }
     }
 
-    override fun findUserByUserNameInAccount(username: String, accountId: Int): SimpleUser? {
-        return findUserInAccount(username, accountId)
-    }
+    override fun findUserByUserNameInAccount(username: String, accountId: Int): SimpleUser? =
+            findUserInAccount(username, accountId)
 
     override fun findUserInAccount(username: String, accountId: Int): SimpleUser? {
         val criteria = UserSearchCriteria()

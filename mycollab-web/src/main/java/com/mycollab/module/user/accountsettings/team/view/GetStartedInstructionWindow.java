@@ -55,7 +55,7 @@ class GetStartedInstructionWindow extends MWindow {
         Div userInfoDiv = new Div().appendText("Your username is ").appendChild(new B().appendText(user.getEmail()));
         Label userInfoLbl = ELabel.html(userInfoDiv.write());
 
-        if (Boolean.TRUE.equals(user.getIsAccountOwner())) {
+        if (Boolean.TRUE.equals(user.isAccountOwner())) {
             user.setRoleName(UserUIContext.getMessage(RoleI18nEnum.OPT_ACCOUNT_OWNER));
         }
         Div roleInfoDiv = new Div().appendText("Your role is ").appendChild(new B().appendText(user.getRoleName()));

@@ -224,7 +224,7 @@ public class UserUIContext implements Serializable {
      */
     public static boolean isAdmin() {
         try {
-            Boolean isAdmin = getInstance().session.getIsAccountOwner();
+            Boolean isAdmin = getInstance().session.isAccountOwner();
             return Boolean.TRUE.equals(isAdmin);
         } catch (Exception e) {
             return false;

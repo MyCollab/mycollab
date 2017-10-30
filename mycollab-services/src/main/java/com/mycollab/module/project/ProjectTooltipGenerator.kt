@@ -103,7 +103,7 @@ object ProjectTooltipGenerator {
             val tooltipManager = TooltipBuilder()
             tooltipManager.appendTitle(task.name)
             if (showProject) {
-                tooltipManager.appendTitle(String.format("[%s] %s", task.projectShortname, task.projectName))
+                tooltipManager.appendTitle("[${task.projectShortname}] ${task.projectName}")
             }
 
             val trRow1 = Tr()

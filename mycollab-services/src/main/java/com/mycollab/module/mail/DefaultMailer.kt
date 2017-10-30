@@ -111,9 +111,7 @@ class DefaultMailer(private val emailConf: EmailConfiguration) : IMailer {
 
     }
 
-    private fun isValidate(value: String): Boolean {
-        return StringUtils.isNotBlank(value)
-    }
+    private fun isValidate(value: String?): Boolean = StringUtils.isNotBlank(value)
 
     companion object {
         private val LOG = LoggerFactory.getLogger(DefaultMailer::class.java)

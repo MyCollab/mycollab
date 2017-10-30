@@ -16,15 +16,13 @@
  */
 package com.mycollab.module.tracker.service
 
-import com.mycollab.module.tracker.domain.SimpleRelatedBug
 import com.mycollab.test.DataSet
 import com.mycollab.test.spring.IntegrationServiceTest
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner
-
-import org.assertj.core.api.Assertions.assertThat
 
 /**
  * @author MyCollab Ltd

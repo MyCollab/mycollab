@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -73,7 +73,6 @@ public class UserAddViewImpl extends AbstractVerticalPageView implements UserAdd
     private SimpleUser user;
 
     public UserAddViewImpl() {
-        super();
         withMargin(new MarginInfo(false, true, true, true));
         editUserForm = new EditUserForm();
     }
@@ -330,7 +329,7 @@ public class UserAddViewImpl extends AbstractVerticalPageView implements UserAdd
             Object value = newDataSource.getValue();
             if (value instanceof Integer) {
                 roleBox.setValue(value);
-            } else if (value == null && Boolean.TRUE.equals(user.getIsAccountOwner())) {
+            } else if (value == null && Boolean.TRUE.equals(user.isAccountOwner())) {
                 roleBox.setValue(-1);
             }
             super.setPropertyDataSource(newDataSource);
@@ -343,11 +342,11 @@ public class UserAddViewImpl extends AbstractVerticalPageView implements UserAdd
                 if (!UserUIContext.isAdmin()) {
                     throw new UserInvalidInputException(UserUIContext.getMessage(RoleI18nEnum.ERROR_ONLY_OWNER_CAN_ASSIGN_OWNER_ROLE));
                 } else {
-                    user.setIsAccountOwner(Boolean.TRUE);
+                    user.setAccountOwner(Boolean.TRUE);
                     user.setRoleName(UserUIContext.getMessage(RoleI18nEnum.OPT_ACCOUNT_OWNER));
                 }
             } else {
-                user.setIsAccountOwner(Boolean.FALSE);
+                user.setAccountOwner(Boolean.FALSE);
                 BeanItem<SimpleRole> role = (BeanItem<SimpleRole>) roleBox.getItem(roleId);
                 if (role != null) {
                     user.setRoleName(role.getBean().getRolename());

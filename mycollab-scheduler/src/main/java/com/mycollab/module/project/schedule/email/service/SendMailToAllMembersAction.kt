@@ -102,7 +102,7 @@ abstract class SendMailToAllMembersAction<B> : SendingRelayEmailNotificationActi
                     buildExtraTemplateVariables(context)
                     contentGenerator.putVariable("context", context)
                     contentGenerator.putVariable("mapper", getItemFieldMapper())
-                    contentGenerator.putVariable("userName", it.displayName)
+                    contentGenerator.putVariable("userName", it.displayName!!)
                     contentGenerator.putVariable("copyRight", LocalizationHelper.getMessage(context.locale, MailI18nEnum.Copyright,
                             DateTimeUtils.getCurrentYear()))
                     contentGenerator.putVariable("Project_Footer", getProjectFooter(context))

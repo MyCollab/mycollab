@@ -5,7 +5,7 @@
     <resultMap id="SimpleRelatedBugResult" type="com.mycollab.module.tracker.domain.SimpleRelatedBug">
         <result column="id" jdbcType="INTEGER" property="id"/>
         <result column="relatedType" jdbcType="VARCHAR" property="relatedType"/>
-        <result column="isRelated" jdbcType="BOOLEAN" property="isRelated"/>
+        <result column="isRelated" jdbcType="BOOLEAN" property="related"/>
         <association property="relatedBug" javaType="com.mycollab.module.tracker.domain.BugWithBLOBs"
                      resultMap="com.mycollab.module.tracker.dao.BugMapper.ResultMapWithBLOBs" columnPrefix="related_">
         </association>

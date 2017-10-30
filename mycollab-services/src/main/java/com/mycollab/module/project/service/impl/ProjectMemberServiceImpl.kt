@@ -56,17 +56,14 @@ class ProjectMemberServiceImpl(private val projectMemberMapper: ProjectMemberMap
     override val searchMapper: ISearchableDAO<ProjectMemberSearchCriteria>
         get() = projectMemberMapperExt
 
-    override fun findById(memberId: Int, sAccountId: Int): SimpleProjectMember? {
-        return projectMemberMapperExt.findMemberById(memberId)
-    }
+    override fun findById(memberId: Int, sAccountId: Int): SimpleProjectMember? =
+            projectMemberMapperExt.findMemberById(memberId)
 
-    override fun getUsersNotInProject(projectId: Int?, sAccountId: Int?): List<SimpleUser> {
-        return projectMemberMapperExt.getUsersNotInProject(projectId!!, sAccountId!!)
-    }
+    override fun getUsersNotInProject(projectId: Int?, sAccountId: Int?): List<SimpleUser> =
+            projectMemberMapperExt.getUsersNotInProject(projectId!!, sAccountId!!)
 
-    override fun findMemberByUsername(username: String, projectId: Int, sAccountId: Int): SimpleProjectMember? {
-        return projectMemberMapperExt.findMemberByUsername(username, projectId)
-    }
+    override fun findMemberByUsername(username: String, projectId: Int, sAccountId: Int): SimpleProjectMember? =
+            projectMemberMapperExt.findMemberByUsername(username, projectId)
 
     override fun updateWithSession(record: ProjectMember, username: String?): Int {
         val oldMember = findById(record.id, record.saccountid)
@@ -126,15 +123,12 @@ class ProjectMemberServiceImpl(private val projectMemberMapper: ProjectMemberMap
         return getTotalCount(criteria) > 0
     }
 
-    override fun getActiveUsersInProjects(projectIds: List<Int>, sAccountId: Int?): List<SimpleUser> {
-        return projectMemberMapperExt.getActiveUsersInProjects(projectIds, sAccountId)
-    }
+    override fun getActiveUsersInProjects(projectIds: List<Int>, sAccountId: Int?): List<SimpleUser> =
+            projectMemberMapperExt.getActiveUsersInProjects(projectIds, sAccountId)
 
-    override fun getActiveUserOfProject(username: String, projectId: Int, @CacheKey sAccountId: Int): SimpleUser? {
-        return projectMemberMapperExt.getActiveUserOfProject(username, projectId, sAccountId)
-    }
+    override fun getActiveUserOfProject(username: String, projectId: Int, @CacheKey sAccountId: Int): SimpleUser? =
+            projectMemberMapperExt.getActiveUserOfProject(username, projectId, sAccountId)
 
-    override fun findMembersHourlyInProject(projectId: Int?, sAccountId: Int?, start: Date, end: Date): List<SimpleProjectMember> {
-        return projectMemberMapperExt.findMembersHourlyInProject(projectId, sAccountId, start, end)
-    }
+    override fun findMembersHourlyInProject(projectId: Int?, sAccountId: Int?, start: Date, end: Date): List<SimpleProjectMember> =
+            projectMemberMapperExt.findMembersHourlyInProject(projectId, sAccountId, start, end)
 }

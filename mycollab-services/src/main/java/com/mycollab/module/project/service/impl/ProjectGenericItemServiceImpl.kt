@@ -33,13 +33,12 @@ class ProjectGenericItemServiceImpl(private val projectGenericItemMapper: Projec
     override val searchMapper: ISearchableDAO<ProjectGenericItemSearchCriteria>
         get() = projectGenericItemMapper
 
-    override fun getTotalCount(criteria: ProjectGenericItemSearchCriteria): Int {
-        return projectGenericItemMapper.getTotalCountFromTask(criteria) +
-                projectGenericItemMapper.getTotalCountFromMessage(criteria) +
-                projectGenericItemMapper.getTotalCountFromMilestone(criteria) +
-                projectGenericItemMapper.getTotalCountFromBug(criteria) +
-                projectGenericItemMapper.getTotalCountFromVersion(criteria) +
-                projectGenericItemMapper.getTotalCountFromComponent(criteria) +
-                projectGenericItemMapper.getTotalCountFromRisk(criteria)
-    }
+    override fun getTotalCount(criteria: ProjectGenericItemSearchCriteria): Int =
+            projectGenericItemMapper.getTotalCountFromTask(criteria) +
+                    projectGenericItemMapper.getTotalCountFromMessage(criteria) +
+                    projectGenericItemMapper.getTotalCountFromMilestone(criteria) +
+                    projectGenericItemMapper.getTotalCountFromBug(criteria) +
+                    projectGenericItemMapper.getTotalCountFromVersion(criteria) +
+                    projectGenericItemMapper.getTotalCountFromComponent(criteria) +
+                    projectGenericItemMapper.getTotalCountFromRisk(criteria)
 }
