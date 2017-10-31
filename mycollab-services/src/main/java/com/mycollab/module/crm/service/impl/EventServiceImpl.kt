@@ -34,14 +34,12 @@ import org.springframework.transaction.annotation.Transactional
 class EventServiceImpl : DefaultSearchService<ActivitySearchCriteria>(), EventService {
 
     @Autowired
-    private val eventMapperExt: EventMapperExt? = null
+    private lateinit var eventMapperExt: EventMapperExt
 
     override val searchMapper: ISearchableDAO<ActivitySearchCriteria>
-        get() = eventMapperExt as ISearchableDAO<ActivitySearchCriteria>
+        get() = eventMapperExt
 
-    override fun getTotalCount(criteria: ActivitySearchCriteria): Int {
-        return eventMapperExt!!.getTotalCountFromCall(criteria) +
-                eventMapperExt.getTotalCountFromTask(criteria) +
-                eventMapperExt.getTotalCountFromMeeting(criteria)
-    }
+    override fun getTotalCount(criteria: ActivitySearchCriteria): Int = eventMapperExt.getTotalCountFromCall(criteria) +
+            eventMapperExt.getTotalCountFromTask(criteria) +
+            eventMapperExt.getTotalCountFromMeeting(criteria)
 }

@@ -55,9 +55,7 @@ class AccountServiceImpl(private val accountMapper: AccountMapper,
     override val searchMapper: ISearchableDAO<AccountSearchCriteria>
         get() = accountMapperExt
 
-    override fun findById(id: Int, accountId: Int): SimpleAccount? {
-        return accountMapperExt.findById(id)
-    }
+    override fun findById(id: Int, accountId: Int): SimpleAccount? = accountMapperExt.findById(id)
 
     override fun saveWithSession(record: Account, username: String?): Int {
         val result = super.saveWithSession(record, username)
@@ -74,7 +72,7 @@ class AccountServiceImpl(private val accountMapper: AccountMapper,
         return result
     }
 
-    override fun saveAccountLeadRelationship(associateLeads: List<AccountLead>, accountId: Int?) {
+    override fun saveAccountLeadRelationship(associateLeads: List<AccountLead>, accountId: Int) {
         for (associateLead in associateLeads) {
             val ex = AccountLeadExample()
             ex.createCriteria().andAccountidEqualTo(associateLead.accountid)
@@ -86,15 +84,14 @@ class AccountServiceImpl(private val accountMapper: AccountMapper,
         }
     }
 
-    override fun removeAccountLeadRelationship(associateLead: AccountLead, accountId: Int?) {
+    override fun removeAccountLeadRelationship(associateLead: AccountLead, accountId: Int) {
         val ex = AccountLeadExample()
         ex.createCriteria().andAccountidEqualTo(associateLead.accountid).andLeadidEqualTo(associateLead.leadid)
         accountLeadMapper.deleteByExample(ex)
     }
 
-    override fun findAccountAssoWithConvertedLead(leadId: Int?, accountId: Int?): SimpleAccount {
-        return accountMapperExt.findAccountAssoWithConvertedLead(leadId)
-    }
+    override fun findAccountAssoWithConvertedLead(leadId: Int, accountId: Int): SimpleAccount? =
+            accountMapperExt.findAccountAssoWithConvertedLead(leadId)
 
     companion object {
         init {

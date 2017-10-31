@@ -29,11 +29,11 @@ import org.apache.ibatis.annotations.Param
  */
 interface LeadMapperExt : ISearchableDAO<LeadSearchCriteria>, IMassUpdateDAO<Lead, LeadSearchCriteria> {
 
-    fun findById(leadId: Int?): SimpleLead
+    fun findById(leadId: Int): SimpleLead?
 
-    fun findConvertedLeadOfAccount(@Param("accountId") accountId: Int?): SimpleLead
+    fun findConvertedLeadOfAccount(@Param("accountId") accountId: Int): SimpleLead?
 
-    fun findConvertedLeadOfContact(@Param("contactId") contactId: Int?): SimpleLead
+    fun findConvertedLeadOfContact(@Param("contactId") contactId: Int): SimpleLead?
 
-    fun findConvertedLeadOfOpportunity(@Param("opportunityId") opportunity: Int?): SimpleLead
+    fun findConvertedLeadOfOpportunity(@Param("opportunityId") opportunity: Int): SimpleLead?
 }

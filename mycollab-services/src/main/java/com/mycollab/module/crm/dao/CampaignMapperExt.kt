@@ -28,5 +28,5 @@ import com.mycollab.module.crm.domain.criteria.CampaignSearchCriteria
  */
 interface CampaignMapperExt : ISearchableDAO<CampaignSearchCriteria>, IMassUpdateDAO<CampaignWithBLOBs, CampaignSearchCriteria> {
 
-    fun findById(campaignId: Int?): SimpleCampaign
+    fun findById(campaignId: Int): SimpleCampaign?
 }

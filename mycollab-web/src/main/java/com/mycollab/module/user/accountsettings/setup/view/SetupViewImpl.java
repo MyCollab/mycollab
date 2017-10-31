@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -23,10 +23,10 @@ import com.mycollab.configuration.EmailConfiguration;
 import com.mycollab.configuration.SiteConfiguration;
 import com.mycollab.core.UserInvalidInputException;
 import com.mycollab.core.utils.StringUtils;
-import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.module.user.accountsettings.localization.UserI18nEnum;
 import com.mycollab.module.user.accountsettings.view.event.ProfileEvent;
 import com.mycollab.servlet.InstallUtils;
+import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.AbstractVerticalPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
@@ -72,7 +72,7 @@ public class SetupViewImpl extends AbstractVerticalPageView implements SetupView
 
     @Override
     public void displaySetup() {
-        emailConf = SiteConfiguration.getEmailConfiguration().clone();
+        emailConf = (EmailConfiguration) SiteConfiguration.getEmailConfiguration().copy();
         editForm.display(emailConf);
     }
 
@@ -107,8 +107,8 @@ public class SetupViewImpl extends AbstractVerticalPageView implements SetupView
             final MButton saveBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_SAVE), clickEvent -> {
                 if (editForm.validateForm()) {
                     try {
-                        InstallUtils.INSTANCE.checkSMTPConfig(emailConf.getHost(), emailConf.getPort(), emailConf.getUser(),
-                                emailConf.getPassword(), true, emailConf.getIsStartTls(), emailConf.getIsSsl());
+                        InstallUtils.checkSMTPConfig(emailConf.getHost(), emailConf.getPort(), emailConf.getUser(),
+                                emailConf.getPassword(), true, emailConf.isStartTls(), emailConf.isSsl());
                         saveEmailConfiguration();
                     } catch (UserInvalidInputException e) {
                         ConfirmDialogExt.show(UI.getCurrent(),
@@ -141,8 +141,8 @@ public class SetupViewImpl extends AbstractVerticalPageView implements SetupView
                     p.setProperty(ApplicationProperties.MAIL_USERNAME, emailConf.getUser());
                     p.setProperty(ApplicationProperties.MAIL_PASSWORD, emailConf.getPassword());
                     p.setProperty(ApplicationProperties.MAIL_PORT, emailConf.getPort());
-                    p.setProperty(ApplicationProperties.MAIL_IS_TLS, emailConf.getIsStartTls());
-                    p.setProperty(ApplicationProperties.MAIL_IS_SSL, emailConf.getIsSsl());
+                    p.setProperty(ApplicationProperties.MAIL_IS_TLS, emailConf.isStartTls());
+                    p.setProperty(ApplicationProperties.MAIL_IS_SSL, emailConf.isSsl());
                     p.setProperty(ApplicationProperties.MAIL_NOTIFY, emailConf.getUser());
                     p.save();
                     NotificationUtil.showNotification(UserUIContext.getMessage(GenericI18Enum.OPT_CONGRATS),

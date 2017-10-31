@@ -94,7 +94,7 @@ public class UnresolvedTicketByPriorityWidget extends Depot {
     private void displayPlainMode() {
         bodyContent.removeAllComponents();
         TicketPriorityClickListener listener = new TicketPriorityClickListener();
-        this.setTitle(UserUIContext.getMessage(TaskI18nEnum.WIDGET_UNRESOLVED_BY_PRIORITY_TITLE) + " (" + totalCount + ")");
+        this.setTitle(String.format("%s (%d)", UserUIContext.getMessage(TaskI18nEnum.WIDGET_UNRESOLVED_BY_PRIORITY_TITLE), totalCount));
 
         if (!groupItems.isEmpty()) {
             for (Priority priority : OptionI18nEnum.priorities) {

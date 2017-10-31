@@ -45,10 +45,6 @@ class QuoteServiceImpl(private val quoteMapper: QuoteMapper,
     override val searchMapper: ISearchableDAO<QuoteSearchCriteria>
         get() = quoteMapperExt
 
-    fun setProductDAO(productDAO: ProductMapper) {
-        this.productMapper = productDAO
-    }
-
     override fun saveSimpleQuoteGroupProducts(accountid: Int, quoteId: Int, entities: List<SimpleQuoteGroupProduct>) {
         quoteGroupProductService.deleteQuoteGroupByQuoteId(quoteId)
 

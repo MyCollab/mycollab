@@ -25,5 +25,5 @@ import com.mycollab.module.crm.domain.criteria.CrmTaskSearchCriteria
  * @since 1.0.0
  */
 interface CrmTaskMapperExt : ISearchableDAO<CrmTaskSearchCriteria> {
-    fun findById(taskId: Int?): SimpleCrmTask
+    fun findById(taskId: Int): SimpleCrmTask?
 }

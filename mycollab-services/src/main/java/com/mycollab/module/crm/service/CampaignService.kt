@@ -35,25 +35,25 @@ interface CampaignService : IDefaultService<Int, CampaignWithBLOBs, CampaignSear
 
     @CacheEvict
     @CacheArgs(values = arrayOf(AccountService::class))
-    fun saveCampaignAccountRelationship(associateAccounts: List<CampaignAccount>, @CacheKey sAccountId: Int?)
+    fun saveCampaignAccountRelationship(associateAccounts: List<CampaignAccount>, @CacheKey sAccountId: Int)
 
     @CacheEvict
     @CacheArgs(values = arrayOf(AccountService::class))
-    fun removeCampaignAccountRelationship(associateAccount: CampaignAccount, @CacheKey sAccountId: Int?)
+    fun removeCampaignAccountRelationship(associateAccount: CampaignAccount, @CacheKey sAccountId: Int)
 
     @CacheEvict
     @CacheArgs(values = arrayOf(ContactService::class))
-    fun saveCampaignContactRelationship(associateContacts: List<CampaignContact>, @CacheKey sAccountId: Int?)
+    fun saveCampaignContactRelationship(associateContacts: List<CampaignContact>, @CacheKey sAccountId: Int)
 
     @CacheEvict
     @CacheArgs(values = arrayOf(ContactService::class))
-    fun removeCampaignContactRelationship(associateContact: CampaignContact, @CacheKey sAccountId: Int?)
+    fun removeCampaignContactRelationship(associateContact: CampaignContact, @CacheKey sAccountId: Int)
 
     @CacheEvict
     @CacheArgs(values = arrayOf(LeadService::class))
-    fun saveCampaignLeadRelationship(associateLeads: List<CampaignLead>, @CacheKey sAccountId: Int?)
+    fun saveCampaignLeadRelationship(associateLeads: List<CampaignLead>, @CacheKey sAccountId: Int)
 
     @CacheEvict
     @CacheArgs(values = arrayOf(LeadService::class))
-    fun removeCampaignLeadRelationship(associateLead: CampaignLead, @CacheKey sAccountId: Int?)
+    fun removeCampaignLeadRelationship(associateLead: CampaignLead, @CacheKey sAccountId: Int)
 }

@@ -36,9 +36,9 @@ interface LeadService : IDefaultService<Int, Lead, LeadSearchCriteria> {
     @CacheEvict
     fun convertLead(lead: SimpleLead, opportunity: Opportunity?, convertUser: String)
 
-    fun findConvertedLeadOfAccount(accountId: Int?, @CacheKey sAccountId: Int?): SimpleLead
+    fun findConvertedLeadOfAccount(accountId: Int, @CacheKey sAccountId: Int): SimpleLead?
 
-    fun findConvertedLeadOfContact(contactId: Int?, @CacheKey sAccountId: Int?): SimpleLead
+    fun findConvertedLeadOfContact(contactId: Int, @CacheKey sAccountId: Int): SimpleLead?
 
-    fun findConvertedLeadOfOpportunity(opportunity: Int?, @CacheKey sAccountId: Int?): SimpleLead
+    fun findConvertedLeadOfOpportunity(opportunity: Int, @CacheKey sAccountId: Int): SimpleLead?
 }

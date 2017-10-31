@@ -83,11 +83,7 @@ class BillingAccountServiceImpl(private val billingAccountMapper: BillingAccount
         }
 
         val accounts = billingAccountMapper.selectByExample(ex)
-        return if (accounts.isEmpty()) {
-            null
-        } else {
-            accounts[0]
-        }
+        return if (accounts.isEmpty()) null else accounts[0]
     }
 
     override fun createDefaultAccountData(username: String, password: String, timezoneId: String, language: String, isEmailVerified: Boolean?, isCreatedDefaultData: Boolean?, sAccountId: Int) {
@@ -100,13 +96,12 @@ class BillingAccountServiceImpl(private val billingAccountMapper: BillingAccount
         val now = GregorianCalendar().time
 
         if (CollectionUtils.isNotEmpty(users)) {
-            for (tmpUser in users) {
-                if (encryptedPassword != tmpUser.password) {
-                    throw UserInvalidInputException("There is already user " + username
-                            + " in the MyCollab database. If it is yours, you must enter the same password you registered to MyCollab. Otherwise " +
-                            "you must use the different email.")
-                }
-            }
+            users
+                    .filter { encryptedPassword != it.password }
+                    .forEach {
+                        throw UserInvalidInputException("There is already user $username in the MyCollab database. If it is yours, you must enter the same password you registered to MyCollab. Otherwise " +
+                                "you must use the different email.")
+                    }
         } else {
             // Register the new user to this account
             val user = User()
@@ -191,7 +186,7 @@ class BillingAccountServiceImpl(private val billingAccountMapper: BillingAccount
         role.issystemrole = true
         role.isdefault = java.lang.Boolean.TRUE
         val roleId = roleService.saveWithSession(role, "")
-        roleService.savePermission(roleId, PermissionMap.buildGuestPermissionCollection(), accountId!!)
+        roleService.savePermission(roleId, PermissionMap.buildGuestPermissionCollection(), accountId)
         return roleId
     }
 }

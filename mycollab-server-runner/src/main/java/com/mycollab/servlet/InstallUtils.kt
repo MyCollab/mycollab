@@ -26,6 +26,7 @@ import java.util.*
  * @since 5.0.3
  */
 object InstallUtils {
+    @JvmStatic
     fun checkSMTPConfig(host: String, port: Int, username: String, password: String, auth: Boolean, isStartTls: Boolean, isSSL: Boolean) {
         try {
             val props = Properties()

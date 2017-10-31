@@ -12,19 +12,23 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <http:></http:>//www.gnu.org/licenses/>.
  */
-package com.mycollab.module.crm.dao
+package com.mycollab.validator.constraints
 
-import com.mycollab.db.persistence.ISearchableDAO
-import com.mycollab.module.crm.domain.SimpleMeeting
-import com.mycollab.module.crm.domain.criteria.MeetingSearchCriteria
+import com.mycollab.core.utils.StringUtils
+
+import javax.validation.ConstraintValidator
+import javax.validation.ConstraintValidatorContext
 
 /**
- * @author MyCollab Ltd
- * @since 1.0.0
+ * @author MyCollab Ltd.
+ * @since 1.0
  */
-interface MeetingMapperExt : ISearchableDAO<MeetingSearchCriteria> {
+class PhoneNumberValidator : ConstraintValidator<PhoneNumber, String> {
 
-    fun findById(meetingId: Int): SimpleMeeting?
+    override fun initialize(constraintAnnotation: PhoneNumber) {}
+
+    override fun isValid(value: String, context: ConstraintValidatorContext): Boolean =
+            StringUtils.isValidPhoneNumber(value)
 }

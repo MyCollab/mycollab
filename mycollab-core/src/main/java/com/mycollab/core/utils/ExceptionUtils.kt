@@ -12,22 +12,19 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <http:></http:>//www.gnu.org/licenses/>.
  */
-package com.mycollab.core.utils;
+package com.mycollab.core.utils
 
 /**
- *@author MyCollab Ltd
+ * @author MyCollab Ltd
  * @since 5.2.0
  */
-public class ExceptionUtils {
-    public static <T> T getExceptionType(Throwable e, Class<T> exceptionType) {
-        if (exceptionType.isAssignableFrom(e.getClass())) {
-            return (T) e;
-        } else if (e.getCause() != null) {
-            return getExceptionType(e.getCause(), exceptionType);
-        } else {
-            return null;
-        }
+object ExceptionUtils {
+    @JvmStatic
+    fun <T> getExceptionType(e: Throwable, exceptionType: Class<T>): T? = when {
+        exceptionType.isAssignableFrom(e.javaClass) -> e as T
+        e.cause != null -> getExceptionType(e.cause!!, exceptionType)
+        else -> null
     }
 }

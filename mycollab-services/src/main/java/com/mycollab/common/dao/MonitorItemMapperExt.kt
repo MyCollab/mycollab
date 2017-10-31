@@ -30,5 +30,5 @@ interface MonitorItemMapperExt : ISearchableDAO<MonitorSearchCriteria> {
 
     fun saveMonitorItems(@Param("monitors") monitorItems: Collection<MonitorItem>)
 
-    fun getWatchers(@Param("type") type: String, @Param("typeId") typeId: Int?): List<SimpleUser>
+    fun getWatchers(@Param("type") type: String, @Param("typeId") typeId: Int): List<SimpleUser>
 }

@@ -12,28 +12,25 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <http:></http:>//www.gnu.org/licenses/>.
  */
-package com.mycollab.validator.constraints;
+package com.mycollab.validator.constraints
 
-import com.mycollab.core.utils.StringUtils;
-
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
+import javax.validation.ConstraintValidator
+import javax.validation.ConstraintValidatorContext
 
 /**
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class PhoneNumberValidator implements ConstraintValidator<PhoneNumber, String> {
+class StringLimitLengthValidator : ConstraintValidator<StringLimitLength, String> {
 
-    @Override
-    public void initialize(PhoneNumber constraintAnnotation) {
+    override fun initialize(constraintAnnotation: StringLimitLength) {
+
     }
 
-    @Override
-    public boolean isValid(String value, ConstraintValidatorContext context) {
-        return StringUtils.isValidPhoneNumber(value);
-    }
-
+    override fun isValid(value: String?, context: ConstraintValidatorContext): Boolean =
+            if (value == null || value.trim { it <= ' ' } == "" || value.length > 3) {
+                false
+            } else value.matches("\\w*".toRegex())
 }

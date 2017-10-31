@@ -20,41 +20,31 @@ import com.mycollab.common.dao.OptionValMapper
 import com.mycollab.common.dao.TimelineTrackingCachingMapper
 import com.mycollab.common.dao.TimelineTrackingMapper
 import com.mycollab.common.domain.*
-import com.mycollab.common.i18n.OptionI18nEnum
+import com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum
 import com.mycollab.common.service.OptionValService
 import com.mycollab.core.UserInvalidInputException
 import com.mycollab.core.cache.CacheKey
 import com.mycollab.db.persistence.ICrudGenericDAO
 import com.mycollab.db.persistence.service.DefaultCrudService
 import com.mycollab.module.project.ProjectTypeConstants
-import com.mycollab.module.project.i18n.OptionI18nEnum.*
-import org.springframework.beans.factory.annotation.Autowired
+import com.mycollab.module.project.i18n.OptionI18nEnum.MilestoneStatus
 import org.springframework.jdbc.core.BatchPreparedStatementSetter
 import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.stereotype.Service
-
-import javax.sql.DataSource
 import java.sql.PreparedStatement
 import java.sql.SQLException
-import java.util.GregorianCalendar
+import java.util.*
+import javax.sql.DataSource
 
 /**
  * @author MyCollab Ltd
  * @since 5.1.1
  */
 @Service
-class OptionValServiceImpl : DefaultCrudService<Int, OptionVal>(), OptionValService {
-    @Autowired
-    private val optionValMapper: OptionValMapper? = null
-
-    @Autowired
-    private val timelineTrackingMapper: TimelineTrackingMapper? = null
-
-    @Autowired
-    private val timelineTrackingCachingMapper: TimelineTrackingCachingMapper? = null
-
-    @Autowired
-    private val dataSource: DataSource? = null
+class OptionValServiceImpl(private val optionValMapper: OptionValMapper,
+                           private val timelineTrackingMapper: TimelineTrackingMapper,
+                           private val timelineTrackingCachingMapper: TimelineTrackingCachingMapper,
+                           private val dataSource: DataSource) : DefaultCrudService<Int, OptionVal>(), OptionValService {
 
     override val crudMapper: ICrudGenericDAO<Int, OptionVal>
         get() = optionValMapper as ICrudGenericDAO<Int, OptionVal>
@@ -65,17 +55,17 @@ class OptionValServiceImpl : DefaultCrudService<Int, OptionVal>(), OptionValServ
         ex.orderByClause = "orderIndex ASC"
         ex.isDistinct = true
 
-        return optionValMapper!!.selectByExampleWithBLOBs(ex)
+        return optionValMapper.selectByExampleWithBLOBs(ex)
     }
 
     override fun findOptionValsExcludeClosed(type: String, projectId: Int?, @CacheKey sAccountId: Int?): List<OptionVal> {
         val ex = OptionValExample()
-        ex.createCriteria().andTypeEqualTo(type).andTypevalNotEqualTo(OptionI18nEnum.StatusI18nEnum.Closed.name)
+        ex.createCriteria().andTypeEqualTo(type).andTypevalNotEqualTo(StatusI18nEnum.Closed.name)
                 .andSaccountidEqualTo(sAccountId).andExtraidEqualTo(projectId)
         ex.orderByClause = "orderIndex ASC"
         ex.isDistinct = true
 
-        return optionValMapper!!.selectByExampleWithBLOBs(ex)
+        return optionValMapper.selectByExampleWithBLOBs(ex)
     }
 
     override fun saveWithSession(record: OptionVal, username: String?): Int {
@@ -90,16 +80,16 @@ class OptionValServiceImpl : DefaultCrudService<Int, OptionVal>(), OptionValServ
             ex.createCriteria().andTypeEqualTo(record.type).andTypevalEqualTo(typeVal)
                     .andFieldgroupEqualTo(record.fieldgroup)
                     .andSaccountidEqualTo(record.saccountid)
-            if (optionValMapper!!.countByExample(ex) > 0) {
-                throw UserInvalidInputException("There is already column name " + typeVal)
+            if (optionValMapper.countByExample(ex) > 0) {
+                throw UserInvalidInputException("There is already column name $typeVal")
             }
         } else {
             val ex = OptionValExample()
             ex.createCriteria().andTypeEqualTo(record.type).andTypevalEqualTo(typeVal)
                     .andFieldgroupEqualTo(record.fieldgroup).andSaccountidEqualTo(record
                     .saccountid).andIsdefaultEqualTo(java.lang.Boolean.FALSE)
-            if (optionValMapper!!.countByExample(ex) > 0) {
-                throw UserInvalidInputException("There is already column name " + typeVal)
+            if (optionValMapper.countByExample(ex) > 0) {
+                throw UserInvalidInputException("There is already column name $typeVal")
             }
         }
     }
@@ -111,13 +101,13 @@ class OptionValServiceImpl : DefaultCrudService<Int, OptionVal>(), OptionValServ
                     .andFieldgroupEqualTo(record.fieldgroup).andExtratypeidEqualTo(record.extraid)
             val timelineTracking = TimelineTracking()
             timelineTracking.fieldval = record.typeval
-            timelineTrackingMapper!!.updateByExampleSelective(timelineTracking, timelineTrackingExample)
+            timelineTrackingMapper.updateByExampleSelective(timelineTracking, timelineTrackingExample)
 
             val timelineTrackingCachingExample = TimelineTrackingCachingExample()
             timelineTrackingCachingExample.createCriteria().andTypeEqualTo(record.type).andFieldvalEqualTo(record.typeval).andFieldgroupEqualTo(record.fieldgroup).andExtratypeidEqualTo(record.extraid)
             val timelineTrackingCaching = TimelineTrackingCaching()
             timelineTrackingCaching.fieldval = record.typeval
-            timelineTrackingCachingMapper!!.updateByExampleSelective(timelineTrackingCaching,
+            timelineTrackingCachingMapper.updateByExampleSelective(timelineTrackingCaching,
                     timelineTrackingCachingExample)
         }
         return super.updateWithSession(record, username)
@@ -132,9 +122,7 @@ class OptionValServiceImpl : DefaultCrudService<Int, OptionVal>(), OptionValServ
                 preparedStatement.setInt(2, mapIndexes[i]["id"]!!)
             }
 
-            override fun getBatchSize(): Int {
-                return mapIndexes.size
-            }
+            override fun getBatchSize(): Int = mapIndexes.size
         })
     }
 
@@ -142,7 +130,7 @@ class OptionValServiceImpl : DefaultCrudService<Int, OptionVal>(), OptionValServ
         val ex = OptionValExample()
         ex.createCriteria().andTypeEqualTo(type).andTypevalEqualTo(typeVal).andFieldgroupEqualTo(fieldGroup)
                 .andSaccountidEqualTo(sAccountId).andExtraidEqualTo(projectId)
-        return optionValMapper!!.countByExample(ex) > 0
+        return optionValMapper.countByExample(ex) > 0
     }
 
     override fun createDefaultOptions(sAccountId: Int?) {
@@ -151,24 +139,24 @@ class OptionValServiceImpl : DefaultCrudService<Int, OptionVal>(), OptionValServ
         option.isdefault = true
         option.saccountid = sAccountId
         option.type = ProjectTypeConstants.TASK
-        option.typeval = OptionI18nEnum.StatusI18nEnum.Open.name
+        option.typeval = StatusI18nEnum.Open.name
         option.color = "fdde86"
         option.fieldgroup = "status"
         saveWithSession(option, null)
 
-        option.typeval = OptionI18nEnum.StatusI18nEnum.InProgress.name
+        option.typeval = StatusI18nEnum.InProgress.name
         option.id = null
         saveWithSession(option, null)
 
-        option.typeval = OptionI18nEnum.StatusI18nEnum.Archived.name
+        option.typeval = StatusI18nEnum.Archived.name
         option.id = null
         saveWithSession(option, null)
 
-        option.typeval = OptionI18nEnum.StatusI18nEnum.Closed.name
+        option.typeval = StatusI18nEnum.Closed.name
         option.id = null
         saveWithSession(option, null)
 
-        option.typeval = OptionI18nEnum.StatusI18nEnum.Pending.name
+        option.typeval = StatusI18nEnum.Pending.name
         option.id = null
         saveWithSession(option, null)
 

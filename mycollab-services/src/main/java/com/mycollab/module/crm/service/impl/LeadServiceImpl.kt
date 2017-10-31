@@ -148,17 +148,14 @@ class LeadServiceImpl(private val leadMapper: LeadMapper,
 
     }
 
-    override fun findConvertedLeadOfAccount(accountId: Int?, @CacheKey sAccountId: Int?): SimpleLead {
-        return leadMapperExt.findConvertedLeadOfAccount(accountId)
-    }
+    override fun findConvertedLeadOfAccount(accountId: Int, @CacheKey sAccountId: Int): SimpleLead? =
+            leadMapperExt.findConvertedLeadOfAccount(accountId)
 
-    override fun findConvertedLeadOfContact(contactId: Int?, @CacheKey sAccountId: Int?): SimpleLead {
-        return leadMapperExt.findConvertedLeadOfContact(contactId)
-    }
+    override fun findConvertedLeadOfContact(contactId: Int, @CacheKey sAccountId: Int): SimpleLead? =
+            leadMapperExt.findConvertedLeadOfContact(contactId)
 
-    override fun findConvertedLeadOfOpportunity(opportunity: Int?, @CacheKey sAccountId: Int?): SimpleLead {
-        return leadMapperExt.findConvertedLeadOfOpportunity(opportunity)
-    }
+    override fun findConvertedLeadOfOpportunity(opportunity: Int, @CacheKey sAccountId: Int): SimpleLead? =
+            leadMapperExt.findConvertedLeadOfOpportunity(opportunity)
 
     companion object {
         init {

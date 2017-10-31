@@ -156,10 +156,10 @@ class OverdueProjectTicketsNotificationJob : GenericQuartzJobBean() {
                                         assignment.extraTypeId, assignment.projectShortName)).appendText(assignment.name)).write()
                         ProjectTypeConstants.RISK -> Div().appendText(FontAwesomeUtils.toHtml(ProjectTypeConstants.RISK)).
                                 appendChild(DivLessFormatter.EMPTY_SPACE, A(ProjectLinkGenerator.generateRiskPreviewFullLink(mode.getSiteUrl(subDomain),
-                                        assignment.projectId, assignment.typeId)).appendText(assignment.name)).write()
+                                        assignment.projectId!!, assignment.typeId!!)).appendText(assignment.name)).write()
                         ProjectTypeConstants.MILESTONE -> Div().appendText(FontAwesomeUtils.toHtml(ProjectTypeConstants.MILESTONE)).
                                 appendChild(DivLessFormatter.EMPTY_SPACE, A(ProjectLinkGenerator.generateMilestonePreviewFullLink(mode.getSiteUrl(subDomain),
-                                        assignment.projectId, assignment.typeId)).appendText(assignment.name)).write()
+                                        assignment.projectId!!, assignment.typeId!!)).appendText(assignment.name)).write()
                         else -> throw  MyCollabException("Do not support type $assignment.type")
                     }
                 } catch (e: Exception) {
@@ -173,7 +173,7 @@ class OverdueProjectTicketsNotificationJob : GenericQuartzJobBean() {
                             A(AccountLinkGenerator.generatePreviewFullUserLink(subDomain, assignment.assignUser)).
                                     appendText(assignment.assignUserFullName)).write()
 
-            fun storageService() = AppContextUtil.getSpringBean(AbstractStorageService::class.java)
+            private fun storageService() = AppContextUtil.getSpringBean(AbstractStorageService::class.java)
         }
     }
 }

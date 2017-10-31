@@ -27,11 +27,9 @@ class HumanTimeExpression(field: String) : SimpleFieldExpression<String>(field) 
 
     override fun evaluate(reportParameters: ReportParameters): String {
         val longValue = reportParameters.getFieldValue<Double>(field)
-        if (longValue != null) {
+        return if (longValue != null) {
             val milis = longValue * 1000.0 * 60.0 * 60.0
-            return HumanTime.exactly(milis.toLong())
-        } else {
-            return "O d"
-        }
+            HumanTime.exactly(milis.toLong())
+        } else "O d"
     }
 }

@@ -25,5 +25,5 @@ import com.mycollab.module.project.domain.criteria.MessageSearchCriteria
  * @since 1.0.0
  */
 interface MessageMapperExt : ISearchableDAO<MessageSearchCriteria> {
-    fun findMessageById(messageId: Int): SimpleMessage
+    fun findMessageById(messageId: Int): SimpleMessage?
 }

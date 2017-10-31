@@ -35,25 +35,25 @@ interface ContactService : IDefaultService<Int, Contact, ContactSearchCriteria> 
 
     @CacheEvict
     @CacheArgs(values = arrayOf(OpportunityService::class, ContactOpportunityService::class))
-    fun removeContactOpportunityRelationship(associateOpportunity: ContactOpportunity, @CacheKey sAccountId: Int?)
+    fun removeContactOpportunityRelationship(associateOpportunity: ContactOpportunity, @CacheKey sAccountId: Int)
 
     @CacheEvict
     @CacheArgs(values = arrayOf(OpportunityService::class, ContactOpportunityService::class))
-    fun saveContactOpportunityRelationship(associateOpportunities: List<ContactOpportunity>, @CacheKey accountId: Int?)
+    fun saveContactOpportunityRelationship(associateOpportunities: List<ContactOpportunity>, @CacheKey sAccountId: Int)
 
     @CacheEvict
     @CacheArgs(values = arrayOf(LeadService::class))
-    fun saveContactLeadRelationship(associateLeads: List<ContactLead>, @CacheKey accountId: Int?)
+    fun saveContactLeadRelationship(associateLeads: List<ContactLead>, @CacheKey sAccountId: Int)
 
     @CacheEvict
     @CacheArgs(values = arrayOf(CaseService::class))
-    fun saveContactCaseRelationship(associateCases: List<ContactCase>, @CacheKey accountId: Int?)
+    fun saveContactCaseRelationship(associateCases: List<ContactCase>, @CacheKey sAccountId: Int)
 
     @CacheEvict
     @CacheArgs(values = arrayOf(CaseService::class))
-    fun removeContactCaseRelationship(associateCase: ContactCase, @CacheKey sAccountId: Int?)
+    fun removeContactCaseRelationship(associateCase: ContactCase, @CacheKey sAccountId: Int)
 
     @CacheEvict
     @Cacheable
-    fun findContactAssoWithConvertedLead(leadId: Int, @CacheKey accountId: Int?): SimpleContact
+    fun findContactAssoWithConvertedLead(leadId: Int, @CacheKey sAccountId: Int): SimpleContact?
 }

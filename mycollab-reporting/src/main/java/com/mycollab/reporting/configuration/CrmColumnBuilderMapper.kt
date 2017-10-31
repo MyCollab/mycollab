@@ -105,9 +105,9 @@ class CrmColumnBuilderMapper : InitializingBean {
         val contactHrefExpr = object : AbstractSimpleExpression<String>() {
 
             override fun evaluate(reportParameters: ReportParameters): String {
-                val contactid = reportParameters.getFieldValue<Int>("id")
+                val contactId = reportParameters.getFieldValue<Int>("id")
                 val siteUrl = reportParameters.getParameterValue<String>("siteUrl")
-                return CrmLinkGenerator.generateContactPreviewFullLink(siteUrl, contactid)
+                return CrmLinkGenerator.generateContactPreviewFullLink(siteUrl, contactId)
             }
         }
         map.put("contactName", HyperlinkBuilderGenerator(contactTitleExpr, contactHrefExpr))

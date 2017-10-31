@@ -14,22 +14,23 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http:></http:>//www.gnu.org/licenses/>.
  */
-package com.mycollab.reporting.expression
+package com.mycollab.validator.constraints
 
-import com.mycollab.core.utils.DateTimeUtils
-import net.sf.dynamicreports.report.definition.ReportParameters
+import com.mycollab.core.utils.StringUtils
 
-import java.util.Date
-import java.util.Locale
+import javax.validation.ConstraintValidator
+import javax.validation.ConstraintValidatorContext
 
 /**
  * @author MyCollab Ltd.
- * @since 4.1.2
+ * @since 1.0
  */
-class DateTimeExpression(field: String) : SimpleFieldExpression<String>(field) {
+class URLValidator : ConstraintValidator<URL, String> {
 
-    override fun evaluate(reportParameters: ReportParameters): String {
-        val date = reportParameters.getFieldValue<Date>(field)
-        return DateTimeUtils.formatDate(date, "DD/mm/yyyy", Locale.US)
-    }
+    override fun initialize(constraintAnnotation: URL) {}
+
+    override fun isValid(value: String, context: ConstraintValidatorContext): Boolean =
+            if (!StringUtils.isBlank(value)) {
+                value.matches("[-a-zA-Z0-9@:%_\\+.~#?&//=]{2,256}\\.[a-z]{2,4}\\b(\\/[-a-zA-Z0-9@:%_\\+.~#?&//=]*)?".toRegex())
+            } else true
 }

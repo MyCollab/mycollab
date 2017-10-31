@@ -30,7 +30,7 @@ import org.apache.ibatis.annotations.Param
  */
 interface OpportunityMapperExt : ISearchableDAO<OpportunitySearchCriteria>, IMassUpdateDAO<Opportunity, OpportunitySearchCriteria> {
 
-    fun findById(opportunityId: Int?): SimpleOpportunity
+    fun findById(opportunityId: Int): SimpleOpportunity?
 
     fun getSalesStageSummary(@Param("searchCriteria") criteria: OpportunitySearchCriteria): List<GroupItem>
 
@@ -38,5 +38,5 @@ interface OpportunityMapperExt : ISearchableDAO<OpportunitySearchCriteria>, IMas
 
     fun getPipeline(@Param("searchCriteria") criteria: OpportunitySearchCriteria): List<GroupItem>
 
-    fun findOpportunityAssoWithConvertedLead(@Param("leadId") leadId: Int): SimpleOpportunity
+    fun findOpportunityAssoWithConvertedLead(@Param("leadId") leadId: Int): SimpleOpportunity?
 }

@@ -52,32 +52,24 @@ object EnDecryptHelper {
     fun encryptText(text: String): String = basicTextEncryptor.encrypt(text)
 
     @JvmStatic
-    fun encryptTextWithEncodeFriendly(text: String): String {
-        try {
-            return URLEncoder.encode(basicTextEncryptor.encrypt(text), "ASCII")
-        } catch (e: UnsupportedEncodingException) {
-            throw MyCollabException(e)
-        }
+    fun encryptTextWithEncodeFriendly(text: String): String = try {
+        URLEncoder.encode(basicTextEncryptor.encrypt(text), "ASCII")
+    } catch (e: UnsupportedEncodingException) {
+        throw MyCollabException(e)
     }
 
     @JvmStatic
-    fun decryptText(text: String): String? {
-        try {
-            return basicTextEncryptor.decrypt(text)
-        } catch (e: EncryptionOperationNotPossibleException) {
-            throw MyCollabException("Can not decrypt the text--$text---")
-        }
-
+    fun decryptText(text: String): String = try {
+        basicTextEncryptor.decrypt(text)
+    } catch (e: EncryptionOperationNotPossibleException) {
+        throw MyCollabException("Can not decrypt the text--$text---")
     }
 
     @JvmStatic
-    fun decryptTextWithEncodeFriendly(text: String): String? {
-        try {
-            return basicTextEncryptor.decrypt(URLDecoder.decode(text, "ASCII"))
-        } catch (e: Exception) {
-            throw MyCollabException("Can not decrypt the text--$text---", e)
-        }
-
+    fun decryptTextWithEncodeFriendly(text: String): String = try {
+        basicTextEncryptor.decrypt(URLDecoder.decode(text, "ASCII"))
+    } catch (e: Exception) {
+        throw MyCollabException("Can not decrypt the text--$text---", e)
     }
 
     /**
@@ -91,10 +83,8 @@ object EnDecryptHelper {
      * @return
      */
     @JvmStatic
-    fun checkPassword(inputPassword: String, expectedPassword: String, isPasswordEncrypt: Boolean): Boolean {
-        return when {
-            isPasswordEncrypt -> inputPassword == expectedPassword
-            else -> strongEncryptor.checkPassword(inputPassword, expectedPassword)
-        }
+    fun checkPassword(inputPassword: String, expectedPassword: String, isPasswordEncrypt: Boolean): Boolean = when {
+        isPasswordEncrypt -> inputPassword == expectedPassword
+        else -> strongEncryptor.checkPassword(inputPassword, expectedPassword)
     }
 }

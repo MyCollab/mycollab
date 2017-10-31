@@ -29,7 +29,7 @@ import org.apache.ibatis.annotations.Param
  */
 interface AccountMapperExt : ISearchableDAO<AccountSearchCriteria>, IMassUpdateDAO<Account, AccountSearchCriteria> {
 
-    fun findById(accountId: Int?): SimpleAccount
+    fun findById(accountId: Int): SimpleAccount?
 
-    fun findAccountAssoWithConvertedLead(@Param("leadId") leadId: Int?): SimpleAccount
+    fun findAccountAssoWithConvertedLead(@Param("leadId") leadId: Int): SimpleAccount?
 }

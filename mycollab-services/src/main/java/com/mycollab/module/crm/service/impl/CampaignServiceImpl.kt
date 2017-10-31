@@ -53,9 +53,7 @@ class CampaignServiceImpl(private val campaignMapper: CampaignMapper,
     override val searchMapper: ISearchableDAO<CampaignSearchCriteria>
         get() = campaignMapperExt
 
-    override fun findById(campaignId: Int, sAccountId: Int): SimpleCampaign? {
-        return campaignMapperExt.findById(campaignId)
-    }
+    override fun findById(campaignId: Int, sAccountId: Int): SimpleCampaign? = campaignMapperExt.findById(campaignId)
 
     override fun saveWithSession(record: CampaignWithBLOBs, username: String?): Int {
         val result = super.saveWithSession(record, username)
@@ -69,7 +67,7 @@ class CampaignServiceImpl(private val campaignMapper: CampaignMapper,
         return result
     }
 
-    override fun saveCampaignAccountRelationship(associateAccounts: List<CampaignAccount>, sAccountId: Int?) {
+    override fun saveCampaignAccountRelationship(associateAccounts: List<CampaignAccount>, sAccountId: Int) {
         for (associateAccount in associateAccounts) {
             val ex = CampaignAccountExample()
             ex.createCriteria()
@@ -81,7 +79,7 @@ class CampaignServiceImpl(private val campaignMapper: CampaignMapper,
         }
     }
 
-    override fun removeCampaignAccountRelationship(associateAccount: CampaignAccount, sAccountId: Int?) {
+    override fun removeCampaignAccountRelationship(associateAccount: CampaignAccount, sAccountId: Int) {
         val ex = CampaignAccountExample()
         ex.createCriteria()
                 .andAccountidEqualTo(associateAccount.accountid)
@@ -89,7 +87,7 @@ class CampaignServiceImpl(private val campaignMapper: CampaignMapper,
         campaignAccountMapper.deleteByExample(ex)
     }
 
-    override fun saveCampaignContactRelationship(associateContacts: List<CampaignContact>, sAccountId: Int?) {
+    override fun saveCampaignContactRelationship(associateContacts: List<CampaignContact>, sAccountId: Int) {
         for (associateContact in associateContacts) {
             val ex = CampaignContactExample()
             ex.createCriteria()
@@ -101,7 +99,7 @@ class CampaignServiceImpl(private val campaignMapper: CampaignMapper,
         }
     }
 
-    override fun removeCampaignContactRelationship(associateContact: CampaignContact, sAccountId: Int?) {
+    override fun removeCampaignContactRelationship(associateContact: CampaignContact, sAccountId: Int) {
         val ex = CampaignContactExample()
         ex.createCriteria()
                 .andCampaignidEqualTo(associateContact.campaignid)
@@ -109,7 +107,7 @@ class CampaignServiceImpl(private val campaignMapper: CampaignMapper,
         campaignContactMapper.deleteByExample(ex)
     }
 
-    override fun saveCampaignLeadRelationship(associateLeads: List<CampaignLead>, sAccountId: Int?) {
+    override fun saveCampaignLeadRelationship(associateLeads: List<CampaignLead>, sAccountId: Int) {
         for (associateLead in associateLeads) {
             val ex = CampaignLeadExample()
             ex.createCriteria()
@@ -121,7 +119,7 @@ class CampaignServiceImpl(private val campaignMapper: CampaignMapper,
         }
     }
 
-    override fun removeCampaignLeadRelationship(associateLead: CampaignLead, sAccountId: Int?) {
+    override fun removeCampaignLeadRelationship(associateLead: CampaignLead, sAccountId: Int) {
         val ex = CampaignLeadExample()
         ex.createCriteria().andCampaignidEqualTo(associateLead.campaignid)
                 .andLeadidEqualTo(associateLead.leadid)

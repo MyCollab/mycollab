@@ -57,9 +57,8 @@ class OpportunityServiceImpl(private val opportunityMapper: OpportunityMapper,
     override val searchMapper: ISearchableDAO<OpportunitySearchCriteria>
         get() = opportunityMapperExt
 
-    override fun findById(opportunityId: Int, sAccountId: Int): SimpleOpportunity? {
-        return opportunityMapperExt.findById(opportunityId)
-    }
+    override fun findById(opportunityId: Int, sAccountId: Int): SimpleOpportunity? =
+            opportunityMapperExt.findById(opportunityId)
 
     override fun saveWithSession(record: Opportunity, username: String?): Int {
         val result = super.saveWithSession(record, username)
@@ -75,19 +74,16 @@ class OpportunityServiceImpl(private val opportunityMapper: OpportunityMapper,
         return result
     }
 
-    override fun getSalesStageSummary(criteria: OpportunitySearchCriteria): List<GroupItem> {
-        return opportunityMapperExt.getSalesStageSummary(criteria)
-    }
+    override fun getSalesStageSummary(criteria: OpportunitySearchCriteria): List<GroupItem> =
+            opportunityMapperExt.getSalesStageSummary(criteria)
 
-    override fun getLeadSourcesSummary(criteria: OpportunitySearchCriteria): List<GroupItem> {
-        return opportunityMapperExt.getLeadSourcesSummary(criteria)
-    }
+    override fun getLeadSourcesSummary(criteria: OpportunitySearchCriteria): List<GroupItem> =
+            opportunityMapperExt.getLeadSourcesSummary(criteria)
 
-    override fun getPipeline(@CacheKey criteria: OpportunitySearchCriteria): List<GroupItem> {
-        return opportunityMapperExt.getPipeline(criteria)
-    }
+    override fun getPipeline(@CacheKey criteria: OpportunitySearchCriteria): List<GroupItem> =
+            opportunityMapperExt.getPipeline(criteria)
 
-    override fun saveOpportunityLeadRelationship(associateLeads: List<OpportunityLead>, sAccountId: Int?) {
+    override fun saveOpportunityLeadRelationship(associateLeads: List<OpportunityLead>, sAccountId: Int) {
         for (associateLead in associateLeads) {
             val ex = OpportunityLeadExample()
             ex.createCriteria().andOpportunityidEqualTo(associateLead.opportunityid)
@@ -98,16 +94,15 @@ class OpportunityServiceImpl(private val opportunityMapper: OpportunityMapper,
         }
     }
 
-    override fun removeOpportunityLeadRelationship(associateLead: OpportunityLead, sAccountId: Int?) {
+    override fun removeOpportunityLeadRelationship(associateLead: OpportunityLead, sAccountId: Int) {
         val ex = OpportunityLeadExample()
         ex.createCriteria().andOpportunityidEqualTo(associateLead.opportunityid)
                 .andLeadidEqualTo(associateLead.leadid)
         opportunityLeadMapper.deleteByExample(ex)
     }
 
-    override fun findOpportunityAssoWithConvertedLead(leadId: Int?, @CacheKey accountId: Int?): SimpleOpportunity {
-        return opportunityMapperExt.findOpportunityAssoWithConvertedLead(leadId!!)
-    }
+    override fun findOpportunityAssoWithConvertedLead(leadId: Int, @CacheKey accountId: Int): SimpleOpportunity? =
+            opportunityMapperExt.findOpportunityAssoWithConvertedLead(leadId)
 
     companion object {
 

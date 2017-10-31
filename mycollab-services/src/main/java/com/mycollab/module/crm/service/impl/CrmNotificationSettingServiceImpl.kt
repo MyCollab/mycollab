@@ -34,10 +34,8 @@ import org.springframework.stereotype.Service
  * @since 1.0
  */
 @Service
-class CrmNotificationSettingServiceImpl : DefaultCrudService<Int, CrmNotificationSetting>(), CrmNotificationSettingService {
+class CrmNotificationSettingServiceImpl(private val crmNotificationSettingMapper: CrmNotificationSettingMapper) : DefaultCrudService<Int, CrmNotificationSetting>(), CrmNotificationSettingService {
 
-    @Autowired
-    private val crmNotificationSettingMapper: CrmNotificationSettingMapper? = null
 
     override val crudMapper: ICrudGenericDAO<Int, CrmNotificationSetting>
         get() = crmNotificationSettingMapper as ICrudGenericDAO<Int, CrmNotificationSetting>
@@ -47,14 +45,15 @@ class CrmNotificationSettingServiceImpl : DefaultCrudService<Int, CrmNotificatio
         val ex = CrmNotificationSettingExample()
         ex.createCriteria().andUsernameEqualTo(username).andSaccountidEqualTo(sAccountId)
         val notifications = crmNotificationSettingMapper!!.selectByExample(ex)
-        if (CollectionUtils.isNotEmpty(notifications)) {
-            return notifications[0]
-        } else {
-            val notification = CrmNotificationSetting()
-            notification.saccountid = sAccountId
-            notification.username = username
-            notification.level = NotificationType.Default.name
-            return notification
+        return when {
+            CollectionUtils.isNotEmpty(notifications) -> notifications[0]
+            else -> {
+                val notification = CrmNotificationSetting()
+                notification.saccountid = sAccountId
+                notification.username = username
+                notification.level = NotificationType.Default.name
+                notification
+            }
         }
     }
 
@@ -62,7 +61,6 @@ class CrmNotificationSettingServiceImpl : DefaultCrudService<Int, CrmNotificatio
     override fun findNotifications(@CacheKey sAccountId: Int?): List<CrmNotificationSetting> {
         val ex = CrmNotificationSettingExample()
         ex.createCriteria().andSaccountidEqualTo(sAccountId)
-        return crmNotificationSettingMapper!!.selectByExample(ex)
+        return crmNotificationSettingMapper.selectByExample(ex)
     }
-
 }

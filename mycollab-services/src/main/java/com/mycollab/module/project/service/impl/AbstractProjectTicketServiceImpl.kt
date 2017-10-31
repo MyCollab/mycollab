@@ -120,15 +120,15 @@ abstract class AbstractProjectTicketServiceImpl : DefaultSearchService<ProjectTi
         when {
             ticket.isTask -> {
                 val task = ProjectTicket.buildTask(ticket)
-                AppContextUtil.getSpringBean(ProjectTaskService::class.java).removeWithSession(task, username, ticket.getsAccountId())
+                AppContextUtil.getSpringBean(ProjectTaskService::class.java).removeWithSession(task, username, ticket.sAccountId!!)
             }
             ticket.isBug -> {
                 val bug = ProjectTicket.buildBug(ticket)
-                AppContextUtil.getSpringBean(BugService::class.java).removeWithSession(bug, username, ticket.getsAccountId())
+                AppContextUtil.getSpringBean(BugService::class.java).removeWithSession(bug, username, ticket.sAccountId!!)
             }
             ticket.isRisk -> {
                 val risk = ProjectTicket.buildRisk(ticket)
-                AppContextUtil.getSpringBean(RiskService::class.java).removeWithSession(risk, username, ticket.getsAccountId())
+                AppContextUtil.getSpringBean(RiskService::class.java).removeWithSession(risk, username, ticket.sAccountId!!)
             }
         }
     }

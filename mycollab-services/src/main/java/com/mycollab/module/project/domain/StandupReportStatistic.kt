@@ -12,17 +12,26 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <http:></http:>//www.gnu.org/licenses/>.
  */
-package com.mycollab.module.user.dao;
+package com.mycollab.module.project.domain
 
-import com.mycollab.module.user.domain.SimpleBillingAccount;
+import com.mycollab.core.arguments.ValuedBean
 
-public interface BillingAccountMapperExt {
+/**
+ * @author MyCollab Ltd
+ * @since 5.3.0
+ */
+class StandupReportStatistic : ValuedBean() {
+    var projectId: Int? = null
 
-    SimpleBillingAccount getBillingAccountById(Integer accountId);
+    var projectKey: String? = null
 
-    SimpleBillingAccount getAccountByDomain(String domainName);
+    var projectName: String? = null
 
-    SimpleBillingAccount getDefaultAccountByDomain();
+    var projectAvatarId: String? = null
+
+    var totalWrittenReports: Int? = null
+
+    var totalReports: Int? = null
 }

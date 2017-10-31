@@ -31,9 +31,7 @@ import net.sf.dynamicreports.report.builder.DynamicReports.hyperLink
 class HyperlinkBuilderGenerator(val title: DRIExpression<String>, val href: DRIExpression<String>) : ComponentBuilderGenerator {
     private var style: StyleBuilder? = null
 
-    fun getStyle(): StyleBuilder? {
-        return style
-    }
+    fun getStyle(): StyleBuilder? = style
 
     fun setStyle(style: StyleBuilder): HyperlinkBuilderGenerator {
         this.style = style

@@ -28,5 +28,5 @@ import com.mycollab.module.crm.domain.criteria.CaseSearchCriteria
  */
 interface CaseMapperExt : ISearchableDAO<CaseSearchCriteria>, IMassUpdateDAO<CaseWithBLOBs, CaseSearchCriteria> {
 
-    fun findById(caseId: Int?): SimpleCase
+    fun findById(caseId: Int): SimpleCase?
 }

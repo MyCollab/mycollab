@@ -47,12 +47,12 @@ interface OpportunityService : IDefaultService<Int, Opportunity, OpportunitySear
 
     @CacheEvict
     @CacheArgs(values = arrayOf(LeadService::class))
-    fun saveOpportunityLeadRelationship(associateLeads: List<OpportunityLead>, @CacheKey sAccountId: Int?)
+    fun saveOpportunityLeadRelationship(associateLeads: List<OpportunityLead>, @CacheKey sAccountId: Int)
 
     @CacheEvict
     @CacheArgs(values = arrayOf(LeadService::class))
-    fun removeOpportunityLeadRelationship(associateLead: OpportunityLead, @CacheKey sAccountId: Int?)
+    fun removeOpportunityLeadRelationship(associateLead: OpportunityLead, @CacheKey sAccountId: Int)
 
     @Cacheable
-    fun findOpportunityAssoWithConvertedLead(leadId: Int?, @CacheKey accountId: Int?): SimpleOpportunity
+    fun findOpportunityAssoWithConvertedLead(leadId: Int, @CacheKey accountId: Int): SimpleOpportunity?
 }

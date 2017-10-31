@@ -42,7 +42,7 @@ class MonitorItemServiceImpl(private val monitorItemMapper: MonitorItemMapper,
     override val searchMapper: ISearchableDAO<MonitorSearchCriteria>
         get() = monitorItemMapperExt
 
-    override fun isUserWatchingItem(username: String, type: String, typeId: Int?): Boolean {
+    override fun isUserWatchingItem(username: String, type: String, typeId: Int): Boolean {
         val ex = MonitorItemExample()
         ex.createCriteria().andUserEqualTo(username).andTypeEqualTo(type).andTypeidEqualTo(typeId)
         return monitorItemMapper.countByExample(ex) > 0
@@ -61,15 +61,10 @@ class MonitorItemServiceImpl(private val monitorItemMapper: MonitorItemMapper,
         }
     }
 
-    override fun getWatchers(type: String, typeId: Int?): List<SimpleUser> {
-        return monitorItemMapperExt.getWatchers(type, typeId)
-    }
+    override fun getWatchers(type: String, typeId: Int): List<SimpleUser> =
+            monitorItemMapperExt.getWatchers(type, typeId)
 
-    override fun getNextItemKey(criteria: MonitorSearchCriteria): Int? {
-        return null
-    }
+    override fun getNextItemKey(criteria: MonitorSearchCriteria): Int? = null
 
-    override fun getPreviousItemKey(criteria: MonitorSearchCriteria): Int? {
-        return null
-    }
+    override fun getPreviousItemKey(criteria: MonitorSearchCriteria): Int? = null
 }

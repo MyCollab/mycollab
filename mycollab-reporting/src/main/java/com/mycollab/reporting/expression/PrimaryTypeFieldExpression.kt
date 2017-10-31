@@ -26,14 +26,11 @@ import org.slf4j.LoggerFactory
  */
 class PrimaryTypeFieldExpression<T>(field: String) : SimpleFieldExpression<T>(field) {
 
-    override fun evaluate(param: ReportParameters): T? {
-        try {
-            return param.getFieldValue<T>(field)
-        } catch (e: Exception) {
-            LOG.error("Error while do report", e)
-            return null
-        }
-
+    override fun evaluate(param: ReportParameters): T? = try {
+        param.getFieldValue<T>(field)
+    } catch (e: Exception) {
+        LOG.error("Error while do report", e)
+        null
     }
 
     companion object {

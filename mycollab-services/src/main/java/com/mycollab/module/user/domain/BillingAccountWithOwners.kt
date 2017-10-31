@@ -17,5 +17,5 @@
 package com.mycollab.module.user.domain
 
 class BillingAccountWithOwners : SimpleBillingAccount() {
-    var owners: List<SimpleUser>? = null
+    lateinit var owners: List<SimpleUser>
 }

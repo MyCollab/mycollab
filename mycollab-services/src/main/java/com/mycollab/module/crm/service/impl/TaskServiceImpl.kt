@@ -97,5 +97,4 @@ class TaskServiceImpl(private val taskMapper: CrmTaskMapper,
             ClassInfoMap.put(TaskServiceImpl::class.java, ClassInfo(ModuleNameConstants.CRM, CrmTypeConstants.TASK))
         }
     }
-
 }

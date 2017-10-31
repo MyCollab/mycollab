@@ -12,30 +12,31 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <http:></http:>//www.gnu.org/licenses/>.
  */
-package com.mycollab.validator.constraints;
+package com.mycollab.core.arguments
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
+import com.fasterxml.jackson.annotation.JsonIgnore
+
+import java.io.Serializable
 
 /**
  * @author MyCollab Ltd.
  * @since 1.0
  */
-@SuppressWarnings("ucd")
-public class StringLimitLengthValidator implements ConstraintValidator<StringLimitLength, String> {
+open class ValuedBean : Cloneable, Serializable {
 
-    @Override
-    public void initialize(StringLimitLength constraintAnnotation) {
+    @JsonIgnore
+    @NotBindable
+    var isSelected = false
 
-    }
+    @JsonIgnore
+    @NotBindable
+    var extraData: Any? = null
 
-    @Override
-    public boolean isValid(String value, ConstraintValidatorContext context) {
-        if (value == null || value.trim().equals("") || value.length() > 3) {
-            return false;
-        }
-        return value.matches("\\w*");
+    fun copy(): Any? = try {
+        super.clone()
+    } catch (e: CloneNotSupportedException) {
+        null
     }
 }

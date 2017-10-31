@@ -29,7 +29,7 @@ import org.apache.ibatis.annotations.Param
  */
 interface ContactMapperExt : ISearchableDAO<ContactSearchCriteria>, IMassUpdateDAO<Contact, ContactSearchCriteria> {
 
-    fun findById(contactId: Int?): SimpleContact
+    fun findById(contactId: Int): SimpleContact?
 
     fun findContactAssoWithConvertedLead(@Param("leadId") leadId: Int?): SimpleContact
 }

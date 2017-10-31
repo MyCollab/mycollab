@@ -12,19 +12,17 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <http:></http:>//www.gnu.org/licenses/>.
  */
-package com.mycollab.module.crm.dao
+package com.mycollab.module.user.dao
 
-import com.mycollab.db.persistence.ISearchableDAO
-import com.mycollab.module.crm.domain.SimpleMeeting
-import com.mycollab.module.crm.domain.criteria.MeetingSearchCriteria
+import com.mycollab.module.user.domain.SimpleBillingAccount
 
-/**
- * @author MyCollab Ltd
- * @since 1.0.0
- */
-interface MeetingMapperExt : ISearchableDAO<MeetingSearchCriteria> {
+interface BillingAccountMapperExt {
 
-    fun findById(meetingId: Int): SimpleMeeting?
+    val defaultAccountByDomain: SimpleBillingAccount
+
+    fun getBillingAccountById(accountId: Int): SimpleBillingAccount?
+
+    fun getAccountByDomain(domainName: String): SimpleBillingAccount?
 }

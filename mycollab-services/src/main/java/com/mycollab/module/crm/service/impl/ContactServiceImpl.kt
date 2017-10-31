@@ -56,18 +56,16 @@ class ContactServiceImpl(private val contactMapper: ContactMapper,
     override val searchMapper: ISearchableDAO<ContactSearchCriteria>
         get() = contactMapperExt
 
-    override fun findById(contactId: Int, sAccountId: Int): SimpleContact? {
-        return contactMapperExt.findById(contactId)
-    }
+    override fun findById(contactId: Int, sAccountId: Int): SimpleContact? = contactMapperExt.findById(contactId)
 
-    override fun removeContactOpportunityRelationship(associateOpportunity: ContactOpportunity, sAccountId: Int?) {
+    override fun removeContactOpportunityRelationship(associateOpportunity: ContactOpportunity, sAccountId: Int) {
         val ex = ContactOpportunityExample()
         ex.createCriteria().andContactidEqualTo(associateOpportunity.contactid)
                 .andOpportunityidEqualTo(associateOpportunity.opportunityid)
         contactOpportunityMapper.deleteByExample(ex)
     }
 
-    override fun saveContactOpportunityRelationship(associateOpportunities: List<ContactOpportunity>, accountId: Int?) {
+    override fun saveContactOpportunityRelationship(associateOpportunities: List<ContactOpportunity>, sAccountId: Int) {
         for (assoOpportunity in associateOpportunities) {
             val ex = ContactOpportunityExample()
             ex.createCriteria()
@@ -82,7 +80,7 @@ class ContactServiceImpl(private val contactMapper: ContactMapper,
         }
     }
 
-    override fun saveContactCaseRelationship(associateCases: List<ContactCase>, accountId: Int?) {
+    override fun saveContactCaseRelationship(associateCases: List<ContactCase>, sAccountId: Int) {
         for (associateCase in associateCases) {
             val ex = ContactCaseExample()
             ex.createCriteria()
@@ -95,13 +93,13 @@ class ContactServiceImpl(private val contactMapper: ContactMapper,
         }
     }
 
-    override fun removeContactCaseRelationship(associateCase: ContactCase, sAccountId: Int?) {
+    override fun removeContactCaseRelationship(associateCase: ContactCase, sAccountId: Int) {
         val ex = ContactCaseExample()
         ex.createCriteria().andContactidEqualTo(associateCase.contactid).andCaseidEqualTo(associateCase.caseid)
         contactCaseMapper.deleteByExample(ex)
     }
 
-    override fun saveContactLeadRelationship(associateLeads: List<ContactLead>, @CacheKey accountId: Int?) {
+    override fun saveContactLeadRelationship(associateLeads: List<ContactLead>, @CacheKey sAccountId: Int) {
         for (associateLead in associateLeads) {
             val ex = ContactLeadExample()
             ex.createCriteria()
@@ -113,9 +111,8 @@ class ContactServiceImpl(private val contactMapper: ContactMapper,
         }
     }
 
-    override fun findContactAssoWithConvertedLead(leadId: Int, @CacheKey accountId: Int?): SimpleContact {
-        return contactMapperExt.findContactAssoWithConvertedLead(leadId)
-    }
+    override fun findContactAssoWithConvertedLead(leadId: Int, @CacheKey sAccountId: Int): SimpleContact? =
+            contactMapperExt.findContactAssoWithConvertedLead(leadId)
 
     override fun saveWithSession(record: Contact, username: String?): Int {
         val result = super.saveWithSession(record, username)

@@ -37,12 +37,12 @@ interface AccountService : IDefaultService<Int, Account, AccountSearchCriteria> 
 
     @CacheEvict
     @CacheArgs(values = arrayOf(LeadService::class))
-    fun saveAccountLeadRelationship(associateLeads: List<AccountLead>, @CacheKey accountId: Int?)
+    fun saveAccountLeadRelationship(associateLeads: List<AccountLead>, @CacheKey accountId: Int)
 
     @CacheEvict
     @CacheArgs(values = arrayOf(LeadService::class))
-    fun removeAccountLeadRelationship(associateLead: AccountLead, @CacheKey accountId: Int?)
+    fun removeAccountLeadRelationship(associateLead: AccountLead, @CacheKey accountId: Int)
 
     @Cacheable
-    fun findAccountAssoWithConvertedLead(leadId: Int?, @CacheKey accountId: Int?): SimpleAccount
+    fun findAccountAssoWithConvertedLead(leadId: Int, @CacheKey accountId: Int): SimpleAccount?
 }

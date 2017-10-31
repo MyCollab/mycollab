@@ -35,14 +35,13 @@ object ProjectResources {
         } catch (e: Exception) {
             throw MyCollabException("Can not reload resource", e)
         }
-
     }
 
     fun getFontIconHtml(type: String): String = try {
         val codePoint = getResMethod!!.invoke(null, type) as String
         "<span class=\"v-icon\" style=\"font-family: FontAwesome;\">$codePoint;</span>"
     } catch (e: Exception) {
-        LOG.error("Can not get resource type {}", type)
+        LOG.error("Can not get resource type $type")
         ""
     }
 }
