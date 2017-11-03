@@ -43,7 +43,6 @@ class SimpleRole : Role() {
                     LOG.error("Error while get permission", e)
                     PermissionMap()
                 }
-
             }
         } else field
 

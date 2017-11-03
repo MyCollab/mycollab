@@ -26,13 +26,10 @@ enum class ReportExportType {
     CSV, EXCEL, PDF, DOCX;
 
     val defaultFileName: String
-        get() {
-            return when (this) {
-                CSV -> "export.csv"
-                PDF -> "export.pdf"
-                EXCEL -> "export.xlsx"
-                DOCX -> "docx"
-                else -> throw MyCollabException("Do not support export type $this")
-            }
+        get() = when (this) {
+            CSV -> "export.csv"
+            PDF -> "export.pdf"
+            EXCEL -> "export.xlsx"
+            DOCX -> "docx"
         }
 }

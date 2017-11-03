@@ -102,8 +102,7 @@ abstract class AbstractNotificationComponent : PopupButton(), PopupButton.PopupV
     }
 
     private fun updateCaption() {
-        if (notificationItems.isNotEmpty()) {
-            val ui = ui
+        if (ui!= null && notificationItems.isNotEmpty()) {
             AsyncInvoker.access(ui, object : AsyncInvoker.PageCommand() {
                 override fun run() {
                     this@AbstractNotificationComponent.caption = "${notificationItems.size}"

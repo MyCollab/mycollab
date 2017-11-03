@@ -89,7 +89,7 @@ object ProjectLinkGenerator {
             "${URL_PREFIX_PARAM}project/page/edit/${GenericLinkUtils.encodeParam(projectId, pagePath)}"
 
     @JvmStatic
-    fun generateProjectMemberLink(projectId: Int?, memberName: String?): String =
+    fun generateProjectMemberLink(projectId: Int, memberName: String?): String =
             "${URL_PREFIX_PARAM}project/user/preview/${GenericLinkUtils.encodeParam(projectId, memberName)}"
 
     @JvmStatic

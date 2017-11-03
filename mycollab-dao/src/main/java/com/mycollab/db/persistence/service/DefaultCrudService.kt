@@ -40,9 +40,7 @@ abstract class DefaultCrudService<K : Serializable, T> : ICrudService<K, T> {
 
     private var cacheUpdateMethod: Method? = null
 
-    override fun findByPrimaryKey(primaryKey: K, sAccountId: Int): T {
-        return crudMapper.selectByPrimaryKey(primaryKey)
-    }
+    override fun findByPrimaryKey(primaryKey: K, sAccountId: Int): T? = crudMapper.selectByPrimaryKey(primaryKey)
 
     override fun saveWithSession(record: T, username: String?): Int {
         if (!StringUtils.isBlank(username)) {
@@ -50,7 +48,6 @@ abstract class DefaultCrudService<K : Serializable, T> : ICrudService<K, T> {
                 PropertyUtils.setProperty(record, "createduser", username)
             } catch (e: Exception) {
             }
-
         }
 
         try {
@@ -114,14 +111,13 @@ abstract class DefaultCrudService<K : Serializable, T> : ICrudService<K, T> {
 
     override fun massRemoveWithSession(items: List<T>, username: String?, sAccountId: Int) {
         val primaryKeys = ArrayList<T>(items.size)
-        for (item in items) {
+        items.forEach {
             try {
-                val primaryKey = PropertyUtils.getProperty(item, "id") as T
+                val primaryKey = PropertyUtils.getProperty(it, "id") as T
                 primaryKeys.add(primaryKey)
             } catch (e: Exception) {
                 throw MyCollabException(e)
             }
-
         }
         crudMapper.removeKeysWithSession(primaryKeys)
     }

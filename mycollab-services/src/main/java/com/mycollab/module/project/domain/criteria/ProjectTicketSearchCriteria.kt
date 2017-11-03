@@ -54,7 +54,7 @@ class ProjectTicketSearchCriteria : SearchCriteria() {
         private val serialVersionUID = 1L
 
         @JvmField
-        val p_type = CacheParamMapper.register(ProjectTypeConstants.TICKET,
+        val p_types = CacheParamMapper.register(ProjectTypeConstants.TICKET,
                 GenericI18Enum.FORM_TYPE, object : SearchCriteriaBridgeParam<ProjectTicketSearchCriteria>("type") {
             override fun injectCriteriaInList(searchCriteria: ProjectTicketSearchCriteria, oper: String, value: Collection<String>): ProjectTicketSearchCriteria {
                 searchCriteria.types = SetSearchField(oper, value)

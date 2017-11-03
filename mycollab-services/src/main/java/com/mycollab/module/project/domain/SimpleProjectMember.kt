@@ -41,7 +41,7 @@ class SimpleProjectMember : ProjectMember() {
 
     var numOpenBugs: Int? = null
 
-    lateinit var projectName: String
+    var projectName: String? = null
 
     var email: String? = null
 

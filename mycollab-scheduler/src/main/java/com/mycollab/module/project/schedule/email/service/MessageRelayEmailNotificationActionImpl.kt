@@ -47,7 +47,7 @@ class MessageRelayEmailNotificationActionImpl : SendMailToAllMembersAction<Simpl
 
     override fun getItemName(): String = StringUtils.trim(bean!!.title, 100)
 
-    override fun getProjectName(): String = bean!!.projectName
+    override fun getProjectName(): String = bean!!.projectName!!
 
     override fun getCreateSubject(context: MailContext<SimpleMessage>): String = context.getMessage(
             MessageI18nEnum.MAIL_CREATE_ITEM_SUBJECT, bean!!.projectName, context.changeByUserFullName, getItemName())
@@ -99,7 +99,7 @@ class MessageRelayEmailNotificationActionImpl : SendMailToAllMembersAction<Simpl
             else -> throw MyCollabException("Not support action ${emailNotification.action}")
         }
 
-        contentGenerator.putVariable("projectName", bean!!.projectName)
+        contentGenerator.putVariable("projectName", bean!!.projectName!!)
         contentGenerator.putVariable("projectNotificationUrl", ProjectLinkGenerator.generateProjectSettingFullLink(siteUrl, bean!!.projectid))
         contentGenerator.putVariable("actionHeading", context.getMessage(actionEnum, makeChangeUser))
         contentGenerator.putVariable("name", summary)

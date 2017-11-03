@@ -55,7 +55,7 @@ interface ICrudGenericDAO<K : Serializable, T> {
      * @param primaryKey
      * @return
      */
-    fun selectByPrimaryKey(primaryKey: K): T
+    fun selectByPrimaryKey(primaryKey: K): T?
 
     /**
      * @param primaryKey

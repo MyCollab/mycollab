@@ -37,7 +37,7 @@ class DefaultMailer(private val emailConf: EmailConfiguration) : IMailer {
         try {
             val email = HtmlEmail()
             email.hostName = emailConf.host
-            email.setSmtpPort(emailConf.port!!)
+            email.setSmtpPort(emailConf.port)
             email.isStartTLSEnabled = emailConf.isStartTls
             email.isSSLOnConnect = emailConf.isSsl
             email.setFrom(fromEmail, fromName)

@@ -145,7 +145,7 @@ abstract class SendMailToAllMembersAction<B> : SendingRelayEmailNotificationActi
                 notifiers.forEach {
                     val context = MailContext<B>(notification, it, siteUrl)
                     if (comments.isNotEmpty()) {
-                        contentGenerator.putVariable("lastCommentsValue", LocalizationHelper.getMessage(context.locale, MailI18nEnum.Last_Comments_Value, "" + comments.size))
+                        contentGenerator.putVariable("lastCommentsValue", LocalizationHelper.getMessage(context.locale, MailI18nEnum.Last_Comments_Value, "${comments.size}"))
                     }
                     contentGenerator.putVariable("Changes", LocalizationHelper.getMessage(context.locale, MailI18nEnum.Changes))
                     contentGenerator.putVariable("Field", LocalizationHelper.getMessage(context.locale, MailI18nEnum.Field))

@@ -18,8 +18,8 @@
                         <#list assignments as ticket>
                             <tr style="border-bottom: 1px solid ${styles.border_color}">
                                 <td style="${styles.cell('80px')} color: ${styles.meta_color}">${formatter.formatDate(ticket.dueDate)}</td>
-                                <td style="${styles.cell('300px')}">${formatter.formatLink(subdomain, ticket)}</td>
-                                <td style="${styles.cell('300px')}">${formatter.formatAssignUser(subdomain, ticket)}</td>
+                                <td style="${styles.cell('300px')}">${formatter.formatLink(siteUrl, ticket)}</td>
+                                <td style="${styles.cell('300px')}">${formatter.formatAssignUser(siteUrl, ticket)}</td>
                             </tr>
                         </#list>
                     </table>

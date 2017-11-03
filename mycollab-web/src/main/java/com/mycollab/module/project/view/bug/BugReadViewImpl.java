@@ -113,9 +113,39 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
     }
 
     private void displayWorkflowControl() {
-        if (StatusI18nEnum.Open.name().equals(beanItem.getStatus()) || StatusI18nEnum.ReOpen.name().equals(beanItem.getStatus())) {
+        if (StatusI18nEnum.InProgress.name().equals(beanItem.getStatus())) {
             bugWorkflowControl.removeAllComponents();
             ButtonGroup navButton = new ButtonGroup();
+
+            MButton openBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_OPEN),
+                    clickEvent -> {
+                        BugService bugService = AppContextUtil.getSpringBean(BugService.class);
+                        beanItem.setStatus(StatusI18nEnum.Open.name());
+                        bugService.updateSelectiveWithSession(beanItem, UserUIContext.getUsername());
+                        EventBusFactory.getInstance().post(new BugEvent.BugChanged(this, beanItem.getId()));
+                    })
+                    .withStyleName(WebThemes.BUTTON_ACTION);
+            navButton.addButton(openBtn);
+
+            MButton resolveBtn = new MButton(UserUIContext.getMessage(BugI18nEnum.BUTTON_RESOLVED),
+                    clickEvent -> UI.getCurrent().addWindow(new ResolvedInputWindow(beanItem)))
+                    .withStyleName(WebThemes.BUTTON_ACTION);
+            navButton.addButton(resolveBtn);
+            bugWorkflowControl.addComponent(navButton);
+        } else if (StatusI18nEnum.Open.name().equals(beanItem.getStatus()) ||
+                StatusI18nEnum.ReOpen.name().equals(beanItem.getStatus())) {
+            bugWorkflowControl.removeAllComponents();
+            ButtonGroup navButton = new ButtonGroup();
+
+            MButton inProgressBtn = new MButton(UserUIContext.getMessage(BugI18nEnum.BUTTON_INPROGRESS),
+                    clickEvent -> {
+                        BugService bugService = AppContextUtil.getSpringBean(BugService.class);
+                        beanItem.setStatus(StatusI18nEnum.InProgress.name());
+                        bugService.updateSelectiveWithSession(beanItem, UserUIContext.getUsername());
+                        EventBusFactory.getInstance().post(new BugEvent.BugChanged(this, beanItem.getId()));
+                    })
+                    .withStyleName(WebThemes.BUTTON_ACTION);
+            navButton.addButton(inProgressBtn);
 
             MButton resolveBtn = new MButton(UserUIContext.getMessage(BugI18nEnum.BUTTON_RESOLVED),
                     clickEvent -> UI.getCurrent().addWindow(new ResolvedInputWindow(beanItem)))
@@ -360,7 +390,6 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
             }
 
             this.addComponent(layout);
-
         }
     }
 }

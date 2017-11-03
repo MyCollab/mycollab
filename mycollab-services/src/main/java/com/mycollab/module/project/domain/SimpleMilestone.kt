@@ -52,8 +52,8 @@ class SimpleMilestone : Milestone() {
     var totalBugBillableHours: Double? = null
     var totalBugNonBillableHours: Double? = null
 
-    lateinit var projectShortName: String
-    lateinit var projectName: String
+    var projectShortName: String? = null
+    var projectName: String? = null
 
     val isOverdue: Boolean
         get() {

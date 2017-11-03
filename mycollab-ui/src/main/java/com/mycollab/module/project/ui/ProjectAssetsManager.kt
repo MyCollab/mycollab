@@ -27,7 +27,7 @@ import com.vaadin.server.FontAwesome
  * @since 5.0.0
  */
 object ProjectAssetsManager {
-    private val resources = mutableMapOf(ProjectTypeConstants.DASHBOARD to FontAwesome.DASHBOARD,
+    private val resources = mapOf(ProjectTypeConstants.DASHBOARD to FontAwesome.DASHBOARD,
             ProjectTypeConstants.MESSAGE to FontAwesome.COMMENT,
             ProjectTypeConstants.MILESTONE to FontAwesome.FLAG_CHECKERED,
             ProjectTypeConstants.TASK to FontAwesome.TASKS,
@@ -48,7 +48,7 @@ object ProjectAssetsManager {
 
     @JvmStatic fun getAsset(resId: String): FontAwesome = resources[resId] ?: FontAwesome.DASHBOARD
 
-    @JvmStatic fun toHexString(resId: String): String ="&#x" + Integer.toHexString(resources[resId]!!.getCodepoint())
+    @JvmStatic fun toHexString(resId: String): String ="&#x" + Integer.toHexString(resources[resId]!!.codepoint)
 
     @JvmStatic fun getPriority(priority: String?): FontAwesome =
             if (Priority.Urgent.name == priority || Priority.High.name == priority || Priority.Medium.name == priority || priority == null) {

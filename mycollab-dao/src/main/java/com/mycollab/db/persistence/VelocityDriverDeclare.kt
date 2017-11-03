@@ -36,27 +36,19 @@ import java.io.IOException
 @Alias("velocity")
 class VelocityDriverDeclare : LanguageDriver {
 
-    override fun createParameterHandler(mappedStatement: MappedStatement, parameterObject: Any, boundSql: BoundSql): ParameterHandler {
-        return DefaultParameterHandler(mappedStatement, parameterObject, boundSql)
-    }
+    override fun createParameterHandler(mappedStatement: MappedStatement, parameterObject: Any, boundSql: BoundSql): ParameterHandler =
+            DefaultParameterHandler(mappedStatement, parameterObject, boundSql)
 
     override fun createSqlSource(configuration: Configuration, script: XNode, parameterTypeClass: Class<*>?): SqlSource {
-        var parameterTypeClass = parameterTypeClass
-        if (parameterTypeClass == null) {
-            parameterTypeClass = Any::class.java
-        }
+        val parameterClass = parameterTypeClass ?: Any::class.java
         val templateStr = "$TOTAL_COUNT_EXPR_MACRO $SELECT_EXPR_MACRO ${script.node.textContent}"
-
-        return SQLScriptSource(configuration, templateStr, parameterTypeClass)
+        return SQLScriptSource(configuration, templateStr, parameterClass)
     }
 
     override fun createSqlSource(configuration: Configuration, script: String, parameterTypeClass: Class<*>?): SqlSource {
-        var parameterTypeClass = parameterTypeClass
-        if (parameterTypeClass == null) {
-            parameterTypeClass = Any::class.java
-        }
+        val parameterClass = parameterTypeClass ?: Any::class.java
         val templateStr = "$SELECT_EXPR_MACRO $TOTAL_COUNT_EXPR_MACRO $script"
-        return SQLScriptSource(configuration, templateStr, parameterTypeClass)
+        return SQLScriptSource(configuration, templateStr, parameterClass)
     }
 
     companion object {
@@ -68,26 +60,23 @@ class VelocityDriverDeclare : LanguageDriver {
             SELECT_EXPR_MACRO = loadResource("selectExpr")
         }
 
-        private fun loadResource(id: String): String {
-            try {
-                VelocityDriverDeclare::class.java.getResourceAsStream(id).use { inputStream ->
-                    if (inputStream == null) {
-                        throw MyCollabException("Can not load resource id $id")
-                    } else {
-                        val buf = StringBuffer()
-                        var chBug = inputStream.read()
-                        while (chBug != -1) {
-                            buf.append(chBug.toChar())
-                            chBug = inputStream.read()
-                        }
-
-                        return buf.toString()
+        private fun loadResource(id: String): String = try {
+            VelocityDriverDeclare::class.java.getResourceAsStream(id).use { inputStream ->
+                if (inputStream == null) {
+                    throw MyCollabException("Can not load resource id $id")
+                } else {
+                    val buf = StringBuilder()
+                    var chBug = inputStream.read()
+                    while (chBug != -1) {
+                        buf.append(chBug.toChar())
+                        chBug = inputStream.read()
                     }
-                }
-            } catch (e: IOException) {
-                throw MyCollabException(e)
-            }
 
+                    return buf.toString()
+                }
+            }
+        } catch (e: IOException) {
+            throw MyCollabException(e)
         }
     }
 }

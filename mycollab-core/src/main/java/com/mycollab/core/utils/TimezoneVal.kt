@@ -20,7 +20,6 @@ import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
 
 import java.util.*
-import java.util.concurrent.ConcurrentHashMap
 
 /**
  * @author MyCollab Ltd
@@ -41,11 +40,11 @@ class TimezoneVal(val id: String?) : Comparable<TimezoneVal> {
         area = if (index > -1) timeZoneId.substring(0, index) else "Others"
     }
 
-    fun getTimezone(): DateTimeZone = DateTimeZone.forTimeZone(timezone)
+    private fun getTimeZone(): DateTimeZone = DateTimeZone.forTimeZone(timezone)
 
     override fun compareTo(other: TimezoneVal): Int {
-        val offsetInMillis1 = this.getTimezone().getOffset(DateTime().millis)
-        val offsetInMillis2 = other.getTimezone().getOffset(DateTime().millis)
+        val offsetInMillis1 = this.getTimeZone().getOffset(DateTime().millis)
+        val offsetInMillis2 = other.getTimeZone().getOffset(DateTime().millis)
         return offsetInMillis1 - offsetInMillis2
     }
 
@@ -83,12 +82,12 @@ class TimezoneVal(val id: String?) : Comparable<TimezoneVal> {
         }
 
         @JvmStatic
-        fun valueOf(timeZoneId: String): TimeZone = if (StringUtils.isBlank(timeZoneId)) {
+        fun valueOf(timeZoneId: String?): TimeZone = if (StringUtils.isBlank(timeZoneId)) {
             TimeZone.getDefault()
         } else TimeZone.getTimeZone(timeZoneId)
 
         @JvmStatic
-        fun getDisplayName(locale: Locale, timeZoneId: String): String {
+        fun getDisplayName(locale: Locale, timeZoneId: String?): String {
             val timeZone = valueOf(timeZoneId)
             return "${getOffsetString(timeZone)} ${timeZone.getDisplayName(locale)}"
         }

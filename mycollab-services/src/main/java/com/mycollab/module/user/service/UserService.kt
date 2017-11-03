@@ -32,7 +32,7 @@ import com.mycollab.module.user.domain.criteria.UserSearchCriteria
 @IgnoreCacheClass
 interface UserService : IDefaultService<String, User, UserSearchCriteria> {
 
-    fun authentication(username: String, password: String, subdomain: String, isPasswordEncrypt: Boolean): SimpleUser
+    fun authentication(username: String, password: String, subDomain: String, isPasswordEncrypt: Boolean): SimpleUser
 
     @CacheEvict
     fun saveUserAccount(user: User, roleId: Int?, subDomain: String, @CacheKey sAccountId: Int, inviteUser: String, isSendInvitationEmail: Boolean)

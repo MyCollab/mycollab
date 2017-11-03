@@ -18,7 +18,7 @@ package com.mycollab.module.project.domain
 
 class SimpleMessage : Message() {
     var commentsCount: Int? = null
-    lateinit var projectName: String
+    var projectName: String? = null
     var messageCategoryName: String? = null
     var postedUserAvatarId: String? = null
     var fullPostedUserName: String? = null

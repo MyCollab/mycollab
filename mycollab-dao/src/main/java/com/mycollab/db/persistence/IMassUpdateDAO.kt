@@ -20,7 +20,6 @@ import com.mycollab.db.arguments.SearchCriteria
 import org.apache.ibatis.annotations.Param
 
 /**
- *
  * @author MyCollab Ltd.
  * @since 1.0
  *

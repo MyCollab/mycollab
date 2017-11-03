@@ -58,7 +58,7 @@ class ProjectTicket : ValuedBean(), Serializable {
 
     lateinit var projectShortName: String
 
-    var type: String? = null
+    lateinit var type: String
 
     var typeId: Int? = null
 

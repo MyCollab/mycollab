@@ -102,7 +102,7 @@ class OverdueProjectTicketsNotificationJob : GenericQuartzJobBean() {
                     val projectName = (assignments[0] as ProjectTicket).projectName
                     val notifiers = getNotifiersOfProject(projectId, account.id)
                     contentGenerator.putVariable("assignments", assignments)
-                    contentGenerator.putVariable("subDomain", account.subdomain)
+                    contentGenerator.putVariable("siteUrl", siteUrl)
                     contentGenerator.putVariable("formatter", OverdueAssignmentFormatter())
                     notifiers.forEach {
                         val userMail = MailRecipientField(it.email, it.displayName)
@@ -144,33 +144,33 @@ class OverdueProjectTicketsNotificationJob : GenericQuartzJobBean() {
         class OverdueAssignmentFormatter {
             fun formatDate(date: Date?): String = DateTimeUtils.formatDate(date, "yyyy-MM-dd", Locale.US)
 
-            fun formatLink(subDomain: String?, assignment: ProjectTicket): String {
+            fun formatLink(siteUrl: String, assignment: ProjectTicket): String {
                 val mode = AppContextUtil.getSpringBean(IDeploymentMode::class.java)
                 try {
                     return when (assignment.type) {
                         ProjectTypeConstants.BUG -> Div().appendText(FontAwesomeUtils.toHtml(ProjectTypeConstants.BUG)).
-                                appendChild(DivLessFormatter.EMPTY_SPACE, A(ProjectLinkGenerator.generateBugPreviewFullLink(mode.getSiteUrl(subDomain),
+                                appendChild(DivLessFormatter.EMPTY_SPACE, A(ProjectLinkGenerator.generateBugPreviewFullLink(siteUrl,
                                         assignment.extraTypeId, assignment.projectShortName)).appendText(assignment.name)).write()
                         ProjectTypeConstants.TASK -> Div().appendText(FontAwesomeUtils.toHtml(ProjectTypeConstants.TASK)).
-                                appendChild(DivLessFormatter.EMPTY_SPACE, A(ProjectLinkGenerator.generateTaskPreviewFullLink(mode.getSiteUrl(subDomain),
+                                appendChild(DivLessFormatter.EMPTY_SPACE, A(ProjectLinkGenerator.generateTaskPreviewFullLink(siteUrl,
                                         assignment.extraTypeId, assignment.projectShortName)).appendText(assignment.name)).write()
                         ProjectTypeConstants.RISK -> Div().appendText(FontAwesomeUtils.toHtml(ProjectTypeConstants.RISK)).
-                                appendChild(DivLessFormatter.EMPTY_SPACE, A(ProjectLinkGenerator.generateRiskPreviewFullLink(mode.getSiteUrl(subDomain),
+                                appendChild(DivLessFormatter.EMPTY_SPACE, A(ProjectLinkGenerator.generateRiskPreviewFullLink(siteUrl,
                                         assignment.projectId!!, assignment.typeId!!)).appendText(assignment.name)).write()
                         ProjectTypeConstants.MILESTONE -> Div().appendText(FontAwesomeUtils.toHtml(ProjectTypeConstants.MILESTONE)).
-                                appendChild(DivLessFormatter.EMPTY_SPACE, A(ProjectLinkGenerator.generateMilestonePreviewFullLink(mode.getSiteUrl(subDomain),
+                                appendChild(DivLessFormatter.EMPTY_SPACE, A(ProjectLinkGenerator.generateMilestonePreviewFullLink(siteUrl,
                                         assignment.projectId!!, assignment.typeId!!)).appendText(assignment.name)).write()
                         else -> throw  MyCollabException("Do not support type $assignment.type")
                     }
                 } catch (e: Exception) {
                     LOG.error("Error in format assignment $assignment")
-                    return mode.getSiteUrl(subDomain)
+                    return siteUrl
                 }
             }
 
-            fun formatAssignUser(subDomain: String, assignment: ProjectTicket): String =
+            fun formatAssignUser(siteUrl: String, assignment: ProjectTicket): String =
                     Div().appendChild(Img("", storageService().getAvatarPath(assignment.assignUserAvatarId, 16)),
-                            A(AccountLinkGenerator.generatePreviewFullUserLink(subDomain, assignment.assignUser)).
+                            A(AccountLinkGenerator.generatePreviewFullUserLink(siteUrl, assignment.assignUser)).
                                     appendText(assignment.assignUserFullName)).write()
 
             private fun storageService() = AppContextUtil.getSpringBean(AbstractStorageService::class.java)

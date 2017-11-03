@@ -27,8 +27,8 @@ import java.util.Date
  * @since 1.0
  */
 class SimpleTask : Task() {
-    lateinit var projectName: String
-    lateinit var projectShortname: String
+    var projectName: String? = null
+    var projectShortname: String? = null
     var milestoneName: String? = null
     var assignUserAvatarId: String? = null
     var assignUserFullName: String = ""

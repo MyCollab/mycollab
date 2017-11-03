@@ -35,7 +35,6 @@ public class OptionValComboBox extends ComboBox {
     private List<OptionVal> options = new ArrayList<>();
 
     public OptionValComboBox(Class<? extends Enum> enumCls) {
-        super();
         this.setPageLength(20);
         this.setNullSelectionAllowed(false);
         this.setItemCaptionMode(ItemCaptionMode.EXPLICIT_DEFAULTS_ID);
@@ -56,7 +55,7 @@ public class OptionValComboBox extends ComboBox {
         return Object.class;
     }
 
-    public final void addEntry(OptionVal option) {
+    protected final void addEntry(OptionVal option) {
         options.add(option);
         String value = option.getTypeval();
         try {
@@ -72,20 +71,12 @@ public class OptionValComboBox extends ComboBox {
     private class StringToOptionConverter implements Converter<Object, String> {
         @Override
         public String convertToModel(Object value, Class<? extends String> targetType, Locale locale) throws ConversionException {
-            if (value != null) {
-                return ((OptionVal) value).getTypeval();
-            }
-            return "";
+            return value != null ? ((OptionVal) value).getTypeval() : "";
         }
 
         @Override
         public Object convertToPresentation(String value, Class<?> targetType, Locale locale) throws ConversionException {
-            for (OptionVal optionVal : options) {
-                if (optionVal.getTypeval().equals(value)) {
-                    return optionVal;
-                }
-            }
-            return null;
+            return options.stream().filter(optionVal -> optionVal.getTypeval().equals(value)).findFirst().<Object>map(optionVal -> optionVal).orElse(null);
         }
 
         @Override

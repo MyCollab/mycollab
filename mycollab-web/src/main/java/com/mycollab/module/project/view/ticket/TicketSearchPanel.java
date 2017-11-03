@@ -1,29 +1,29 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package com.mycollab.module.project.view.ticket;
 
 import com.mycollab.common.i18n.GenericI18Enum;
-import com.mycollab.common.i18n.QueryI18nEnum;
+import com.mycollab.common.i18n.QueryI18nEnum.CollectionI18nEnum;
+import com.mycollab.common.i18n.QueryI18nEnum.StringI18nEnum;
 import com.mycollab.db.arguments.SearchField;
 import com.mycollab.db.arguments.SetSearchField;
 import com.mycollab.db.query.ConstantValueInjector;
 import com.mycollab.db.query.Param;
 import com.mycollab.db.query.SearchFieldInfo;
-import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.domain.criteria.ProjectTicketSearchCriteria;
@@ -32,6 +32,7 @@ import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.module.project.view.milestone.MilestoneListSelect;
 import com.mycollab.module.project.view.settings.component.ProjectMemberListSelect;
 import com.mycollab.shell.event.ShellEvent;
+import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.web.ui.*;
@@ -58,7 +59,7 @@ public class TicketSearchPanel extends DefaultGenericSearchPanel<ProjectTicketSe
     private TicketSavedFilterComboBox savedFilterComboBox;
 
     private static Param[] paramFields = new Param[]{
-            ProjectTicketSearchCriteria.p_type,
+            ProjectTicketSearchCriteria.p_types,
             ProjectTicketSearchCriteria.p_name, ProjectTicketSearchCriteria.p_priority,
             ProjectTicketSearchCriteria.p_milestones, ProjectTicketSearchCriteria.p_startDate,
             ProjectTicketSearchCriteria.p_endDate, ProjectTicketSearchCriteria.p_dueDate,
@@ -158,11 +159,11 @@ public class TicketSearchPanel extends DefaultGenericSearchPanel<ProjectTicketSe
         protected ProjectTicketSearchCriteria fillUpSearchCriteria() {
             List<SearchFieldInfo<ProjectTicketSearchCriteria>> searchFieldInfos = new ArrayList<>();
             searchFieldInfos.add(new SearchFieldInfo(SearchField.AND, ProjectTicketSearchCriteria.p_name,
-                    QueryI18nEnum.StringI18nEnum.CONTAINS.name(),
+                    StringI18nEnum.CONTAINS.name(),
                     ConstantValueInjector.valueOf(nameField.getValue().trim())));
             if (myItemCheckbox.getValue()) {
                 searchFieldInfos.add(new SearchFieldInfo(SearchField.AND, ProjectTicketSearchCriteria.p_assignee,
-                        QueryI18nEnum.CollectionI18nEnum.IN.name(),
+                        CollectionI18nEnum.IN.name(),
                         ConstantValueInjector.valueOf(Collections.singletonList(UserUIContext.getUsername()))));
             }
             EventBusFactory.getInstance().post(new ShellEvent.AddQueryParam(this, searchFieldInfos));

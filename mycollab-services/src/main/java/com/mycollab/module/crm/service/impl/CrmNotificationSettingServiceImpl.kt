@@ -36,7 +36,6 @@ import org.springframework.stereotype.Service
 @Service
 class CrmNotificationSettingServiceImpl(private val crmNotificationSettingMapper: CrmNotificationSettingMapper) : DefaultCrudService<Int, CrmNotificationSetting>(), CrmNotificationSettingService {
 
-
     override val crudMapper: ICrudGenericDAO<Int, CrmNotificationSetting>
         get() = crmNotificationSettingMapper as ICrudGenericDAO<Int, CrmNotificationSetting>
 
@@ -44,7 +43,7 @@ class CrmNotificationSettingServiceImpl(private val crmNotificationSettingMapper
     override fun findNotification(username: String, @CacheKey sAccountId: Int?): CrmNotificationSetting {
         val ex = CrmNotificationSettingExample()
         ex.createCriteria().andUsernameEqualTo(username).andSaccountidEqualTo(sAccountId)
-        val notifications = crmNotificationSettingMapper!!.selectByExample(ex)
+        val notifications = crmNotificationSettingMapper.selectByExample(ex)
         return when {
             CollectionUtils.isNotEmpty(notifications) -> notifications[0]
             else -> {

@@ -59,20 +59,12 @@ public class SearchFieldInfo<S extends SearchCriteria> implements Serializable {
         this.variableInjector = value;
     }
 
-    public static SearchFieldInfo inCollection(PropertyListParam param, VariableInjector value) {
-        return new SearchFieldInfo(SearchField.AND, param, CollectionI18nEnum.IN.name(), value);
-    }
-
-    public static SearchFieldInfo inCollection(I18nStringListParam param, VariableInjector value) {
+    public static SearchFieldInfo inCollection(Param param, VariableInjector value) {
         return new SearchFieldInfo(SearchField.AND, param, CollectionI18nEnum.IN.name(), value);
     }
 
     public static SearchFieldInfo notInCollection(I18nStringListParam param, VariableInjector value) {
         return new SearchFieldInfo(SearchField.AND, param, CollectionI18nEnum.NOT_IN.name(), value);
-    }
-
-    public static SearchFieldInfo inCollection(StringListParam param, VariableInjector value) {
-        return new SearchFieldInfo(SearchField.AND, param, IN.name(), value);
     }
 
     public static SearchFieldInfo inDateRange(DateParam param, VariableInjector value) {

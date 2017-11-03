@@ -64,7 +64,7 @@ public class ResolvedInputForm extends AdvancedEditBeanForm<SimpleBug> {
     private BugSelectionField bugSelectionField;
     private VersionMultiSelectField fixedVersionSelect;
 
-    public ResolvedInputForm(SimpleBug bugValue) {
+    ResolvedInputForm(SimpleBug bugValue) {
         setBean(bugValue);
     }
 
@@ -77,7 +77,6 @@ public class ResolvedInputForm extends AdvancedEditBeanForm<SimpleBug> {
     }
 
     protected void postExecution() {
-
     }
 
     class FormLayoutFactory extends AbstractFormLayoutFactory {

@@ -24,8 +24,6 @@ import java.util.Date
 
 class SimpleRisk : Risk() {
 
-    var risksource: String? = null
-
     var raisedByUserAvatarId: String? = null
 
     var raisedByUserFullName: String = ""

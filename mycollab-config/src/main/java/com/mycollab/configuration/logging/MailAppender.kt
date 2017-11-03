@@ -19,7 +19,6 @@ package com.mycollab.configuration.logging
 import ch.qos.logback.classic.net.SMTPAppender
 import ch.qos.logback.classic.spi.ILoggingEvent
 import ch.qos.logback.core.Layout
-import com.mycollab.configuration.EmailConfiguration
 import com.mycollab.configuration.SiteConfiguration
 import com.mycollab.core.Version
 import com.mycollab.core.utils.StringUtils
@@ -31,12 +30,8 @@ import com.mycollab.core.utils.StringUtils
 class MailAppender : SMTPAppender() {
 
     override fun makeSubjectLayout(subjectStr: String?): Layout<ILoggingEvent> {
-        var subjectStr = subjectStr
-        if (subjectStr == null) {
-            subjectStr = "MyCollab ${Version.getVersion()} - Error: %logger{20} - %m"
-        }
-
-        return super.makeSubjectLayout(subjectStr)
+        val subject = subjectStr ?: "MyCollab ${Version.getVersion()} - Error: %logger{20} - %m"
+        return super.makeSubjectLayout(subject)
     }
 
 
@@ -47,7 +42,7 @@ class MailAppender : SMTPAppender() {
         }
 
         this.setSMTPHost(conf.host)
-        this.setSMTPPort(conf.port!!)
+        this.setSMTPPort(conf.port)
         this.username = conf.user
         this.password = conf.password
         this.isSTARTTLS = conf.isStartTls

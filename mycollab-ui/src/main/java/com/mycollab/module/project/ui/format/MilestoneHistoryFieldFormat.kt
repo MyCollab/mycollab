@@ -50,10 +50,8 @@ class MilestoneHistoryFieldFormat : HistoryFieldFormat {
             if (milestone != null) {
                 return if (displayAsHtml) {
                     ProjectLinkBuilder.generateProjectItemHtmlLinkAndTooltip(CurrentProjectVariables.shortName,
-                            milestone.projectid!!, milestone.name, ProjectTypeConstants.MILESTONE, milestone.id!!.toString() + "")
-                } else {
-                    milestone.name
-                }
+                            milestone.projectid!!, milestone.name, ProjectTypeConstants.MILESTONE, milestone.id!!.toString())
+                } else milestone.name
             }
         } catch (e: Exception) {
             LOG.error("Error", e)
