@@ -1,5 +1,5 @@
 # Free, open source CRM, Document and Project Management software
-[![License](http://img.shields.io/badge/License-GPLv3-orange.svg)](http://www.gnu.org/copyleft/gpl.html) [![Project Stats](https://www.openhub.net/p/mycollab/widgets/project_thin_badge.gif)](https://www.openhub.net/p/mycollab) [![Build](https://travis-ci.org/MyCollab/mycollab.svg)](https://travis-ci.org/MyCollab/mycollab)
+[![License](http://img.shields.io/badge/License-AGPLv3-orange.svg)](https://www.gnu.org/licenses/agpl-3.0.en.html) [![Project Stats](https://www.openhub.net/p/mycollab/widgets/project_thin_badge.gif)](https://www.openhub.net/p/mycollab) [![Build](https://travis-ci.org/MyCollab/mycollab.svg)](https://travis-ci.org/MyCollab/mycollab)
 [![Version](https://img.shields.io/badge/Version-5.4.10-brightgreen.svg)](https://community.mycollab.com/)
 [![Github](https://img.shields.io/github/downloads/MyCollab/mycollab/total.svg)](https://github.com/MyCollab/mycollab/releases)
 
@@ -114,7 +114,7 @@ Contact the MyCollab team at:
 
 ## License & Author
 
-* MyCollab community is licensed with Affero GPL v3. For license terms, see http://www.gnu.org/licenses/gpl-3.0.en.html
+* MyCollab community is licensed with Affero GPL v3. For license terms, see https://www.gnu.org/licenses/agpl-3.0.en.html
 
 * You can try MyCollab on-demand edition on site https://www.mycollab.com
 
