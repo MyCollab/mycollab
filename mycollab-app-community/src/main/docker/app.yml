@@ -1,0 +1,16 @@
+version: '3.1'
+services:
+    hlsoft-app:
+        image: mycollab
+        environment:
+            - SPRING_PROFILES_ACTIVE=prod
+            - JAVA_OPTS=-Djgroups.tcp.address=NON_LOOPBACK -Djava.net.preferIPv4Stack=true -Xmx2g -Xms2g
+            - ES_JAVA_OPTS= -Xms750m -Xmx750m
+        ports:
+            - 8080:8080
+    hlsoft-mysql:
+        image: mysql:5.6
+        restart: always
+        environment:
+          MYSQL_ROOT_PASSWORD: esofthead321
+          MYSQL_DATABASE: mycollab

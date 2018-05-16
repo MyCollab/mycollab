@@ -46,8 +46,8 @@ class SimpleBug : BugWithBLOBs() {
             }
             return field
         }
-    lateinit var projectname: String
-    lateinit var projectShortName: String
+    var projectname: String? = null
+    var projectShortName: String? = null
     var numComments: Int? = null
     var billableHours: Double? = null
     var nonBillableHours: Double? = null

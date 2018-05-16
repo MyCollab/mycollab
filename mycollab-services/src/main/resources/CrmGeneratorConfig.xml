@@ -8,7 +8,7 @@
         <plugin type="com.mycollab.mybatis.plugin.MyCollabModelFilePlugin" />
 
         <jdbcConnection connectionURL="jdbc:mysql://localhost:3306/mycollab_live"
-            driverClass="com.mysql.jdbc.Driver" password="esofthead321" userId="root" />
+            driverClass="com.mysql.jdbc.Driver" password="mycollab123" userId="root" />
 
         <javaModelGenerator targetPackage="com.mycollab.module.crm.domain" targetProject="src/main/java">
             <property name="rootClass" value="com.mycollab.core.arguments.ValuedBean" />

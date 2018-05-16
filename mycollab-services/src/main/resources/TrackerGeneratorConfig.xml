@@ -10,7 +10,7 @@
         <jdbcConnection
             connectionURL="jdbc:mysql://localhost:3306/mycollab_live"
             driverClass="com.mysql.jdbc.Driver"
-            password="esofthead321"
+            password="mycollab123"
             userId="root" />
 
         <javaModelGenerator

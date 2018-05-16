@@ -75,7 +75,7 @@ class BugRelayEmailNotificationActionImpl : SendMailToFollowersAction<SimpleBug>
         val emailNotification = context.emailNotification
 
         val summary = "#${bean!!.bugkey} - ${bean!!.name}"
-        val summaryLink = ProjectLinkGenerator.generateBugPreviewFullLink(siteUrl, bean!!.bugkey, bean!!.projectShortName)
+        val summaryLink = ProjectLinkGenerator.generateBugPreviewFullLink(siteUrl, bean!!.bugkey, bean!!.projectShortName!!)
 
         val avatarId = if (projectMember != null) projectMember!!.memberAvatarId else ""
         val userAvatar = LinkUtils.newAvatar(avatarId)
@@ -88,7 +88,7 @@ class BugRelayEmailNotificationActionImpl : SendMailToFollowersAction<SimpleBug>
             else -> throw MyCollabException("Not support action ${emailNotification.action}")
         }
 
-        contentGenerator.putVariable("projectName", bean!!.projectname)
+        contentGenerator.putVariable("projectName", bean!!.projectname!!)
         contentGenerator.putVariable("projectNotificationUrl", ProjectLinkGenerator.generateProjectSettingFullLink(siteUrl, bean!!.projectid))
         contentGenerator.putVariable("actionHeading", context.getMessage(actionEnum, makeChangeUser))
         contentGenerator.putVariable("name", summary)
@@ -100,7 +100,7 @@ class BugRelayEmailNotificationActionImpl : SendMailToFollowersAction<SimpleBug>
 
     override fun getItemName(): String = StringUtils.trim(bean!!.name, 100)
 
-    override fun getProjectName(): String = bean!!.projectname
+    override fun getProjectName(): String = bean!!.projectname!!
 
     override fun getCreateSubject(context: MailContext<SimpleBug>): String = context.getMessage(BugI18nEnum.MAIL_CREATE_ITEM_SUBJECT,
             bean!!.projectname, context.changeByUserFullName, getItemName())
@@ -124,7 +124,7 @@ class BugRelayEmailNotificationActionImpl : SendMailToFollowersAction<SimpleBug>
 
     private fun userLink(context: MailContext<SimpleBug>) = A(AccountLinkGenerator.generateUserLink(context.user.username)).appendText(context.changeByUserFullName).write()
 
-    private fun bugLink() = A(ProjectLinkGenerator.generateBugPreviewLink(bean!!.bugkey, bean!!.projectShortName)).appendText(getItemName()).write()
+    private fun bugLink() = A(ProjectLinkGenerator.generateBugPreviewLink(bean!!.bugkey, bean!!.projectShortName!!)).appendText(getItemName()).write()
 
     override fun getItemFieldMapper(): ItemFieldMapper = mapper
 

@@ -1,0 +1,7 @@
+version: '3.1'
+services:
+    hlsoft-mysql:
+        image: mysql:5.6
+        environment:
+            MYSQL_ROOT_PASSWORD: esofthead321
+            MYSQL_DATABASE: mycollab

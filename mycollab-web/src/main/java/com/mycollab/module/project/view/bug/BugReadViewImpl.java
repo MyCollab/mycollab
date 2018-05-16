@@ -117,11 +117,11 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
             bugWorkflowControl.removeAllComponents();
             ButtonGroup navButton = new ButtonGroup();
 
-            MButton openBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_OPEN),
+            MButton openBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_REOPEN),
                     clickEvent -> {
                         BugService bugService = AppContextUtil.getSpringBean(BugService.class);
-                        beanItem.setStatus(StatusI18nEnum.Open.name());
-                        bugService.updateSelectiveWithSession(beanItem, UserUIContext.getUsername());
+                        beanItem.setStatus(StatusI18nEnum.ReOpen.name());
+                        bugService.saveWithSession(beanItem, UserUIContext.getUsername());
                         EventBusFactory.getInstance().post(new BugEvent.BugChanged(this, beanItem.getId()));
                     })
                     .withStyleName(WebThemes.BUTTON_ACTION);
@@ -141,7 +141,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
                     clickEvent -> {
                         BugService bugService = AppContextUtil.getSpringBean(BugService.class);
                         beanItem.setStatus(StatusI18nEnum.InProgress.name());
-                        bugService.updateSelectiveWithSession(beanItem, UserUIContext.getUsername());
+                        bugService.saveWithSession(beanItem, UserUIContext.getUsername());
                         EventBusFactory.getInstance().post(new BugEvent.BugChanged(this, beanItem.getId()));
                     })
                     .withStyleName(WebThemes.BUTTON_ACTION);

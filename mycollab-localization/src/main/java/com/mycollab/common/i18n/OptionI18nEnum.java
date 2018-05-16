@@ -28,7 +28,7 @@ import static com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum.*;
  */
 public class OptionI18nEnum {
 
-    public static StatusI18nEnum[] statuses = new StatusI18nEnum[]{Open, Closed, InProgress, Unresolved, Verified, Resolved, ReOpen};
+    public static StatusI18nEnum[] statuses = new StatusI18nEnum[]{Open, Overdue, Closed, Archived, Pending, InProgress, Unresolved, Verified, Resolved, ReOpen};
 
     @BaseName("common-generic-status")
     @LocaleData(value = {@Locale("en-US")}, defaultCharset = "UTF-8")

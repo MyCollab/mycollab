@@ -12,6 +12,7 @@
     </parent>
     <packaging>jar</packaging>
     <properties>
+        <dockerfile-maven-plugin.version>1.4.0</dockerfile-maven-plugin.version>
         <installer.staging.dir>${project.build.directory}/staging</installer.staging.dir>
         <installer.resource.dir.app>${basedir}/src/main/installer-resources</installer.resource.dir.app>
         <staging.dir.app>${installer.staging.dir}</staging.dir.app>
@@ -109,6 +110,62 @@
                         </fileset>
                     </filesets>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>${maven-resources-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>default-resources</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>target/classes</outputDirectory>
+                            <useDefaultDelimiters>false</useDefaultDelimiters>
+                            <delimiters>
+                                <delimiter>#</delimiter>
+                            </delimiters>
+                            <resources>
+                                <resource>
+                                    <directory>src/main/resources/</directory>
+                                    <filtering>true</filtering>
+                                    <includes>
+                                        <include>config/*.yml</include>
+                                    </includes>
+                                </resource>
+                                <resource>
+                                    <directory>src/main/resources/</directory>
+                                    <filtering>false</filtering>
+                                    <excludes>
+                                        <exclude>config/*.yml</exclude>
+                                    </excludes>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>docker-resources</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>target/</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>src/main/docker/</directory>
+                                    <filtering>false</filtering>
+                                    <excludes>
+                                        <exclude>**/*.yml</exclude>
+                                    </excludes>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>com.vaadin</groupId>
@@ -273,6 +330,27 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>dockerfile-maven-plugin</artifactId>
+                <version>${dockerfile-maven-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>default</id>
+                        <goals>
+                            <goal>build</goal>
+                            <!--
+                            <goal>push</goal>
+                            -->
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <repository>mycollab/mycollab</repository>
+                    <tag>latest</tag>
+                    <contextDirectory>${project.build.directory}</contextDirectory>
+                </configuration>
             </plugin>
         </plugins>
     </build>
