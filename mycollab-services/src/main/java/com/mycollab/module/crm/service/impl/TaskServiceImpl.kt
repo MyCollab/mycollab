@@ -45,7 +45,7 @@ import org.springframework.transaction.annotation.Transactional
 @Transactional
 @Traceable(nameField = "subject")
 @Watchable(userFieldName = "assignuser")
-class TaskServiceImpl(private val taskMapper: CrmTaskMapper,
+open class TaskServiceImpl(private val taskMapper: CrmTaskMapper,
                       private val taskMapperExt: CrmTaskMapperExt,
                       private val asyncEventBus: AsyncEventBus) : DefaultService<Int, CrmTask, CrmTaskSearchCriteria>(), TaskService {
 

@@ -33,7 +33,7 @@ import org.springframework.stereotype.Service
  * @since 1.0
  */
 @Service
-class MonitorItemServiceImpl(private val monitorItemMapper: MonitorItemMapper,
+open class MonitorItemServiceImpl(private val monitorItemMapper: MonitorItemMapper,
                              private val monitorItemMapperExt: MonitorItemMapperExt) : DefaultService<Int, MonitorItem, MonitorSearchCriteria>(), MonitorItemService {
 
     override val crudMapper: ICrudGenericDAO<Int, MonitorItem>

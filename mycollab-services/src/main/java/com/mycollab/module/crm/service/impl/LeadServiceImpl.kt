@@ -41,7 +41,7 @@ import java.util.*
 @Transactional
 @Traceable(nameField = "lastname")
 @Watchable(userFieldName = "assignuser")
-class LeadServiceImpl(private val leadMapper: LeadMapper,
+open class LeadServiceImpl(private val leadMapper: LeadMapper,
                       private val leadMapperExt: LeadMapperExt) : DefaultService<Int, Lead, LeadSearchCriteria>(), LeadService {
 
     override val crudMapper: ICrudGenericDAO<Int, Lead>

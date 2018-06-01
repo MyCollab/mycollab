@@ -38,9 +38,9 @@ abstract class UrlResolver {
     /**
      * @param params
      */
-    open protected fun handlePage(vararg params: String) {}
+    protected open fun handlePage(vararg params: String) {}
 
-    abstract protected fun defaultPageErrorHandler()
+    protected abstract fun defaultPageErrorHandler()
 
     fun addSubResolver(key: String, subResolver: UrlResolver) {
         if (subResolvers == null) {

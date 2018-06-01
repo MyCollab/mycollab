@@ -36,7 +36,7 @@ import javax.servlet.http.HttpServletResponse
  * @author MyCollab Ltd.
  * @since 1.0
  */
-@WebServlet(urlPatterns = arrayOf("/user/recoverypassword/action/*"), name = "updateUserPasswordServlet")
+@WebServlet(urlPatterns = ["/user/recoverypassword/action/*"], name = "updateUserPasswordServlet")
 class ResetPasswordHandler : GenericHttpServlet() {
 
     @Autowired

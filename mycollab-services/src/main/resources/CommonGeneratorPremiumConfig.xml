@@ -8,7 +8,7 @@
 
         <plugin type="com.mycollab.mybatis.plugin.MyCollabModelFilePlugin"/>
 
-        <jdbcConnection connectionURL="jdbc:mysql://localhost:3306/mycollab_live"
+        <jdbcConnection connectionURL="jdbc:mysql://localhost:3306/mycollab?verifyServerCertificate=false"
                         driverClass="com.mysql.jdbc.Driver" password="mycollab123"
                         userId="root"/>
 
@@ -24,9 +24,9 @@
             <property name="rootInterface" value="com.mycollab.db.persistence.ICrudGenericDAO"/>
         </javaClientGenerator>
 
-        <table schema="mycollab_live" tableName="s_favorite" domainObjectName="FavoriteItem"/>
-        <table schema="mycollab_live" tableName="s_tag" domainObjectName="Tag"/>
-        <table schema="mycollab_live" tableName="s_live_instances" domainObjectName="LiveInstance" />
+        <table schema="mycollab" tableName="s_favorite" domainObjectName="FavoriteItem"/>
+        <table schema="mycollab" tableName="s_tag" domainObjectName="Tag"/>
+        <table schema="mycollab" tableName="s_live_instances" domainObjectName="LiveInstance" />
     </context>
 
 </generatorConfiguration>

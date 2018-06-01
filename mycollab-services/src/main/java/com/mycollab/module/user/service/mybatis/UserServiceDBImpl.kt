@@ -55,7 +55,7 @@ import java.util.*
  */
 @Service
 @Transactional
-class UserServiceDBImpl(private val userMapper: UserMapper,
+open class UserServiceDBImpl(private val userMapper: UserMapper,
                         private val userMapperExt: UserMapperExt,
                         private val userAccountMapper: UserAccountMapper,
                         private val rolePermissionMapper: RolePermissionMapper,

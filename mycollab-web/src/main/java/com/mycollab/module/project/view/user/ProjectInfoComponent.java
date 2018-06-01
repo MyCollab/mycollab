@@ -86,10 +86,10 @@ public class ProjectInfoComponent extends MHorizontalLayout {
         footer.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
         headerLayout.with(breadCrumb, footer);
 
-        if (project.getLead() != null) {
+        if (project.getMemlead() != null) {
             Div leadAvatar = new DivLessFormatter().appendChild(new Img("", StorageUtils.getAvatarPath
                             (project.getLeadAvatarId(), 16)).setCSSClass(UIConstants.CIRCLE_BOX), DivLessFormatter.EMPTY_SPACE,
-                    new A(ProjectLinkGenerator.generateProjectMemberLink(project.getId(), project.getLead()))
+                    new A(ProjectLinkGenerator.generateProjectMemberLink(project.getId(), project.getMemlead()))
                             .appendText(StringUtils.trim(project.getLeadFullName(), 30, true)))
                     .setTitle(project.getLeadFullName());
             ELabel leadLbl = ELabel.html(UserUIContext.getMessage(ProjectI18nEnum.FORM_LEADER) + ": " + leadAvatar.write()).withWidthUndefined();

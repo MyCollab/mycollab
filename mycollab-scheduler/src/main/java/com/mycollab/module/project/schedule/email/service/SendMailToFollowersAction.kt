@@ -210,11 +210,11 @@ abstract class SendMailToFollowersAction<B> : SendingRelayEmailNotificationActio
         }
     }
 
-    abstract protected fun getBeanInContext(notification: ProjectRelayEmailNotification): B?
+    protected abstract fun getBeanInContext(notification: ProjectRelayEmailNotification): B?
 
-    abstract protected fun getItemName(): String
+    protected abstract fun getItemName(): String
 
-    abstract protected fun getProjectName(): String
+    protected abstract fun getProjectName(): String
 
     private fun getProjectFooter(context: MailContext<B>): String = LocalizationHelper.getMessage(context.locale,
             MailI18nEnum.Project_Footer, getProjectName(), getProjectNotificationSettingLink(context))
@@ -223,25 +223,25 @@ abstract class SendMailToFollowersAction<B> : SendingRelayEmailNotificationActio
             A(ProjectLinkGenerator.generateProjectSettingFullLink(siteUrl, projectId!!)).
                     appendText(LocalizationHelper.getMessage(context.locale, MailI18nEnum.Project_Notification_Setting)).write()
 
-    abstract protected fun buildExtraTemplateVariables(context: MailContext<B>)
+    protected abstract fun buildExtraTemplateVariables(context: MailContext<B>)
 
-    abstract protected fun getItemFieldMapper(): ItemFieldMapper
+    protected abstract fun getItemFieldMapper(): ItemFieldMapper
 
-    abstract protected fun getCreateSubject(context: MailContext<B>): String
+    protected abstract fun getCreateSubject(context: MailContext<B>): String
 
-    abstract protected fun getCreateSubjectNotification(context: MailContext<B>): String
+    protected abstract fun getCreateSubjectNotification(context: MailContext<B>): String
 
-    abstract protected fun getUpdateSubject(context: MailContext<B>): String
+    protected abstract fun getUpdateSubject(context: MailContext<B>): String
 
-    abstract protected fun getUpdateSubjectNotification(context: MailContext<B>): String
+    protected abstract fun getUpdateSubjectNotification(context: MailContext<B>): String
 
-    abstract protected fun getCommentSubject(context: MailContext<B>): String
+    protected abstract fun getCommentSubject(context: MailContext<B>): String
 
-    abstract protected fun getCommentSubjectNotification(context: MailContext<B>): String
+    protected abstract fun getCommentSubjectNotification(context: MailContext<B>): String
 
     abstract fun getListNotifyUsersWithFilter(notification: ProjectRelayEmailNotification): List<SimpleUser>
 
-    abstract protected fun getType(): String
+    protected abstract fun getType(): String
 
-    abstract protected fun getTypeId(): String
+    protected abstract fun getTypeId(): String
 }

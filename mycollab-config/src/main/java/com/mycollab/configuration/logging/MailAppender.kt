@@ -45,7 +45,7 @@ class MailAppender : SMTPAppender() {
         this.setSMTPPort(conf.port)
         this.username = conf.user
         this.password = conf.password
-        this.isSTARTTLS = conf.isStartTls
+        this.isSTARTTLS = conf.startTls
         this.from = conf.notifyEmail
         this.addTo(SiteConfiguration.getSendErrorEmail())
         super.start()

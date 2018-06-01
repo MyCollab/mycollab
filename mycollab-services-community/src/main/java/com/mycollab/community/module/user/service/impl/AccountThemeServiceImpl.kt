@@ -31,7 +31,7 @@ import org.springframework.stereotype.Service
  * @since 4.1
  */
 @Service
-class AccountThemeServiceImpl(private val accountThemeMapper: AccountThemeMapper) : DefaultCrudService<Int, AccountTheme>(), AccountThemeService {
+open class AccountThemeServiceImpl(private val accountThemeMapper: AccountThemeMapper) : DefaultCrudService<Int, AccountTheme>(), AccountThemeService {
 
     override val crudMapper: ICrudGenericDAO<Int, AccountTheme>
         get() = accountThemeMapper as ICrudGenericDAO<Int, AccountTheme>

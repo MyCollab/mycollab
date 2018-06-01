@@ -1,16 +1,25 @@
 version: '3.1'
 services:
+    hlsoft-mysql:
+        image: mysql:latest
+        restart: always
+        hostname: mysql
+        command: mysqld --default-authentication-plugin=mysql_native_password
+        ports:
+            - "3306:3306"
+        environment:
+            MYSQL_ROOT_PASSWORD: esofthead321
+            MYSQL_DATABASE: mycollab
     hlsoft-app:
-        image: mycollab
+        image: mycollab/mycollab
         environment:
             - SPRING_PROFILES_ACTIVE=prod
             - JAVA_OPTS=-Djgroups.tcp.address=NON_LOOPBACK -Djava.net.preferIPv4Stack=true -Xmx2g -Xms2g
             - ES_JAVA_OPTS= -Xms750m -Xmx750m
+        tty: true
         ports:
             - 8080:8080
-    hlsoft-mysql:
-        image: mysql:5.6
-        restart: always
-        environment:
-          MYSQL_ROOT_PASSWORD: esofthead321
-          MYSQL_DATABASE: mycollab
+        links:
+          - hlsoft-mysql
+        depends_on:
+          - hlsoft-mysql

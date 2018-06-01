@@ -33,7 +33,7 @@ import javax.servlet.http.HttpServletResponse
  * @author MyCollab Ltd.
  * @since 4.4.0
  */
-@WebServlet(urlPatterns = arrayOf("/file/*"), name = "resourceGetHandler")
+@WebServlet(urlPatterns = ["/file/*"], name = "resourceGetHandler")
 class ResourceGetHandler : GenericHttpServlet() {
 
     @Autowired

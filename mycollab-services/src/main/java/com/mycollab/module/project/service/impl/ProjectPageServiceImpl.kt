@@ -28,7 +28,7 @@ import org.springframework.stereotype.Service
 import java.util.*
 
 @Service
-class ProjectPageServiceImpl(private val pageService: PageService,
+open class ProjectPageServiceImpl(private val pageService: PageService,
                              private val activityStreamService: ActivityStreamService) : ProjectPageService {
 
     override fun savePage(page: Page, createdUser: String, projectId: Int, accountId: Int) {

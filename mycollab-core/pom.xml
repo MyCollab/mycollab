@@ -49,19 +49,19 @@
         <dependency>
             <groupId>org.apache.tika</groupId>
             <artifactId>tika-core</artifactId>
-            <version>1.16</version>
+            <version>1.18</version>
         </dependency>
 
         <dependency>
             <groupId>org.jsoup</groupId>
             <artifactId>jsoup</artifactId>
-            <version>1.10.3</version>
+            <version>1.11.3</version>
         </dependency>
 
         <dependency>
             <groupId>org.ocpsoft.prettytime</groupId>
             <artifactId>prettytime</artifactId>
-            <version>4.0.1.Final</version>
+            <version>4.0.2.Final</version>
         </dependency>
 
         <dependency>
@@ -87,7 +87,7 @@
         <dependency>
             <groupId>uk.com.robust-it</groupId>
             <artifactId>cloning</artifactId>
-            <version>1.9.6</version>
+            <version>1.9.10</version>
         </dependency>
     </dependencies>
 </project>

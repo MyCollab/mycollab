@@ -34,7 +34,7 @@ import java.util.GregorianCalendar
  * @since 2.0
  */
 @Service
-class CustomViewStoreServiceImpl(private val customViewStoreMapper: CustomViewStoreMapper) : DefaultCrudService<Int, CustomViewStore>(), CustomViewStoreService {
+open class CustomViewStoreServiceImpl(private val customViewStoreMapper: CustomViewStoreMapper) : DefaultCrudService<Int, CustomViewStore>(), CustomViewStoreService {
 
     override val crudMapper: ICrudGenericDAO<Int, CustomViewStore>
         get() = customViewStoreMapper as ICrudGenericDAO<Int, CustomViewStore>

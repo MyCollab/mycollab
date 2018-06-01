@@ -25,7 +25,7 @@ import org.apache.ibatis.session.RowBounds
 import org.springframework.stereotype.Service
 
 @Service
-class ProjectActivityStreamServiceImpl(private val projectMapperExt: ProjectMapperExt) : ProjectActivityStreamService {
+open class ProjectActivityStreamServiceImpl(private val projectMapperExt: ProjectMapperExt) : ProjectActivityStreamService {
 
     override fun getTotalActivityStream(criteria: ActivityStreamSearchCriteria): Int =
             projectMapperExt.getTotalActivityStream(criteria)

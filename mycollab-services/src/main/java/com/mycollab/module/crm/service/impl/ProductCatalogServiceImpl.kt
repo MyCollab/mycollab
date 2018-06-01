@@ -29,7 +29,7 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 @Transactional
-class ProductCatalogServiceImpl(private val productCatalogMapper: ProductCatalogMapper,
+open class ProductCatalogServiceImpl(private val productCatalogMapper: ProductCatalogMapper,
                                 private val productCatalogMapperExt: ProductCatalogMapperExt) : DefaultService<Int, ProductCatalog, ProductCatalogSearchCriteria>(), ProductCatalogService {
 
     override val crudMapper: ICrudGenericDAO<Int, ProductCatalog>

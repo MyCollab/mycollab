@@ -38,8 +38,8 @@ class DefaultMailer(private val emailConf: EmailConfiguration) : IMailer {
             val email = HtmlEmail()
             email.hostName = emailConf.host
             email.setSmtpPort(emailConf.port)
-            email.isStartTLSEnabled = emailConf.isStartTls
-            email.isSSLOnConnect = emailConf.isSsl
+            email.isStartTLSEnabled = emailConf.startTls
+            email.isSSLOnConnect = emailConf.ssl
             email.setFrom(fromEmail, fromName)
             email.setCharset(EmailConstants.UTF_8)
             toEmail.forEach {

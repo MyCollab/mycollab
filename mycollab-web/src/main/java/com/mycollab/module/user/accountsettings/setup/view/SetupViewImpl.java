@@ -108,7 +108,7 @@ public class SetupViewImpl extends AbstractVerticalPageView implements SetupView
                 if (editForm.validateForm()) {
                     try {
                         InstallUtils.checkSMTPConfig(emailConf.getHost(), emailConf.getPort(), emailConf.getUser(),
-                                emailConf.getPassword(), true, emailConf.isStartTls(), emailConf.isSsl());
+                                emailConf.getPassword(), true, emailConf.getStartTls(), emailConf.getSsl());
                         saveEmailConfiguration();
                     } catch (UserInvalidInputException e) {
                         ConfirmDialogExt.show(UI.getCurrent(),
@@ -141,8 +141,8 @@ public class SetupViewImpl extends AbstractVerticalPageView implements SetupView
                     p.setProperty(ApplicationProperties.MAIL_USERNAME, emailConf.getUser());
                     p.setProperty(ApplicationProperties.MAIL_PASSWORD, emailConf.getPassword());
                     p.setProperty(ApplicationProperties.MAIL_PORT, emailConf.getPort());
-                    p.setProperty(ApplicationProperties.MAIL_IS_TLS, emailConf.isStartTls());
-                    p.setProperty(ApplicationProperties.MAIL_IS_SSL, emailConf.isSsl());
+                    p.setProperty(ApplicationProperties.MAIL_IS_TLS, emailConf.getStartTls());
+                    p.setProperty(ApplicationProperties.MAIL_IS_SSL, emailConf.getSsl());
                     p.setProperty(ApplicationProperties.MAIL_NOTIFY, emailConf.getUser());
                     p.save();
                     NotificationUtil.showNotification(UserUIContext.getMessage(GenericI18Enum.OPT_CONGRATS),
@@ -168,10 +168,10 @@ public class SetupViewImpl extends AbstractVerticalPageView implements SetupView
             } else if (propertyId.equals("port")) {
                 return informationLayout.addComponent(field, UserUIContext.getMessage(ShellI18nEnum.FORM_PORT),
                         UserUIContext.getMessage(ShellI18nEnum.FORM_PORT_HELP), 0, 3);
-            } else if (propertyId.equals("isStartTls")) {
+            } else if (propertyId.equals("startTls")) {
                 return informationLayout.addComponent(field, "StartTls",
                         UserUIContext.getMessage(ShellI18nEnum.FORM_MAIL_SECURITY_HELP), 0, 4);
-            } else if (propertyId.equals("isSsl")) {
+            } else if (propertyId.equals("ssl")) {
                 return informationLayout.addComponent(field, "Tls/Ssl",
                         UserUIContext.getMessage(ShellI18nEnum.FORM_MAIL_SECURITY_HELP), 0, 5);
             }
@@ -188,9 +188,9 @@ public class SetupViewImpl extends AbstractVerticalPageView implements SetupView
 
         @Override
         protected Field<?> onCreateField(Object propertyId) {
-            if (propertyId.equals("isStartTls")) {
+            if (propertyId.equals("startTls")) {
                 return new CheckBox("", false);
-            } else if (propertyId.equals("isSsl")) {
+            } else if (propertyId.equals("ssl")) {
                 return new CheckBox("", false);
             } else if (propertyId.equals("password")) {
                 return new PasswordField();

@@ -32,7 +32,7 @@ import org.springframework.stereotype.Service
  * @since 1.0
  */
 @Service
-class AuditLogServiceImpl(private val auditLogMapper: AuditLogMapper,
+open class AuditLogServiceImpl(private val auditLogMapper: AuditLogMapper,
                           private val auditLogMapperExt: AuditLogMapperExt) : DefaultService<Int, AuditLog, AuditLogSearchCriteria>(), AuditLogService {
 
     override val crudMapper: ICrudGenericDAO<Int, AuditLog>

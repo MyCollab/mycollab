@@ -33,7 +33,7 @@ import org.springframework.stereotype.Service
  * @since 1.0
  */
 @Service
-class SaveSearchResultServiceImpl(private val saveSearchResultMapper: SaveSearchResultMapper,
+open class SaveSearchResultServiceImpl(private val saveSearchResultMapper: SaveSearchResultMapper,
                                   private val saveSearchResultMapperExt: SaveSearchResultMapperExt) : DefaultService<Int, SaveSearchResult, SaveSearchResultCriteria>(), SaveSearchResultService {
 
     override val crudMapper: ICrudGenericDAO<Int, SaveSearchResult>

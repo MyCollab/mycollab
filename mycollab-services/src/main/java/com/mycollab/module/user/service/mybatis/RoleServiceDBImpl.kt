@@ -34,7 +34,7 @@ import org.springframework.stereotype.Service
  * @since 1.0
  */
 @Service
-class RoleServiceDBImpl(private val roleMapper: RoleMapper,
+open class RoleServiceDBImpl(private val roleMapper: RoleMapper,
                         private val roleMapperExt: RoleMapperExt,
                         private val rolePermissionMapper: RolePermissionMapper) : DefaultService<Int, Role, RoleSearchCriteria>(), RoleService {
 

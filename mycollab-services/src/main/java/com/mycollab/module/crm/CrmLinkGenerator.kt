@@ -17,6 +17,7 @@
 package com.mycollab.module.crm
 
 import com.mycollab.common.GenericLinkUtils
+import com.mycollab.common.GenericLinkUtils.URL_PREFIX_PARAM
 
 /**
  * @author MyCollab Ltd.
@@ -25,7 +26,7 @@ import com.mycollab.common.GenericLinkUtils
 object CrmLinkGenerator {
     @JvmStatic
     fun generateAccountPreviewLink(accountId: Int?): String =
-            "${GenericLinkUtils.URL_PREFIX_PARAM}crm/account/preview/${GenericLinkUtils.encodeParam(accountId!!)}"
+            "${URL_PREFIX_PARAM}crm/account/preview/${GenericLinkUtils.encodeParam(accountId)}"
 
     @JvmStatic
     fun generateAccountPreviewFullLink(siteUrl: String, accountId: Int?): String =
@@ -33,7 +34,7 @@ object CrmLinkGenerator {
 
     @JvmStatic
     fun generateCampaignPreviewLink(campaignId: Int?): String =
-            "${GenericLinkUtils.URL_PREFIX_PARAM}crm/campaign/preview/" + GenericLinkUtils.encodeParam(campaignId!!)
+            "${URL_PREFIX_PARAM}crm/campaign/preview/" + GenericLinkUtils.encodeParam(campaignId)
 
     @JvmStatic
     fun generateCampaignPreviewFullLink(siteUrl: String, campaignId: Int?): String =
@@ -41,7 +42,7 @@ object CrmLinkGenerator {
 
     @JvmStatic
     fun generateCasePreviewLink(caseId: Int?): String =
-            "${GenericLinkUtils.URL_PREFIX_PARAM}crm/cases/preview/${GenericLinkUtils.encodeParam(caseId!!)}"
+            "${URL_PREFIX_PARAM}crm/cases/preview/${GenericLinkUtils.encodeParam(caseId)}"
 
     @JvmStatic
     fun generateCasePreviewFullLink(siteUrl: String, caseId: Int?): String {
@@ -50,7 +51,7 @@ object CrmLinkGenerator {
 
     @JvmStatic
     fun generateContactPreviewLink(contactId: Int?): String =
-            "${GenericLinkUtils.URL_PREFIX_PARAM}crm/contact/preview/${GenericLinkUtils.encodeParam(contactId!!)}"
+            "${URL_PREFIX_PARAM}crm/contact/preview/${GenericLinkUtils.encodeParam(contactId)}"
 
     @JvmStatic
     fun generateContactPreviewFullLink(siteUrl: String, contactId: Int?): String {
@@ -59,7 +60,7 @@ object CrmLinkGenerator {
 
     @JvmStatic
     fun generateLeadPreviewLink(leadId: Int?): String =
-            "${GenericLinkUtils.URL_PREFIX_PARAM}crm/lead/preview/${GenericLinkUtils.encodeParam(leadId!!)}"
+            "${URL_PREFIX_PARAM}crm/lead/preview/${GenericLinkUtils.encodeParam(leadId)}"
 
     @JvmStatic
     fun generateLeadPreviewFullLink(siteUrl: String, leadId: Int?): String =
@@ -67,7 +68,7 @@ object CrmLinkGenerator {
 
     @JvmStatic
     fun generateOpportunityPreviewLink(opportunityId: Int?): String =
-            "${GenericLinkUtils.URL_PREFIX_PARAM}crm/opportunity/preview/${GenericLinkUtils.encodeParam(opportunityId!!)}"
+            "${URL_PREFIX_PARAM}crm/opportunity/preview/${GenericLinkUtils.encodeParam(opportunityId)}"
 
     @JvmStatic
     fun generateOpportunityPreviewFullLink(siteUrl: String, opportunityId: Int?): String =
@@ -75,7 +76,7 @@ object CrmLinkGenerator {
 
     @JvmStatic
     fun generateTaskPreviewLink(taskId: Int?): String =
-            "${GenericLinkUtils.URL_PREFIX_PARAM}crm/activity/task/preview/${GenericLinkUtils.encodeParam(taskId!!)}"
+            "${URL_PREFIX_PARAM}crm/activity/task/preview/${GenericLinkUtils.encodeParam(taskId)}"
 
     @JvmStatic
     fun generateTaskPreviewFullLink(siteUrl: String, taskId: Int?): String =
@@ -83,7 +84,7 @@ object CrmLinkGenerator {
 
     @JvmStatic
     fun generateMeetingPreviewLink(meetingId: Int?): String =
-            "${GenericLinkUtils.URL_PREFIX_PARAM}crm/activity/meeting/preview/${GenericLinkUtils.encodeParam(meetingId!!)}"
+            "${URL_PREFIX_PARAM}crm/activity/meeting/preview/${GenericLinkUtils.encodeParam(meetingId)}"
 
     @JvmStatic
     fun generateMeetingPreviewFullLink(siteUrl: String, meetingId: Int?): String =
@@ -91,7 +92,7 @@ object CrmLinkGenerator {
 
     @JvmStatic
     fun generateCallPreviewLink(callId: Int?): String =
-            "${GenericLinkUtils.URL_PREFIX_PARAM}crm/activity/call/preview/${GenericLinkUtils.encodeParam(callId!!)}"
+            "${URL_PREFIX_PARAM}crm/activity/call/preview/${GenericLinkUtils.encodeParam(callId)}"
 
     @JvmStatic
     fun generateCallPreviewFullLink(siteUrl: String, callId: Int?): String =

@@ -77,7 +77,7 @@ public class ProjectGeneralInfoStep implements AbstractProjectAddWindow.FormWiza
         mainSection.fields(new TextDynaFieldBuilder().fieldName(Project.Field.planenddate).displayName
                 (GenericI18Enum.FORM_END_DATE).fieldIndex(5).build());
 
-        mainSection.fields(new TextDynaFieldBuilder().fieldName(Project.Field.lead).displayName
+        mainSection.fields(new TextDynaFieldBuilder().fieldName(Project.Field.memlead).displayName
                 (ProjectI18nEnum.FORM_LEADER).fieldIndex(6).build());
 
         mainSection.fields(new TextAreaDynaFieldBuilder().fieldName(Project.Field.description).displayName
@@ -146,7 +146,7 @@ public class ProjectGeneralInfoStep implements AbstractProjectAddWindow.FormWiza
                 tf.setRequiredError(UserUIContext.getMessage(ErrorI18nEnum.FIELD_MUST_NOT_NULL,
                         UserUIContext.getMessage(GenericI18Enum.FORM_NAME)));
                 return tf;
-            } else if (Project.Field.lead.equalTo(propertyId)) {
+            } else if (Project.Field.memlead.equalTo(propertyId)) {
                 return new ActiveUserComboBox();
             }
 

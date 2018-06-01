@@ -41,7 +41,7 @@ import javax.sql.DataSource
  * @since 5.1.1
  */
 @Service
-class OptionValServiceImpl(private val optionValMapper: OptionValMapper,
+open class OptionValServiceImpl(private val optionValMapper: OptionValMapper,
                            private val timelineTrackingMapper: TimelineTrackingMapper,
                            private val timelineTrackingCachingMapper: TimelineTrackingCachingMapper,
                            private val dataSource: DataSource) : DefaultCrudService<Int, OptionVal>(), OptionValService {

@@ -80,11 +80,11 @@ public class ProjectListDisplay extends DefaultPagedBeanList<ProjectService, Pro
 
             Div metaDiv = new Div().appendChild(activeMembersDiv, DivLessFormatter.EMPTY_SPACE, createdTimeDiv, DivLessFormatter.EMPTY_SPACE,
                     billableHoursDiv, DivLessFormatter.EMPTY_SPACE, nonBillableHoursDiv);
-            if (project.getLead() != null) {
+            if (project.getMemlead() != null) {
                 Div leadDiv = new Div().appendChild(new Img("",
                                 AppContextUtil.getSpringBean(AbstractStorageService.class)
                                         .getAvatarPath(project.getLeadAvatarId(), 16)).setCSSClass(UIConstants.CIRCLE_BOX),
-                        new A(ProjectLinkGenerator.generateProjectMemberLink(project.getId(), project.getLead()))
+                        new A(ProjectLinkGenerator.generateProjectMemberLink(project.getId(), project.getMemlead()))
                                 .appendText(project.getLeadFullName())).setTitle(UserUIContext.getMessage(ProjectI18nEnum.FORM_LEADER));
                 metaDiv.appendChild(0, leadDiv);
                 metaDiv.appendChild(1, DivLessFormatter.EMPTY_SPACE);

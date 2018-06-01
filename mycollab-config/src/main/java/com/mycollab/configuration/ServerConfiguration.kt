@@ -41,10 +41,8 @@ open class ServerConfiguration(var storageSystem: String = STORAGE_FILE, var por
 
     companion object {
 
-        @JvmField
-        val STORAGE_FILE = "file"
+        const val STORAGE_FILE = "file"
 
-        @JvmField
-        val STORAGE_S3 = "s3"
+        const val STORAGE_S3 = "s3"
     }
 }

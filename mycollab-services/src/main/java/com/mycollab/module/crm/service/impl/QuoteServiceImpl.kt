@@ -34,7 +34,7 @@ import java.util.*
 
 @Service
 @Transactional
-class QuoteServiceImpl(private val quoteMapper: QuoteMapper,
+open class QuoteServiceImpl(private val quoteMapper: QuoteMapper,
                        private val quoteMapperExt: QuoteMapperExt,
                        private val quoteGroupProductService: QuoteGroupProductService,
                        private var productMapper: ProductMapper) : DefaultService<Int, Quote, QuoteSearchCriteria>(), QuoteService {

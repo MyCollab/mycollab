@@ -8,7 +8,7 @@
         <plugin type="com.mycollab.mybatis.plugin.MyCollabModelFilePlugin" />
 
         <jdbcConnection
-            connectionURL="jdbc:mysql://localhost:3306/mycollab_live"
+            connectionURL="jdbc:mysql://localhost:3306/mycollab?verifyServerCertificate=false"
             driverClass="com.mysql.jdbc.Driver"
             password="mycollab123"
             userId="root" />
@@ -32,11 +32,11 @@
             <property name="rootInterface" value="com.mycollab.db.persistence.ICrudGenericDAO" />
         </javaClientGenerator>
 
-        <table domainObjectName="Bug" schema="mycollab_live" tableName="m_tracker_bug" />
-        <table domainObjectName="Component" schema="mycollab_live" tableName="m_tracker_component" />
-        <table domainObjectName="RelatedBug" schema="mycollab_live" tableName="m_tracker_related_bug" />
-        <table domainObjectName="BugRelatedItem" schema="mycollab_live" tableName="m_tracker_bug_related_item" />
-        <table domainObjectName="Version" schema="mycollab_live" tableName="m_tracker_version" />
+        <table domainObjectName="Bug" schema="mycollab" tableName="m_tracker_bug" />
+        <table domainObjectName="Component" schema="mycollab" tableName="m_tracker_component" />
+        <table domainObjectName="RelatedBug" schema="mycollab" tableName="m_tracker_related_bug" />
+        <table domainObjectName="BugRelatedItem" schema="mycollab" tableName="m_tracker_bug_related_item" />
+        <table domainObjectName="Version" schema="mycollab" tableName="m_tracker_version" />
     </context>
 
 </generatorConfiguration>

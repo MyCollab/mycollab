@@ -47,7 +47,7 @@ import org.springframework.stereotype.Service
  * @since 1.0
  */
 @Service
-class CommentServiceImpl(private val commentMapper: CommentMapper,
+open class CommentServiceImpl(private val commentMapper: CommentMapper,
                          private val commentMapperExt: CommentMapperExt,
                          private val relayEmailNotificationService: RelayEmailNotificationService,
                          private val activityStreamService: ActivityStreamService,

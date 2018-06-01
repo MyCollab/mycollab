@@ -144,7 +144,7 @@ public class ProjectAddViewImpl extends AbstractVerticalPageView implements Proj
                         UserUIContext.getMessage(ProjectI18nEnum.FORM_SHORT_NAME_HELP), 0, 1);
             } else if (propertyId.equals("projectstatus")) {
                 return informationLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.FORM_STATUS), 1, 1);
-            } else if (Project.Field.lead.equalTo(propertyId)) {
+            } else if (Project.Field.memlead.equalTo(propertyId)) {
                 return informationLayout.addComponent(field, UserUIContext.getMessage(ProjectI18nEnum.FORM_LEADER), 0, 2);
             } else if (propertyId.equals("planstartdate")) {
                 return financialLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.FORM_START_DATE), 0, 0);
@@ -213,7 +213,7 @@ public class ProjectAddViewImpl extends AbstractVerticalPageView implements Proj
                 return tf;
             } else if (Project.Field.accountid.equalTo(propertyId)) {
                 return new AccountSelectionField();
-            } else if (Project.Field.lead.equalTo(propertyId)) {
+            } else if (Project.Field.memlead.equalTo(propertyId)) {
                 return new ProjectMemberSelectionField();
             } else if (Project.Field.defaultbillingrate.equalTo(propertyId)
                     || Project.Field.defaultovertimebillingrate.equalTo(propertyId)

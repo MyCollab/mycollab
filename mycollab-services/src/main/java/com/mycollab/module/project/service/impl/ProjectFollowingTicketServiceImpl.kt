@@ -28,7 +28,7 @@ import org.springframework.stereotype.Service
  * @since 1.0
  */
 @Service
-class ProjectFollowingTicketServiceImpl(private val projectFollowingTicketMapperExt: ProjectFollowingTicketMapperExt) : DefaultSearchService<FollowingTicketSearchCriteria>(), ProjectFollowingTicketService {
+open class ProjectFollowingTicketServiceImpl(private val projectFollowingTicketMapperExt: ProjectFollowingTicketMapperExt) : DefaultSearchService<FollowingTicketSearchCriteria>(), ProjectFollowingTicketService {
 
     override val searchMapper: ISearchableDAO<FollowingTicketSearchCriteria>
         get() = projectFollowingTicketMapperExt

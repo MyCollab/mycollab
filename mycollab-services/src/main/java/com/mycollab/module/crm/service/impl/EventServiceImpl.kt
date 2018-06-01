@@ -31,7 +31,7 @@ import org.springframework.transaction.annotation.Transactional
  */
 @Service
 @Transactional
-class EventServiceImpl : DefaultSearchService<ActivitySearchCriteria>(), EventService {
+open class EventServiceImpl : DefaultSearchService<ActivitySearchCriteria>(), EventService {
 
     @Autowired
     private lateinit var eventMapperExt: EventMapperExt

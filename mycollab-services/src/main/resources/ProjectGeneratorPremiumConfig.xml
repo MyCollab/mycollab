@@ -7,7 +7,7 @@
     <context id="MySQL" targetRuntime="MyBatis3">
         <plugin type="com.mycollab.mybatis.plugin.MyCollabModelFilePlugin" />
 
-        <jdbcConnection connectionURL="jdbc:mysql://localhost:3306/mycollab_live"
+        <jdbcConnection connectionURL="jdbc:mysql://localhost:3306/mycollab?verifyServerCertificate=false"
                         driverClass="com.mysql.jdbc.Driver" password="mycollab123" userId="root" />
 
         <javaModelGenerator targetPackage="com.mycollab.module.project.domain" targetProject="src/main/java">
@@ -22,10 +22,10 @@
             <property name="rootInterface" value="com.mycollab.db.persistence.ICrudGenericDAO" />
         </javaClientGenerator>
 
-        <table domainObjectName="Invoice" schema="mycollab_live" tableName="m_prj_invoice" />
-        <table domainObjectName="Risk" schema="mycollab_live" tableName="m_prj_risk" />
-        <table domainObjectName="StandupReport" schema="mycollab_live" tableName="m_prj_standup" />
-        <table domainObjectName="ItemTimeLogging" schema="mycollab_live" tableName="m_prj_time_logging" />
+        <table domainObjectName="Invoice" schema="mycollab" tableName="m_prj_invoice" />
+        <table domainObjectName="Risk" schema="mycollab" tableName="m_prj_risk" />
+        <table domainObjectName="StandupReport" schema="mycollab" tableName="m_prj_standup" />
+        <table domainObjectName="ItemTimeLogging" schema="mycollab" tableName="m_prj_time_logging" />
     </context>
 
 </generatorConfiguration>

@@ -8,7 +8,7 @@
 
         <plugin type="com.mycollab.mybatis.plugin.MyCollabModelFilePlugin"/>
 
-        <jdbcConnection connectionURL="jdbc:mysql://localhost:3306/mycollab_live"
+        <jdbcConnection connectionURL="jdbc:mysql://localhost:3306/mycollab?verifyServerCertificate=false"
                         driverClass="com.mysql.jdbc.Driver" password="mycollab123" userId="root"/>
 
         <javaModelGenerator targetPackage="com.mycollab.common.domain" targetProject="src/main/java">
@@ -22,18 +22,18 @@
             <property name="rootInterface" value="com.mycollab.db.persistence.ICrudGenericDAO"/>
         </javaClientGenerator>
 
-        <table schema="mycollab_live" tableName="m_monitor_item" domainObjectName="MonitorItem"/>
-        <table schema="mycollab_live" tableName="s_activitystream" domainObjectName="ActivityStream"/>
-        <table schema="mycollab_live" tableName="m_comment" domainObjectName="Comment"/>
-        <table schema="mycollab_live" tableName="s_customer_feedback" domainObjectName="CustomerFeedback"/>
-        <table schema="mycollab_live" tableName="s_relay_email_notification" domainObjectName="RelayEmailNotification"/>
-        <table schema="mycollab_live" tableName="m_options" domainObjectName="OptionVal"/>
-        <table schema="mycollab_live" tableName="m_audit_log" domainObjectName="AuditLog"/>
-        <table schema="mycollab_live" tableName="s_save_search_result" domainObjectName="SaveSearchResult"/>
-        <table schema="mycollab_live" tableName="s_table_customize_view" domainObjectName="CustomViewStore"/>
-        <table schema="mycollab_live" tableName="s_timeline_tracking" domainObjectName="TimelineTracking"/>
-        <table schema="mycollab_live" tableName="s_timeline_tracking_cache" domainObjectName="TimelineTrackingCaching"/>
-        <table schema="mycollab_live" tableName="m_notification_item" domainObjectName="NotificationItem"/>
+        <table schema="mycollab" tableName="m_monitor_item" domainObjectName="MonitorItem"/>
+        <table schema="mycollab" tableName="s_activitystream" domainObjectName="ActivityStream"/>
+        <table schema="mycollab" tableName="m_comment" domainObjectName="Comment"/>
+        <table schema="mycollab" tableName="s_customer_feedback" domainObjectName="CustomerFeedback"/>
+        <table schema="mycollab" tableName="s_relay_email_notification" domainObjectName="RelayEmailNotification"/>
+        <table schema="mycollab" tableName="m_options" domainObjectName="OptionVal"/>
+        <table schema="mycollab" tableName="m_audit_log" domainObjectName="AuditLog"/>
+        <table schema="mycollab" tableName="s_save_search_result" domainObjectName="SaveSearchResult"/>
+        <table schema="mycollab" tableName="s_table_customize_view" domainObjectName="CustomViewStore"/>
+        <table schema="mycollab" tableName="s_timeline_tracking" domainObjectName="TimelineTracking"/>
+        <table schema="mycollab" tableName="s_timeline_tracking_cache" domainObjectName="TimelineTrackingCaching"/>
+        <table schema="mycollab" tableName="m_notification_item" domainObjectName="NotificationItem"/>
     </context>
 
 </generatorConfiguration>

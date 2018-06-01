@@ -31,7 +31,7 @@ import org.vaadin.viritin.button.MButton
  */
 object AccountAssetsResolver {
     @JvmStatic
-    fun createAccountLogoImageComponent(logoId: String, size: Int): Button = MButton().
+    fun createAccountLogoImageComponent(logoId: String?, size: Int): Button = MButton().
             withStyleName(BaseTheme.BUTTON_LINK).withIcon(createLogoResource(logoId, size))
 
     @JvmStatic

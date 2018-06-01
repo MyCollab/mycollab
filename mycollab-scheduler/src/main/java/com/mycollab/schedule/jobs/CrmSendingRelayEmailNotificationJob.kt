@@ -51,7 +51,7 @@ class CrmSendingRelayEmailNotificationJob : GenericQuartzJobBean() {
     override fun executeJob(context: JobExecutionContext) {
         val relayEmailService = AppContextUtil.getSpringBean(RelayEmailNotificationService::class.java)
         val criteria = RelayEmailNotificationSearchCriteria()
-        criteria.types = SetSearchField<String>(CrmTypeConstants.ACCOUNT, CrmTypeConstants.CONTACT,
+        criteria.types = SetSearchField(CrmTypeConstants.ACCOUNT, CrmTypeConstants.CONTACT,
                 CrmTypeConstants.CAMPAIGN, CrmTypeConstants.LEAD, CrmTypeConstants.OPPORTUNITY, CrmTypeConstants.CASE,
                 CrmTypeConstants.TASK, CrmTypeConstants.MEETING, CrmTypeConstants.CALL)
 

@@ -86,11 +86,11 @@ class ProjectColumnBuilderMapper : InitializingBean {
             override fun evaluate(reportParameters: ReportParameters): String {
                 val projectId = reportParameters.getFieldValue<Int>(Project.Field.id.name)
                 val siteUrl = reportParameters.getParameterValue<String>("siteUrl")
-                val memberName = reportParameters.getParameterValue<String>(Project.Field.lead.name)
+                val memberName = reportParameters.getParameterValue<String>(Project.Field.memlead.name)
                 return ProjectLinkGenerator.generateProjectMemberFullLink(siteUrl, projectId!!, memberName)
             }
         }
-        map.put(Project.Field.lead.name, HyperlinkBuilderGenerator(leadNameExpr, leadHrefExpr))
+        map[Project.Field.memlead.name] = HyperlinkBuilderGenerator(leadNameExpr, leadHrefExpr)
 
         val accountNameExpr = PrimaryTypeFieldExpression<String>(SimpleProject.Field.clientName.name)
         val clientHrefExpr = object : AbstractSimpleExpression<String>() {
@@ -101,14 +101,14 @@ class ProjectColumnBuilderMapper : InitializingBean {
                 return ProjectLinkGenerator.generateClientPreviewFullLink(siteUrl, accountId!!)
             }
         }
-        map.put(Project.Field.accountid.name, HyperlinkBuilderGenerator(accountNameExpr, clientHrefExpr))
+        map[Project.Field.accountid.name] = HyperlinkBuilderGenerator(accountNameExpr, clientHrefExpr)
 
         val homePageUrlExpr = PrimaryTypeFieldExpression<String>(Project.Field.homepage.name)
-        map.put(Project.Field.homepage.name, HyperlinkBuilderGenerator(homePageUrlExpr, homePageUrlExpr))
+        map[Project.Field.homepage.name] = HyperlinkBuilderGenerator(homePageUrlExpr, homePageUrlExpr)
 
-        map.put(Project.Field.createdtime.name, SimpleExpressionBuilderGenerator(DateExpression(Project.Field.createdtime.name)))
-        map.put(Project.Field.planstartdate.name, SimpleExpressionBuilderGenerator(DateExpression(Project.Field.planstartdate.name)))
-        map.put(Project.Field.planenddate.name, SimpleExpressionBuilderGenerator(DateExpression(Project.Field.planenddate.name)))
+        map[Project.Field.createdtime.name] = SimpleExpressionBuilderGenerator(DateExpression(Project.Field.createdtime.name))
+        map[Project.Field.planstartdate.name] = SimpleExpressionBuilderGenerator(DateExpression(Project.Field.planstartdate.name))
+        map[Project.Field.planenddate.name] = SimpleExpressionBuilderGenerator(DateExpression(Project.Field.planenddate.name))
         return map
     }
 

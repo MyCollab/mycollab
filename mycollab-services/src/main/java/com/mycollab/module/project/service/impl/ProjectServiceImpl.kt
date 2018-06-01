@@ -60,7 +60,7 @@ import java.util.*
 @Service
 @Transactional
 @Traceable(nameField = "name", extraFieldName = "id")
-class ProjectServiceImpl(private val projectMapper: ProjectMapper,
+open class ProjectServiceImpl(private val projectMapper: ProjectMapper,
                          private val projectMapperExt: ProjectMapperExt,
                          private val projectMemberMapper: ProjectMemberMapper,
                          private val projectRoleService: ProjectRoleService,

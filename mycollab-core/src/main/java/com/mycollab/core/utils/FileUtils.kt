@@ -37,7 +37,7 @@ object FileUtils {
 
     init {
         val userFolder = System.getProperty("user.dir")
-        val homeDir = File(userFolder + "/.mycollab")
+        val homeDir = File("$userFolder/.mycollab")
         val userHomeDir = File(System.getProperty("user.home") + "/.mycollab")
         if (userHomeDir.exists()) {
             _homeFolder = try {
@@ -72,7 +72,7 @@ object FileUtils {
     @JvmStatic
     fun readFileAsPlainString(fileName: String): String {
         try {
-            val pricingFile = FileUtils.getDesireFile(userFolder, fileName, "src/main/conf/" + fileName)
+            val pricingFile = FileUtils.getDesireFile(userFolder, fileName, "src/main/conf/$fileName")
             return when {
                 pricingFile != null -> String(Files.readAllBytes(pricingFile.toPath()), Charset.forName("UTF-8"))
                 else -> ""

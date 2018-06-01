@@ -41,7 +41,7 @@ import java.util.*
 @Transactional
 @Traceable(nameField = "campaignname")
 @Watchable(userFieldName = "assignuser")
-class CampaignServiceImpl(private val campaignMapper: CampaignMapper,
+open class CampaignServiceImpl(private val campaignMapper: CampaignMapper,
                           private val campaignMapperExt: CampaignMapperExt,
                           private val campaignAccountMapper: CampaignAccountMapper,
                           private val campaignContactMapper: CampaignContactMapper,

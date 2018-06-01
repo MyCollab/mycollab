@@ -31,7 +31,7 @@ import org.springframework.stereotype.Service
  * @since 1.0
  */
 @Service
-class RelayEmailNotificationServiceImpl(private val relayEmailNotificationMapper: RelayEmailNotificationMapper,
+open class RelayEmailNotificationServiceImpl(private val relayEmailNotificationMapper: RelayEmailNotificationMapper,
                                         private val relayEmailNotificationMapperExt: RelayEmailNotificationMapperExt) : DefaultService<Int, RelayEmailNotificationWithBLOBs, RelayEmailNotificationSearchCriteria>(), RelayEmailNotificationService {
 
     override val crudMapper: ICrudGenericDAO<Int, RelayEmailNotificationWithBLOBs>

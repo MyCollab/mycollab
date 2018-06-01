@@ -21,6 +21,7 @@ import com.mycollab.core.cache.CacheKey
 import com.mycollab.db.persistence.ICrudGenericDAO
 import com.mycollab.db.persistence.service.DefaultCrudService
 import com.mycollab.module.project.dao.ProjectNotificationSettingMapper
+import com.mycollab.module.project.dao.ProjectNotificationSettingMapperExt
 import com.mycollab.module.project.domain.ProjectNotificationSetting
 import com.mycollab.module.project.domain.ProjectNotificationSettingExample
 import com.mycollab.module.project.service.ProjectNotificationSettingService
@@ -31,7 +32,8 @@ import org.springframework.stereotype.Service
  * @since 1.0
  */
 @Service
-class ProjectNotificationSettingServiceImpl(private val projectNotificationSettingMapper: ProjectNotificationSettingMapper) : DefaultCrudService<Int, ProjectNotificationSetting>(), ProjectNotificationSettingService {
+open class ProjectNotificationSettingServiceImpl(private val projectNotificationSettingMapper: ProjectNotificationSettingMapper,
+                                                 private val projectNotificationSettingMapperExt: ProjectNotificationSettingMapperExt) : DefaultCrudService<Int, ProjectNotificationSetting>(), ProjectNotificationSettingService {
 
     override val crudMapper: ICrudGenericDAO<Int, ProjectNotificationSetting>
         get() = projectNotificationSettingMapper as ICrudGenericDAO<Int, ProjectNotificationSetting>
@@ -52,9 +54,6 @@ class ProjectNotificationSettingServiceImpl(private val projectNotificationSetti
         }
     }
 
-    override fun findNotifications(projectId: Int, @CacheKey sAccountId: Int): List<ProjectNotificationSetting> {
-        val ex = ProjectNotificationSettingExample()
-        ex.createCriteria().andProjectidEqualTo(projectId).andSaccountidEqualTo(sAccountId)
-        return projectNotificationSettingMapper.selectByExample(ex)
-    }
+    override fun findNotifications(projectId: Int, @CacheKey sAccountId: Int): List<ProjectNotificationSetting> =
+            projectNotificationSettingMapperExt.findNotifications(projectId, sAccountId)
 }

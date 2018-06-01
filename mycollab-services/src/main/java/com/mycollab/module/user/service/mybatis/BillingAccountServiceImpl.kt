@@ -45,7 +45,7 @@ import java.util.*
  * @since 1.0
  */
 @Service
-class BillingAccountServiceImpl(private val billingAccountMapper: BillingAccountMapper,
+open class BillingAccountServiceImpl(private val billingAccountMapper: BillingAccountMapper,
                                 private val billingAccountMapperExt: BillingAccountMapperExt,
                                 private val asyncEventBus: AsyncEventBus,
                                 private val userMapper: UserMapper,

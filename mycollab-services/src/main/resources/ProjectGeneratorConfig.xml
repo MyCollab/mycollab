@@ -7,7 +7,7 @@
     <context id="MySQL" targetRuntime="MyBatis3">
         <plugin type="com.mycollab.mybatis.plugin.MyCollabModelFilePlugin" />
 
-        <jdbcConnection connectionURL="jdbc:mysql://localhost:3306/mycollab_live"
+        <jdbcConnection connectionURL="jdbc:mysql://localhost:3306/mycollab?verifyServerCertificate=false"
             driverClass="com.mysql.jdbc.Driver" password="mycollab123" userId="root" />
 
         <javaModelGenerator targetPackage="com.mycollab.module.project.domain" targetProject="src/main/java">
@@ -21,17 +21,17 @@
             <property name="rootInterface" value="com.mycollab.db.persistence.ICrudGenericDAO" />
         </javaClientGenerator>
 
-        <table domainObjectName="Message" schema="mycollab_live" tableName="m_prj_message" />
-        <table domainObjectName="Milestone" schema="mycollab_live" tableName="m_prj_milestone" />
-        <table domainObjectName="Project" schema="mycollab_live" tableName="m_prj_project" />
-        <table domainObjectName="ProjectNotificationSetting" schema="mycollab_live" tableName="m_prj_notifications" />
-        <table domainObjectName="ProjectRole" schema="mycollab_live" tableName="m_prj_role" />
-        <table domainObjectName="ProjectRolePermission" schema="mycollab_live" tableName="m_prj_role_permission" />
-        <table domainObjectName="Task" schema="mycollab_live" tableName="m_prj_task" />
-        <table domainObjectName="ProjectMember" schema="mycollab_live" tableName="m_prj_member" />
-        <table domainObjectName="Predecessor" schema="mycollab_live" tableName="m_prj_predecessor" />
-        <table domainObjectName="ProjectCustomizeView" schema="mycollab_live" tableName="m_prj_customize_view" />
-        <table domainObjectName="KanbanBoard" schema="mycollab_live" tableName="m_prj_kanban_board" />
+        <table domainObjectName="Message" schema="mycollab" tableName="m_prj_message" />
+        <table domainObjectName="Milestone" schema="mycollab" tableName="m_prj_milestone" />
+        <table domainObjectName="Project" schema="mycollab" tableName="m_prj_project" />
+        <table domainObjectName="ProjectNotificationSetting" schema="mycollab" tableName="m_prj_notifications" />
+        <table domainObjectName="ProjectRole" schema="mycollab" tableName="m_prj_role" />
+        <table domainObjectName="ProjectRolePermission" schema="mycollab" tableName="m_prj_role_permission" />
+        <table domainObjectName="Task" schema="mycollab" tableName="m_prj_task" />
+        <table domainObjectName="ProjectMember" schema="mycollab" tableName="m_prj_member" />
+        <table domainObjectName="Predecessor" schema="mycollab" tableName="m_prj_predecessor" />
+        <table domainObjectName="ProjectCustomizeView" schema="mycollab" tableName="m_prj_customize_view" />
+        <table domainObjectName="KanbanBoard" schema="mycollab" tableName="m_prj_kanban_board" />
     </context>
 
 </generatorConfiguration>

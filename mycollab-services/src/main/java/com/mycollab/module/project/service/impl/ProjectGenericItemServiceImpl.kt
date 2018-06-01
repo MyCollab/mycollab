@@ -28,7 +28,7 @@ import org.springframework.stereotype.Service
  * @since 5.0.3
  */
 @Service
-class ProjectGenericItemServiceImpl(private val projectGenericItemMapper: ProjectGenericItemMapper) : DefaultSearchService<ProjectGenericItemSearchCriteria>(), ProjectGenericItemService {
+open class ProjectGenericItemServiceImpl(private val projectGenericItemMapper: ProjectGenericItemMapper) : DefaultSearchService<ProjectGenericItemSearchCriteria>(), ProjectGenericItemService {
 
     override val searchMapper: ISearchableDAO<ProjectGenericItemSearchCriteria>
         get() = projectGenericItemMapper

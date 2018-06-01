@@ -40,7 +40,7 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 @Transactional
 @Traceable(nameField = "name", extraFieldName = "projectid")
-class VersionServiceImpl(private val versionMapper: VersionMapper,
+open class VersionServiceImpl(private val versionMapper: VersionMapper,
                          private val versionMapperExt: VersionMapperExt) : DefaultService<Int, Version, VersionSearchCriteria>(), VersionService {
 
     override val crudMapper: ICrudGenericDAO<Int, Version>

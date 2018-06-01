@@ -7,7 +7,7 @@ app:
   linkedinUrl: http://www.linkedin.com/company/mycollab
 
 server:
-  apiUrl: https://api.mycollab.com/api/
+  apiUrl: http://api.mycollab.com/api/
   port: 8080
   storageSystem: file
   siteUrl: http://%s:%d

@@ -42,7 +42,7 @@ import org.springframework.transaction.annotation.Transactional
 @Transactional
 @Traceable(nameField = "subject")
 @Watchable(userFieldName = "assignuser")
-class CaseServiceImpl(private val caseMapper: CaseMapper,
+open class CaseServiceImpl(private val caseMapper: CaseMapper,
                       private val caseMapperExt: CaseMapperExt) : DefaultService<Int, CaseWithBLOBs, CaseSearchCriteria>(), CaseService {
 
     override val crudMapper: ICrudGenericDAO<Int, CaseWithBLOBs>

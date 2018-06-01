@@ -20,7 +20,7 @@ import javax.sql.DataSource
  * @since 6.0.0
  */
 @Service
-class NotificationItemServiceImpl(private val notificationItemMapper: NotificationItemMapper,
+open class NotificationItemServiceImpl(private val notificationItemMapper: NotificationItemMapper,
                                   private val dataSource: DataSource) : DefaultCrudService<Int, NotificationItem>(), NotificationItemService {
 
     override val crudMapper: ICrudGenericDAO<Int, NotificationItem>

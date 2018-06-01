@@ -7,7 +7,8 @@
     <context id="MySQL" targetRuntime="MyBatis3">
         <plugin type="com.mycollab.mybatis.plugin.MyCollabModelFilePlugin" />
 
-        <jdbcConnection connectionURL="jdbc:mysql://localhost:3306/mycollab_live" driverClass="com.mysql.jdbc.Driver"
+        <jdbcConnection connectionURL="jdbc:mysql://localhost:3306/mycollab?verifyServerCertificate=false"
+                        driverClass="com.mysql.jdbc.Driver"
                         password="mycollab123" userId="root" />
 
         <javaModelGenerator targetPackage="com.mycollab.form.domain" targetProject="src/main/java">
@@ -21,9 +22,9 @@
             <property name="rootInterface" value="com.mycollab.db.persistence.ICrudGenericDAO" />
         </javaClientGenerator>
 
-        <table schema="mycollab_live" tableName="m_form_section" domainObjectName="FormSection"/>
-        <table schema="mycollab_live" tableName="m_form_section_field" domainObjectName="FormSectionField"/>
-        <table schema="mycollab_live" tableName="m_form_custom_field_value" domainObjectName="FormCustomFieldValue"/>
+        <table schema="mycollab" tableName="m_form_section" domainObjectName="FormSection"/>
+        <table schema="mycollab" tableName="m_form_section_field" domainObjectName="FormSectionField"/>
+        <table schema="mycollab" tableName="m_form_custom_field_value" domainObjectName="FormCustomFieldValue"/>
     </context>
 
 </generatorConfiguration>

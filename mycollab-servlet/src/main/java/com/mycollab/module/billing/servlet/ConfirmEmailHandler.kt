@@ -33,7 +33,7 @@ import javax.servlet.http.HttpServletResponse
  * @author MyCollab Ltd.
  * @since 1.0
  */
-@WebServlet(urlPatterns = arrayOf("/user/confirm_signup/*"), name = "userconfirmsignupServlet")
+@WebServlet(urlPatterns = ["/user/confirm_signup/*"], name = "userconfirmsignupServlet")
 class ConfirmEmailHandler : GenericHttpServlet() {
 
     @Autowired

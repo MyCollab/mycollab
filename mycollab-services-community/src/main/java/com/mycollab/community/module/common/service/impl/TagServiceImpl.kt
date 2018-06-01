@@ -28,7 +28,7 @@ import org.springframework.stereotype.Service
  * @since 5.3.4
  */
 @Service
-class TagServiceImpl : TagService {
+open class TagServiceImpl : TagService {
     override fun findTags(type: String, typeId: String, @CacheKey accountId: Int?): List<Tag>? = null
 
     override fun findTagsInAccount(name: String, types: Array<String>, @CacheKey accountId: Int?): List<Tag>? = null

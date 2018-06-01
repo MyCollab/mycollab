@@ -31,7 +31,7 @@ import javax.servlet.http.HttpServletResponse
  * @author MyCollab Ltd.
  * @since 1.0
  */
-@WebServlet(name = "recoverUserPasswordServlet", urlPatterns = arrayOf("/user/recoverypassword/*"))
+@WebServlet(name = "recoverUserPasswordServlet", urlPatterns = ["/user/recoverypassword/*"])
 class ResetPasswordUpdatePage : TemplateWebServletRequestHandler() {
 
     @Autowired
@@ -51,11 +51,11 @@ class ResetPasswordUpdatePage : TemplateWebServletRequestHandler() {
                     PageGeneratorUtil.responseUserNotExistPage(response, username, request.contextPath + "/")
                 } else {
                     val loginURL = if (deploymentMode.isDemandEdition)
-                        "https://www.mycollab.com/sign-in?username=" + username
+                        "https://www.mycollab.com/sign-in?username=$username"
                     else
-                        request.contextPath + "/"
+                        "${request.contextPath}/"
 
-                    val redirectURL = request.contextPath + "/user/recoverypassword/action"
+                    val redirectURL = "${request.contextPath}/user/recoverypassword/action"
                     val context = mapOf("username" to username,
                             "loginURL" to loginURL,
                             "redirectURL" to redirectURL)

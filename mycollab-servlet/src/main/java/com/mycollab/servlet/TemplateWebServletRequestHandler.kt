@@ -52,8 +52,8 @@ abstract class TemplateWebServletRequestHandler : GenericHttpServlet() {
 
         val defaultUrls = applicationConfiguration.defaultUrls()
 
-        defaultUrls.put("cdn_url", deploymentMode.getCdnUrl())
-        pageContext.put("defaultUrls", defaultUrls)
+        defaultUrls["cdn_url"] = deploymentMode.getCdnUrl()
+        pageContext["defaultUrls"] = defaultUrls
 
         val writer = StringWriter()
         //Load template from source folder

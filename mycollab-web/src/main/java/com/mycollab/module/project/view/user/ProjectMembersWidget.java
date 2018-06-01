@@ -180,7 +180,7 @@ public class ProjectMembersWidget extends Depot {
             userLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction());
             userLink.appendText(member.getMemberFullName());
 
-            if (member.getUsername().equals(CurrentProjectVariables.getProject().getLead())) {
+            if (member.getUsername().equals(CurrentProjectVariables.getProject().getMemlead())) {
                 userLink.appendText(" (Lead)");
             }
 

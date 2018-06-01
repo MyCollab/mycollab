@@ -185,28 +185,27 @@ abstract class CrmDefaultSendingRelayEmailAction<B> : SendingRelayEmailNotificat
         }
     }
 
-    private fun getListNotifyUserWithFilter(notification: SimpleRelayEmailNotification): List<SimpleUser>? {
-        return notification.notifyUsers
-    }
+    private fun getListNotifyUserWithFilter(notification: SimpleRelayEmailNotification): List<SimpleUser>? =
+            notification.notifyUsers
 
     private fun onInitAction(notification: SimpleRelayEmailNotification) {
         siteUrl = MailUtils.getSiteUrl(notification.saccountid)
         changeUser = userService.findUserByUserNameInAccount(notification.changeby, notification.saccountid)
     }
 
-    abstract protected fun getBeanInContext(notification: SimpleRelayEmailNotification): B?
+    protected abstract fun getBeanInContext(notification: SimpleRelayEmailNotification): B?
 
-    abstract protected fun buildExtraTemplateVariables(context: MailContext<B>)
+    protected abstract fun buildExtraTemplateVariables(context: MailContext<B>)
 
-    abstract protected fun getCreateSubjectKey(): Enum<*>
+    protected abstract fun getCreateSubjectKey(): Enum<*>
 
-    abstract protected fun getUpdateSubjectKey(): Enum<*>
+    protected abstract fun getUpdateSubjectKey(): Enum<*>
 
-    abstract protected fun getCommentSubjectKey(): Enum<*>
+    protected abstract fun getCommentSubjectKey(): Enum<*>
 
-    abstract protected fun getItemName(): String
+    protected abstract fun getItemName(): String
 
-    abstract protected fun getItemFieldMapper(): ItemFieldMapper
+    protected abstract fun getItemFieldMapper(): ItemFieldMapper
 
     companion object {
         val LOG = LoggerFactory.getLogger(CrmDefaultSendingRelayEmailAction::class.java)

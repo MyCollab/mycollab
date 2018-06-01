@@ -35,7 +35,7 @@ import java.io.InputStream
  * @author MyCollab Ltd.
  * @since 3.0
  */
-@WebServlet(urlPatterns = arrayOf("/assets/*"), name = "assetHandler")
+@WebServlet(urlPatterns = ["/assets/*"], name = "assetHandler")
 class AssetHandler : GenericHttpServlet() {
 
     @Throws(ServletException::class, IOException::class)

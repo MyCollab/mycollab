@@ -67,7 +67,7 @@ import javax.sql.DataSource
 @Transactional
 @Traceable(nameField = "name", extraFieldName = "projectid")
 @Watchable(userFieldName = "assignuser", extraTypeId = "projectid")
-class ProjectTaskServiceImpl(private val taskMapper: TaskMapper,
+open class ProjectTaskServiceImpl(private val taskMapper: TaskMapper,
                              private val taskMapperExt: TaskMapperExt,
                              private val asyncEventBus: AsyncEventBus,
                              private val dataSource: DataSource) : DefaultService<Int, Task, TaskSearchCriteria>(), ProjectTaskService {

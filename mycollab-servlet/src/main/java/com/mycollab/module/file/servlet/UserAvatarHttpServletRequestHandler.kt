@@ -32,7 +32,7 @@ import javax.servlet.http.HttpServletResponse
  * @author MyCollab Ltd.
  * @since 1.0
  */
-@WebServlet(urlPatterns = arrayOf("/file/avatar/*"), name = "userAvatarFSServlet")
+@WebServlet(urlPatterns = ["/file/avatar/*"], name = "userAvatarFSServlet")
 class UserAvatarHttpServletRequestHandler : GenericHttpServlet() {
 
     @Throws(ServletException::class, IOException::class)

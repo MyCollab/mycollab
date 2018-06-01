@@ -34,7 +34,7 @@ import java.util.concurrent.TimeUnit
 import java.util.concurrent.locks.Lock
 
 @Service
-class DriveInfoServiceImpl(private val driveInfoMapper: DriveInfoMapper) : DefaultCrudService<Int, DriveInfo>(), DriveInfoService {
+open class DriveInfoServiceImpl(private val driveInfoMapper: DriveInfoMapper) : DefaultCrudService<Int, DriveInfo>(), DriveInfoService {
 
     override val crudMapper: ICrudGenericDAO<Int, DriveInfo>
         get() = driveInfoMapper as ICrudGenericDAO<Int, DriveInfo>
