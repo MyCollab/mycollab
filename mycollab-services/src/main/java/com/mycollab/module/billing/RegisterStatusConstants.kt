@@ -21,12 +21,9 @@ package com.mycollab.module.billing
  * @since 4.5.1
  */
 object RegisterStatusConstants {
-    @JvmField
-    val ACTIVE = "Active"
+    const val ACTIVE = "Active"
 
-    @JvmField
-    val DELETE = "Delete"
+    const val DELETE = "Delete"
 
-    @JvmField
-    val NOT_LOG_IN_YET = "NotLogIn"
+    const val NOT_LOG_IN_YET = "NotLogIn"
 }

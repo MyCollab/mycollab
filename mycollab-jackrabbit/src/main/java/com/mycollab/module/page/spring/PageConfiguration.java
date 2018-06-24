@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.mycollab.spring;
+package com.mycollab.module.page.spring;
 
 import com.mycollab.module.page.PageSessionFactory;
 import org.springframework.context.annotation.Bean;
@@ -33,7 +33,7 @@ import javax.jcr.SimpleCredentials;
  * @since 4.6.0
  */
 @Configuration
-@Profile("production")
+@Profile("program")
 public class PageConfiguration {
 
     @Bean

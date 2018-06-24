@@ -27,15 +27,15 @@ open class ItemFieldMapper {
     private val fieldNameMap: MutableMap<String, FieldFormat> = mutableMapOf()
 
     fun put(fieldName: Enum<*>, displayName: Enum<*>) {
-        fieldNameMap.put(fieldName.name, DefaultFieldFormat(fieldName.name, displayName))
+        fieldNameMap[fieldName.name] = DefaultFieldFormat(fieldName.name, displayName)
     }
 
     fun put(fieldName: Enum<*>, displayName: Enum<*>, isColSpan: Boolean) {
-        fieldNameMap.put(fieldName.name, DefaultFieldFormat(fieldName.name, displayName, isColSpan))
+        fieldNameMap[fieldName.name] = DefaultFieldFormat(fieldName.name, displayName, isColSpan)
     }
 
     fun put(fieldName: Enum<*>, format: FieldFormat) {
-        fieldNameMap.put(fieldName.name, format)
+        fieldNameMap[fieldName.name] = format
     }
 
     fun keySet(): Set<String> = fieldNameMap.keys

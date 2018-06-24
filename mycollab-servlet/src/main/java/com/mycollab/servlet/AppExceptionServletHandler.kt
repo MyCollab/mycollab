@@ -39,7 +39,7 @@ import javax.servlet.http.HttpServletResponse
  * @author MyCollab Ltd.
  * @since 1.0
  */
-@WebServlet(urlPatterns = arrayOf("/error"), name = "appExceptionHandlerServlet")
+@WebServlet(urlPatterns = ["/error"], name = "appExceptionHandlerServlet")
 class AppExceptionServletHandler : GenericHttpServlet() {
 
     @Autowired

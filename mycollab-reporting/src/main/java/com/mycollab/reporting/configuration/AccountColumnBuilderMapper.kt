@@ -57,7 +57,7 @@ class AccountColumnBuilderMapper : InitializingBean {
                 return AccountLinkGenerator.generatePreviewFullUserLink(siteUrl, username)
             }
         }
-        map.put(User.Field.username.name, HyperlinkBuilderGenerator(userNameExpr, userHrefExpr))
+        map[User.Field.username.name] = HyperlinkBuilderGenerator(userNameExpr, userHrefExpr)
 
         val roleNameExpr = PrimaryTypeFieldExpression<String>(SimpleUser.Field.roleName.name)
         val roleHrefExpr = object : AbstractSimpleExpression<String>() {
@@ -68,8 +68,8 @@ class AccountColumnBuilderMapper : InitializingBean {
                 return AccountLinkGenerator.generatePreviewFullRoleLink(siteUrl, roleId)
             }
         }
-        map.put(SimpleUser.Field.roleid.name, HyperlinkBuilderGenerator(roleNameExpr, roleHrefExpr))
-        map.put(User.Field.dateofbirth.name, SimpleExpressionBuilderGenerator(DateExpression(User.Field.dateofbirth.name)))
+        map[SimpleUser.Field.roleid.name] = HyperlinkBuilderGenerator(roleNameExpr, roleHrefExpr)
+        map[User.Field.dateofbirth.name] = SimpleExpressionBuilderGenerator(DateExpression(User.Field.dateofbirth.name))
         return map
     }
 
@@ -84,7 +84,7 @@ class AccountColumnBuilderMapper : InitializingBean {
                 return AccountLinkGenerator.generatePreviewFullRoleLink(siteUrl, roleId)
             }
         }
-        map.put(Role.Field.rolename.name, HyperlinkBuilderGenerator(roleNameExpr, roleHrefExpr))
+        map[Role.Field.rolename.name] = HyperlinkBuilderGenerator(roleNameExpr, roleHrefExpr)
         return map
     }
 }

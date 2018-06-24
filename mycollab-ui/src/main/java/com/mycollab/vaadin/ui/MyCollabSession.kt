@@ -27,21 +27,21 @@ import com.vaadin.ui.UI
  */
 object MyCollabSession {
 
-    @JvmField val USER_VAL = "userVal"
+    const val USER_VAL = "userVal"
 
-    @JvmField val EVENT_BUS_VAL = "eventBusVal"
+    const val EVENT_BUS_VAL = "eventBusVal"
 
-    @JvmField val CURRENT_PROJECT = "project"
+    const val CURRENT_PROJECT = "project"
 
-    @JvmField val PROJECT_MEMBER = "project_member"
+    const val PROJECT_MEMBER = "project_member"
 
-    @JvmField val CURRENT_MODULE = "currentModule"
+    const val CURRENT_MODULE = "currentModule"
 
-    @JvmField val CONTROLLER_REGISTRY = "CONTROLLER_REGISTRY"
+    const val CONTROLLER_REGISTRY = "CONTROLLER_REGISTRY"
 
-    @JvmField val PRESENTER_VAL = "presenterMap"
+    const val PRESENTER_VAL = "presenterMap"
 
-    @JvmField val VIEW_MANAGER_VAL = "viewMap"
+    const val VIEW_MANAGER_VAL = "viewMap"
 
     @JvmStatic fun putSessionVariable(key: String, value: Any) = try {
         VaadinSession.getCurrent().setAttribute(key, value)

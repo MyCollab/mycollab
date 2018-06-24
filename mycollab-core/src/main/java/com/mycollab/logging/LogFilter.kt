@@ -12,16 +12,24 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <http:></http:>//www.gnu.org/licenses/>.
  */
-package com.mycollab.module.user.accountsettings.view.event
+package com.mycollab.logging
 
-import com.mycollab.vaadin.event.ApplicationEvent
+import ch.qos.logback.classic.spi.ILoggingEvent
+import ch.qos.logback.core.filter.Filter
+import ch.qos.logback.core.spi.FilterReply
 
 /**
  * @author MyCollab Ltd
- * @since 6.0.0
+ * @since 5.2.5
  */
-object SetupEvent {
-    class GotoSetupPage(source: Any, val data: Any?) : ApplicationEvent(source)
+class LogFilter : Filter<ILoggingEvent>() {
+
+    override fun decide(event: ILoggingEvent): FilterReply =
+            if (event.message.contains("Failed to execute SQL (stacktrace on DEBUG log level)")) {
+                FilterReply.DENY
+            } else {
+                FilterReply.NEUTRAL
+            }
 }

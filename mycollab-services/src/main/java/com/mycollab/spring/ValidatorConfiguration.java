@@ -27,7 +27,7 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
  * @since 4.6.0
  */
 @Configuration
-@Profile("production")
+@Profile("program")
 public class ValidatorConfiguration {
 
     @Bean

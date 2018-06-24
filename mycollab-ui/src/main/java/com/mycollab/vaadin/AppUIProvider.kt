@@ -49,9 +49,9 @@ class AppUIProvider : UIProvider() {
     }
 
     companion object {
-        private val serialVersionUID = 1L
+        private const val serialVersionUID = 1L
 
-        @JvmField internal val MOBILE_APP = "com.mycollab.mobile.MobileApplication"
-        @JvmField internal val DESKTOP_APP = "com.mycollab.web.DesktopApplication"
+        internal const val MOBILE_APP = "com.mycollab.mobile.MobileApplication"
+        internal const val DESKTOP_APP = "com.mycollab.web.DesktopApplication"
     }
 }

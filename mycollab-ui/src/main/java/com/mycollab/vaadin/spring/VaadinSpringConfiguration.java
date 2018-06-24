@@ -27,7 +27,7 @@ import org.springframework.context.annotation.Profile;
  * @since 6.0.0
  */
 @Configuration
-@Profile("production")
+@Profile("program")
 public class VaadinSpringConfiguration {
 
     @Bean("mainServlet")

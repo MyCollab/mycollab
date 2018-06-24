@@ -54,9 +54,6 @@ interface UserService : IDefaultService<String, User, UserSearchCriteria> {
 
     fun findUserInAccount(username: String, accountId: Int): SimpleUser?
 
-    @Cacheable
-    fun getTotalActiveUsersInAccount(@CacheKey accountId: Int): Int
-
     fun findUserByUserName(username: String): User?
 
     fun requestToResetPassword(username: String)

@@ -23,8 +23,8 @@ import com.mycollab.common.FontAwesomeUtils
 import com.mycollab.common.NotificationType
 import com.mycollab.common.domain.MailRecipientField
 import com.mycollab.common.i18n.MailI18nEnum
+import com.mycollab.configuration.ApplicationConfiguration
 import com.mycollab.configuration.IDeploymentMode
-import com.mycollab.configuration.SiteConfiguration
 import com.mycollab.core.MyCollabException
 import com.mycollab.core.utils.DateTimeUtils
 import com.mycollab.db.arguments.NumberSearchField
@@ -67,17 +67,26 @@ import java.util.*
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
 class OverdueProjectTicketsNotificationJob : GenericQuartzJobBean() {
 
-    @Autowired private lateinit var projectAssignmentService: ProjectTicketService
+    @Autowired
+    private lateinit var applicationConfiguration: ApplicationConfiguration
 
-    @Autowired private lateinit var deploymentMode: IDeploymentMode
+    @Autowired
+    private lateinit var projectAssignmentService: ProjectTicketService
 
-    @Autowired private lateinit var extMailService: ExtMailService
+    @Autowired
+    private lateinit var deploymentMode: IDeploymentMode
 
-    @Autowired private lateinit var contentGenerator: IContentGenerator
+    @Autowired
+    private lateinit var extMailService: ExtMailService
 
-    @Autowired private lateinit var projectMemberService: ProjectMemberService
+    @Autowired
+    private lateinit var contentGenerator: IContentGenerator
 
-    @Autowired private lateinit var projectNotificationService: ProjectNotificationSettingService
+    @Autowired
+    private lateinit var projectMemberService: ProjectMemberService
+
+    @Autowired
+    private lateinit var projectNotificationService: ProjectNotificationSettingService
 
     @Throws(JobExecutionException::class)
     override fun executeJob(context: JobExecutionContext) {
@@ -110,14 +119,13 @@ class OverdueProjectTicketsNotificationJob : GenericQuartzJobBean() {
                         val userLocale = LocalizationHelper.getLocaleInstance(it.language)
                         contentGenerator.putVariable("copyRight", LocalizationHelper.getMessage(userLocale, MailI18nEnum.Copyright,
                                 DateTimeUtils.getCurrentYear()))
-                        val projectSettingUrl = A(ProjectLinkGenerator.generateProjectSettingFullLink(siteUrl, projectId)).
-                                appendText(LocalizationHelper.getMessage(userLocale, MailI18nEnum.Project_Notification_Setting)).write()
+                        val projectSettingUrl = A(ProjectLinkGenerator.generateProjectSettingFullLink(siteUrl, projectId)).appendText(LocalizationHelper.getMessage(userLocale, MailI18nEnum.Project_Notification_Setting)).write()
                         val projectFooter = LocalizationHelper.getMessage(userLocale, MailI18nEnum.Project_Footer, projectName, projectSettingUrl)
                         contentGenerator.putVariable("Project_Footer", projectFooter)
                         val content = contentGenerator.parseFile("mailProjectOverdueAssignmentsNotifier.ftl", Locale.US)
                         val overdueAssignments = "${LocalizationHelper.getMessage(userLocale, TicketI18nEnum.VAL_OVERDUE_TICKETS)}(${assignments.size})"
                         contentGenerator.putVariable("overdueAssignments", overdueAssignments)
-                        extMailService.sendHTMLMail(SiteConfiguration.getNotifyEmail(), SiteConfiguration.getDefaultSiteName(), recipients,
+                        extMailService.sendHTMLMail(applicationConfiguration.notifyEmail, applicationConfiguration.siteName, recipients,
                                 "[$projectName] $overdueAssignments", content)
                     }
                 }
@@ -148,18 +156,14 @@ class OverdueProjectTicketsNotificationJob : GenericQuartzJobBean() {
                 val mode = AppContextUtil.getSpringBean(IDeploymentMode::class.java)
                 try {
                     return when (assignment.type) {
-                        ProjectTypeConstants.BUG -> Div().appendText(FontAwesomeUtils.toHtml(ProjectTypeConstants.BUG)).
-                                appendChild(DivLessFormatter.EMPTY_SPACE, A(ProjectLinkGenerator.generateBugPreviewFullLink(siteUrl,
-                                        assignment.extraTypeId, assignment.projectShortName)).appendText(assignment.name)).write()
-                        ProjectTypeConstants.TASK -> Div().appendText(FontAwesomeUtils.toHtml(ProjectTypeConstants.TASK)).
-                                appendChild(DivLessFormatter.EMPTY_SPACE, A(ProjectLinkGenerator.generateTaskPreviewFullLink(siteUrl,
-                                        assignment.extraTypeId, assignment.projectShortName)).appendText(assignment.name)).write()
-                        ProjectTypeConstants.RISK -> Div().appendText(FontAwesomeUtils.toHtml(ProjectTypeConstants.RISK)).
-                                appendChild(DivLessFormatter.EMPTY_SPACE, A(ProjectLinkGenerator.generateRiskPreviewFullLink(siteUrl,
-                                        assignment.projectId!!, assignment.typeId!!)).appendText(assignment.name)).write()
-                        ProjectTypeConstants.MILESTONE -> Div().appendText(FontAwesomeUtils.toHtml(ProjectTypeConstants.MILESTONE)).
-                                appendChild(DivLessFormatter.EMPTY_SPACE, A(ProjectLinkGenerator.generateMilestonePreviewFullLink(siteUrl,
-                                        assignment.projectId!!, assignment.typeId!!)).appendText(assignment.name)).write()
+                        ProjectTypeConstants.BUG -> Div().appendText(FontAwesomeUtils.toHtml(ProjectTypeConstants.BUG)).appendChild(DivLessFormatter.EMPTY_SPACE, A(ProjectLinkGenerator.generateBugPreviewFullLink(siteUrl,
+                                assignment.extraTypeId, assignment.projectShortName)).appendText(assignment.name)).write()
+                        ProjectTypeConstants.TASK -> Div().appendText(FontAwesomeUtils.toHtml(ProjectTypeConstants.TASK)).appendChild(DivLessFormatter.EMPTY_SPACE, A(ProjectLinkGenerator.generateTaskPreviewFullLink(siteUrl,
+                                assignment.extraTypeId, assignment.projectShortName)).appendText(assignment.name)).write()
+                        ProjectTypeConstants.RISK -> Div().appendText(FontAwesomeUtils.toHtml(ProjectTypeConstants.RISK)).appendChild(DivLessFormatter.EMPTY_SPACE, A(ProjectLinkGenerator.generateRiskPreviewFullLink(siteUrl,
+                                assignment.projectId!!, assignment.typeId!!)).appendText(assignment.name)).write()
+                        ProjectTypeConstants.MILESTONE -> Div().appendText(FontAwesomeUtils.toHtml(ProjectTypeConstants.MILESTONE)).appendChild(DivLessFormatter.EMPTY_SPACE, A(ProjectLinkGenerator.generateMilestonePreviewFullLink(siteUrl,
+                                assignment.projectId!!, assignment.typeId!!)).appendText(assignment.name)).write()
                         else -> throw  MyCollabException("Do not support type $assignment.type")
                     }
                 } catch (e: Exception) {
@@ -170,8 +174,7 @@ class OverdueProjectTicketsNotificationJob : GenericQuartzJobBean() {
 
             fun formatAssignUser(siteUrl: String, assignment: ProjectTicket): String =
                     Div().appendChild(Img("", storageService().getAvatarPath(assignment.assignUserAvatarId, 16)),
-                            A(AccountLinkGenerator.generatePreviewFullUserLink(siteUrl, assignment.assignUser)).
-                                    appendText(assignment.assignUserFullName)).write()
+                            A(AccountLinkGenerator.generatePreviewFullUserLink(siteUrl, assignment.assignUser)).appendText(assignment.assignUserFullName)).write()
 
             private fun storageService() = AppContextUtil.getSpringBean(AbstractStorageService::class.java)
         }

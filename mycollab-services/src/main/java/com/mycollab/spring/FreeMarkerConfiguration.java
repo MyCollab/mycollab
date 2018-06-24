@@ -40,14 +40,14 @@ import java.util.List;
  * @since 5.3.4
  */
 @Component
-@Profile("production")
+@Profile("program")
 public class FreeMarkerConfiguration extends FreeMarkerConfigurationFactoryBean {
     private static Logger LOG = LoggerFactory.getLogger(FreeMarkerConfiguration.class);
 
     private Configuration configuration;
 
     @Override
-    protected Configuration newConfiguration() throws IOException, TemplateException {
+    protected Configuration newConfiguration() {
         configuration = new Configuration(Configuration.VERSION_2_3_25);
         configuration.setDefaultEncoding("UTF-8");
         try {

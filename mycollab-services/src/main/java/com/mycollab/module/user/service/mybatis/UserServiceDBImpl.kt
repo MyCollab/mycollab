@@ -343,13 +343,6 @@ open class UserServiceDBImpl(private val userMapper: UserMapper,
         userAccountMapper.updateByExampleSelective(userAccount, ex)
     }
 
-    override fun getTotalActiveUsersInAccount(accountId: Int): Int {
-        val criteria = UserSearchCriteria()
-        criteria.registerStatuses = SetSearchField(RegisterStatusConstants.ACTIVE)
-        criteria.saccountid = NumberSearchField(accountId)
-        return userMapperExt.getTotalCount(criteria)
-    }
-
     override fun requestToResetPassword(username: String) {
         asyncEventBus.post(RequestToResetPasswordEvent(username))
     }

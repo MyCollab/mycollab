@@ -7,7 +7,8 @@
             <pattern>%d{"HH:mm:ss,SSS"} %5p %c{1}:%L - %m%n</pattern>
         </encoder>
     </appender>
-    <appender name="email" class="com.mycollab.configuration.logging.MailAppender">
+    <!--
+    <appender name="email" class="com.mycollab.logging.MailAppender">
         <layout class="ch.qos.logback.classic.PatternLayout">
             <pattern>%5p %c{1}:%L - %m%n</pattern>
         </layout>
@@ -15,6 +16,7 @@
             <level>ERROR</level>
         </filter>
     </appender>
+    -->
     <appender name="R" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>logs/mycollab.out</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
@@ -36,7 +38,6 @@
     <logger name="org.jgroups" level="WARN"/>
     <root level="INFO">
         <appender-ref ref="stdout"/>
-        <appender-ref ref="email"/>
         <appender-ref ref="R"/>
     </root>
 </configuration>

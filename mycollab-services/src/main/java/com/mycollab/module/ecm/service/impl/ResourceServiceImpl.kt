@@ -51,12 +51,11 @@ open class ResourceServiceImpl(private val contentJcrDao: ContentJcrDao,
 
     override fun getResources(path: String): List<Resource> {
         val resources = contentJcrDao.getResources(path)
-        if (CollectionUtils.isNotEmpty(resources)) {
+        return if (CollectionUtils.isNotEmpty(resources)) {
             Collections.sort(resources)
-            return resources
-        }
+            resources
+        } else listOf()
 
-        return listOf()
     }
 
     override fun getContents(path: String): List<Content> = contentJcrDao.getContents(path)

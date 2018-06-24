@@ -64,7 +64,6 @@ class AssetHttpServletRequestHandler : HttpServlet() {
     }
 
     companion object {
-        private val serialVersionUID = 1L
         private val LOG = LoggerFactory.getLogger(AssetHttpServletRequestHandler::class.java)
     }
 }

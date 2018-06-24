@@ -21,21 +21,13 @@ package com.mycollab.module.user.ui
  * @since 5.0.0
  */
 object SettingUIConstants {
-    @JvmField
-    val PROFILE = "Setting-Profile"
+    const val PROFILE = "Setting-Profile"
 
-    @JvmField
-    val BILLING = "Setting-Billing"
+    const val BILLING = "Setting-Billing"
 
-    @JvmField
-    val USERS = "Setting-Users"
+    const val USERS = "Setting-Users"
 
-    @JvmField
-    val GENERAL_SETTING = "Setting-General"
+    const val GENERAL_SETTING = "Setting-General"
 
-    @JvmField
-    val THEME_CUSTOMIZE = "Theme-Customization"
-
-    @JvmField
-    val SETUP = "Setting-Setup"
+    const val THEME_CUSTOMIZE = "Theme-Customization"
 }

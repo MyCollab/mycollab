@@ -1,14 +1,14 @@
 version: '3.1'
 services:
     hlsoft-mysql:
-        image: mysql:latest
+        image: mysql:8.0.11
         restart: always
         hostname: mysql
         command: mysqld --default-authentication-plugin=mysql_native_password
         ports:
             - "3306:3306"
         environment:
-            MYSQL_ROOT_PASSWORD: esofthead321
+            MYSQL_ROOT_PASSWORD: mycollab123
             MYSQL_DATABASE: mycollab
     hlsoft-app:
         image: mycollab/mycollab

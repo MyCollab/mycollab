@@ -18,7 +18,6 @@ package com.mycollab.module.mail.service.impl
 
 import com.mycollab.configuration.ApplicationConfiguration
 import com.mycollab.configuration.IDeploymentMode
-import com.mycollab.configuration.SiteConfiguration
 import com.mycollab.module.file.service.AbstractStorageService
 import com.mycollab.module.mail.service.IContentGenerator
 import com.mycollab.schedule.email.MailStyles
@@ -38,10 +37,10 @@ import java.util.*
 @Component
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
 open class ContentGenerator(private val applicationConfiguration: ApplicationConfiguration,
-                       private val deploymentMode: IDeploymentMode,
-                       private val templateEngine: Configuration,
-                       private val storageFactory: AbstractStorageService) : IContentGenerator, InitializingBean {
-    private val templateContext: MutableMap<String, Any> = mutableMapOf()
+                            private val deploymentMode: IDeploymentMode,
+                            private val templateEngine: Configuration,
+                            private val storageFactory: AbstractStorageService) : IContentGenerator, InitializingBean {
+    private val templateContext = mutableMapOf<String, Any>()
 
     @Throws(Exception::class)
     override fun afterPropertiesSet() {
@@ -53,14 +52,14 @@ open class ContentGenerator(private val applicationConfiguration: ApplicationCon
                 "twitter_url" to (applicationConfiguration.twitterUrl ?: ""))
         putVariable("defaultUrls", defaultUrls)
         putVariable("current_year", LocalDate().year)
-        putVariable("siteName", SiteConfiguration.getDefaultSiteName())
+        putVariable("siteName", applicationConfiguration.siteName)
         putVariable("styles", MailStyles.instance())
 
         putVariable("storageFactory", storageFactory)
     }
 
     override fun putVariable(key: String, value: Any) {
-        templateContext.put(key, value)
+        templateContext[key] = value
     }
 
     override fun parseFile(templateFilePath: String): String = parseFile(templateFilePath, null)

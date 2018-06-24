@@ -29,5 +29,11 @@
             <artifactId>jasypt</artifactId>
             <version>1.9.2</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.freemarker</groupId>
+            <artifactId>freemarker-gae</artifactId>
+            <version>2.3.28</version>
+        </dependency>
     </dependencies>
 </project>

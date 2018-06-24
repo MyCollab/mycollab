@@ -1,19 +1,3 @@
-/**
- * Copyright © MyCollab
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
 package com.mycollab.configuration;
 
 import com.mycollab.core.utils.FileUtils;
@@ -44,12 +28,7 @@ public class SiteConfiguration {
 
     private static SiteConfiguration instance;
 
-    private String sentErrorEmail;
-    private String siteName;
-    private String serverAddress;
     private Locale defaultLocale;
-    private EmailConfiguration emailConfiguration;
-    private DatabaseConfiguration databaseConfiguration;
     private String endecryptPassword;
     private String dropboxCallbackUrl;
 
@@ -61,9 +40,6 @@ public class SiteConfiguration {
         ApplicationProperties.loadProps();
         instance = new SiteConfiguration();
 
-        instance.sentErrorEmail = ApplicationProperties.getString(ERROR_SENDTO, "support@mycollab.com");
-        instance.siteName = ApplicationProperties.getString(SITE_NAME, "MyCollab");
-        instance.serverAddress = ApplicationProperties.getString(SERVER_ADDRESS, "localhost");
         String propLocale = ApplicationProperties.getString(DEFAULT_LOCALE, "en_US");
         try {
             instance.defaultLocale = Locale.forLanguageTag(propLocale);
@@ -72,23 +48,6 @@ public class SiteConfiguration {
         }
 
         instance.endecryptPassword = ApplicationProperties.getString(BI_ENDECRYPT_PASSWORD, "mycollab123");
-
-        // load email
-        String host = ApplicationProperties.getString(MAIL_SMTPHOST);
-        String user = ApplicationProperties.getString(MAIL_USERNAME);
-        String password = ApplicationProperties.getString(MAIL_PASSWORD);
-        Integer port = Integer.parseInt(ApplicationProperties.getString(MAIL_PORT, "25"));
-        Boolean isTls = Boolean.parseBoolean(ApplicationProperties.getString(MAIL_IS_TLS, "false"));
-        Boolean isSsl = Boolean.parseBoolean(ApplicationProperties.getString(MAIL_IS_SSL, "false"));
-        String noreplyEmail = ApplicationProperties.getString(MAIL_NOTIFY, "");
-        instance.emailConfiguration = new EmailConfiguration(host, user, password, port, isTls, isSsl, noreplyEmail);
-
-        // load database configuration
-        String driverClass = ApplicationProperties.getString(DB_DRIVER_CLASS);
-        String dbUrl = ApplicationProperties.getString(DB_URL);
-        String dbUser = ApplicationProperties.getString(DB_USERNAME);
-        String dbPassword = ApplicationProperties.getString(DB_PASSWORD);
-        instance.databaseConfiguration = new DatabaseConfiguration(driverClass, dbUrl, dbUser, dbPassword);
 
         instance.dropboxCallbackUrl = ApplicationProperties.getString(DROPBOX_AUTH_LINK);
 
@@ -124,30 +83,6 @@ public class SiteConfiguration {
         return instance;
     }
 
-    public static DatabaseConfiguration getDatabaseConfiguration() {
-        return getInstance().databaseConfiguration;
-    }
-
-    public static EmailConfiguration getEmailConfiguration() {
-        return getInstance().emailConfiguration;
-    }
-
-    public static void setEmailConfiguration(EmailConfiguration conf) {
-        getInstance().emailConfiguration = conf;
-    }
-
-    public static String getNotifyEmail() {
-        return getInstance().emailConfiguration.getNotifyEmail();
-    }
-
-    public static String getDefaultSiteName() {
-        return getInstance().siteName;
-    }
-
-    public static String getSendErrorEmail() {
-        return getInstance().sentErrorEmail;
-    }
-
     public static String getSiteUrl(String subDomain) {
         IDeploymentMode modeService = AppContextUtil.getSpringBean(IDeploymentMode.class);
         return modeService.getSiteUrl(subDomain);
@@ -173,10 +108,6 @@ public class SiteConfiguration {
 
     public static String getEnDecryptPassword() {
         return getInstance().endecryptPassword;
-    }
-
-    public static String getServerAddress() {
-        return getInstance().serverAddress;
     }
 
     public static Configuration freemarkerConfiguration() {

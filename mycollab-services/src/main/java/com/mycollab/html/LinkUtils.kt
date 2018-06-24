@@ -26,11 +26,11 @@ import com.mycollab.spring.AppContextUtil
  */
 object LinkUtils {
     @JvmStatic
-    fun storageService() = AppContextUtil.getSpringBean(AbstractStorageService::class.java)
+    private fun storageService() = AppContextUtil.getSpringBean(AbstractStorageService::class.java)
 
     @JvmStatic
-    fun newAvatar(avatarId: String?) = Img("", storageService().getAvatarPath(avatarId, 16)).setWidth("16").
-            setHeight("16").setStyle("display: inline-block; vertical-align: top;").setCSSClass("circle-box")
+    fun newAvatar(avatarId: String?) = Img("", storageService().getAvatarPath(avatarId, 16))
+            .setWidth("16").setHeight("16").setStyle("display: inline-block; vertical-align: top;").setCSSClass("circle-box")!!
 
     @JvmStatic
     fun accountLogoPath(accountId: Int, logoId: String?) = if (logoId == null) storageService().generateAssetRelativeLink("icons/logo.png") else

@@ -31,7 +31,7 @@ import org.springframework.stereotype.Component
  * @since 6.0.0
  */
 @Component
-@Profile("production")
+@Profile("program")
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
 class CleanupTimeTrackingCacheDataJob : GenericQuartzJobBean() {
 

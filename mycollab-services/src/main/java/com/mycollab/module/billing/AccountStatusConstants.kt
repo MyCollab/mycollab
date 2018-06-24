@@ -21,12 +21,9 @@ package com.mycollab.module.billing
  * @since 1.0
  */
 object AccountStatusConstants {
-    @JvmField
-    val ACTIVE = "Active"
+    const val ACTIVE = "Active"
 
-    @JvmField
-    val TRIAL = "Trial"
+    const val TRIAL = "Trial"
 
-    @JvmField
-    val INVALID = "Invalid"
+    const val INVALID = "Invalid"
 }

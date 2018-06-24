@@ -12,11 +12,11 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <http:></http:>//www.gnu.org/licenses/>.
  */
-package com.mycollab.module.ecm;
+package com.mycollab.module.ecm
 
-import javax.jcr.Node;
+import javax.jcr.Node
 
 /**
  * Utility class relate to jackrabbit node processing.
@@ -24,16 +24,12 @@ import javax.jcr.Node;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class NodesUtil {
-    public static String getString(Node node, String property) {
-        return getString(node, property, "");
-    }
+object NodesUtil {
 
-    public static String getString(Node node, String property, String defaultValue) {
-        try {
-            return node.getProperty(property).getString();
-        } catch (Exception e) {
-            return defaultValue;
-        }
+    @JvmStatic @JvmOverloads
+    fun getString(node: Node, property: String, defaultValue: String = "") = try {
+        node.getProperty(property).string
+    } catch (e: Exception) {
+        defaultValue
     }
 }

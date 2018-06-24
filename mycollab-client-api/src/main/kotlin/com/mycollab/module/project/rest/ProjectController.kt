@@ -23,7 +23,7 @@ class ProjectController {
     @Autowired
     private lateinit var projectService: ProjectService
 
-    @RequestMapping(method = arrayOf(RequestMethod.GET))
+    @RequestMapping(method = [(RequestMethod.GET)])
     fun list(@PathVariable accountId: Int,
              @RequestParam(value = "offset", required = false, defaultValue = "0") offset: Int?,
              @RequestParam(value = "limit", required = false) limit: Int?): List<*> {

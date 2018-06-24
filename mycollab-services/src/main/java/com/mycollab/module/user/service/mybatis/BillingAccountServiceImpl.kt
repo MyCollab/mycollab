@@ -21,16 +21,16 @@ import com.mycollab.configuration.EnDecryptHelper
 import com.mycollab.configuration.IDeploymentMode
 import com.mycollab.core.UserInvalidInputException
 import com.mycollab.core.utils.StringUtils
+import com.mycollab.db.arguments.NumberSearchField
+import com.mycollab.db.arguments.SetSearchField
 import com.mycollab.db.persistence.ICrudGenericDAO
 import com.mycollab.db.persistence.service.DefaultCrudService
 import com.mycollab.module.billing.RegisterStatusConstants
 import com.mycollab.module.billing.UserStatusConstants
 import com.mycollab.module.billing.esb.AccountCreatedEvent
-import com.mycollab.module.user.dao.BillingAccountMapper
-import com.mycollab.module.user.dao.BillingAccountMapperExt
-import com.mycollab.module.user.dao.UserAccountMapper
-import com.mycollab.module.user.dao.UserMapper
+import com.mycollab.module.user.dao.*
 import com.mycollab.module.user.domain.*
+import com.mycollab.module.user.domain.criteria.UserSearchCriteria
 import com.mycollab.module.user.esb.SendUserEmailVerifyRequestEvent
 import com.mycollab.module.user.service.BillingAccountService
 import com.mycollab.module.user.service.RoleService
@@ -46,12 +46,13 @@ import java.util.*
  */
 @Service
 open class BillingAccountServiceImpl(private val billingAccountMapper: BillingAccountMapper,
-                                private val billingAccountMapperExt: BillingAccountMapperExt,
-                                private val asyncEventBus: AsyncEventBus,
-                                private val userMapper: UserMapper,
-                                private val userAccountMapper: UserAccountMapper,
-                                private val roleService: RoleService,
-                                private val deploymentMode: IDeploymentMode) : DefaultCrudService<Int, BillingAccount>(), BillingAccountService {
+                                     private val billingAccountMapperExt: BillingAccountMapperExt,
+                                     private val asyncEventBus: AsyncEventBus,
+                                     private val userMapper: UserMapper,
+                                     private val userMapperExt: UserMapperExt,
+                                     private val userAccountMapper: UserAccountMapper,
+                                     private val roleService: RoleService,
+                                     private val deploymentMode: IDeploymentMode) : DefaultCrudService<Int, BillingAccount>(), BillingAccountService {
 
     override val crudMapper: ICrudGenericDAO<Int, BillingAccount>
         get() = billingAccountMapper as ICrudGenericDAO<Int, BillingAccount>
@@ -59,13 +60,10 @@ open class BillingAccountServiceImpl(private val billingAccountMapper: BillingAc
     override fun getBillingAccountById(accountId: Int): SimpleBillingAccount? =
             billingAccountMapperExt.getBillingAccountById(accountId)
 
-    override fun updateSelectiveWithSession(record: BillingAccount, username: String?): Int? {
-        try {
-            return super.updateSelectiveWithSession(record, username)
-        } catch (e: DuplicateKeyException) {
-            throw UserInvalidInputException("The domain ${record.subdomain} is already used")
-        }
-
+    override fun updateSelectiveWithSession(record: BillingAccount, username: String?): Int? = try {
+        super.updateSelectiveWithSession(record, username)
+    } catch (e: DuplicateKeyException) {
+        throw UserInvalidInputException("The domain ${record.subdomain} is already used")
     }
 
     override fun getAccountByDomain(domain: String): SimpleBillingAccount? =
@@ -149,6 +147,13 @@ open class BillingAccountServiceImpl(private val billingAccountMapper: BillingAc
 
         userAccountMapper.insert(userAccount)
         asyncEventBus.post(AccountCreatedEvent(sAccountId, username, isCreatedDefaultData!!))
+    }
+
+    override fun getTotalActiveUsersInAccount(accountId: Int): Int {
+        val criteria = UserSearchCriteria()
+        criteria.registerStatuses = SetSearchField(RegisterStatusConstants.ACTIVE)
+        criteria.saccountid = NumberSearchField(accountId)
+        return userMapperExt.getTotalCount(criteria)
     }
 
     private fun saveEmployeeRole(accountId: Int): Int {

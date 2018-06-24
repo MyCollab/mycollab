@@ -26,7 +26,7 @@ import com.mycollab.common.domain.criteria.CommentSearchCriteria
 import com.mycollab.common.i18n.MailI18nEnum
 import com.mycollab.common.service.AuditLogService
 import com.mycollab.common.service.CommentService
-import com.mycollab.configuration.SiteConfiguration
+import com.mycollab.configuration.ApplicationConfiguration
 import com.mycollab.core.ResourceNotFoundException
 import com.mycollab.core.utils.DateTimeUtils
 import com.mycollab.db.arguments.BasicSearchRequest
@@ -54,13 +54,22 @@ import org.springframework.beans.factory.annotation.Autowired
  * @since 6.0.0
  */
 abstract class SendMailToFollowersAction<B> : SendingRelayEmailNotificationAction {
-    @Autowired private lateinit var extMailService: ExtMailService
-    @Autowired private lateinit var projectService: ProjectService
-    @Autowired protected lateinit var projectMemberService: ProjectMemberService
-    @Autowired private lateinit var commentService: CommentService
-    @Autowired protected lateinit var contentGenerator: IContentGenerator
-    @Autowired private lateinit var auditLogService: AuditLogService
-    @Autowired private lateinit var eventBus: AsyncEventBus
+    @Autowired
+    private lateinit var applicationConfiguration: ApplicationConfiguration
+    @Autowired
+    private lateinit var extMailService: ExtMailService
+    @Autowired
+    private lateinit var projectService: ProjectService
+    @Autowired
+    protected lateinit var projectMemberService: ProjectMemberService
+    @Autowired
+    private lateinit var commentService: CommentService
+    @Autowired
+    protected lateinit var contentGenerator: IContentGenerator
+    @Autowired
+    private lateinit var auditLogService: AuditLogService
+    @Autowired
+    private lateinit var eventBus: AsyncEventBus
 
     protected var bean: B? = null
     protected var projectMember: SimpleProjectMember? = null
@@ -89,7 +98,7 @@ abstract class SendMailToFollowersAction<B> : SendingRelayEmailNotificationActio
                     contentGenerator.putVariable("Project_Footer", getProjectFooter(context))
                     val userMail = MailRecipientField(it.email, it.username)
                     val recipients = arrayListOf(userMail)
-                    extMailService.sendHTMLMail(SiteConfiguration.getNotifyEmail(), SiteConfiguration.getDefaultSiteName(), recipients,
+                    extMailService.sendHTMLMail(applicationConfiguration.notifyEmail, applicationConfiguration.siteName, recipients,
                             getCreateSubject(context), contentGenerator.parseFile("mailProjectItemCreatedNotifier.ftl", context.locale))
                     if (it.username != notification.changeby) {
                         notifyUsersForCreateAction.add(it.username)
@@ -140,7 +149,7 @@ abstract class SendMailToFollowersAction<B> : SendingRelayEmailNotificationActio
                     contentGenerator.putVariable("Project_Footer", getProjectFooter(context))
                     val userMail = MailRecipientField(it.email, it.username)
                     val recipients = arrayListOf(userMail)
-                    extMailService.sendHTMLMail(SiteConfiguration.getNotifyEmail(), SiteConfiguration.getDefaultSiteName(), recipients,
+                    extMailService.sendHTMLMail(applicationConfiguration.notifyEmail, applicationConfiguration.siteName, recipients,
                             getUpdateSubject(context), contentGenerator.parseFile("mailProjectItemUpdatedNotifier.ftl", context.locale))
                     if (it.username != notification.changeby) {
                         notifyUsersForUpdateAction.add(it.username)
@@ -183,7 +192,7 @@ abstract class SendMailToFollowersAction<B> : SendingRelayEmailNotificationActio
                     contentGenerator.putVariable("Project_Footer", getProjectFooter(context))
                     val userMail = MailRecipientField(it.email, it.username)
                     val toRecipients = arrayListOf(userMail)
-                    extMailService.sendHTMLMail(SiteConfiguration.getNotifyEmail(), SiteConfiguration.getDefaultSiteName(), toRecipients,
+                    extMailService.sendHTMLMail(applicationConfiguration.notifyEmail, applicationConfiguration.siteName, toRecipients,
                             getCommentSubject(context), contentGenerator.parseFile("mailProjectItemCommentNotifier.ftl", context.locale))
                     if (it.username != notification.changeby) {
                         notifyUsersForCommentAction.add(it.username)
@@ -220,8 +229,7 @@ abstract class SendMailToFollowersAction<B> : SendingRelayEmailNotificationActio
             MailI18nEnum.Project_Footer, getProjectName(), getProjectNotificationSettingLink(context))
 
     private fun getProjectNotificationSettingLink(context: MailContext<B>): String =
-            A(ProjectLinkGenerator.generateProjectSettingFullLink(siteUrl, projectId!!)).
-                    appendText(LocalizationHelper.getMessage(context.locale, MailI18nEnum.Project_Notification_Setting)).write()
+            A(ProjectLinkGenerator.generateProjectSettingFullLink(siteUrl, projectId!!)).appendText(LocalizationHelper.getMessage(context.locale, MailI18nEnum.Project_Notification_Setting)).write()
 
     protected abstract fun buildExtraTemplateVariables(context: MailContext<B>)
 

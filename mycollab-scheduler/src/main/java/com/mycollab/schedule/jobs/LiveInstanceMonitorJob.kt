@@ -28,7 +28,6 @@ import org.joda.time.DateTime
 import org.quartz.JobExecutionContext
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.config.BeanDefinition
-import org.springframework.context.annotation.Profile
 import org.springframework.context.annotation.Scope
 import org.springframework.stereotype.Component
 import org.springframework.web.client.RestTemplate
@@ -39,19 +38,19 @@ import org.springframework.web.client.RestTemplate
  */
 @Component
 @Scope(BeanDefinition.SCOPE_SINGLETON)
-class LiveInstanceMonitorJob  : GenericQuartzJobBean() {
+class LiveInstanceMonitorJob : GenericQuartzJobBean() {
 
     @Autowired
-    lateinit private var projectMapper: ProjectMapper
+    private lateinit var projectMapper: ProjectMapper
 
     @Autowired
-    lateinit private var  userMapper: UserMapper
+    private lateinit var userMapper: UserMapper
 
     @Autowired
-    lateinit private var  appPropertiesService: AppPropertiesService
+    private lateinit var appPropertiesService: AppPropertiesService
 
     @Autowired
-    lateinit private var  serverConfiguration: ServerConfiguration
+    private lateinit var serverConfiguration: ServerConfiguration
 
     override fun executeJob(context: JobExecutionContext) {
         val numProjects = projectMapper.countByExample(ProjectExample()).toInt()

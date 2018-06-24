@@ -21,8 +21,8 @@ import com.google.common.eventbus.Subscribe
 import com.hp.gagawa.java.elements.A
 import com.mycollab.common.domain.MailRecipientField
 import com.mycollab.common.i18n.MailI18nEnum
+import com.mycollab.configuration.ApplicationConfiguration
 import com.mycollab.configuration.IDeploymentMode
-import com.mycollab.configuration.SiteConfiguration
 import com.mycollab.core.utils.DateTimeUtils
 import com.mycollab.db.arguments.*
 import com.mycollab.html.LinkUtils
@@ -49,15 +49,15 @@ class NewUserJoinCommand(private val billingAccountService: BillingAccountServic
                          private val extMailService: ExtMailService,
                          private val contentGenerator: IContentGenerator,
                          private val userService: UserService,
-                         private val deploymentMode: IDeploymentMode) : GenericCommand() {
+                         private val deploymentMode: IDeploymentMode,
+                         private val applicationConfiguration: ApplicationConfiguration) : GenericCommand() {
 
     companion object {
         val LOG = LoggerFactory.getLogger(NewUserJoinCommand::class.java)
 
         class Formatter {
             fun formatMemberLink(siteUrl: String, newMember: SimpleUser): String {
-                return A(AccountLinkGenerator.generatePreviewFullUserLink(siteUrl, newMember.username)).
-                        appendText(newMember.displayName).write()
+                return A(AccountLinkGenerator.generatePreviewFullUserLink(siteUrl, newMember.username)).appendText(newMember.displayName).write()
             }
 
             fun formatRoleName(siteUrl: String, newMember: SimpleUser): String {
@@ -74,10 +74,10 @@ class NewUserJoinCommand(private val billingAccountService: BillingAccountServic
         val sAccountId = event.sAccountId
         val searchCriteria = UserSearchCriteria()
         searchCriteria.saccountid = NumberSearchField(sAccountId)
-        searchCriteria.registerStatuses = SetSearchField<String>(RegisterStatusConstants.ACTIVE)
+        searchCriteria.registerStatuses = SetSearchField(RegisterStatusConstants.ACTIVE)
         searchCriteria.addExtraField(OneValueSearchField(SearchField.AND, "s_user_account.isAccountOwner = ", 1))
 
-        val accountOwners = userService.findPageableListByCriteria(BasicSearchRequest<UserSearchCriteria>(searchCriteria))
+        val accountOwners = userService.findPageableListByCriteria(BasicSearchRequest(searchCriteria))
         val newUser = userService.findUserInAccount(username, sAccountId)
         if (newUser != null) {
             val recipients = accountOwners
@@ -92,7 +92,7 @@ class NewUserJoinCommand(private val billingAccountService: BillingAccountServic
                 contentGenerator.putVariable("copyRight", LocalizationHelper.getMessage(Locale.US, MailI18nEnum.Copyright,
                         DateTimeUtils.getCurrentYear()))
                 contentGenerator.putVariable("logoPath", LinkUtils.accountLogoPath(account.id, account.logopath))
-                extMailService.sendHTMLMail(SiteConfiguration.getNotifyEmail(), SiteConfiguration.getDefaultSiteName(), recipients,
+                extMailService.sendHTMLMail(applicationConfiguration.notifyEmail, applicationConfiguration.siteName, recipients,
                         "${newUser.displayName} has just joined on MyCollab workspace",
                         contentGenerator.parseFile("mailNewUserJoinAccountNotifier.ftl", Locale.US))
             } else {

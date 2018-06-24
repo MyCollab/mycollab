@@ -25,6 +25,7 @@ import com.mycollab.schedule.jobs.LiveInstanceMonitorJob
 import com.mycollab.schedule.jobs.ProjectSendingRelayEmailNotificationJob
 import org.quartz.CronTrigger
 import org.quartz.Trigger
+import org.quartz.impl.StdSchedulerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.ApplicationContext
 import org.springframework.context.annotation.Bean
@@ -42,20 +43,17 @@ import java.util.Properties
  * @since 4.6.0
  */
 @Configuration
-@Profile("production")
-open class DefaultScheduleConfiguration {
+@Profile("program")
+class DefaultScheduleConfiguration {
 
-    @Autowired
-    private lateinit var dataSource: DataSource
+    @Autowired private lateinit var dataSource: DataSource
 
-    @Autowired
-    private lateinit var applicationContext: ApplicationContext
+    @Autowired private lateinit var applicationContext: ApplicationContext
 
-    @Autowired
-    private lateinit var deploymentMode: IDeploymentMode
+    @Autowired private lateinit var deploymentMode: IDeploymentMode
 
     @Bean
-    open fun cleanTimelineTrackingCacheJob(): JobDetailFactoryBean {
+    fun cleanTimelineTrackingCacheJob(): JobDetailFactoryBean {
         val bean = JobDetailFactoryBean()
         bean.setDurability(true)
         bean.setJobClass(CleanupTimeTrackingCacheDataJob::class.java)
@@ -63,7 +61,7 @@ open class DefaultScheduleConfiguration {
     }
 
     @Bean
-    open fun projectSendRelayNotificationEmailJob(): JobDetailFactoryBean {
+    fun projectSendRelayNotificationEmailJob(): JobDetailFactoryBean {
         val bean = JobDetailFactoryBean()
         bean.setDurability(true)
         bean.setJobClass(ProjectSendingRelayEmailNotificationJob::class.java)
@@ -71,7 +69,7 @@ open class DefaultScheduleConfiguration {
     }
 
     @Bean
-    open fun projectOverdueAssignmentsNotificationEmailJob(): JobDetailFactoryBean {
+    fun projectOverdueAssignmentsNotificationEmailJob(): JobDetailFactoryBean {
         val bean = JobDetailFactoryBean()
         bean.setDurability(true)
         bean.setJobClass(OverdueProjectTicketsNotificationJob::class.java)
@@ -79,7 +77,7 @@ open class DefaultScheduleConfiguration {
     }
 
     @Bean
-    open fun crmSendRelayNotificationEmailJob(): JobDetailFactoryBean {
+    fun crmSendRelayNotificationEmailJob(): JobDetailFactoryBean {
         val bean = JobDetailFactoryBean()
         bean.setDurability(true)
         bean.setJobClass(CrmSendingRelayEmailNotificationJob::class.java)
@@ -87,7 +85,7 @@ open class DefaultScheduleConfiguration {
     }
 
     @Bean
-    open fun liveInstanceMonitorJobBean(): JobDetailFactoryBean {
+    fun liveInstanceMonitorJobBean(): JobDetailFactoryBean {
         val bean = JobDetailFactoryBean()
         bean.setDurability(true)
         bean.setJobClass(LiveInstanceMonitorJob::class.java)
@@ -95,47 +93,47 @@ open class DefaultScheduleConfiguration {
     }
 
     @Bean
-    open fun projectSendRelayNotificationEmailTrigger(): CronTriggerFactoryBean {
+    fun projectSendRelayNotificationEmailTrigger(): CronTriggerFactoryBean {
         val bean = CronTriggerFactoryBean()
-        bean.setJobDetail(projectSendRelayNotificationEmailJob().`object`)
+        bean.setJobDetail(projectSendRelayNotificationEmailJob().`object`!!)
         bean.setCronExpression("0 * * * * ?")
         return bean
     }
 
     @Bean
-    open fun projectOverdueAssignmentsNotificationEmailTrigger(): CronTriggerFactoryBean {
+    fun projectOverdueAssignmentsNotificationEmailTrigger(): CronTriggerFactoryBean {
         val bean = CronTriggerFactoryBean()
-        bean.setJobDetail(projectOverdueAssignmentsNotificationEmailJob().`object`)
+        bean.setJobDetail(projectOverdueAssignmentsNotificationEmailJob().`object`!!)
         bean.setCronExpression("0 0 0 * * ?")
         return bean
     }
 
     @Bean
-    open fun crmSendRelayNotificationEmailTrigger(): CronTriggerFactoryBean {
+    fun crmSendRelayNotificationEmailTrigger(): CronTriggerFactoryBean {
         val bean = CronTriggerFactoryBean()
-        bean.setJobDetail(crmSendRelayNotificationEmailJob().`object`)
+        bean.setJobDetail(crmSendRelayNotificationEmailJob().`object`!!)
         bean.setCronExpression("0 * * * * ?")
         return bean
     }
 
     @Bean
-    open fun cleanUpTimelineCacheDataTrigger(): CronTriggerFactoryBean {
+    fun cleanUpTimelineCacheDataTrigger(): CronTriggerFactoryBean {
         val bean = CronTriggerFactoryBean()
-        bean.setJobDetail(cleanTimelineTrackingCacheJob().`object`)
+        bean.setJobDetail(cleanTimelineTrackingCacheJob().`object`!!)
         bean.setCronExpression("0 0 0 * * ?")
         return bean
     }
 
     @Bean
-    open fun liveInstanceMonitorTrigger(): CronTriggerFactoryBean {
+    fun liveInstanceMonitorTrigger(): CronTriggerFactoryBean {
         val bean = CronTriggerFactoryBean()
-        bean.setJobDetail(liveInstanceMonitorJobBean().`object`)
+        bean.setJobDetail(liveInstanceMonitorJobBean().`object`!!)
         bean.setCronExpression("0 0 6 * * ?")
         return bean
     }
 
     @Bean
-    open fun quartzScheduler(): SchedulerFactoryBean {
+    fun quartzScheduler(): SchedulerFactoryBean {
         val bean = SchedulerFactoryBean()
         if (!deploymentMode.isCommunityEdition) {
             bean.setDataSource(dataSource)
@@ -165,16 +163,16 @@ open class DefaultScheduleConfiguration {
         props.setProperty("org.quartz.threadPool.threadPriority", "5")
         props.setProperty("org.quartz.threadPool.threadsInheritContextClassLoaderOfInitializingThread", "true")
 
-        if (deploymentMode.isCommunityEdition) {
+//        if (deploymentMode.isCommunityEdition) {
             props.setProperty("org.quartz.jobStore.class", "org.quartz.simpl.RAMJobStore")
-        } else {
-            props.setProperty("org.quartz.jobStore.class", "org.quartz.impl.jdbcjobstore.JobStoreTX")
-            props.setProperty("org.quartz.jobStore.dataSource", "dataSource")
-            props.setProperty("org.quartz.jobStore.useProperties", "true")
-            props.setProperty("org.quartz.jobStore.tablePrefix", "QRTZ_")
-            props.setProperty("org.quartz.jobStore.isClustered", "true")
-            props.setProperty("org.quartz.jobStore.driverDelegateClass", "org.quartz.impl.jdbcjobstore.StdJDBCDelegate")
-        }
+//        } else {
+//            props.setProperty("org.quartz.jobStore.class", "org.quartz.impl.jdbcjobstore.JobStoreTX")
+//            props.setProperty("org.quartz.jobStore.dataSource", "dataSource")
+//            props.setProperty("org.quartz.jobStore.useProperties", "true")
+//            props.setProperty("org.quartz.jobStore.tablePrefix", "QRTZ_")
+//            props.setProperty("org.quartz.jobStore.isClustered", "true")
+//            props.setProperty("org.quartz.jobStore.driverDelegateClass", "org.quartz.impl.jdbcjobstore.StdJDBCDelegate")
+//        }
         return props
     }
 }

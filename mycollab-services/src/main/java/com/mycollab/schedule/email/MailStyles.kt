@@ -22,7 +22,7 @@ package com.mycollab.schedule.email
  */
 class MailStyles {
     companion object {
-        private val _instance: MailStyles = MailStyles()
+        private val _instance = MailStyles()
 
         fun instance(): MailStyles = _instance
     }
@@ -33,7 +33,7 @@ class MailStyles {
             "border_color" to "#e5e5e5", "meta_color" to "#999",
             "action_color" to "#24a2e3")
 
-    fun get(name: String): String = styles[name] ?: ""
+    fun get(name: String) = styles[name] ?: ""
 
-    fun cell(width: String): String = "width: $width; padding: 10px; vertical-align: top;"
+    fun cell(width: String) = "width: $width; padding: 10px; vertical-align: top;"
 }

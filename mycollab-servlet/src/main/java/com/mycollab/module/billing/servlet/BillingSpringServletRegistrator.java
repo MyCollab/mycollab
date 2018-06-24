@@ -26,7 +26,7 @@ import org.springframework.context.annotation.Profile;
  * @since 5.5.0
  */
 @Configuration
-@Profile("production")
+@Profile("program")
 public class BillingSpringServletRegistrator {
     @Bean("confirmEmailServlet")
     public ServletRegistrationBean confirmEmailServlet() {

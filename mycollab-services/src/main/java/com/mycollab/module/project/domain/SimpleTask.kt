@@ -26,30 +26,31 @@ import java.util.Date
  * @author MyCollab Ltd.
  * @since 1.0
  */
-class SimpleTask : Task() {
-    var projectName: String? = null
-    var projectShortname: String? = null
-    var milestoneName: String? = null
-    var assignUserAvatarId: String? = null
+data class SimpleTask(var projectName: String? = null,
+                      var projectShortname: String? = null,
+                      var milestoneName: String? = null,
+                      var assignUserAvatarId: String? = null,
+                      var assignUserTimeZone: String? = null,
+                      var logByAvatarId: String? = null,
+                      var parentTaskKey: Int? = null,
+                      var parentTaskName: String? = null,
+                      var numSubTasks: Int? = null,
+                      var billableHours: Double? = null,
+                      var nonBillableHours: Double? = null,
+                      var numFollowers: Int? = null,
+                      var logByUserTimeZone: String? = null,
+                      var numComments: Int? = null,
+                      var comment: String? = null) : Task() {
+
     var assignUserFullName: String = ""
         get() = if (StringUtils.isBlank(field)) {
             StringUtils.extractNameFromEmail(assignuser)
         } else field
-    var assignUserTimeZone: String? = null
-    var logByAvatarId: String? = null
+
     var logByFullName: String? = null
         get() = if (StringUtils.isBlank(field)) {
             StringUtils.extractNameFromEmail(createduser)
         } else field
-    var logByUserTimeZone: String? = null
-    var numComments: Int? = null
-    var comment: String? = null
-    var parentTaskName: String? = null
-    var parentTaskKey: Int? = null
-    var numSubTasks: Int? = null
-    var billableHours: Double? = null
-    var nonBillableHours: Double? = null
-    var numFollowers: Int? = null
 
     val isCompleted: Boolean
         get() = StatusI18nEnum.Closed.name == status

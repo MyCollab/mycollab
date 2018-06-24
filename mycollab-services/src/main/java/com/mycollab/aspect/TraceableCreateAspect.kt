@@ -41,7 +41,7 @@ class TraceableCreateAspect(private var activityStreamService: ActivityStreamSer
     @AfterReturning("execution(public * com.mycollab..service..*.saveWithSession(..)) && args(bean, username)")
     fun traceSaveActivity(joinPoint: JoinPoint, bean: Any, username: String) {
         val advised = joinPoint.`this` as Advised
-        val cls = advised.targetSource.targetClass
+        val cls = advised.targetSource.targetClass!!
 
         val traceableAnnotation = cls.getAnnotation(Traceable::class.java)
         if (traceableAnnotation != null) {
@@ -58,7 +58,7 @@ class TraceableCreateAspect(private var activityStreamService: ActivityStreamSer
     @AfterReturning("execution(public * com.mycollab..service..*.removeWithSession(..)) && args(bean, username, sAccountId)")
     fun traceDeleteActivity(joinPoint: JoinPoint, bean: Any, username: String, sAccountId: Int?) {
         val advised = joinPoint.`this` as Advised
-        val cls = advised.targetSource.targetClass
+        val cls = advised.targetSource.targetClass!!
 
         val traceableAnnotation = cls.getAnnotation(Traceable::class.java)
         if (traceableAnnotation != null) {

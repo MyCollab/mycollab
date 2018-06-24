@@ -24,11 +24,11 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Profile
 
 @Configuration
-@Profile("production")
-open class CacheConfiguration {
+@Profile("program")
+class CacheConfiguration {
 
     @Bean
-    open fun cacheConfigurer(): InfinispanCacheConfigurer {
+    fun cacheConfigurer(): InfinispanCacheConfigurer {
         return InfinispanCacheConfigurer {
             val ispnConfig = ConfigurationBuilder()
                     .clustering()

@@ -34,7 +34,7 @@ import javax.validation.Validator
  * @since 1.0.0
  */
 @Component("appContextUtil")
-@Profile("production", "test")
+@Profile("program", "test")
 class AppContextUtil : ApplicationContextAware {
 
     @Throws(BeansException::class)
@@ -45,24 +45,19 @@ class AppContextUtil : ApplicationContextAware {
     companion object {
         private var ctx: ApplicationContext? = null
 
-        @JvmStatic fun <T> getSpringBean(name: String, classType: Class<T>): T {
-            try {
-                return ctx!!.getBean(name, classType)
-            } catch (e: Exception) {
-                throw MyCollabException("Can not find service " + name)
-            }
-
+        @JvmStatic fun <T> getSpringBean(name: String, classType: Class<T>): T = try {
+            ctx!!.getBean(name, classType)
+        } catch (e: Exception) {
+            throw MyCollabException("Can not find service $name")
         }
 
         @JvmStatic val validator: Validator
             get() = getSpringBean("validator", LocalValidatorFactoryBean::class.java)
 
-        @JvmStatic fun <T> getSpringBean(classType: Class<T>): T {
-            try {
-                return ctx!!.getBean(classType)
-            } catch (e: Exception) {
-                throw MyCollabException("Can not find service $classType", e)
-            }
+        @JvmStatic fun <T> getSpringBean(classType: Class<T>): T = try {
+            ctx!!.getBean(classType)
+        } catch (e: Exception) {
+            throw MyCollabException("Can not find service $classType", e)
         }
     }
 }

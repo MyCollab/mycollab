@@ -56,7 +56,7 @@ class AuditLogAspect(private var cacheService: CacheService,
     @Before("(execution(public * com.mycollab..service..*.updateWithSession(..)) || (execution(public * com.mycollab..service..*.updateSelectiveWithSession(..)))) && args(bean, username)")
     fun traceBeforeUpdateActivity(joinPoint: JoinPoint, bean: Any, username: String) {
         val advised = joinPoint.`this` as Advised
-        val cls = advised.targetSource.targetClass
+        val cls = advised.targetSource.targetClass!!
 
         val auditAnnotation = cls.getAnnotation(Traceable::class.java)
         if (auditAnnotation != null) {
@@ -68,12 +68,11 @@ class AuditLogAspect(private var cacheService: CacheService,
 
                 // get old value
                 val service = advised.targetSource.target
-                var findMethod: Method
                 val oldValue: Any
-                try {
-                    findMethod = cls.getMethod("findById", Int::class.javaPrimitiveType, Int::class.javaPrimitiveType)
+                var findMethod = try {
+                    cls.getMethod("findById", Int::class.javaPrimitiveType, Int::class.javaPrimitiveType)
                 } catch (e: Exception) {
-                    findMethod = cls.getMethod("findByPrimaryKey", Serializable::class.java, Int::class.javaPrimitiveType)
+                    cls.getMethod("findByPrimaryKey", Serializable::class.java, Int::class.javaPrimitiveType)
                 }
 
                 oldValue = findMethod.invoke(service, typeId, sAccountId)
@@ -90,7 +89,7 @@ class AuditLogAspect(private var cacheService: CacheService,
     @AfterReturning("(execution(public * com.mycollab..service..*.updateWithSession(..)) || (execution(public * com.mycollab..service..*.updateSelectiveWithSession(..))))  && args(bean, username)")
     fun traceAfterUpdateActivity(joinPoint: JoinPoint, bean: Any, username: String) {
         val advised = joinPoint.`this` as Advised
-        val cls = advised.targetSource.targetClass
+        val cls = advised.targetSource.targetClass!!
         val isSelective = "updateSelectiveWithSession" == joinPoint.signature.name
 
         try {

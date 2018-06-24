@@ -33,7 +33,7 @@ import org.springframework.util.ClassUtils
  * @since 6.0.0
  */
 @Component
-open class ComponentScannerService : InitializingBean {
+class ComponentScannerService : InitializingBean {
     companion object {
         val LOG: Logger = LoggerFactory.getLogger(ComponentScannerService::class.java)
     }
@@ -51,7 +51,7 @@ open class ComponentScannerService : InitializingBean {
         LOG.info("Started resolving view and presenter classes")
         val candidateComponents = provider.findCandidateComponents("com.mycollab.**.view")
         candidateComponents.forEach {
-            val cls = ClassUtils.resolveClassName(it.beanClassName, ClassUtils.getDefaultClassLoader())
+            val cls = ClassUtils.resolveClassName(it.beanClassName!!, ClassUtils.getDefaultClassLoader())
             when {
                 cls.getAnnotation(ViewComponent::class.java) != null -> viewClasses.add(cls)
                 IPresenter::class.java.isAssignableFrom(cls) -> presenterClasses.add(cls as Class<IPresenter<PageView>>)
@@ -61,7 +61,7 @@ open class ComponentScannerService : InitializingBean {
         LOG.info("Resolved view and presenter classes $this that has ${viewClasses.size} view classes and ${presenterClasses.size} presenter classes")
     }
 
-    open fun getViewImplCls(viewClass: Class<*>): Class<*>? {
+    fun getViewImplCls(viewClass: Class<*>): Class<*>? {
         val aClass = cacheViewClasses[viewClass]
         return when (aClass) {
             null -> {
@@ -77,7 +77,7 @@ open class ComponentScannerService : InitializingBean {
         }
     }
 
-    open fun getPresenterImplCls(presenterClass: Class<*>): Class<*>? {
+    fun getPresenterImplCls(presenterClass: Class<*>): Class<*>? {
         val aClass = cachePresenterClasses[presenterClass]
         return when (aClass) {
             null -> {

@@ -29,7 +29,8 @@ import javax.servlet.annotation.WebServlet
  * @author MyCollab Ltd.
  * @since 3.0
  */
-@WebServlet(name = "MyCollabApplication", urlPatterns = arrayOf("/*"), asyncSupported = true, loadOnStartup = 0, initParams = arrayOf(WebInitParam(name = "closeIdleSessions", value = "false"), WebInitParam(name = "productionMode", value = "true"), WebInitParam(name = "resourceCacheTime", value = "8640000"), WebInitParam(name = "maxIdleTime", value = "10000"), WebInitParam(name = "org.atmosphere.websocket.maxIdleTime", value = "86400000")))
+@WebServlet(name = "MyCollabApplication", urlPatterns = ["/*"], asyncSupported = true, loadOnStartup = 0,
+        initParams = [(WebInitParam(name = "closeIdleSessions", value = "false")), (WebInitParam(name = "productionMode", value = "true")), (WebInitParam(name = "resourceCacheTime", value = "8640000")), (WebInitParam(name = "maxIdleTime", value = "10000")), (WebInitParam(name = "org.atmosphere.websocket.maxIdleTime", value = "86400000"))])
 @CacheManifestEnabled(false)
 class AppServlet : TouchKitServlet() {
 

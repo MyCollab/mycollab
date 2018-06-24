@@ -29,7 +29,7 @@ import org.springframework.stereotype.Component
  * @since 5.2.2
  */
 @Component
-@Profile("production")
+@Profile("program")
 @Order(value = 1)
 class DeploymentMode(private val serverConfiguration: ServerConfiguration) : IDeploymentMode, IService {
 
@@ -42,9 +42,9 @@ class DeploymentMode(private val serverConfiguration: ServerConfiguration) : IDe
     override val isPremiumEdition: Boolean
         get() = false
 
-    override fun getSiteUrl(subDomain: String?): String = String.format(serverConfiguration.siteUrl, SiteConfiguration.getServerAddress(), serverConfiguration.port)
+    override fun getSiteUrl(subDomain: String?) = String.format(serverConfiguration.siteUrl, serverConfiguration.address, serverConfiguration.port)
 
-    override fun getResourceDownloadUrl(): String = String.format(serverConfiguration.resourceDownloadUrl, SiteConfiguration.getServerAddress(), serverConfiguration.port)
+    override fun getResourceDownloadUrl() = String.format(serverConfiguration.resourceDownloadUrl, serverConfiguration.address, serverConfiguration.port)
 
-    override fun getCdnUrl(): String = String.format(serverConfiguration.cdnUrl, SiteConfiguration.getServerAddress(), serverConfiguration.port)
+    override fun getCdnUrl() = String.format(serverConfiguration.cdnUrl, serverConfiguration.address, serverConfiguration.port)
 }
