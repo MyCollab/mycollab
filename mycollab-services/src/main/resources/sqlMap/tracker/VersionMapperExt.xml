@@ -63,7 +63,7 @@
         m_tracker_version.lastUpdatedTime DESC
     </sql>
 
-    <select id="getTotalCount" resultType="int" parameterType="VersionSearchCriteria" lang="velocity">
+    <select id="getTotalCount" resultType="int" parameterType="com.mycollab.module.tracker.domain.criteria.VersionSearchCriteria" lang="velocity">
         SELECT count(*) as totalCount FROM m_tracker_version
         #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")
@@ -72,7 +72,7 @@
         #end
     </select>
 
-    <select id="findPageableListByCriteria" resultMap="SimpleVersionResult" parameterType="VersionSearchCriteria" lang="velocity">
+    <select id="findPageableListByCriteria" resultMap="SimpleVersionResult" parameterType="com.mycollab.module.tracker.domain.criteria.VersionSearchCriteria" lang="velocity">
         <include refid="selectVersion" />
         #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")

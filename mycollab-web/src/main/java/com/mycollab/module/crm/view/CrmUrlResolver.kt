@@ -35,7 +35,7 @@ import com.mycollab.vaadin.web.ui.ModuleHelper
  * @author MyCollab Ltd
  * @since 6.0.0
  */
-open class CrmUrlResolver : UrlResolver() {
+class CrmUrlResolver : UrlResolver() {
     fun build(): UrlResolver {
         this.addSubResolver("dashboard", CrmDashboardUrlResolver())
         this.addSubResolver("account", AccountUrlResolver())

@@ -25,7 +25,7 @@ import com.mycollab.module.project.ProjectTypeConstants
  * @author MyCollab Ltd
  * @since 6.0.0
  */
-class InvoiceSearchCriteria() : SearchCriteria() {
+class InvoiceSearchCriteria : SearchCriteria() {
 
     companion object {
         @JvmField val p_status = CacheParamMapper.register(ProjectTypeConstants.INVOICE, null,

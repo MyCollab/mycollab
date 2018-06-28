@@ -36,7 +36,7 @@ import java.util.*
  */
 @Component
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
-open class ContentGenerator(private val applicationConfiguration: ApplicationConfiguration,
+class ContentGenerator(private val applicationConfiguration: ApplicationConfiguration,
                             private val deploymentMode: IDeploymentMode,
                             private val templateEngine: Configuration,
                             private val storageFactory: AbstractStorageService) : IContentGenerator, InitializingBean {

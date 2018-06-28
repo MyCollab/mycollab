@@ -23,7 +23,7 @@ package com.mycollab.core
  * @author MyCollab Ltd.
  * @since 1.0
  */
-open class MyCollabException : RuntimeException {
+class MyCollabException : RuntimeException {
 
     constructor(message: String) : super(message) {}
 

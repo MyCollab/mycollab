@@ -427,7 +427,7 @@
             INNER JOIN m_prj_project ON (m_prj_risk.projectId = m_prj_project.id)
     </sql>
 
-    <select id="findPageableListByCriteria" parameterType="ProjectGenericItemSearchCriteria"
+    <select id="findPageableListByCriteria" parameterType="com.mycollab.module.project.domain.criteria.ProjectGenericItemSearchCriteria"
             resultMap="BaseResultMap" lang="velocity">
         (
         <include refid="selectTaskItem"/>
@@ -494,7 +494,7 @@
         <include refid="orderStatement"/>
     </select>
 
-    <select id="getTotalCountFromTask" parameterType="ProjectGenericItemSearchCriteria"
+    <select id="getTotalCountFromTask" parameterType="com.mycollab.module.project.domain.criteria.ProjectGenericItemSearchCriteria"
             resultType="int" lang="velocity">
         SELECT count(*) as totalCount
         FROM m_prj_task
@@ -504,7 +504,7 @@
             #end
         #end
     </select>
-    <select id="getTotalCountFromMessage" parameterType="ProjectGenericItemSearchCriteria" resultType="int" lang="velocity">
+    <select id="getTotalCountFromMessage" parameterType="com.mycollab.module.project.domain.criteria.ProjectGenericItemSearchCriteria" resultType="int" lang="velocity">
         SELECT count(*) as totalCount
         FROM m_prj_message
         #ifnotnull($_parameter.searchCriteria)
@@ -513,7 +513,7 @@
             #end
         #end
     </select>
-    <select id="getTotalCountFromMilestone" parameterType="ProjectGenericItemSearchCriteria" resultType="int" lang="velocity">
+    <select id="getTotalCountFromMilestone" parameterType="com.mycollab.module.project.domain.criteria.ProjectGenericItemSearchCriteria" resultType="int" lang="velocity">
         SELECT count(*) as totalCount
         FROM m_prj_milestone
         #ifnotnull($_parameter.searchCriteria)
@@ -522,7 +522,7 @@
             #end
         #end
     </select>
-    <select id="getTotalCountFromBug" parameterType="ProjectGenericItemSearchCriteria" resultType="int" lang="velocity">
+    <select id="getTotalCountFromBug" parameterType="com.mycollab.module.project.domain.criteria.ProjectGenericItemSearchCriteria" resultType="int" lang="velocity">
         SELECT count(*) as totalCount
         FROM m_tracker_bug
         #ifnotnull($_parameter.searchCriteria)
@@ -531,7 +531,7 @@
             #end
         #end
     </select>
-    <select id="getTotalCountFromComponent" parameterType="ProjectGenericItemSearchCriteria"
+    <select id="getTotalCountFromComponent" parameterType="com.mycollab.module.project.domain.criteria.ProjectGenericItemSearchCriteria"
             resultType="int" lang="velocity">
         SELECT count(*) as totalCount
         FROM m_tracker_component
@@ -541,7 +541,7 @@
             #end
         #end
     </select>
-    <select id="getTotalCountFromVersion" parameterType="ProjectGenericItemSearchCriteria"
+    <select id="getTotalCountFromVersion" parameterType="com.mycollab.module.project.domain.criteria.ProjectGenericItemSearchCriteria"
             resultType="int" lang="velocity">
         SELECT count(*) as totalCount
         FROM m_tracker_version
@@ -551,7 +551,7 @@
             #end
         #end
     </select>
-    <select id="getTotalCountFromRisk" parameterType="ProjectGenericItemSearchCriteria"
+    <select id="getTotalCountFromRisk" parameterType="com.mycollab.module.project.domain.criteria.ProjectGenericItemSearchCriteria"
             resultType="int" lang="velocity">
         SELECT count(*) as totalCount
         FROM m_prj_risk

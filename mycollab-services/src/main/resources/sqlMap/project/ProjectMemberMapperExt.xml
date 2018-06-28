@@ -138,7 +138,7 @@
         m_prj_member.joinDate DESC
     </sql>
 
-    <select id="getTotalCount" parameterType="ProjectMemberSearchCriteria"
+    <select id="getTotalCount" parameterType="com.mycollab.module.project.domain.criteria.ProjectMemberSearchCriteria"
         resultType="int" lang="velocity">
         SELECT count(*) as totalCount FROM m_prj_member
 
@@ -149,7 +149,7 @@
         #end
     </select>
 
-    <select id="findPageableListByCriteria" parameterType="ProjectMemberSearchCriteria" resultMap="ProjectMemberResult" lang="velocity">
+    <select id="findPageableListByCriteria" parameterType="com.mycollab.module.project.domain.criteria.ProjectMemberSearchCriteria" resultMap="ProjectMemberResult" lang="velocity">
         <include refid="selectMember" />
         #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")

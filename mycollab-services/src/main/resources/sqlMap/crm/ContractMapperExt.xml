@@ -166,7 +166,7 @@
     </sql>
 
     <select id="getTotalCount" resultType="int"
-        parameterType="ContractSearchCriteria">
+        parameterType="com.mycollab.module.crm.domain.criteria.ContractSearchCriteria">
         SELECT count(*) as totalCount FROM m_crm_contract
         <trim prefix="WHERE" prefixOverrides="AND | OR ">
             1=1
@@ -175,7 +175,7 @@
         </trim>
     </select>
 
-    <delete id="removeByCriteria" parameterType="ContractSearchCriteria">
+    <delete id="removeByCriteria" parameterType="com.mycollab.module.crm.domain.criteria.ContractSearchCriteria">
         DELETE FROM m_crm_contract
         <if test="_parameter != null">
             <include
@@ -188,7 +188,7 @@
     </sql>
 
     <select id="findPageableListByCriteria" resultMap="SimpleContractResult"
-        parameterType="ContractSearchCriteria">
+        parameterType="com.mycollab.module.crm.domain.criteria.ContractSearchCriteria">
         <include
             refid="com.mycollab.module.crm.dao.ContractMapperExt.selectSimpleContract" />
         <trim prefix="WHERE" prefixOverrides="AND | OR ">

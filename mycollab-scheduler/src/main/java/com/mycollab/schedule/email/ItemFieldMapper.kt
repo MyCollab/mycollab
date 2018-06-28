@@ -23,7 +23,7 @@ import com.mycollab.schedule.email.format.FieldFormat
  * @author MyCollab Ltd
  * @since 6.0.0
  */
-open class ItemFieldMapper {
+class ItemFieldMapper {
     private val fieldNameMap: MutableMap<String, FieldFormat> = mutableMapOf()
 
     fun put(fieldName: Enum<*>, displayName: Enum<*>) {

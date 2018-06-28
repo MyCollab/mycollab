@@ -41,7 +41,7 @@ import org.springframework.stereotype.Service
  * @since 1.0
  */
 @Service
-open class ProjectRoleServiceImpl(private val roleMapper: ProjectRoleMapper,
+class ProjectRoleServiceImpl(private val roleMapper: ProjectRoleMapper,
                              private val roleMapperExt: ProjectRoleMapperExt,
                              private val projectRolePermissionMapper: ProjectRolePermissionMapper) : DefaultService<Int, ProjectRole, ProjectRoleSearchCriteria>(), ProjectRoleService {
 

@@ -50,7 +50,7 @@ import javax.sql.DataSource
 @Service
 @Transactional
 @Traceable(nameField = "name", extraFieldName = "projectid")
-open class MilestoneServiceImpl(private val milestoneMapper: MilestoneMapper,
+class MilestoneServiceImpl(private val milestoneMapper: MilestoneMapper,
                            private val milestoneMapperExt: MilestoneMapperExt,
                            private val dataSource: DataSource,
                            private val asyncEventBus: AsyncEventBus) : DefaultService<Int, Milestone, MilestoneSearchCriteria>(), MilestoneService {

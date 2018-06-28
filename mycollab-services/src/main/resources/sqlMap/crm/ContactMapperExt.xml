@@ -298,7 +298,7 @@
         ]]>
     </sql>
 
-    <select id="getTotalCount" resultType="int" parameterType="ContactSearchCriteria"
+    <select id="getTotalCount" resultType="int" parameterType="com.mycollab.module.crm.domain.criteria.ContactSearchCriteria"
         lang="velocity">
         SELECT count(*) as totalCount FROM m_crm_contact
         #ifnotnull($_parameter.searchCriteria)
@@ -308,7 +308,7 @@
         #end
     </select>
 
-    <delete id="removeByCriteria" parameterType="ContactSearchCriteria"
+    <delete id="removeByCriteria" parameterType="com.mycollab.module.crm.domain.criteria.ContactSearchCriteria"
         lang="velocity">
         DELETE FROM m_crm_contact
         #ifnotnull($_parameter.searchCriteria)
@@ -331,7 +331,7 @@
     </sql>
 
     <select id="findPageableListByCriteria" resultMap="SimpleContactResult"
-        parameterType="ContactSearchCriteria" lang="velocity">
+        parameterType="com.mycollab.module.crm.domain.criteria.ContactSearchCriteria" lang="velocity">
         <include refid="selectSimpleContact" />
         #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")

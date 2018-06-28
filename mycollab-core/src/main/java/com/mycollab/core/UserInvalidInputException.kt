@@ -24,7 +24,7 @@ package com.mycollab.core
  * @author MyCollab Ltd.
  * @since 1.0
  */
-open class UserInvalidInputException : MyCollabException {
+class UserInvalidInputException : MyCollabException {
 
     constructor(message: String) : super(message)
 

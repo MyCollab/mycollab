@@ -25,7 +25,7 @@
 	</sql>
 
 	<select id="getTotalCount" resultType="int"
-		parameterType="ProductCatalogSearchCriteria">
+		parameterType="com.mycollab.module.crm.domain.criteria.ProductCatalogSearchCriteria">
 		SELECT count(*) as totalCount FROM m_crm_product_catalog
 		<trim prefix="WHERE" prefixOverrides="AND | OR ">
 			1=1 <include
@@ -33,7 +33,7 @@
 		</trim>
 	</select>
     
-    <delete id="removeByCriteria" parameterType="ProductCatalogSearchCriteria">
+    <delete id="removeByCriteria" parameterType="com.mycollab.module.crm.domain.criteria.ProductCatalogSearchCriteria">
         DELETE FROM m_crm_product_catalog
         <if test="_parameter != null">
             <include refid="com.mycollab.module.crm.dao.ProductCatalogMapperExt.querySearchCriteria" />
@@ -46,7 +46,7 @@
 
 	<select id="findPageableListByCriteria"
 		resultMap="com.mycollab.module.crm.dao.ProductCatalogMapper.BaseResultMap"
-		parameterType="ProductCatalogSearchCriteria">
+		parameterType="com.mycollab.module.crm.domain.criteria.ProductCatalogSearchCriteria">
 
 		<include
 			refid="com.mycollab.module.crm.dao.ProductCatalogMapperExt.selectProductCatalog" />

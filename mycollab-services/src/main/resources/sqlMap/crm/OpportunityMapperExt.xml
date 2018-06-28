@@ -154,7 +154,7 @@
     </sql>
 
     <select id="getTotalCount" resultType="int"
-        parameterType="OpportunitySearchCriteria" lang="velocity">
+        parameterType="com.mycollab.module.crm.domain.criteria.OpportunitySearchCriteria" lang="velocity">
         SELECT count(*) as totalCount FROM m_crm_opportunity
         #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")
@@ -164,7 +164,7 @@
         #end
     </select>
 
-    <delete id="removeByCriteria" parameterType="OpportunitySearchCriteria" lang="velocity">
+    <delete id="removeByCriteria" parameterType="com.mycollab.module.crm.domain.criteria.OpportunitySearchCriteria" lang="velocity">
         DELETE FROM m_crm_opportunity
         #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")
@@ -184,7 +184,7 @@
     </sql>
 
     <select id="findPageableListByCriteria" resultMap="SimpleOpportunityResult"
-        parameterType="OpportunitySearchCriteria" lang="velocity">
+        parameterType="com.mycollab.module.crm.domain.criteria.OpportunitySearchCriteria" lang="velocity">
         <include
             refid="selectSimpleOpportunity" />
         #ifnotnull($_parameter.searchCriteria)
@@ -231,7 +231,7 @@
         #end
     </select>
 
-    <select id="getPipeline" parameterType="OpportunitySearchCriteria"
+    <select id="getPipeline" parameterType="com.mycollab.module.crm.domain.criteria.OpportunitySearchCriteria"
         resultMap="com.mycollab.common.dao.GroupItemMapper.BaseResultMap" lang="velocity">
         SELECT m_crm_opportunity.salesStage AS groupid,
         COALESCE(SUM(m_crm_opportunity.amount), 0) AS value, '' AS groupname
@@ -246,7 +246,7 @@
         GROUP BY m_crm_opportunity.salesStage
     </select>
 
-    <select id="getSalesStageSummary" parameterType="OpportunitySearchCriteria"
+    <select id="getSalesStageSummary" parameterType="com.mycollab.module.crm.domain.criteria.OpportunitySearchCriteria"
         resultMap="com.mycollab.common.dao.GroupItemMapper.BaseResultMap" lang="velocity">
         SELECT m_crm_opportunity.salesStage AS groupid,
             COUNT(m_crm_opportunity.salesStage) AS value, '' as groupname
@@ -259,7 +259,7 @@
         GROUP BY m_crm_opportunity.salesStage
     </select>
 
-    <select id="getLeadSourcesSummary" parameterType="OpportunitySearchCriteria"
+    <select id="getLeadSourcesSummary" parameterType="com.mycollab.module.crm.domain.criteria.OpportunitySearchCriteria"
         resultMap="com.mycollab.common.dao.GroupItemMapper.BaseResultMap" lang="velocity">
         SELECT m_crm_opportunity.source AS groupid,
             SUM((SELECT  m_crm_opportunity.amount FROM m_crm_opportunity n WHERE n.id = m_crm_opportunity.id 

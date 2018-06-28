@@ -163,7 +163,7 @@
         m_crm_case.lastUpdatedTime DESC
     </sql>
 
-    <select id="getTotalCount" resultType="int" parameterType="CaseSearchCriteria"  lang="velocity">
+    <select id="getTotalCount" resultType="int" parameterType="com.mycollab.module.crm.domain.criteria.CaseSearchCriteria"  lang="velocity">
         SELECT count(*) as totalCount FROM m_crm_case
          #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")
@@ -172,7 +172,7 @@
         #end
     </select>
 
-    <delete id="removeByCriteria" parameterType="CaseSearchCriteria" lang="velocity">
+    <delete id="removeByCriteria" parameterType="com.mycollab.module.crm.domain.criteria.CaseSearchCriteria" lang="velocity">
         DELETE FROM m_crm_case
          #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")
@@ -182,7 +182,7 @@
     </delete>
 
     <select id="findPageableListByCriteria" resultMap="SimpleCaseResult"
-        parameterType="CaseSearchCriteria" lang="velocity">
+        parameterType="com.mycollab.module.crm.domain.criteria.CaseSearchCriteria" lang="velocity">
         <include refid="selectSimpleCase" />
         #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")

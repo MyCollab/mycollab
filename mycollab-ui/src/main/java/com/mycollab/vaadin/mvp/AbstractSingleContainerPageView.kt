@@ -25,7 +25,7 @@ import com.vaadin.ui.HasComponents.ComponentDetachListener
  * @author MyCollab Ltd
  * @since 5.4.5
  */
-open class AbstractSingleContainerPageView : CustomComponent(), PageView, SingleComponentContainer {
+class AbstractSingleContainerPageView : CustomComponent(), PageView, SingleComponentContainer {
 
     private val contentLayout: CssLayout = CssLayout()
 

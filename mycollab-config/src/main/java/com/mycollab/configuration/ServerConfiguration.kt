@@ -27,7 +27,7 @@ import org.springframework.stereotype.Component
 @Component
 @Profile("program")
 @ConfigurationProperties(prefix = "server")
-open class ServerConfiguration(var storageSystem: String = STORAGE_FILE, var port: Int? = 8080,
+class ServerConfiguration(var storageSystem: String = STORAGE_FILE, var port: Int? = 8080,
                                var address: String?,
                                var apiUrl: String, var pullMethod: String?, var siteUrl: String,
                                var resourceDownloadUrl: String, var cdnUrl: String) {

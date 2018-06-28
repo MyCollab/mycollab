@@ -30,7 +30,7 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 @Transactional
-open class TargetServiceImpl(private val targetMapper: TargetMapper,
+class TargetServiceImpl(private val targetMapper: TargetMapper,
                         private val targetMapperExt: TargetMapperExt) : DefaultService<Int, Target, TargetSearchCriteria>(), TargetService {
 
     override val crudMapper: ICrudGenericDAO<Int, Target>

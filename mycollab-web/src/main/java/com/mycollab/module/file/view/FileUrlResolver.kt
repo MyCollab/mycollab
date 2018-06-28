@@ -25,7 +25,7 @@ import com.mycollab.vaadin.web.ui.ModuleHelper
  * @author MyCollab Ltd
  * @since 6.0.0
  */
-open class FileUrlResolver : UrlResolver() {
+class FileUrlResolver : UrlResolver() {
     fun build(): UrlResolver {
         this.addSubResolver("list", FileListUrlResolver())
         return this

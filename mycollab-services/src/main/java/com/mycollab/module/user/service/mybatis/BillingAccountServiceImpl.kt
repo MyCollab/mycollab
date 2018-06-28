@@ -45,14 +45,14 @@ import java.util.*
  * @since 1.0
  */
 @Service
-open class BillingAccountServiceImpl(private val billingAccountMapper: BillingAccountMapper,
-                                     private val billingAccountMapperExt: BillingAccountMapperExt,
-                                     private val asyncEventBus: AsyncEventBus,
-                                     private val userMapper: UserMapper,
-                                     private val userMapperExt: UserMapperExt,
-                                     private val userAccountMapper: UserAccountMapper,
-                                     private val roleService: RoleService,
-                                     private val deploymentMode: IDeploymentMode) : DefaultCrudService<Int, BillingAccount>(), BillingAccountService {
+class BillingAccountServiceImpl(private val billingAccountMapper: BillingAccountMapper,
+                                private val billingAccountMapperExt: BillingAccountMapperExt,
+                                private val asyncEventBus: AsyncEventBus,
+                                private val userMapper: UserMapper,
+                                private val userMapperExt: UserMapperExt,
+                                private val userAccountMapper: UserAccountMapper,
+                                private val roleService: RoleService,
+                                private val deploymentMode: IDeploymentMode) : DefaultCrudService<Int, BillingAccount>(), BillingAccountService {
 
     override val crudMapper: ICrudGenericDAO<Int, BillingAccount>
         get() = billingAccountMapper as ICrudGenericDAO<Int, BillingAccount>

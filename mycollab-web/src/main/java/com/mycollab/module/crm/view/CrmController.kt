@@ -205,28 +205,28 @@ class CrmController(val container: CrmModule) : AbstractController() {
                 val presenter = PresenterResolver.getPresenter(CampaignListPresenter::class.java)
                 val searchCriteria = CampaignSearchCriteria()
                 searchCriteria.saccountid = NumberSearchField(AppUI.accountId)
-                presenter.go(container, ScreenData.Search<CampaignSearchCriteria>(searchCriteria))
+                presenter.go(container, ScreenData.Search(searchCriteria))
             }
         })
 
         this.register(object : ApplicationEventListener<CampaignEvent.GotoAdd> {
             @Subscribe override fun handle(event: CampaignEvent.GotoAdd) {
                 val presenter = PresenterResolver.getPresenter(CampaignAddPresenter::class.java)
-                presenter.go(container, ScreenData.Add<SimpleCampaign>(SimpleCampaign()))
+                presenter.go(container, ScreenData.Add(SimpleCampaign()))
             }
         })
 
         this.register(object : ApplicationEventListener<CampaignEvent.GotoEdit> {
             @Subscribe override fun handle(event: CampaignEvent.GotoEdit) {
                 val presenter = PresenterResolver.getPresenter(CampaignAddPresenter::class.java)
-                presenter.go(container, ScreenData.Edit<Any>(event.data))
+                presenter.go(container, ScreenData.Edit(event.data))
             }
         })
 
         this.register(object : ApplicationEventListener<CampaignEvent.GotoRead> {
             @Subscribe override fun handle(event: CampaignEvent.GotoRead) {
                 val presenter = PresenterResolver.getPresenter(CampaignReadPresenter::class.java)
-                presenter.go(container, ScreenData.Preview<Any>(event.data))
+                presenter.go(container, ScreenData.Preview(event.data))
             }
         })
     }
@@ -237,28 +237,28 @@ class CrmController(val container: CrmModule) : AbstractController() {
                 val presenter = PresenterResolver.getPresenter(ContactListPresenter::class.java)
                 val searchCriteria = ContactSearchCriteria()
                 searchCriteria.saccountid = NumberSearchField(AppUI.accountId)
-                presenter.go(container, ScreenData.Search<ContactSearchCriteria>(searchCriteria))
+                presenter.go(container, ScreenData.Search(searchCriteria))
             }
         })
 
         this.register(object : ApplicationEventListener<ContactEvent.GotoAdd> {
             @Subscribe override fun handle(event: ContactEvent.GotoAdd) {
                 val presenter = PresenterResolver.getPresenter(ContactAddPresenter::class.java)
-                presenter.go(container, ScreenData.Add<SimpleContact>(SimpleContact()))
+                presenter.go(container, ScreenData.Add(SimpleContact()))
             }
         })
 
         this.register(object : ApplicationEventListener<ContactEvent.GotoEdit> {
             @Subscribe override fun handle(event: ContactEvent.GotoEdit) {
                 val presenter = PresenterResolver.getPresenter(ContactAddPresenter::class.java)
-                presenter.go(container, ScreenData.Edit<Any>(event.data))
+                presenter.go(container, ScreenData.Edit(event.data))
             }
         })
 
         this.register(object : ApplicationEventListener<ContactEvent.GotoRead> {
             @Subscribe override fun handle(event: ContactEvent.GotoRead) {
                 val presenter = PresenterResolver.getPresenter(ContactReadPresenter::class.java)
-                presenter.go(container, ScreenData.Preview<Any>(event.data))
+                presenter.go(container, ScreenData.Preview(event.data))
             }
         })
     }
@@ -294,21 +294,21 @@ class CrmController(val container: CrmModule) : AbstractController() {
                 val presenter = PresenterResolver.getPresenter(LeadListPresenter::class.java)
                 val searchCriteria = LeadSearchCriteria()
                 searchCriteria.saccountid = NumberSearchField(AppUI.accountId)
-                presenter.go(container, ScreenData.Search<LeadSearchCriteria>(searchCriteria))
+                presenter.go(container, ScreenData.Search(searchCriteria))
             }
         })
 
         this.register(object : ApplicationEventListener<LeadEvent.GotoAdd> {
             @Subscribe override fun handle(event: LeadEvent.GotoAdd) {
                 val presenter = PresenterResolver.getPresenter(LeadAddPresenter::class.java)
-                presenter.go(container, ScreenData.Add<SimpleLead>(SimpleLead()))
+                presenter.go(container, ScreenData.Add(SimpleLead()))
             }
         })
 
         this.register(object : ApplicationEventListener<LeadEvent.GotoEdit> {
             @Subscribe override fun handle(event: LeadEvent.GotoEdit) {
                 val presenter = PresenterResolver.getPresenter(LeadAddPresenter::class.java)
-                presenter.go(container, ScreenData.Edit<Any>(event.data))
+                presenter.go(container, ScreenData.Edit(event.data))
             }
         })
 
@@ -354,21 +354,21 @@ class CrmController(val container: CrmModule) : AbstractController() {
         this.register(object : ApplicationEventListener<OpportunityEvent.GotoAdd> {
             @Subscribe override fun handle(event: OpportunityEvent.GotoAdd) {
                 val presenter = PresenterResolver.getPresenter(OpportunityAddPresenter::class.java)
-                presenter.go(container, ScreenData.Add<SimpleOpportunity>(SimpleOpportunity()))
+                presenter.go(container, ScreenData.Add(SimpleOpportunity()))
             }
         })
 
         this.register(object : ApplicationEventListener<OpportunityEvent.GotoEdit> {
             @Subscribe override fun handle(event: OpportunityEvent.GotoEdit) {
                 val presenter = PresenterResolver.getPresenter(OpportunityAddPresenter::class.java)
-                presenter.go(container, ScreenData.Edit<Any>(event.data))
+                presenter.go(container, ScreenData.Edit(event.data))
             }
         })
 
         this.register(object : ApplicationEventListener<OpportunityEvent.GotoRead> {
             @Subscribe override fun handle(event: OpportunityEvent.GotoRead) {
                 val presenter = PresenterResolver.getPresenter(OpportunityReadPresenter::class.java)
-                presenter.go(container, ScreenData.Preview<Any>(event.data))
+                presenter.go(container, ScreenData.Preview(event.data))
             }
         })
 
@@ -386,28 +386,28 @@ class CrmController(val container: CrmModule) : AbstractController() {
                 val presenter = PresenterResolver.getPresenter(CaseListPresenter::class.java)
                 val searchCriteria = CaseSearchCriteria()
                 searchCriteria.saccountid = NumberSearchField(AppUI.accountId)
-                presenter.go(container, ScreenData.Search<CaseSearchCriteria>(searchCriteria))
+                presenter.go(container, ScreenData.Search(searchCriteria))
             }
         })
 
         this.register(object : ApplicationEventListener<CaseEvent.GotoAdd> {
             @Subscribe override fun handle(event: CaseEvent.GotoAdd) {
                 val presenter = PresenterResolver.getPresenter(CaseAddPresenter::class.java)
-                presenter.go(container, ScreenData.Add<SimpleCase>(SimpleCase()))
+                presenter.go(container, ScreenData.Add(SimpleCase()))
             }
         })
 
         this.register(object : ApplicationEventListener<CaseEvent.GotoEdit> {
             @Subscribe override fun handle(event: CaseEvent.GotoEdit) {
                 val presenter = PresenterResolver.getPresenter(CaseAddPresenter::class.java)
-                presenter.go(container, ScreenData.Edit<Any>(event.data))
+                presenter.go(container, ScreenData.Edit(event.data))
             }
         })
 
         this.register(object : ApplicationEventListener<CaseEvent.GotoRead> {
             @Subscribe override fun handle(event: CaseEvent.GotoRead) {
                 val presenter = PresenterResolver.getPresenter(CaseReadPresenter::class.java)
-                presenter.go(container, ScreenData.Preview<Any>(event.data))
+                presenter.go(container, ScreenData.Preview(event.data))
             }
         })
     }

@@ -25,7 +25,7 @@ import java.io.Serializable
  * @author MyCollab Ltd.
  * @since 1.0
  */
-open class ValuedBean: Serializable {
+class ValuedBean: Serializable {
 
     @JsonIgnore
     @NotBindable

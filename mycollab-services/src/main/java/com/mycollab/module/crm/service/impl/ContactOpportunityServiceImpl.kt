@@ -29,7 +29,7 @@ import org.springframework.stereotype.Service
  * @since 3.0
  */
 @Service
-open class ContactOpportunityServiceImpl : DefaultSearchService<ContactSearchCriteria>(), ContactOpportunityService {
+class ContactOpportunityServiceImpl : DefaultSearchService<ContactSearchCriteria>(), ContactOpportunityService {
 
     @Autowired
     private val contactOpportunityMapperExt: ContactOpportunityMapperExt? = null

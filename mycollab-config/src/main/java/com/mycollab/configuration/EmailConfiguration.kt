@@ -30,7 +30,7 @@ import org.springframework.stereotype.Component
 @Component
 @Profile("program")
 @ConfigurationProperties(prefix = "mail")
-open class EmailConfiguration(var smtphost: String?, var username: String?,
+class EmailConfiguration(var smtphost: String?, var username: String?,
                               var password: String?, var port: Int,
                               var startTls: Boolean = false, var ssl: Boolean = false,
                               var notifyEmail: String) : ValuedBean() {

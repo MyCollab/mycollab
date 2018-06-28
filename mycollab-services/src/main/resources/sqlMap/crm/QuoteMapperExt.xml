@@ -210,14 +210,14 @@
     </sql>
 
     <select id="getTotalCount" resultType="int"
-        parameterType="QuoteSearchCriteria">
+        parameterType="com.mycollab.module.crm.domain.criteria.QuoteSearchCriteria">
         SELECT count(*) as totalCount FROM m_crm_quote
         <trim prefix="WHERE" prefixOverrides="AND | OR ">
             1=1 <include refid="com.mycollab.module.crm.dao.QuoteMapperExt.queryTotalCountSearchCriteria" />
         </trim>
     </select>
     
-    <delete id="removeByCriteria" parameterType="QuoteSearchCriteria">
+    <delete id="removeByCriteria" parameterType="com.mycollab.module.crm.domain.criteria.QuoteSearchCriteria">
         DELETE FROM m_crm_quote
         <if test="_parameter != null">
             <include refid="com.mycollab.module.crm.dao.QuoteMapperExt.queryTotalCountSearchCriteria" />
@@ -229,7 +229,7 @@
     </sql>
 
     <select id="findPageableListByCriteria" resultMap="SimpleQuoteResult"
-        parameterType="QuoteSearchCriteria">
+        parameterType="com.mycollab.module.crm.domain.criteria.QuoteSearchCriteria">
 
         <include refid="com.mycollab.module.crm.dao.QuoteMapperExt.selectSimpleQuote" />
         <trim prefix="WHERE" prefixOverrides="AND | OR ">

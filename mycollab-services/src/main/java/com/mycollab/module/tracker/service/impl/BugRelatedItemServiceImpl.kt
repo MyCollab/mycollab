@@ -26,7 +26,7 @@ import org.springframework.stereotype.Service
  * @since 1.0
  */
 @Service
-open class BugRelatedItemServiceImpl(private val bugRelatedItemMapper: BugRelatedItemMapper) : BugRelatedItemService {
+class BugRelatedItemServiceImpl(private val bugRelatedItemMapper: BugRelatedItemMapper) : BugRelatedItemService {
 
     override fun saveAffectedVersionsOfBug(bugId: Int, versions: List<Version>) {
         insertAffectedVersionsOfBug(bugId, versions)

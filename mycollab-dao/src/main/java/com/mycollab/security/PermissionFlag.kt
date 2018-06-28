@@ -24,7 +24,7 @@ import com.mycollab.common.i18n.SecurityI18nEnum
  * @author MyCollab Ltd
  * @since 1.0.0
  */
-open class PermissionFlag {
+class PermissionFlag {
     companion object {
         @JvmStatic fun toVal(flag: Int?): SecurityI18nEnum = when (flag) {
             null, AccessPermissionFlag.NO_ACCESS -> SecurityI18nEnum.NO_ACCESS

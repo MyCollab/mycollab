@@ -47,7 +47,7 @@ import java.util.*
 @Transactional
 @Traceable(nameField = "opportunityname")
 @Watchable(userFieldName = "assignuser")
-open class OpportunityServiceImpl(private val opportunityMapper: OpportunityMapper,
+class OpportunityServiceImpl(private val opportunityMapper: OpportunityMapper,
                              private val opportunityMapperExt: OpportunityMapperExt,
                              private val opportunityLeadMapper: OpportunityLeadMapper) : DefaultService<Int, Opportunity, OpportunitySearchCriteria>(), OpportunityService {
 

@@ -24,7 +24,7 @@ import java.io.Serializable
  * @author MyCollab Ltd.
  * @since 1.0
  */
-open class SearchField : Serializable {
+class SearchField : Serializable {
 
     var operation = AND
 

@@ -29,7 +29,7 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 @Transactional
-open class QuoteGroupServiceImpl : DefaultCrudService<Int, QuoteGroupProduct>(), QuoteGroupProductService {
+class QuoteGroupServiceImpl : DefaultCrudService<Int, QuoteGroupProduct>(), QuoteGroupProductService {
 
     @Autowired
     private val quoteGroupProductMapper: QuoteGroupProductMapper? = null

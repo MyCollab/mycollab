@@ -45,7 +45,7 @@ import org.springframework.transaction.annotation.Transactional
 @Transactional
 @Traceable(nameField = "subject")
 @Watchable(userFieldName = "assignuser")
-open class CallServiceImpl(private val callMapper: CallMapper,
+class CallServiceImpl(private val callMapper: CallMapper,
                       private val callMapperExt: CallMapperExt,
                       private val asyncEventBus: AsyncEventBus) : DefaultService<Int, CallWithBLOBs, CallSearchCriteria>(), CallService {
 

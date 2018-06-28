@@ -23,7 +23,7 @@ import com.mycollab.core.utils.StringUtils
  * @author MyCollab Ltd.
  * @since 1.0
  */
-open class SimpleContact : Contact() {
+class SimpleContact : Contact() {
 
     var createdUserAvatarId: String? = null
     var createdUserFullName: String? = null

@@ -34,7 +34,7 @@ import org.springframework.stereotype.Service
  * @since 1.0.0
  */
 @Service
-open class BugRelationServiceImpl(private val relatedBugMapper: RelatedBugMapper,
+class BugRelationServiceImpl(private val relatedBugMapper: RelatedBugMapper,
                              private val relatedBugMapperExt: RelatedBugMapperExt,
                              private val bugService: BugService) : DefaultCrudService<Int, RelatedBug>(), BugRelationService {
 

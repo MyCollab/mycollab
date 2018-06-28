@@ -95,7 +95,7 @@
        ]]>
     </sql>
 
-    <select id="getTotalCount" resultType="int" parameterType="ProductSearchCriteria">
+    <select id="getTotalCount" resultType="int" parameterType="com.mycollab.module.crm.domain.criteria.ProductSearchCriteria">
         SELECT count(*) as totalCount FROM m_crm_product
         <trim prefix="WHERE" prefixOverrides="AND | OR ">
             1=1
@@ -104,7 +104,7 @@
         </trim>
     </select>
 
-    <delete id="removeByCriteria" parameterType="ProductSearchCriteria">
+    <delete id="removeByCriteria" parameterType="com.mycollab.module.crm.domain.criteria.ProductSearchCriteria">
         DELETE FROM m_crm_product
         <if test="_parameter != null">
             <include
@@ -117,7 +117,7 @@
     </sql>
 
     <select id="findPageableListByCriteria" resultMap="SimpleProductResult"
-        parameterType="ProductSearchCriteria">
+        parameterType="com.mycollab.module.crm.domain.criteria.ProductSearchCriteria">
 
         <include
             refid="com.mycollab.module.crm.dao.ProductMapperExt.selectSimpleProduct" />

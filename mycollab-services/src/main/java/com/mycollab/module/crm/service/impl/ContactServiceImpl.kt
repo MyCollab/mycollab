@@ -44,7 +44,7 @@ import java.util.*
 @Transactional
 @Traceable(nameField = "lastname")
 @Watchable(userFieldName = "assignuser")
-open class ContactServiceImpl(private val contactMapper: ContactMapper,
+class ContactServiceImpl(private val contactMapper: ContactMapper,
                          private val contactMapperExt: ContactMapperExt,
                          private val contactOpportunityMapper: ContactOpportunityMapper,
                          private val contactCaseMapper: ContactCaseMapper,

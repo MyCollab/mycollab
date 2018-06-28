@@ -46,7 +46,7 @@ import java.util.*
  * @since 1.0
  */
 @Service
-open class ProjectMemberServiceImpl(private val projectMemberMapper: ProjectMemberMapper,
+class ProjectMemberServiceImpl(private val projectMemberMapper: ProjectMemberMapper,
                                private val projectMemberMapperExt: ProjectMemberMapperExt,
                                private val asyncEventBus: AsyncEventBus) : DefaultService<Int, ProjectMember, ProjectMemberSearchCriteria>(), ProjectMemberService {
 

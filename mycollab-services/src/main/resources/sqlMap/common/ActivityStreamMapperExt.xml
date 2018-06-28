@@ -96,7 +96,7 @@
         ]]>
     </sql>
 
-    <select id="findPageableListByCriteria" parameterType="ActivityStreamSearchCriteria"
+    <select id="findPageableListByCriteria" parameterType="com.mycollab.common.domain.criteria.ActivityStreamSearchCriteria"
         resultMap="SimpleActivityStreamResult" lang="velocity">
         <![CDATA[
         SELECT s_activitystream.id, s_activitystream.sAccountId, s_activitystream.type, s_activitystream.typeId,
@@ -148,7 +148,7 @@
         createdTime DESC
     </sql>
 
-    <select id="getTotalCount" parameterType="ActivityStreamSearchCriteria"
+    <select id="getTotalCount" parameterType="com.mycollab.common.domain.criteria.ActivityStreamSearchCriteria"
         resultType="java.lang.Integer"  lang="velocity">
         SELECT count(*) as totalCount FROM s_activitystream
         #ifnotnull($_parameter.searchCriteria)

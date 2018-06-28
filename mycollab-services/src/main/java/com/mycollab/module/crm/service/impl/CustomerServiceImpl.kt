@@ -27,7 +27,7 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 @Transactional
-open class CustomerServiceImpl : DefaultCrudService<Int, Customer>(), CustomerService {
+class CustomerServiceImpl : DefaultCrudService<Int, Customer>(), CustomerService {
 
     @Autowired
     private val customerMapper: CustomerMapper? = null

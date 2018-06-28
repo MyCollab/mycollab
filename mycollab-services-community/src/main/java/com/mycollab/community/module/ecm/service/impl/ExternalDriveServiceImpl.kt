@@ -31,7 +31,7 @@ import java.util.ArrayList
  * @since 1.0.0
  */
 @Service
-open class ExternalDriveServiceImpl(private val externalDriveMapper: ExternalDriveMapper) : DefaultCrudService<Int, ExternalDrive>(), ExternalDriveService {
+class ExternalDriveServiceImpl(private val externalDriveMapper: ExternalDriveMapper) : DefaultCrudService<Int, ExternalDrive>(), ExternalDriveService {
 
     override val crudMapper: ICrudGenericDAO<Int, ExternalDrive>
         get() = externalDriveMapper as ICrudGenericDAO<Int, ExternalDrive>

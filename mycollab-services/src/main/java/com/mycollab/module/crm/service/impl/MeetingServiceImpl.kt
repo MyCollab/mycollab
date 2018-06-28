@@ -45,7 +45,7 @@ import org.springframework.transaction.annotation.Transactional
 @Transactional
 @Traceable(nameField = "subject")
 @Watchable(userFieldName = "createduser")
-open class MeetingServiceImpl(private val meetingMapper: MeetingMapper,
+class MeetingServiceImpl(private val meetingMapper: MeetingMapper,
                          private val meetingMapperExt: MeetingMapperExt,
                          private val asyncEventBus: AsyncEventBus) : DefaultService<Int, MeetingWithBLOBs, MeetingSearchCriteria>(), MeetingService {
 

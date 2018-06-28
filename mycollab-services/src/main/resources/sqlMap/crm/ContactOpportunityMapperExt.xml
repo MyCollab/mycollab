@@ -65,7 +65,7 @@
         ORDER BY m_crm_contact.lastUpdatedTime DESC
     </sql>
 
-    <select id="getTotalCount" resultType="int" parameterType="ContactSearchCriteria">
+    <select id="getTotalCount" resultType="int" parameterType="com.mycollab.module.crm.domain.criteria.ContactSearchCriteria">
         SELECT count(*) as totalCount FROM m_crm_contact
         <if test="searchCriteria != null">
             <trim prefix="WHERE" prefixOverrides="AND | OR ">
@@ -77,7 +77,7 @@
     </select>
 
     <select id="findPageableListByCriteria" resultMap="SimpleContactOpportunityRel"
-        parameterType="ContactSearchCriteria">
+        parameterType="com.mycollab.module.crm.domain.criteria.ContactSearchCriteria">
         <include
             refid="com.mycollab.module.crm.dao.ContactOpportunityMapperExt.selectSimpleContact" />
         <if test="searchCriteria != null">

@@ -29,7 +29,7 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 @Transactional
-open class ContractServiceImpl(private val contractMapper: ContractMapper,
+class ContractServiceImpl(private val contractMapper: ContractMapper,
                           private val contractMapperExt: ContractMapperExt) : DefaultService<Int, Contract, ContractSearchCriteria>(), ContractService {
 
     override val crudMapper: ICrudGenericDAO<Int, Contract>

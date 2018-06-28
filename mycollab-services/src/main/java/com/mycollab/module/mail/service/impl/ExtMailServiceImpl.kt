@@ -32,7 +32,7 @@ import org.springframework.stereotype.Service
  * @since 1.0
  */
 @Service
-open class ExtMailServiceImpl : ExtMailService {
+class ExtMailServiceImpl : ExtMailService {
     @Autowired
     private lateinit var emailConfiguration: EmailConfiguration
 

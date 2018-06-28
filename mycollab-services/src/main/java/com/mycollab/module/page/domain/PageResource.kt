@@ -24,7 +24,7 @@ import java.util.Calendar
  * @author MyCollab Ltd.
  * @since 4.4.0
  */
-open class PageResource {
+class PageResource {
     @NotBindable
     var createdTime: Calendar? = null
 

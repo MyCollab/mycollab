@@ -25,7 +25,7 @@ import com.mycollab.db.arguments.StringSearchField
  * @author MyCollab Ltd.
  * @since 1.0
  */
-open class MonitorSearchCriteria : SearchCriteria() {
+class MonitorSearchCriteria : SearchCriteria() {
 
     var user: StringSearchField? = null
 

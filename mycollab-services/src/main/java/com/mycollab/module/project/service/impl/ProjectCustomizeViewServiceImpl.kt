@@ -28,7 +28,7 @@ import org.springframework.stereotype.Service
  * @since 4.4.0
  */
 @Service
-open class ProjectCustomizeViewServiceImpl(private val projectCustomizeMapper: ProjectCustomizeViewMapper) : DefaultCrudService<Int, ProjectCustomizeView>(), ProjectCustomizeViewService {
+class ProjectCustomizeViewServiceImpl(private val projectCustomizeMapper: ProjectCustomizeViewMapper) : DefaultCrudService<Int, ProjectCustomizeView>(), ProjectCustomizeViewService {
 
     override val crudMapper: ICrudGenericDAO<Int, ProjectCustomizeView>
         get() = projectCustomizeMapper as ICrudGenericDAO<Int, ProjectCustomizeView>

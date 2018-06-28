@@ -31,7 +31,7 @@ import org.springframework.stereotype.Service
  * @since 1.0
  */
 @Service
-open class ActivityStreamServiceImpl(private val activityStreamMapper: ActivityStreamMapper,
+class ActivityStreamServiceImpl(private val activityStreamMapper: ActivityStreamMapper,
                                 private val activityStreamMapperExt: ActivityStreamMapperExt) : DefaultService<Int, ActivityStreamWithBLOBs, ActivityStreamSearchCriteria>(), ActivityStreamService {
 
     override val crudMapper: ICrudGenericDAO<Int, ActivityStreamWithBLOBs>

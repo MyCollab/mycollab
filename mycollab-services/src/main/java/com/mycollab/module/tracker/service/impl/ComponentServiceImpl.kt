@@ -42,7 +42,7 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 @Transactional
 @Traceable(nameField = "name", extraFieldName = "projectid")
-open class ComponentServiceImpl(private val componentMapper: ComponentMapper,
+class ComponentServiceImpl(private val componentMapper: ComponentMapper,
                            private val componentMapperExt: ComponentMapperExt) : DefaultService<Int, Component, ComponentSearchCriteria>(), ComponentService {
 
     override val crudMapper: ICrudGenericDAO<Int, Component>

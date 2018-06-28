@@ -146,7 +146,7 @@
         s_user.email DESC
     </sql>
 
-    <select id="getTotalCount" resultType="int" parameterType="UserSearchCriteria"
+    <select id="getTotalCount" resultType="int" parameterType="com.mycollab.module.user.domain.criteria.UserSearchCriteria"
         lang="velocity">
         SELECT count(*) as totalCount FROM s_user
         #ifnotnull($_parameter.searchCriteria)
@@ -156,7 +156,7 @@
         #end
     </select>
 
-    <select id="findPageableListByCriteria" resultMap="SimpleUserResult" parameterType="UserSearchCriteria" lang="velocity">
+    <select id="findPageableListByCriteria" resultMap="SimpleUserResult" parameterType="com.mycollab.module.user.domain.criteria.UserSearchCriteria" lang="velocity">
         <include refid="selectUser" />
         #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")
@@ -166,7 +166,7 @@
         <include refid="orderStatement" />
     </select>
 
-    <delete id="removeByCriteria" parameterType="UserSearchCriteria" lang="velocity">
+    <delete id="removeByCriteria" parameterType="com.mycollab.module.user.domain.criteria.UserSearchCriteria" lang="velocity">
         DELETE FROM s_user
         #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")

@@ -135,7 +135,7 @@
         ]]>
     </sql>
 
-    <select id="getTotalCount" parameterType="MilestoneSearchCriteria"
+    <select id="getTotalCount" parameterType="com.mycollab.module.project.domain.criteria.MilestoneSearchCriteria"
         resultType="int" lang="velocity">
         SELECT count(*) as totalCount FROM m_prj_milestone
 
@@ -146,7 +146,7 @@
         #end
     </select>
 
-    <select id="findPageableListByCriteria" parameterType="MilestoneSearchCriteria"
+    <select id="findPageableListByCriteria" parameterType="com.mycollab.module.project.domain.criteria.MilestoneSearchCriteria"
         resultMap="MilestoneResult" lang="velocity">
 
         <include refid="selectMilestone" />

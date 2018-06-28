@@ -22,7 +22,7 @@ import java.util.ArrayList
  * @author MyCollab Ltd.
  * @since 1.0
  */
-open class Folder : Resource {
+class Folder : Resource {
     var childs = mutableListOf<Folder>()
 
     val isHiddenFolder: Boolean

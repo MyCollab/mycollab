@@ -44,7 +44,7 @@ import com.mycollab.vaadin.web.ui.ModuleHelper
  * @author MyCollab Ltd
  * @since 6.0.0
  */
-open class ProjectUrlResolver : UrlResolver() {
+class ProjectUrlResolver : UrlResolver() {
     fun build(): UrlResolver {
         this.addSubResolver("list", ProjectListUrlResolver())
         this.addSubResolver("dashboard", ProjectDashboardUrlResolver())

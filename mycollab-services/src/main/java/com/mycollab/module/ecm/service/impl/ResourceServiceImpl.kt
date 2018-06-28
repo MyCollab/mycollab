@@ -44,7 +44,7 @@ import javax.imageio.ImageIO
  * @since 6.0.0
  */
 @Service
-open class ResourceServiceImpl(private val contentJcrDao: ContentJcrDao,
+class ResourceServiceImpl(private val contentJcrDao: ContentJcrDao,
                           private val rawContentService: RawContentService,
                           private val billingPlanCheckerService: BillingPlanCheckerService,
                           private val asyncEventBus: AsyncEventBus) : ResourceService {

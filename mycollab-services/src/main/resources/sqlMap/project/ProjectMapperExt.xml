@@ -168,7 +168,7 @@
         WHERE m_prj_project.id=@{projectId, jdbcType=NUMERIC}
     </select>
 
-    <select id="getTotalCount" resultType="int" parameterType="ProjectSearchCriteria" lang="velocity">
+    <select id="getTotalCount" resultType="int" parameterType="com.mycollab.module.project.domain.criteria.ProjectSearchCriteria" lang="velocity">
         SELECT count(*) as totalCount
         FROM m_prj_project
         #ifnotnull($_parameter.searchCriteria)
@@ -201,7 +201,7 @@
     </select>
 
 
-    <select id="findPageableListByCriteria" resultMap="SimpleProjectResult" parameterType="ProjectSearchCriteria" lang="velocity">
+    <select id="findPageableListByCriteria" resultMap="SimpleProjectResult" parameterType="com.mycollab.module.project.domain.criteria.ProjectSearchCriteria" lang="velocity">
         <include refid="selectSimpleProject" />
         #ifnotnull($_parameter.searchCriteria)
           #trimext("WHERE" "AND|OR")
@@ -221,7 +221,7 @@
         m_prj_project.lastUpdatedTime DESC
     </sql>
 
-    <select id="getProjectActivityStreams" parameterType="ActivityStreamSearchCriteria" resultMap="ActivityStreamResult" lang="velocity">
+    <select id="getProjectActivityStreams" parameterType="com.mycollab.module.project.domain.criteria.ProjectGenericItemSearchCriteria" resultMap="ActivityStreamResult" lang="velocity">
          (SELECT s_activitystream.id, s_activitystream.sAccountId, s_activitystream.type, s_activitystream.typeId, m_tracker_bug.bugkey AS itemKey, 
                s_activitystream.createdTime, s_activitystream.action, s_activitystream.createdUser, s_activitystream.nameField, s_activitystream.extraTypeId,
                s_activitystream.module, concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) as createdUserFullName,
@@ -450,7 +450,7 @@
         createdTime DESC
     </select>
 
-    <select id="getTotalActivityStream" resultType="int" parameterType="ActivityStreamSearchCriteria" lang="velocity">
+    <select id="getTotalActivityStream" resultType="int" parameterType="com.mycollab.module.project.domain.criteria.ProjectGenericItemSearchCriteria" lang="velocity">
         SELECT count(*) as totalCount
         FROM s_activitystream
         #ifnotnull($_parameter.searchCriteria)

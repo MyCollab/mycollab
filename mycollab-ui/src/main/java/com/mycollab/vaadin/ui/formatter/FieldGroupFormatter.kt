@@ -20,7 +20,7 @@ package com.mycollab.vaadin.ui.formatter
  * @author MyCollab Ltd.
  * @since 4.3.3
  */
-open class FieldGroupFormatter {
+class FieldGroupFormatter {
 
     private var fieldsFormat = mutableMapOf<String, DefaultFieldDisplayHandler>()
 

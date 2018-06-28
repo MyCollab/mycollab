@@ -86,7 +86,7 @@
         m_crm_meeting.lastUpdatedTime DESC
 	</sql>
 
-	<select id="findPageableListByCriteria" parameterType="MeetingSearchCriteria"
+	<select id="findPageableListByCriteria" parameterType="com.mycollab.module.crm.domain.criteria.MeetingSearchCriteria"
 		resultMap="SimpleMeetingResult" lang="velocity">
 		<include refid="selectSimpleMeeting" />
 		#ifnotnull($_parameter.searchCriteria)
@@ -97,7 +97,7 @@
 	    <include refid="orderStatement" />
 	</select>
 
-	<select id="getTotalCount" parameterType="MeetingSearchCriteria"
+	<select id="getTotalCount" parameterType="com.mycollab.module.crm.domain.criteria.MeetingSearchCriteria"
 		resultType="java.lang.Integer" lang="velocity">
 		SELECT count(*) as totalCount FROM m_crm_meeting
 		#ifnotnull($_parameter.searchCriteria)

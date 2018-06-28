@@ -24,7 +24,7 @@ import java.util.Calendar
  * @author MyCollab Ltd.
  * @since 1.0
  */
-open class Content : Resource {
+class Content : Resource {
     var title = ""
     var lastModified: Calendar? = null
     var lastModifiedBy: String? = null

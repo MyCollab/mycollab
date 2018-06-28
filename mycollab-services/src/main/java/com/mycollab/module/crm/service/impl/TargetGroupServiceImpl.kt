@@ -29,7 +29,7 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 @Transactional
-open class TargetGroupServiceImpl(private val targetGroupMapper: TargetGroupMapper,
+class TargetGroupServiceImpl(private val targetGroupMapper: TargetGroupMapper,
                              private val targetGroupMapperExt: TargetGroupMapperExt) : DefaultService<Int, TargetGroup, TargetGroupSearchCriteria>(), TargetGroupService {
 
     override val crudMapper: ICrudGenericDAO<Int, TargetGroup>

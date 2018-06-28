@@ -56,8 +56,7 @@ class ExceptionFilter : Filter<ILoggingEvent>() {
             arrayOf()
         }
 
-        private fun isInstanceInBlackList(cls: Class<*>, throwable: Throwable): Boolean {
-            return cls.isInstance(throwable) || throwable.cause != null && isInstanceInBlackList(cls, throwable.cause as Throwable)
-        }
+        private fun isInstanceInBlackList(cls: Class<*>, throwable: Throwable): Boolean =
+                cls.isInstance(throwable) || throwable.cause != null && isInstanceInBlackList(cls, throwable.cause as Throwable)
     }
 }

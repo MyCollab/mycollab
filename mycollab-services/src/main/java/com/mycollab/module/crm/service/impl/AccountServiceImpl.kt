@@ -45,7 +45,7 @@ import java.util.*
 @Transactional
 @Traceable(nameField = "accountname")
 @Watchable(userFieldName = "assignuser")
-open class AccountServiceImpl(private val accountMapper: AccountMapper,
+class AccountServiceImpl(private val accountMapper: AccountMapper,
                          private val accountMapperExt: AccountMapperExt,
                          private val accountLeadMapper: AccountLeadMapper) : DefaultService<Int, Account, AccountSearchCriteria>(), AccountService {
 

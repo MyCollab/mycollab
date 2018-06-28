@@ -42,7 +42,7 @@
         ]]>
     </sql>
 
-    <select id="findPageableListByCriteria" parameterType="RelayEmailNotificationSearchCriteria"
+    <select id="findPageableListByCriteria" parameterType="com.mycollab.common.domain.criteria.RelayEmailNotificationSearchCriteria"
         resultMap="SimpleEmailRelayNotificationResult" lang="velocity">
         <include refid="selectSimpleRelayEmailNotification" />
         #ifnotnull($_parameter.searchCriteria)
@@ -52,7 +52,7 @@
         #end
     </select>
     
-    <delete id="removeByCriteria" parameterType="RelayEmailNotificationSearchCriteria" lang="velocity">
+    <delete id="removeByCriteria" parameterType="com.mycollab.common.domain.criteria.RelayEmailNotificationSearchCriteria" lang="velocity">
         DELETE FROM s_relay_email_notification
         #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")

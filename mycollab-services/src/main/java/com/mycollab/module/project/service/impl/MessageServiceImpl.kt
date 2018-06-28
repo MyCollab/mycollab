@@ -45,7 +45,7 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 @Transactional
 @Traceable(nameField = "title", extraFieldName = "projectid")
-open class MessageServiceImpl(private val messageMapper: MessageMapper,
+class MessageServiceImpl(private val messageMapper: MessageMapper,
                          private val messageMapperExt: MessageMapperExt,
                          private val asyncEventBus: AsyncEventBus) : DefaultService<Int, Message, MessageSearchCriteria>(), MessageService {
 

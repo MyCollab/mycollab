@@ -51,16 +51,16 @@ public class MyBatisConfiguration {
     public SqlSessionFactory sqlSessionFactory() throws Exception {
         SqlSessionFactoryBean sqlSessionFactory = new SqlSessionFactoryBean();
         sqlSessionFactory.setDataSource(dataSource);
-        sqlSessionFactory.setTypeAliasesPackage("com.mycollab.common.domain.criteria;" +
-                "com.mycollab.module.crm.domain.criteria;" +
-                "com.mycollab.module.ecm.domain.criteria;" +
-                "com.mycollab.module.file.domain.criteria;" +
-                "com.mycollab.module.project.domain.criteria;" +
-                "com.mycollab.module.tracker.domain.criteria;" +
-                "com.mycollab.module.user.domain.criteria;" +
-                "com.mycollab.ondemand.module.billing.domain.criteria;" +
-                "com.mycollab.ondemand.module.support.domain.criteria");
-        sqlSessionFactory.setTypeAliasesSuperType(SearchCriteria.class);
+//        sqlSessionFactory.setTypeAliasesPackage("com.mycollab.common.domain.criteria;" +
+//                "com.mycollab.module.crm.domain.criteria;" +
+//                "com.mycollab.module.ecm.domain.criteria;" +
+//                "com.mycollab.module.file.domain.criteria;" +
+//                "com.mycollab.module.project.domain.criteria;" +
+//                "com.mycollab.module.tracker.domain.criteria;" +
+//                "com.mycollab.module.user.domain.criteria;" +
+//                "com.mycollab.ondemand.module.billing.domain.criteria;" +
+//                "com.mycollab.ondemand.module.support.domain.criteria");
+//        sqlSessionFactory.setTypeAliasesSuperType(SearchCriteria.class);
         sqlSessionFactory.setTypeAliases(new Class[]{VelocityDriverDeclare.class});
         sqlSessionFactory.setTypeHandlersPackage("com.mycollab.mybatis.plugin.ext");
         sqlSessionFactory.setMapperLocations(buildBatchMapperResources(

@@ -23,7 +23,7 @@ import com.mycollab.module.user.domain.SimpleUser
  * @author MyCollab Ltd.
  * @since 1.0
  */
-open class SimpleRelayEmailNotification : RelayEmailNotificationWithBLOBs() {
+class SimpleRelayEmailNotification : RelayEmailNotificationWithBLOBs() {
 
     var accountLogo: String? = null
     var changeByUserFullName: String? = null
