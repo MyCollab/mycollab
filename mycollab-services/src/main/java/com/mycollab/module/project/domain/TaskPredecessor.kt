@@ -25,16 +25,12 @@ class TaskPredecessor : Predecessor() {
     var ganttIndex: Int? = null
 
     companion object {
-        @JvmField
-        val SS = "SS"
+        const val SS = "SS"
 
-        @JvmField
-        val FS = "FS"
+        const val FS = "FS"
 
-        @JvmField
-        val FF = "FF"
+        const val FF = "FF"
 
-        @JvmField
-        val SF = "SF"
+        const val SF = "SF"
     }
 }

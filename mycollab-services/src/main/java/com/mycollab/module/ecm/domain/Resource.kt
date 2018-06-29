@@ -26,7 +26,7 @@ import java.util.Calendar
  * @author MyCollab Ltd.
  * @since 1.0
  */
-class Resource : Comparable<Resource> {
+open class Resource : Comparable<Resource> {
 
     @NotBindable
     var isSelected = false

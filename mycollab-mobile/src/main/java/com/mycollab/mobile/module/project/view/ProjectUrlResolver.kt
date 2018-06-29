@@ -40,7 +40,7 @@ import com.mycollab.vaadin.UserUIContext
 import com.mycollab.vaadin.mvp.PageActionChain
 import com.mycollab.vaadin.mvp.UrlResolver
 
-class ProjectUrlResolver : UrlResolver() {
+open class ProjectUrlResolver : UrlResolver() {
     fun build(): UrlResolver {
         this.addSubResolver("dashboard", DashboardUrlResolver())
         this.addSubResolver("activities", ActivityUrlResolver())

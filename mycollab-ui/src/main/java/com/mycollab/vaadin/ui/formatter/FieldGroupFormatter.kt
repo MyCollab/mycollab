@@ -20,46 +20,39 @@ package com.mycollab.vaadin.ui.formatter
  * @author MyCollab Ltd.
  * @since 4.3.3
  */
-class FieldGroupFormatter {
+open class FieldGroupFormatter {
 
     private var fieldsFormat = mutableMapOf<String, DefaultFieldDisplayHandler>()
 
     fun generateFieldDisplayHandler(fieldName: String, displayName: Enum<*>) {
-        fieldsFormat.put(fieldName, DefaultFieldDisplayHandler(displayName))
+        fieldsFormat[fieldName] = DefaultFieldDisplayHandler(displayName)
     }
 
     fun generateFieldDisplayHandler(fieldName: String, displayName: Enum<*>, format: HistoryFieldFormat) {
-        fieldsFormat.put(fieldName, DefaultFieldDisplayHandler(displayName, format))
+        fieldsFormat[fieldName] = DefaultFieldDisplayHandler(displayName, format)
     }
 
     fun generateFieldDisplayHandler(fieldName: String, displayName: Enum<*>, formatName: String) {
-        fieldsFormat.put(fieldName, DefaultFieldDisplayHandler(displayName, defaultFieldHandlers[formatName]!!))
+        fieldsFormat[fieldName] = DefaultFieldDisplayHandler(displayName, defaultFieldHandlers[formatName]!!)
     }
 
-    fun getFieldDisplayHandler(fieldName: String): DefaultFieldDisplayHandler? = fieldsFormat[fieldName]
+    fun getFieldDisplayHandler(fieldName: String) = fieldsFormat[fieldName]
 
     companion object {
 
-        @JvmField
-        val DEFAULT_FIELD = "default"
+        const val DEFAULT_FIELD = "default"
 
-        @JvmField
-        val DATE_FIELD = "date"
+        const val DATE_FIELD = "date"
 
-        @JvmField
-        val DATETIME_FIELD = "datetime"
+        const val DATETIME_FIELD = "datetime"
 
-        @JvmField
-        val PRETTY_DATE_FIELD = "prettydate"
+        const val PRETTY_DATE_FIELD = "prettydate"
 
-        @JvmField
-        val PRETTY_DATE_TIME_FIELD = "prettydatetime"
+        const val PRETTY_DATE_TIME_FIELD = "prettydatetime"
 
-        @JvmField
-        val CURRENCY_FIELD = "currency"
+        const val CURRENCY_FIELD = "currency"
 
-        @JvmField
-        val TRIM_HTMLS = "trim_htmls"
+        const val TRIM_HTMLS = "trim_htmls"
 
         private var defaultFieldHandlers: MutableMap<String, HistoryFieldFormat> = mutableMapOf(
                 DEFAULT_FIELD to DefaultHistoryFieldFormat(),

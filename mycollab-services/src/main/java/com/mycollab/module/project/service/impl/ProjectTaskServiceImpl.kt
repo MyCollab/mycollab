@@ -77,7 +77,7 @@ class ProjectTaskServiceImpl(private val taskMapper: TaskMapper,
     override val searchMapper: ISearchableDAO<TaskSearchCriteria>
         get() = taskMapperExt
 
-    override fun findById(taskId: Int, sAccountId: Int): SimpleTask = taskMapperExt.findTaskById(taskId)
+    override fun findById(taskId: Int, sAccountId: Int) = taskMapperExt.findTaskById(taskId)
 
     @Transactional(isolation = Isolation.READ_UNCOMMITTED)
     override fun saveWithSession(record: Task, username: String?): Int {

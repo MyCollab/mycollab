@@ -39,7 +39,7 @@ object ResourceUtils {
      * @return
      */
     @JvmStatic
-    fun getExternalResourceService(resourceType: ResourceType): ExternalResourceService =
+    fun getExternalResourceService(resourceType: ResourceType) =
             when {
                 ResourceType.Dropbox === resourceType -> AppContextUtil.getSpringBean(DropboxResourceService::class.java)
                 else -> throw MyCollabException("Current support only dropbox resource service")
@@ -50,7 +50,7 @@ object ResourceUtils {
      * @return
      */
     @JvmStatic
-    fun getExternalDrive(resource: Resource): ExternalDrive? =
+    fun getExternalDrive(resource: Resource) =
             when (resource) {
                 is ExternalFolder -> resource.externalDrive
                 is ExternalContent -> resource.externalDrive
@@ -62,7 +62,7 @@ object ResourceUtils {
      * @return
      */
     @JvmStatic
-    fun getType(resource: Resource): ResourceType =
+    fun getType(resource: Resource) =
             if (!resource.isExternalResource) {
                 ResourceType.MyCollab
             } else {

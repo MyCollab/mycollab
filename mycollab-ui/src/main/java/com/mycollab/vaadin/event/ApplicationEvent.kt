@@ -26,4 +26,4 @@ import java.util.*
  * @author MyCollab Ltd
  * @since 6.0.0
  */
-class ApplicationEvent(source: Any) : EventObject(source)
+open class ApplicationEvent(source: Any) : EventObject(source)

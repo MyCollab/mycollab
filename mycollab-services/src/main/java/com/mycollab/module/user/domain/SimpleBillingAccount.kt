@@ -27,7 +27,7 @@ import java.util.*
  * @author MyCollab Ltd.
  * @since 1.0
  */
-class SimpleBillingAccount : BillingAccount() {
+open class SimpleBillingAccount : BillingAccount() {
 
     @NotBindable
     var billingPlan: BillingPlan? = null

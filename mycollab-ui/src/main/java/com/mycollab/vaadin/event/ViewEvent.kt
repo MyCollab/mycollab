@@ -22,6 +22,6 @@ package com.mycollab.vaadin.event
  */
 class ViewEvent<B>(source: Any, val data: Any) : ApplicationEvent(source) {
     companion object {
-        @JvmField val VIEW_IDENTIFIER = "viewEvent"
+        const val VIEW_IDENTIFIER = "viewEvent"
     }
 }

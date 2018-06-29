@@ -20,4 +20,4 @@ package com.mycollab.db.query
  * @author MyCollab Ltd.
  * @since 4.0
  */
-class ColumnParam(id: String, var table: String, var column: String) : Param(id)
+open class ColumnParam(id: String, var table: String, var column: String) : Param(id)

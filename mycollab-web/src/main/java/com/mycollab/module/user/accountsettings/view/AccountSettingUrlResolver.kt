@@ -26,7 +26,7 @@ import com.mycollab.vaadin.web.ui.ModuleHelper
  * @author MyCollab Ltd
  * @since 6.0.0
  */
-class AccountSettingUrlResolver : UrlResolver() {
+open class AccountSettingUrlResolver : UrlResolver() {
     fun build(): UrlResolver {
         this.addSubResolver("preview", ReadUrlResolver())
         this.addSubResolver("billing", BillingUrlResolver())

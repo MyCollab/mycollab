@@ -14,19 +14,27 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http:></http:>//www.gnu.org/licenses/>.
  */
-package com.mycollab.vaadin.event
+package com.mycollab.module.file.servlet
+
+import org.springframework.boot.web.servlet.ServletRegistrationBean
+import org.springframework.context.annotation.Bean
+import org.springframework.context.annotation.Configuration
+import org.springframework.context.annotation.Profile
 
 /**
  * @author MyCollab Ltd
- * @since 5.2.5
+ * @since 5.5.0
  */
-open class DefaultEditFormHandler<T> : IEditFormHandler<T> {
-    override fun onSave(bean: T) {
-    }
+@Configuration
+@Profile("program")
+class FileSpringServletRegistrator {
+    @Bean("assetServlet")
+    fun assetServlet() = ServletRegistrationBean(AssetHandler(), "/assets/*")
 
-    override fun onSaveAndNew(bean: T) {
-    }
+    @Bean("resourceGetServlet")
+    fun resourceGetServlet() = ServletRegistrationBean(ResourceGetHandler(), "/file/*")
 
-    override fun onCancel() {
-    }
+    @Bean("userAvatarServlet")
+    fun userAvatarServlet() =
+            ServletRegistrationBean(UserAvatarHttpServletRequestHandler(), "/file/avatar/*")
 }

@@ -22,7 +22,7 @@ import com.mycollab.core.utils.StringUtils
  * @author MyCollab Ltd.
  * @since 1.0
  */
-class SimpleActivityStream : ActivityStreamWithBLOBs() {
+open class SimpleActivityStream : ActivityStreamWithBLOBs() {
 
     var createdUserAvatarId: String? = null
     var createdUserFullName: String? = null

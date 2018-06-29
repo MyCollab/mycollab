@@ -47,5 +47,5 @@ class ProjectPageServiceImpl(private val pageService: PageService,
         activityStreamService.save(activityStream)
     }
 
-    override fun getPage(path: String, requestedUser: String): Page? = pageService.getPage(path, requestedUser)
+    override fun getPage(path: String, requestedUser: String) = pageService.getPage(path, requestedUser)
 }

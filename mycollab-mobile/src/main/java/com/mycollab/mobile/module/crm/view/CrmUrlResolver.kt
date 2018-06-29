@@ -33,7 +33,7 @@ import com.mycollab.vaadin.mvp.UrlResolver
  * @author MyCollab Ltd
  * @since 6.0.0
  */
-class CrmUrlResolver() : UrlResolver() {
+open class CrmUrlResolver() : UrlResolver() {
     fun build(): UrlResolver {
         this.addSubResolver("dashboard", DashboardUrlResolver())
         this.addSubResolver("account", AccountUrlResolver())
@@ -43,7 +43,7 @@ class CrmUrlResolver() : UrlResolver() {
         this.addSubResolver("opportunity", OpportunityUrlResolver())
         this.addSubResolver("cases", CaseUrlResolver())
         this.addSubResolver("activity", ActivityUrlResolver())
-        return this;
+        return this
     }
 
     override fun handle(vararg params: String) {
@@ -63,7 +63,7 @@ class CrmUrlResolver() : UrlResolver() {
         EventBusFactory.getInstance().post(ShellEvent.GotoCrmModule(this, null))
     }
 
-    class DashboardUrlResolver() : CrmUrlResolver() {
+    class DashboardUrlResolver : CrmUrlResolver() {
         override fun handlePage(vararg params: String) {
             EventBusFactory.getInstance().post(CrmEvent.GotoActivitiesView(this, null))
         }

@@ -25,7 +25,7 @@ import javax.annotation.PreDestroy
  * @author MyCollab Ltd
  * @since 6.0.0
  */
-class GenericCommand {
+open class GenericCommand {
     @Autowired protected lateinit var asyncEventBus: AsyncEventBus
 
     @PostConstruct

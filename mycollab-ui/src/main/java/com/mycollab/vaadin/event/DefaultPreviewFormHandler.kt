@@ -22,7 +22,7 @@ import com.mycollab.core.MyCollabException
  * @author MyCollab Ltd
  * @since 6.0.0
  */
-class DefaultPreviewFormHandler<T> : PreviewFormHandler<T> {
+open class DefaultPreviewFormHandler<T> : PreviewFormHandler<T> {
     override fun gotoNext(data: T) {}
 
     override fun gotoPrevious(data: T) {}

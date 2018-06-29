@@ -12,14 +12,14 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <http:></http:>//www.gnu.org/licenses/>.
  */
-package com.mycollab.module.page.servlet;
+package com.mycollab.module.page.servlet
 
-import org.springframework.boot.web.servlet.ServletRegistrationBean;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
+import org.springframework.boot.web.servlet.ServletRegistrationBean
+import org.springframework.context.annotation.Bean
+import org.springframework.context.annotation.Configuration
+import org.springframework.context.annotation.Profile
 
 /**
  * @author MyCollab Ltd
@@ -27,9 +27,7 @@ import org.springframework.context.annotation.Profile;
  */
 @Configuration
 @Profile("program")
-public class PageSpringServletRegistor {
+class PageSpringServletRegistor {
     @Bean("fileUploadServlet")
-    public ServletRegistrationBean fileUploadServlet() {
-        return new ServletRegistrationBean(new FileUploadServlet(), "/page/upload");
-    }
+    fun fileUploadServlet() = ServletRegistrationBean(FileUploadServlet(), "/page/upload")
 }

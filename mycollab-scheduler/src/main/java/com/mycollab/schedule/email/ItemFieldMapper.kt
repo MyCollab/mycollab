@@ -23,7 +23,7 @@ import com.mycollab.schedule.email.format.FieldFormat
  * @author MyCollab Ltd
  * @since 6.0.0
  */
-class ItemFieldMapper {
+open class ItemFieldMapper {
     private val fieldNameMap: MutableMap<String, FieldFormat> = mutableMapOf()
 
     fun put(fieldName: Enum<*>, displayName: Enum<*>) {
@@ -38,9 +38,9 @@ class ItemFieldMapper {
         fieldNameMap[fieldName.name] = format
     }
 
-    fun keySet(): Set<String> = fieldNameMap.keys
+    fun keySet() = fieldNameMap.keys
 
-    fun hasField(fieldName: String): Boolean = fieldNameMap.contains(fieldName)
+    fun hasField(fieldName: String) = fieldNameMap.contains(fieldName)
 
-    fun getField(fieldName: String): FieldFormat? = fieldNameMap[fieldName]
+    fun getField(fieldName: String) = fieldNameMap[fieldName]
 }

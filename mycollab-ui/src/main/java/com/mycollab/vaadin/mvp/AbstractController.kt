@@ -22,9 +22,9 @@ import com.mycollab.vaadin.EventBusFactory
  * @author MyCollab Ltd
  * @since 6.0.0
  */
-class AbstractController {
+open class AbstractController {
     private val eventBus = EventBusFactory.getInstance()
-    private val subscribers: MutableSet<Any> = mutableSetOf()
+    private val subscribers = mutableSetOf<Any>()
 
     fun register(subscriber: Any) {
         eventBus.register(subscriber)

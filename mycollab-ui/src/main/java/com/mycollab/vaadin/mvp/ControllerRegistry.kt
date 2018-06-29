@@ -30,6 +30,6 @@ object ControllerRegistry {
             MyCollabSession.putCurrentUIVariable(MyCollabSession.CONTROLLER_REGISTRY, controllerList)
         }
         controllerList[controller.javaClass]?.unregisterAll()
-        controllerList.put(controller.javaClass, controller)
+        controllerList[controller.javaClass] = controller
     }
 }

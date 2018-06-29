@@ -49,7 +49,7 @@ abstract class UrlResolver {
         subResolvers?.put(key, subResolver)
     }
 
-    fun getSubResolver(key: String): UrlResolver? = subResolvers?.get(key)
+    fun getSubResolver(key: String) = subResolvers?.get(key)
 
     open fun handle(vararg params: String) {
         try {

@@ -45,11 +45,11 @@ class HeaderWithFontAwesome private constructor(private val iconFont: FontAwesom
     companion object {
 
         @JvmStatic
-        fun h2(iconFont: FontAwesome, title: String): HeaderWithFontAwesome =
+        fun h2(iconFont: FontAwesome, title: String) =
                 HeaderWithFontAwesome(iconFont, title, ValoTheme.LABEL_H2)
 
         @JvmStatic
-        fun h3(iconFont: FontAwesome, title: String): HeaderWithFontAwesome =
+        fun h3(iconFont: FontAwesome, title: String) =
                 HeaderWithFontAwesome(iconFont, title, ValoTheme.LABEL_H3)
     }
 }
