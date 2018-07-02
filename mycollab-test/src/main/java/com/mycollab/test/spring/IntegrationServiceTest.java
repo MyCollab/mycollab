@@ -20,7 +20,6 @@ import com.mycollab.configuration.ApplicationConfiguration;
 import com.mycollab.configuration.ServerConfiguration;
 import com.mycollab.test.rule.DbUnitInitializerRule;
 import com.mycollab.test.rule.EssentialInitRule;
-import freemarker.template.Configuration;
 import org.junit.ClassRule;
 import org.junit.Rule;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -34,9 +33,6 @@ import org.springframework.test.context.ContextConfiguration;
 @ContextConfiguration(classes = RootConfigurationTest.class)
 @ActiveProfiles(profiles = "test")
 public class IntegrationServiceTest {
-
-    @MockBean
-    private Configuration freemarkerConfiguration;
 
     @MockBean
     private ApplicationConfiguration applicationConfiguration;

@@ -19,14 +19,12 @@ package com.mycollab.module.file.servlet
 import org.springframework.boot.web.servlet.ServletRegistrationBean
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.context.annotation.Profile
 
 /**
  * @author MyCollab Ltd
  * @since 5.5.0
  */
 @Configuration
-@Profile("program")
 class FileSpringServletRegistrator {
     @Bean("assetServlet")
     fun assetServlet() = ServletRegistrationBean(AssetHandler(), "/assets/*")
@@ -35,6 +33,5 @@ class FileSpringServletRegistrator {
     fun resourceGetServlet() = ServletRegistrationBean(ResourceGetHandler(), "/file/*")
 
     @Bean("userAvatarServlet")
-    fun userAvatarServlet() =
-            ServletRegistrationBean(UserAvatarHttpServletRequestHandler(), "/file/avatar/*")
+    fun userAvatarServlet() = ServletRegistrationBean(UserAvatarHttpServletRequestHandler(), "/file/avatar/*")
 }

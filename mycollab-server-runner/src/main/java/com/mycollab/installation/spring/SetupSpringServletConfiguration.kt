@@ -14,30 +14,33 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http:></http:>//www.gnu.org/licenses/>.
  */
-package com.mycollab.spring
+package com.mycollab.installation.spring
 
-import com.google.common.eventbus.AsyncEventBus
-import com.google.common.eventbus.SubscriberExceptionHandler
-import org.slf4j.LoggerFactory
+import com.mycollab.installation.servlet.*
+import org.springframework.boot.web.servlet.ServletRegistrationBean
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import java.util.concurrent.Executors
+import org.springframework.context.annotation.Profile
 
 /**
  * @author MyCollab Ltd
- * @since 5.1.0
+ * @since 5.5.0
  */
 @Configuration
-class AppEventBus {
+@Profile("setup")
+class SetupSpringServletConfiguration {
+    @Bean
+    fun assetServlet() = ServletRegistrationBean(AssetHttpServletRequestHandler(), "/assets/*")
 
     @Bean
-    fun asyncEventBus() = AsyncEventBus(Executors.newCachedThreadPool(),
-            SubscriberExceptionHandler { throwable, _ -> LOG.error("Error in event bus execution", throwable) })
+    fun databaseValidateServlet() = ServletRegistrationBean(DatabaseValidateServlet(), "/validate")
 
-    companion object {
-        private val LOG = LoggerFactory.getLogger(AppEventBus::class.java)
+    @Bean
+    fun emailValidateServlet() = ServletRegistrationBean(EmailValidationServlet(), "/emailValidate")
 
-        @JvmStatic
-        fun getInstance() = AppContextUtil.getSpringBean(AsyncEventBus::class.java)
-    }
+    @Bean
+    fun installationServlet() = ServletRegistrationBean(InstallationServlet(), "/install")
+
+    @Bean
+    fun setupServlet() = ServletRegistrationBean(SetupServlet(), "/")
 }

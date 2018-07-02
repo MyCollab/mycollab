@@ -21,10 +21,8 @@ import org.infinispan.configuration.cache.ConfigurationBuilder
 import org.infinispan.spring.starter.embedded.InfinispanCacheConfigurer
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.context.annotation.Profile
 
 @Configuration
-@Profile("program")
 class CacheConfiguration {
 
     @Bean

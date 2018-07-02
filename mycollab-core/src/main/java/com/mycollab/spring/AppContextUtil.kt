@@ -20,10 +20,8 @@ import com.mycollab.core.MyCollabException
 import org.springframework.beans.BeansException
 import org.springframework.context.ApplicationContext
 import org.springframework.context.ApplicationContextAware
-import org.springframework.context.annotation.Profile
 import org.springframework.stereotype.Component
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean
-
 import javax.validation.Validator
 
 /**
@@ -34,7 +32,6 @@ import javax.validation.Validator
  * @since 1.0.0
  */
 @Component("appContextUtil")
-@Profile("program", "test")
 class AppContextUtil : ApplicationContextAware {
 
     @Throws(BeansException::class)
@@ -45,16 +42,19 @@ class AppContextUtil : ApplicationContextAware {
     companion object {
         private var ctx: ApplicationContext? = null
 
-        @JvmStatic fun <T> getSpringBean(name: String, classType: Class<T>): T = try {
+        @JvmStatic
+        fun <T> getSpringBean(name: String, classType: Class<T>): T = try {
             ctx!!.getBean(name, classType)
         } catch (e: Exception) {
             throw MyCollabException("Can not find service $name")
         }
 
-        @JvmStatic val validator: Validator
+        @JvmStatic
+        val validator: Validator
             get() = getSpringBean("validator", LocalValidatorFactoryBean::class.java)
 
-        @JvmStatic fun <T> getSpringBean(classType: Class<T>): T = try {
+        @JvmStatic
+        fun <T> getSpringBean(classType: Class<T>): T = try {
             ctx!!.getBean(classType)
         } catch (e: Exception) {
             throw MyCollabException("Can not find service $classType", e)

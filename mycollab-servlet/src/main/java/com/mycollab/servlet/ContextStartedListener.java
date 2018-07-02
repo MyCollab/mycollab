@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.mycollab.spring;
+package com.mycollab.servlet;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,7 +22,6 @@ import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 import org.springframework.context.event.ContextRefreshedEvent;
 
 import javax.servlet.http.HttpServlet;
@@ -35,7 +34,6 @@ import java.io.IOException;
  * @since 6.0.0
  */
 @Configuration
-@Profile("program")
 public class ContextStartedListener implements ApplicationListener<ContextRefreshedEvent> {
     private static Logger LOG = LoggerFactory.getLogger(ContextStartedListener.class);
 

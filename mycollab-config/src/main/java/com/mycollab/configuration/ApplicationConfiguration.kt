@@ -17,7 +17,6 @@
 package com.mycollab.configuration
 
 import org.springframework.boot.context.properties.ConfigurationProperties
-import org.springframework.context.annotation.Profile
 import org.springframework.stereotype.Component
 
 /**
@@ -25,13 +24,12 @@ import org.springframework.stereotype.Component
  * @since 5.5.0
  */
 @Component
-@Profile("program", "test")
 @ConfigurationProperties(prefix = "app")
 class ApplicationConfiguration(var siteName: String = "MyCollab", var description: String? = "", var facebookUrl: String? = "",
                                var twitterUrl: String? = "", var googleUrl: String? = "",
                                var linkedinUrl: String? = "", var notifyEmail: String) {
 
-    constructor(): this("", "", "", "", "", "", "")
+    constructor() : this("", "", "", "", "", "", "")
 
     fun defaultUrls() =
             mutableMapOf("facebook_url" to (facebookUrl ?: ""),

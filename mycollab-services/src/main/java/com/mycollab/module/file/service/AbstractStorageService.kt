@@ -30,7 +30,7 @@ abstract class AbstractStorageService {
     protected open lateinit var deploymentMode: IDeploymentMode
 
     open fun getResourcePath(documentPath: String): String =
-            deploymentMode.getResourceDownloadUrl() + documentPath
+            "${deploymentMode.getResourceDownloadUrl()}$documentPath"
 
     open fun getLogoPath(accountId: Int, logoName: String?, size: Int): String =
             when {

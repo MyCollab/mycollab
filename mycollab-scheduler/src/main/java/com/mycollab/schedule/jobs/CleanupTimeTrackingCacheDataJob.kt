@@ -22,7 +22,6 @@ import org.joda.time.LocalDate
 import org.quartz.JobExecutionContext
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.config.BeanDefinition
-import org.springframework.context.annotation.Profile
 import org.springframework.context.annotation.Scope
 import org.springframework.stereotype.Component
 
@@ -31,7 +30,6 @@ import org.springframework.stereotype.Component
  * @since 6.0.0
  */
 @Component
-@Profile("program")
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
 class CleanupTimeTrackingCacheDataJob : GenericQuartzJobBean() {
 

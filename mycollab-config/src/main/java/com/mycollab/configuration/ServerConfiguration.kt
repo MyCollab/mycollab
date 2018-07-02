@@ -17,7 +17,6 @@
 package com.mycollab.configuration
 
 import org.springframework.boot.context.properties.ConfigurationProperties
-import org.springframework.context.annotation.Profile
 import org.springframework.stereotype.Component
 
 /**
@@ -25,12 +24,11 @@ import org.springframework.stereotype.Component
  * @since 5.5.0
  */
 @Component
-@Profile("program")
 @ConfigurationProperties(prefix = "server")
-class ServerConfiguration(var storageSystem: String = STORAGE_FILE, var port: Int? = 8080,
-                               var address: String?,
-                               var apiUrl: String, var pullMethod: String?, var siteUrl: String,
-                               var resourceDownloadUrl: String, var cdnUrl: String) {
+class ServerConfiguration(var storageSystem: String = STORAGE_FILE, var port: Int,
+                          var address: String?,
+                          var apiUrl: String, var pullMethod: String?, var siteUrl: String,
+                          var resourceDownloadUrl: String, var cdnUrl: String) {
 
     constructor() : this("", 8080, "", "", "", "", "", "")
 

@@ -12,28 +12,26 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <http:></http:>//www.gnu.org/licenses/>.
  */
-package com.mycollab.vaadin.spring;
+package com.mycollab.vaadin.spring
 
-import com.mycollab.vaadin.AppServlet;
-import org.springframework.boot.web.servlet.ServletRegistrationBean;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
+import com.mycollab.vaadin.AppServlet
+import org.springframework.boot.web.servlet.ServletRegistrationBean
+import org.springframework.context.annotation.Bean
+import org.springframework.context.annotation.Configuration
 
 /**
  * @author MyCollab Ltd
  * @since 6.0.0
  */
 @Configuration
-@Profile("program")
-public class VaadinSpringConfiguration {
+class VaadinSpringConfiguration {
 
     @Bean("mainServlet")
-    public ServletRegistrationBean mainServlet() {
-        ServletRegistrationBean bean = new ServletRegistrationBean(new AppServlet(), "/*");
-        bean.setLoadOnStartup(1);
-        return bean;
+    fun mainServlet(): ServletRegistrationBean<*> {
+        val bean = ServletRegistrationBean(AppServlet(), "/*")
+        bean.setLoadOnStartup(1)
+        return bean
     }
 }

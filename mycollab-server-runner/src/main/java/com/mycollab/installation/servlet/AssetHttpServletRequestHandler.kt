@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http:></http:>//www.gnu.org/licenses/>.
  */
-package com.mycollab.servlet
+package com.mycollab.installation.servlet
 
 import com.mycollab.core.utils.MimeTypesUtil
 import org.slf4j.LoggerFactory

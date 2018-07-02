@@ -17,14 +17,12 @@
 package com.mycollab.configuration
 
 import org.springframework.boot.context.properties.ConfigurationProperties
-import org.springframework.context.annotation.Profile
 import org.springframework.stereotype.Component
 
 /**
  * @author MyCollab Ltd
  * @since 6.0.0
  */
-@Profile("program")
 @Component
 @ConfigurationProperties(prefix = "spring.datasource")
 class DatabaseConfiguration(var driverClassName: String = "", var url: String = "",

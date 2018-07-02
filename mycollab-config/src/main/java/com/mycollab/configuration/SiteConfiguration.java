@@ -1,18 +1,8 @@
 package com.mycollab.configuration;
 
-import com.mycollab.core.utils.FileUtils;
 import com.mycollab.spring.AppContextUtil;
-import freemarker.cache.ClassTemplateLoader;
-import freemarker.cache.FileTemplateLoader;
-import freemarker.cache.MultiTemplateLoader;
-import freemarker.cache.TemplateLoader;
-import freemarker.template.Configuration;
 import org.joda.time.DateTimeZone;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
@@ -32,8 +22,6 @@ public class SiteConfiguration {
     private String endecryptPassword;
     private String dropboxCallbackUrl;
 
-    private Configuration freemarkerConfiguration;
-
     public static void loadConfiguration() {
         TimeZone.setDefault(DateTimeZone.UTC.toTimeZone());
         DateTimeZone.setDefault(DateTimeZone.UTC);
@@ -50,30 +38,6 @@ public class SiteConfiguration {
         instance.endecryptPassword = ApplicationProperties.getString(BI_ENDECRYPT_PASSWORD, "mycollab123");
 
         instance.dropboxCallbackUrl = ApplicationProperties.getString(DROPBOX_AUTH_LINK);
-
-        Configuration configuration = new Configuration(Configuration.VERSION_2_3_26);
-        configuration.setDefaultEncoding("UTF-8");
-        try {
-            List<TemplateLoader> loaders = new ArrayList<>();
-            File i18nFolder = new File(FileUtils.getUserFolder(), "i18n");
-            File confFolder1 = new File(FileUtils.getUserFolder(), "config");
-            File confFolder2 = new File(FileUtils.getUserFolder(), "src/main/config");
-            if (i18nFolder.exists()) {
-                loaders.add(new FileTemplateLoader(i18nFolder));
-            }
-            if (confFolder1.exists()) {
-                loaders.add(new FileTemplateLoader(confFolder1));
-            }
-            if (confFolder2.exists()) {
-                loaders.add(new FileTemplateLoader(confFolder2));
-            }
-            loaders.add(new ClassTemplateLoader(SiteConfiguration.class.getClassLoader(), ""));
-            configuration.setTemplateLoader(new MultiTemplateLoader(loaders.toArray(new TemplateLoader[loaders.size()])));
-            instance.freemarkerConfiguration = configuration;
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.exit(-1);
-        }
     }
 
     private static SiteConfiguration getInstance() {
@@ -99,7 +63,7 @@ public class SiteConfiguration {
     }
 
     public static Locale getDefaultLocale() {
-        return instance.defaultLocale;
+        return Locale.US;
     }
 
     public static String getDropboxCallbackUrl() {
@@ -108,9 +72,5 @@ public class SiteConfiguration {
 
     public static String getEnDecryptPassword() {
         return getInstance().endecryptPassword;
-    }
-
-    public static Configuration freemarkerConfiguration() {
-        return getInstance().freemarkerConfiguration;
     }
 }

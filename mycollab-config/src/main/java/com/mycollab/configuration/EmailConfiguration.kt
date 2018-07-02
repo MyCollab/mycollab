@@ -18,7 +18,6 @@ package com.mycollab.configuration
 
 import com.mycollab.core.arguments.ValuedBean
 import org.springframework.boot.context.properties.ConfigurationProperties
-import org.springframework.context.annotation.Profile
 import org.springframework.stereotype.Component
 
 /**
@@ -28,13 +27,12 @@ import org.springframework.stereotype.Component
  * @since 1.0
  */
 @Component
-@Profile("program")
 @ConfigurationProperties(prefix = "mail")
 class EmailConfiguration(var smtphost: String?, var username: String?,
-                              var password: String?, var port: Int,
-                              var startTls: Boolean = false, var ssl: Boolean = false,
-                              var notifyEmail: String) : ValuedBean() {
-    constructor(): this("", "", "", -1, false, false, "")
+                         var password: String?, var port: Int,
+                         var startTls: Boolean = false, var ssl: Boolean = false,
+                         var notifyEmail: String) : ValuedBean() {
+    constructor() : this("", "", "", -1, false, false, "")
 }
 
 

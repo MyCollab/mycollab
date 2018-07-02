@@ -19,7 +19,6 @@ package com.mycollab.community.schedule.spring
 import com.mycollab.community.schedule.jobs.CheckUpdateJob
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.context.annotation.Profile
 import org.springframework.scheduling.quartz.CronTriggerFactoryBean
 import org.springframework.scheduling.quartz.JobDetailFactoryBean
 
@@ -28,7 +27,6 @@ import org.springframework.scheduling.quartz.JobDetailFactoryBean
  * @since 5.1.3
  */
 @Configuration
-@Profile("program")
 class CommunityScheduleConfiguration {
 
     @Bean

@@ -39,5 +39,5 @@ object MailUtils {
     }
 
     @JvmStatic
-    fun getAvatarLink(userAvatarId: String?, size: Int): String = AppContextUtil.getSpringBean(AbstractStorageService::class.java).getAvatarPath(userAvatarId, size)
+    fun getAvatarLink(userAvatarId: String?, size: Int) = AppContextUtil.getSpringBean(AbstractStorageService::class.java).getAvatarPath(userAvatarId, size)
 }

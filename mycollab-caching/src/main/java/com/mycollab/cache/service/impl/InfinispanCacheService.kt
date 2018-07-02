@@ -22,7 +22,6 @@ import org.infinispan.commons.api.BasicCache
 import org.infinispan.context.Flag
 import org.infinispan.manager.EmbeddedCacheManager
 import org.slf4j.LoggerFactory
-import org.springframework.context.annotation.Profile
 import org.springframework.stereotype.Service
 
 /**
@@ -30,7 +29,6 @@ import org.springframework.stereotype.Service
  * @since 5.1.4
  */
 @Service
-@Profile("program")
 class InfinispanCacheService(private val instance: EmbeddedCacheManager) : CacheService {
 
     override fun putValue(group: String, key: String, value: Any) {

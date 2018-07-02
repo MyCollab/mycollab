@@ -16,7 +16,6 @@
  */
 package com.mycollab.spring;
 
-import com.mycollab.db.arguments.SearchCriteria;
 import com.mycollab.db.persistence.VelocityDriverDeclare;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -26,7 +25,6 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
@@ -41,7 +39,6 @@ import java.util.ArrayList;
  * @since 4.6.0
  */
 @Configuration
-@Profile({"program", "test"})
 @MapperScan(basePackages = {"com.mycollab.**.dao"})
 public class MyBatisConfiguration {
     @Autowired

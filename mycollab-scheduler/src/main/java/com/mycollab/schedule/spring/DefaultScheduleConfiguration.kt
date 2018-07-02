@@ -25,32 +25,31 @@ import com.mycollab.schedule.jobs.LiveInstanceMonitorJob
 import com.mycollab.schedule.jobs.ProjectSendingRelayEmailNotificationJob
 import org.quartz.CronTrigger
 import org.quartz.Trigger
-import org.quartz.impl.StdSchedulerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.ApplicationContext
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.context.annotation.Profile
 import org.springframework.scheduling.quartz.CronTriggerFactoryBean
 import org.springframework.scheduling.quartz.JobDetailFactoryBean
 import org.springframework.scheduling.quartz.SchedulerFactoryBean
-
+import java.util.*
 import javax.sql.DataSource
-import java.util.Properties
 
 /**
  * @author MyCollab Ltd.
  * @since 4.6.0
  */
 @Configuration
-@Profile("program")
 class DefaultScheduleConfiguration {
 
-    @Autowired private lateinit var dataSource: DataSource
+    @Autowired
+    private lateinit var dataSource: DataSource
 
-    @Autowired private lateinit var applicationContext: ApplicationContext
+    @Autowired
+    private lateinit var applicationContext: ApplicationContext
 
-    @Autowired private lateinit var deploymentMode: IDeploymentMode
+    @Autowired
+    private lateinit var deploymentMode: IDeploymentMode
 
     @Bean
     fun cleanTimelineTrackingCacheJob(): JobDetailFactoryBean {
@@ -164,7 +163,7 @@ class DefaultScheduleConfiguration {
         props.setProperty("org.quartz.threadPool.threadsInheritContextClassLoaderOfInitializingThread", "true")
 
 //        if (deploymentMode.isCommunityEdition) {
-            props.setProperty("org.quartz.jobStore.class", "org.quartz.simpl.RAMJobStore")
+        props.setProperty("org.quartz.jobStore.class", "org.quartz.simpl.RAMJobStore")
 //        } else {
 //            props.setProperty("org.quartz.jobStore.class", "org.quartz.impl.jdbcjobstore.JobStoreTX")
 //            props.setProperty("org.quartz.jobStore.dataSource", "dataSource")

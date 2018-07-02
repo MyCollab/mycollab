@@ -15,6 +15,7 @@
                 <include>${project.groupId}:mycollab-core</include>
                 <include>${project.groupId}:mycollab-dao</include>
                 <include>${project.groupId}:mycollab-config</include>
+                <include>${project.groupId}:mycollab-template</include>
                 <include>${project.groupId}:mycollab-test</include>
                 <include>${project.groupId}:mycollab-localization</include>
                 <include>${project.groupId}:mycollab-caching</include>

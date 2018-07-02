@@ -29,7 +29,6 @@ import org.springframework.stereotype.Component
  * @since 5.2.2
  */
 @Component
-@Profile("program")
 @Order(value = 1)
 class DeploymentMode(private val serverConfiguration: ServerConfiguration) : IDeploymentMode, IService {
 

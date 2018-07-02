@@ -14,11 +14,11 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http:></http:>//www.gnu.org/licenses/>.
  */
-package com.mycollab.servlet
+package com.mycollab.installation.servlet
 
-import com.mycollab.configuration.SiteConfiguration
 import com.mycollab.core.UserInvalidInputException
 import com.mycollab.core.utils.FileUtils
+import com.mycollab.template.FreemarkerFactory
 import org.slf4j.LoggerFactory
 import java.io.File
 import java.io.FileOutputStream
@@ -90,7 +90,6 @@ class InstallationServlet : HttpServlet() {
             LOG.warn("Cannot authenticate mail server successfully. Make sure your inputs are correct.")
         }
 
-        val configuration = SiteConfiguration.freemarkerConfiguration()
         val templateContext = mutableMapOf("sitename" to siteName, "serveraddress" to serverAddress,
                 "dbUrl" to dbUrl, "dbUser" to dbUserName, "dbPassword" to dbPassword,
                 "smtpAddress" to smtpHost, "smtpPort" to mailServerPort, "smtpUserName" to smtpUserName,
@@ -111,10 +110,10 @@ class InstallationServlet : HttpServlet() {
 
         try {
             val writer = StringWriter()
-            val template = configuration.getTemplate("mycollab.properties.ftl")
+            val template = FreemarkerFactory.template("application.properties.ftl")
             template.process(templateContext, writer)
 
-            val outStream = FileOutputStream(File(confFolder, "mycollab.properties"))
+            val outStream = FileOutputStream(File(confFolder, "application.properties"))
             outStream.write(writer.toString().toByteArray())
             outStream.flush()
             outStream.close()

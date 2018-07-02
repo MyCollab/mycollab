@@ -14,11 +14,13 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http:></http:>//www.gnu.org/licenses/>.
  */
-package com.mycollab.servlet
+package com.mycollab.installation.servlet
 
-import org.slf4j.LoggerFactory
+import com.mycollab.template.FreemarkerFactory
+import freemarker.template.TemplateException
+import org.joda.time.LocalDate
 import java.io.IOException
-import java.sql.DriverManager
+import java.io.StringWriter
 import javax.servlet.ServletException
 import javax.servlet.http.HttpServlet
 import javax.servlet.http.HttpServletRequest
@@ -28,34 +30,30 @@ import javax.servlet.http.HttpServletResponse
  * @author MyCollab Ltd.
  * @since 4.1
  */
-class DatabaseValidateServlet : HttpServlet() {
+class SetupServlet : HttpServlet() {
 
     @Throws(ServletException::class, IOException::class)
     override fun doGet(request: HttpServletRequest, response: HttpServletResponse) {
-        val databaseName = request.getParameter("databaseName")
-        val dbUserName = request.getParameter("dbUserName")
-        val dbPassword = request.getParameter("dbPassword")
-        val databaseServer = request.getParameter("databaseServer")
+        response.contentType = "text/html"
+        response.status = HttpServletResponse.SC_OK
 
+        val defaultUrls = mutableMapOf("cdn_url" to "/assets/", "app_url" to "/",
+                "facebook_url" to "https://www.facebook.com/mycollab2",
+                "google_url" to "https://plus.google.com/u/0/b/112053350736358775306/+Mycollab/about/p/pub",
+                "twitter_url" to "https://twitter.com/mycollabdotcom")
+
+        val context = mutableMapOf("postUrl" to "/install", "defaultUrls" to defaultUrls,
+                "current_year" to LocalDate().year)
+
+        val writer = StringWriter()
+        val template = FreemarkerFactory.template("pageSetupFresh.ftl")
         try {
-            Class.forName("com.mysql.jdbc.Driver")
-        } catch (e: ClassNotFoundException) {
-            LOG.error("Can not load mysql driver", e)
+            template.process(context, writer)
+        } catch (e: TemplateException) {
+            throw IOException(e)
         }
 
-        val dbUrl = "jdbc:mysql://$databaseServer/$databaseName?useUnicode=true"
-        try {
-            DriverManager.getConnection(dbUrl, dbUserName, dbPassword).use { connection -> connection.metaData }
-        } catch (e: Exception) {
-            val out = response.writer
-            out.write("Cannot establish connection to database. Recheck your input.")
-            LOG.warn("Can not connect database", e)
-        }
-
-    }
-
-    companion object {
-        private val serialVersionUID = 1L
-        private val LOG = LoggerFactory.getLogger(DatabaseValidateServlet::class.java)
+        val out = response.writer
+        out.print(writer.toString())
     }
 }
