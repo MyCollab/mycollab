@@ -1,6 +1,6 @@
 # Free, open source CRM, Document and Project Management software
 [![License](http://img.shields.io/badge/License-GPLv3-orange.svg)](http://www.gnu.org/copyleft/gpl.html) [![Project Stats](https://www.openhub.net/p/mycollab/widgets/project_thin_badge.gif)](https://www.openhub.net/p/mycollab) [![Build](https://travis-ci.org/MyCollab/mycollab.svg)](https://travis-ci.org/MyCollab/mycollab)
-[![Version](https://img.shields.io/badge/Version-5.4.10-brightgreen.svg)](https://community.mycollab.com/)
+[![Version](https://img.shields.io/badge/Version-6.0.0-brightgreen.svg)](https://community.mycollab.com/)
 [![Github](https://img.shields.io/github/downloads/MyCollab/mycollab/total.svg)](https://github.com/MyCollab/mycollab/releases)
 
 
@@ -13,22 +13,22 @@ MyCollab does work well on both desktop and mobile devices.
 <table>
   <tr>
     <td align="center">
-      <a href="http://community.mycollab.com/wp-content/uploads/2015/12/Project-Dashboard.png" target="_blank" title="Project Dashboard">
-        <img src="http://community.mycollab.com/wp-content/uploads/2015/12/Project-Dashboard-300x151.png" alt="Project Dashboard">
+      <a href="https://community.mycollab.com/wp-content/uploads/2015/12/Project-Dashboard.png" target="_blank" title="Project Dashboard">
+        <img src="https://community.mycollab.com/wp-content/uploads/2015/12/Project-Dashboard-300x151.png" alt="Project Dashboard">
       </a>
       <br />
       <em>Project Dashboard</em>
     </td>
     <td align="center">
-      <a href="http://community.mycollab.com/wp-content/uploads/2015/12/Bug-Dashboard.png" target="_blank" title="Bug Dashboard">
-        <img src="http://community.mycollab.com/wp-content/uploads/2015/12/Bug-Dashboard-300x151.png" alt="Bug Dashboard">
+      <a href="https://community.mycollab.com/wp-content/uploads/2015/12/Bug-Dashboard.png" target="_blank" title="Bug Dashboard">
+        <img src="https://community.mycollab.com/wp-content/uploads/2015/12/Bug-Dashboard-300x151.png" alt="Bug Dashboard">
       </a>
       <br />
       <em>Bug Dashboard</em>
     </td>
     <td align="center">
-    <a href="http://community.mycollab.com/wp-content/uploads/2015/12/Task-Dashboard.png" target="_blank" title="Task Dashboard">
-      <img src="http://community.mycollab.com/wp-content/uploads/2015/12/Task-Dashboard-300x151.png" alt="Task Dashboard">
+    <a href="https://community.mycollab.com/wp-content/uploads/2015/12/Task-Dashboard.png" target="_blank" title="Task Dashboard">
+      <img src="https://community.mycollab.com/wp-content/uploads/2015/12/Task-Dashboard-300x151.png" alt="Task Dashboard">
     </a>
       <br />
       <em>Task Dashboard</em>
@@ -36,22 +36,22 @@ MyCollab does work well on both desktop and mobile devices.
   </tr>
   <tr>
     <td align="center">
-    <a href="http://community.mycollab.com/wp-content/uploads/2015/12/Kanban-Board.png" target="_blank" title="Kanban Board">
-        <img src="http://community.mycollab.com/wp-content/uploads/2015/12/Kanban-Board-300x151.png" alt="Kanban Board">
+    <a href="https://community.mycollab.com/wp-content/uploads/2015/12/Kanban-Board.png" target="_blank" title="Kanban Board">
+        <img src="https://community.mycollab.com/wp-content/uploads/2015/12/Kanban-Board-300x151.png" alt="Kanban Board">
       </a>
       <br />
       <em>Kanban Board</em>
     </td>
     <td align="center">
-      <a href="http://community.mycollab.com/wp-content/uploads/2015/12/Roadmap-2.png" target="_blank" title="Roadmap">
-        <img src="http://community.mycollab.com/wp-content/uploads/2015/12/Roadmap-2-300x151.png" alt="Roadmap">
+      <a href="https://community.mycollab.com/wp-content/uploads/2015/12/Roadmap-2.png" target="_blank" title="Roadmap">
+        <img src="https://community.mycollab.com/wp-content/uploads/2015/12/Roadmap-2-300x151.png" alt="Roadmap">
       </a>
       <br />
       <em>Roadmap</em>
     </td>
     <td align="center">
-      <a href="http://community.mycollab.com/wp-content/uploads/2015/12/Project-Member.png" target="_blank" title="Project Members">
-        <img src="http://community.mycollab.com/wp-content/uploads/2015/12/Project-Member-300x151.png" alt="Project Members">
+      <a href="https://community.mycollab.com/wp-content/uploads/2015/12/Project-Member.png" target="_blank" title="Project Members">
+        <img src="https://community.mycollab.com/wp-content/uploads/2015/12/Project-Member-300x151.png" alt="Project Members">
       </a>
       <br />
       <em>Project Members</em>
@@ -63,7 +63,7 @@ New features, enhancements, and updates appear on a regular basis.
 
 Pull requests and bug reports are always welcome!
 
-Visit our website http://www.mycollab.com/ to get a free trial of the premium service.
+Visit our website https://www.mycollab.com/ to get a free trial of the premium service.
 
 ## Features
 MyCollab provides the rich set features of Project Management, Customer Management module and online collaboration methods.
@@ -95,28 +95,28 @@ MyCollab requires a running Java Runtime Environment (8 or greater), Java comman
 
 ## Installation
 
-The current MyCollab version is 5.4.10 released on 18th June, 2017. This branch focuses in monitoring, customize options for on-demand edition.
+The current MyCollab version is 6.0.0 released on 30th August, 2018. This branch focuses in monitoring, customize options for on-demand edition.
 
-1. Download MyCollab binary - http://www.mycollab.com/self-hosted/
-2. Follow installation guideline at http://community.mycollab.com/docs/hosting-mycollab-on-your-own-server/installing-mycollab/
+1. Download MyCollab binary - https://www.mycollab.com/self-hosted/
+2. Follow installation guideline at https://community.mycollab.com/docs/hosting-mycollab-on-your-own-server/installing-mycollab/
 
-If you need to understand the more MyCollab advanced configuration settings, please visit the link http://community.mycollab.com/docs/hosting-mycollab-on-your-own-server/advanced-configuration/. You will finish reading and understanding in a matter of minutes.
+If you need to understand the more MyCollab advanced configuration settings, please visit the link https://community.mycollab.com/docs/hosting-mycollab-on-your-own-server/advanced-configuration/. You will finish reading and understanding in a matter of minutes.
 
 If you want to customize MyCollab, following links are useful to you:
-* Setup MyCollab projects with IntelliJ http://community.mycollab.com/docs/developing-mycollab/setup-mycollab-projects-with-intellij-ide/
-* How to customize MyCollab http://community.mycollab.com/docs/developing-mycollab/customize-mycollab/
+* Setup MyCollab projects with IntelliJ https://community.mycollab.com/docs/developing-mycollab/setup-mycollab-projects-with-intellij-ide/
+* How to customize MyCollab https://community.mycollab.com/docs/developing-mycollab/customize-mycollab/
 
 ## Support
 Contact the MyCollab team at:
-* Our growing FAQ http://community.mycollab.com/faq/
+* Our growing FAQ https://community.mycollab.com/faq/
 * Our help page [http://support.mycollab.com/](http://support.mycollab.com/)
-* Our web form [http://www.mycollab.com/contact/](http://www.mycollab.com/contact/)
+* Our web form [https://www.mycollab.com/contact/](https://www.mycollab.com/contact/)
 
 ## License & Author
 
 * MyCollab community is licensed with Affero GPL v3. For license terms, see http://www.gnu.org/licenses/gpl-3.0.en.html
 
-* You can try MyCollab on-demand edition on site http://www.mycollab.com
+* You can try MyCollab on-demand edition on site https://www.mycollab.com
 
 ## Sponsors
 

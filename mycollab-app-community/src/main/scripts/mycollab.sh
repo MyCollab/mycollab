@@ -20,7 +20,7 @@
 # -----------------------------------------------------------------------------
 # OS specific support.  $var _must_ be set to either true or false.
 
-export MYCOLLAB_PORT=9090
+export MYCOLLAB_PORT=8080
 export MYCOLLAB_OPTS=-noverify -server -Xms394m -Xmx768m -XX:NewSize=128m -XX:+DisableExplicitGC -XX:+CMSClassUnloadingEnabled -XX:+UseConcMarkSweepGC
 
 cygwin=false
