@@ -29,24 +29,16 @@ import java.util.Properties;
 
 /**
  * This file contains all constants define in system properties file
- * mycollab.properties read at system started.
+ * application.properties read at system started.
  *
  * @author MyCollab Ltd.
  * @since 1.0
  */
 public class ApplicationProperties {
-    private static final String RESOURCE_PROPERTIES = "mycollab.properties";
+    private static final String RESOURCE_PROPERTIES = "application.properties";
     private static final String DECRYPT_PASS = "esofthead321";
 
     private static Properties properties;
-
-    public static final String MAIL_SMTPHOST = "mail.smtphost";
-    public static final String MAIL_PORT = "mail.port";
-    public static final String MAIL_USERNAME = "mail.username";
-    public static final String MAIL_PASSWORD = "mail.password";
-    public static final String MAIL_IS_TLS = "mail.isTLS";
-    public static final String MAIL_IS_SSL = "mail.isSSL";
-    public static final String MAIL_NOTIFY = "mail.notify";
 
     public static final String DROPBOX_AUTH_LINK = "dropbox.callbackUrl";
 

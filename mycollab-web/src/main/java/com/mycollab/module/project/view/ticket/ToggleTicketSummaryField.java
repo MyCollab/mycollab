@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -22,7 +22,6 @@ import com.hp.gagawa.java.elements.Span;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.core.IgnoreException;
 import com.mycollab.core.utils.StringUtils;
-import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectLinkGenerator;
 import com.mycollab.module.project.ProjectRolePermissionCollections;
@@ -39,6 +38,7 @@ import com.mycollab.module.tracker.domain.BugWithBLOBs;
 import com.mycollab.module.tracker.service.BugService;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppUI;
+import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.vaadin.TooltipHelper;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
@@ -135,24 +135,15 @@ public class ToggleTicketSummaryField extends AbstractToggleSummaryField {
             ticket.setName(newValue);
             titleLinkLbl.setValue(buildTicketLink());
             if (ticket.isBug()) {
-                BugWithBLOBs bug = new BugWithBLOBs();
-                bug.setId(ticket.getTypeId());
-                bug.setName(ticket.getName());
-                bug.setSaccountid(AppUI.getAccountId());
+                BugWithBLOBs bug = ProjectTicket.buildBug(ticket);
                 BugService bugService = AppContextUtil.getSpringBean(BugService.class);
                 bugService.updateSelectiveWithSession(bug, UserUIContext.getUsername());
             } else if (ticket.isTask()) {
-                Task task = new Task();
-                task.setId(ticket.getTypeId());
-                task.setName(ticket.getName());
-                task.setSaccountid(AppUI.getAccountId());
+                Task task = ProjectTicket.buildTask(ticket);
                 ProjectTaskService taskService = AppContextUtil.getSpringBean(ProjectTaskService.class);
                 taskService.updateSelectiveWithSession(task, UserUIContext.getUsername());
             } else if (ticket.isRisk()) {
-                Risk risk = new Risk();
-                risk.setId(ticket.getTypeId());
-                risk.setName(ticket.getName());
-                risk.setSaccountid(AppUI.getAccountId());
+                Risk risk = ProjectTicket.buildRisk(ticket);
                 RiskService riskService = AppContextUtil.getSpringBean(RiskService.class);
                 riskService.updateSelectiveWithSession(risk, UserUIContext.getUsername());
             }
@@ -164,7 +155,7 @@ public class ToggleTicketSummaryField extends AbstractToggleSummaryField {
     private String buildTicketLink() {
         Div issueDiv = new Div();
 
-        A ticketLink = new A().setId("tag" + TooltipHelper.TOOLTIP_ID);
+        A ticketLink = new A().setId(String.format("tag%s", TooltipHelper.TOOLTIP_ID));
         if (ticket.isBug() || ticket.isTask()) {
             ticketLink.setHref(ProjectLinkGenerator.generateProjectItemLink(ticket.getProjectShortName(),
                     ticket.getProjectId(), ticket.getType(), ticket.getExtraTypeId() + ""));
@@ -172,7 +163,7 @@ public class ToggleTicketSummaryField extends AbstractToggleSummaryField {
             ticketLink.setHref(ProjectLinkGenerator.generateProjectItemLink(ticket.getProjectShortName(),
                     ticket.getProjectId(), ticket.getType(), ticket.getTypeId() + ""));
         } else {
-            throw new IgnoreException("Not support type: " + ticket.getType());
+            throw new IgnoreException(String.format("Not support type: %s", ticket.getType()));
         }
 
         ticketLink.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(ticket.getType(), ticket.getTypeId() + ""));

@@ -54,10 +54,10 @@ class TaskUrlResolver : ProjectUrlResolver() {
                     val chain = PageActionChain(ProjectScreenData.Goto(task.projectid), TaskScreenData.Read(task.id))
                     EventBusFactory.getInstance().post(ProjectEvent.GotoMyProject(this, chain))
                 } else {
-                    throw ResourceNotFoundException(String.format("Can not find task with itemKey %d and project %s", itemKey, prjShortName))
+                    throw ResourceNotFoundException("Can not find task with itemKey $itemKey and project $prjShortName")
                 }
             } else {
-                throw MyCollabException("Invalid url " + params[0])
+                throw MyCollabException("Invalid url ${params[0]}")
             }
         }
     }
@@ -73,7 +73,7 @@ class TaskUrlResolver : ProjectUrlResolver() {
                         TaskScreenData.Edit(task))
                 EventBusFactory.getInstance().post(ProjectEvent.GotoMyProject(this, chain))
             } else {
-                throw MyCollabException("Can not find task link " + params[0])
+                throw MyCollabException("Can not find task link ${params[0]}")
             }
         }
     }
@@ -81,8 +81,7 @@ class TaskUrlResolver : ProjectUrlResolver() {
     private class AddUrlResolver : ProjectUrlResolver() {
         override fun handlePage(vararg params: String) {
             val projectId = UrlTokenizer(params[0]).getInt()
-            val chain = PageActionChain(ProjectScreenData.Goto(projectId),
-                    TaskScreenData.Add(SimpleTask()))
+            val chain = PageActionChain(ProjectScreenData.Goto(projectId), TaskScreenData.Add(SimpleTask()))
             EventBusFactory.getInstance().post(ProjectEvent.GotoMyProject(this, chain))
         }
     }

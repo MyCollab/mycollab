@@ -131,14 +131,14 @@ class DefaultScheduleConfiguration {
         return bean
     }
 
-    @Bean
+    @Bean("scheduler")
     fun quartzScheduler(): SchedulerFactoryBean {
         val bean = SchedulerFactoryBean()
-        if (!deploymentMode.isCommunityEdition) {
+        if (deploymentMode.isDemandEdition) {
             bean.setDataSource(dataSource)
         }
 
-        bean.setQuartzProperties(buildProperties())
+        bean.setQuartzProperties(Companion.buildProperties())
         bean.setOverwriteExistingJobs(true)
         val factory = AutowiringSpringBeanJobFactory()
         factory.setApplicationContext(applicationContext)
@@ -151,27 +151,29 @@ class DefaultScheduleConfiguration {
         return bean
     }
 
-    private fun buildProperties(): Properties {
-        val props = Properties()
-        props.setProperty("org.quartz.scheduler.instanceId", "AUTO")
-        props.setProperty("org.quartz.scheduler.instanceName", "MYCOLLAB_SCHEDULER")
-        props.setProperty("org.quartz.scheduler.rmi.export", "false")
-        props.setProperty("org.quartz.scheduler.rmi.proxy", "false")
-        props.setProperty("org.quartz.threadPool.class", "org.quartz.simpl.SimpleThreadPool")
-        props.setProperty("org.quartz.threadPool.threadCount", "10")
-        props.setProperty("org.quartz.threadPool.threadPriority", "5")
-        props.setProperty("org.quartz.threadPool.threadsInheritContextClassLoaderOfInitializingThread", "true")
+    companion object {
+        fun buildProperties(): Properties {
+            val props = Properties()
+            props.setProperty("org.quartz.scheduler.instanceId", "AUTO")
+            props.setProperty("org.quartz.scheduler.instanceName", "MYCOLLAB_SCHEDULER")
+            props.setProperty("org.quartz.scheduler.rmi.export", "false")
+            props.setProperty("org.quartz.scheduler.rmi.proxy", "false")
+            props.setProperty("org.quartz.threadPool.class", "org.quartz.simpl.SimpleThreadPool")
+            props.setProperty("org.quartz.threadPool.threadCount", "10")
+            props.setProperty("org.quartz.threadPool.threadPriority", "5")
+            props.setProperty("org.quartz.threadPool.threadsInheritContextClassLoaderOfInitializingThread", "true")
 
-//        if (deploymentMode.isCommunityEdition) {
-        props.setProperty("org.quartz.jobStore.class", "org.quartz.simpl.RAMJobStore")
-//        } else {
-//            props.setProperty("org.quartz.jobStore.class", "org.quartz.impl.jdbcjobstore.JobStoreTX")
-//            props.setProperty("org.quartz.jobStore.dataSource", "dataSource")
-//            props.setProperty("org.quartz.jobStore.useProperties", "true")
-//            props.setProperty("org.quartz.jobStore.tablePrefix", "QRTZ_")
-//            props.setProperty("org.quartz.jobStore.isClustered", "true")
-//            props.setProperty("org.quartz.jobStore.driverDelegateClass", "org.quartz.impl.jdbcjobstore.StdJDBCDelegate")
-//        }
-        return props
+    //        if (deploymentMode.isDemandEdition) {
+    //            props.setProperty("org.quartz.jobStore.class", "org.quartz.impl.jdbcjobstore.JobStoreTX")
+    //            props.setProperty("org.quartz.jobStore.dataSource", "dataSource")
+    //            props.setProperty("org.quartz.jobStore.useProperties", "true")
+    //            props.setProperty("org.quartz.jobStore.tablePrefix", "QRTZ_")
+    //            props.setProperty("org.quartz.jobStore.isClustered", "true")
+    //            props.setProperty("org.quartz.jobStore.driverDelegateClass", "org.quartz.impl.jdbcjobstore.StdJDBCDelegate")
+    //        } else {
+                props.setProperty("org.quartz.jobStore.class", "org.quartz.simpl.RAMJobStore")
+    //        }
+            return props
+        }
     }
 }

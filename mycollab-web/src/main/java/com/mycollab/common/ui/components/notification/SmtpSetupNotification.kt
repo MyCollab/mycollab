@@ -22,4 +22,4 @@ import com.mycollab.core.AbstractNotification
  * @author MyCollab Ltd
  * @since 5.0.4
  */
-class SmtpSetupNotification : AbstractNotification(AbstractNotification.SCOPE_GLOBAL, AbstractNotification.WARNING)
+class SmtpSetupNotification : AbstractNotification(AbstractNotification.WARNING)

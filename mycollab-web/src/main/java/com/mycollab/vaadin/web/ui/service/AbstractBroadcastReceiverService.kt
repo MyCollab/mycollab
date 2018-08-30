@@ -38,10 +38,12 @@ abstract class AbstractBroadcastReceiverService : BroadcastReceiverService {
     }
 
     override fun broadcast(message: BroadcastMessage) {
-        if (message.sAccountId == null) {
-            // do nothing now
-        } else if (message.sAccountId == myCollabApp.account.id) {
-            when {
+        when {
+            message.scope == BroadcastMessage.SCOPE_GLOBAL -> processMessage(message)
+            message.sAccountId == null -> {
+                // do nothing now
+            }
+            message.sAccountId == myCollabApp.account.id -> when {
                 message.targetUser != null && message.targetUser.equals(myCollabApp.loggedInUser) -> processMessage(message)
                 message.targetUser == null -> processMessage(message)
             }

@@ -17,9 +17,8 @@
 package com.mycollab.module.page.domain
 
 import com.mycollab.core.arguments.NotBindable
-
-import javax.validation.constraints.NotNull
-import java.util.Calendar
+import java.util.*
+import javax.validation.constraints.NotEmpty
 
 /**
  * @author MyCollab Ltd.
@@ -27,11 +26,11 @@ import java.util.Calendar
  */
 class Page : PageResource() {
 
-    @NotNull(message = "Subject must be not null")
-    lateinit var subject: String
+    @NotEmpty(message = "Subject must be not null")
+    var subject: String = ""
 
-    @NotNull(message = "Content must be not null")
-    lateinit var content: String
+    @NotEmpty(message = "Content must be not null")
+    var content: String = ""
 
     @NotBindable
     var isLock = false

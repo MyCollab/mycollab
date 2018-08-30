@@ -96,7 +96,7 @@ class TimezoneVal(val id: String?) : Comparable<TimezoneVal> {
         val areas: Array<String>
             get() {
                 val keys = ArrayList(cacheTimezones.keys)
-                Collections.sort(keys)
+                keys.sort()
                 return keys.toTypedArray()
             }
 

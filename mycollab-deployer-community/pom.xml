@@ -28,7 +28,6 @@
         <module>../mycollab-scheduler</module>
         <module>../mycollab-scheduler-community</module>
         <module>../mycollab-servlet</module>
-        <module>../mycollab-client-api</module>
         <module>../mycollab-ui</module>
         <module>../mycollab-web</module>
         <module>../mycollab-mobile</module>

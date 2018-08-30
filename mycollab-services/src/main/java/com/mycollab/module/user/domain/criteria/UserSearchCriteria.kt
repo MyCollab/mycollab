@@ -36,9 +36,7 @@ class UserSearchCriteria : SearchCriteria() {
 
     // @NOTE: Only works with method find... not getTotalCount(...)
     fun setLastAccessTimeRange(from: Date, to: Date) {
-        val expr = String.format("s_user_account.lastAccessedTime >= '%s' AND s_user_account.lastAccessedTime <='%s'",
-                DateTimeUtils.formatDate(from, "yyyy-MM-dd", Locale.US),
-                DateTimeUtils.formatDate(to, "yyyy-MM-dd", Locale.US))
+        val expr = "s_user_account.lastAccessedTime >= '${DateTimeUtils.formatDate(from, "yyyy-MM-dd", Locale.US)}' AND s_user_account.lastAccessedTime <='${DateTimeUtils.formatDate(to, "yyyy-MM-dd", Locale.US)}'"
         val searchField = NoValueSearchField(SearchField.AND, expr)
         this.addExtraField(searchField)
     }

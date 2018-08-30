@@ -56,14 +56,12 @@ class NewUserJoinCommand(private val billingAccountService: BillingAccountServic
         val LOG = LoggerFactory.getLogger(NewUserJoinCommand::class.java)
 
         class Formatter {
-            fun formatMemberLink(siteUrl: String, newMember: SimpleUser): String {
-                return A(AccountLinkGenerator.generatePreviewFullUserLink(siteUrl, newMember.username)).appendText(newMember.displayName).write()
-            }
+            fun formatMemberLink(siteUrl: String, newMember: SimpleUser): String =
+                    A(AccountLinkGenerator.generatePreviewFullUserLink(siteUrl, newMember.username)).appendText(newMember.displayName).write()
 
-            fun formatRoleName(siteUrl: String, newMember: SimpleUser): String {
-                return if (newMember.isAccountOwner == true) "Account Owner"
-                else A(AccountLinkGenerator.generatePreviewFullRoleLink(siteUrl, newMember.roleid)).appendText(newMember.roleName).write()
-            }
+            fun formatRoleName(siteUrl: String, newMember: SimpleUser): String =
+                    if (newMember.isAccountOwner == true) "Account Owner"
+                    else A(AccountLinkGenerator.generatePreviewFullRoleLink(siteUrl, newMember.roleid)).appendText(newMember.roleName).write()
         }
     }
 

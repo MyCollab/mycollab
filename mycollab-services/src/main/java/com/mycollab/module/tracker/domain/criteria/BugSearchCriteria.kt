@@ -67,9 +67,9 @@ class BugSearchCriteria : SearchCriteria() {
                     init {
                         SELECT("COUNT(*)")
                         FROM("m_tracker_bug_related_item")
-                        WHERE(String.format("m_tracker_bug_related_item.type='%s'", type))
+                        WHERE("m_tracker_bug_related_item.type='$type'")
                         AND()
-                        WHERE(String.format("m_tracker_bug_related_item.typeid=%d", affectedVersion))
+                        WHERE("m_tracker_bug_related_item.typeid=$affectedVersion")
                         AND()
                         WHERE("m_tracker_bug_related_item.bugid=m_tracker_bug.id")
                     }
@@ -100,9 +100,9 @@ class BugSearchCriteria : SearchCriteria() {
                     init {
                         SELECT("COUNT(*)")
                         FROM("m_tracker_bug_related_item")
-                        WHERE(String.format("m_tracker_bug_related_item.type='%s'", type))
+                        WHERE("m_tracker_bug_related_item.type='$type'")
                         AND()
-                        WHERE(String.format("m_tracker_bug_related_item.typeid=%d", affectedVersion))
+                        WHERE("m_tracker_bug_related_item.typeid=$affectedVersion")
                         AND()
                         WHERE("m_tracker_bug_related_item.bugid=m_tracker_bug.id")
                     }

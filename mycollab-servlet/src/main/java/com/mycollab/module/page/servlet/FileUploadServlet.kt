@@ -35,7 +35,7 @@ import javax.servlet.http.Part
  * @author MyCollab Ltd.
  * @since 4.4.0
  */
-@WebServlet(urlPatterns = arrayOf("/page/upload"), name = "pageUploadServlet")
+@WebServlet(urlPatterns = ["/page/upload"], name = "pageUploadServlet")
 @MultipartConfig(maxFileSize = 24657920, maxRequestSize = 24657920, fileSizeThreshold = 1024)
 class FileUploadServlet : GenericHttpServlet() {
 
@@ -54,7 +54,7 @@ class FileUploadServlet : GenericHttpServlet() {
         val writer = response.writer
         try {
             filePart.inputStream.use {
-                val content = Content(path + "/" + fileName)
+                val content = Content("$path/$fileName")
                 resourceService.saveContent(content, "", it, 1)
                 val filePath = ""
                 val responseHtml = "<html><body><script type='text/javascript'>window.parent.CKEDITOR.tools.callFunction('$ckEditorFuncNum','$filePath','');</script></body></html>"

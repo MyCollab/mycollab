@@ -69,13 +69,12 @@ abstract class SimpleReportTemplateExecutor<T>(timeZone: TimeZone, locale: Local
             val totalItems = data.size
             reportBuilder.setTitle("$reportTitle($totalItems)")
             reportBuilder.setDataSource(ds)
-            LOG.info(String.format("Fill report %d items", totalItems))
+            LOG.info("Fill report $totalItems items")
         }
     }
 
     companion object {
-        @JvmField
-        val CRITERIA = "criteria"
+        const val CRITERIA = "criteria"
         private val LOG = LoggerFactory.getLogger(SimpleReportTemplateExecutor::class.java)
     }
 }

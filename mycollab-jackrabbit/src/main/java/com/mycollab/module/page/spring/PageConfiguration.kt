@@ -38,7 +38,7 @@ import javax.jcr.SimpleCredentials
 class PageConfiguration {
 
     @Bean
-    @DependsOn(value = "dataSource")
+    @DependsOn(value = ["dataSource"])
     fun pageRepository(): RepositoryFactoryBean {
         val bean = RepositoryFactoryBean()
         bean.configuration = ClassPathResource("wiki-repo.xml")

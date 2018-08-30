@@ -18,6 +18,7 @@ package com.mycollab.module.project.domain.criteria
 
 import com.mycollab.common.i18n.GenericI18Enum
 import com.mycollab.common.i18n.OptionI18nEnum
+import com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum.*
 import com.mycollab.db.arguments.NumberSearchField
 import com.mycollab.db.arguments.SearchCriteria
 import com.mycollab.db.arguments.SetSearchField
@@ -40,7 +41,7 @@ class ProjectSearchCriteria : SearchCriteria() {
     var accountId: NumberSearchField? = null
 
     companion object {
-        private val serialVersionUID = 1L
+        private const val serialVersionUID = 1L
 
         @JvmField
         val p_template = CacheParamMapper.register(ProjectTypeConstants.PROJECT, GenericI18Enum.FORM_NAME,
@@ -64,7 +65,7 @@ class ProjectSearchCriteria : SearchCriteria() {
 
         @JvmField
         val p_status = CacheParamMapper.register(ProjectTypeConstants.PROJECT, GenericI18Enum.FORM_STATUS,
-                StringListParam("status", "m_prj_project", "projectStatus", Arrays.asList(OptionI18nEnum.StatusI18nEnum.Open.name,
-                        OptionI18nEnum.StatusI18nEnum.Closed.name, OptionI18nEnum.StatusI18nEnum.Archived.name)))
+                StringListParam("status", "m_prj_project", "projectStatus", Arrays.asList(Open.name,
+                        Closed.name, Archived.name)))
     }
 }

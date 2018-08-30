@@ -40,8 +40,7 @@ public class PageSessionFactory extends JcrSessionFactory {
     protected void registerNodeTypes() throws Exception {
         LOG.info("Register node types");
         Session session = getSession();
-        final String[] jcrNamespaces = session.getWorkspace()
-                .getNamespaceRegistry().getPrefixes();
+        final String[] jcrNamespaces = session.getWorkspace().getNamespaceRegistry().getPrefixes();
         boolean createNamespace = true;
         for (String jcrNamespace : jcrNamespaces) {
             if (jcrNamespace.equals("wiki")) {

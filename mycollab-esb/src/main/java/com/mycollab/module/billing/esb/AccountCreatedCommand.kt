@@ -79,7 +79,7 @@ class AccountCreatedCommand(private val optionValService: OptionValService,
         val project = Project()
         project.saccountid = accountId
         project.description = "Sample project"
-        project.homepage = "http://www.mycollab.com"
+        project.homepage = "https://www.mycollab.com"
         project.name = "Sample project"
         project.projectstatus = StatusI18nEnum.Open.name
         project.shortname = "SP1"
@@ -204,7 +204,7 @@ class AccountCreatedCommand(private val optionValService: OptionValService,
         val folder = Folder()
         folder.name = "Requirements"
         folder.description = "Sample folder"
-        folder.path = PathUtils.getProjectDocumentPath(accountId, projectId) + "/" + StringUtils.generateSoftUniqueId()
+        folder.path = "${PathUtils.getProjectDocumentPath(accountId, projectId)}/${StringUtils.generateSoftUniqueId()}"
         pageService.createFolder(folder, initialUser)
 
         val timer = Timer("Set member notification")

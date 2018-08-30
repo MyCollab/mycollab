@@ -148,10 +148,6 @@ class OptionValServiceImpl(private val optionValMapper: OptionValMapper,
         option.id = null
         saveWithSession(option, null)
 
-        option.typeval = StatusI18nEnum.Archived.name
-        option.id = null
-        saveWithSession(option, null)
-
         option.typeval = StatusI18nEnum.Closed.name
         option.id = null
         saveWithSession(option, null)

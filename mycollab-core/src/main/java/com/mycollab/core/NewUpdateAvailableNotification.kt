@@ -20,7 +20,7 @@ package com.mycollab.core
  * @author MyCollab Ltd
  * @since 5.1.3
  */
-class NewUpdateAvailableNotification(val version: String, val autoDownloadLink: String?, val manualDownloadLink: String, val installerFile: String?) : AbstractNotification(AbstractNotification.SCOPE_GLOBAL, AbstractNotification.NEWS) {
+class NewUpdateAvailableNotification(val version: String, val autoDownloadLink: String?, val manualDownloadLink: String, val installerFile: String?) : AbstractNotification(AbstractNotification.NEWS) {
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

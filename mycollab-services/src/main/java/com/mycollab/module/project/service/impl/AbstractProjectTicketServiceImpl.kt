@@ -16,7 +16,6 @@
  */
 package com.mycollab.module.project.service.impl
 
-import com.mycollab.common.domain.GroupItem
 import com.mycollab.core.cache.CacheKey
 import com.mycollab.core.utils.BeanUtility
 import com.mycollab.db.arguments.BasicSearchRequest
@@ -31,7 +30,6 @@ import com.mycollab.module.project.service.ProjectTaskService
 import com.mycollab.module.project.service.ProjectTicketService
 import com.mycollab.module.project.service.RiskService
 import com.mycollab.module.tracker.service.BugService
-import com.mycollab.module.user.domain.BillingAccount
 import com.mycollab.spring.AppContextUtil
 import org.apache.ibatis.session.RowBounds
 import org.springframework.beans.factory.annotation.Autowired

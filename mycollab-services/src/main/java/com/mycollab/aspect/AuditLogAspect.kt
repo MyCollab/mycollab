@@ -37,7 +37,6 @@ import org.springframework.aop.framework.Advised
 import org.springframework.beans.factory.annotation.Configurable
 import org.springframework.stereotype.Component
 import java.io.Serializable
-import java.lang.reflect.Method
 import java.util.*
 
 /**
@@ -128,14 +127,14 @@ class AuditLogAspect(private var cacheService: CacheService,
             if (traceableAnnotation != null) {
                 try {
                     val classInfo = ClassInfoMap.getClassInfo(cls)
-                    val changeSet = getChangeSet(cls, bean, classInfo!!.getExcludeHistoryFields(), isSelective)
+                    val changeSet = getChangeSet(this, cls, bean, classInfo!!.getExcludeHistoryFields(), isSelective)
                     if (changeSet != null) {
                         val activity = TraceableCreateAspect.constructActivity(cls,
                                 traceableAnnotation, bean, username, ActivityStreamConstants.ACTION_UPDATE)
                         val activityStreamId = activityStreamService.save(activity)
 
                         val sAccountId = PropertyUtils.getProperty(bean, "saccountid") as Int
-                        val auditLogId = saveAuditLog(cls, bean, changeSet, username, sAccountId, activityStreamId)
+                        val auditLogId = saveAuditLog(this, cls, bean, changeSet, username, sAccountId, activityStreamId)
 
                         val typeId = PropertyUtils.getProperty(bean, "id") as Int
                         // Save notification email
@@ -163,50 +162,48 @@ class AuditLogAspect(private var cacheService: CacheService,
 
     }
 
-    private fun getChangeSet(targetCls: Class<*>, bean: Any, excludeHistoryFields: List<String>, isSelective: Boolean): String? {
-        return try {
-            val typeId = PropertyUtils.getProperty(bean, "id") as Int
-            val key = bean.toString() + ClassInfoMap.getType(targetCls) + typeId
-
-            val oldValue = cacheService.getValue(AUDIT_TEMP_CACHE, key)
-            if (oldValue != null) {
-                AuditLogUtil.getChangeSet(oldValue, bean, excludeHistoryFields, isSelective)
-            } else null
-        } catch (e: Exception) {
-            LOG.error("Error while generate changeset", e)
-            null
-        }
-
-    }
-
-    private fun saveAuditLog(targetCls: Class<*>, bean: Any, changeSet: String, username: String, sAccountId: Int?,
-                             activityStreamId: Int?): Int? {
-        try {
-            val typeId = PropertyUtils.getProperty(bean, "id") as Int
-            val auditLog = AuditLog()
-            auditLog.posteduser = username
-            auditLog.module = ClassInfoMap.getModule(targetCls)
-            auditLog.type = ClassInfoMap.getType(targetCls)
-            auditLog.typeid = typeId
-            auditLog.saccountid = sAccountId
-            auditLog.posteddate = GregorianCalendar().time
-            auditLog.changeset = changeSet
-            auditLog.objectClass = bean.javaClass.name
-            if (activityStreamId != null) {
-                auditLog.activitylogid = activityStreamId
-            }
-
-            return auditLogService.saveWithSession(auditLog, "")
-        } catch (e: Exception) {
-            LOG.error("Error when save audit for save action of service ${targetCls.name} and bean: ${BeanUtility.printBeanObj(bean)} and changeset is $changeSet", e)
-            return null
-        }
-
-    }
-
     companion object {
         private val LOG = LoggerFactory.getLogger(AuditLogAspect::class.java)
 
-        private val AUDIT_TEMP_CACHE = "AUDIT_TEMP_CACHE"
+        private const val AUDIT_TEMP_CACHE = "AUDIT_TEMP_CACHE"
+
+        fun getChangeSet(auditLogAspect: AuditLogAspect, targetCls: Class<*>, bean: Any, excludeHistoryFields: List<String>, isSelective: Boolean): String? {
+            return try {
+                val typeId = PropertyUtils.getProperty(bean, "id") as Int
+                val key = "$bean${ClassInfoMap.getType(targetCls)}$typeId"
+
+                val oldValue = auditLogAspect.cacheService.getValue(AUDIT_TEMP_CACHE, key)
+                if (oldValue != null) {
+                    AuditLogUtil.getChangeSet(oldValue, bean, excludeHistoryFields, isSelective)
+                } else null
+            } catch (e: Exception) {
+                LOG.error("Error while generate changeset", e)
+                null
+            }
+        }
+
+        fun saveAuditLog(auditLogAspect: AuditLogAspect, targetCls: Class<*>, bean: Any, changeSet: String, username: String, sAccountId: Int?,
+                         activityStreamId: Int?): Int? {
+            try {
+                val typeId = PropertyUtils.getProperty(bean, "id") as Int
+                val auditLog = AuditLog()
+                auditLog.posteduser = username
+                auditLog.module = ClassInfoMap.getModule(targetCls)
+                auditLog.type = ClassInfoMap.getType(targetCls)
+                auditLog.typeid = typeId
+                auditLog.saccountid = sAccountId
+                auditLog.posteddate = GregorianCalendar().time
+                auditLog.changeset = changeSet
+                auditLog.objectClass = bean.javaClass.name
+                if (activityStreamId != null) {
+                    auditLog.activitylogid = activityStreamId
+                }
+
+                return auditLogAspect.auditLogService.saveWithSession(auditLog, "")
+            } catch (e: Exception) {
+                LOG.error("Error when save audit for save action of service ${targetCls.name} and bean: ${BeanUtility.printBeanObj(bean)} and changeset is $changeSet", e)
+                return null
+            }
+        }
     }
 }

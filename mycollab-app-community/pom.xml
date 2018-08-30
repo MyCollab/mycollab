@@ -19,11 +19,6 @@
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>com.mycollab</groupId>
-            <artifactId>mycollab-client-api</artifactId>
-            <version>${project.version}</version>
-        </dependency>
 
         <dependency>
             <groupId>com.mycollab</groupId>
@@ -83,6 +78,12 @@
             <groupId>com.vaadin</groupId>
             <artifactId>vaadin-client</artifactId>
             <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>javax.validation</groupId>
+                    <artifactId>validation-api</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
@@ -294,7 +295,7 @@
                                 </copy>
                                 <copy todir="${installer.staging.dir}/config">
                                     <fileset dir="${basedir}/src/main/config">
-                                        <exclude name="mycollab.properties"/>
+                                        <exclude name="application.properties"/>
                                     </fileset>
                                 </copy>
                                 <copy todir="${installer.staging.dir}/logs">
@@ -306,6 +307,7 @@
                                 <copy todir="${installer.staging.dir}/lib">
                                     <fileset dir="${basedir}/src/main/lib"/>
                                 </copy>
+                                <chmod dir="${installer.staging.dir}/bin/" includes="*.sh" perm="700"/>
                             </target>
                         </configuration>
                     </execution>

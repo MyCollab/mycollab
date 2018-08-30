@@ -84,7 +84,7 @@ class UserServiceDBImpl(private val userMapper: UserMapper,
         }
 
         if (userAccountMapper.countByExample(userAccountEx) > 0) {
-            throw UserInvalidInputException(String.format("There is already user has email %s in your account", record.email))
+            throw UserInvalidInputException("There is already user has email ${record.email} in your account")
         }
 
         val password = record.password

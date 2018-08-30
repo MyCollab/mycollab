@@ -38,14 +38,14 @@ object PresenterResolver {
          return when (value) {
              null -> {
                  value = initPresenter(presenterClass)
-                 presenterMap.put(presenterClass, value)
+                 presenterMap[presenterClass] = value
                  value
              }
              else -> {
                  val policy = presenterClass.getAnnotation(LoadPolicy::class.java)
                  if (policy != null && policy.scope == ViewScope.PROTOTYPE) {
                      value = initPresenter(presenterClass)
-                     presenterMap.put(presenterClass, value)
+                     presenterMap[presenterClass] = value
                  }
                  value
              }

@@ -21,12 +21,6 @@
         </dependency>
 
         <dependency>
-            <groupId>javax.validation</groupId>
-            <artifactId>validation-api</artifactId>
-            <version>1.1.0.Final</version>
-        </dependency>
-
-        <dependency>
             <groupId>com.mycollab</groupId>
             <artifactId>mycollab-config</artifactId>
             <version>${project.version}</version>

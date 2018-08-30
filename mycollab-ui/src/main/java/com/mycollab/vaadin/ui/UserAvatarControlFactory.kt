@@ -29,11 +29,11 @@ import com.vaadin.ui.Image
  */
 object UserAvatarControlFactory {
     @JvmStatic
-    fun createUserAvatarEmbeddedComponent(avatarId: String, size: Int) =
+    fun createUserAvatarEmbeddedComponent(avatarId: String?, size: Int) =
             Image(null, createAvatarResource(avatarId, size))
 
     @JvmStatic
-    fun createUserAvatarEmbeddedComponent(avatarId: String, size: Int, tooltip: String): Image {
+    fun createUserAvatarEmbeddedComponent(avatarId: String?, size: Int, tooltip: String): Image {
         val embedded = Image(null, createAvatarResource(avatarId, size))
         embedded.description = tooltip
         return embedded

@@ -52,7 +52,7 @@ label {
                                     <tr>
                                         <td><input id="serverAddress" placeholder="Example: 192.168.1.70 or myservername.com"/></td>
                                     </tr>
-                                    <tr><td><h4>You can get this info from your web host. It could be an IP address or server name. You must not include the server port in this value. If you want to change the server port, please use <a href="http://community.mycollab.com/faq/#defaultport">this way</a></h4></td></tr>
+                                    <tr><td><h4>You can get this info from your web host. It could be an IP address or server name. You must not include the server port in this value. If you want to change the server port, please use <a href="https://community.mycollab.com/faq/#defaultport">this way</a></h4></td></tr>
                                 </tbody>
                             </table>
                         </form>
@@ -114,7 +114,7 @@ label {
             <table style="width:100%;margin-top: 20px;">
                 <tr>
                     <td style="vertical-align: top; width: 400px;"><div style="margin-top:10px;">EMAIL SETUP (Optional)<div>
-                        <h4>Configure your outgoing SMTP email address to use with the software. You can configure your SMTP account later in MyCollab configuration file $\{MYCOLLAB_HOME}/conf/mycollab.properties</h4>
+                        <h4>Configure your outgoing SMTP email address to use with the software. You can configure your SMTP account later in MyCollab configuration file $\{MYCOLLAB_HOME}/conf/application.properties</h4>
                     </td>
                     <td style="display: inline-block; vertical-align: top; width:100%">
                         <form>

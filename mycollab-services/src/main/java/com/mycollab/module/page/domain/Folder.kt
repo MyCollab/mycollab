@@ -20,9 +20,4 @@ package com.mycollab.module.page.domain
  * @author MyCollab Ltd.
  * @since 4.4.0
  */
-class Folder : PageResource() {
-
-    lateinit var name: String
-
-    var description: String? = null
-}
+class Folder(var name: String = "", var description: String? = null) : PageResource()

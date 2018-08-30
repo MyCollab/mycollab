@@ -28,11 +28,17 @@ import static com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum.*;
  */
 public class OptionI18nEnum {
 
-    public static StatusI18nEnum[] statuses = new StatusI18nEnum[]{Open, Overdue, Closed, Archived, Pending, InProgress, Unresolved, Verified, Resolved, ReOpen};
+    public static StatusI18nEnum[] statuses = new StatusI18nEnum[]{Open, Pending, InProgress, Unresolved, ReOpen, Resolved, Verified, Closed};
+
+    public static StatusI18nEnum[] bugStatuses = new StatusI18nEnum[]{Open, InProgress, Unresolved, ReOpen, Resolved, Verified};
+
+    public static StatusI18nEnum[] taskStatuses = new StatusI18nEnum[]{Open, InProgress, Pending, Closed};
+
+    public static StatusI18nEnum[] riskStatuses = new StatusI18nEnum[]{Open, Closed};
 
     @BaseName("common-generic-status")
     @LocaleData(value = {@Locale("en-US")}, defaultCharset = "UTF-8")
     public enum StatusI18nEnum {
-        Open, Overdue, Closed, Archived, Pending, InProgress, Unresolved, Verified, Resolved, ReOpen
+        Open, Overdue, Archived, Pending, InProgress, Unresolved, Verified, Resolved, ReOpen, Closed
     }
 }

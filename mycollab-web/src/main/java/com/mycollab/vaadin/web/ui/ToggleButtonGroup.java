@@ -32,15 +32,7 @@ public class ToggleButtonGroup extends ButtonGroup {
     private Button selectedBtn;
 
     public ToggleButtonGroup() {
-        super();
         this.addStyleName("toggle-btn-group");
-    }
-
-    public ToggleButtonGroup(Button... buttons) {
-        this();
-        for (Button button: buttons) {
-            addButton(button);
-        }
     }
 
     @Override
@@ -49,9 +41,8 @@ public class ToggleButtonGroup extends ButtonGroup {
         button.addClickListener(clickEvent -> {
             if (!clickEvent.getButton().equals(selectedBtn)) {
                 selectedBtn = clickEvent.getButton();
-                Iterator<Component> iterator = ToggleButtonGroup.this.iterator();
-                while (iterator.hasNext()) {
-                    iterator.next().removeStyleName(WebThemes.BTN_ACTIVE);
+                for (Component component : ToggleButtonGroup.this) {
+                    component.removeStyleName(WebThemes.BTN_ACTIVE);
                 }
                 selectedBtn.addStyleName(WebThemes.BTN_ACTIVE);
             }
@@ -60,9 +51,8 @@ public class ToggleButtonGroup extends ButtonGroup {
     }
 
     public ButtonGroup withDefaultButton(Button button) {
-        Iterator<Component> iterator = ToggleButtonGroup.this.iterator();
-        while (iterator.hasNext()) {
-            Button currentBtn = (Button) iterator.next();
+        for (Component component : ToggleButtonGroup.this) {
+            Button currentBtn = (Button) component;
             if (currentBtn.equals(button)) {
                 selectedBtn = button;
                 selectedBtn.addStyleName(WebThemes.BTN_ACTIVE);

@@ -66,8 +66,7 @@ class MessageServiceImpl(private val messageMapper: MessageMapper,
         asyncEventBus.post(event)
     }
 
-    override fun findById(messageId: Int, sAccountId: Int) =
-         messageMapperExt.findMessageById(messageId)
+    override fun findById(messageId: Int, sAccountId: Int) = messageMapperExt.findMessageById(messageId)
 
     companion object {
 
