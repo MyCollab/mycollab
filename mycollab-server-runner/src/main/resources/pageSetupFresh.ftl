@@ -114,7 +114,7 @@ label {
             <table style="width:100%;margin-top: 20px;">
                 <tr>
                     <td style="vertical-align: top; width: 400px;"><div style="margin-top:10px;">EMAIL SETUP (Optional)<div>
-                        <h4>Configure your outgoing SMTP email address to use with the software. You can configure your SMTP account later in MyCollab configuration file $\{MYCOLLAB_HOME}/conf/mycollab.properties</h4>
+                        <h4>Configure your outgoing SMTP email address to use with the software. You can configure your SMTP account later in MyCollab configuration file $\{MYCOLLAB_HOME}/conf/application.properties</h4>
                     </td>
                     <td style="display: inline-block; vertical-align: top; width:100%">
                         <form>

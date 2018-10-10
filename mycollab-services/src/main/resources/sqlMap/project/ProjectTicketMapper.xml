@@ -400,7 +400,7 @@
         ]]>
     </sql>
 
-    <select id="getTotalCountFromRisk" parameterType="ProjectTicketSearchCriteria"
+    <select id="getTotalCountFromRisk" parameterType="com.mycollab.module.project.domain.criteria.ProjectTicketSearchCriteria"
         resultType="int" lang="velocity">
         SELECT count(*) as totalCount FROM m_prj_risk AS mainTbl
         #ifnotnull($_parameter.searchCriteria)
@@ -410,7 +410,7 @@
         #end
     </select>
 
-    <select id="getTotalCountFromBug" parameterType="ProjectTicketSearchCriteria"
+    <select id="getTotalCountFromBug" parameterType="com.mycollab.module.project.domain.criteria.ProjectTicketSearchCriteria"
         resultType="int" lang="velocity">
         SELECT count(*) as totalCount FROM m_tracker_bug AS mainTbl
         #ifnotnull($_parameter.searchCriteria)
@@ -420,7 +420,7 @@
         #end
     </select>
 
-    <select id="getTotalCountFromTask" parameterType="ProjectTicketSearchCriteria"
+    <select id="getTotalCountFromTask" parameterType="com.mycollab.module.project.domain.criteria.ProjectTicketSearchCriteria"
         resultType="int" lang="velocity">
         SELECT count(*) as totalCount FROM m_prj_task AS mainTbl
         #ifnotnull($_parameter.searchCriteria)
@@ -430,7 +430,7 @@
         #end
     </select>
 
-    <select id="getTotalCountFromMilestone" parameterType="ProjectTicketSearchCriteria"
+    <select id="getTotalCountFromMilestone" parameterType="com.mycollab.module.project.domain.criteria.ProjectTicketSearchCriteria"
             resultType="int" lang="velocity">
         SELECT count(*) as totalCount FROM m_prj_milestone AS mainTbl
         #ifnotnull($_parameter.searchCriteria)
@@ -450,7 +450,7 @@
         lastUpdatedTime DESC
     </sql>
 
-    <select id="findTicketsByCriteria" parameterType="ProjectTicketSearchCriteria" resultMap="BaseResultMap" lang="velocity">
+    <select id="findTicketsByCriteria" parameterType="com.mycollab.module.project.domain.criteria.ProjectTicketSearchCriteria" resultMap="BaseResultMap" lang="velocity">
         (
         <include refid="selectGenericTaskFromTask" />
         #ifnotnull($_parameter.searchCriteria)
@@ -484,7 +484,7 @@
         #end
     </select>
 
-    <select id="findPageableListByCriteria" parameterType="ProjectTicketSearchCriteria" resultMap="BaseResultMap" lang="velocity">
+    <select id="findPageableListByCriteria" parameterType="com.mycollab.module.project.domain.criteria.ProjectTicketSearchCriteria" resultMap="BaseResultMap" lang="velocity">
         (
         <include refid="selectGenericTaskFromRisk" />
         #ifnotnull($_parameter.searchCriteria)
@@ -529,7 +529,7 @@
         #end
     </select>
 
-    <select id="getAccountsHasOverdueAssignments" parameterType="ProjectTicketSearchCriteria"
+    <select id="getAccountsHasOverdueAssignments" parameterType="com.mycollab.module.project.domain.criteria.ProjectTicketSearchCriteria"
             resultMap="com.mycollab.module.user.dao.BillingAccountMapper.BaseResultMap" lang="velocity">
         SELECT s_account.id, s_account.subdomain
         FROM s_account
@@ -565,7 +565,7 @@
         ORDER BY s_account.id ASC
     </select>
 
-    <select id="getProjectsHasOverdueAssignments" parameterType="ProjectTicketSearchCriteria" resultType="Integer" lang="velocity">
+    <select id="getProjectsHasOverdueAssignments" parameterType="com.mycollab.module.project.domain.criteria.ProjectTicketSearchCriteria" resultType="Integer" lang="velocity">
         SELECT m_prj_project.id
         FROM m_prj_project
         WHERE
@@ -598,7 +598,7 @@
           )
     </select>
 
-    <select id="getAssigneeSummary" parameterType="ProjectTicketSearchCriteria"
+    <select id="getAssigneeSummary" parameterType="com.mycollab.module.project.domain.criteria.ProjectTicketSearchCriteria"
             resultMap="com.mycollab.common.dao.GroupItemMapper.BaseResultMap" lang="velocity">
         SELECT tmpTbl.assignUser AS groupid, COUNT(tmpTbl.assignUser) AS value, tmpTbl.fullname AS groupname,
         tmpTbl.avatarId AS extraValue
@@ -641,7 +641,7 @@
         GROUP BY tmpTbl.assignUser, tmpTbl.fullname, tmpTbl.avatarId
     </select>
 
-    <select id="getPrioritySummary" parameterType="ProjectTicketSearchCriteria"
+    <select id="getPrioritySummary" parameterType="com.mycollab.module.project.domain.criteria.ProjectTicketSearchCriteria"
             resultMap="com.mycollab.common.dao.GroupItemMapper.BaseResultMap" lang="velocity">
         SELECT tmpTbl.priority AS groupid, COUNT(tmpTbl.priority) AS value, '' AS groupname
         FROM

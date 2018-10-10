@@ -21,8 +21,8 @@ import com.google.common.eventbus.Subscribe
 import com.mycollab.common.UrlEncodeDecoder
 import com.mycollab.common.domain.MailRecipientField
 import com.mycollab.common.i18n.MailI18nEnum
+import com.mycollab.configuration.ApplicationConfiguration
 import com.mycollab.configuration.IDeploymentMode
-import com.mycollab.configuration.SiteConfiguration
 import com.mycollab.core.utils.DateTimeUtils
 import com.mycollab.i18n.LocalizationHelper
 import com.mycollab.module.esb.GenericCommand
@@ -41,7 +41,8 @@ import org.springframework.stereotype.Component
 class ResetUserPasswordCommand(private val extMailService: ExtMailService,
                                private val userService: UserService,
                                private val contentGenerator: IContentGenerator,
-                               private val deploymentMode: IDeploymentMode) : GenericCommand() {
+                               private val deploymentMode: IDeploymentMode,
+                               private val applicationConfiguration: ApplicationConfiguration) : GenericCommand() {
     companion object {
         val LOG = LoggerFactory.getLogger(ResetUserPasswordCommand::class.java)
     }
@@ -62,10 +63,10 @@ class ResetUserPasswordCommand(private val extMailService: ExtMailService,
             val recipient = MailRecipientField(user.email, user.username)
             val recipientFields = listOf(recipient)
 
-            extMailService.sendHTMLMail(SiteConfiguration.getNotifyEmail(), SiteConfiguration.getDefaultSiteName(),
+            extMailService.sendHTMLMail(applicationConfiguration.notifyEmail, applicationConfiguration.siteName,
                     recipientFields,
                     LocalizationHelper.getMessage(locale, UserI18nEnum.MAIL_RECOVERY_PASSWORD_SUBJECT,
-                            SiteConfiguration.getDefaultSiteName()),
+                            applicationConfiguration.siteName),
                     contentGenerator.parseFile("mailUserRecoveryPasswordNotifier.ftl", locale))
         } else {
             LOG.error("Can not reset the password of username $username because this user is not existed")

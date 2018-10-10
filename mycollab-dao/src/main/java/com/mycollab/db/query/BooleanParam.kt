@@ -16,8 +16,7 @@ class BooleanParam(id: String, table: String, column: String) : ColumnParam(id, 
             }
 
     companion object {
-        @JvmField
-        val IS = "is"
+        const val IS = "is"
 
         @JvmField
         val OPTIONS = arrayOf(IS)

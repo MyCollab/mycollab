@@ -29,8 +29,8 @@ class URLValidator : ConstraintValidator<URL, String> {
 
     override fun initialize(constraintAnnotation: URL) {}
 
-    override fun isValid(value: String, context: ConstraintValidatorContext): Boolean =
+    override fun isValid(value: String?, context: ConstraintValidatorContext): Boolean =
             if (!StringUtils.isBlank(value)) {
-                value.matches("[-a-zA-Z0-9@:%_\\+.~#?&//=]{2,256}\\.[a-z]{2,4}\\b(\\/[-a-zA-Z0-9@:%_\\+.~#?&//=]*)?".toRegex())
+                value!!.matches("[-a-zA-Z0-9@:%_\\+.~#?&//=]{2,256}\\.[a-z]{2,4}\\b(\\/[-a-zA-Z0-9@:%_\\+.~#?&//=]*)?".toRegex())
             } else true
 }

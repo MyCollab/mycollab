@@ -21,16 +21,16 @@ import com.mycollab.configuration.EnDecryptHelper
 import com.mycollab.configuration.IDeploymentMode
 import com.mycollab.core.UserInvalidInputException
 import com.mycollab.core.utils.StringUtils
+import com.mycollab.db.arguments.NumberSearchField
+import com.mycollab.db.arguments.SetSearchField
 import com.mycollab.db.persistence.ICrudGenericDAO
 import com.mycollab.db.persistence.service.DefaultCrudService
 import com.mycollab.module.billing.RegisterStatusConstants
 import com.mycollab.module.billing.UserStatusConstants
 import com.mycollab.module.billing.esb.AccountCreatedEvent
-import com.mycollab.module.user.dao.BillingAccountMapper
-import com.mycollab.module.user.dao.BillingAccountMapperExt
-import com.mycollab.module.user.dao.UserAccountMapper
-import com.mycollab.module.user.dao.UserMapper
+import com.mycollab.module.user.dao.*
 import com.mycollab.module.user.domain.*
+import com.mycollab.module.user.domain.criteria.UserSearchCriteria
 import com.mycollab.module.user.esb.SendUserEmailVerifyRequestEvent
 import com.mycollab.module.user.service.BillingAccountService
 import com.mycollab.module.user.service.RoleService
@@ -49,6 +49,7 @@ class BillingAccountServiceImpl(private val billingAccountMapper: BillingAccount
                                 private val billingAccountMapperExt: BillingAccountMapperExt,
                                 private val asyncEventBus: AsyncEventBus,
                                 private val userMapper: UserMapper,
+                                private val userMapperExt: UserMapperExt,
                                 private val userAccountMapper: UserAccountMapper,
                                 private val roleService: RoleService,
                                 private val deploymentMode: IDeploymentMode) : DefaultCrudService<Int, BillingAccount>(), BillingAccountService {
@@ -59,13 +60,10 @@ class BillingAccountServiceImpl(private val billingAccountMapper: BillingAccount
     override fun getBillingAccountById(accountId: Int): SimpleBillingAccount? =
             billingAccountMapperExt.getBillingAccountById(accountId)
 
-    override fun updateSelectiveWithSession(record: BillingAccount, username: String?): Int? {
-        try {
-            return super.updateSelectiveWithSession(record, username)
-        } catch (e: DuplicateKeyException) {
-            throw UserInvalidInputException("The domain ${record.subdomain} is already used")
-        }
-
+    override fun updateSelectiveWithSession(record: BillingAccount, username: String?): Int? = try {
+        super.updateSelectiveWithSession(record, username)
+    } catch (e: DuplicateKeyException) {
+        throw UserInvalidInputException("The domain ${record.subdomain} is already used")
     }
 
     override fun getAccountByDomain(domain: String): SimpleBillingAccount? =
@@ -149,6 +147,13 @@ class BillingAccountServiceImpl(private val billingAccountMapper: BillingAccount
 
         userAccountMapper.insert(userAccount)
         asyncEventBus.post(AccountCreatedEvent(sAccountId, username, isCreatedDefaultData!!))
+    }
+
+    override fun getTotalActiveUsersInAccount(accountId: Int): Int {
+        val criteria = UserSearchCriteria()
+        criteria.registerStatuses = SetSearchField(RegisterStatusConstants.ACTIVE)
+        criteria.saccountid = NumberSearchField(accountId)
+        return userMapperExt.getTotalCount(criteria)
     }
 
     private fun saveEmployeeRole(accountId: Int): Int {

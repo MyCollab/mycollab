@@ -43,7 +43,7 @@ import javax.servlet.http.HttpServletResponse
  * @author MyCollab Ltd.
  * @since 1.0
  */
-@WebServlet(urlPatterns = arrayOf("/tooltip/*"), name = "tooltipGeneratorServlet")
+@WebServlet(urlPatterns = ["/tooltip/*"], name = "tooltipGeneratorServlet")
 class TooltipGeneratorServletRequestHandler : GenericHttpServlet() {
 
     @Throws(ServletException::class, IOException::class)

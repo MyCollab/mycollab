@@ -39,7 +39,7 @@ class TicketUrlResolver : ProjectUrlResolver() {
         override fun handlePage(vararg params: String) {
             val projectId = UrlTokenizer(params[0]).getInt()
             val searchCriteria = ProjectTicketSearchCriteria()
-            searchCriteria.projectIds = SetSearchField<Int>(projectId)
+            searchCriteria.projectIds = SetSearchField(projectId)
             val chain = PageActionChain(ProjectScreenData.Goto(projectId), TicketScreenData.GotoDashboard(searchCriteria))
             EventBusFactory.getInstance().post(ProjectEvent.GotoMyProject(this, chain))
         }

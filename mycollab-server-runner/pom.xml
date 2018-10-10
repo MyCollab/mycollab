@@ -25,11 +25,15 @@
         </dependency>
 
         <dependency>
-            <groupId>fr.xebia.web</groupId>
-            <artifactId>xebia-servlet-extras</artifactId>
-            <version>1.0.8</version>
+            <groupId>com.mycollab</groupId>
+            <artifactId>mycollab-template</artifactId>
+            <version>${project.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+        </dependency>
 
     </dependencies>
 </project>

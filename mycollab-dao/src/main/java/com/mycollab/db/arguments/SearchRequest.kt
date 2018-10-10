@@ -22,6 +22,6 @@ package com.mycollab.db.arguments
  */
 open class SearchRequest(var currentPage: Int, var numberOfItems: Int) {
     companion object {
-        @JvmField val DEFAULT_NUMBER_SEARCH_ITEMS = 25
+        const val DEFAULT_NUMBER_SEARCH_ITEMS = 25
     }
 }

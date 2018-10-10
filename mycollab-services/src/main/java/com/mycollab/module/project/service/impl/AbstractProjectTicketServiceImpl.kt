@@ -16,7 +16,6 @@
  */
 package com.mycollab.module.project.service.impl
 
-import com.mycollab.common.domain.GroupItem
 import com.mycollab.core.cache.CacheKey
 import com.mycollab.core.utils.BeanUtility
 import com.mycollab.db.arguments.BasicSearchRequest
@@ -31,7 +30,6 @@ import com.mycollab.module.project.service.ProjectTaskService
 import com.mycollab.module.project.service.ProjectTicketService
 import com.mycollab.module.project.service.RiskService
 import com.mycollab.module.tracker.service.BugService
-import com.mycollab.module.user.domain.BillingAccount
 import com.mycollab.spring.AppContextUtil
 import org.apache.ibatis.session.RowBounds
 import org.springframework.beans.factory.annotation.Autowired
@@ -48,13 +46,13 @@ abstract class AbstractProjectTicketServiceImpl : DefaultSearchService<ProjectTi
     override val searchMapper: ISearchableDAO<ProjectTicketSearchCriteria>
         get() = projectTicketMapper
 
-    override fun getTotalCount(criteria: ProjectTicketSearchCriteria): Int =
+    override fun getTotalCount(criteria: ProjectTicketSearchCriteria) =
             projectTicketMapper.getTotalCountFromRisk(criteria) +
                     projectTicketMapper.getTotalCountFromBug(criteria) +
                     projectTicketMapper.getTotalCountFromTask(criteria) +
                     projectTicketMapper.getTotalCountFromMilestone(criteria)
 
-    override fun getTotalTicketsCount(@CacheKey criteria: ProjectTicketSearchCriteria): Int =
+    override fun getTotalTicketsCount(@CacheKey criteria: ProjectTicketSearchCriteria) =
             projectTicketMapper.getTotalCountFromRisk(criteria) +
                     projectTicketMapper.getTotalCountFromBug(criteria) +
                     projectTicketMapper.getTotalCountFromTask(criteria)
@@ -71,10 +69,10 @@ abstract class AbstractProjectTicketServiceImpl : DefaultSearchService<ProjectTi
         }
     }
 
-    override fun getAccountsHasOverdueAssignments(searchCriteria: ProjectTicketSearchCriteria): List<BillingAccount> =
+    override fun getAccountsHasOverdueAssignments(searchCriteria: ProjectTicketSearchCriteria) =
             projectTicketMapper.getAccountsHasOverdueAssignments(searchCriteria)
 
-    override fun getProjectsHasOverdueAssignments(searchCriteria: ProjectTicketSearchCriteria): List<Int> =
+    override fun getProjectsHasOverdueAssignments(searchCriteria: ProjectTicketSearchCriteria) =
             projectTicketMapper.getProjectsHasOverdueAssignments(searchCriteria)
 
     override fun findTicket(type: String, typeId: Int): ProjectTicket? {
@@ -85,13 +83,13 @@ abstract class AbstractProjectTicketServiceImpl : DefaultSearchService<ProjectTi
         return if (assignments.isNotEmpty()) assignments[0] else null
     }
 
-    override fun getAssigneeSummary(@CacheKey criteria: ProjectTicketSearchCriteria): List<GroupItem> =
+    override fun getAssigneeSummary(@CacheKey criteria: ProjectTicketSearchCriteria) =
             projectTicketMapper.getAssigneeSummary(criteria)
 
-    override fun getPrioritySummary(@CacheKey criteria: ProjectTicketSearchCriteria): List<GroupItem> =
+    override fun getPrioritySummary(@CacheKey criteria: ProjectTicketSearchCriteria) =
             projectTicketMapper.getPrioritySummary(criteria)
 
-    override fun findTicketsByCriteria(@CacheKey searchRequest: BasicSearchRequest<ProjectTicketSearchCriteria>): List<*> =
+    override fun findTicketsByCriteria(@CacheKey searchRequest: BasicSearchRequest<ProjectTicketSearchCriteria>) =
             projectTicketMapper.findTicketsByCriteria(searchRequest.searchCriteria,
                     RowBounds((searchRequest.currentPage - 1) * searchRequest.numberOfItems,
                             searchRequest.numberOfItems))

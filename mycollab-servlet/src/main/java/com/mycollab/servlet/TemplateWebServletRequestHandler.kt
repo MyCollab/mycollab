@@ -48,12 +48,12 @@ abstract class TemplateWebServletRequestHandler : GenericHttpServlet() {
     @Throws(IOException::class, TemplateException::class)
     fun generatePageByTemplate(locale: Locale, templatePath: String, params: Map<String, Any>?): String {
         val pageContext = HashMap<String, Any>()
-        params?.forEach { (key, value) -> pageContext.put(key, value) }
+        params?.forEach { (key, value) -> pageContext[key] = value }
 
         val defaultUrls = applicationConfiguration.defaultUrls()
 
-        defaultUrls.put("cdn_url", deploymentMode.getCdnUrl())
-        pageContext.put("defaultUrls", defaultUrls)
+        defaultUrls["cdn_url"] = deploymentMode.getCdnUrl()
+        pageContext["defaultUrls"] = defaultUrls
 
         val writer = StringWriter()
         //Load template from source folder

@@ -48,7 +48,7 @@
         createdTime DESC
     </sql>
 
-    <select id="findPageableListByCriteria" parameterType="CommentSearchCriteria" resultMap="BaseResultMap" lang="velocity">
+    <select id="findPageableListByCriteria" parameterType="com.mycollab.common.domain.criteria.CommentSearchCriteria" resultMap="BaseResultMap" lang="velocity">
         <include refid="selectSimpleComment" />
          #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")
@@ -59,7 +59,7 @@
          <include refid="orderStatement" />
     </select>
 
-    <select id="getTotalCount" parameterType="CommentSearchCriteria" resultType="java.lang.Integer" lang="velocity">
+    <select id="getTotalCount" parameterType="com.mycollab.common.domain.criteria.CommentSearchCriteria" resultType="java.lang.Integer" lang="velocity">
         SELECT count(*) as totalCount FROM m_comment
         #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")

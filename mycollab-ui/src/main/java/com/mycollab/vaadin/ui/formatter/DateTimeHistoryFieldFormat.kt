@@ -27,10 +27,10 @@ import com.mycollab.vaadin.UserUIContext
  */
 class DateTimeHistoryFieldFormat : HistoryFieldFormat {
 
-    override fun toString(value: String): String =
+    override fun toString(value: String) =
             toString(value, true, UserUIContext.getMessage(GenericI18Enum.FORM_EMPTY))
 
-    override fun toString(value: String, displayAsHtml: Boolean, msgIfBlank: String): String =
+    override fun toString(value: String, displayAsHtml: Boolean, msgIfBlank: String) =
             when {
                 StringUtils.isNotBlank(value) -> {
                     val date = DateTimeUtils.parseDateByW3C(value)

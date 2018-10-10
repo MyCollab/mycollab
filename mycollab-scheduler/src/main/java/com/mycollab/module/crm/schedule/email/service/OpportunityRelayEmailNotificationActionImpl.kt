@@ -59,7 +59,7 @@ import org.springframework.stereotype.Component
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
 class OpportunityRelayEmailNotificationActionImpl : CrmDefaultSendingRelayEmailAction<SimpleOpportunity>(), OpportunityRelayEmailNotificationAction {
     @Autowired private lateinit var opportunityService: OpportunityService
-    private val mapper: OpportunityFieldNameMapper = OpportunityFieldNameMapper()
+    private val mapper = OpportunityFieldNameMapper()
 
     override fun getBeanInContext(notification: SimpleRelayEmailNotification): SimpleOpportunity? =
             opportunityService.findById(notification.typeid.toInt(), notification.saccountid)

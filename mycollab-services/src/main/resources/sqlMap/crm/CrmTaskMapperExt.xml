@@ -274,7 +274,7 @@
         lastUpdatedTime DESC
     </sql>
 
-    <select id="getTotalCount" parameterType="CrmTaskSearchCriteria" resultType="int" lang="velocity">
+    <select id="getTotalCount" parameterType="com.mycollab.module.crm.domain.criteria.CrmTaskSearchCriteria" resultType="int" lang="velocity">
         SELECT count(*) as totalCount FROM m_crm_task
         #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")
@@ -283,7 +283,7 @@
         #end
     </select>
 
-    <delete id="removeByCriteria" parameterType="CrmTaskSearchCriteria" lang="velocity">
+    <delete id="removeByCriteria" parameterType="com.mycollab.module.crm.domain.criteria.CrmTaskSearchCriteria" lang="velocity">
         DELETE FROM m_crm_task
         #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")
@@ -298,7 +298,7 @@
         WHERE m_crm_task.id=@{taskId,jdbcType=NUMERIC}
     </select>
 
-    <select id="findPageableListByCriteria" parameterType="CrmTaskSearchCriteria" resultMap="SimpleTaskResult" lang="velocity">
+    <select id="findPageableListByCriteria" parameterType="com.mycollab.module.crm.domain.criteria.CrmTaskSearchCriteria" resultMap="SimpleTaskResult" lang="velocity">
         <![CDATA[
         SELECT m_crm_task.id, m_crm_task.subject, m_crm_task.startdate, m_crm_task.duedate, m_crm_task.contactId, m_crm_task.typeId,
                m_crm_task.description, m_crm_task.createdTime, m_crm_task.lastUpdatedTime, m_crm_task.createdUser, m_crm_task.sAccountId, m_crm_task.status, 

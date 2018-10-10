@@ -25,9 +25,9 @@ import com.mycollab.vaadin.UserUIContext
  */
 class I18nHistoryFieldFormat(private val enumCls: Class<out Enum<*>>) : HistoryFieldFormat {
 
-    override fun toString(value: String): String =
+    override fun toString(value: String) =
             toString(value, true, "")
 
-    override fun toString(value: String, displayAsHtml: Boolean, msgIfBlank: String): String =
+    override fun toString(value: String, displayAsHtml: Boolean, msgIfBlank: String) =
             if (StringUtils.isNotBlank(value)) UserUIContext.getMessage(enumCls, value) else msgIfBlank
 }

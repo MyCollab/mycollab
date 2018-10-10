@@ -41,9 +41,8 @@ class UserAvatarServiceImpl(private val resourceService: ResourceService,
     override fun uploadDefaultAvatar(username: String): String {
         // Save default user avatar
         val imageResourceStream = this.javaClass.classLoader.getResourceAsStream("assets/icons/default_user_avatar_100.png")
-        val imageBuff: BufferedImage
         try {
-            imageBuff = ImageIO.read(imageResourceStream)
+            val imageBuff = ImageIO.read(imageResourceStream)
             return uploadAvatar(imageBuff, username, null)
         } catch (e: IOException) {
             throw MyCollabException("Error while set default avatar to user", e)

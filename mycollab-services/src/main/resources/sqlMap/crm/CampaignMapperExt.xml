@@ -147,7 +147,7 @@
         ]]>
     </sql>
     
-    <select id="getTotalCount" parameterType="CampaignSearchCriteria"
+    <select id="getTotalCount" parameterType="com.mycollab.module.crm.domain.criteria.CampaignSearchCriteria"
         resultType="int" lang="velocity">
         SELECT count(*) as totalCount FROM m_crm_campaign
         #ifnotnull($_parameter.searchCriteria)
@@ -158,7 +158,7 @@
         #end
     </select>
     
-    <delete id="removeByCriteria" parameterType="CampaignSearchCriteria" lang="velocity">
+    <delete id="removeByCriteria" parameterType="com.mycollab.module.crm.domain.criteria.CampaignSearchCriteria" lang="velocity">
         DELETE FROM m_crm_campaign
         #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")
@@ -167,7 +167,7 @@
         #end
     </delete>
 
-    <select id="findPageableListByCriteria" parameterType="CampaignSearchCriteria"
+    <select id="findPageableListByCriteria" parameterType="com.mycollab.module.crm.domain.criteria.CampaignSearchCriteria"
         resultMap="SimpleCampaignResult" lang="velocity">
         <include refid="selectSimpleCampaign" />
         #ifnotnull($_parameter.searchCriteria)

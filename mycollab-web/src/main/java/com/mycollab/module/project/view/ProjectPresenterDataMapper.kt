@@ -54,7 +54,7 @@ object ProjectPresenterDataMapper {
             PageScreenData.Edit::class.java to PagePresenter::class.java,
             PageScreenData.Search::class.java to PagePresenter::class.java)
 
-    val riskMapper = mapOf<Class<out ScreenData<Any>>, Class<out IPresenter<*>>>(
+    private val riskMapper = mapOf<Class<out ScreenData<Any>>, Class<out IPresenter<*>>>(
             RiskScreenData.Add::class.java to IRiskPresenter::class.java,
             RiskScreenData.Edit::class.java to IRiskPresenter::class.java,
             RiskScreenData.Read::class.java to IRiskPresenter::class.java)

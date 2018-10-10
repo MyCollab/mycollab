@@ -27,10 +27,10 @@ import org.springframework.stereotype.Service
 @Service
 class ProjectActivityStreamServiceImpl(private val projectMapperExt: ProjectMapperExt) : ProjectActivityStreamService {
 
-    override fun getTotalActivityStream(criteria: ActivityStreamSearchCriteria): Int =
+    override fun getTotalActivityStream(criteria: ActivityStreamSearchCriteria) =
             projectMapperExt.getTotalActivityStream(criteria)
 
-    override fun getProjectActivityStreams(searchRequest: BasicSearchRequest<ActivityStreamSearchCriteria>): List<ProjectActivityStream> =
+    override fun getProjectActivityStreams(searchRequest: BasicSearchRequest<ActivityStreamSearchCriteria>) =
             projectMapperExt.getProjectActivityStreams(searchRequest.searchCriteria,
                     RowBounds((searchRequest.currentPage - 1) * searchRequest.numberOfItems,
                             searchRequest.numberOfItems))

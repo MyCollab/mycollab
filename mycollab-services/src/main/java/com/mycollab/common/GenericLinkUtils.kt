@@ -21,7 +21,7 @@ package com.mycollab.common
  * @since 1.0
  */
 object GenericLinkUtils {
-    @JvmField val URL_PREFIX_PARAM = "#"
+    const val URL_PREFIX_PARAM = "#"
 
     /**
      * @param params

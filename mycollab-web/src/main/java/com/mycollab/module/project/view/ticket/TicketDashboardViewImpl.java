@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -20,7 +20,6 @@ import com.google.common.eventbus.Subscribe;
 import com.mycollab.common.UrlEncodeDecoder;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.json.QueryAnalyzer;
-import com.mycollab.configuration.SiteConfiguration;
 import com.mycollab.core.MyCollabException;
 import com.mycollab.core.utils.BeanUtility;
 import com.mycollab.core.utils.StringUtils;
@@ -180,19 +179,18 @@ public class TicketDashboardViewImpl extends AbstractVerticalPageView implements
                 .withVisible(CurrentProjectVariables.canWriteTicket());
         groupWrapLayout.addComponent(newTicketBtn);
 
-        if (!SiteConfiguration.isCommunityEdition()) {
-            MButton advanceDisplayBtn = new MButton(UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_LIST))
-                    .withIcon(FontAwesome.NAVICON).withWidth("100px");
 
-            MButton kanbanBtn = new MButton(UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_KANBAN), clickEvent ->
-                    displayKanbanView()).withWidth("100px").withIcon(FontAwesome.TH);
+        MButton advanceDisplayBtn = new MButton(UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_LIST))
+                .withIcon(FontAwesome.NAVICON).withWidth("100px");
 
-            ToggleButtonGroup viewButtons = new ToggleButtonGroup();
-            viewButtons.addButton(advanceDisplayBtn);
-            viewButtons.addButton(kanbanBtn);
-            viewButtons.withDefaultButton(advanceDisplayBtn);
-            groupWrapLayout.addComponent(viewButtons);
-        }
+        MButton kanbanBtn = new MButton(UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_KANBAN), clickEvent ->
+                displayKanbanView()).withWidth("100px").withIcon(FontAwesome.TH);
+
+        ToggleButtonGroup viewButtons = new ToggleButtonGroup();
+        viewButtons.addButton(advanceDisplayBtn);
+        viewButtons.addButton(kanbanBtn);
+        viewButtons.withDefaultButton(advanceDisplayBtn);
+        groupWrapLayout.addComponent(viewButtons);
 
         MHorizontalLayout mainLayout = new MHorizontalLayout().withFullHeight().withFullWidth();
         wrapBody = new MVerticalLayout().withMargin(new MarginInfo(false, true, true, false));

@@ -204,7 +204,7 @@ class AccountCreatedCommand(private val optionValService: OptionValService,
         val folder = Folder()
         folder.name = "Requirements"
         folder.description = "Sample folder"
-        folder.path = PathUtils.getProjectDocumentPath(accountId, projectId) + "/" + StringUtils.generateSoftUniqueId()
+        folder.path = "${PathUtils.getProjectDocumentPath(accountId, projectId)}/${StringUtils.generateSoftUniqueId()}"
         pageService.createFolder(folder, initialUser)
 
         val timer = Timer("Set member notification")

@@ -35,16 +35,13 @@ object DistributionLockUtil {
 
     private val map = Collections.synchronizedMap(ReferenceMap(AbstractReferenceMap.WEAK, AbstractReferenceMap.WEAK))
 
-    @JvmStatic fun getLock(lockName: String): Lock {
-        return try {
-            val lockService = AppContextUtil.getSpringBean(DistributionLockService::class.java)
-            val lock = lockService.getLock(lockName)
-            lock ?: getStaticDefaultLock(lockName)
-        } catch (e: Exception) {
-            LOG.warn("Can not get lock service", e)
-            getStaticDefaultLock(lockName)
-        }
-
+    @JvmStatic fun getLock(lockName: String): Lock = try {
+        val lockService = AppContextUtil.getSpringBean(DistributionLockService::class.java)
+        val lock = lockService.getLock(lockName)
+        lock ?: getStaticDefaultLock(lockName)
+    } catch (e: Exception) {
+        LOG.warn("Can not get lock service")
+        getStaticDefaultLock(lockName)
     }
 
     @JvmStatic fun removeLock(lockName: String) {
@@ -57,7 +54,7 @@ object DistributionLockUtil {
             when (lock) {
                 null -> {
                     lock = ReentrantLock()
-                    map.put(lockName, lock)
+                    map[lockName] = lock
                 }
             }
             return lock!!

@@ -17,14 +17,10 @@
 package com.mycollab.spring
 
 import com.google.common.eventbus.AsyncEventBus
-import com.google.common.eventbus.SubscriberExceptionContext
 import com.google.common.eventbus.SubscriberExceptionHandler
-import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.context.annotation.Profile
-
 import java.util.concurrent.Executors
 
 /**
@@ -32,19 +28,16 @@ import java.util.concurrent.Executors
  * @since 5.1.0
  */
 @Configuration
-@Profile("production", "test")
-open class AppEventBus {
+class AppEventBus {
 
     @Bean
-    open fun asyncEventBus(): AsyncEventBus {
-        return AsyncEventBus(Executors.newCachedThreadPool(),
-                SubscriberExceptionHandler { throwable, _ -> LOG.error("Error in event bus execution", throwable) })
-    }
+    fun asyncEventBus() = AsyncEventBus(Executors.newCachedThreadPool(),
+            SubscriberExceptionHandler { throwable, _ -> LOG.error("Error in event bus execution", throwable) })
 
     companion object {
         private val LOG = LoggerFactory.getLogger(AppEventBus::class.java)
 
         @JvmStatic
-        fun getInstance(): AsyncEventBus = AppContextUtil.getSpringBean(AsyncEventBus::class.java)
+        fun getInstance() = AppContextUtil.getSpringBean(AsyncEventBus::class.java)
     }
 }

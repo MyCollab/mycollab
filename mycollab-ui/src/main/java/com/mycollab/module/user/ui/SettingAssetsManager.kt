@@ -29,8 +29,7 @@ object SettingAssetsManager {
             SettingUIConstants.BILLING to FontAwesome.CREDIT_CARD,
             SettingUIConstants.USERS to FontAwesome.USERS,
             SettingUIConstants.GENERAL_SETTING to FontAwesome.GEAR,
-            SettingUIConstants.THEME_CUSTOMIZE to FontAwesome.MAGIC,
-            SettingUIConstants.SETUP to FontAwesome.WRENCH
+            SettingUIConstants.THEME_CUSTOMIZE to FontAwesome.MAGIC
     )
 
     @JvmStatic fun getAsset(resId: String): FontAwesome =

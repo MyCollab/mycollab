@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -18,18 +18,17 @@ package com.mycollab.module.user.accountsettings.view;
 
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.configuration.SiteConfiguration;
-import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.module.user.accountsettings.billing.view.IBillingPresenter;
 import com.mycollab.module.user.accountsettings.customize.view.AccountSettingPresenter;
 import com.mycollab.module.user.accountsettings.localization.AdminI18nEnum;
 import com.mycollab.module.user.accountsettings.profile.view.ProfilePresenter;
-import com.mycollab.module.user.accountsettings.setup.view.SetupPresenter;
 import com.mycollab.module.user.accountsettings.team.view.UserPermissionManagementPresenter;
 import com.mycollab.module.user.accountsettings.view.event.ProfileEvent;
 import com.mycollab.module.user.accountsettings.view.parameters.BillingScreenData;
 import com.mycollab.module.user.ui.SettingAssetsManager;
 import com.mycollab.module.user.ui.SettingUIConstants;
 import com.mycollab.shell.event.ShellEvent;
+import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.*;
 import com.mycollab.vaadin.web.ui.ServiceMenu;
@@ -63,7 +62,6 @@ public class AccountModuleImpl extends AbstractSingleContainerPageView implement
     private UserPermissionManagementPresenter userPermissionPresenter;
     private IBillingPresenter billingPresenter;
     private AccountSettingPresenter customizePresenter;
-    private SetupPresenter setupPresenter;
 
     public AccountModuleImpl() {
         addStyleName("module");
@@ -107,11 +105,6 @@ public class AccountModuleImpl extends AbstractSingleContainerPageView implement
         tabSheet.addTab(constructThemeComponent(), SettingUIConstants.GENERAL_SETTING,
                 UserUIContext.getMessage(AdminI18nEnum.VIEW_SETTING), SettingAssetsManager.getAsset(SettingUIConstants.GENERAL_SETTING));
 
-        if (!SiteConfiguration.isDemandEdition()) {
-            tabSheet.addTab(constructSetupComponent(), SettingUIConstants.SETUP,
-                    UserUIContext.getMessage(AdminI18nEnum.VIEW_SETUP), SettingAssetsManager.getAsset(SettingUIConstants.SETUP));
-        }
-
         tabSheet.addSelectedTabChangeListener(new SelectedTabChangeListener() {
             private static final long serialVersionUID = 1L;
 
@@ -127,8 +120,6 @@ public class AccountModuleImpl extends AbstractSingleContainerPageView implement
                     userPermissionPresenter.go(AccountModuleImpl.this, null);
                 } else if (SettingUIConstants.GENERAL_SETTING.equals(tabId)) {
                     customizePresenter.go(AccountModuleImpl.this, null);
-                } else if (SettingUIConstants.SETUP.equals(tabId)) {
-                    setupPresenter.go(AccountModuleImpl.this, null);
                 }
             }
         });
@@ -147,11 +138,6 @@ public class AccountModuleImpl extends AbstractSingleContainerPageView implement
     private HasComponents constructUserRoleComponent() {
         userPermissionPresenter = PresenterResolver.getPresenter(UserPermissionManagementPresenter.class);
         return userPermissionPresenter.getView();
-    }
-
-    private HasComponents constructSetupComponent() {
-        setupPresenter = PresenterResolver.getPresenter(SetupPresenter.class);
-        return setupPresenter.getView();
     }
 
     private ComponentContainer constructThemeComponent() {

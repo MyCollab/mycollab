@@ -44,7 +44,7 @@ public class DataSourceFactoryBean extends AbstractFactoryBean<DataSource> {
     }
 
     @Override
-    protected DataSource createInstance() throws Exception {
+    protected DataSource createInstance() {
         TestDbConfiguration dbConf = new TestDbConfiguration();
         HikariConfig config = new HikariConfig();
         config.setMaximumPoolSize(20);
@@ -57,12 +57,12 @@ public class DataSourceFactoryBean extends AbstractFactoryBean<DataSource> {
                 "&password=" + dbConf.getPassword());
 
         dataSource = new HikariDataSource(config);
-        Properties dsProperties = new Properties();
-        dsProperties.setProperty("cachePrepStmts", "true");
-        dsProperties.setProperty("prepStmtCacheSize", "250");
-        dsProperties.setProperty("prepStmtCacheSqlLimit", "2048");
-        dsProperties.setProperty("useServerPrepStmts", "true");
-        dataSource.setDataSourceProperties(dsProperties);
+//        Properties dsProperties = new Properties();
+//        dsProperties.setProperty("cachePrepStmts", "true");
+//        dsProperties.setProperty("prepStmtCacheSize", "250");
+//        dsProperties.setProperty("prepStmtCacheSqlLimit", "2048");
+//        dsProperties.setProperty("useServerPrepStmts", "true");
+//        dataSource.setDataSourceProperties(dsProperties);
         return dataSource;
     }
 

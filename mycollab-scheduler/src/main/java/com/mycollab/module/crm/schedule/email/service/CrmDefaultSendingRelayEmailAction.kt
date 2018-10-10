@@ -23,6 +23,7 @@ import com.mycollab.common.domain.criteria.CommentSearchCriteria
 import com.mycollab.common.i18n.MailI18nEnum
 import com.mycollab.common.service.AuditLogService
 import com.mycollab.common.service.CommentService
+import com.mycollab.configuration.ApplicationConfiguration
 import com.mycollab.configuration.SiteConfiguration
 import com.mycollab.core.utils.DateTimeUtils
 import com.mycollab.core.utils.StringUtils
@@ -47,23 +48,19 @@ import org.springframework.beans.factory.annotation.Autowired
  * @since 6.0.0
  */
 abstract class CrmDefaultSendingRelayEmailAction<B> : SendingRelayEmailNotificationAction {
-    @Autowired
-    lateinit var extMailService: ExtMailService
+    @Autowired protected lateinit var extMailService: ExtMailService
 
-    @Autowired
-    private lateinit var auditLogService: AuditLogService
+    @Autowired protected lateinit var contentGenerator: IContentGenerator
 
-    @Autowired
-    lateinit var userService: UserService
+    @Autowired private lateinit var auditLogService: AuditLogService
 
-    @Autowired
-    lateinit var notificationService: CrmNotificationSettingService
+    @Autowired private lateinit var userService: UserService
 
-    @Autowired
-    private lateinit var commentService: CommentService
+    @Autowired private lateinit var notificationService: CrmNotificationSettingService
 
-    @Autowired
-    lateinit var contentGenerator: IContentGenerator
+    @Autowired private lateinit var commentService: CommentService
+
+    @Autowired private lateinit var applicationConfiguration: ApplicationConfiguration
 
     protected var bean: B? = null
     protected var changeUser: SimpleUser? = null
@@ -93,7 +90,7 @@ abstract class CrmDefaultSendingRelayEmailAction<B> : SendingRelayEmailNotificat
                     buildExtraTemplateVariables(context)
                     val userMail = MailRecipientField(it.email, it.username)
                     val recipients = listOf(userMail)
-                    extMailService.sendHTMLMail(SiteConfiguration.getNotifyEmail(), SiteConfiguration.getDefaultSiteName(), recipients,
+                    extMailService.sendHTMLMail(applicationConfiguration.notifyEmail, applicationConfiguration.siteName, recipients,
                             subject, contentGenerator.parseFile("mailCrmItemCreatedNotifier.ftl", context.locale))
                 }
             }
@@ -111,7 +108,7 @@ abstract class CrmDefaultSendingRelayEmailAction<B> : SendingRelayEmailNotificat
                 searchCriteria.type = StringSearchField.and(notification.type)
                 searchCriteria.typeId = StringSearchField.and(notification.typeid)
                 searchCriteria.saccountid = null
-                val comments = commentService.findPageableListByCriteria(BasicSearchRequest<CommentSearchCriteria>(searchCriteria, 0, 5))
+                val comments = commentService.findPageableListByCriteria(BasicSearchRequest(searchCriteria, 0, 5))
                 contentGenerator.putVariable("lastComments", comments)
 
                 notifiers.forEach {
@@ -141,7 +138,7 @@ abstract class CrmDefaultSendingRelayEmailAction<B> : SendingRelayEmailNotificat
                     contentGenerator.putVariable("mapper", getItemFieldMapper())
                     val userMail = MailRecipientField(it.email, it.username)
                     val recipients = listOf(userMail)
-                    extMailService.sendHTMLMail(SiteConfiguration.getNotifyEmail(), SiteConfiguration.getDefaultSiteName(), recipients,
+                    extMailService.sendHTMLMail(applicationConfiguration.notifyEmail, applicationConfiguration.siteName, recipients,
                             subject, contentGenerator.parseFile("mailCrmItemUpdatedNotifier.ftl", context.locale))
                 }
             }
@@ -179,34 +176,33 @@ abstract class CrmDefaultSendingRelayEmailAction<B> : SendingRelayEmailNotificat
                 val subject = context.getMessage(getCommentSubjectKey(), context.changeByUserFullName, getItemName())
                 val userMail = MailRecipientField(it.email, it.username)
                 val recipients = listOf(userMail)
-                extMailService.sendHTMLMail(SiteConfiguration.getNotifyEmail(), SiteConfiguration.getDefaultSiteName(), recipients,
+                extMailService.sendHTMLMail(applicationConfiguration.notifyEmail, applicationConfiguration.siteName, recipients,
                         subject, contentGenerator.parseFile("mailCrmItemAddNoteNotifier.ftl", context.locale))
             }
         }
     }
 
-    private fun getListNotifyUserWithFilter(notification: SimpleRelayEmailNotification): List<SimpleUser>? {
-        return notification.notifyUsers
-    }
+    private fun getListNotifyUserWithFilter(notification: SimpleRelayEmailNotification): List<SimpleUser>? =
+            notification.notifyUsers
 
     private fun onInitAction(notification: SimpleRelayEmailNotification) {
         siteUrl = MailUtils.getSiteUrl(notification.saccountid)
         changeUser = userService.findUserByUserNameInAccount(notification.changeby, notification.saccountid)
     }
 
-    abstract protected fun getBeanInContext(notification: SimpleRelayEmailNotification): B?
+    protected abstract fun getBeanInContext(notification: SimpleRelayEmailNotification): B?
 
-    abstract protected fun buildExtraTemplateVariables(context: MailContext<B>)
+    protected abstract fun buildExtraTemplateVariables(context: MailContext<B>)
 
-    abstract protected fun getCreateSubjectKey(): Enum<*>
+    protected abstract fun getCreateSubjectKey(): Enum<*>
 
-    abstract protected fun getUpdateSubjectKey(): Enum<*>
+    protected abstract fun getUpdateSubjectKey(): Enum<*>
 
-    abstract protected fun getCommentSubjectKey(): Enum<*>
+    protected abstract fun getCommentSubjectKey(): Enum<*>
 
-    abstract protected fun getItemName(): String
+    protected abstract fun getItemName(): String
 
-    abstract protected fun getItemFieldMapper(): ItemFieldMapper
+    protected abstract fun getItemFieldMapper(): ItemFieldMapper
 
     companion object {
         val LOG = LoggerFactory.getLogger(CrmDefaultSendingRelayEmailAction::class.java)

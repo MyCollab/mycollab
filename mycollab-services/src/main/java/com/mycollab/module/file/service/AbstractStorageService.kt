@@ -27,10 +27,10 @@ import org.springframework.beans.factory.annotation.Autowired
 abstract class AbstractStorageService {
 
     @Autowired
-    open protected lateinit var deploymentMode: IDeploymentMode
+    protected open lateinit var deploymentMode: IDeploymentMode
 
     open fun getResourcePath(documentPath: String): String =
-            deploymentMode.getResourceDownloadUrl() + documentPath
+            "${deploymentMode.getResourceDownloadUrl()}$documentPath"
 
     open fun getLogoPath(accountId: Int, logoName: String?, size: Int): String =
             when {

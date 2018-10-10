@@ -36,10 +36,10 @@ class DefaultMailer(private val emailConf: EmailConfiguration) : IMailer {
                               subject: String, html: String): HtmlEmail {
         try {
             val email = HtmlEmail()
-            email.hostName = emailConf.host
+            email.hostName = emailConf.smtphost
             email.setSmtpPort(emailConf.port)
-            email.isStartTLSEnabled = emailConf.isStartTls
-            email.isSSLOnConnect = emailConf.isSsl
+            email.isStartTLSEnabled = emailConf.startTls
+            email.isSSLOnConnect = emailConf.ssl
             email.setFrom(fromEmail, fromName)
             email.setCharset(EmailConstants.UTF_8)
             toEmail.forEach {
@@ -63,8 +63,8 @@ class DefaultMailer(private val emailConf: EmailConfiguration) : IMailer {
                 }
             }
 
-            if (emailConf.user != null) {
-                email.setAuthentication(emailConf.user, emailConf.password)
+            if (emailConf.username != null) {
+                email.setAuthentication(emailConf.username, emailConf.password)
             }
 
             email.subject = subject
@@ -111,7 +111,7 @@ class DefaultMailer(private val emailConf: EmailConfiguration) : IMailer {
 
     }
 
-    private fun isValidate(value: String?): Boolean = StringUtils.isNotBlank(value)
+    private fun isValidate(value: String?) = StringUtils.isNotBlank(value)
 
     companion object {
         private val LOG = LoggerFactory.getLogger(DefaultMailer::class.java)

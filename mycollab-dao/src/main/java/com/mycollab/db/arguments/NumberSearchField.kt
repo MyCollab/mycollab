@@ -26,10 +26,10 @@ open class NumberSearchField constructor(operation: String, var value: Int?, var
     constructor(value: Int, compareOperator: String) : this(SearchField.AND, value, compareOperator)
 
     companion object {
-        @JvmField val EQUAL = "="
-        @JvmField val NOT_EQUAL = "<>"
-        @JvmField val LESS_THAN = "<"
-        @JvmField val GREATER = ">"
+        const val EQUAL = "="
+        const val NOT_EQUAL = "<>"
+        const val LESS_THAN = "<"
+        const val GREATER = ">"
 
         @JvmStatic fun equal(value: Int) = NumberSearchField(SearchField.AND, value, EQUAL)
 

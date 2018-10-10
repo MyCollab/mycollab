@@ -34,17 +34,13 @@ open class SearchField : Serializable {
         this.operation = operation
     }
 
-    override fun toString(): String {
-        return BeanUtility.printBeanObj(this)
-    }
+    override fun toString(): String = BeanUtility.printBeanObj(this)
 
     companion object {
         private const val serialVersionUID = 1L
 
-        @JvmField
-        val OR = "OR"
+        const val OR = "OR"
 
-        @JvmField
-        val AND = "AND"
+        const val AND = "AND"
     }
 }

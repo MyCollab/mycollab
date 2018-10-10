@@ -20,6 +20,7 @@
 # -----------------------------------------------------------------------------
 # OS specific support.  $var _must_ be set to either true or false.
 
+export MYCOLLAB_PORT=8080
 export MYCOLLAB_OPTS=-noverify -server -Xms394m -Xmx768m -XX:NewSize=128m -XX:+DisableExplicitGC -XX:+CMSClassUnloadingEnabled -XX:+UseConcMarkSweepGC
 
 cygwin=false
@@ -153,7 +154,7 @@ if [ "$1" = "--start" ] ; then
   shift
   touch "$MYCOLLAB_OUT"
   cd ..
-  eval \"$_RUNJAVA\" -jar $MYCOLLAB_HOME/executor.jar $MYCOLLAB_OPTS &
+  eval \"$_RUNJAVA\" -jar $MYCOLLAB_HOME/executor.jar $MYCOLLAB_OPTS -Dserver.port=$MYCOLLAB_PORT &
 
   if [ ! -z "$MYCOLLAB_PID" ]; then
     echo $! > "$MYCOLLAB_PID"

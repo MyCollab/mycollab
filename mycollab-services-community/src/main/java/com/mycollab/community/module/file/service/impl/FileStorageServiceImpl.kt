@@ -28,7 +28,7 @@ import java.io.File
  * @since 5.5.0
  */
 @Service
-open class FileStorageServiceImpl : AbstractStorageService(), InitializingBean {
+class FileStorageServiceImpl : AbstractStorageService(), InitializingBean {
 
     @Throws(Exception::class)
     override fun afterPropertiesSet() {

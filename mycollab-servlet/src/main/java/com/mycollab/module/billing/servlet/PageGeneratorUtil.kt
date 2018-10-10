@@ -35,13 +35,13 @@ internal object PageGeneratorUtil {
     @JvmStatic
     fun responseUserNotExistPage(response: HttpServletResponse, username: String, loginURL: String) {
         val context = HashMap<String, Any>()
-        context.put("loginURL", loginURL)
-        context.put("username", username)
+        context["loginURL"] = loginURL
+        context["username"] = username
         val applicationConfiguration = AppContextUtil.getSpringBean(ApplicationConfiguration::class.java)
         val deploymentMode = AppContextUtil.getSpringBean(IDeploymentMode::class.java)
         val defaultUrls = applicationConfiguration.defaultUrls()
-        defaultUrls.put ("cdn_url", deploymentMode.getCdnUrl())
-        context.put("defaultUrls", defaultUrls)
+        defaultUrls["cdn_url"] = deploymentMode.getCdnUrl()
+        context["defaultUrls"] = defaultUrls
 
         val writer = StringWriter()
         val templateEngine = AppContextUtil.getSpringBean(Configuration::class.java)

@@ -44,7 +44,7 @@ class MonitorItemAspect(private var monitorItemService: MonitorItemService,
     @AfterReturning("execution(public * com.mycollab..service..*.saveWithSession(..)) && args(bean, username)")
     fun traceSaveActivity(joinPoint: JoinPoint, bean: Any, username: String) {
         val advised = joinPoint.`this` as Advised
-        val cls = advised.targetSource.targetClass
+        val cls = advised.targetSource.targetClass!!
         try {
             val watchableAnnotation = cls.getAnnotation(Watchable::class.java)
             if (watchableAnnotation != null) {

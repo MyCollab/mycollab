@@ -393,7 +393,7 @@
             AND m_prj_project.shortname = @{prjShortName}
     </select>
 
-    <select id="getTotalCount" parameterType="BugSearchCriteria" resultType="int" lang="velocity">
+    <select id="getTotalCount" parameterType="com.mycollab.module.tracker.domain.criteria.BugSearchCriteria" resultType="int" lang="velocity">
         SELECT count(*) as totalCount FROM m_tracker_bug
         #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")
@@ -402,7 +402,7 @@
         #end
     </select>
 
-    <select id="findPageableListByCriteria" parameterType="BugSearchCriteria" resultMap="SimpleBugResult" lang="velocity">
+    <select id="findPageableListByCriteria" parameterType="com.mycollab.module.tracker.domain.criteria.BugSearchCriteria" resultMap="SimpleBugResult" lang="velocity">
         <include refid="selectBug" />
         #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")
@@ -436,7 +436,7 @@
         #end
     </select>
 
-    <select id="getStatusSummary" parameterType="BugSearchCriteria"
+    <select id="getStatusSummary" parameterType="com.mycollab.module.tracker.domain.criteria.BugSearchCriteria"
         resultMap="com.mycollab.common.dao.GroupItemMapper.BaseResultMap" lang="velocity">
         <![CDATA[
         SELECT m_tracker_bug.status AS groupid, COUNT(m_tracker_bug.status) AS value, '' as groupname
@@ -450,7 +450,7 @@
         GROUP BY m_tracker_bug.status
     </select>
 
-    <select id="getPrioritySummary" parameterType="BugSearchCriteria"
+    <select id="getPrioritySummary" parameterType="com.mycollab.module.tracker.domain.criteria.BugSearchCriteria"
         resultMap="com.mycollab.common.dao.GroupItemMapper.BaseResultMap" lang="velocity">
         <![CDATA[
         SELECT m_tracker_bug.priority AS groupid,
@@ -465,7 +465,7 @@
         GROUP BY m_tracker_bug.priority
     </select>
 
-    <select id="getResolutionDefectsSummary" parameterType="BugSearchCriteria"
+    <select id="getResolutionDefectsSummary" parameterType="com.mycollab.module.tracker.domain.criteria.BugSearchCriteria"
         resultMap="com.mycollab.common.dao.GroupItemMapper.BaseResultMap" lang="velocity">
         <![CDATA[
         SELECT m_tracker_bug.resolution AS groupid,
@@ -481,7 +481,7 @@
         GROUP BY m_tracker_bug.resolution
     </select>
 
-    <select id="getAssignedDefectsSummary" parameterType="BugSearchCriteria"
+    <select id="getAssignedDefectsSummary" parameterType="com.mycollab.module.tracker.domain.criteria.BugSearchCriteria"
         resultMap="com.mycollab.common.dao.GroupItemMapper.BaseResultMap" lang="velocity">
         <![CDATA[
         SELECT m_tracker_bug.assignUser AS groupid,
@@ -499,7 +499,7 @@
         GROUP BY m_tracker_bug.assignUser
     </select>
 
-    <select id="getReporterDefectsSummary" parameterType="BugSearchCriteria"
+    <select id="getReporterDefectsSummary" parameterType="com.mycollab.module.tracker.domain.criteria.BugSearchCriteria"
         resultMap="com.mycollab.common.dao.GroupItemMapper.BaseResultMap" lang="velocity">
         <![CDATA[
         SELECT m_tracker_bug.createdUser AS groupid,
@@ -516,7 +516,7 @@
         GROUP BY m_tracker_bug.createdUser
     </select>
 
-    <select id="getComponentDefectsSummary" parameterType="BugSearchCriteria"
+    <select id="getComponentDefectsSummary" parameterType="com.mycollab.module.tracker.domain.criteria.BugSearchCriteria"
         resultMap="com.mycollab.common.dao.GroupItemMapper.BaseResultMap" lang="velocity">
         <![CDATA[
         SELECT m_tracker_component.id AS groupid,
@@ -548,7 +548,7 @@
         #end
     </select>
 
-    <select id="getVersionDefectsSummary" parameterType="BugSearchCriteria"
+    <select id="getVersionDefectsSummary" parameterType="com.mycollab.module.tracker.domain.criteria.BugSearchCriteria"
         resultMap="com.mycollab.common.dao.GroupItemMapper.BaseResultMap" lang="velocity">
         <![CDATA[
         SELECT m_tracker_version.id AS groupid,

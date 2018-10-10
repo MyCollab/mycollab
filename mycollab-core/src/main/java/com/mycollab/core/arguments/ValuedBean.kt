@@ -17,6 +17,7 @@
 package com.mycollab.core.arguments
 
 import com.fasterxml.jackson.annotation.JsonIgnore
+import com.rits.cloning.Cloner
 
 import java.io.Serializable
 
@@ -24,7 +25,7 @@ import java.io.Serializable
  * @author MyCollab Ltd.
  * @since 1.0
  */
-open class ValuedBean : Cloneable, Serializable {
+open class ValuedBean: Serializable {
 
     @JsonIgnore
     @NotBindable
@@ -35,7 +36,8 @@ open class ValuedBean : Cloneable, Serializable {
     var extraData: Any? = null
 
     fun copy(): Any? = try {
-        super.clone()
+        val cloner = Cloner()
+        cloner.deepClone(this)
     } catch (e: CloneNotSupportedException) {
         null
     }

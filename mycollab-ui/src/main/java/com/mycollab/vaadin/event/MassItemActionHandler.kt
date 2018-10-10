@@ -30,7 +30,7 @@ interface MassItemActionHandler {
 }
 
 object ViewItemAction {
-    @JvmField val MAIL_ACTION = "mail"
-    @JvmField val DELETE_ACTION = "delete"
-    @JvmField val MASS_UPDATE_ACTION = "massUpdate"
+    const val MAIL_ACTION = "mail"
+    const val DELETE_ACTION = "delete"
+    const val  MASS_UPDATE_ACTION = "massUpdate"
 }

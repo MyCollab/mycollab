@@ -123,9 +123,9 @@ public class ProjectListViewImpl extends AbstractVerticalPageView implements Pro
                     .expand(b).alignAll(Alignment.MIDDLE_LEFT).withMargin(false);
         });
 
-        tableItem.addGeneratedColumn(Project.Field.lead.name(), (source, itemId, columnId) -> {
+        tableItem.addGeneratedColumn(Project.Field.memlead.name(), (source, itemId, columnId) -> {
             SimpleProject project = tableItem.getBeanByIndex(itemId);
-            return ELabel.html(ProjectLinkBuilder.generateProjectMemberHtmlLink(project.getId(), project.getLead(),
+            return ELabel.html(ProjectLinkBuilder.generateProjectMemberHtmlLink(project.getId(), project.getMemlead(),
                     project.getLeadFullName(), project.getLeadAvatarId(), true));
         });
 

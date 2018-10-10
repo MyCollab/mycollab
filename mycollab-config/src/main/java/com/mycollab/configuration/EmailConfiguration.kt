@@ -16,12 +16,9 @@
  */
 package com.mycollab.configuration
 
-import com.mycollab.core.MyCollabException
 import com.mycollab.core.arguments.ValuedBean
-import com.mycollab.core.utils.StringUtils
-
-import javax.validation.constraints.Digits
-import javax.validation.constraints.NotNull
+import org.springframework.boot.context.properties.ConfigurationProperties
+import org.springframework.stereotype.Component
 
 /**
  * Email configuration of MyCollab
@@ -29,22 +26,13 @@ import javax.validation.constraints.NotNull
  * @author MyCollab Ltd.
  * @since 1.0
  */
-class EmailConfiguration internal constructor(@field:NotNull var host: String?,
-                                              @field:NotNull var user: String?,
-                                              @field:NotNull var password: String?,
-                                              port: Int, isStartTls: Boolean, isSsl: Boolean, notifyEmail: String) : ValuedBean() {
-
-    @Digits(integer = 6, fraction = 0)
-    var port: Int = 25
-
-    var isStartTls = false
-    var isSsl = false
-    var notifyEmail: String? = null
-
-    init {
-        this.port = port
-        this.isStartTls = isStartTls
-        this.isSsl = isSsl
-        this.notifyEmail = if (StringUtils.isBlank(notifyEmail)) user else notifyEmail
-    }
+@Component
+@ConfigurationProperties(prefix = "mail")
+class EmailConfiguration(var smtphost: String?, var username: String?,
+                         var password: String?, var port: Int,
+                         var startTls: Boolean = false, var ssl: Boolean = false,
+                         var notifyEmail: String) : ValuedBean() {
+    constructor() : this("", "", "", -1, false, false, "")
 }
+
+

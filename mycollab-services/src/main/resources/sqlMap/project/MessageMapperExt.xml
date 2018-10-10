@@ -58,7 +58,7 @@
         ]]>
     </sql>
 
-    <select id="getTotalCount" resultType="int" parameterType="MessageSearchCriteria" lang="velocity">
+    <select id="getTotalCount" resultType="int" parameterType="com.mycollab.module.project.domain.criteria.MessageSearchCriteria" lang="velocity">
         SELECT count(*) as totalCount FROM m_prj_message
         #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")
@@ -68,7 +68,7 @@
     </select>
 
     <select id="findPageableListByCriteria" resultMap="MessageResult"
-        parameterType="MessageSearchCriteria" lang="velocity">
+        parameterType="com.mycollab.module.project.domain.criteria.MessageSearchCriteria" lang="velocity">
         <include refid="selectMessage" />
         #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")

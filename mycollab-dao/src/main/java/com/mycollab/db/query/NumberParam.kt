@@ -66,20 +66,19 @@ class NumberParam(id: String, table: String, column: String) : ColumnParam(id, t
             OneValueSearchField(oper, String.format(LESS_THAN_EXPR, this.table, this.column), value)
 
     private fun buildParamIsLessThanEqual(oper: String, value: Any): OneValueSearchField =
-            OneValueSearchField(oper, String.format(
-                    LESS_THAN_EQUAL_EXPR, this.table, this.column), value)
+            OneValueSearchField(oper, String.format(LESS_THAN_EQUAL_EXPR, this.table, this.column), value)
 
     companion object {
 
         @JvmField val OPTIONS = arrayOf(EQUAL, NOT_EQUAL, LESS_THAN, LESS_THAN_EQUAL, GREATER_THAN, GREATER_THAN_EQUAL, IS_EMPTY, IS_NOT_EMPTY)
 
-        private val EQUAL_EXPR = "%s.%s = "
-        private val NOT_EQUAL_EXPR = "%s.%s <> "
-        private val NULL_EXPR = "%s.%s is null"
-        private val NOT_NULL_EXPR = "%s.%s is not null"
-        private val GREATER_THAN_EXPR = "%s.%s > "
-        private val GREATER_THAN_EQUAL_EXPR = "%s.%s >= "
-        private val LESS_THAN_EXPR = "%s.%s < "
-        private val LESS_THAN_EQUAL_EXPR = "%s.%s <= "
+        private const val EQUAL_EXPR = "%s.%s = "
+        private const val NOT_EQUAL_EXPR = "%s.%s <> "
+        private const val NULL_EXPR = "%s.%s is null"
+        private const val NOT_NULL_EXPR = "%s.%s is not null"
+        private const val GREATER_THAN_EXPR = "%s.%s > "
+        private const val GREATER_THAN_EQUAL_EXPR = "%s.%s >= "
+        private const val LESS_THAN_EXPR = "%s.%s < "
+        private const val LESS_THAN_EQUAL_EXPR = "%s.%s <= "
     }
 }

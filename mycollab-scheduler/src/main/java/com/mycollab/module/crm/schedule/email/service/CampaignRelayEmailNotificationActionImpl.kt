@@ -53,7 +53,8 @@ import org.springframework.stereotype.Component
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
 class CampaignRelayEmailNotificationActionImpl : CrmDefaultSendingRelayEmailAction<SimpleCampaign>(), CampaignRelayEmailNotificationAction {
     @Autowired private lateinit var campaignService: CampaignService
-    private val mapper: CampaignFieldNameMapper = CampaignFieldNameMapper()
+
+    private val mapper = CampaignFieldNameMapper()
 
     override fun getBeanInContext(notification: SimpleRelayEmailNotification): SimpleCampaign? =
             campaignService.findById(notification.typeid.toInt(), notification.saccountid)

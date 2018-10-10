@@ -21,12 +21,9 @@ package com.mycollab.module.billing
  * @since 1.0
  */
 object UserStatusConstants {
-    @JvmField
-    val EMAIL_NOT_VERIFIED = "EmailNotVerified"
+    const val EMAIL_NOT_VERIFIED = "EmailNotVerified"
 
-    @JvmField
-    val EMAIL_VERIFIED = "EmailVerified"
+    const val EMAIL_VERIFIED = "EmailVerified"
 
-    @JvmField
-    val EMAIL_VERIFIED_REQUEST = "EmailVerifiedRequest"
+    const val EMAIL_VERIFIED_REQUEST = "EmailVerifiedRequest"
 }

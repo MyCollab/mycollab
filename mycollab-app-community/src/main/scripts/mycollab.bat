@@ -18,6 +18,7 @@ rem                   Required to run the with the "debug" argument.
 rem ---------------------------------------------------------------------------
 
 set _RUNJAVA=java
+set MYCOLLAB_PORT=8080
 set MYCOLLAB_OPTS=-noverify -server -Xms394m -Xmx768m -XX:NewSize=128m -XX:+DisableExplicitGC -XX:+CMSClassUnloadingEnabled -XX:+UseConcMarkSweepGC
 
 rem Suppress Terminate batch job on CTRL+C
@@ -85,7 +86,7 @@ goto execCmd
 
 rem Execute Java with the applicable properties
 cd ..
-%_EXECJAVA% -jar executor.jar %* %MYCOLLAB_OPTS%
+%_EXECJAVA% -jar executor.jar %* %MYCOLLAB_OPTS% -Dserver.port=%MYCOLLAB_PORT%
 goto end
 
 :end

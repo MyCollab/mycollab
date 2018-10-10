@@ -24,10 +24,10 @@
         <module>../mycollab-server-runner</module>
         <module>../mycollab-esb</module>
         <module>../mycollab-reporting</module>
+        <module>../mycollab-template</module>
         <module>../mycollab-scheduler</module>
         <module>../mycollab-scheduler-community</module>
         <module>../mycollab-servlet</module>
-        <module>../mycollab-client-api</module>
         <module>../mycollab-ui</module>
         <module>../mycollab-web</module>
         <module>../mycollab-mobile</module>

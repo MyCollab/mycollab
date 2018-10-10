@@ -161,7 +161,7 @@
         ]]>
     </sql>
 
-    <select id="getTotalCount" resultType="int" parameterType="LeadSearchCriteria" lang="velocity">
+    <select id="getTotalCount" resultType="int" parameterType="com.mycollab.module.crm.domain.criteria.LeadSearchCriteria" lang="velocity">
         SELECT count(*) as totalCount FROM m_crm_lead
         #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")
@@ -170,7 +170,7 @@
         #end
     </select>
 
-    <delete id="removeByCriteria" parameterType="LeadSearchCriteria" lang="velocity">
+    <delete id="removeByCriteria" parameterType="com.mycollab.module.crm.domain.criteria.LeadSearchCriteria" lang="velocity">
         DELETE FROM m_crm_lead
         #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")
@@ -190,7 +190,7 @@
     </sql>
 
     <select id="findPageableListByCriteria" resultMap="SimpleLeadResult"
-        parameterType="LeadSearchCriteria" lang="velocity">
+        parameterType="com.mycollab.module.crm.domain.criteria.LeadSearchCriteria" lang="velocity">
         <include refid="selectSimpleLead" />
         #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")

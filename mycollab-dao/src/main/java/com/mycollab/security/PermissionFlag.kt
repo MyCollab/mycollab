@@ -26,7 +26,7 @@ import com.mycollab.common.i18n.SecurityI18nEnum
  */
 open class PermissionFlag {
     companion object {
-        @JvmStatic fun toVal(flag: Int?): SecurityI18nEnum = when (flag) {
+        @JvmStatic fun toVal(flag: Int?) = when (flag) {
             null, AccessPermissionFlag.NO_ACCESS -> SecurityI18nEnum.NO_ACCESS
             AccessPermissionFlag.READ_ONLY -> SecurityI18nEnum.READONLY
             AccessPermissionFlag.READ_WRITE -> SecurityI18nEnum.READ_WRITE

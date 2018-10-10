@@ -146,7 +146,7 @@ public class DesktopApplication extends AppUI {
         requestInfo.append("Subdomain: ").append(Utils.getSubDomain(request)).append('\n');
         requestInfo.append("Remote address: ").append(request.getRemoteAddr()).append('\n');
         requestInfo.append("Path info: ").append(request.getPathInfo()).append('\n');
-        requestInfo.append("Remote host: ").append(request.getRemoteHost()).append('\n');
+        requestInfo.append("Remote smtphost: ").append(request.getRemoteHost()).append('\n');
         return requestInfo.toString();
     }
 

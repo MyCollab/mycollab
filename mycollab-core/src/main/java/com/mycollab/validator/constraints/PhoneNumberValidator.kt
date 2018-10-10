@@ -29,6 +29,6 @@ class PhoneNumberValidator : ConstraintValidator<PhoneNumber, String> {
 
     override fun initialize(constraintAnnotation: PhoneNumber) {}
 
-    override fun isValid(value: String, context: ConstraintValidatorContext): Boolean =
+    override fun isValid(value: String?, context: ConstraintValidatorContext): Boolean =
             StringUtils.isValidPhoneNumber(value)
 }

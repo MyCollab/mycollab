@@ -182,7 +182,7 @@ abstract class AbstractNotificationComponent : PopupButton(), PopupButton.PopupV
         }
     }
 
-    abstract protected fun buildComponentFromNotificationExclusive(item: AbstractNotification): Component?
+    protected abstract fun buildComponentFromNotificationExclusive(item: AbstractNotification): Component?
 
-    abstract protected fun displayTrayNotificationExclusive(item: AbstractNotification)
+    protected abstract fun displayTrayNotificationExclusive(item: AbstractNotification)
 }

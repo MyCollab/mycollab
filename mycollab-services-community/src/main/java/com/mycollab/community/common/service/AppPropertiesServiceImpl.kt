@@ -48,11 +48,11 @@ class AppPropertiesServiceImpl : AppPropertiesService, InitializingBean {
 
     override val startDate: Date
         get() {
-            try {
+            return try {
                 val dateValue = properties.getProperty("startdate")
-                return DateTimeUtils.convertDateByString(dateValue, "yyyy-MM-dd'T'HH:mm:ss")
+                DateTimeUtils.convertDateByString(dateValue, "yyyy-MM-dd'T'HH:mm:ss")
             } catch (e: Exception) {
-                return GregorianCalendar().time
+                GregorianCalendar().time
             }
 
         }

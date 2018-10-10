@@ -50,12 +50,6 @@
 
         <dependency>
             <groupId>com.mycollab</groupId>
-            <artifactId>mycollab-scheduler</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.mycollab</groupId>
             <artifactId>mycollab-test</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>

@@ -152,7 +152,7 @@
 	</sql>
 
 	<select id="getTotalCount" resultType="int"
-		parameterType="TargetGroupSearchCriteria">
+		parameterType="com.mycollab.module.crm.domain.criteria.TargetGroupSearchCriteria">
 		SELECT count(*) as totalCount FROM m_crm_target_list
 		<trim prefix="WHERE" prefixOverrides="AND | OR ">
 			1=1 <include
@@ -160,7 +160,7 @@
 		</trim>
 	</select>
     
-    <delete id="removeByCriteria" parameterType="TargetGroupSearchCriteria">
+    <delete id="removeByCriteria" parameterType="com.mycollab.module.crm.domain.criteria.TargetGroupSearchCriteria">
         DELETE FROM m_crm_target_list
         <if test="_parameter != null">
             <include refid="com.mycollab.module.crm.dao.TargetGroupMapperExt.queryTotalCountSearchCriteria" />
@@ -172,7 +172,7 @@
     </sql>
 
 	<select id="findPageableListByCriteria" resultMap="SimpleTargetGroupResult"
-		parameterType="TargetGroupSearchCriteria">
+		parameterType="com.mycollab.module.crm.domain.criteria.TargetGroupSearchCriteria">
 
 		<include refid="com.mycollab.module.crm.dao.TargetGroupMapperExt.selectSimpleTargetGroup" />
 		<trim prefix="WHERE" prefixOverrides="AND | OR ">

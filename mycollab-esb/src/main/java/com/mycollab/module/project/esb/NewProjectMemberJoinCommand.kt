@@ -22,8 +22,8 @@ import com.hp.gagawa.java.elements.A
 import com.mycollab.common.FontAwesomeUtils
 import com.mycollab.common.domain.MailRecipientField
 import com.mycollab.common.i18n.MailI18nEnum
+import com.mycollab.configuration.ApplicationConfiguration
 import com.mycollab.configuration.IDeploymentMode
-import com.mycollab.configuration.SiteConfiguration
 import com.mycollab.core.utils.DateTimeUtils
 import com.mycollab.html.DivLessFormatter
 import com.mycollab.html.LinkUtils
@@ -49,7 +49,8 @@ class NewProjectMemberJoinCommand(private val billingAccountService: BillingAcco
                                   private val projectMemberService: ProjectMemberService,
                                   private val extMailService: ExtMailService,
                                   private val contentGenerator: IContentGenerator,
-                                  private val deploymentMode: IDeploymentMode) : GenericCommand() {
+                                  private val deploymentMode: IDeploymentMode,
+                                  private val applicationConfiguration: ApplicationConfiguration) : GenericCommand() {
 
     @AllowConcurrentEvents
     @Subscribe
@@ -71,7 +72,7 @@ class NewProjectMemberJoinCommand(private val billingAccountService: BillingAcco
                 if (event.username != it.username)
                     recipients.add(MailRecipientField(it.username, it.displayName))
             }
-            extMailService.sendHTMLMail(SiteConfiguration.getNotifyEmail(), SiteConfiguration.getDefaultSiteName(), recipients,
+            extMailService.sendHTMLMail(applicationConfiguration.notifyEmail, applicationConfiguration.siteName, recipients,
                     "${newMember.displayName} has just joined on project ${newMember.projectName}",
                     contentGenerator.parseFile("mailProjectNewMemberJoinProjectNotifier.ftl", Locale.US))
         } else {
@@ -84,14 +85,12 @@ class NewProjectMemberJoinCommand(private val billingAccountService: BillingAcco
 
         class Formatter {
             fun formatProjectLink(siteUrl: String, newMember: SimpleProjectMember): String =
-                    DivLessFormatter().appendText(FontAwesomeUtils.toHtml(ProjectTypeConstants.PROJECT)).
-                            appendChild(DivLessFormatter.EMPTY_SPACE, A(ProjectLinkGenerator.generateProjectFullLink(siteUrl,
-                                    newMember.projectid)).appendText(newMember.projectName)).write()
+                    DivLessFormatter().appendText(FontAwesomeUtils.toHtml(ProjectTypeConstants.PROJECT)).appendChild(DivLessFormatter.EMPTY_SPACE, A(ProjectLinkGenerator.generateProjectFullLink(siteUrl,
+                            newMember.projectid)).appendText(newMember.projectName)).write()
 
 
             fun formatMemberLink(siteUrl: String, newMember: SimpleProjectMember): String =
-                    A(ProjectLinkGenerator.generateProjectMemberFullLink(siteUrl, newMember.projectid, newMember.username)).
-                            appendText(newMember.displayName).write()
+                    A(ProjectLinkGenerator.generateProjectMemberFullLink(siteUrl, newMember.projectid, newMember.username)).appendText(newMember.displayName).write()
 
             fun formatRoleName(siteUrl: String, newMember: SimpleProjectMember): String =
                     if (newMember.isProjectOwner) "Project Owner"

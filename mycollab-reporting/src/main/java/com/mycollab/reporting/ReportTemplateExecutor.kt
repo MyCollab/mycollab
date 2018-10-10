@@ -58,9 +58,8 @@ abstract class ReportTemplateExecutor(private var timeZone: TimeZone, protected 
                         .setFixedDimension(150, 28), cmp.horizontalGap(20),
                 cmp.verticalList(
                         cmp.text("https://www.mycollab.com").setStyle(reportStyles.italicStyle).setHyperLink(link)
-                                .setHorizontalTextAlignment(HorizontalTextAlignment.RIGHT), cmp.text(String.format("Generated at: %s",
-                        DateTimeUtils.formatDate(GregorianCalendar().time, "yyyy-MM-dd'T'HH:mm:ss",
-                                Locale.US, timeZone)))
+                                .setHorizontalTextAlignment(HorizontalTextAlignment.RIGHT), cmp.text("Generated at: ${DateTimeUtils.formatDate(GregorianCalendar().time, "yyyy-MM-dd'T'HH:mm:ss",
+                        Locale.US, timeZone)}")
                         .setHorizontalTextAlignment(HorizontalTextAlignment.RIGHT))
         )
 

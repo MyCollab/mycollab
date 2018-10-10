@@ -20,7 +20,13 @@ package com.mycollab.core
  * @author MyCollab Ltd
  * @since 5.3.5
  */
-class BroadcastMessage(val sAccountId: Int?, val targetUser: String?, val wrapObj: Any) {
+class BroadcastMessage(val scope:String, val sAccountId: Int?, val targetUser: String?, val wrapObj: Any) {
 
-    constructor(wrapObj: Any) : this(null, null, wrapObj)
+    constructor(scope:String, wrapObj: Any) : this(scope, null, null, wrapObj)
+
+    companion object {
+        const val SCOPE_GLOBAL = "global"
+
+        const val SCOPE_USER = "user"
+    }
 }

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mycollab.module.project.dao.ProjectNotificationSettingMapperExt">
+    <select id="findNotifications" parameterType="map"  lang="velocity"
+            resultMap="com.mycollab.module.project.dao.ProjectNotificationSettingMapper.BaseResultMap">
+        SELECT m_prj_notifications.id, m_prj_notifications.username, m_prj_notifications.projectId, m_prj_notifications.sAccountId, m_prj_notifications.level
+        FROM m_prj_notifications
+            INNER JOIN s_user ON (s_user.username = m_prj_notifications.username AND s_user.status = 'EmailVerified')
+        WHERE
+            m_prj_notifications.sAccountId = @{sAccountId, jdbcType=NUMERIC}
+            AND m_prj_notifications.projectId = @{projectId, jdbcType=NUMERIC}
+    </select>
+</mapper>

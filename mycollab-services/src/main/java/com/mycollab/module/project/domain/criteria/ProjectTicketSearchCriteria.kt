@@ -51,7 +51,7 @@ class ProjectTicketSearchCriteria : SearchCriteria() {
     var typeIds: SetSearchField<Int>? = null
 
     companion object {
-        private val serialVersionUID = 1L
+        private const val serialVersionUID = 1L
 
         @JvmField
         val p_types = CacheParamMapper.register(ProjectTypeConstants.TICKET,

@@ -101,7 +101,7 @@ class ProjectCommentInput extends MHorizontalLayout {
             component.reload();
         }).withStyleName(WebThemes.BUTTON_ACTION).withIcon(FontAwesome.SEND);
 
-        textAreaWrap.with(new MCssLayout(commentArea, attachments), newCommentBtn).withAlign(newCommentBtn, Alignment.TOP_RIGHT);
+        textAreaWrap.with(commentArea, attachments, newCommentBtn).withAlign(newCommentBtn, Alignment.TOP_RIGHT);
     }
 
     void setTypeAndId(final String typeId) {

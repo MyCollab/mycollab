@@ -63,13 +63,6 @@ class UserServiceTest : IntegrationServiceTest() {
 
     @DataSet
     @Test
-    fun testGetTotalActiveUsersInAccount() {
-        val totalActiveUsersInAccount = userService.getTotalActiveUsersInAccount(1)
-        assertThat(totalActiveUsersInAccount).isEqualTo(3)
-    }
-
-    @DataSet
-    @Test
     fun testFindUserByUsernameInAccount() {
         val user = userService.findUserByUserNameInAccount("hainguyen@esofthead.com", 1)
         assertThat(user!!.username).isEqualTo("hainguyen@esofthead.com")

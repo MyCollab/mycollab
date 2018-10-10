@@ -66,7 +66,7 @@
         m_monitor_item.monitor_date DESC
     </sql>
 
-    <select id="getTotalCount" parameterType="MonitorSearchCriteria" resultType="int" lang="velocity">
+    <select id="getTotalCount" parameterType="com.mycollab.common.domain.criteria.MonitorSearchCriteria" resultType="int" lang="velocity">
         SELECT count(*) as totalCount FROM m_monitor_item
 
         #ifnotnull($_parameter.searchCriteria)
@@ -87,7 +87,7 @@
         </foreach>
     </insert>
 
-    <select id="findPageableListByCriteria" parameterType="MonitorSearchCriteria" resultMap="MonitorItemResult" lang="velocity">
+    <select id="findPageableListByCriteria" parameterType="com.mycollab.common.domain.criteria.MonitorSearchCriteria" resultMap="MonitorItemResult" lang="velocity">
         <include refid="selectItem" />
         #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")
@@ -105,7 +105,7 @@
 
     </select>
     
-    <delete id="removeByCriteria" parameterType="MonitorSearchCriteria" lang="velocity">
+    <delete id="removeByCriteria" parameterType="com.mycollab.common.domain.criteria.MonitorSearchCriteria" lang="velocity">
         DELETE FROM m_monitor_item
         #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")

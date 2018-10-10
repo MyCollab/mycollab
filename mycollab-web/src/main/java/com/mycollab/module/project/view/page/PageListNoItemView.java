@@ -74,9 +74,7 @@ public class PageListNoItemView extends ProjectListNoItemView {
         if (hasPermission()) {
             MButton createPageBtn = new MButton(actionMessage(), actionListener()).withStyleName(WebThemes.BUTTON_ACTION);
 
-            MButton createPageGroupBtn = new MButton(UserUIContext.getMessage(PageI18nEnum.NEW_GROUP), clickEvent -> {
-                UI.getCurrent().addWindow(new GroupPageAddWindow());
-            }).withStyleName(WebThemes.BUTTON_ACTION);
+            MButton createPageGroupBtn = new MButton(UserUIContext.getMessage(PageI18nEnum.NEW_GROUP), clickEvent -> UI.getCurrent().addWindow(new GroupPageAddWindow())).withStyleName(WebThemes.BUTTON_ACTION);
 
             return new MHorizontalLayout(createPageBtn, new Label(" or "), createPageGroupBtn)
                     .alignAll(Alignment.MIDDLE_CENTER);

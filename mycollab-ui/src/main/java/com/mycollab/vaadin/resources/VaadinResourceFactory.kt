@@ -56,17 +56,17 @@ class VaadinResourceFactory private constructor() {
             get() = _instance.vaadinResource
 
         @JvmStatic
-        fun getResource(documentPath: String): Resource =
+        fun getResource(documentPath: String) =
                 ExternalResource(AppContextUtil.getSpringBean(AbstractStorageService::class.java)
                         .getResourcePath(documentPath))
 
         @JvmStatic
-        fun getLogoResource(logoId: String, size: Int): Resource =
+        fun getLogoResource(logoId: String, size: Int) =
                 ExternalResource(AppContextUtil.getSpringBean(AbstractStorageService::class.java)
                         .getLogoPath(AppUI.accountId, logoId, size))
 
         @JvmStatic
-        fun getAvatarResource(avatarId: String, size: Int): Resource =
+        fun getAvatarResource(avatarId: String, size: Int) =
                 ExternalResource(AppContextUtil.getSpringBean(AbstractStorageService::class.java)
                         .getAvatarPath(avatarId, size))
     }

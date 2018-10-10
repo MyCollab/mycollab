@@ -22,4 +22,4 @@ import com.mycollab.core.AbstractNotification
  * @author MyCollab Ltd.
  * @since 4.5.2
  */
-class RequestUploadAvatarNotification : AbstractNotification(AbstractNotification.SCOPE_USER, AbstractNotification.WARNING)
+class RequestUploadAvatarNotification : AbstractNotification(AbstractNotification.WARNING)

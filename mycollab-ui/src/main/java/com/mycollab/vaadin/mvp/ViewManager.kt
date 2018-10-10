@@ -44,7 +44,7 @@ object ViewManager {
             return when (value) {
                 null -> {
                     value = createInstanceFromCls(viewClass)
-                    viewMap.put(viewClass, value)
+                    viewMap[viewClass] = value
                     value
                 }
                 else -> value

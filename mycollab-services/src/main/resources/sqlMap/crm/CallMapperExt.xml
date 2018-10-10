@@ -64,7 +64,7 @@
         WHERE m_crm_call.id=@{callId,jdbcType=NUMERIC}
     </select>
 
-    <select id="findPageableListByCriteria" parameterType="CallSearchCriteria" resultMap="SimpleCallResult" lang="velocity">
+    <select id="findPageableListByCriteria" parameterType="com.mycollab.module.crm.domain.criteria.CallSearchCriteria" resultMap="SimpleCallResult" lang="velocity">
         <include refid="com.mycollab.module.crm.dao.CallMapperExt.selectSimpleCall" />
         #ifnotnull($_parameter.searchCriteria)
         #trimext("WHERE" "AND|OR")
@@ -74,7 +74,7 @@
         <include refid="orderStatement" />
     </select>
 
-    <select id="getTotalCount" parameterType="CallSearchCriteria" resultType="java.lang.Integer" lang="velocity">
+    <select id="getTotalCount" parameterType="com.mycollab.module.crm.domain.criteria.CallSearchCriteria" resultType="java.lang.Integer" lang="velocity">
         SELECT count(*) as totalCount FROM m_crm_call
         #ifnotnull($_parameter.searchCriteria)
         #trimext("WHERE" "AND|OR")
