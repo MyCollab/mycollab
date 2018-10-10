@@ -89,5 +89,12 @@
             <artifactId>cloning</artifactId>
             <version>1.9.10</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.diffblue</groupId>
+            <artifactId>deeptestutils</artifactId>
+            <version>1.0.0</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 </project>
