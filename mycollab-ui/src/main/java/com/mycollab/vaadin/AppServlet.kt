@@ -17,9 +17,9 @@
 package com.mycollab.vaadin
 
 import com.mycollab.core.Version
-import com.vaadin.addon.touchkit.annotations.CacheManifestEnabled
-import com.vaadin.addon.touchkit.server.TouchKitServlet
 import com.vaadin.server.DeploymentConfiguration
+import org.vaadin.touchkit.annotations.CacheManifestEnabled
+import org.vaadin.touchkit.server.TouchKitServlet
 import java.util.*
 import javax.servlet.ServletException
 import javax.servlet.annotation.WebInitParam

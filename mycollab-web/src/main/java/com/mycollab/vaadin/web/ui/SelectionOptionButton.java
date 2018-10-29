@@ -21,7 +21,7 @@ import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.event.HasSelectableItemHandlers;
 import com.mycollab.vaadin.event.HasSelectionOptionHandlers;
 import com.mycollab.vaadin.event.SelectionOptionHandler;
-import com.vaadin.server.FontAwesome;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.Button;
 
@@ -46,7 +46,7 @@ public class SelectionOptionButton extends SplitButton implements HasSelectionOp
         super();
         addStyleName(WebThemes.BUTTON_ACTION);
         addStyleName(WebThemes.BUTTON_SMALL_PADDING);
-        setIcon(FontAwesome.SQUARE_O);
+        setIcon(VaadinIcons.SQUARE_SHADOW);
 
         addClickListener(clickEvent -> toggleChangeOption());
 
@@ -54,7 +54,7 @@ public class SelectionOptionButton extends SplitButton implements HasSelectionOp
 
         selectAllBtn = new Button("", clickEvent -> {
             isSelectAll = true;
-            setIcon(FontAwesome.CHECK_SQUARE_O);
+            setIcon(VaadinIcons.CHECK_SQUARE_O);
             fireSelectAll();
             setPopupVisible(false);
         });
@@ -62,7 +62,7 @@ public class SelectionOptionButton extends SplitButton implements HasSelectionOp
 
         selectThisPageBtn = new Button("", clickEvent -> {
             isSelectAll = false;
-            setIcon(FontAwesome.CHECK_SQUARE_O);
+            setIcon(VaadinIcons.CHECK_SQUARE_O);
             fireSelectCurrentPage();
             setPopupVisible(false);
         });
@@ -77,7 +77,7 @@ public class SelectionOptionButton extends SplitButton implements HasSelectionOp
 
         Button deSelectBtn = new Button(UserUIContext.getMessage(GenericI18Enum.ACTION_DESELECT_ALL), clickEvent -> {
             isSelectAll = false;
-            setIcon(FontAwesome.SQUARE_O);
+            setIcon(VaadinIcons.SQUARE_SHADOW);
             fireDeselect();
             setPopupVisible(false);
         });
@@ -113,7 +113,7 @@ public class SelectionOptionButton extends SplitButton implements HasSelectionOp
 
     public void setSelectedCheckbox(final boolean selected) {
         isSelected = selected;
-        Resource icon = (selected) ? FontAwesome.CHECK_SQUARE_O : FontAwesome.SQUARE_O;
+        Resource icon = (selected) ? VaadinIcons.CHECK_SQUARE_O : VaadinIcons.SQUARE_SHADOW;
         this.setIcon(icon);
     }
 
@@ -123,7 +123,7 @@ public class SelectionOptionButton extends SplitButton implements HasSelectionOp
         }
 
         isSelected = !isSelected;
-        final Resource icon = (isSelected) ? FontAwesome.CHECK_SQUARE_O : FontAwesome.SQUARE_O;
+        final Resource icon = (isSelected) ? VaadinIcons.CHECK_SQUARE_O : VaadinIcons.SQUARE_SHADOW;
         this.setIcon(icon);
 
         if (isSelected) {

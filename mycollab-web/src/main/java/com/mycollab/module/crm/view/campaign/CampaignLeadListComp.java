@@ -41,6 +41,7 @@ import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.mycollab.vaadin.web.ui.OptionPopupContent;
 import com.mycollab.vaadin.web.ui.SplitButton;
 import com.mycollab.vaadin.web.ui.WebThemes;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
 import org.vaadin.viritin.button.MButton;
@@ -70,7 +71,7 @@ public class CampaignLeadListComp extends RelatedListComp2<LeadService, LeadSear
             final SplitButton controlsBtn = new SplitButton();
             controlsBtn.addStyleName(WebThemes.BUTTON_ACTION);
             controlsBtn.setCaption(UserUIContext.getMessage(LeadI18nEnum.NEW));
-            controlsBtn.setIcon(FontAwesome.PLUS);
+            controlsBtn.setIcon(VaadinIcons.PLUS);
             controlsBtn.addClickListener(event -> fireNewRelatedItem(""));
             final Button selectBtn = new Button(UserUIContext.getMessage(GenericI18Enum.BUTTON_SELECT), clickEvent -> {
                 CampaignLeadSelectionWindow leadsWindow = new CampaignLeadSelectionWindow(CampaignLeadListComp.this);
@@ -145,7 +146,7 @@ public class CampaignLeadListComp extends RelatedListComp2<LeadService, LeadSear
                                 CampaignLeadListComp.this.refresh();
                             }
                         });
-            }).withIcon(FontAwesome.TRASH_O).withStyleName(WebThemes.BUTTON_ICON_ONLY);
+            }).withIcon(VaadinIcons.TRASH).withStyleName(WebThemes.BUTTON_ICON_ONLY);
 
             blockContent.addComponent(btnDelete);
             blockContent.setComponentAlignment(btnDelete, Alignment.TOP_RIGHT);

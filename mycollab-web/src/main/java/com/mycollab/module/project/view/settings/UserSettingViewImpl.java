@@ -33,6 +33,7 @@ import com.mycollab.vaadin.mvp.PresenterResolver;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.web.ui.TabSheetDecorator;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.TabSheet.SelectedTabChangeEvent;
@@ -63,10 +64,10 @@ public class UserSettingViewImpl extends AbstractVerticalPageView implements Use
 
     private void buildComponents() {
         userPresenter = PresenterResolver.getPresenter(ProjectUserPresenter.class);
-        myProjectTab.addTab(userPresenter.getView(), UserUIContext.getMessage(ProjectMemberI18nEnum.LIST), FontAwesome.USERS);
+        myProjectTab.addTab(userPresenter.getView(), UserUIContext.getMessage(ProjectMemberI18nEnum.LIST), VaadinIcons.USERS);
 
         rolePresenter = PresenterResolver.getPresenter(ProjectRolePresenter.class);
-        myProjectTab.addTab(rolePresenter.getView(), UserUIContext.getMessage(ProjectRoleI18nEnum.LIST), FontAwesome.USER_MD);
+        myProjectTab.addTab(rolePresenter.getView(), UserUIContext.getMessage(ProjectRoleI18nEnum.LIST), VaadinIcons.WORKPLACE);
 
         componentPresenter = PresenterResolver.getPresenter(ComponentPresenter.class);
         myProjectTab.addTab(componentPresenter.getView(), UserUIContext.getMessage(ComponentI18nEnum.LIST),
@@ -78,16 +79,16 @@ public class UserSettingViewImpl extends AbstractVerticalPageView implements Use
 
         settingPresenter = PresenterResolver.getPresenter(ProjectSettingPresenter.class);
         myProjectTab.addTab(settingPresenter.getView(), UserUIContext.getMessage(ProjectCommonI18nEnum
-                .VIEW_SETTINGS), FontAwesome.COG);
+                .VIEW_SETTINGS), VaadinIcons.COG);
 
         myProjectTab.addTab(settingPresenter.getView(), UserUIContext.getMessage(ProjectCommonI18nEnum
-                .VIEW_SETTINGS), FontAwesome.COG);
+                .VIEW_SETTINGS), VaadinIcons.COG);
 
         myProjectTab.addTab(settingPresenter.getView(), UserUIContext.getMessage(ProjectCommonI18nEnum
-                .VIEW_SETTINGS), FontAwesome.COG);
+                .VIEW_SETTINGS), VaadinIcons.COG);
 
         myProjectTab.addTab(settingPresenter.getView(), UserUIContext.getMessage(ProjectCommonI18nEnum
-                .VIEW_SETTINGS), FontAwesome.COG);
+                .VIEW_SETTINGS), VaadinIcons.COG);
 
         myProjectTab.addSelectedTabChangeListener(new SelectedTabChangeListener() {
             private static final long serialVersionUID = 1L;

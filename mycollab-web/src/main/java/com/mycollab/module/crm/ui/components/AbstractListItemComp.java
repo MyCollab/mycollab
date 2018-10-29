@@ -26,13 +26,12 @@ import com.mycollab.vaadin.event.HasSelectableItemHandlers;
 import com.mycollab.vaadin.event.HasSelectionOptionHandlers;
 import com.mycollab.vaadin.mvp.AbstractVerticalPageView;
 import com.mycollab.vaadin.ui.DefaultMassItemActionHandlerContainer;
-import com.mycollab.vaadin.web.ui.table.AbstractPagedBeanTable;
+import com.mycollab.vaadin.web.ui.table.AbstractPagedGrid;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Label;
-import org.vaadin.peter.buttongroup.ButtonGroup;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
@@ -40,18 +39,19 @@ import org.vaadin.viritin.layouts.MVerticalLayout;
  * @author MyCollab Ltd.
  * @since 3.0
  */
+// TODO
 public abstract class AbstractListItemComp<S extends SearchCriteria, B> extends AbstractVerticalPageView implements IListView<S, B> {
     private static final long serialVersionUID = 1L;
 
     protected MVerticalLayout contentLayout;
     protected DefaultGenericSearchPanel<S> searchPanel;
-    protected AbstractPagedBeanTable<S, B> tableItem;
+    protected AbstractPagedGrid<S, B> grid;
 
     private Label selectedItemsNumberLabel = new Label();
 
     private SelectionOptionButton selectOptionButton;
     private DefaultMassItemActionHandlerContainer tableActionControls;
-    private ButtonGroup extraControlsLayout;
+//    private ButtonGroup extraControlsLayout;
 
     public AbstractListItemComp() {
         this.withMargin(new MarginInfo(false, true, true, true));
@@ -61,26 +61,26 @@ public abstract class AbstractListItemComp<S extends SearchCriteria, B> extends 
 
         contentLayout = new MVerticalLayout().withSpacing(false).withMargin(false);
         with(contentLayout).expand(contentLayout);
-        tableItem = createBeanTable();
-        contentLayout.with(buildControlsLayout(), tableItem).expand(tableItem);
-        tableItem.setHeightUndefined();
+        grid = createGrid();
+        contentLayout.with(buildControlsLayout(), grid).expand(grid);
+        grid.setHeightUndefined();
     }
 
     private ComponentContainer buildControlsLayout() {
         MHorizontalLayout viewControlsLayout = new MHorizontalLayout().withStyleName(WebThemes.TABLE_ACTION_CONTROLS).withFullWidth();
 
-        selectOptionButton = new SelectionOptionButton(tableItem);
+        selectOptionButton = new SelectionOptionButton(grid);
         selectOptionButton.setSizeUndefined();
         tableActionControls = createActionControls();
 
         MHorizontalLayout leftContainer = new MHorizontalLayout(selectOptionButton, tableActionControls, selectedItemsNumberLabel);
         leftContainer.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
-        extraControlsLayout = new ButtonGroup();
+//        extraControlsLayout = new ButtonGroup();
         buildExtraControls();
 
-        viewControlsLayout.with(leftContainer, extraControlsLayout).withAlign(leftContainer, Alignment.MIDDLE_LEFT)
-                .withAlign(extraControlsLayout, Alignment.MIDDLE_RIGHT);
+//        viewControlsLayout.with(leftContainer, extraControlsLayout).withAlign(leftContainer, Alignment.MIDDLE_LEFT)
+//                .withAlign(extraControlsLayout, Alignment.MIDDLE_RIGHT);
         return viewControlsLayout;
     }
 
@@ -98,7 +98,7 @@ public abstract class AbstractListItemComp<S extends SearchCriteria, B> extends 
     }
 
     public void addExtraButton(Button component) {
-        extraControlsLayout.addButton(component);
+//        extraControlsLayout.addButton(component);
     }
 
     @Override
@@ -107,8 +107,8 @@ public abstract class AbstractListItemComp<S extends SearchCriteria, B> extends 
     }
 
     @Override
-    public AbstractPagedBeanTable<S, B> getPagedBeanTable() {
-        return tableItem;
+    public AbstractPagedGrid<S, B> getPagedBeanGrid() {
+        return grid;
     }
 
     @Override
@@ -123,14 +123,14 @@ public abstract class AbstractListItemComp<S extends SearchCriteria, B> extends 
 
     @Override
     public HasSelectableItemHandlers<B> getSelectableItemHandlers() {
-        return tableItem;
+        return grid;
     }
 
     abstract protected void buildExtraControls();
 
     abstract protected DefaultGenericSearchPanel<S> createSearchPanel();
 
-    abstract protected AbstractPagedBeanTable<S, B> createBeanTable();
+    abstract protected AbstractPagedGrid<S, B> createGrid();
 
     abstract protected DefaultMassItemActionHandlerContainer createActionControls();
 }

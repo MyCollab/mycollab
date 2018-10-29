@@ -29,7 +29,7 @@ import com.mycollab.vaadin.web.ui.MassUpdateWindow;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.Field;
+import com.vaadin.data.HasValue;
 
 /**
  * @author MyCollab Ltd.
@@ -77,7 +77,7 @@ public class MassUpdateLeadWindow extends MassUpdateWindow<Lead> {
         // primary/other city, primary/other state, primary/other postal
         // code, primary/other country
         @Override
-        protected Component onAttachField(Object propertyId, final Field<?> field) {
+        protected HasValue<?> onAttachField(Object propertyId, final HasValue<?> field) {
             if (propertyId.equals("title")) {
                 return informationLayout.addComponent(field, UserUIContext.getMessage(LeadI18nEnum.FORM_TITLE), 0, 0);
             } else if (propertyId.equals("accountname")) {

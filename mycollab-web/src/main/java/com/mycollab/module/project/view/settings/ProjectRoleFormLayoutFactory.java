@@ -24,7 +24,7 @@ import com.mycollab.vaadin.ui.FormContainer;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.Field;
+import com.vaadin.data.HasValue;
 
 /**
  * @author MyCollab Ltd.
@@ -44,7 +44,7 @@ public class ProjectRoleFormLayoutFactory extends AbstractFormLayoutFactory {
     }
 
     @Override
-    protected Component onAttachField(Object propertyId, final Field<?> field) {
+    protected HasValue<?> onAttachField(Object propertyId, final HasValue<?> field) {
         if (propertyId.equals("rolename")) {
             return informationLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.FORM_NAME), 0, 0);
         } else if (propertyId.equals("description")) {

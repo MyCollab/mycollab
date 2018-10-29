@@ -1,31 +1,28 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package com.mycollab.module.crm.view.campaign;
 
-import com.mycollab.common.i18n.ErrorI18nEnum;
-import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.module.crm.domain.CampaignWithBLOBs;
 import com.mycollab.module.user.ui.components.ActiveUserComboBox;
-import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.mycollab.vaadin.ui.CurrencyComboBoxField;
 import com.mycollab.vaadin.ui.GenericBeanForm;
 import com.mycollab.vaadin.web.ui.DoubleField;
-import com.vaadin.ui.Field;
+import com.vaadin.data.HasValue;
 import com.vaadin.ui.RichTextArea;
 import org.vaadin.viritin.fields.MTextField;
 
@@ -34,6 +31,7 @@ import org.vaadin.viritin.fields.MTextField;
  * @author MyCollab Ltd.
  * @since 3.0
  */
+// TODO
 class CampaignEditFormFieldFactory<B extends CampaignWithBLOBs> extends AbstractBeanFieldGroupEditFieldFactory<B> {
     private static final long serialVersionUID = 1L;
 
@@ -46,18 +44,18 @@ class CampaignEditFormFieldFactory<B extends CampaignWithBLOBs> extends Abstract
     }
 
     @Override
-    protected Field<?> onCreateField(Object propertyId) {
+    protected HasValue<?> onCreateField(Object propertyId) {
         if ("type".equals(propertyId)) {
             return new CampaignTypeComboBox();
         } else if ("status".equals(propertyId)) {
             return new CampaignStatusComboBox();
         } else if ("campaignname".equals(propertyId)) {
             MTextField tf = new MTextField();
-            if (isValidateForm) {
-                tf.withNullRepresentation("").withRequired(true)
-                        .withRequiredError(UserUIContext.getMessage(ErrorI18nEnum.FIELD_MUST_NOT_NULL,
-                                UserUIContext.getMessage(GenericI18Enum.FORM_NAME)));
-            }
+//            if (isValidateForm) {
+//                tf.withNullRepresentation("").withRequired(true)
+//                        .withRequiredError(UserUIContext.getMessage(ErrorI18nEnum.FIELD_MUST_NOT_NULL,
+//                                UserUIContext.getMessage(GenericI18Enum.FORM_NAME)));
+//            }
 
             return tf;
         } else if ("description".equals(propertyId)) {

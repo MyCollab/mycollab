@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -36,7 +36,11 @@ import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
-import com.mycollab.vaadin.web.ui.*;
+import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
+import com.mycollab.vaadin.web.ui.OptionPopupContent;
+import com.mycollab.vaadin.web.ui.SplitButton;
+import com.mycollab.vaadin.web.ui.WebThemes;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
 import org.vaadin.viritin.button.MButton;
@@ -83,7 +87,7 @@ public class CampaignAccountListComp extends RelatedListComp2<AccountService, Ac
             final SplitButton controlsBtn = new SplitButton();
             controlsBtn.addStyleName(WebThemes.BUTTON_ACTION);
             controlsBtn.setCaption(UserUIContext.getMessage(AccountI18nEnum.NEW));
-            controlsBtn.setIcon(FontAwesome.PLUS);
+            controlsBtn.setIcon(VaadinIcons.PLUS);
             controlsBtn.addClickListener(event -> fireNewRelatedItem(""));
             final Button selectBtn = new Button(UserUIContext.getMessage(GenericI18Enum.BUTTON_SELECT), clickEvent -> {
                 final CampaignAccountSelectionWindow accountsWindow = new CampaignAccountSelectionWindow(CampaignAccountListComp.this);
@@ -140,7 +144,7 @@ public class CampaignAccountListComp extends RelatedListComp2<AccountService, Ac
                                     CampaignAccountListComp.this.refresh();
                                 }
                             })
-            ).withIcon(FontAwesome.TRASH_O).withStyleName(WebThemes.BUTTON_ICON_ONLY);
+            ).withIcon(VaadinIcons.TRASH).withStyleName(WebThemes.BUTTON_ICON_ONLY);
 
             blockContent.addComponent(btnDelete);
             blockContent.setComponentAlignment(btnDelete, Alignment.TOP_RIGHT);

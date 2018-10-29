@@ -37,6 +37,7 @@ import java.util.Arrays;
  * @author MyCollab Ltd.
  * @since 1.0
  */
+// TODO
 public class AccountContactSelectionWindow extends RelatedItemSelectionWindow<SimpleContact, ContactSearchCriteria> {
 
     public AccountContactSelectionWindow(AccountContactListComp associateContactList) {
@@ -49,14 +50,14 @@ public class AccountContactSelectionWindow extends RelatedItemSelectionWindow<Si
         this.tableItem = new ContactTableDisplay(ContactTableFieldDef.selected, Arrays.asList(ContactTableFieldDef.name,
                 ContactTableFieldDef.title, ContactTableFieldDef.account, ContactTableFieldDef.phoneOffice));
 
-        tableItem.addGeneratedColumn("contactName", (source, itemId, columnId) -> {
-            final SimpleContact contact = tableItem.getBeanByIndex(itemId);
-
-            return new ELabel(contact.getContactName()).withStyleName(WebThemes.BUTTON_LINK)
-                    .withDescription(CrmTooltipGenerator.generateToolTipContact
-                            (UserUIContext.getUserLocale(), AppUI.getDateFormat(),
-                                    contact, AppUI.getSiteUrl(), UserUIContext.getUserTimeZone()));
-        });
+//        gridItem.addGeneratedColumn("contactName", (source, itemId, columnId) -> {
+//            final SimpleContact contact = gridItem.getBeanByIndex(itemId);
+//
+//            return new ELabel(contact.getContactName()).withStyleName(WebThemes.BUTTON_LINK)
+//                    .withDescription(CrmTooltipGenerator.generateToolTipContact
+//                            (UserUIContext.getUserLocale(), AppUI.getDateFormat(),
+//                                    contact, AppUI.getSiteUrl(), UserUIContext.getUserTimeZone()));
+//        });
 
         Button selectBtn = new Button(UserUIContext.getMessage(GenericI18Enum.BUTTON_SELECT), clickEvent -> close());
         selectBtn.setStyleName(WebThemes.BUTTON_ACTION);

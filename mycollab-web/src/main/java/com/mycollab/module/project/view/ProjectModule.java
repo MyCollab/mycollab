@@ -46,6 +46,7 @@ import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.web.ui.OptionPopupContent;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.mycollab.web.IDesktopModule;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
@@ -62,6 +63,7 @@ import java.util.Collections;
  * @author MyCollab Ltd.
  * @since 1.0
  */
+// TODO
 @ViewComponent
 public class ProjectModule extends AbstractSingleContainerPageView implements IDesktopModule {
     private static final long serialVersionUID = 1L;
@@ -102,7 +104,7 @@ public class ProjectModule extends AbstractSingleContainerPageView implements ID
 
             PopupButton newBtn = new PopupButton(UserUIContext.getMessage(GenericI18Enum.ACTION_NEW));
             newBtn.addStyleName("add-btn-popup");
-            newBtn.setIcon(FontAwesome.PLUS_CIRCLE);
+            newBtn.setIcon(VaadinIcons.PLUS_CIRCLE);
             OptionPopupContent contentLayout = new OptionPopupContent();
 
             if (UserUIContext.canBeYes(RolePermissionCollections.CREATE_NEW_PROJECT)) {
@@ -148,15 +150,15 @@ public class ProjectModule extends AbstractSingleContainerPageView implements ID
             OptionPopupContent contentLayout = new OptionPopupContent();
             contentLayout.setWidth("550px");
 
-            final MButton sortBtn = new MButton(FontAwesome.SORT_ALPHA_ASC);
+            final MButton sortBtn = new MButton(VaadinIcons.CARET_UP);
             sortBtn.withListener(clickEvent -> {
                 isSortAsc = !isSortAsc;
                 if (searchCriteria != null) {
                     if (isSortAsc) {
-                        sortBtn.setIcon(FontAwesome.SORT_ALPHA_ASC);
+                        sortBtn.setIcon(VaadinIcons.CARET_UP);
                         searchCriteria.setOrderFields(Collections.singletonList(new SearchCriteria.OrderField("name", SearchCriteria.ASC)));
                     } else {
-                        sortBtn.setIcon(FontAwesome.SORT_ALPHA_DESC);
+                        sortBtn.setIcon(VaadinIcons.CARET_DOWN);
                         searchCriteria.setOrderFields(Collections.singletonList(new SearchCriteria.OrderField("name", SearchCriteria.DESC)));
                     }
                     displayResults();
@@ -164,12 +166,12 @@ public class ProjectModule extends AbstractSingleContainerPageView implements ID
             }).withStyleName(WebThemes.BUTTON_ICON_ONLY);
 
             final TextField searchField = new TextField();
-            searchField.setInputPrompt(UserUIContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
+//            searchField.setInputPrompt(UserUIContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
             searchField.setWidth("200px");
             MButton searchBtn = new MButton("", clickEvent -> {
                 searchCriteria.setProjectName(StringSearchField.and(searchField.getValue()));
                 displayResults();
-            }).withIcon(FontAwesome.SEARCH).withStyleName(WebThemes.BUTTON_ACTION);
+            }).withIcon(VaadinIcons.SEARCH).withStyleName(WebThemes.BUTTON_ACTION);
 
             MHorizontalLayout popupHeader = new MHorizontalLayout().withMargin(new MarginInfo(false, true, false, true))
                     .withFullWidth().withStyleName("border-bottom");

@@ -33,6 +33,7 @@ import java.util.*;
  * @author MyCollab Ltd.
  * @since 5.0.1
  */
+// TODO
 public class ProjectSubscribersComp extends CustomField {
     private int projectId;
     private boolean defaultSelectAll;
@@ -95,8 +96,13 @@ public class ProjectSubscribersComp extends CustomField {
     }
 
     @Override
-    public Class getType() {
-        return Object.class;
+    protected void doSetValue(Object o) {
+
+    }
+
+    @Override
+    public Object getValue() {
+        return null;
     }
 
     private static class FollowerCheckbox extends CheckBox {

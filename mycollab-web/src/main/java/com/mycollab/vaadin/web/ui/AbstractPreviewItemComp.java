@@ -25,7 +25,7 @@ import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.PageView;
 import com.mycollab.vaadin.ui.ELabel;
-import com.vaadin.server.FontAwesome;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.ui.*;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.slf4j.Logger;
@@ -54,7 +54,7 @@ public abstract class AbstractPreviewItemComp<B> extends VerticalLayout implemen
     private MVerticalLayout bodyContent;
     private MButton favoriteBtn;
 
-    public AbstractPreviewItemComp(String headerText, FontAwesome iconResource) {
+    public AbstractPreviewItemComp(String headerText, VaadinIcons iconResource) {
         this(headerText, iconResource, null);
     }
 
@@ -66,8 +66,8 @@ public abstract class AbstractPreviewItemComp<B> extends VerticalLayout implemen
         initContent();
     }
 
-    public AbstractPreviewItemComp(String headerText, FontAwesome iconResource, ReadViewLayout layout) {
-        ELabel headerLbl = ELabel.h2("").withWidthUndefined();
+    public AbstractPreviewItemComp(String headerText, VaadinIcons iconResource, ReadViewLayout layout) {
+        ELabel headerLbl = ELabel.h2("").withUndefinedWidth();
         this.previewLayout = layout;
 
         header = new MHorizontalLayout().withStyleName("hdr-view").withFullWidth();
@@ -83,7 +83,7 @@ public abstract class AbstractPreviewItemComp<B> extends VerticalLayout implemen
         if (SiteConfiguration.isCommunityEdition()) {
             header.with(headerLbl).expand(headerLbl);
         } else {
-            favoriteBtn = new MButton("", clickEvent -> toggleFavorite()).withIcon(FontAwesome.HEART);
+            favoriteBtn = new MButton("", clickEvent -> toggleFavorite()).withIcon(VaadinIcons.HEART);
 
             Label spaceLbl = new Label();
             header.with(headerLbl, favoriteBtn, spaceLbl).expand(spaceLbl);

@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -38,6 +38,7 @@ import java.util.List;
  * @author MyCollab Ltd.
  * @since 1.0
  */
+// TODO
 public abstract class MultiSelectComp<T> extends CustomField<T> {
     private static final long serialVersionUID = 1L;
 
@@ -58,7 +59,7 @@ public abstract class MultiSelectComp<T> extends CustomField<T> {
         this.canAddNew = canAddNew;
         propertyDisplayField = displayName;
 
-        componentsText = new MTextField().withNullRepresentation("").withReadOnly(true)
+        componentsText = new MTextField().withReadOnly(true)
                 .withStyleName("noBorderRight").withFullWidth();
 
         componentPopupSelection = new PopupButton();
@@ -108,7 +109,7 @@ public abstract class MultiSelectComp<T> extends CustomField<T> {
             if (selectedItems != null) {
                 for (T selectedItem : selectedItems) {
                     if (compareVal(item, selectedItem)) {
-                        chkItem.setInternalVal(true);
+//                        chkItem.setInternalVal(true);
                     }
                 }
             }
@@ -132,7 +133,7 @@ public abstract class MultiSelectComp<T> extends CustomField<T> {
         }
 
         final ItemSelectionComp<T> chkItem = new ItemSelectionComp<>(item, itemName);
-        chkItem.setImmediate(true);
+//        chkItem.setImmediate(true);
 
         chkItem.addValueChangeListener(valueChangeEvent -> {
             final Boolean value = chkItem.getValue();
@@ -201,8 +202,8 @@ public abstract class MultiSelectComp<T> extends CustomField<T> {
             this.setCaption(StringUtils.trim(caption, 25, true));
         }
 
-        void setInternalVal(Boolean val) {
-            this.setInternalValue(val);
-        }
+//        void setInternalVal(Boolean val) {
+//            this.setInternalValue(val);
+//        }
     }
 }

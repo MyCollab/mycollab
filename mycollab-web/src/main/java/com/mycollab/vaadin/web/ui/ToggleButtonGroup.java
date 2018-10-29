@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -18,26 +18,25 @@ package com.mycollab.vaadin.web.ui;
 
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
-import org.vaadin.peter.buttongroup.ButtonGroup;
-
-import java.util.Iterator;
+import com.vaadin.ui.HorizontalLayout;
 
 /**
  * @author MyCollab Ltd.
  * @since 2.0
  */
-public class ToggleButtonGroup extends ButtonGroup {
+// TODO
+public class ToggleButtonGroup extends HorizontalLayout {
     private static final long serialVersionUID = 1L;
 
     private Button selectedBtn;
 
     public ToggleButtonGroup() {
+        setSpacing(false);
         this.addStyleName("toggle-btn-group");
     }
 
-    @Override
     public Button addButton(Button button) {
-        super.addButton(button);
+        super.addComponent(button);
         button.addClickListener(clickEvent -> {
             if (!clickEvent.getButton().equals(selectedBtn)) {
                 selectedBtn = clickEvent.getButton();
@@ -50,7 +49,7 @@ public class ToggleButtonGroup extends ButtonGroup {
         return button;
     }
 
-    public ButtonGroup withDefaultButton(Button button) {
+    public ToggleButtonGroup withDefaultButton(Button button) {
         for (Component component : ToggleButtonGroup.this) {
             Button currentBtn = (Button) component;
             if (currentBtn.equals(button)) {

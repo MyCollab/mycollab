@@ -31,7 +31,7 @@ import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.DefaultMassItemActionHandlerContainer;
 import com.mycollab.vaadin.web.ui.SelectionOptionButton;
 import com.mycollab.vaadin.web.ui.WebThemes;
-import com.mycollab.vaadin.web.ui.table.AbstractPagedBeanTable;
+import com.mycollab.vaadin.web.ui.table.AbstractPagedGrid;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import org.vaadin.viritin.layouts.MCssLayout;
@@ -128,7 +128,7 @@ public class RoleListViewImpl extends AbstractVerticalPageView implements RoleLi
     }
 
     @Override
-    public AbstractPagedBeanTable<RoleSearchCriteria, SimpleRole> getPagedBeanTable() {
+    public AbstractPagedGrid<RoleSearchCriteria, SimpleRole> getPagedBeanGrid() {
         return this.tableItem;
     }
 }

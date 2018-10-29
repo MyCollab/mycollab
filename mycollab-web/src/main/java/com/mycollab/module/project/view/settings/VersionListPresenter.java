@@ -108,7 +108,7 @@ public class VersionListPresenter extends ProjectGenericListPresenter<VersionLis
     @Override
     protected void deleteSelectedItems() {
         if (!isSelectAll) {
-            Collection<SimpleVersion> currentDataList = view.getPagedBeanTable().getCurrentDataList();
+            Collection<SimpleVersion> currentDataList = view.getPagedBeanGrid().getCurrentDataList();
             List<Version> keyList = new ArrayList<>();
             for (Version item : currentDataList) {
                 if (item.isSelected()) {

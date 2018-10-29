@@ -29,7 +29,7 @@ import com.mycollab.vaadin.web.ui.MassUpdateWindow;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.Field;
+import com.vaadin.data.HasValue;
 
 /**
  * @author MyCollab Ltd.
@@ -53,7 +53,6 @@ public class MassUpdateOpportunityWindow extends MassUpdateWindow<Opportunity> {
     }
 
     private class MassUpdateOpportunityFormLayoutFactory extends AbstractFormLayoutFactory {
-        private static final long serialVersionUID = 1L;
 
         private GridFormLayoutHelper informationLayout;
 
@@ -67,7 +66,7 @@ public class MassUpdateOpportunityWindow extends MassUpdateWindow<Opportunity> {
         }
 
         @Override
-        protected Component onAttachField(Object propertyId, final Field<?> field) {
+        protected HasValue<?> onAttachField(Object propertyId, final HasValue<?> field) {
             if (propertyId.equals("opportunityname")) {
                 return informationLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.FORM_NAME), 0, 0);
             } else if (propertyId.equals("currencyid")) {

@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -23,15 +23,14 @@ import com.mycollab.common.i18n.FollowerI18nEnum;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.i18n.ShellI18nEnum;
 import com.mycollab.community.vaadin.web.ui.field.MetaFieldBuilder;
-import com.mycollab.core.SecureAccessException;
 import com.mycollab.core.utils.NumberUtils;
 import com.mycollab.module.file.StorageUtils;
-import com.mycollab.module.project.CurrentProjectVariables;
-import com.mycollab.module.project.ProjectRolePermissionCollections;
-import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.domain.ProjectTicket;
 import com.mycollab.module.project.domain.SimpleTask;
-import com.mycollab.module.project.i18n.*;
+import com.mycollab.module.project.i18n.BugI18nEnum;
+import com.mycollab.module.project.i18n.OptionI18nEnum;
+import com.mycollab.module.project.i18n.TaskI18nEnum;
+import com.mycollab.module.project.i18n.TicketI18nEnum;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.module.project.view.bug.BugEditForm;
 import com.mycollab.module.project.view.service.TicketComponentFactory;
@@ -41,14 +40,12 @@ import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.AbstractComponent;
-import com.vaadin.ui.AbstractSelect;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.CssLayout;
-import org.apache.commons.collections.CollectionUtils;
 import org.springframework.stereotype.Service;
-import org.vaadin.teemu.VaadinIcons;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 import org.vaadin.viritin.layouts.MWindow;
 
@@ -58,6 +55,7 @@ import java.util.Date;
  * @author MyCollab Ltd
  * @since 5.4.3
  */
+// TODO
 @Service
 public class TicketComponentFactoryImpl implements TicketComponentFactory {
     @Override
@@ -137,7 +135,7 @@ public class TicketComponentFactoryImpl implements TicketComponentFactory {
 
     @Override
     public AbstractComponent createCommentsPopupField(ProjectTicket assignment) {
-        return new MetaFieldBuilder().withCaption(FontAwesome.COMMENT_O.getHtml() + " " + NumberUtils.zeroIfNull(assignment.getNumComments()))
+        return new MetaFieldBuilder().withCaption(VaadinIcons.COMMENT_O.getHtml() + " " + NumberUtils.zeroIfNull(assignment.getNumComments()))
                 .withDescription(UserUIContext.getMessage(ShellI18nEnum.OPT_UPGRADE_PRO_INTRO,
                         UserUIContext.getMessage(GenericI18Enum.OPT_COMMENTS))).build();
     }
@@ -175,30 +173,30 @@ public class TicketComponentFactoryImpl implements TicketComponentFactory {
             withModal(true).withResizable(false).withCenter().withWidth("1200px").withContent(content);
 
             typeSelection = new ComboBox();
-            typeSelection.setItemCaptionMode(AbstractSelect.ItemCaptionMode.EXPLICIT_DEFAULTS_ID);
-            if (CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS)) {
-                typeSelection.addItem(UserUIContext.getMessage(TaskI18nEnum.SINGLE));
-                typeSelection.setItemIcon(UserUIContext.getMessage(TaskI18nEnum.SINGLE), ProjectAssetsManager.getAsset(ProjectTypeConstants.TASK));
-            }
-
-            if (CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.BUGS)) {
-                typeSelection.addItem(UserUIContext.getMessage(BugI18nEnum.SINGLE));
-                typeSelection.setItemIcon(UserUIContext.getMessage(BugI18nEnum.SINGLE), ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG));
-            }
-
-            if (isIncludeMilestone && CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.MILESTONES)) {
-                typeSelection.addItem(UserUIContext.getMessage(MilestoneI18nEnum.SINGLE));
-                typeSelection.setItemIcon(UserUIContext.getMessage(MilestoneI18nEnum.SINGLE), ProjectAssetsManager.getAsset(ProjectTypeConstants.MILESTONE));
-            }
-
-            typeSelection.setNullSelectionAllowed(false);
-            if (CollectionUtils.isNotEmpty(typeSelection.getItemIds())) {
-                typeSelection.select(typeSelection.getItemIds().iterator().next());
-            } else {
-                throw new SecureAccessException();
-            }
-
-            typeSelection.setNullSelectionAllowed(false);
+//            typeSelection.setItemCaptionMode(AbstractSelect.ItemCaptionMode.EXPLICIT_DEFAULTS_ID);
+//            if (CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS)) {
+//                typeSelection.addItem(UserUIContext.getMessage(TaskI18nEnum.SINGLE));
+//                typeSelection.setItemIcon(UserUIContext.getMessage(TaskI18nEnum.SINGLE), ProjectAssetsManager.getAsset(ProjectTypeConstants.TASK));
+//            }
+//
+//            if (CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.BUGS)) {
+//                typeSelection.addItem(UserUIContext.getMessage(BugI18nEnum.SINGLE));
+//                typeSelection.setItemIcon(UserUIContext.getMessage(BugI18nEnum.SINGLE), ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG));
+//            }
+//
+//            if (isIncludeMilestone && CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.MILESTONES)) {
+//                typeSelection.addItem(UserUIContext.getMessage(MilestoneI18nEnum.SINGLE));
+//                typeSelection.setItemIcon(UserUIContext.getMessage(MilestoneI18nEnum.SINGLE), ProjectAssetsManager.getAsset(ProjectTypeConstants.MILESTONE));
+//            }
+//
+//            typeSelection.setEmptySelectionAllowed(false);
+//            if (CollectionUtils.isNotEmpty(typeSelection.getItemIds())) {
+//                typeSelection.select(typeSelection.getItemIds().iterator().next());
+//            } else {
+//                throw new SecureAccessException();
+//            }
+//
+//            typeSelection.setEmptySelectionAllowed(false);
             typeSelection.addValueChangeListener(valueChangeEvent -> doChange(date, prjId, milestoneId));
 
             GridFormLayoutHelper formLayoutHelper = GridFormLayoutHelper.defaultFormLayoutHelper(1, 1);

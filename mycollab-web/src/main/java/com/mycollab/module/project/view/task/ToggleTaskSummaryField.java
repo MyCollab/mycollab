@@ -72,7 +72,7 @@ public class ToggleTaskSummaryField extends AbstractToggleSummaryField {
         this.setWidth("100%");
         this.maxLength = maxLength;
         this.task = task;
-        titleLinkLbl = ELabel.html(buildTaskLink()).withWidthUndefined().withStyleName(UIConstants.LABEL_WORD_WRAP);
+        titleLinkLbl = ELabel.html(buildTaskLink()).withUndefinedWidth().withStyleName(UIConstants.LABEL_WORD_WRAP);
 
         if (toggleStatusSupport && CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS)) {
             toggleStatusSelect = new CssCheckBox();

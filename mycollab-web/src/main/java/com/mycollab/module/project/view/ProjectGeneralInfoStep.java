@@ -1,22 +1,21 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package com.mycollab.module.project.view;
 
-import com.mycollab.common.i18n.ErrorI18nEnum;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.mycollab.form.view.builder.DynaSectionBuilder;
@@ -33,8 +32,8 @@ import com.mycollab.vaadin.ui.AdvancedEditBeanForm;
 import com.mycollab.vaadin.ui.GenericBeanForm;
 import com.mycollab.vaadin.ui.IDynaFormLayout;
 import com.mycollab.vaadin.web.ui.DefaultDynaFormLayout;
+import com.vaadin.data.HasValue;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.Field;
 import com.vaadin.ui.RichTextArea;
 import com.vaadin.ui.TextField;
 
@@ -42,6 +41,7 @@ import com.vaadin.ui.TextField;
  * @author MyCollab Ltd
  * @since 5.3.5
  */
+// TODO
 public class ProjectGeneralInfoStep implements AbstractProjectAddWindow.FormWizardStep {
     private Project project;
     private AdvancedEditBeanForm<Project> editForm;
@@ -120,31 +120,31 @@ public class ProjectGeneralInfoStep implements AbstractProjectAddWindow.FormWiza
         }
 
         @Override
-        protected Field<?> onCreateField(final Object propertyId) {
+        protected HasValue<?> onCreateField(final Object propertyId) {
             if (Project.Field.description.equalTo(propertyId)) {
                 return new RichTextArea();
             } else if (Project.Field.projectstatus.equalTo(propertyId)) {
                 ProjectStatusComboBox projectCombo = new ProjectStatusComboBox();
-                projectCombo.setRequired(true);
-                projectCombo.setRequiredError(UserUIContext.getMessage(ErrorI18nEnum.FIELD_MUST_NOT_NULL,
-                        UserUIContext.getMessage(GenericI18Enum.FORM_STATUS)));
+//                projectCombo.setRequired(true);
+//                projectCombo.setRequiredError(UserUIContext.getMessage(ErrorI18nEnum.FIELD_MUST_NOT_NULL,
+//                        UserUIContext.getMessage(GenericI18Enum.FORM_STATUS)));
                 if (project.getProjectstatus() == null) {
                     project.setProjectstatus(StatusI18nEnum.Open.name());
                 }
                 return projectCombo;
             } else if (Project.Field.shortname.equalTo(propertyId)) {
                 TextField tf = new TextField();
-                tf.setNullRepresentation("");
-                tf.setRequired(true);
-                tf.setRequiredError(UserUIContext.getMessage(ErrorI18nEnum.FIELD_MUST_NOT_NULL,
-                        UserUIContext.getMessage(ProjectI18nEnum.FORM_SHORT_NAME)));
+//                tf.setNullRepresentation("");
+//                tf.setRequired(true);
+//                tf.setRequiredError(UserUIContext.getMessage(ErrorI18nEnum.FIELD_MUST_NOT_NULL,
+//                        UserUIContext.getMessage(ProjectI18nEnum.FORM_SHORT_NAME)));
                 return tf;
             } else if (Project.Field.name.equalTo(propertyId)) {
                 TextField tf = new TextField();
-                tf.setNullRepresentation("");
-                tf.setRequired(true);
-                tf.setRequiredError(UserUIContext.getMessage(ErrorI18nEnum.FIELD_MUST_NOT_NULL,
-                        UserUIContext.getMessage(GenericI18Enum.FORM_NAME)));
+//                tf.setNullRepresentation("");
+//                tf.setRequired(true);
+//                tf.setRequiredError(UserUIContext.getMessage(ErrorI18nEnum.FIELD_MUST_NOT_NULL,
+//                        UserUIContext.getMessage(GenericI18Enum.FORM_NAME)));
                 return tf;
             } else if (Project.Field.memlead.equalTo(propertyId)) {
                 return new ActiveUserComboBox();

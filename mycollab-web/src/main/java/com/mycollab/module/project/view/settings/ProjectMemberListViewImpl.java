@@ -50,9 +50,10 @@ import com.mycollab.vaadin.ui.UserAvatarControlFactory;
 import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.mycollab.vaadin.web.ui.SearchTextField;
 import com.mycollab.vaadin.web.ui.WebThemes;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.FontAwesome;
+import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
 import org.vaadin.viritin.button.MButton;
@@ -82,14 +83,14 @@ public class ProjectMemberListViewImpl extends AbstractVerticalPageView implemen
         headerText = ComponentUtils.headerH2(ProjectTypeConstants.MEMBER, UserUIContext.getMessage(ProjectMemberI18nEnum.LIST));
         viewHeader.with(headerText).expand(headerText);
 
-        final MButton sortBtn = new MButton().withIcon(FontAwesome.SORT_ALPHA_ASC).withStyleName(WebThemes.BUTTON_ICON_ONLY);
+        final MButton sortBtn = new MButton().withIcon(VaadinIcons.CARET_UP).withStyleName(WebThemes.BUTTON_ICON_ONLY);
         sortBtn.addClickListener(clickEvent -> {
             sortAsc = !sortAsc;
             if (sortAsc) {
-                sortBtn.setIcon(FontAwesome.SORT_ALPHA_ASC);
+                sortBtn.setIcon(VaadinIcons.CARET_UP);
                 displayMembers();
             } else {
-                sortBtn.setIcon(FontAwesome.SORT_ALPHA_DESC);
+                sortBtn.setIcon(VaadinIcons.CARET_DOWN);
                 displayMembers();
             }
         });
@@ -116,7 +117,7 @@ public class ProjectMemberListViewImpl extends AbstractVerticalPageView implemen
             protected Object doEval() {
                 return searchCriteria;
             }
-        }))).withIcon(FontAwesome.PRINT).withStyleName(WebThemes.BUTTON_OPTION).withDescription(UserUIContext.getMessage(GenericI18Enum.ACTION_EXPORT));
+        }))).withIcon(VaadinIcons.PRINT).withStyleName(WebThemes.BUTTON_OPTION).withDescription(UserUIContext.getMessage(GenericI18Enum.ACTION_EXPORT));
         viewHeader.addComponent(printBtn);
 
         MButton createBtn = new MButton(UserUIContext.getMessage(ProjectMemberI18nEnum.BUTTON_NEW_INVITEES),
@@ -186,7 +187,7 @@ public class ProjectMemberListViewImpl extends AbstractVerticalPageView implemen
                             EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoList(ProjectMemberListViewImpl.this, CurrentProjectVariables.getProjectId()));
                         }
                     });
-        }).withIcon(FontAwesome.TRASH_O).withStyleName(WebThemes.BUTTON_LINK)
+        }).withIcon(VaadinIcons.TRASH).withStyleName(WebThemes.BUTTON_LINK)
                 .withVisible(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.USERS))
                 .withDescription("Remove user '" + member.getDisplayName() + "' out of this project");
 
@@ -235,7 +236,7 @@ public class ProjectMemberListViewImpl extends AbstractVerticalPageView implemen
                 .appendText("" + member.getNumOpenBugs()).setTitle(UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_OPEN_BUGS)) +
                 " " + FontAwesome.MONEY.getHtml() + " " + new Span().appendText("" + NumberUtils.roundDouble(2,
                 member.getTotalBillableLogTime())).setTitle(UserUIContext.getMessage(TimeTrackingI18nEnum.OPT_BILLABLE_HOURS)) +
-                "  " + FontAwesome.GIFT.getHtml() +
+                "  " + VaadinIcons.GIFT.getHtml() +
                 " " + new Span().appendText("" + NumberUtils.roundDouble(2, member.getTotalNonBillableLogTime()))
                 .setTitle(UserUIContext.getMessage(TimeTrackingI18nEnum.OPT_NON_BILLABLE_HOURS));
 

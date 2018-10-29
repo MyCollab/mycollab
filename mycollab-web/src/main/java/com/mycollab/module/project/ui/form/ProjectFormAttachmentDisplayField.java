@@ -18,7 +18,7 @@ package com.mycollab.module.project.ui.form;
 
 import com.mycollab.module.project.ui.components.ProjectAttachmentDisplayComponentFactory;
 import com.mycollab.vaadin.web.ui.AttachmentDisplayComponent;
-import com.vaadin.shared.ui.label.ContentMode;
+import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomField;
 import com.vaadin.ui.Label;
@@ -27,6 +27,7 @@ import com.vaadin.ui.Label;
  * @author MyCollab Ltd.
  * @since 4.5.3
  */
+// TODO
 public class ProjectFormAttachmentDisplayField extends CustomField {
     private static final long serialVersionUID = 1L;
 
@@ -41,11 +42,6 @@ public class ProjectFormAttachmentDisplayField extends CustomField {
     }
 
     @Override
-    public Class<?> getType() {
-        return Object.class;
-    }
-
-    @Override
     protected Component initContent() {
         final Component comp = ProjectAttachmentDisplayComponentFactory.getAttachmentDisplayComponent(projectId, type, typeId);
         if (!(comp instanceof AttachmentDisplayComponent)) {
@@ -53,5 +49,15 @@ public class ProjectFormAttachmentDisplayField extends CustomField {
         } else {
             return comp;
         }
+    }
+
+    @Override
+    protected void doSetValue(Object o) {
+
+    }
+
+    @Override
+    public Object getValue() {
+        return null;
     }
 }

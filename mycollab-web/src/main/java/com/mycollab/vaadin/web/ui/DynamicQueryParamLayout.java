@@ -20,10 +20,10 @@ import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.db.arguments.SearchCriteria;
 import com.mycollab.db.query.Param;
 import com.mycollab.db.query.SearchFieldInfo;
-import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.shell.event.ShellEvent;
+import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.vaadin.UserUIContext;
-import com.vaadin.server.FontAwesome;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.ComponentContainer;
@@ -73,7 +73,7 @@ public abstract class DynamicQueryParamLayout<S extends SearchCriteria> extends 
 
     private HorizontalLayout createButtonControls() {
         MButton searchBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_SEARCH), clickEvent -> callSearchAction())
-                .withStyleName(WebThemes.BUTTON_ACTION).withIcon(FontAwesome.SEARCH);
+                .withStyleName(WebThemes.BUTTON_ACTION).withIcon(VaadinIcons.SEARCH);
 
         MButton clearBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CLEAR), clickEvent -> clearFields())
                 .withStyleName(WebThemes.BUTTON_OPTION);

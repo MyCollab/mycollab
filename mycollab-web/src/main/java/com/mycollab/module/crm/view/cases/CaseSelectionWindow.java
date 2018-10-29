@@ -36,6 +36,7 @@ import java.util.Arrays;
  * @author MyCollab Ltd.
  * @since 1.0
  */
+// TODO
 public class CaseSelectionWindow extends MWindow {
     private static final long serialVersionUID = 1L;
     private CaseTableDisplay tableItem;
@@ -60,14 +61,14 @@ public class CaseSelectionWindow extends MWindow {
                 CaseTableFieldDef.priority, CaseTableFieldDef.status, CaseTableFieldDef.assignUser));
         tableItem.setDisplayNumItems(10);
 
-        tableItem.addGeneratedColumn("subject", (source, itemId, columnId) -> {
-            final SimpleCase cases = tableItem.getBeanByIndex(itemId);
-
-            return new MButton(cases.getSubject(), clickEvent -> {
-                fieldSelection.fireValueChange(cases);
-                close();
-            }).withStyleName(WebThemes.BUTTON_LINK).withDescription(CrmTooltipGenerator.generateTooltipCases(
-                    UserUIContext.getUserLocale(), cases, AppUI.getSiteUrl(), UserUIContext.getUserTimeZone()));
-        });
+//        gridItem.addGeneratedColumn("subject", (source, itemId, columnId) -> {
+//            final SimpleCase cases = gridItem.getBeanByIndex(itemId);
+//
+//            return new MButton(cases.getSubject(), clickEvent -> {
+//                fieldSelection.fireValueChange(cases);
+//                close();
+//            }).withStyleName(WebThemes.BUTTON_LINK).withDescription(CrmTooltipGenerator.generateTooltipCases(
+//                    UserUIContext.getUserLocale(), cases, AppUI.getSiteUrl(), UserUIContext.getUserTimeZone()));
+//        });
     }
 }

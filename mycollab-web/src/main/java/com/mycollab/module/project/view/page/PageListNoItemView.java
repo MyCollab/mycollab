@@ -27,6 +27,7 @@ import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.module.project.ui.components.ProjectListNoItemView;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.web.ui.WebThemes;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -41,7 +42,7 @@ import org.vaadin.viritin.layouts.MHorizontalLayout;
  */
 public class PageListNoItemView extends ProjectListNoItemView {
     @Override
-    protected FontAwesome viewIcon() {
+    protected VaadinIcons viewIcon() {
         return ProjectAssetsManager.getAsset(ProjectTypeConstants.PAGE);
     }
 

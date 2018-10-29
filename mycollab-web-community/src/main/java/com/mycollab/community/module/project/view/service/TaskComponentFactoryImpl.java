@@ -34,10 +34,10 @@ import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.module.project.view.service.TaskComponentFactory;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.UIConstants;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.AbstractComponent;
 import org.springframework.stereotype.Service;
-import org.vaadin.teemu.VaadinIcons;
 
 /**
  * @author MyCollab Ltd
@@ -64,7 +64,7 @@ public class TaskComponentFactoryImpl implements TaskComponentFactory {
 
     @Override
     public AbstractComponent createCommentsPopupField(SimpleTask task) {
-        return new MetaFieldBuilder().withCaption(FontAwesome.COMMENT_O.getHtml() + " " + NumberUtils.zeroIfNull(task.getNumComments()))
+        return new MetaFieldBuilder().withCaption(VaadinIcons.COMMENT_O.getHtml() + " " + NumberUtils.zeroIfNull(task.getNumComments()))
                 .withDescription(UserUIContext.getMessage(ShellI18nEnum.OPT_UPGRADE_PRO_INTRO,
                         UserUIContext.getMessage(GenericI18Enum.OPT_COMMENTS))).build();
     }
@@ -174,7 +174,7 @@ public class TaskComponentFactoryImpl implements TaskComponentFactory {
 
     @Override
     public AbstractComponent createNonBillableHoursPopupField(SimpleTask task) {
-        return new MetaFieldBuilder().withCaptionAndIcon(FontAwesome.GIFT, "" + NumberUtils.zeroIfNull(task.getNonBillableHours()))
+        return new MetaFieldBuilder().withCaptionAndIcon(VaadinIcons.GIFT, "" + NumberUtils.zeroIfNull(task.getNonBillableHours()))
                 .withDescription(UserUIContext.getMessage(TimeTrackingI18nEnum.OPT_NON_BILLABLE_HOURS)).build();
     }
 }

@@ -16,10 +16,10 @@
  */
 package com.mycollab.module.project.view.bug;
 
-import com.mycollab.common.TableViewField;
+import com.mycollab.common.GridFieldMeta;
 import com.mycollab.module.project.fielddef.BugTableFieldDef;
-import com.mycollab.vaadin.web.ui.table.AbstractPagedBeanTable;
-import com.mycollab.vaadin.web.ui.table.CustomizedTableWindow;
+import com.mycollab.vaadin.web.ui.table.AbstractPagedGrid;
+import com.mycollab.vaadin.web.ui.table.CustomizedGridWindow;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -28,15 +28,15 @@ import java.util.Collection;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class BugListCustomizeWindow extends CustomizedTableWindow {
+public class BugListCustomizeWindow extends CustomizedGridWindow {
     private static final long serialVersionUID = 1L;
 
-    public BugListCustomizeWindow(String viewId, AbstractPagedBeanTable table) {
+    public BugListCustomizeWindow(String viewId, AbstractPagedGrid table) {
         super(viewId, table);
     }
 
     @Override
-    protected Collection<TableViewField> getAvailableColumns() {
+    protected Collection<GridFieldMeta> getAvailableColumns() {
         return Arrays.asList(BugTableFieldDef.assignUser,
                 BugTableFieldDef.createdTime, BugTableFieldDef.description,
                 BugTableFieldDef.dueDate, BugTableFieldDef.environment,

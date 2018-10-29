@@ -57,7 +57,8 @@ import com.mycollab.vaadin.web.ui.QueryParamHandler;
 import com.mycollab.vaadin.web.ui.ToggleButtonGroup;
 import com.mycollab.vaadin.web.ui.ValueComboBox;
 import com.mycollab.vaadin.web.ui.WebThemes;
-import com.mycollab.vaadin.web.ui.table.AbstractPagedBeanTable;
+import com.mycollab.vaadin.web.ui.table.AbstractPagedGrid;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
@@ -168,14 +169,14 @@ public class TicketDashboardViewImpl extends AbstractVerticalPageView implements
                     protected Object doEval() {
                         return baseCriteria;
                     }
-                }))).withIcon(FontAwesome.PRINT).withStyleName(WebThemes.BUTTON_OPTION)
+                }))).withIcon(VaadinIcons.PRINT).withStyleName(WebThemes.BUTTON_OPTION)
                 .withDescription(UserUIContext.getMessage(GenericI18Enum.ACTION_EXPORT));
         groupWrapLayout.addComponent(printBtn);
 
         MButton newTicketBtn = new MButton(UserUIContext.getMessage(TicketI18nEnum.NEW), clickEvent -> {
             UI.getCurrent().addWindow(AppContextUtil.getSpringBean(TicketComponentFactory.class)
                     .createNewTicketWindow(null, CurrentProjectVariables.getProjectId(), null, false));
-        }).withIcon(FontAwesome.PLUS).withStyleName(WebThemes.BUTTON_ACTION)
+        }).withIcon(VaadinIcons.PLUS).withStyleName(WebThemes.BUTTON_ACTION)
                 .withVisible(CurrentProjectVariables.canWriteTicket());
         groupWrapLayout.addComponent(newTicketBtn);
 
@@ -355,7 +356,7 @@ public class TicketDashboardViewImpl extends AbstractVerticalPageView implements
     }
 
     @Override
-    public AbstractPagedBeanTable<ProjectTicketSearchCriteria, ProjectTicket> getPagedBeanTable() {
+    public AbstractPagedGrid<ProjectTicketSearchCriteria, ProjectTicket> getPagedBeanGrid() {
         return null;
     }
 }

@@ -45,6 +45,7 @@ import com.mycollab.vaadin.web.ui.AdvancedPreviewBeanForm;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.mycollab.vaadin.web.ui.field.LinkViewField;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
+import com.vaadin.data.HasValue;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import org.apache.commons.lang3.StringUtils;
@@ -170,7 +171,7 @@ public class UserReadViewImpl extends AbstractVerticalPageView implements UserRe
                 private static final long serialVersionUID = 1L;
 
                 @Override
-                protected Field<?> onCreateField(Object propertyId) {
+                protected HasValue<?> onCreateField(Object propertyId) {
                     if (propertyId.equals("email")) {
                         return new EmailViewField(user.getEmail());
                     } else if (propertyId.equals("roleid")) {
@@ -214,7 +215,7 @@ public class UserReadViewImpl extends AbstractVerticalPageView implements UserRe
             }
 
             @Override
-            protected Component onAttachField(Object propertyId, Field<?> field) {
+            protected HasValue<?> onAttachField(Object propertyId, HasValue<?> field) {
                 if (propertyId.equals("website")) {
                     return advancedInfoLayout.addComponent(field, UserUIContext.getMessage(UserI18nEnum.FORM_WEBSITE), 0, 0);
                 } else if (propertyId.equals("company")) {

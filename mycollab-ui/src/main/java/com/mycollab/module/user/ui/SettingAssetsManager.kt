@@ -17,21 +17,21 @@
 package com.mycollab.module.user.ui
 
 import com.mycollab.core.MyCollabException
-import com.vaadin.server.FontAwesome
+import com.vaadin.icons.VaadinIcons
 
 /**
  * @author MyCollab Ltd.
  * @since 5.0.0
  */
 object SettingAssetsManager {
-    private val resources: Map<String, FontAwesome> = mapOf(
-            SettingUIConstants.PROFILE to FontAwesome.BOOK,
-            SettingUIConstants.BILLING to FontAwesome.CREDIT_CARD,
-            SettingUIConstants.USERS to FontAwesome.USERS,
-            SettingUIConstants.GENERAL_SETTING to FontAwesome.GEAR,
-            SettingUIConstants.THEME_CUSTOMIZE to FontAwesome.MAGIC
+    private val resources = mapOf(
+            SettingUIConstants.PROFILE to VaadinIcons.BOOK,
+            SettingUIConstants.BILLING to VaadinIcons.CREDIT_CARD,
+            SettingUIConstants.USERS to VaadinIcons.USERS,
+            SettingUIConstants.GENERAL_SETTING to VaadinIcons.COG,
+            SettingUIConstants.THEME_CUSTOMIZE to VaadinIcons.MAGIC
     )
 
-    @JvmStatic fun getAsset(resId: String): FontAwesome =
+    @JvmStatic fun getAsset(resId: String): VaadinIcons =
             resources[resId] ?: throw MyCollabException("Can not find resource $resId")
 }

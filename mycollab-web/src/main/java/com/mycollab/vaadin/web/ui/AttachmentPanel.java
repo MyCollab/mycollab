@@ -27,7 +27,7 @@ import com.mycollab.vaadin.resources.file.FileAssetsUtil;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.NotificationUtil;
 import com.mycollab.vaadin.ui.UIConstants;
-import com.vaadin.server.FontAwesome;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.HorizontalLayout;
@@ -52,6 +52,7 @@ import java.util.Map;
  * @author MyCollab Ltd.
  * @since 2.0
  */
+// TODO
 public class AttachmentPanel extends CssLayout {
     private static final long serialVersionUID = 1L;
     private static final Logger LOG = LoggerFactory.getLogger(AttachmentPanel.class);
@@ -77,12 +78,12 @@ public class AttachmentPanel extends CssLayout {
             }
             fileStores.remove(fileName);
             AttachmentPanel.this.removeComponent(fileAttachmentLayout);
-        }).withIcon(FontAwesome.TRASH_O).withStyleName(WebThemes.BUTTON_ICON_ONLY);
+        }).withIcon(VaadinIcons.TRASH).withStyleName(WebThemes.BUTTON_ICON_ONLY);
 
         ELabel fileLbl = ELabel.html(fileName).withDescription(fileName).withStyleName(UIConstants.TEXT_ELLIPSIS);
-        fileAttachmentLayout.with(ELabel.fontIcon(FileAssetsUtil.getFileIconResource(fileName)).withWidthUndefined(),
+        fileAttachmentLayout.with(ELabel.fontIcon(FileAssetsUtil.getFileIconResource(fileName)).withUndefinedWidth(),
                 fileLbl, new ELabel(" - " + FileUtils.getVolumeDisplay(file.length()))
-                        .withStyleName(UIConstants.META_INFO).withWidthUndefined(), removeBtn).expand(fileLbl);
+                        .withStyleName(UIConstants.META_INFO).withUndefinedWidth(), removeBtn).expand(fileLbl);
         this.addComponent(fileAttachmentLayout, 0);
     }
 
@@ -160,9 +161,10 @@ public class AttachmentPanel extends CssLayout {
         private static final long serialVersionUID = 1L;
 
         protected FileBuffer createReceiver() {
-            FileBuffer receiver = super.createReceiver();
-            receiver.setDeleteFiles(false);
-            return receiver;
+//            FileBuffer receiver = super.createReceiver();
+//            receiver.setDeleteFiles(false);
+//            return receiver;
+            return null;
         }
 
         @Override

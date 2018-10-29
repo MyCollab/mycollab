@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -35,7 +35,8 @@ import com.mycollab.vaadin.web.ui.AdvancedPreviewBeanForm;
 import com.mycollab.vaadin.web.ui.DefaultReadViewLayout;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
-import com.vaadin.server.FontAwesome;
+import com.vaadin.data.HasValue;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
@@ -59,7 +60,7 @@ public class ProjectRoleReadViewImpl extends MVerticalLayout implements ProjectR
 
     public ProjectRoleReadViewImpl() {
         withMargin(new MarginInfo(true, false, true, false));
-        headerText = HeaderWithFontAwesome.h2(FontAwesome.USERS, UserUIContext.getMessage(ProjectRoleI18nEnum.DETAIL));
+        headerText = HeaderWithFontAwesome.h2(VaadinIcons.USERS, UserUIContext.getMessage(ProjectRoleI18nEnum.DETAIL));
         headerText.setSizeUndefined();
         this.addComponent(constructHeader());
 
@@ -123,7 +124,7 @@ public class ProjectRoleReadViewImpl extends MVerticalLayout implements ProjectR
             private static final long serialVersionUID = 1L;
 
             @Override
-            protected Field<?> onCreateField(Object propertyId) {
+            protected HasValue<?> onCreateField(Object propertyId) {
                 return null;
             }
         };

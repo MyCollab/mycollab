@@ -37,6 +37,7 @@ import com.mycollab.vaadin.mvp.ViewManager;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.VerticalRemoveInlineComponentMarker;
 import com.mycollab.vaadin.web.ui.*;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.ComponentContainer;
@@ -197,7 +198,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
     private static class ParentTaskComp extends MHorizontalLayout {
         ParentTaskComp(Integer parentTaskId, SimpleTask childTask) {
             ELabel titleLbl = new ELabel(UserUIContext.getMessage(TaskI18nEnum.FORM_PARENT_TASK)).withStyleName(WebThemes.ARROW_BTN)
-                    .withWidthUndefined();
+                    .withUndefinedWidth();
             with(titleLbl);
             ProjectTaskService taskService = AppContextUtil.getSpringBean(ProjectTaskService.class);
             SimpleTask parentTask = taskService.findById(parentTaskId, AppUI.getAccountId());
@@ -217,7 +218,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
         void displayEntryPeople(ValuedBean bean) {
             this.removeAllComponents();
 
-            ELabel peopleInfoHeader = ELabel.html(FontAwesome.USER.getHtml() + " " +
+            ELabel peopleInfoHeader = ELabel.html(VaadinIcons.USER.getHtml() + " " +
                     UserUIContext.getMessage(ProjectCommonI18nEnum.SUB_INFO_PEOPLE)).withStyleName("info-hdr");
             this.addComponent(peopleInfoHeader);
 
@@ -225,7 +226,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
             layout.setWidth("100%");
             layout.setMargin(new MarginInfo(false, false, false, true));
             try {
-                ELabel createdLbl = new ELabel(UserUIContext.getMessage(ProjectCommonI18nEnum.ITEM_CREATED_PEOPLE)).withWidthUndefined();
+                ELabel createdLbl = new ELabel(UserUIContext.getMessage(ProjectCommonI18nEnum.ITEM_CREATED_PEOPLE)).withUndefinedWidth();
                 layout.addComponent(createdLbl, 0, 0);
 
                 String createdUserName = (String) PropertyUtils.getProperty(bean, "createduser");
@@ -238,7 +239,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
                 layout.setColumnExpandRatio(1, 1.0f);
 
                 ELabel assigneeLbl = new ELabel(UserUIContext.getMessage(ProjectCommonI18nEnum.ITEM_ASSIGN_PEOPLE))
-                        .withWidthUndefined();
+                        .withUndefinedWidth();
                 layout.addComponent(assigneeLbl, 0, 1);
                 String assignUserName = (String) PropertyUtils.getProperty(bean, "assignuser");
                 String assignUserAvatarId = (String) PropertyUtils.getProperty(bean, "assignUserAvatarId");

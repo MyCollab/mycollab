@@ -110,7 +110,7 @@ public class CampaignListPresenter extends CrmGenericListPresenter<CampaignListV
     @Override
     protected void deleteSelectedItems() {
         if (!isSelectAll) {
-            Collection<SimpleCampaign> currentDataList = view.getPagedBeanTable().getCurrentDataList();
+            Collection<SimpleCampaign> currentDataList = view.getPagedBeanGrid().getCurrentDataList();
             List<CampaignWithBLOBs> keyList = new ArrayList<>();
             for (SimpleCampaign item : currentDataList) {
                 if (item.isSelected()) {
@@ -132,7 +132,7 @@ public class CampaignListPresenter extends CrmGenericListPresenter<CampaignListV
     @Override
     public void massUpdate(CampaignWithBLOBs value) {
         if (!isSelectAll) {
-            Collection<SimpleCampaign> currentDataList = view.getPagedBeanTable().getCurrentDataList();
+            Collection<SimpleCampaign> currentDataList = view.getPagedBeanGrid().getCurrentDataList();
             List<Integer> keyList = new ArrayList<>();
             for (SimpleCampaign item : currentDataList) {
                 if (item.isSelected()) {

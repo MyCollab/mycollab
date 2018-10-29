@@ -18,7 +18,7 @@
             #end 
             #compositionvalexpr($extraField)
                 ${extraField.operation} 
-                 #repeat(${extraField.fields} $subItem " OR " "(" ")")
+                 #repeat(${extraField.fieldMetas} $subItem " OR " "(" ")")
                     #novalexpr($subItem) 
                         ${subItem.operation} ${subItem.queryCount} 
                     #end 

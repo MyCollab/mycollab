@@ -27,7 +27,7 @@ import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.DefaultMassItemActionHandlerContainer;
 import com.mycollab.vaadin.web.ui.DefaultGenericSearchPanel;
-import com.mycollab.vaadin.web.ui.table.AbstractPagedBeanTable;
+import com.mycollab.vaadin.web.ui.table.AbstractPagedGrid;
 import com.vaadin.ui.UI;
 import org.vaadin.viritin.button.MButton;
 
@@ -44,7 +44,7 @@ public class LeadListViewImpl extends AbstractListItemComp<LeadSearchCriteria, S
     @Override
     protected void buildExtraControls() {
         MButton customizeViewBtn = ComponentUtils.createCustomizeViewButton()
-                .withListener(clickEvent -> UI.getCurrent().addWindow(new LeadListCustomizeWindow(tableItem)));
+                .withListener(clickEvent -> UI.getCurrent().addWindow(new LeadListCustomizeWindow(grid)));
         this.addExtraButton(customizeViewBtn);
     }
 
@@ -54,7 +54,7 @@ public class LeadListViewImpl extends AbstractListItemComp<LeadSearchCriteria, S
     }
 
     @Override
-    protected AbstractPagedBeanTable<LeadSearchCriteria, SimpleLead> createBeanTable() {
+    protected AbstractPagedGrid<LeadSearchCriteria, SimpleLead> createGrid() {
         return new LeadTableDisplay(CrmTypeConstants.LEAD, LeadTableFieldDef.selected,
                 Arrays.asList(LeadTableFieldDef.name, LeadTableFieldDef.status,
                         LeadTableFieldDef.accountName, LeadTableFieldDef.phoneoffice,

@@ -55,7 +55,7 @@ class ProjectCommentInput extends MHorizontalLayout {
     private Integer extraTypeId;
 
     ProjectCommentInput(final ReloadableComponent component, final String typeVal, Integer extraTypeIdVal) {
-        this.withMargin(new MarginInfo(true, true, false, false)).withFullWidth().withHeightUndefined();
+        this.withMargin(new MarginInfo(true, true, false, false)).withFullWidth().withUndefinedHeight();
 
         SimpleUser currentUser = UserUIContext.getUser();
         ProjectMemberBlock userBlock = new ProjectMemberBlock(currentUser.getUsername(), currentUser.getAvatarid(),

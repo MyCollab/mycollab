@@ -82,7 +82,7 @@ public class ContactListPresenter extends CrmGenericListPresenter<ContactListVie
 
                     } else {
                         List<String> lstMail = new ArrayList<>();
-                        Collection<SimpleContact> tableData = view.getPagedBeanTable().getCurrentDataList();
+                        Collection<SimpleContact> tableData = view.getPagedBeanGrid().getCurrentDataList();
                         for (SimpleContact item : tableData) {
                             if (item.isSelected()) {
                                 lstMail.add(String.format("%s <%s>", item.getContactName(), item.getEmail()));
@@ -124,7 +124,7 @@ public class ContactListPresenter extends CrmGenericListPresenter<ContactListVie
     @Override
     protected void deleteSelectedItems() {
         if (!isSelectAll) {
-            Collection<SimpleContact> currentDataList = view.getPagedBeanTable().getCurrentDataList();
+            Collection<SimpleContact> currentDataList = view.getPagedBeanGrid().getCurrentDataList();
             List<Contact> keyList = new ArrayList<>();
             for (SimpleContact item : currentDataList) {
                 if (item.isSelected()) {
@@ -146,7 +146,7 @@ public class ContactListPresenter extends CrmGenericListPresenter<ContactListVie
     @Override
     public void massUpdate(Contact value) {
         if (!isSelectAll) {
-            Collection<SimpleContact> currentDataList = view.getPagedBeanTable().getCurrentDataList();
+            Collection<SimpleContact> currentDataList = view.getPagedBeanGrid().getCurrentDataList();
             List<Integer> keyList = new ArrayList<>();
             for (SimpleContact item : currentDataList) {
                 if (item.isSelected()) {

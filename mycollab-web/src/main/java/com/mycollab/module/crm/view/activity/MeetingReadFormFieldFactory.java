@@ -26,7 +26,7 @@ import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.ui.field.DateTimeViewField;
 import com.mycollab.vaadin.ui.field.I18nFormViewField;
 import com.mycollab.vaadin.ui.field.RichTextViewField;
-import com.vaadin.ui.Field;
+import com.vaadin.data.HasValue;
 
 /**
  * @author MyCollab Ltd.
@@ -40,7 +40,7 @@ class MeetingReadFormFieldFactory extends AbstractBeanFieldGroupViewFieldFactory
     }
 
     @Override
-    protected Field<?> onCreateField(Object propertyId) {
+    protected HasValue<?> onCreateField(Object propertyId) {
         SimpleMeeting meeting = attachForm.getBean();
 
         if (propertyId.equals("type")) {

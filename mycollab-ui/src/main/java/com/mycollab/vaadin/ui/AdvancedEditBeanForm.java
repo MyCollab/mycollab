@@ -42,8 +42,7 @@ public class AdvancedEditBeanForm<B> extends GenericBeanForm<B> implements HasEd
      * attachForm
      */
     public boolean validateForm() {
-        fieldFactory.commit();
-        return isValid();
+        return fieldFactory.commit();
     }
 
     @Override
@@ -57,25 +56,19 @@ public class AdvancedEditBeanForm<B> extends GenericBeanForm<B> implements HasEd
 
     public void fireSaveForm() {
         if (editFormHandlers != null) {
-            for (IEditFormHandler<B> editFormHandler : editFormHandlers) {
-                editFormHandler.onSave(this.getBean());
-            }
+            editFormHandlers.forEach(editFormHandler -> editFormHandler.onSave(this.getBean()));
         }
     }
 
     public void fireSaveAndNewForm() {
         if (editFormHandlers != null) {
-            for (IEditFormHandler<B> editFormHandler : editFormHandlers) {
-                editFormHandler.onSaveAndNew(this.getBean());
-            }
+            editFormHandlers.forEach(editFormHandler -> editFormHandler.onSaveAndNew(this.getBean()));
         }
     }
 
     public void fireCancelForm() {
         if (editFormHandlers != null) {
-            for (IEditFormHandler<B> editFormHandler : editFormHandlers) {
-                editFormHandler.onCancel();
-            }
+            editFormHandlers.forEach(IEditFormHandler::onCancel);
         }
     }
 }

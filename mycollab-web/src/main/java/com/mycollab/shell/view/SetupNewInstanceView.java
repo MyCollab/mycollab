@@ -61,8 +61,8 @@ class SetupNewInstanceView extends MVerticalLayout {
                 .withStyleName(WebThemes.META_COLOR)).withMargin(true).withWidth("400px").withStyleName("separator"));
         MVerticalLayout formLayout = new MVerticalLayout().withWidth("600px");
         content.with(formLayout).withAlign(formLayout, Alignment.TOP_LEFT);
-        formLayout.with(ELabel.h2("Last step, you are almost there!").withWidthUndefined());
-        formLayout.with(ELabel.h3("All fields are required *").withStyleName("overdue").withWidthUndefined());
+        formLayout.with(ELabel.h2("Last step, you are almost there!").withUndefinedWidth());
+        formLayout.with(ELabel.h3("All fields are required *").withStyleName("overdue").withUndefinedWidth());
 
         GridFormLayoutHelper formLayoutHelper = GridFormLayoutHelper.defaultFormLayoutHelper(2, 8, "200px");
         formLayoutHelper.getLayout().setWidth("600px");

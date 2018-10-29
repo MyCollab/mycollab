@@ -26,6 +26,7 @@ import com.vaadin.ui.CustomField;
  * @author MyCollab Ltd.
  * @since 4.5.3
  */
+// TODO
 public class RichTextViewField extends CustomField<String> {
     private static final long serialVersionUID = 1L;
 
@@ -36,11 +37,6 @@ public class RichTextViewField extends CustomField<String> {
     }
 
     @Override
-    public Class<String> getType() {
-        return String.class;
-    }
-
-    @Override
     public String getValue() {
         return value;
     }
@@ -48,5 +44,10 @@ public class RichTextViewField extends CustomField<String> {
     @Override
     protected Component initContent() {
         return ELabel.html(StringUtils.formatRichText(value)).withStyleName(UIConstants.LABEL_WORD_WRAP);
+    }
+
+    @Override
+    protected void doSetValue(String s) {
+
     }
 }

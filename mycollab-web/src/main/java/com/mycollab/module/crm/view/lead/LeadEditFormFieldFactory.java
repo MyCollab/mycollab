@@ -16,22 +16,17 @@
  */
 package com.mycollab.module.crm.view.lead;
 
-import com.mycollab.common.i18n.ErrorI18nEnum;
-import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.module.crm.domain.Lead;
-import com.mycollab.module.crm.i18n.LeadI18nEnum;
-import com.mycollab.module.crm.i18n.OptionI18nEnum;
 import com.mycollab.module.crm.i18n.OptionI18nEnum.LeadStatus;
 import com.mycollab.module.crm.ui.components.IndustryComboBox;
 import com.mycollab.module.user.ui.components.ActiveUserComboBox;
-import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.mycollab.vaadin.ui.CompoundCustomField;
 import com.mycollab.vaadin.ui.GenericBeanForm;
 import com.mycollab.vaadin.web.ui.CountryComboBox;
 import com.mycollab.vaadin.web.ui.PrefixNameComboBox;
+import com.vaadin.data.HasValue;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.Field;
 import com.vaadin.ui.RichTextArea;
 import com.vaadin.ui.TextField;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
@@ -56,7 +51,7 @@ class LeadEditFormFieldFactory<B extends Lead> extends AbstractBeanFieldGroupEdi
     }
 
     @Override
-    protected Field<?> onCreateField(Object propertyId) {
+    protected HasValue<?> onCreateField(Object propertyId) {
         if (propertyId.equals("firstname") || propertyId.equals("prefixname")) {
             return firstNamePrefixField;
         } else if (propertyId.equals("primcountry") || propertyId.equals("othercountry")) {
@@ -75,21 +70,21 @@ class LeadEditFormFieldFactory<B extends Lead> extends AbstractBeanFieldGroupEdi
             return new LeadSourceComboBox();
         } else if (propertyId.equals("lastname")) {
             TextField tf = new TextField();
-            if (isValidateForm) {
-                tf.setNullRepresentation("");
-                tf.setRequired(true);
-                tf.setRequiredError(UserUIContext.getMessage(ErrorI18nEnum.FIELD_MUST_NOT_NULL, UserUIContext.getMessage(GenericI18Enum.FORM_LASTNAME)));
-            }
+//            if (isValidateForm) {
+//                tf.setNullRepresentation("");
+//                tf.setRequired(true);
+//                tf.setRequiredError(UserUIContext.getMessage(ErrorI18nEnum.FIELD_MUST_NOT_NULL, UserUIContext.getMessage(GenericI18Enum.FORM_LASTNAME)));
+//            }
 
             return tf;
         } else if (propertyId.equals("description")) {
             return new RichTextArea();
         } else if (propertyId.equals("accountname")) {
             TextField txtField = new TextField();
-            if (isValidateForm) {
-                txtField.setRequired(true);
-                txtField.setRequiredError(UserUIContext.getMessage(ErrorI18nEnum.FIELD_MUST_NOT_NULL, UserUIContext.getMessage(LeadI18nEnum.FORM_ACCOUNT_NAME)));
-            }
+//            if (isValidateForm) {
+//                txtField.setRequired(true);
+//                txtField.setRequiredError(UserUIContext.getMessage(ErrorI18nEnum.FIELD_MUST_NOT_NULL, UserUIContext.getMessage(LeadI18nEnum.FORM_ACCOUNT_NAME)));
+//            }
 
             return txtField;
         }
@@ -97,6 +92,7 @@ class LeadEditFormFieldFactory<B extends Lead> extends AbstractBeanFieldGroupEdi
         return null;
     }
 
+    // TODO:
     private class LeadFirstNamePrefixField extends CompoundCustomField<Lead> {
         private static final long serialVersionUID = 1L;
 
@@ -112,21 +108,25 @@ class LeadEditFormFieldFactory<B extends Lead> extends AbstractBeanFieldGroupEdi
 
             TextField firstnameTxtField = new TextField();
             firstnameTxtField.setWidth("100%");
-            firstnameTxtField.setNullRepresentation("");
             layout.addComponent(firstnameTxtField);
             layout.setExpandRatio(firstnameTxtField, 1.0f);
 
             // binding field group
-            fieldGroup.bind(prefixSelect, "prefixname");
-            fieldGroup.bind(firstnameTxtField, "firstname");
+            // TODO
+//            fieldGroup.bind(prefixSelect, "prefixname");
+//            fieldGroup.bind(firstnameTxtField, "firstname");
 
             return layout;
         }
 
         @Override
-        public Class<? extends Lead> getType() {
-            return Lead.class;
+        protected void doSetValue(Lead lead) {
+
         }
 
+        @Override
+        public Lead getValue() {
+            return null;
+        }
     }
 }

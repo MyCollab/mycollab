@@ -36,6 +36,7 @@ import static com.mycollab.vaadin.TooltipHelper.TOOLTIP_ID;
  * @author MyCollab Ltd.
  * @since 5.0.4
  */
+// TODO
 public class ProjectItemViewField extends CustomField<String> {
     private String type;
     private String typeId;
@@ -62,11 +63,16 @@ public class ProjectItemViewField extends CustomField<String> {
         milestoneLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction());
         div.appendChild(milestoneLink);
         ELabel label = ELabel.html(div.write()).withStyleName(UIConstants.TEXT_ELLIPSIS);
-        return new MHorizontalLayout(ELabel.fontIcon(ProjectAssetsManager.getAsset(type)).withWidthUndefined(), label).expand(label);
+        return new MHorizontalLayout(ELabel.fontIcon(ProjectAssetsManager.getAsset(type)).withUndefinedWidth(), label).expand(label);
     }
 
     @Override
-    public Class getType() {
-        return String.class;
+    protected void doSetValue(String s) {
+
+    }
+
+    @Override
+    public String getValue() {
+        return null;
     }
 }

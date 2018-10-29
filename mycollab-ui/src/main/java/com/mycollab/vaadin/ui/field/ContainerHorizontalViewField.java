@@ -39,12 +39,17 @@ public class ContainerHorizontalViewField extends CustomField {
     }
 
     @Override
-    public Class<?> getType() {
-        return Object.class;
+    protected Component initContent() {
+        return layout;
     }
 
     @Override
-    protected Component initContent() {
-        return layout;
+    protected void doSetValue(Object o) {
+
+    }
+
+    @Override
+    public Object getValue() {
+        return null;
     }
 }

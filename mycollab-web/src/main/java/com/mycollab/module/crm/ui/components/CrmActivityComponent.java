@@ -46,6 +46,7 @@ import com.mycollab.vaadin.ui.registry.AuditLogRegistry;
 import com.mycollab.vaadin.web.ui.AttachmentDisplayComponent;
 import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.mycollab.vaadin.web.ui.WebThemes;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
@@ -66,6 +67,7 @@ import java.util.List;
  * @author MyCollab Ltd
  * @since 5.1.4
  */
+// TODO
 public class CrmActivityComponent extends MVerticalLayout implements ReloadableComponent {
     private static Logger LOG = LoggerFactory.getLogger(CrmActivityComponent.class);
     private String type;
@@ -97,26 +99,26 @@ public class CrmActivityComponent extends MVerticalLayout implements ReloadableC
         this.groupFormatter = AuditLogRegistry.getFieldGroupFormatterOfType(type);
         headerLbl = new ELabel("");
 
-        final OptionGroup sortDirection = new OptionGroup();
-        sortDirection.addStyleName("sortDirection");
-        String oldestFirstDirection = UserUIContext.getMessage(GenericI18Enum.OPT_OLDEST_FIRST);
-        final String newestFirstDirection = UserUIContext.getMessage(GenericI18Enum.OPT_NEWEST_FIRST);
-        sortDirection.addItems(newestFirstDirection, oldestFirstDirection);
-        sortDirection.setValue(newestFirstDirection);
-        sortDirection.addValueChangeListener(valueChangeEvent -> {
-            Object value = sortDirection.getValue();
-            isAscending = newestFirstDirection.equals(value);
-            displayActivities();
-        });
+//        final OptionGroup sortDirection = new OptionGroup();
+//        sortDirection.addStyleName("sortDirection");
+//        String oldestFirstDirection = UserUIContext.getMessage(GenericI18Enum.OPT_OLDEST_FIRST);
+//        final String newestFirstDirection = UserUIContext.getMessage(GenericI18Enum.OPT_NEWEST_FIRST);
+//        sortDirection.addItems(newestFirstDirection, oldestFirstDirection);
+//        sortDirection.setValue(newestFirstDirection);
+//        sortDirection.addValueChangeListener(valueChangeEvent -> {
+//            Object value = sortDirection.getValue();
+//            isAscending = newestFirstDirection.equals(value);
+//            displayActivities();
+//        });
 
-        MHorizontalLayout headerPanel = new MHorizontalLayout().withMargin(new MarginInfo(false, true, false, true))
-                .withStyleName(WebThemes.FORM_SECTION, WebThemes.HOVER_EFFECT_NOT_BOX).withFullWidth()
-                .with(headerLbl, sortDirection).withAlign(headerLbl, Alignment.MIDDLE_LEFT)
-                .withAlign(sortDirection, Alignment.MIDDLE_RIGHT);
+//        MHorizontalLayout headerPanel = new MHorizontalLayout().withMargin(new MarginInfo(false, true, false, true))
+//                .withStyleName(WebThemes.FORM_SECTION, WebThemes.HOVER_EFFECT_NOT_BOX).withFullWidth()
+//                .with(headerLbl, sortDirection).withAlign(headerLbl, Alignment.MIDDLE_LEFT)
+//                .withAlign(sortDirection, Alignment.MIDDLE_RIGHT);
 
         commentBox = new CrmCommentInput(this, type);
         activityBox = new MVerticalLayout().withMargin(new MarginInfo(false, true, false, false));
-        this.with(headerPanel, commentBox, activityBox);
+//        this.with(headerPanel, commentBox, activityBox);
 
         commentService = AppContextUtil.getSpringBean(CommentService.class);
         auditLogService = AppContextUtil.getSpringBean(AuditLogService.class);
@@ -206,7 +208,7 @@ public class CrmActivityComponent extends MVerticalLayout implements ReloadableC
                                     activityBox.removeComponent(layout);
                                 }
                             })
-            ).withIcon(FontAwesome.TRASH_O).withStyleName(WebThemes.BUTTON_ICON_ONLY);
+            ).withIcon(VaadinIcons.TRASH).withStyleName(WebThemes.BUTTON_ICON_ONLY);
 
             messageHeader.with(timePostLbl, msgDeleteBtn).expand(timePostLbl);
         } else {

@@ -65,7 +65,7 @@ class TicketRowRenderer extends BlockRowRender implements PropertyChangedListene
 
         toggleTicketField = new ToggleTicketSummaryField(ticket);
         MHorizontalLayout headerLayout = new MHorizontalLayout(ELabel.fontIcon(ProjectAssetsManager.getAsset(ticket.getType()))
-                .withWidthUndefined(), toggleTicketField).expand(toggleTicketField).withFullWidth()
+                .withUndefinedWidth(), toggleTicketField).expand(toggleTicketField).withFullWidth()
                 .withMargin(new MarginInfo(false, true, false, false));
 
         TicketComponentFactory popupFieldFactory = AppContextUtil.getSpringBean(TicketComponentFactory.class);

@@ -16,11 +16,11 @@
  */
 package com.mycollab.module.crm.view.campaign;
 
-import com.mycollab.common.TableViewField;
+import com.mycollab.common.GridFieldMeta;
 import com.mycollab.module.crm.CrmTypeConstants;
 import com.mycollab.module.crm.fielddef.CampaignTableFieldDef;
-import com.mycollab.vaadin.web.ui.table.AbstractPagedBeanTable;
-import com.mycollab.vaadin.web.ui.table.CustomizedTableWindow;
+import com.mycollab.vaadin.web.ui.table.AbstractPagedGrid;
+import com.mycollab.vaadin.web.ui.table.CustomizedGridWindow;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -29,15 +29,15 @@ import java.util.Collection;
  * @author MyCollab Ltd,
  * @since 1.0
  */
-public class CampaignListCustomizeWindow extends CustomizedTableWindow {
+public class CampaignListCustomizeWindow extends CustomizedGridWindow {
     private static final long serialVersionUID = 1L;
 
-    public CampaignListCustomizeWindow(AbstractPagedBeanTable table) {
+    public CampaignListCustomizeWindow(AbstractPagedGrid table) {
         super(CrmTypeConstants.CAMPAIGN, table);
     }
 
     @Override
-    protected Collection<TableViewField> getAvailableColumns() {
+    protected Collection<GridFieldMeta> getAvailableColumns() {
         return Arrays.asList(CampaignTableFieldDef.assignUser,
                 CampaignTableFieldDef.actualcost, CampaignTableFieldDef.budget,
                 CampaignTableFieldDef.campaignname, CampaignTableFieldDef.endDate,

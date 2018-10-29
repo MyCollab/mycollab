@@ -42,6 +42,7 @@ import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.*;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
+import com.vaadin.data.HasValue;
 import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
@@ -57,6 +58,7 @@ import static com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
  * @author MyCollab Ltd
  * @since 4.5.5
  */
+// TODO
 public class ResolvedInputForm extends AdvancedEditBeanForm<SimpleBug> {
     private static final long serialVersionUID = 1L;
     private SimpleBug bug;
@@ -155,7 +157,7 @@ public class ResolvedInputForm extends AdvancedEditBeanForm<SimpleBug> {
         }
 
         @Override
-        protected Component onAttachField(Object propertyId, Field<?> field) {
+        protected HasValue<?> onAttachField(Object propertyId, HasValue<?> field) {
             if (propertyId.equals("resolution")) {
                 return informationLayout.addComponent(field, UserUIContext.getMessage(BugI18nEnum.FORM_RESOLUTION),
                         UserUIContext.getMessage(BugI18nEnum.FORM_RESOLUTION_HELP), 0, 0);
@@ -179,7 +181,7 @@ public class ResolvedInputForm extends AdvancedEditBeanForm<SimpleBug> {
         }
 
         @Override
-        protected Field<?> onCreateField(final Object propertyId) {
+        protected HasValue<?> onCreateField(final Object propertyId) {
             if (propertyId.equals("resolution")) {
                 if (StringUtils.isBlank(bean.getResolution()) || UserUIContext.getMessage(BugResolution.None).equals(bug.getResolution())) {
                     bean.setResolution(BugResolution.Fixed.name());
@@ -196,7 +198,6 @@ public class ResolvedInputForm extends AdvancedEditBeanForm<SimpleBug> {
                 return fixedVersionSelect;
             } else if (propertyId.equals("comment")) {
                 commentArea = new RichTextArea();
-                commentArea.setNullRepresentation("");
                 return commentArea;
             }
 
@@ -214,7 +215,7 @@ public class ResolvedInputForm extends AdvancedEditBeanForm<SimpleBug> {
             @Override
             protected Component initContent() {
                 layout = new MHorizontalLayout(resolutionComboBox);
-                fieldGroup.bind(resolutionComboBox, BugWithBLOBs.Field.resolution.name());
+//                fieldGroup.bind(resolutionComboBox, BugWithBLOBs.Field.resolution.name());
                 resolutionComboBox.addValueChangeListener(valueChangeEvent -> {
                     String value = (String) resolutionComboBox.getValue();
                     if (BugResolution.Duplicate.name().equals(value)) {
@@ -231,8 +232,13 @@ public class ResolvedInputForm extends AdvancedEditBeanForm<SimpleBug> {
             }
 
             @Override
-            public Class<? extends BugWithBLOBs> getType() {
-                return BugWithBLOBs.class;
+            protected void doSetValue(BugWithBLOBs bugWithBLOBs) {
+
+            }
+
+            @Override
+            public BugWithBLOBs getValue() {
+                return null;
             }
         }
     }

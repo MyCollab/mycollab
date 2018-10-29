@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -18,13 +18,13 @@ package com.mycollab.module.project.view.page;
 
 import com.mycollab.module.page.domain.Page;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
-import com.mycollab.vaadin.ui.GenericBeanForm;
 import com.mycollab.vaadin.ui.AbstractFormLayoutFactory;
-import com.mycollab.vaadin.web.ui.AdvancedPreviewBeanForm;
+import com.mycollab.vaadin.ui.GenericBeanForm;
 import com.mycollab.vaadin.ui.field.RichTextViewField;
+import com.mycollab.vaadin.web.ui.AdvancedPreviewBeanForm;
+import com.vaadin.data.HasValue;
 import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.Field;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
 /**
@@ -50,9 +50,9 @@ public class PagePreviewForm extends AdvancedPreviewBeanForm<Page> {
         }
 
         @Override
-        protected Component onAttachField(java.lang.Object propertyId, Field<?> field) {
+        protected HasValue<?> onAttachField(java.lang.Object propertyId, HasValue<?> field) {
             if (propertyId.equals("content")) {
-                layout.addComponent(field);
+                layout.addComponent((Component) field);
                 return field;
             }
             return null;
@@ -67,7 +67,7 @@ public class PagePreviewForm extends AdvancedPreviewBeanForm<Page> {
         }
 
         @Override
-        protected Field<?> onCreateField(java.lang.Object propertyId) {
+        protected HasValue<?> onCreateField(java.lang.Object propertyId) {
             if (propertyId.equals("content")) {
                 return new RichTextViewField(attachForm.getBean().getContent());
             }

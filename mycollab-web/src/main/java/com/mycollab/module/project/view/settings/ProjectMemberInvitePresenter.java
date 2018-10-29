@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -21,7 +21,6 @@ import com.hp.gagawa.java.elements.B;
 import com.hp.gagawa.java.elements.Div;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.i18n.ShellI18nEnum;
-import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.module.mail.service.ExtMailService;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectRolePermissionCollections;
@@ -33,10 +32,11 @@ import com.mycollab.module.project.view.ProjectBreadcrumb;
 import com.mycollab.shell.view.SystemUIChecker;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppUI;
+import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.vaadin.UserUIContext;
+import com.mycollab.vaadin.event.ViewEvent;
 import com.mycollab.vaadin.mvp.PageView.ViewListener;
 import com.mycollab.vaadin.mvp.ScreenData;
-import com.mycollab.vaadin.event.ViewEvent;
 import com.mycollab.vaadin.mvp.ViewManager;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.NotificationUtil;
@@ -48,7 +48,6 @@ import com.vaadin.ui.HasComponents;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.UI;
 import org.apache.commons.collections.CollectionUtils;
-import org.vaadin.jouni.restrain.Restrain;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
@@ -60,6 +59,7 @@ import java.util.Collection;
  * @author MyCollab Ltd.
  * @since 1.0
  */
+// TODO
 public class ProjectMemberInvitePresenter extends AbstractPresenter<ProjectMemberInviteView> {
     private static final long serialVersionUID = 1L;
 
@@ -134,7 +134,7 @@ public class ProjectMemberInvitePresenter extends AbstractPresenter<ProjectMembe
             contentLayout.with(ELabel.html(introDiv.write()));
 
             MVerticalLayout linksContainer = new MVerticalLayout().withStyleName(WebThemes.SCROLLABLE_CONTAINER);
-            new Restrain(linksContainer).setMaxHeight("400px");
+//            new Restrain(linksContainer).setMaxHeight("400px");
             contentLayout.with(linksContainer);
 
             Collection<String> inviteEmails = invitation.getEmails();

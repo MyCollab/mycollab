@@ -17,7 +17,7 @@
 package com.mycollab.vaadin.ui.field;
 
 import com.mycollab.vaadin.UserUIContext;
-import com.vaadin.shared.ui.label.ContentMode;
+import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomField;
 import com.vaadin.ui.Label;
@@ -28,6 +28,7 @@ import java.util.Date;
  * @author MyCollab Ltd.
  * @since 4.5.3
  */
+// TODO
 public class DateViewField extends CustomField<Date> {
     private static final long serialVersionUID = 1L;
 
@@ -41,11 +42,6 @@ public class DateViewField extends CustomField<Date> {
     }
 
     @Override
-    public Class<? extends Date> getType() {
-        return Date.class;
-    }
-
-    @Override
     protected Component initContent() {
         if (date == null) {
             dateLbl.setValue("&nbsp;");
@@ -55,5 +51,15 @@ public class DateViewField extends CustomField<Date> {
             dateLbl.setDescription(UserUIContext.formatPrettyTime(date));
         }
         return dateLbl;
+    }
+
+    @Override
+    protected void doSetValue(Date date) {
+
+    }
+
+    @Override
+    public Date getValue() {
+        return null;
     }
 }

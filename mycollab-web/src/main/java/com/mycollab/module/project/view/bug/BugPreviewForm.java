@@ -48,10 +48,10 @@ import com.mycollab.vaadin.web.ui.AdvancedPreviewBeanForm;
 import com.mycollab.vaadin.web.ui.field.ContainerViewField;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.vaadin.server.FontAwesome;
-import com.vaadin.shared.ui.label.ContentMode;
+import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Field;
+import com.vaadin.data.HasValue;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 import org.apache.commons.collections.CollectionUtils;
@@ -77,7 +77,7 @@ public class BugPreviewForm extends AdvancedPreviewBeanForm<SimpleBug> {
         private GridFormLayoutHelper informationLayout;
 
         @Override
-        protected com.vaadin.ui.Component onAttachField(Object propertyId, final Field<?> field) {
+        protected HasValue<?> onAttachField(Object propertyId, final HasValue<?> field) {
             if (BugWithBLOBs.Field.description.equalTo(propertyId)) {
                 return informationLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.FORM_DESCRIPTION), 0, 0, 2, "100%");
             } else if (BugWithBLOBs.Field.environment.equalTo(propertyId)) {
@@ -140,7 +140,7 @@ public class BugPreviewForm extends AdvancedPreviewBeanForm<SimpleBug> {
         }
 
         @Override
-        protected Field<?> onCreateField(final Object propertyId) {
+        protected HasValue<?> onCreateField(final Object propertyId) {
             SimpleBug beanItem = attachForm.getBean();
             if (BugWithBLOBs.Field.duedate.equalTo(propertyId)) {
                 return new DateTimeOptionViewField(beanItem.getDuedate());

@@ -17,9 +17,13 @@
 package com.mycollab.vaadin.mvp
 
 import com.mycollab.vaadin.event.ViewEvent
-import com.vaadin.ui.*
+import com.vaadin.shared.Registration
+import com.vaadin.ui.Component
+import com.vaadin.ui.CssLayout
+import com.vaadin.ui.CustomComponent
 import com.vaadin.ui.HasComponents.ComponentAttachListener
 import com.vaadin.ui.HasComponents.ComponentDetachListener
+import com.vaadin.ui.SingleComponentContainer
 
 /**
  * @author MyCollab Ltd
@@ -42,16 +46,16 @@ open class AbstractSingleContainerPageView : CustomComponent(), PageView, Single
         contentLayout.addComponent(component)
     }
 
-    override fun addComponentAttachListener(componentAttachListener: ComponentAttachListener) {
-        contentLayout.addComponentAttachListener(componentAttachListener)
+    override fun addComponentAttachListener(componentAttachListener: ComponentAttachListener): Registration {
+        return contentLayout.addComponentAttachListener(componentAttachListener)
     }
 
     override fun removeComponentAttachListener(componentAttachListener: ComponentAttachListener) {
 
     }
 
-    override fun addComponentDetachListener(componentDetachListener: ComponentDetachListener) {
-
+    override fun addComponentDetachListener(componentDetachListener: ComponentDetachListener): Registration {
+        return contentLayout.addComponentDetachListener(componentDetachListener)
     }
 
     override fun removeComponentDetachListener(componentDetachListener: ComponentDetachListener) {

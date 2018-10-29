@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -23,7 +23,6 @@ import com.mycollab.common.ActivityStreamConstants;
 import com.mycollab.common.ModuleNameConstants;
 import com.mycollab.common.domain.SimpleActivityStream;
 import com.mycollab.common.domain.criteria.ActivityStreamSearchCriteria;
-import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.service.ActivityStreamService;
 import com.mycollab.core.MyCollabException;
 import com.mycollab.core.utils.StringUtils;
@@ -48,16 +47,13 @@ import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.ui.registry.AuditLogRegistry;
 import com.mycollab.vaadin.web.ui.AbstractBeanPagedList;
-import com.mycollab.vaadin.web.ui.WebThemes;
+import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Label;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.commons.lang3.time.DateUtils;
-import org.vaadin.peter.buttongroup.ButtonGroup;
-import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 import java.util.Calendar;
@@ -69,6 +65,7 @@ import java.util.List;
  * @author MyCollab Ltd.
  * @since 1.0
  */
+// TODO
 public class ActivityStreamPanel extends CssLayout {
     private static final long serialVersionUID = 1L;
 
@@ -213,24 +210,24 @@ public class ActivityStreamPanel extends CssLayout {
         @Override
         protected MHorizontalLayout createPageControls() {
             this.controlBarWrapper = new MHorizontalLayout().withFullHeight().withStyleName("page-controls");
-            ButtonGroup controlBtns = new ButtonGroup();
-            controlBtns.setStyleName(WebThemes.BUTTON_ACTION);
-            MButton prevBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_NAV_NEWER), clickEvent -> pageChange(currentPage - 1))
-                    .withWidth("64px").withStyleName(WebThemes.BUTTON_ACTION);
-            if (currentPage == 1) {
-                prevBtn.setEnabled(false);
-            }
+//            ButtonGroup controlBtns = new ButtonGroup();
+//            controlBtns.setStyleName(WebThemes.BUTTON_ACTION);
+//            MButton prevBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_NAV_NEWER), clickEvent -> pageChange(currentPage - 1))
+//                    .withWidth("64px").withStyleName(WebThemes.BUTTON_ACTION);
+//            if (currentPage == 1) {
+//                prevBtn.setEnabled(false);
+//            }
+//
+//            MButton nextBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_NAV_OLDER), clickEvent -> pageChange(currentPage + 1))
+//                    .withWidth("64px").withStyleName(WebThemes.BUTTON_ACTION);
+//            if (currentPage == totalPage) {
+//                nextBtn.setEnabled(false);
+//            }
+//
+//            controlBtns.addButton(prevBtn);
+//            controlBtns.addButton(nextBtn);
 
-            MButton nextBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_NAV_OLDER), clickEvent -> pageChange(currentPage + 1))
-                    .withWidth("64px").withStyleName(WebThemes.BUTTON_ACTION);
-            if (currentPage == totalPage) {
-                nextBtn.setEnabled(false);
-            }
-
-            controlBtns.addButton(prevBtn);
-            controlBtns.addButton(nextBtn);
-
-            controlBarWrapper.addComponent(controlBtns);
+//            controlBarWrapper.addComponent(controlBtns);
             return controlBarWrapper;
         }
 
@@ -291,7 +288,7 @@ public class ActivityStreamPanel extends CssLayout {
             if (cal1.get(Calendar.YEAR) != cal2.get(Calendar.YEAR)) {
                 int currentYear = cal2.get(Calendar.YEAR);
                 Label yearLbl = ELabel.html("<div>" + String.valueOf(currentYear) + "</div>").withStyleName
-                        ("year-lbl").withWidthUndefined();
+                        ("year-lbl").withUndefinedWidth();
                 listContainer.addComponent(yearLbl);
             } else {
                 blockWrapper.setMargin(new MarginInfo(true, false, false, false));

@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -32,9 +32,11 @@ import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.HeaderWithFontAwesome;
-import com.mycollab.vaadin.web.ui.*;
+import com.mycollab.vaadin.web.ui.BasicSearchLayout;
+import com.mycollab.vaadin.web.ui.DefaultGenericSearchPanel;
+import com.mycollab.vaadin.web.ui.SearchLayout;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
 import com.vaadin.ui.*;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
@@ -50,6 +52,7 @@ import java.util.stream.Collectors;
  * @author MyCollab Ltd.
  * @since 4.0.0
  */
+// TODO
 public class FollowingTicketSearchPanel extends DefaultGenericSearchPanel<FollowingTicketSearchCriteria> {
     private static final long serialVersionUID = 1L;
 
@@ -104,7 +107,7 @@ public class FollowingTicketSearchPanel extends DefaultGenericSearchPanel<Follow
 
             summaryField = new TextField();
             summaryField.setWidth("100%");
-            summaryField.setInputPrompt(UserUIContext.getMessage(GenericI18Enum.ACTION_QUERY_BY_TEXT));
+//            summaryField.setInputPrompt(UserUIContext.getMessage(GenericI18Enum.ACTION_QUERY_BY_TEXT));
             selectionLayout.addComponent(summaryField, 1, 0);
 
             Label typeLb = new Label("Type:");
@@ -132,9 +135,9 @@ public class FollowingTicketSearchPanel extends DefaultGenericSearchPanel<Follow
 
             projectField = new UserInvolvedProjectsListSelect();
             projectField.setWidth("300px");
-            projectField.setItemCaptionMode(ItemCaptionMode.EXPLICIT);
-            projectField.setNullSelectionAllowed(false);
-            projectField.setMultiSelect(true);
+//            projectField.setItemCaptionMode(ItemCaptionMode.EXPLICIT);
+//            projectField.setEmptySelectionAllowed(false);
+//            projectField.setMultiSelect(true);
             projectField.setRows(4);
             selectionLayout.addComponent(projectField, 3, 0, 3, 1);
 
@@ -192,8 +195,8 @@ public class FollowingTicketSearchPanel extends DefaultGenericSearchPanel<Follow
                     .getProjectsUserInvolved(UserUIContext.getUsername(), AppUI.getAccountId());
 
             for (SimpleProject project : projects) {
-                this.addItem(project.getId());
-                this.setItemCaption(project.getId(), project.getName());
+//                this.addItem(project.getId());
+//                this.setItemCaption(project.getId(), project.getName());
             }
         }
     }

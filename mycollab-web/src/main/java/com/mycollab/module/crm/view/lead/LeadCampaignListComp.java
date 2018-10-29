@@ -37,6 +37,7 @@ import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.web.ui.*;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
 import org.vaadin.viritin.button.MButton;
@@ -83,7 +84,7 @@ public class LeadCampaignListComp extends RelatedListComp2<CampaignService, Camp
             controlsBtn.setSizeUndefined();
             controlsBtn.addStyleName(WebThemes.BUTTON_ACTION);
             controlsBtn.setCaption(UserUIContext.getMessage(CampaignI18nEnum.NEW));
-            controlsBtn.setIcon(FontAwesome.PLUS);
+            controlsBtn.setIcon(VaadinIcons.PLUS);
             controlsBtn.addClickListener(event -> fireNewRelatedItem(""));
             Button selectBtn = new Button(UserUIContext.getMessage(GenericI18Enum.BUTTON_SELECT), clickEvent -> {
                 LeadCampaignSelectionWindow leadsWindow = new LeadCampaignSelectionWindow(LeadCampaignListComp.this);
@@ -140,7 +141,7 @@ public class LeadCampaignListComp extends RelatedListComp2<CampaignService, Camp
                                 LeadCampaignListComp.this.refresh();
                             }
                         });
-            }).withIcon(FontAwesome.TRASH_O).withStyleName(WebThemes.BUTTON_ICON_ONLY);
+            }).withIcon(VaadinIcons.TRASH).withStyleName(WebThemes.BUTTON_ICON_ONLY);
 
             blockContent.addComponent(btnDelete);
             blockContent.setComponentAlignment(btnDelete, Alignment.TOP_RIGHT);

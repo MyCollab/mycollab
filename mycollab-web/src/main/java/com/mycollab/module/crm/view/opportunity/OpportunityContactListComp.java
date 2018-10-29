@@ -41,6 +41,7 @@ import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.web.ui.*;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
 import org.vaadin.viritin.button.MButton;
@@ -82,14 +83,14 @@ public class OpportunityContactListComp extends RelatedListComp2<ContactOpportun
         MHorizontalLayout controlsBtnWrap = new MHorizontalLayout().withSpacing(false).withFullWidth();
 
         MHorizontalLayout notesWrap = new MHorizontalLayout(new ELabel(UserUIContext.getMessage(GenericI18Enum.OPT_NOTE))
-                .withWidthUndefined()).withFullWidth();
+                .withUndefinedWidth()).withFullWidth();
 
         CssLayout noteBlock = new CssLayout();
         noteBlock.setWidth("100%");
         noteBlock.setStyleName("list-note-block");
         for (OptionI18nEnum.OpportunityContactRole role : CrmDataTypeFactory.opportunityContactRoleList) {
             ELabel note = new ELabel(UserUIContext.getMessage(role)).withStyleName("note-label", colormap.get(role.name()))
-                    .withWidthUndefined().withHeightUndefined();
+                    .withUndefinedWidth().withUndefinedHeight();
             noteBlock.addComponent(note);
         }
         notesWrap.with(noteBlock).expand(noteBlock);
@@ -100,7 +101,7 @@ public class OpportunityContactListComp extends RelatedListComp2<ContactOpportun
             controlsBtn.setSizeUndefined();
             controlsBtn.addStyleName(WebThemes.BUTTON_ACTION);
             controlsBtn.setCaption(UserUIContext.getMessage(ContactI18nEnum.OPT_ADD_EDIT_CONTACT_ROLES));
-            controlsBtn.setIcon(FontAwesome.PLUS);
+            controlsBtn.setIcon(VaadinIcons.PLUS);
             controlsBtn.addClickListener(event -> EventBusFactory.getInstance().post(new OpportunityEvent.GotoContactRoleEdit(this, opportunity)));
             final Button selectBtn = new Button(UserUIContext.getMessage(GenericI18Enum.BUTTON_SELECT), clickEvent -> {
                 OpportunityContactSelectionWindow contactsWindow = new OpportunityContactSelectionWindow(OpportunityContactListComp.this);
@@ -173,7 +174,7 @@ public class OpportunityContactListComp extends RelatedListComp2<ContactOpportun
                                 OpportunityContactListComp.this.refresh();
                             }
                         });
-            }).withIcon(FontAwesome.TRASH_O).withStyleName(WebThemes.BUTTON_ICON_ONLY);
+            }).withIcon(VaadinIcons.TRASH).withStyleName(WebThemes.BUTTON_ICON_ONLY);
 
             blockContent.addComponent(btnDelete);
             blockContent.setComponentAlignment(btnDelete, Alignment.TOP_RIGHT);

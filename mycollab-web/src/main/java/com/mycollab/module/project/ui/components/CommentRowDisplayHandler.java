@@ -27,6 +27,7 @@ import com.mycollab.vaadin.ui.*;
 import com.mycollab.vaadin.web.ui.AttachmentDisplayComponent;
 import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.mycollab.vaadin.web.ui.WebThemes;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
@@ -66,21 +67,19 @@ public class CommentRowDisplayHandler implements IBeanList.RowDisplayHandler<Sim
         timePostLbl.setStyleName(UIConstants.META_INFO);
 
         if (hasDeletePermission(comment)) {
-            MButton msgDeleteBtn = new MButton(FontAwesome.TRASH_O).withStyleName(WebThemes.BUTTON_ICON_ONLY)
-                    .withListener(clickEvent -> {
-                        ConfirmDialogExt.show(UI.getCurrent(),
-                                UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppUI.getSiteName()),
-                                UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-                                UserUIContext.getMessage(GenericI18Enum.ACTION_YES),
-                                UserUIContext.getMessage(GenericI18Enum.ACTION_NO),
-                                confirmDialog -> {
-                                    if (confirmDialog.isConfirmed()) {
-                                        CommentService commentService = AppContextUtil.getSpringBean(CommentService.class);
-                                        commentService.removeWithSession(comment, UserUIContext.getUsername(), AppUI.getAccountId());
-                                        ((BeanList) host).removeRow(layout);
-                                    }
-                                });
-                    });
+            MButton msgDeleteBtn = new MButton(VaadinIcons.TRASH).withStyleName(WebThemes.BUTTON_ICON_ONLY)
+                    .withListener(clickEvent -> ConfirmDialogExt.show(UI.getCurrent(),
+                            UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppUI.getSiteName()),
+                            UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+                            UserUIContext.getMessage(GenericI18Enum.ACTION_YES),
+                            UserUIContext.getMessage(GenericI18Enum.ACTION_NO),
+                            confirmDialog -> {
+                                if (confirmDialog.isConfirmed()) {
+                                    CommentService commentService = AppContextUtil.getSpringBean(CommentService.class);
+                                    commentService.removeWithSession(comment, UserUIContext.getUsername(), AppUI.getAccountId());
+                                    ((BeanList) host).removeRow(layout);
+                                }
+                            }));
             messageHeader.with(timePostLbl, msgDeleteBtn).expand(timePostLbl);
         } else {
             messageHeader.with(timePostLbl).expand(timePostLbl);

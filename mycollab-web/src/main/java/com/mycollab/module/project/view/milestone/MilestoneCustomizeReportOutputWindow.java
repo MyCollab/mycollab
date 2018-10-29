@@ -16,7 +16,7 @@
  */
 package com.mycollab.module.project.view.milestone;
 
-import com.mycollab.common.TableViewField;
+import com.mycollab.common.GridFieldMeta;
 import com.mycollab.db.query.VariableInjector;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.domain.SimpleMilestone;
@@ -44,13 +44,13 @@ public class MilestoneCustomizeReportOutputWindow extends CustomizeReportOutputW
     }
 
     @Override
-    protected Collection<TableViewField> getDefaultColumns() {
+    protected Collection<GridFieldMeta> getDefaultColumns() {
         return Arrays.asList(MilestoneTableFieldDef.milestoneName, MilestoneTableFieldDef.startDate,
                 MilestoneTableFieldDef.endDate, MilestoneTableFieldDef.status, MilestoneTableFieldDef.assignee);
     }
 
     @Override
-    protected Collection<TableViewField> getAvailableColumns() {
+    protected Collection<GridFieldMeta> getAvailableColumns() {
         return Arrays.asList(MilestoneTableFieldDef.milestoneName, MilestoneTableFieldDef.startDate,
                 MilestoneTableFieldDef.endDate, MilestoneTableFieldDef.status, MilestoneTableFieldDef.assignee,
                 MilestoneTableFieldDef.billableHours, MilestoneTableFieldDef.nonBillableHours);

@@ -27,7 +27,7 @@ import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.DefaultMassItemActionHandlerContainer;
 import com.mycollab.vaadin.web.ui.DefaultGenericSearchPanel;
-import com.mycollab.vaadin.web.ui.table.AbstractPagedBeanTable;
+import com.mycollab.vaadin.web.ui.table.AbstractPagedGrid;
 import com.vaadin.ui.UI;
 import org.vaadin.viritin.button.MButton;
 
@@ -44,7 +44,7 @@ public class CampaignListViewImpl extends AbstractListItemComp<CampaignSearchCri
     @Override
     protected void buildExtraControls() {
         MButton customizeViewBtn = ComponentUtils.createCustomizeViewButton()
-                .withListener(clickEvent -> UI.getCurrent().addWindow(new CampaignListCustomizeWindow(tableItem)));
+                .withListener(clickEvent -> UI.getCurrent().addWindow(new CampaignListCustomizeWindow(grid)));
         this.addExtraButton(customizeViewBtn);
     }
 
@@ -54,7 +54,7 @@ public class CampaignListViewImpl extends AbstractListItemComp<CampaignSearchCri
     }
 
     @Override
-    protected AbstractPagedBeanTable<CampaignSearchCriteria, SimpleCampaign> createBeanTable() {
+    protected AbstractPagedGrid<CampaignSearchCriteria, SimpleCampaign> createGrid() {
         return new CampaignTableDisplay(CrmTypeConstants.CAMPAIGN, CampaignTableFieldDef.selected,
                 Arrays.asList(CampaignTableFieldDef.campaignname, CampaignTableFieldDef.status,
                         CampaignTableFieldDef.type, CampaignTableFieldDef.expectedRevenue,

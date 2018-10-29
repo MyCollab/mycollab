@@ -43,9 +43,10 @@ import com.mycollab.vaadin.ui.*;
 import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.mycollab.vaadin.web.ui.SearchTextField;
 import com.mycollab.vaadin.web.ui.WebThemes;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.FontAwesome;
+import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
 import org.vaadin.viritin.button.MButton;
@@ -69,26 +70,25 @@ public class UserListViewImpl extends AbstractVerticalPageView implements UserLi
     private HeaderWithFontAwesome headerText;
 
     public UserListViewImpl() {
-        super();
         this.setMargin(new MarginInfo(false, true, false, true));
         MHorizontalLayout header = new MHorizontalLayout().withMargin(new MarginInfo(true, false, true, false))
                 .withFullWidth();
         MButton createBtn = new MButton(UserUIContext.getMessage(UserI18nEnum.NEW),
                 clickEvent -> EventBusFactory.getInstance().post(new UserEvent.GotoAdd(this, null)))
-                .withIcon(FontAwesome.PLUS).withStyleName(WebThemes.BUTTON_ACTION)
+                .withIcon(VaadinIcons.PLUS).withStyleName(WebThemes.BUTTON_ACTION)
                 .withVisible(UserUIContext.canWrite(RolePermissionCollections.ACCOUNT_USER));
 
-        headerText = HeaderWithFontAwesome.h2(FontAwesome.USERS, UserUIContext.getMessage(UserI18nEnum.LIST) + " " +
+        headerText = HeaderWithFontAwesome.h2(VaadinIcons.USERS, UserUIContext.getMessage(UserI18nEnum.LIST) + " " +
                 UserUIContext.getMessage(GenericI18Enum.OPT_TOTAL_VALUE, 0));
 
-        final MButton sortBtn = new MButton().withIcon(FontAwesome.SORT_ALPHA_ASC).withStyleName(WebThemes.BUTTON_ICON_ONLY);
+        final MButton sortBtn = new MButton().withIcon(VaadinIcons.CARET_UP).withStyleName(WebThemes.BUTTON_ICON_ONLY);
         sortBtn.addClickListener(clickEvent -> {
             sortAsc = !sortAsc;
             if (sortAsc) {
-                sortBtn.setIcon(FontAwesome.SORT_ALPHA_ASC);
+                sortBtn.setIcon(VaadinIcons.CARET_UP);
                 displayUsers();
             } else {
-                sortBtn.setIcon(FontAwesome.SORT_ALPHA_DESC);
+                sortBtn.setIcon(VaadinIcons.CARET_DOWN);
                 displayUsers();
             }
         });
@@ -115,7 +115,7 @@ public class UserListViewImpl extends AbstractVerticalPageView implements UserLi
                     protected Object doEval() {
                         return searchCriteria;
                     }
-                }))).withIcon(FontAwesome.PRINT).withStyleName(WebThemes.BUTTON_OPTION)
+                }))).withIcon(VaadinIcons.PRINT).withStyleName(WebThemes.BUTTON_OPTION)
                 .withDescription(UserUIContext.getMessage(GenericI18Enum.ACTION_EXPORT));
 
         header.with(headerText, sortBtn, searchTextField, printBtn, createBtn).alignAll(Alignment.MIDDLE_LEFT).expand(headerText);
@@ -196,7 +196,7 @@ public class UserListViewImpl extends AbstractVerticalPageView implements UserLi
                                 EventBusFactory.getInstance().post(new UserEvent.GotoList(UserListViewImpl.this, null));
                             }
                         })
-        ).withIcon(FontAwesome.TRASH_O).withStyleName(WebThemes.BUTTON_LINK);
+        ).withIcon(VaadinIcons.TRASH).withStyleName(WebThemes.BUTTON_LINK);
         buttonControls.with(deleteBtn);
 
         memberInfo.addComponent(buttonControls);

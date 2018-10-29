@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -22,20 +22,18 @@ import com.mycollab.common.i18n.ShellI18nEnum;
 import com.mycollab.core.MyCollabException;
 import com.mycollab.core.UserInvalidInputException;
 import com.mycollab.core.utils.ImageUtil;
-import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.module.file.service.AccountLogoService;
 import com.mycollab.module.user.accountsettings.view.event.SettingEvent;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppUI;
+import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.vaadin.UserUIContext;
-import com.mycollab.vaadin.addon.webcomponents.CropField;
-import com.mycollab.vaadin.addon.webcomponents.client.VCropSelection;
 import com.mycollab.vaadin.ui.AccountAssetsResolver;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.web.ui.ByteArrayImageResource;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.event.ShortcutAction;
-import com.vaadin.server.FontAwesome;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.Page;
 import com.vaadin.server.Resource;
 import com.vaadin.shared.ui.MarginInfo;
@@ -53,13 +51,13 @@ import org.vaadin.viritin.layouts.MWindow;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 /**
  * @author MyCollab Ltd.
  * @since 4.1
  */
+// TODO
 public class LogoEditWindow extends MWindow {
     private static final long serialVersionUID = -5294741083557671011L;
     private static final Logger LOG = LoggerFactory.getLogger(LogoEditWindow.class);
@@ -116,7 +114,7 @@ public class LogoEditWindow extends MWindow {
                     throw new MyCollabException("Error when saving account logo", e);
                 }
             }
-        }).withStyleName(WebThemes.BUTTON_ACTION).withIcon(FontAwesome.SAVE).withClickShortcut(ShortcutAction.KeyCode.ENTER);
+        }).withStyleName(WebThemes.BUTTON_ACTION).withIcon(VaadinIcons.CLIPBOARD).withClickShortcut(ShortcutAction.KeyCode.ENTER);
 
         MHorizontalLayout controlBtns = new MHorizontalLayout(acceptBtn, cancelBtn);
         previewBoxRight.with(controlBtns).withAlign(controlBtns, Alignment.TOP_LEFT);
@@ -128,30 +126,30 @@ public class LogoEditWindow extends MWindow {
         VerticalLayout currentPhotoBox = new VerticalLayout();
         Resource resource = new ByteArrayImageResource(
                 ImageUtil.convertImageToByteArray(originalImage), "image/png");
-        CropField cropField = new CropField(resource);
-        cropField.setImmediate(true);
-        cropField.setSelectionAspectRatio(150 / 28);
-        cropField.addValueChangeListener(valueChangeEvent -> {
-            VCropSelection newSelection = (VCropSelection) valueChangeEvent.getProperty().getValue();
-            int x1 = newSelection.getXTopLeft();
-            int y1 = newSelection.getYTopLeft();
-            int x2 = newSelection.getXBottomRight();
-            int y2 = newSelection.getYBottomRight();
-            if (x2 > x1 && y2 > y1) {
-                BufferedImage subImage = originalImage.getSubimage(x1, y1, (x2 - x1), (y2 - y1));
-                ByteArrayOutputStream outStream = new ByteArrayOutputStream();
-                try {
-                    ImageIO.write(subImage, "png", outStream);
-                    scaleImageData = outStream.toByteArray();
-                    displayPreviewImage();
-                } catch (IOException e) {
-                    LOG.error("Error while scale image: ", e);
-                }
-            }
-        });
+//        CropField cropField = new CropField(resource);
+//        cropField.setImmediate(true);
+//        cropField.setSelectionAspectRatio(150 / 28);
+//        cropField.addValueChangeListener(valueChangeEvent -> {
+//            VCropSelection newSelection = (VCropSelection) valueChangeEvent.getProperty().getValue();
+//            int x1 = newSelection.getXTopLeft();
+//            int y1 = newSelection.getYTopLeft();
+//            int x2 = newSelection.getXBottomRight();
+//            int y2 = newSelection.getYBottomRight();
+//            if (x2 > x1 && y2 > y1) {
+//                BufferedImage subImage = originalImage.getSubimage(x1, y1, (x2 - x1), (y2 - y1));
+//                ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+//                try {
+//                    ImageIO.write(subImage, "png", outStream);
+//                    scaleImageData = outStream.toByteArray();
+//                    displayPreviewImage();
+//                } catch (IOException e) {
+//                    LOG.error("Error while scale image: ", e);
+//                }
+//            }
+//        });
         currentPhotoBox.setWidth("650px");
         currentPhotoBox.setHeight("650px");
-        currentPhotoBox.addComponent(cropField);
+//        currentPhotoBox.addComponent(cropField);
         cropBox.addComponent(currentPhotoBox);
 
         content.with(previewBox, ELabel.hr(), cropBox);

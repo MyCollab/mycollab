@@ -21,7 +21,7 @@ import com.mycollab.core.MyCollabException;
 import com.mycollab.vaadin.AsyncInvoker;
 import com.mycollab.vaadin.mvp.AbstractVerticalPageView;
 import com.mycollab.vaadin.mvp.LazyPageView;
-import com.vaadin.shared.ui.label.ContentMode;
+import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.ui.Label;
 import org.vaadin.viritin.layouts.MWindow;
 

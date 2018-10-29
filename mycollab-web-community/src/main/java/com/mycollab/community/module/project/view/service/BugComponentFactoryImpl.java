@@ -31,10 +31,10 @@ import com.mycollab.module.project.view.service.BugComponentFactory;
 import com.mycollab.module.tracker.domain.SimpleBug;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.UIConstants;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.AbstractComponent;
 import org.springframework.stereotype.Service;
-import org.vaadin.teemu.VaadinIcons;
 
 import static com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 
@@ -63,10 +63,10 @@ public class BugComponentFactoryImpl implements BugComponentFactory {
     @Override
     public AbstractComponent createCommentsPopupField(SimpleBug bug) {
         if (bug.getNumComments() != null) {
-            return new MetaFieldBuilder().withCaptionAndIcon(FontAwesome.COMMENT_O, "" + bug.getNumComments())
+            return new MetaFieldBuilder().withCaptionAndIcon(VaadinIcons.COMMENT_O, "" + bug.getNumComments())
                     .withDescription(UserUIContext.getMessage(GenericI18Enum.OPT_COMMENTS)).build();
         } else {
-            return new MetaFieldBuilder().withCaptionAndIcon(FontAwesome.COMMENT_O, " 0")
+            return new MetaFieldBuilder().withCaptionAndIcon(VaadinIcons.COMMENT_O, " 0")
                     .withDescription(UserUIContext.getMessage(GenericI18Enum.OPT_COMMENTS)).build();
         }
     }
@@ -144,7 +144,7 @@ public class BugComponentFactoryImpl implements BugComponentFactory {
 
     @Override
     public AbstractComponent createNonbillableHoursPopupField(SimpleBug bug) {
-        return new MetaFieldBuilder().withCaptionAndIcon(FontAwesome.GIFT, "" + bug.getNonBillableHours())
+        return new MetaFieldBuilder().withCaptionAndIcon(VaadinIcons.GIFT, "" + bug.getNonBillableHours())
                 .withDescription(UserUIContext.getMessage(TimeTrackingI18nEnum.OPT_NON_BILLABLE_HOURS)).build();
     }
 

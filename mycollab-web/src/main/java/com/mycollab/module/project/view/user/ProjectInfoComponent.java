@@ -56,6 +56,7 @@ import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.mycollab.vaadin.web.ui.OptionPopupContent;
 import com.mycollab.vaadin.web.ui.SearchTextField;
 import com.mycollab.vaadin.web.ui.WebThemes;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
@@ -92,13 +93,13 @@ public class ProjectInfoComponent extends MHorizontalLayout {
                     new A(ProjectLinkGenerator.generateProjectMemberLink(project.getId(), project.getMemlead()))
                             .appendText(StringUtils.trim(project.getLeadFullName(), 30, true)))
                     .setTitle(project.getLeadFullName());
-            ELabel leadLbl = ELabel.html(UserUIContext.getMessage(ProjectI18nEnum.FORM_LEADER) + ": " + leadAvatar.write()).withWidthUndefined();
+            ELabel leadLbl = ELabel.html(UserUIContext.getMessage(ProjectI18nEnum.FORM_LEADER) + ": " + leadAvatar.write()).withUndefinedWidth();
             footer.with(leadLbl);
         }
         if (project.getHomepage() != null) {
             ELabel homepageLbl = ELabel.html(FontAwesome.WECHAT.getHtml() + " " + new A(project.getHomepage())
                     .appendText(project.getHomepage()).setTarget("_blank").write())
-                    .withStyleName(ValoTheme.LABEL_SMALL).withWidthUndefined();
+                    .withStyleName(ValoTheme.LABEL_SMALL).withUndefinedWidth();
             homepageLbl.setDescription(UserUIContext.getMessage(ProjectI18nEnum.FORM_HOME_PAGE));
         }
 
@@ -114,7 +115,7 @@ public class ProjectInfoComponent extends MHorizontalLayout {
             clientDiv.appendChild(new A(ProjectLinkGenerator.generateClientPreviewLink(project.getAccountid()))
                     .appendText(StringUtils.trim(project.getClientName(), 30, true)));
             ELabel accountBtn = ELabel.html(clientDiv.write()).withStyleName(WebThemes.BUTTON_LINK)
-                    .withWidthUndefined();
+                    .withUndefinedWidth();
             footer.addComponents(accountBtn);
         }
 
@@ -170,7 +171,7 @@ public class ProjectInfoComponent extends MHorizontalLayout {
 
             final PopupButton controlsBtn = new PopupButton();
             controlsBtn.addStyleName(WebThemes.BOX);
-            controlsBtn.setIcon(FontAwesome.ELLIPSIS_H);
+            controlsBtn.setIcon(VaadinIcons.ELLIPSIS_H);
 
             OptionPopupContent popupButtonsControl = new OptionPopupContent();
 
@@ -185,7 +186,7 @@ public class ProjectInfoComponent extends MHorizontalLayout {
             MButton settingBtn = new MButton(UserUIContext.getMessage(ProjectCommonI18nEnum.VIEW_SETTINGS), clickEvent -> {
                 controlsBtn.setPopupVisible(false);
                 EventBusFactory.getInstance().post(new ProjectNotificationEvent.GotoList(this, null));
-            }).withIcon(FontAwesome.COG);
+            }).withIcon(VaadinIcons.COG);
             popupButtonsControl.addOption(settingBtn);
 
             popupButtonsControl.addSeparator();
@@ -239,7 +240,7 @@ public class ProjectInfoComponent extends MHorizontalLayout {
                                     EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain));
                                 }
                             });
-                }).withIcon(FontAwesome.ARCHIVE);
+                }).withIcon(VaadinIcons.ARCHIVE);
                 popupButtonsControl.addOption(archiveProjectBtn);
             }
 
@@ -260,7 +261,7 @@ public class ProjectInfoComponent extends MHorizontalLayout {
                                     EventBusFactory.getInstance().post(new ShellEvent.GotoProjectModule(this, null));
                                 }
                             });
-                }).withIcon(FontAwesome.TRASH_O);
+                }).withIcon(VaadinIcons.TRASH);
                 popupButtonsControl.addDangerOption(deleteProjectBtn);
             }
 

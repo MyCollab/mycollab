@@ -16,7 +16,7 @@
  */
 package com.mycollab.module.crm.fielddef
 
-import com.mycollab.common.TableViewField
+import com.mycollab.common.GridFieldMeta
 import com.mycollab.common.i18n.GenericI18Enum
 import com.mycollab.module.crm.i18n.CaseI18nEnum
 import com.mycollab.vaadin.web.ui.WebUIConstants
@@ -27,44 +27,44 @@ import com.mycollab.vaadin.web.ui.WebUIConstants
  */
 object CaseTableFieldDef {
     @JvmField
-    val selected = TableViewField(null, "selected", WebUIConstants.TABLE_CONTROL_WIDTH)
+    val selected = GridFieldMeta(null, "selected", WebUIConstants.TABLE_CONTROL_WIDTH)
 
     @JvmField
-    val action = TableViewField(null, "id", -1)
+    val action = GridFieldMeta(null, "id", -1)
 
     @JvmField
-    val priority = TableViewField(CaseI18nEnum.FORM_PRIORITY, "priority", WebUIConstants.TABLE_S_LABEL_WIDTH)
+    val priority = GridFieldMeta(CaseI18nEnum.FORM_PRIORITY, "priority", WebUIConstants.TABLE_S_LABEL_WIDTH)
 
     @JvmField
-    val status = TableViewField(GenericI18Enum.FORM_STATUS, "status", WebUIConstants.TABLE_M_LABEL_WIDTH)
+    val status = GridFieldMeta(GenericI18Enum.FORM_STATUS, "status", WebUIConstants.TABLE_M_LABEL_WIDTH)
 
     @JvmField
-    val account = TableViewField(CaseI18nEnum.FORM_ACCOUNT, "accountName", WebUIConstants.TABLE_X_LABEL_WIDTH)
+    val account = GridFieldMeta(CaseI18nEnum.FORM_ACCOUNT, "accountName", WebUIConstants.TABLE_X_LABEL_WIDTH)
 
     @JvmField
-    val origin = TableViewField(CaseI18nEnum.FORM_ORIGIN, "origin", WebUIConstants.TABLE_M_LABEL_WIDTH)
+    val origin = GridFieldMeta(CaseI18nEnum.FORM_ORIGIN, "origin", WebUIConstants.TABLE_M_LABEL_WIDTH)
 
     @JvmField
-    val phone = TableViewField(GenericI18Enum.FORM_PHONE, "phonenumber", WebUIConstants.TABLE_M_LABEL_WIDTH)
+    val phone = GridFieldMeta(GenericI18Enum.FORM_PHONE, "phonenumber", WebUIConstants.TABLE_M_LABEL_WIDTH)
 
     @JvmField
-    val type = TableViewField(GenericI18Enum.FORM_TYPE, "type", WebUIConstants.TABLE_M_LABEL_WIDTH)
+    val type = GridFieldMeta(GenericI18Enum.FORM_TYPE, "type", WebUIConstants.TABLE_M_LABEL_WIDTH)
 
     @JvmField
-    val reason = TableViewField(CaseI18nEnum.FORM_REASON, "reason", WebUIConstants.TABLE_EX_LABEL_WIDTH)
+    val reason = GridFieldMeta(CaseI18nEnum.FORM_REASON, "reason", WebUIConstants.TABLE_EX_LABEL_WIDTH)
 
     @JvmField
-    val subject = TableViewField(CaseI18nEnum.FORM_SUBJECT, "subject", WebUIConstants.TABLE_EX_LABEL_WIDTH)
+    val subject = GridFieldMeta(CaseI18nEnum.FORM_SUBJECT, "subject", WebUIConstants.TABLE_EX_LABEL_WIDTH)
 
     @JvmField
-    val email = TableViewField(GenericI18Enum.FORM_EMAIL, "email", WebUIConstants.TABLE_EMAIL_WIDTH)
+    val email = GridFieldMeta(GenericI18Enum.FORM_EMAIL, "email", WebUIConstants.TABLE_EMAIL_WIDTH)
 
     @JvmField
-    val assignUser = TableViewField(GenericI18Enum.FORM_ASSIGNEE, "assignUserFullName", WebUIConstants.TABLE_X_LABEL_WIDTH)
+    val assignUser = GridFieldMeta(GenericI18Enum.FORM_ASSIGNEE, "assignUserFullName", WebUIConstants.TABLE_X_LABEL_WIDTH)
 
     @JvmField
-    val createdTime = TableViewField(GenericI18Enum.FORM_CREATED_TIME, "createdtime", WebUIConstants.TABLE_DATE_TIME_WIDTH)
+    val createdTime = GridFieldMeta(GenericI18Enum.FORM_CREATED_TIME, "createdtime", WebUIConstants.TABLE_DATE_TIME_WIDTH)
 
     @JvmField
-    val lastUpdatedTime = TableViewField(GenericI18Enum.FORM_LAST_UPDATED_TIME, "lastupdatedtime", WebUIConstants.TABLE_DATE_TIME_WIDTH)
+    val lastUpdatedTime = GridFieldMeta(GenericI18Enum.FORM_LAST_UPDATED_TIME, "lastupdatedtime", WebUIConstants.TABLE_DATE_TIME_WIDTH)
 }

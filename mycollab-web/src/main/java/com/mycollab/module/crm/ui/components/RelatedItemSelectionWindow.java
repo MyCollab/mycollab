@@ -18,7 +18,7 @@ package com.mycollab.module.crm.ui.components;
 
 import com.mycollab.core.MyCollabException;
 import com.mycollab.db.arguments.SearchCriteria;
-import com.mycollab.vaadin.web.ui.table.IPagedBeanTable;
+import com.mycollab.vaadin.web.ui.table.IPagedGrid;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 import org.vaadin.viritin.layouts.MWindow;
@@ -38,7 +38,7 @@ public abstract class RelatedItemSelectionWindow<T, S extends SearchCriteria> ex
     private Set selectedItems = new HashSet();
 
     protected MVerticalLayout bodyContent;
-    protected IPagedBeanTable<S, T> tableItem;
+    protected IPagedGrid<S, T> tableItem;
 
     public RelatedItemSelectionWindow(String title, RelatedListComp2 relatedList) {
         super(title);

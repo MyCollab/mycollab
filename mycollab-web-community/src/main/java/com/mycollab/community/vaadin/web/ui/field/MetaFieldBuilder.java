@@ -45,6 +45,6 @@ public class MetaFieldBuilder {
     }
 
     public AbstractComponent build() {
-        return ELabel.html(captionHtml).withDescription(description).withStyleName("block-popupedit").withWidthUndefined();
+        return ELabel.html(captionHtml).withDescription(description).withStyleName("block-popupedit").withUndefinedWidth();
     }
 }

@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -30,7 +30,7 @@ import com.mycollab.vaadin.mvp.AbstractVerticalPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.web.ui.DefaultBeanPagedList;
-import com.vaadin.server.FontAwesome;
+import com.vaadin.icons.VaadinIcons;
 
 /**
  * @author MyCollab Ltd.
@@ -59,7 +59,7 @@ public class ProjectSearchItemsViewImpl extends AbstractVerticalPageView impleme
         criteria.setPrjKeys(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
         criteria.setTxtValue(StringSearchField.and(value));
         int foundNum = searchItemsTable.setSearchCriteria(criteria);
-        headerLbl.setValue(String.format(FontAwesome.SEARCH.getHtml() + " " + UserUIContext.getMessage(ProjectI18nEnum.OPT_SEARCH_TERM)
+        headerLbl.setValue(String.format(VaadinIcons.SEARCH.getHtml() + " " + UserUIContext.getMessage(ProjectI18nEnum.OPT_SEARCH_TERM)
                 , value, foundNum));
     }
 }

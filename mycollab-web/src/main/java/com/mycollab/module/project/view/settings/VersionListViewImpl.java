@@ -1,31 +1,29 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package com.mycollab.module.project.view.settings;
 
-import com.mycollab.common.TableViewField;
+import com.mycollab.common.GridFieldMeta;
 import com.mycollab.common.i18n.GenericI18Enum;
-import com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
-import com.mycollab.module.project.*;
+import com.mycollab.module.project.CurrentProjectVariables;
+import com.mycollab.module.project.ProjectRolePermissionCollections;
 import com.mycollab.module.tracker.domain.SimpleVersion;
-import com.mycollab.module.tracker.domain.Version;
 import com.mycollab.module.tracker.domain.criteria.VersionSearchCriteria;
 import com.mycollab.module.tracker.service.VersionService;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.event.HasMassItemActionHandler;
 import com.mycollab.vaadin.event.HasSearchHandlers;
@@ -34,28 +32,29 @@ import com.mycollab.vaadin.event.HasSelectionOptionHandlers;
 import com.mycollab.vaadin.mvp.AbstractVerticalPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.DefaultMassItemActionHandlerContainer;
-import com.mycollab.vaadin.ui.ELabel;
-import com.mycollab.vaadin.web.ui.*;
-import com.mycollab.vaadin.web.ui.table.AbstractPagedBeanTable;
-import com.mycollab.vaadin.web.ui.table.DefaultPagedBeanTable;
+import com.mycollab.vaadin.web.ui.SelectionOptionButton;
+import com.mycollab.vaadin.web.ui.WebThemes;
+import com.mycollab.vaadin.web.ui.WebUIConstants;
+import com.mycollab.vaadin.web.ui.table.AbstractPagedGrid;
+import com.mycollab.vaadin.web.ui.table.DefaultPagedGrid;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 import java.util.Arrays;
-import java.util.GregorianCalendar;
 
 /**
  * @author MyCollab Ltd.
  * @since 1.0
  */
+// TODO
 @ViewComponent
 public class VersionListViewImpl extends AbstractVerticalPageView implements VersionListView {
     private static final long serialVersionUID = 1L;
 
     private final VersionSearchPanel versionSearchPanel;
     private SelectionOptionButton selectOptionButton;
-    private DefaultPagedBeanTable<VersionService, VersionSearchCriteria, SimpleVersion> tableItem;
+    private DefaultPagedGrid<VersionService, VersionSearchCriteria, SimpleVersion> tableItem;
     private VerticalLayout versionListLayout;
     private DefaultMassItemActionHandlerContainer tableActionControls;
     private Label selectedItemsNumberLabel = new Label();
@@ -69,57 +68,57 @@ public class VersionListViewImpl extends AbstractVerticalPageView implements Ver
     }
 
     private void generateDisplayTable() {
-        tableItem = new DefaultPagedBeanTable<>(AppContextUtil.getSpringBean(VersionService.class),
+        tableItem = new DefaultPagedGrid<>(AppContextUtil.getSpringBean(VersionService.class),
                 SimpleVersion.class,
-                new TableViewField(null, "selected", WebUIConstants.TABLE_CONTROL_WIDTH),
-                Arrays.asList(new TableViewField(GenericI18Enum.FORM_NAME, "name", WebUIConstants.TABLE_EX_LABEL_WIDTH),
-                        new TableViewField(GenericI18Enum.FORM_STATUS, "status", WebUIConstants.TABLE_M_LABEL_WIDTH),
-                        new TableViewField(GenericI18Enum.FORM_DESCRIPTION, "description", 2 * WebUIConstants.TABLE_EX_LABEL_WIDTH),
-                        new TableViewField(GenericI18Enum.FORM_DUE_DATE, "duedate", WebUIConstants.TABLE_DATE_TIME_WIDTH),
-                        new TableViewField(GenericI18Enum.FORM_PROGRESS, "id", WebUIConstants.TABLE_M_LABEL_WIDTH)));
+                new GridFieldMeta(null, "selected", WebUIConstants.TABLE_CONTROL_WIDTH),
+                Arrays.asList(new GridFieldMeta(GenericI18Enum.FORM_NAME, "name", WebUIConstants.TABLE_EX_LABEL_WIDTH),
+                        new GridFieldMeta(GenericI18Enum.FORM_STATUS, "status", WebUIConstants.TABLE_M_LABEL_WIDTH),
+                        new GridFieldMeta(GenericI18Enum.FORM_DESCRIPTION, "description", 2 * WebUIConstants.TABLE_EX_LABEL_WIDTH),
+                        new GridFieldMeta(GenericI18Enum.FORM_DUE_DATE, "duedate", WebUIConstants.TABLE_DATE_TIME_WIDTH),
+                        new GridFieldMeta(GenericI18Enum.FORM_PROGRESS, "id", WebUIConstants.TABLE_M_LABEL_WIDTH)));
 
-        tableItem.addGeneratedColumn("selected", (source, itemId, columnId) -> {
-            final SimpleVersion version = tableItem.getBeanByIndex(itemId);
-            final CheckBoxDecor cb = new CheckBoxDecor("", version.isSelected());
-            cb.setImmediate(true);
-            cb.addValueChangeListener(valueChangeEvent -> tableItem.fireSelectItemEvent(version));
-            version.setExtraData(cb);
-            return cb;
-        });
-
-        tableItem.addGeneratedColumn("name", (source, itemId, columnId) -> {
-            final Version version = tableItem.getBeanByIndex(itemId);
-            final LabelLink b = new LabelLink(version.getName(), ProjectLinkGenerator
-                    .generateBugVersionPreviewLink(version.getProjectid(), version.getId()));
-            if (version.getStatus() != null && version.getStatus().equals(StatusI18nEnum.Closed.name())) {
-                b.addStyleName(WebThemes.LINK_COMPLETED);
-            } else if (version.getDuedate() != null && (version.getDuedate().before(new GregorianCalendar().getTime()))) {
-                b.addStyleName(WebThemes.LINK_OVERDUE);
-            }
-            b.setDescription(ProjectTooltipGenerator.generateToolTipVersion(UserUIContext.getUserLocale(), AppUI.getDateFormat(),
-                    version, AppUI.getSiteUrl(), UserUIContext.getUserTimeZone()));
-            return b;
-        });
-
-        tableItem.addGeneratedColumn("duedate", (source, itemId, columnId) -> {
-            final Version bugVersion = tableItem.getBeanByIndex(itemId);
-            return new ELabel().prettyDate(bugVersion.getDuedate());
-        });
-
-        tableItem.addGeneratedColumn("id", (source, itemId, columnId) -> {
-            SimpleVersion version = tableItem.getBeanByIndex(itemId);
-            return new ProgressBarIndicator(version.getNumBugs(), version.getNumOpenBugs(), false);
-        });
-
-        tableItem.addGeneratedColumn("status", (source, itemId, columnId) -> {
-            SimpleVersion version = tableItem.getBeanByIndex(itemId);
-            return ELabel.i18n(version.getStatus(), StatusI18nEnum.class);
-        });
-
-        tableItem.addGeneratedColumn("description", (source, itemId, columnId) -> {
-            SimpleVersion version = tableItem.getBeanByIndex(itemId);
-            return ELabel.richText(version.getDescription());
-        });
+//        gridItem.addGeneratedColumn("selected", (source, itemId, columnId) -> {
+//            final SimpleVersion version = gridItem.getBeanByIndex(itemId);
+//            final CheckBoxDecor cb = new CheckBoxDecor("", version.isSelected());
+//            cb.setImmediate(true);
+//            cb.addValueChangeListener(valueChangeEvent -> gridItem.fireSelectItemEvent(version));
+//            version.setExtraData(cb);
+//            return cb;
+//        });
+//
+//        gridItem.addGeneratedColumn("name", (source, itemId, columnId) -> {
+//            final Version version = gridItem.getBeanByIndex(itemId);
+//            final LabelLink b = new LabelLink(version.getName(), ProjectLinkGenerator
+//                    .generateBugVersionPreviewLink(version.getProjectid(), version.getId()));
+//            if (version.getStatus() != null && version.getStatus().equals(StatusI18nEnum.Closed.name())) {
+//                b.addStyleName(WebThemes.LINK_COMPLETED);
+//            } else if (version.getDuedate() != null && (version.getDuedate().before(new GregorianCalendar().getTime()))) {
+//                b.addStyleName(WebThemes.LINK_OVERDUE);
+//            }
+//            b.setDescription(ProjectTooltipGenerator.generateToolTipVersion(UserUIContext.getUserLocale(), AppUI.getDateFormat(),
+//                    version, AppUI.getSiteUrl(), UserUIContext.getUserTimeZone()));
+//            return b;
+//        });
+//
+//        gridItem.addGeneratedColumn("duedate", (source, itemId, columnId) -> {
+//            final Version bugVersion = gridItem.getBeanByIndex(itemId);
+//            return new ELabel().prettyDate(bugVersion.getDuedate());
+//        });
+//
+//        gridItem.addGeneratedColumn("id", (source, itemId, columnId) -> {
+//            SimpleVersion version = gridItem.getBeanByIndex(itemId);
+//            return new ProgressBarIndicator(version.getNumBugs(), version.getNumOpenBugs(), false);
+//        });
+//
+//        gridItem.addGeneratedColumn("status", (source, itemId, columnId) -> {
+//            SimpleVersion version = gridItem.getBeanByIndex(itemId);
+//            return ELabel.i18n(version.getStatus(), StatusI18nEnum.class);
+//        });
+//
+//        gridItem.addGeneratedColumn("description", (source, itemId, columnId) -> {
+//            SimpleVersion version = gridItem.getBeanByIndex(itemId);
+//            return ELabel.richText(version.getDescription());
+//        });
 
         tableItem.setWidth("100%");
 
@@ -193,7 +192,7 @@ public class VersionListViewImpl extends AbstractVerticalPageView implements Ver
     }
 
     @Override
-    public AbstractPagedBeanTable<VersionSearchCriteria, SimpleVersion> getPagedBeanTable() {
+    public AbstractPagedGrid<VersionSearchCriteria, SimpleVersion> getPagedBeanGrid() {
         return this.tableItem;
     }
 }

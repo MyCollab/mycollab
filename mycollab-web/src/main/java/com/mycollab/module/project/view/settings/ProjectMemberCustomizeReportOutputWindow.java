@@ -16,7 +16,7 @@
  */
 package com.mycollab.module.project.view.settings;
 
-import com.mycollab.common.TableViewField;
+import com.mycollab.common.GridFieldMeta;
 import com.mycollab.db.query.VariableInjector;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.domain.SimpleProjectMember;
@@ -42,13 +42,13 @@ public class ProjectMemberCustomizeReportOutputWindow extends CustomizeReportOut
     }
 
     @Override
-    protected Collection<TableViewField> getDefaultColumns() {
+    protected Collection<GridFieldMeta> getDefaultColumns() {
         return Arrays.asList(ProjectMemberTableFieldDef.memberName, ProjectMemberTableFieldDef.roleName,
                 ProjectMemberTableFieldDef.billingRate, ProjectMemberTableFieldDef.overtimeRate);
     }
 
     @Override
-    protected Collection<TableViewField> getAvailableColumns() {
+    protected Collection<GridFieldMeta> getAvailableColumns() {
         return Arrays.asList(ProjectMemberTableFieldDef.projectName, ProjectMemberTableFieldDef.memberName,
                 ProjectMemberTableFieldDef.roleName, ProjectMemberTableFieldDef.numOpenTasks,
                 ProjectMemberTableFieldDef.numOpenBugs, ProjectMemberTableFieldDef.totalBillableLogTime,

@@ -22,7 +22,7 @@ import com.mycollab.vaadin.event.HasSearchHandlers;
 import com.mycollab.vaadin.event.HasSelectableItemHandlers;
 import com.mycollab.vaadin.event.HasSelectionOptionHandlers;
 import com.mycollab.vaadin.mvp.PageView;
-import com.mycollab.vaadin.web.ui.table.IPagedBeanTable;
+import com.mycollab.vaadin.web.ui.table.IPagedGrid;
 
 /**
  * @param <S>
@@ -43,7 +43,7 @@ public interface IListView<S extends SearchCriteria, B> extends PageView {
 
     HasSelectableItemHandlers<B> getSelectableItemHandlers();
 
-    IPagedBeanTable<S, B> getPagedBeanTable();
+    IPagedGrid<S, B> getPagedBeanGrid();
 
     void showNoItemView();
 }

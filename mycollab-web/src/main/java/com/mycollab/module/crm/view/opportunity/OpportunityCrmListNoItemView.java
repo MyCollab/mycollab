@@ -26,6 +26,7 @@ import com.mycollab.module.crm.ui.components.CrmListNoItemView;
 import com.mycollab.security.RolePermissionCollections;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -39,7 +40,7 @@ public class OpportunityCrmListNoItemView extends CrmListNoItemView {
     private static final long serialVersionUID = 1L;
 
     @Override
-    protected FontAwesome titleIcon() {
+    protected VaadinIcons titleIcon() {
         return CrmAssetsManager.getAsset(CrmTypeConstants.OPPORTUNITY);
     }
 

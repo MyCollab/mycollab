@@ -1,26 +1,24 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package com.mycollab.vaadin.ui;
 
 import com.mycollab.core.MyCollabException;
+import com.vaadin.data.HasValue;
 import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.Field;
-
-import static com.mycollab.core.utils.BeanUtility.deepClone;
 
 /**
  * @param <B>
@@ -32,25 +30,10 @@ public class GenericBeanForm<B> extends CssLayout {
 
     private IFormLayoutFactory layoutFactory;
     protected IBeanFieldGroupFieldFactory<B> fieldFactory;
-
-    private boolean isValid;
     protected B bean;
 
     public GenericBeanForm() {
-        super();
         this.setWidth("100%");
-    }
-
-    /**
-     * Disable form validation bean. This is used to switch views of forms and keep the previous values of bean
-     * without validation. You should be careful to use this method
-     *
-     * @param isBuffered
-     */
-    public void setFormBuffered(boolean isBuffered) {
-        if (fieldFactory != null) {
-            fieldFactory.setBuffered(isBuffered);
-        }
     }
 
     public void setFormLayoutFactory(IFormLayoutFactory layoutFactory) {
@@ -90,15 +73,7 @@ public class GenericBeanForm<B> extends CssLayout {
         fieldFactory.commit();
     }
 
-    public void attachField(Object propertyId, Field<?> field) {
+    public void attachField(Object propertyId, HasValue<?> field) {
         layoutFactory.attachField(propertyId, field);
-    }
-
-    public void setValid(boolean value) {
-        isValid = value;
-    }
-
-    protected boolean isValid() {
-        return this.isValid;
     }
 }

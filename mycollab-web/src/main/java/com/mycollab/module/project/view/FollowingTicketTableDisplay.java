@@ -16,43 +16,20 @@
  */
 package com.mycollab.module.project.view;
 
-import com.hp.gagawa.java.elements.A;
-import com.hp.gagawa.java.elements.Div;
-import com.mycollab.core.utils.DateTimeUtils;
-import com.mycollab.module.project.ProjectLinkGenerator;
-import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.domain.FollowingTicket;
 import com.mycollab.module.project.domain.criteria.FollowingTicketSearchCriteria;
-import com.mycollab.module.project.event.ProjectEvent;
 import com.mycollab.module.project.service.ProjectFollowingTicketService;
-import com.mycollab.module.project.ui.ProjectAssetsManager;
-import com.mycollab.module.project.view.parameters.BugScreenData;
-import com.mycollab.module.project.view.parameters.ProjectScreenData;
-import com.mycollab.module.project.view.parameters.RiskScreenData;
-import com.mycollab.module.project.view.parameters.TaskScreenData;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.EventBusFactory;
-import com.mycollab.vaadin.mvp.PageActionChain;
-import com.mycollab.vaadin.ui.ELabel;
-import com.mycollab.vaadin.ui.UIConstants;
-import com.mycollab.vaadin.web.ui.UserLink;
-import com.mycollab.vaadin.web.ui.WebThemes;
-import com.mycollab.vaadin.web.ui.table.DefaultPagedBeanTable;
-import com.vaadin.shared.ui.label.ContentMode;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
-import org.vaadin.viritin.button.MButton;
+import com.mycollab.vaadin.web.ui.table.DefaultPagedGrid;
 
 import java.util.Arrays;
-import java.util.GregorianCalendar;
-
-import static com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 
 /**
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class FollowingTicketTableDisplay extends DefaultPagedBeanTable<ProjectFollowingTicketService, FollowingTicketSearchCriteria, FollowingTicket> {
+// TODO
+public class FollowingTicketTableDisplay extends DefaultPagedGrid<ProjectFollowingTicketService, FollowingTicketSearchCriteria, FollowingTicket> {
     private static final long serialVersionUID = 1L;
 
     public FollowingTicketTableDisplay() {
@@ -60,91 +37,91 @@ public class FollowingTicketTableDisplay extends DefaultPagedBeanTable<ProjectFo
                 FollowingTicket.class, Arrays.asList(FollowingTicketFieldDef.summary,
                         FollowingTicketFieldDef.project, FollowingTicketFieldDef.assignee, FollowingTicketFieldDef.createdDate));
 
-        this.addGeneratedColumn("name", (source, itemId, columnId) -> {
-            final FollowingTicket ticket = getBeanByIndex(itemId);
-            final MButton ticketLink = new MButton(ticket.getName()).withStyleName(WebThemes.BUTTON_LINK);
-
-            if (ProjectTypeConstants.BUG.equals(ticket.getType())) {
-                ticketLink.setIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG));
-
-                if (StatusI18nEnum.Verified.name().equals(ticket.getStatus())) {
-                    ticketLink.addStyleName(WebThemes.LINK_COMPLETED);
-                } else if (ticket.getDueDate() != null && ticket.getDueDate().before(DateTimeUtils.getCurrentDateWithoutMS())) {
-                    ticketLink.addStyleName(WebThemes.LINK_OVERDUE);
-                }
-
-                ticketLink.addClickListener(clickEvent -> {
-                    int projectId = ticket.getProjectId();
-                    int bugId = ticket.getTypeId();
-                    PageActionChain chain = new PageActionChain(new ProjectScreenData.Goto(projectId),
-                            new BugScreenData.Read(bugId));
-                    EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain));
-                });
-            } else if (ProjectTypeConstants.TASK.equals(ticket.getType())) {
-                ticketLink.setIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.TASK));
-
-                if ("Closed".equals(ticket.getStatus())) {
-                    ticketLink.addStyleName(WebThemes.LINK_COMPLETED);
-                } else {
-                    if ("Pending".equals(ticket.getStatus())) {
-                        ticketLink.addStyleName(WebThemes.LINK_PENDING);
-                    } else if (ticket.getDueDate() != null && ticket.getDueDate().before(new GregorianCalendar().getTime())) {
-                        ticketLink.addStyleName(WebThemes.LINK_OVERDUE);
-                    }
-                }
-
-                ticketLink.addClickListener(clickEvent -> {
-                    int projectId = ticket.getProjectId();
-                    int taskId = ticket.getTypeId();
-                    PageActionChain chain = new PageActionChain(new ProjectScreenData.Goto(projectId), new TaskScreenData.Read(taskId));
-                    EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain));
-                });
-            } else if (ProjectTypeConstants.RISK.equals(ticket.getType())) {
-                ticketLink.setIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.RISK));
-
-                if ("Closed".equals(ticket.getStatus())) {
-                    ticketLink.addStyleName(WebThemes.LINK_COMPLETED);
-                } else {
-                    if ("Pending".equals(ticket.getStatus())) {
-                        ticketLink.addStyleName(WebThemes.LINK_PENDING);
-                    } else if (ticket.getDueDate() != null && ticket.getDueDate().before(new GregorianCalendar().getTime())) {
-                        ticketLink.addStyleName(WebThemes.LINK_OVERDUE);
-                    }
-                }
-
-                ticketLink.addClickListener(new Button.ClickListener() {
-                    private static final long serialVersionUID = 1L;
-
-                    @Override
-                    public void buttonClick(final ClickEvent event) {
-                        final int projectId = ticket.getProjectId();
-                        final int riskId = ticket.getTypeId();
-                        final PageActionChain chain = new PageActionChain(new ProjectScreenData.Goto(projectId),
-                                new RiskScreenData.Read(riskId));
-                        EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain));
-                    }
-                });
-            }
-
-            return ticketLink;
-        });
-
-        this.addGeneratedColumn("projectName", (source, itemId, columnId) -> {
-            final FollowingTicket ticket = getBeanByIndex(itemId);
-            Div projectLinkDiv = new Div().appendText(ProjectAssetsManager.getAsset(ProjectTypeConstants.PROJECT).getHtml() + " ")
-                    .appendChild(new A(ProjectLinkGenerator.generateProjectLink(ticket.getProjectId()))
-                            .appendText(ticket.getProjectName()));
-            return new ELabel(projectLinkDiv.write(), ContentMode.HTML).withStyleName(UIConstants.LABEL_WORD_WRAP);
-        });
-
-        this.addGeneratedColumn("assignUser", (source, itemId, columnId) -> {
-            FollowingTicket ticket = getBeanByIndex(itemId);
-            return new UserLink(ticket.getAssignUser(), ticket.getAssignUserAvatarId(), ticket.getAssignUserFullName());
-        });
-
-        this.addGeneratedColumn("monitorDate", (source, itemId, columnId) -> {
-            FollowingTicket ticket = FollowingTicketTableDisplay.this.getBeanByIndex(itemId);
-            return new ELabel().prettyDateTime(ticket.getMonitorDate());
-        });
+//        this.addGeneratedColumn("name", (source, itemId, columnId) -> {
+//            final FollowingTicket ticket = getBeanByIndex(itemId);
+//            final MButton ticketLink = new MButton(ticket.getName()).withStyleName(WebThemes.BUTTON_LINK);
+//
+//            if (ProjectTypeConstants.BUG.equals(ticket.getType())) {
+//                ticketLink.setIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG));
+//
+//                if (StatusI18nEnum.Verified.name().equals(ticket.getStatus())) {
+//                    ticketLink.addStyleName(WebThemes.LINK_COMPLETED);
+//                } else if (ticket.getDueDate() != null && ticket.getDueDate().before(DateTimeUtils.getCurrentDateWithoutMS())) {
+//                    ticketLink.addStyleName(WebThemes.LINK_OVERDUE);
+//                }
+//
+//                ticketLink.addClickListener(clickEvent -> {
+//                    int projectId = ticket.getProjectId();
+//                    int bugId = ticket.getTypeId();
+//                    PageActionChain chain = new PageActionChain(new ProjectScreenData.Goto(projectId),
+//                            new BugScreenData.Read(bugId));
+//                    EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain));
+//                });
+//            } else if (ProjectTypeConstants.TASK.equals(ticket.getType())) {
+//                ticketLink.setIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.TASK));
+//
+//                if ("Closed".equals(ticket.getStatus())) {
+//                    ticketLink.addStyleName(WebThemes.LINK_COMPLETED);
+//                } else {
+//                    if ("Pending".equals(ticket.getStatus())) {
+//                        ticketLink.addStyleName(WebThemes.LINK_PENDING);
+//                    } else if (ticket.getDueDate() != null && ticket.getDueDate().before(new GregorianCalendar().getTime())) {
+//                        ticketLink.addStyleName(WebThemes.LINK_OVERDUE);
+//                    }
+//                }
+//
+//                ticketLink.addClickListener(clickEvent -> {
+//                    int projectId = ticket.getProjectId();
+//                    int taskId = ticket.getTypeId();
+//                    PageActionChain chain = new PageActionChain(new ProjectScreenData.Goto(projectId), new TaskScreenData.Read(taskId));
+//                    EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain));
+//                });
+//            } else if (ProjectTypeConstants.RISK.equals(ticket.getType())) {
+//                ticketLink.setIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.RISK));
+//
+//                if ("Closed".equals(ticket.getStatus())) {
+//                    ticketLink.addStyleName(WebThemes.LINK_COMPLETED);
+//                } else {
+//                    if ("Pending".equals(ticket.getStatus())) {
+//                        ticketLink.addStyleName(WebThemes.LINK_PENDING);
+//                    } else if (ticket.getDueDate() != null && ticket.getDueDate().before(new GregorianCalendar().getTime())) {
+//                        ticketLink.addStyleName(WebThemes.LINK_OVERDUE);
+//                    }
+//                }
+//
+//                ticketLink.addClickListener(new Button.ClickListener() {
+//                    private static final long serialVersionUID = 1L;
+//
+//                    @Override
+//                    public void buttonClick(final ClickEvent event) {
+//                        final int projectId = ticket.getProjectId();
+//                        final int riskId = ticket.getTypeId();
+//                        final PageActionChain chain = new PageActionChain(new ProjectScreenData.Goto(projectId),
+//                                new RiskScreenData.Read(riskId));
+//                        EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain));
+//                    }
+//                });
+//            }
+//
+//            return ticketLink;
+//        });
+//
+//        this.addGeneratedColumn("projectName", (source, itemId, columnId) -> {
+//            final FollowingTicket ticket = getBeanByIndex(itemId);
+//            Div projectLinkDiv = new Div().appendText(ProjectAssetsManager.getAsset(ProjectTypeConstants.PROJECT).getHtml() + " ")
+//                    .appendChild(new A(ProjectLinkGenerator.generateProjectLink(ticket.getProjectId()))
+//                            .appendText(ticket.getProjectName()));
+//            return new ELabel(projectLinkDiv.write(), ContentMode.HTML).withStyleName(UIConstants.LABEL_WORD_WRAP);
+//        });
+//
+//        this.addGeneratedColumn("assignUser", (source, itemId, columnId) -> {
+//            FollowingTicket ticket = getBeanByIndex(itemId);
+//            return new UserLink(ticket.getAssignUser(), ticket.getAssignUserAvatarId(), ticket.getAssignUserFullName());
+//        });
+//
+//        this.addGeneratedColumn("monitorDate", (source, itemId, columnId) -> {
+//            FollowingTicket ticket = FollowingTicketTableDisplay.this.getBeanByIndex(itemId);
+//            return new ELabel().prettyDateTime(ticket.getMonitorDate());
+//        });
     }
 }

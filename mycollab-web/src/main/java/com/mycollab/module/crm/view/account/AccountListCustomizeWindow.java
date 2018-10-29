@@ -16,10 +16,10 @@
  */
 package com.mycollab.module.crm.view.account;
 
-import com.mycollab.common.TableViewField;
+import com.mycollab.common.GridFieldMeta;
 import com.mycollab.module.crm.CrmTypeConstants;
 import com.mycollab.module.crm.fielddef.AccountTableFieldDef;
-import com.mycollab.vaadin.web.ui.table.CustomizedTableWindow;
+import com.mycollab.vaadin.web.ui.table.CustomizedGridWindow;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -28,14 +28,14 @@ import java.util.Collection;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class AccountListCustomizeWindow extends CustomizedTableWindow {
+public class AccountListCustomizeWindow extends CustomizedGridWindow {
     private static final long serialVersionUID = 1L;
 
     public AccountListCustomizeWindow(AccountTableDisplay table) {
         super(CrmTypeConstants.ACCOUNT, table);
     }
 
-    protected Collection<TableViewField> getAvailableColumns() {
+    protected Collection<GridFieldMeta> getAvailableColumns() {
         return Arrays.asList(AccountTableFieldDef.accountname,
                 AccountTableFieldDef.assignUser, AccountTableFieldDef.city,
                 AccountTableFieldDef.email, AccountTableFieldDef.phoneoffice,

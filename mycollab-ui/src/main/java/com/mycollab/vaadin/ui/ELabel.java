@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -20,8 +20,8 @@ import com.google.common.base.MoreObjects;
 import com.hp.gagawa.java.elements.A;
 import com.mycollab.core.utils.StringUtils;
 import com.mycollab.vaadin.UserUIContext;
-import com.vaadin.server.FontAwesome;
-import com.vaadin.shared.ui.label.ContentMode;
+import com.vaadin.icons.VaadinIcons;
+import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.themes.ValoTheme;
 
@@ -54,11 +54,11 @@ public class ELabel extends Label {
         return this;
     }
 
-    public ELabel withWidthUndefined() {
+    public ELabel withUndefinedWidth() {
         return withWidth("-1px");
     }
 
-    public ELabel withHeightUndefined() {
+    public ELabel withUndefinedHeight() {
         return withHeight("-1px");
     }
 
@@ -124,12 +124,12 @@ public class ELabel extends Label {
         return ELabel.html(value).withStyleName(ValoTheme.LABEL_H3, ValoTheme.LABEL_NO_MARGIN);
     }
 
-    public static ELabel fontIcon(FontAwesome icon) {
-        return ELabel.html(icon.getHtml()).withWidthUndefined();
+    public static ELabel fontIcon(VaadinIcons icon) {
+        return ELabel.html(icon.getHtml()).withUndefinedWidth();
     }
 
     public static ELabel EMPTY_SPACE() {
-        return ELabel.html("&nbsp;").withWidthUndefined();
+        return ELabel.html("&nbsp;").withUndefinedWidth();
     }
 
     public static ELabel hr() {

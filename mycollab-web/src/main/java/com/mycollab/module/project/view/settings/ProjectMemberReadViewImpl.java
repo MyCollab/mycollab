@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -55,9 +55,10 @@ import com.mycollab.vaadin.web.ui.Depot;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.mycollab.vaadin.web.ui.field.LinkViewField;
 import com.mycollab.vaadin.web.ui.field.UserLinkViewField;
-import com.vaadin.server.FontAwesome;
+import com.vaadin.data.HasValue;
+import com.vaadin.icons.VaadinIcons;
+import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MCssLayout;
@@ -80,7 +81,7 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
     private MHorizontalLayout bottomLayout;
 
     public ProjectMemberReadViewImpl() {
-        super(UserUIContext.getMessage(ProjectMemberI18nEnum.DETAIL), FontAwesome.USER);
+        super(UserUIContext.getMessage(ProjectMemberI18nEnum.DETAIL), VaadinIcons.USER);
 
         previewForm = initPreviewForm();
         previewForm.setWidth("100%");
@@ -168,7 +169,7 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
 
             MVerticalLayout memberInfo = new MVerticalLayout().withMargin(new MarginInfo(false, false, false, true));
 
-            ELabel memberLink = ELabel.h3(beanItem.getMemberFullName()).withWidthUndefined();
+            ELabel memberLink = ELabel.h3(beanItem.getMemberFullName()).withUndefinedWidth();
             MButton editNotificationBtn = new MButton(UserUIContext.getMessage(ProjectCommonI18nEnum
                     .ACTION_EDIT_NOTIFICATION), clickEvent -> UI.getCurrent().addWindow(new NotificationSettingWindow(beanItem)))
                     .withStyleName(WebThemes.BUTTON_LINK).withVisible(CurrentProjectVariables.canAccess
@@ -177,7 +178,7 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
 
             String memberRoleLinkPrefix = String.format("<a href=\"%s%s%s\"", AppUI.getSiteUrl(), GenericLinkUtils.URL_PREFIX_PARAM,
                     ProjectLinkGenerator.generateRolePreviewLink(beanItem.getProjectid(), beanItem.getProjectroleid()));
-            ELabel memberRole = new ELabel(ContentMode.HTML).withStyleName(UIConstants.META_INFO).withWidthUndefined();
+            ELabel memberRole = new ELabel(ContentMode.HTML).withStyleName(UIConstants.META_INFO).withUndefinedWidth();
             if (Boolean.TRUE.equals(beanItem.getIsadmin()) || beanItem.getProjectroleid() == null) {
                 memberRole.setValue(String.format("%sstyle=\"color: #B00000;\">%s</a>", memberRoleLinkPrefix,
                         UserUIContext.getMessage(ProjectRoleI18nEnum.OPT_ADMIN_ROLE_DISPLAY)));
@@ -206,8 +207,8 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
                     ProjectAssetsManager.getAsset(ProjectTypeConstants.TASK).getHtml(),
                     new Span().appendText("" + beanItem.getNumOpenTasks()).setTitle(UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_OPEN_TASKS)),
                     ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG).getHtml(), new Span().appendText("" + beanItem
-                            .getNumOpenBugs()).setTitle(UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_OPEN_BUGS)), FontAwesome.MONEY.getHtml(), new Span().appendText("" + NumberUtils.roundDouble(2,
-                            beanItem.getTotalBillableLogTime())).setTitle(UserUIContext.getMessage(TimeTrackingI18nEnum.OPT_BILLABLE_HOURS)), FontAwesome.GIFT.getHtml(), new Span().appendText("" + NumberUtils.roundDouble(2, beanItem.getTotalNonBillableLogTime()
+                            .getNumOpenBugs()).setTitle(UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_OPEN_BUGS)), VaadinIcons.MONEY.getHtml(), new Span().appendText("" + NumberUtils.roundDouble(2,
+                            beanItem.getTotalBillableLogTime())).setTitle(UserUIContext.getMessage(TimeTrackingI18nEnum.OPT_BILLABLE_HOURS)), VaadinIcons.GIFT.getHtml(), new Span().appendText("" + NumberUtils.roundDouble(2, beanItem.getTotalNonBillableLogTime()
                     )).setTitle(UserUIContext.getMessage(TimeTrackingI18nEnum.OPT_NON_BILLABLE_HOURS)));
 
             Label memberWorkStatus = ELabel.html(memberWorksInfo).withStyleName(UIConstants.META_INFO);
@@ -222,7 +223,7 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
         }
 
         @Override
-        protected Component onAttachField(Object propertyId, Field<?> field) {
+        protected HasValue<?> onAttachField(Object propertyId, HasValue<?> field) {
             return null;
         }
 
@@ -236,7 +237,7 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
         }
 
         @Override
-        protected Field<?> onCreateField(final Object propertyId) {
+        protected HasValue<?> onCreateField(final Object propertyId) {
             SimpleProjectMember projectMember = attachForm.getBean();
             if (propertyId.equals("projectroleid")) {
                 if (Boolean.FALSE.equals(attachForm.getBean().getIsadmin())) {

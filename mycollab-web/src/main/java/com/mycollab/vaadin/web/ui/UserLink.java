@@ -24,7 +24,7 @@ import com.mycollab.module.file.StorageUtils;
 import com.mycollab.module.user.AccountLinkGenerator;
 import com.mycollab.vaadin.TooltipHelper;
 import com.mycollab.vaadin.ui.UIConstants;
-import com.vaadin.shared.ui.label.ContentMode;
+import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.ui.Label;
 
 /**

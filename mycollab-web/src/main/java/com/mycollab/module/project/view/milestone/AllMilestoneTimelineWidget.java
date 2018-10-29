@@ -39,7 +39,7 @@ import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.UIUtils;
 import com.mycollab.vaadin.web.ui.WebThemes;
-import com.vaadin.server.FontAwesome;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.CheckBox;
@@ -140,7 +140,7 @@ public class AllMilestoneTimelineWidget extends MVerticalLayout {
             li.appendChild(timestampDiv);
 
             A projectDiv = new A(ProjectLinkGenerator.generateProjectLink(milestone.getProjectid())).appendText
-                    (FontAwesome.BUILDING_O.getHtml() + " " + StringUtils.trim(milestone.getProjectName(), 30, true))
+                    (VaadinIcons.BUILDING_O.getHtml() + " " + StringUtils.trim(milestone.getProjectName(), 30, true))
                     .setId("tag" + TooltipHelper.TOOLTIP_ID);
             projectDiv.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(ProjectTypeConstants.PROJECT,
                     milestone.getProjectid() + ""));
@@ -159,6 +159,6 @@ public class AllMilestoneTimelineWidget extends MVerticalLayout {
             ul.appendChild(li);
         }
 
-        timelineContainer.addComponent(ELabel.html(ul.write()).withWidthUndefined());
+        timelineContainer.addComponent(ELabel.html(ul.write()).withUndefinedWidth());
     }
 }

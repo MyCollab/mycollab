@@ -18,28 +18,28 @@ package com.mycollab.module.crm.ui
 
 import com.mycollab.core.MyCollabException
 import com.mycollab.module.crm.CrmTypeConstants
-import com.vaadin.server.FontAwesome
+import com.vaadin.icons.VaadinIcons
 
 /**
  * @author MyCollab Ltd.
  * @since 5.0.0
  */
 object CrmAssetsManager {
-    private val resources = mutableMapOf(CrmTypeConstants.ACCOUNT to FontAwesome.INSTITUTION,
-            CrmTypeConstants.CONTACT to FontAwesome.USER,
-            CrmTypeConstants.OPPORTUNITY to FontAwesome.MONEY,
-            CrmTypeConstants.CASE to FontAwesome.BUG,
-            CrmTypeConstants.LEAD to FontAwesome.BUILDING,
-            CrmTypeConstants.ACTIVITY to FontAwesome.CALENDAR,
-            CrmTypeConstants.TASK to FontAwesome.LIST_ALT,
-            CrmTypeConstants.CALL to FontAwesome.PHONE,
-            CrmTypeConstants.MEETING to FontAwesome.PLANE,
-            CrmTypeConstants.CAMPAIGN to FontAwesome.TROPHY,
-            CrmTypeConstants.DETAIL to FontAwesome.LIST,
-            CrmTypeConstants.NOTE to FontAwesome.PENCIL
+    private val resources = mutableMapOf(CrmTypeConstants.ACCOUNT to VaadinIcons.INSTITUTION,
+            CrmTypeConstants.CONTACT to VaadinIcons.USER,
+            CrmTypeConstants.OPPORTUNITY to VaadinIcons.MONEY,
+            CrmTypeConstants.CASE to VaadinIcons.BUG,
+            CrmTypeConstants.LEAD to VaadinIcons.BUILDING,
+            CrmTypeConstants.ACTIVITY to VaadinIcons.CALENDAR,
+            CrmTypeConstants.TASK to VaadinIcons.LINES_LIST,
+            CrmTypeConstants.CALL to VaadinIcons.PHONE,
+            CrmTypeConstants.MEETING to VaadinIcons.CALENDAR_O,
+            CrmTypeConstants.CAMPAIGN to VaadinIcons.TROPHY,
+            CrmTypeConstants.DETAIL to VaadinIcons.LIST,
+            CrmTypeConstants.NOTE to VaadinIcons.CLIPBOARD
     )
 
-    @JvmStatic fun getAsset(resId: String): FontAwesome =
+    @JvmStatic fun getAsset(resId: String): VaadinIcons =
             resources[resId] ?: throw MyCollabException("Can not find the resource with id $resId")
 
     @JvmStatic fun toHexString(resId: String): String = "&#x" + Integer.toHexString(resources[resId]!!.getCodepoint())

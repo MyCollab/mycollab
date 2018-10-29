@@ -40,7 +40,6 @@ object ProjectPresenterDataMapper {
             MilestoneScreenData.Search::class.java to MilestonePresenter::class.java,
             MilestoneScreenData.Add::class.java to MilestonePresenter::class.java,
             MilestoneScreenData.Edit::class.java to MilestonePresenter::class.java,
-            MilestoneScreenData.Kanban::class.java to MilestonePresenter::class.java,
             MilestoneScreenData.Roadmap::class.java to MilestonePresenter::class.java
     )
 

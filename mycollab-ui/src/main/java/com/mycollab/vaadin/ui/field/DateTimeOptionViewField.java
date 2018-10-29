@@ -27,6 +27,7 @@ import java.util.Date;
  * @author MyCollab Ltd
  * @since 5.3.3
  */
+// TODO
 public class DateTimeOptionViewField extends CustomField<String> {
     private Date date;
 
@@ -41,7 +42,12 @@ public class DateTimeOptionViewField extends CustomField<String> {
     }
 
     @Override
-    public Class<? extends String> getType() {
-        return String.class;
+    protected void doSetValue(String s) {
+
+    }
+
+    @Override
+    public String getValue() {
+        return null;
     }
 }

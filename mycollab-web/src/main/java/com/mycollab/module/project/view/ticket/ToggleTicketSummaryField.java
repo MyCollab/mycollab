@@ -68,7 +68,7 @@ public class ToggleTicketSummaryField extends AbstractToggleSummaryField {
         this.ticket = ticket;
         this.setWidth("100%");
         titleLinkLbl = ELabel.html(buildTicketLink()).withStyleName(ValoTheme.LABEL_NO_MARGIN,
-                UIConstants.LABEL_WORD_WRAP).withWidthUndefined();
+                UIConstants.LABEL_WORD_WRAP).withUndefinedWidth();
         if (ticket.isClosed()) {
             titleLinkLbl.addStyleName(WebThemes.LINK_COMPLETED);
         } else if (ticket.isOverdue()) {

@@ -19,7 +19,6 @@ package com.mycollab.module.user.accountsettings.team.view;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.i18n.SecurityI18nEnum;
 import com.mycollab.common.i18n.ShellI18nEnum;
-import com.mycollab.core.UserInvalidInputException;
 import com.mycollab.form.view.builder.DynaSectionBuilder;
 import com.mycollab.form.view.builder.TextDynaFieldBuilder;
 import com.mycollab.form.view.builder.type.DynaForm;
@@ -45,15 +44,11 @@ import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.*;
 import com.mycollab.vaadin.web.ui.*;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
-import com.vaadin.data.Property;
-import com.vaadin.data.Validator.InvalidValueException;
-import com.vaadin.data.util.BeanItem;
-import com.vaadin.server.FontAwesome;
+import com.vaadin.data.HasValue;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import org.vaadin.viritin.button.MButton;
-import org.vaadin.viritin.fields.MPasswordField;
-import org.vaadin.viritin.fields.MTextField;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
@@ -65,6 +60,7 @@ import static com.mycollab.vaadin.web.ui.utils.FormControlsGenerator.generateEdi
  * @author MyCollab Ltd.
  * @since 1.0
  */
+// TODO
 @ViewComponent
 public class UserAddViewImpl extends AbstractVerticalPageView implements UserAddView {
     private static final long serialVersionUID = 1L;
@@ -134,7 +130,7 @@ public class UserAddViewImpl extends AbstractVerticalPageView implements UserAdd
             @Override
             public AbstractComponent getLayout() {
                 String title = (user.getUsername() == null) ? UserUIContext.getMessage(UserI18nEnum.NEW) : user.getDisplayName();
-                AddViewLayout formAddLayout = new AddViewLayout(title, FontAwesome.USER);
+                AddViewLayout formAddLayout = new AddViewLayout(title, VaadinIcons.USER);
 
                 wrappedLayoutFactory = buildFormLayout();
                 formAddLayout.addHeaderRight(generateEditFormControls(editUserForm, true, false, true));
@@ -147,7 +143,6 @@ public class UserAddViewImpl extends AbstractVerticalPageView implements UserAdd
                 MVerticalLayout bottomPanel = new MVerticalLayout().withMargin(false);
                 Button moreInfoBtn = new MButton(UserUIContext.getMessage(UserI18nEnum.ACTION_MORE_INFORMATION), event -> {
                     editUserForm.displayAdvancedForm(user);
-                    setFormBuffered(true);
                 }).withStyleName(WebThemes.BUTTON_LINK);
                 MHorizontalLayout linkWrap = new MHorizontalLayout(moreInfoBtn).withMargin(true);
                 bottomPanel.with(linkWrap).withAlign(linkWrap, Alignment.MIDDLE_LEFT);
@@ -189,16 +184,16 @@ public class UserAddViewImpl extends AbstractVerticalPageView implements UserAdd
             }
 
             @Override
-            protected Field<?> onCreateField(Object propertyId) {
-                if (SimpleUser.Field.roleid.equalTo(propertyId)) {
-                    return new AdminRoleSelectionField();
-                } else if (User.Field.email.equalTo(propertyId) || User.Field.firstname.equalTo(propertyId) ||
-                        User.Field.lastname.equalTo(propertyId)) {
-                    return new MTextField().withNullRepresentation("").withRequired(true)
-                            .withRequiredError("This field must be not null");
-                } else if (User.Field.password.equalTo(propertyId)) {
-                    return new MPasswordField();
-                }
+            protected HasValue<?> onCreateField(Object propertyId) {
+//                if (SimpleUser.Field.roleid.equalTo(propertyId)) {
+//                    return new AdminRoleSelectionField();
+//                } else if (User.Field.email.equalTo(propertyId) || User.Field.firstname.equalTo(propertyId) ||
+//                        User.Field.lastname.equalTo(propertyId)) {
+//                    return new MTextField().withRequired(true)
+//                            .withRequiredError("This field must be not null");
+//                } else if (User.Field.password.equalTo(propertyId)) {
+//                    return new MPasswordField();
+//                }
 
                 return null;
             }
@@ -213,7 +208,7 @@ public class UserAddViewImpl extends AbstractVerticalPageView implements UserAdd
             @Override
             public AbstractComponent getLayout() {
                 String title = (user.getUsername() == null) ? UserUIContext.getMessage(UserI18nEnum.NEW) : user.getDisplayName();
-                AddViewLayout formAddLayout = new AddViewLayout(title, FontAwesome.USER);
+                AddViewLayout formAddLayout = new AddViewLayout(title, VaadinIcons.USER);
                 formAddLayout.addHeaderRight(generateEditFormControls(editUserForm, true, false, true));
                 FormContainer formContainer = new FormContainer();
                 basicInformationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 7);
@@ -238,7 +233,7 @@ public class UserAddViewImpl extends AbstractVerticalPageView implements UserAdd
             }
 
             @Override
-            protected Component onAttachField(Object propertyId, Field<?> field) {
+            protected HasValue<?> onAttachField(Object propertyId, HasValue<?> field) {
                 if (propertyId.equals("firstname")) {
                     return basicInformationLayout.addComponent(field, UserUIContext.getMessage(UserI18nEnum.FORM_FIRST_NAME), 0, 0);
                 } else if (propertyId.equals("lastname")) {
@@ -286,13 +281,13 @@ public class UserAddViewImpl extends AbstractVerticalPageView implements UserAdd
             }
 
             @Override
-            protected Field<?> onCreateField(Object propertyId) {
+            protected HasValue<?> onCreateField(Object propertyId) {
                 if (SimpleUser.Field.roleid.equalTo(propertyId)) {
                     return new AdminRoleSelectionField();
                 } else if (User.Field.email.equalTo(propertyId) || User.Field.firstname.equalTo(propertyId) ||
                         User.Field.lastname.equalTo(propertyId)) {
-                    return new MTextField().withNullRepresentation("").withRequired(true)
-                            .withRequiredError("This field must be not null");
+//                    return new MTextField().withNullRepresentation("").withRequired(true)
+//                            .withRequiredError("This field must be not null");
                 } else if (propertyId.equals("dateofbirth")) {
                     return new DateSelectionField();
                 } else if (propertyId.equals("timezone")) {
@@ -302,7 +297,7 @@ public class UserAddViewImpl extends AbstractVerticalPageView implements UserAdd
                     cboCountry.addValueChangeListener(valueChangeEvent -> user.setCountry((String) cboCountry.getValue()));
                     return cboCountry;
                 } else if (User.Field.password.equalTo(propertyId)) {
-                    return new MPasswordField();
+//                    return new MPasswordField();
                 }
                 return null;
             }
@@ -324,46 +319,51 @@ public class UserAddViewImpl extends AbstractVerticalPageView implements UserAdd
             displayRolePermission(val);
         }
 
-        @Override
-        public void setPropertyDataSource(Property newDataSource) {
-            Object value = newDataSource.getValue();
-            if (value instanceof Integer) {
-                roleBox.setValue(value);
-            } else if (value == null && Boolean.TRUE.equals(user.isAccountOwner())) {
-                roleBox.setValue(-1);
-            }
-            super.setPropertyDataSource(newDataSource);
-        }
-
-        @Override
-        public void commit() throws SourceException, InvalidValueException {
-            Integer roleId = (Integer) roleBox.getValue();
-            if (roleId == -1) {
-                if (!UserUIContext.isAdmin()) {
-                    throw new UserInvalidInputException(UserUIContext.getMessage(RoleI18nEnum.ERROR_ONLY_OWNER_CAN_ASSIGN_OWNER_ROLE));
-                } else {
-                    user.setAccountOwner(Boolean.TRUE);
-                    user.setRoleName(UserUIContext.getMessage(RoleI18nEnum.OPT_ACCOUNT_OWNER));
-                }
-            } else {
-                user.setAccountOwner(Boolean.FALSE);
-                BeanItem<SimpleRole> role = (BeanItem<SimpleRole>) roleBox.getItem(roleId);
-                if (role != null) {
-                    user.setRoleName(role.getBean().getRolename());
-                }
-            }
-            setInternalValue(roleId);
-            super.commit();
-        }
-
-        @Override
-        public Class<Integer> getType() {
-            return Integer.class;
-        }
+//        @Override
+//        public void setPropertyDataSource(Property newDataSource) {
+//            Object value = newDataSource.getValue();
+//            if (value instanceof Integer) {
+//                roleBox.setValue(value);
+//            } else if (value == null && Boolean.TRUE.equals(user.isAccountOwner())) {
+//                roleBox.setValue(-1);
+//            }
+//            super.setPropertyDataSource(newDataSource);
+//        }
+//
+//        @Override
+//        public void commit() throws SourceException, InvalidValueException {
+//            Integer roleId = (Integer) roleBox.getValue();
+//            if (roleId == -1) {
+//                if (!UserUIContext.isAdmin()) {
+//                    throw new UserInvalidInputException(UserUIContext.getMessage(RoleI18nEnum.ERROR_ONLY_OWNER_CAN_ASSIGN_OWNER_ROLE));
+//                } else {
+//                    user.setAccountOwner(Boolean.TRUE);
+//                    user.setRoleName(UserUIContext.getMessage(RoleI18nEnum.OPT_ACCOUNT_OWNER));
+//                }
+//            } else {
+//                user.setAccountOwner(Boolean.FALSE);
+//                BeanItem<SimpleRole> role = (BeanItem<SimpleRole>) roleBox.getItem(roleId);
+//                if (role != null) {
+//                    user.setRoleName(role.getBean().getRolename());
+//                }
+//            }
+//            setInternalValue(roleId);
+//            super.commit();
+//        }
 
         @Override
         protected Component initContent() {
             return roleBox;
+        }
+
+        @Override
+        protected void doSetValue(Integer integer) {
+
+        }
+
+        @Override
+        public Integer getValue() {
+            return null;
         }
     }
 

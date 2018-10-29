@@ -16,7 +16,7 @@
  */
 package com.mycollab.module.crm.view.activity;
 
-import com.mycollab.common.TableViewField;
+import com.mycollab.common.GridFieldMeta;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.module.crm.domain.SimpleActivity;
 import com.mycollab.module.crm.domain.criteria.ActivitySearchCriteria;
@@ -28,7 +28,7 @@ import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.DefaultMassItemActionHandlerContainer;
 import com.mycollab.vaadin.web.ui.DefaultGenericSearchPanel;
 import com.mycollab.vaadin.web.ui.WebUIConstants;
-import com.mycollab.vaadin.web.ui.table.AbstractPagedBeanTable;
+import com.mycollab.vaadin.web.ui.table.AbstractPagedGrid;
 
 import java.util.Arrays;
 
@@ -56,14 +56,14 @@ public class ActivityListViewImpl extends AbstractListItemComp<ActivitySearchCri
     }
 
     @Override
-    protected AbstractPagedBeanTable<ActivitySearchCriteria, SimpleActivity> createBeanTable() {
+    protected AbstractPagedGrid<ActivitySearchCriteria, SimpleActivity> createGrid() {
         return new ActivityTableDisplay(
-                new TableViewField(null, "selected", WebUIConstants.TABLE_CONTROL_WIDTH),
+                new GridFieldMeta(null, "selected", WebUIConstants.TABLE_CONTROL_WIDTH),
                 Arrays.asList(
-                        new TableViewField(ActivityI18nEnum.FORM_SUBJECT, "subject", WebUIConstants.TABLE_EX_LABEL_WIDTH),
-                        new TableViewField(GenericI18Enum.FORM_STATUS, "status", WebUIConstants.TABLE_S_LABEL_WIDTH),
-                        new TableViewField(GenericI18Enum.FORM_START_DATE, "startDate", WebUIConstants.TABLE_DATE_TIME_WIDTH),
-                        new TableViewField(GenericI18Enum.FORM_END_DATE, "endDate", WebUIConstants.TABLE_DATE_TIME_WIDTH)));
+                        new GridFieldMeta(ActivityI18nEnum.FORM_SUBJECT, "subject", WebUIConstants.TABLE_EX_LABEL_WIDTH),
+                        new GridFieldMeta(GenericI18Enum.FORM_STATUS, "status", WebUIConstants.TABLE_S_LABEL_WIDTH),
+                        new GridFieldMeta(GenericI18Enum.FORM_START_DATE, "startDate", WebUIConstants.TABLE_DATE_TIME_WIDTH),
+                        new GridFieldMeta(GenericI18Enum.FORM_END_DATE, "endDate", WebUIConstants.TABLE_DATE_TIME_WIDTH)));
     }
 
     @Override

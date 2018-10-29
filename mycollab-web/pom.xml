@@ -90,34 +90,23 @@
         </dependency>
 
         <!-- VAADIN ADDONS -->
-        <dependency>
-            <groupId>org.vaadin.addons</groupId>
-            <artifactId>buttongroup</artifactId>
-            <version>2.3</version>
-        </dependency>
 
         <dependency>
             <groupId>org.vaadin.addons</groupId>
             <artifactId>popupbutton</artifactId>
-            <version>2.6.0</version>
-        </dependency>
-
-        <dependency>
-            <groupId>fi.jasoft</groupId>
-            <artifactId>dragdroplayouts</artifactId>
-            <version>1.3.3</version>
+            <version>3.0.0</version>
         </dependency>
 
         <dependency>
             <groupId>org.vaadin.addons</groupId>
-            <artifactId>stylecalendar</artifactId>
-            <version>2.2.0</version>
+            <artifactId>dragdroplayouts</artifactId>
+            <version>1.4.2</version>
         </dependency>
 
         <dependency>
             <groupId>org.vaadin.addons</groupId>
             <artifactId>vaadin-combobox-multiselect</artifactId>
-            <version>1.2.2</version>
+            <version>2.6</version>
             <exclusions>
                 <exclusion>
                     <groupId>com.vaadin</groupId>
@@ -127,39 +116,21 @@
         </dependency>
 
         <dependency>
-            <groupId>org.vaadin</groupId>
-            <artifactId>suggestfield</artifactId>
-            <version>0.0.4</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.vaadin.addons</groupId>
+            <groupId>org.tepi.listbuilder</groupId>
             <artifactId>listbuilder</artifactId>
-            <version>0.7.4.v7</version>
+            <version>1.0.0.v8</version>
         </dependency>
 
         <dependency>
             <groupId>org.vaadin.addon</groupId>
             <artifactId>confirmdialog</artifactId>
-            <version>2.1.3</version>
+            <version>3.2.0</version>
         </dependency>
 
         <dependency>
-            <groupId>org.vaadin.addons</groupId>
-            <artifactId>web-components</artifactId>
-            <version>1.0.0</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.vaadin.addons</groupId>
-            <artifactId>fancybox</artifactId>
-            <version>0.0.2</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.vaadin.addon</groupId>
+            <groupId>com.vaadin</groupId>
             <artifactId>vaadin-context-menu</artifactId>
-            <version>0.7.5</version>
+            <version>3.0.0.beta1</version>
         </dependency>
 
         <dependency>
@@ -187,15 +158,15 @@
         </dependency>
 
         <dependency>
-            <groupId>org.vaadin.addons</groupId>
-            <artifactId>ckeditor-wrapper-for-vaadin</artifactId>
-            <version>7.11.1</version>
+            <groupId>org.vaadin.alump</groupId>
+            <artifactId>ckeditor</artifactId>
+            <version>0.1.2</version>
         </dependency>
 
         <dependency>
             <groupId>org.vaadin.addons</groupId>
             <artifactId>wizards-for-vaadin</artifactId>
-            <version>1.1.1</version>
+            <version>2.0.1</version>
         </dependency>
 
         <dependency>
@@ -207,7 +178,7 @@
         <dependency>
             <groupId>org.vaadin.addons</groupId>
             <artifactId>CssCheckBox</artifactId>
-            <version>1.0</version>
+            <version>2.0</version>
         </dependency>
 
         <dependency>

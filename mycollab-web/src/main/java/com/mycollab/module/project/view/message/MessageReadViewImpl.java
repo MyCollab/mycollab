@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -40,7 +40,8 @@ import com.mycollab.vaadin.ui.*;
 import com.mycollab.vaadin.web.ui.AdvancedPreviewBeanForm;
 import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.mycollab.vaadin.web.ui.WebThemes;
-import com.vaadin.server.FontAwesome;
+import com.vaadin.data.HasValue;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.ui.*;
 import org.apache.commons.collections.CollectionUtils;
 import org.vaadin.viritin.button.MButton;
@@ -66,8 +67,6 @@ public class MessageReadViewImpl extends AbstractVerticalPageView implements Mes
     private CheckBox stickyCheck;
 
     public MessageReadViewImpl() {
-        super();
-
         header = new MHorizontalLayout().withMargin(true).withStyleName("hdr-view").withFullWidth();
         previewForm = new AdvancedPreviewBeanForm<>();
 
@@ -90,7 +89,7 @@ public class MessageReadViewImpl extends AbstractVerticalPageView implements Mes
             private static final long serialVersionUID = 1L;
 
             @Override
-            protected Field<?> onCreateField(Object propertyId) {
+            protected HasValue<?> onCreateField(Object propertyId) {
                 return null;
             }
         });
@@ -122,7 +121,7 @@ public class MessageReadViewImpl extends AbstractVerticalPageView implements Mes
                                 previewForm.fireCancelForm(message);
                             }
                         });
-            }).withIcon(FontAwesome.TRASH_O).withStyleName(WebThemes.BUTTON_DANGER);
+            }).withIcon(VaadinIcons.TRASH).withStyleName(WebThemes.BUTTON_DANGER);
             deleteBtn.setVisible(CurrentProjectVariables.canAccess(ProjectRolePermissionCollections.MESSAGES));
 
             stickyCheck = new CheckBox(UserUIContext.getMessage(MessageI18nEnum.FORM_IS_STICK), message.getIsstick());
@@ -172,7 +171,7 @@ public class MessageReadViewImpl extends AbstractVerticalPageView implements Mes
                     AppUI.getAccountId(), message.getProjectid(), ProjectTypeConstants.MESSAGE, "" + message.getId()));
             if (CollectionUtils.isNotEmpty(attachments)) {
                 HorizontalLayout attachmentField = new HorizontalLayout();
-                Button attachmentIcon = new Button(null, FontAwesome.PAPERCLIP);
+                Button attachmentIcon = new Button(null, VaadinIcons.PAPERCLIP);
                 attachmentIcon.addStyleName(WebThemes.BUTTON_ICON_ONLY);
                 attachmentField.addComponent(attachmentIcon);
 
@@ -207,7 +206,7 @@ public class MessageReadViewImpl extends AbstractVerticalPageView implements Mes
         }
 
         @Override
-        protected Component onAttachField(Object propertyId, Field<?> field) {
+        protected HasValue<?> onAttachField(Object propertyId, HasValue<?> field) {
             return null;
         }
     }

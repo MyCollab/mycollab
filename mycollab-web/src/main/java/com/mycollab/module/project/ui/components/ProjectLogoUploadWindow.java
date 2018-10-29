@@ -40,15 +40,16 @@ import java.awt.image.BufferedImage;
  * @author MyCollab Ltd
  * @since 5.4.8
  */
+// TODO
 public class ProjectLogoUploadWindow extends MWindow implements ImagePreviewCropWindow.ImageSelectionCommand {
     public ProjectLogoUploadWindow(String shortName, Integer projectId, String projectAvatar) {
         super(UserUIContext.getMessage(GenericI18Enum.OPT_UPLOAD_IMAGE));
         withModal(true).withResizable(false).withWidth("200px").withCenter();
         Component projectIcon = ProjectAssetsUtil.projectLogoComp(shortName, projectId, projectAvatar, 100);
         projectIcon.setWidthUndefined();
-        UploadImageField avatarUploadField = new UploadImageField(this);
-        withContent(new MVerticalLayout(projectIcon, avatarUploadField)
-                .withDefaultComponentAlignment(Alignment.TOP_CENTER));
+//        UploadImageField avatarUploadField = new UploadImageField(this);
+//        withContent(new MVerticalLayout(projectIcon, avatarUploadField)
+//                .withDefaultComponentAlignment(Alignment.TOP_CENTER));
     }
 
     @Override

@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -24,7 +24,6 @@ import com.mycollab.core.DebugException;
 import com.mycollab.core.MyCollabException;
 import com.mycollab.core.utils.FileUtils;
 import com.mycollab.core.utils.StringUtils;
-import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.module.ecm.StorageNames;
 import com.mycollab.module.ecm.domain.*;
 import com.mycollab.module.ecm.service.ExternalDriveService;
@@ -39,8 +38,8 @@ import com.mycollab.module.user.service.UserService;
 import com.mycollab.security.RolePermissionCollections;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppUI;
+import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.vaadin.UserUIContext;
-import com.mycollab.vaadin.addon.webcomponents.FloatingComponent;
 import com.mycollab.vaadin.resources.LazyStreamSource;
 import com.mycollab.vaadin.resources.OnDemandFileDownloader;
 import com.mycollab.vaadin.resources.StreamDownloadResourceUtil;
@@ -53,6 +52,7 @@ import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.mycollab.vaadin.web.ui.UserLink;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.StreamResource;
@@ -80,6 +80,7 @@ import java.util.List;
  * @author MyCollab Ltd.
  * @since 1.0
  */
+// TODO
 public class ResourcesDisplayComponent extends MVerticalLayout {
     private static final long serialVersionUID = 1L;
 
@@ -129,7 +130,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
 
         MButton createBtn = new MButton(UserUIContext.getMessage(FileI18nEnum.ACTION_NEW_FOLDER), clickEvent -> UI.getCurrent().addWindow
                 (new AddNewFolderWindow()))
-                .withIcon(FontAwesome.PLUS).withStyleName(WebThemes.BUTTON_ACTION)
+                .withIcon(VaadinIcons.PLUS).withStyleName(WebThemes.BUTTON_ACTION)
                 .withVisible(UserUIContext.canWrite(RolePermissionCollections.PUBLIC_DOCUMENT_ACCESS));
 
         MButton uploadBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_UPLOAD), clickEvent -> {
@@ -204,7 +205,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
             selectedResourceControlLayout = new MVerticalLayout().withSpacing(false).withMargin(false).withWidth("400px")
                     .withStyleName("margin-top", "margin-left");
 
-            FloatingComponent.floatThis(selectedResourceControlLayout).setContainerId("main-body");
+//            FloatingComponent.floatThis(selectedResourceControlLayout).setContainerId("main-body");
             with(bodyContainer, selectedResourceControlLayout).expand(bodyContainer);
             if (currentFolder instanceof ExternalFolder) {
                 resources = externalResourceService.getResources(((ExternalFolder) currentFolder).getExternalDrive(),
@@ -282,7 +283,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
 
                 MButton deleteBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_DELETE),
                         clickEvent -> deleteResourceAction(Collections.singletonList(selectedResource)))
-                        .withStyleName(WebThemes.BUTTON_LINK).withIcon(FontAwesome.TRASH_O);
+                        .withStyleName(WebThemes.BUTTON_LINK).withIcon(VaadinIcons.TRASH);
 
                 selectedResourceControlLayout.with(new MVerticalLayout(renameBtn, downloadBtn, moveBtn, deleteBtn)
                         .withStyleName("panel-body"));
@@ -310,8 +311,8 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
             CssLayout resIconWrapper = new CssLayout();
             Component resourceIcon = null;
             if (resource instanceof Folder) {
-                resourceIcon = (resource instanceof ExternalFolder) ? ELabel.fontIcon(FontAwesome.DROPBOX) : ELabel.fontIcon(FontAwesome.FOLDER);
-                resourceIcon.addStyleName("icon-38px");
+//                resourceIcon = (resource instanceof ExternalFolder) ? ELabel.fontIcon(FontAwesome.DROPBOX) : ELabel.fontIcon(FontAwesome.FOLDER);
+//                resourceIcon.addStyleName("icon-38px");
             } else if (resource instanceof Content) {
                 Content content = (Content) resource;
                 if (StringUtils.isNotBlank(content.getThumbnail())) {
@@ -374,7 +375,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
             }
 
             if (resource instanceof Content) {
-                ELabel lbl = ELabel.html(FontAwesome.ARCHIVE.getHtml() + " " + FileUtils.getVolumeDisplay(resource.getSize()))
+                ELabel lbl = ELabel.html(VaadinIcons.ARCHIVE.getHtml() + " " + FileUtils.getVolumeDisplay(resource.getSize()))
                         .withStyleName(UIConstants.META_INFO);
                 moreInfoAboutResLayout.addComponent(lbl);
             }
@@ -448,7 +449,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
                 }
                 resourcesContainer.constructBody(baseFolder);
                 close();
-            }).withIcon(FontAwesome.SAVE).withStyleName(WebThemes.BUTTON_ACTION);
+            }).withIcon(VaadinIcons.CLIPBOARD).withStyleName(WebThemes.BUTTON_ACTION);
 
             MButton cancelBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
                     .withStyleName(WebThemes.BUTTON_OPTION);
@@ -496,7 +497,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
                     NotificationUtil.showErrorNotification(UserUIContext.getMessage(ErrorI18nEnum.FIELD_MUST_NOT_NULL,
                             UserUIContext.getMessage(GenericI18Enum.FORM_NAME)));
                 }
-            }).withIcon(FontAwesome.SAVE).withStyleName(WebThemes.BUTTON_ACTION);
+            }).withIcon(VaadinIcons.CLIPBOARD).withStyleName(WebThemes.BUTTON_ACTION);
 
             MButton cancelBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
                     .withStyleName(WebThemes.BUTTON_OPTION);

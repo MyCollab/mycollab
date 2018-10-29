@@ -16,15 +16,12 @@
  */
 package com.mycollab.vaadin.ui.field;
 
-import com.mycollab.common.i18n.ErrorI18nEnum;
-import com.mycollab.vaadin.UserUIContext;
-import com.mycollab.vaadin.ui.NotificationUtil;
-import com.vaadin.data.Validator;
-import com.vaadin.ui.*;
+import com.vaadin.ui.Component;
+import com.vaadin.ui.CustomField;
+import com.vaadin.ui.Label;
+import com.vaadin.ui.TextField;
 import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
-import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 /**
  * @author MyCollab Ltd
@@ -37,26 +34,26 @@ public class DateFormatField extends CustomField<String> {
     private DateTimeFormatter dateFormatInstance;
 
     public DateFormatField(final String initialFormat) {
-        dateInput = new TextField(null, initialFormat);
-        dateInput.setImmediate(true);
-        dateInput.setTextChangeEventMode(AbstractTextField.TextChangeEventMode.EAGER);
-        now = new DateTime();
-        dateExample = new Label();
-        dateFormatInstance = DateTimeFormat.forPattern(initialFormat);
-        dateExample.setValue(String.format("(%s)", dateFormatInstance.print(now)));
-        dateExample.setWidthUndefined();
-        dateInput.addTextChangeListener(textChangeEvent -> {
-            try {
-                String newFormat = textChangeEvent.getText();
-                dateFormatInstance = DateTimeFormat.forPattern(newFormat);
-                dateExample.setValue(String.format("(%s)", dateFormatInstance.print(now)));
-            } catch (Exception e) {
-                NotificationUtil.showErrorNotification(UserUIContext.getMessage(ErrorI18nEnum.INVALID_FORMAT));
-                dateInput.setValue(initialFormat);
-                dateFormatInstance = DateTimeFormat.forPattern(initialFormat);
-                dateExample.setValue(String.format("(%s)", dateFormatInstance.print(now)));
-            }
-        });
+//        dateInput = new TextField(null, initialFormat);
+//        dateInput.setImmediate(true);
+//        dateInput.setTextChangeEventMode(AbstractTextField.TextChangeEventMode.EAGER);
+//        now = new DateTime();
+//        dateExample = new Label();
+//        dateFormatInstance = DateTimeFormat.forPattern(initialFormat);
+//        dateExample.setValue(String.format("(%s)", dateFormatInstance.print(now)));
+//        dateExample.setWidthUndefined();
+//        dateInput.addTextChangeListener(textChangeEvent -> {
+//            try {
+//                String newFormat = textChangeEvent.getText();
+//                dateFormatInstance = DateTimeFormat.forPattern(newFormat);
+//                dateExample.setValue(String.format("(%s)", dateFormatInstance.print(now)));
+//            } catch (Exception e) {
+//                NotificationUtil.showErrorNotification(UserUIContext.getMessage(ErrorI18nEnum.INVALID_FORMAT));
+//                dateInput.setValue(initialFormat);
+//                dateFormatInstance = DateTimeFormat.forPattern(initialFormat);
+//                dateExample.setValue(String.format("(%s)", dateFormatInstance.print(now)));
+//            }
+//        });
     }
 
     @Override
@@ -64,19 +61,30 @@ public class DateFormatField extends CustomField<String> {
         return dateInput.getValue();
     }
 
-    @Override
-    public void commit() throws SourceException, Validator.InvalidValueException {
-        setInternalValue(dateInput.getValue());
-        super.commit();
-    }
+//    @Override
+//    public void commit() throws SourceException, Validator.InvalidValueException {
+//        setInternalValue(dateInput.getValue());
+//        super.commit();
+//    }
+//
+//    @Override
+//    protected Component initContent() {
+//        return new MHorizontalLayout(dateInput, dateExample);
+//    }
+//
+//    @Override
+//    public Class<? extends String> getType() {
+//        return String.class;
+//    }
+
 
     @Override
     protected Component initContent() {
-        return new MHorizontalLayout(dateInput, dateExample);
+        return null;
     }
 
     @Override
-    public Class<? extends String> getType() {
-        return String.class;
+    protected void doSetValue(String s) {
+
     }
 }

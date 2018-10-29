@@ -28,7 +28,7 @@ import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ViewManager;
 import com.mycollab.vaadin.web.ui.*;
 import com.vaadin.event.ShortcutAction;
-import com.vaadin.server.FontAwesome;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.ui.*;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.fields.MTextField;
@@ -64,7 +64,7 @@ public class ProjectSearchPanel extends DefaultGenericSearchPanel<ProjectSearchC
         if (UserUIContext.canBeYes(RolePermissionCollections.CREATE_NEW_PROJECT)) {
             return new MButton(UserUIContext.getMessage(ProjectI18nEnum.NEW),
                     clickEvent -> UI.getCurrent().addWindow(ViewManager.getCacheComponent(AbstractProjectAddWindow.class)))
-                    .withStyleName(WebThemes.BUTTON_ACTION).withIcon(FontAwesome.PLUS);
+                    .withStyleName(WebThemes.BUTTON_ACTION).withIcon(VaadinIcons.PLUS);
         }
 
         return null;
@@ -83,12 +83,12 @@ public class ProjectSearchPanel extends DefaultGenericSearchPanel<ProjectSearchC
         public ComponentContainer constructBody() {
             MHorizontalLayout basicSearchBody = new MHorizontalLayout().withMargin(true);
 
-            nameField = new MTextField().withInputPrompt(UserUIContext.getMessage(GenericI18Enum.ACTION_QUERY_BY_TEXT))
+            nameField = new MTextField().withPlaceholder(UserUIContext.getMessage(GenericI18Enum.ACTION_QUERY_BY_TEXT))
                     .withWidth(WebUIConstants.DEFAULT_CONTROL_WIDTH);
             basicSearchBody.with(nameField).withAlign(nameField, Alignment.MIDDLE_CENTER);
 
             MButton searchBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_SEARCH), clickEvent ->
-                    callSearchAction()).withIcon(FontAwesome.SEARCH).withStyleName(WebThemes.BUTTON_ACTION)
+                    callSearchAction()).withIcon(VaadinIcons.SEARCH).withStyleName(WebThemes.BUTTON_ACTION)
                     .withClickShortcut(ShortcutAction.KeyCode.ENTER);
             basicSearchBody.with(searchBtn).withAlign(searchBtn, Alignment.MIDDLE_LEFT);
 

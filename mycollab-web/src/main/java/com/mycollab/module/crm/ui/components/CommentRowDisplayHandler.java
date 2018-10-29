@@ -28,6 +28,7 @@ import com.mycollab.vaadin.ui.*;
 import com.mycollab.vaadin.web.ui.AttachmentDisplayComponent;
 import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.mycollab.vaadin.web.ui.WebThemes;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
@@ -63,7 +64,7 @@ public class CommentRowDisplayHandler implements IBeanList.RowDisplayHandler<Sim
         ELabel timePostLbl = ELabel.html(UserUIContext.getMessage(GenericI18Enum.EXT_ADDED_COMMENT, comment.getOwnerFullName(),
                 UserUIContext.formatPrettyTime(comment.getCreatedtime())))
                 .withDescription(UserUIContext.formatDateTime(comment.getCreatedtime()))
-                .withStyleName(UIConstants.META_INFO).withWidthUndefined();
+                .withStyleName(UIConstants.META_INFO).withUndefinedWidth();
 
         messageHeader.with(timePostLbl).expand(timePostLbl);
 
@@ -82,7 +83,7 @@ public class CommentRowDisplayHandler implements IBeanList.RowDisplayHandler<Sim
                                 ((BeanList) host).removeRow(layout);
                             }
                         });
-            }).withIcon(FontAwesome.TRASH_O).withStyleName(WebThemes.BUTTON_ICON_ONLY);
+            }).withIcon(VaadinIcons.TRASH).withStyleName(WebThemes.BUTTON_ICON_ONLY);
             messageHeader.addComponent(msgDeleteBtn);
         }
 

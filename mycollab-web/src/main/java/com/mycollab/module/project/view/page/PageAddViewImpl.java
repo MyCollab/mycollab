@@ -26,6 +26,7 @@ import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.mycollab.vaadin.ui.AdvancedEditBeanForm;
 import com.mycollab.vaadin.ui.IFormLayoutFactory;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.ComponentContainer;
 
@@ -50,7 +51,7 @@ public class PageAddViewImpl extends AbstractEditItemComp<Page> implements PageA
     }
 
     @Override
-    protected FontAwesome initFormIconResource() {
+    protected VaadinIcons initFormIconResource() {
         return ProjectAssetsManager.getAsset(ProjectTypeConstants.PAGE);
     }
 

@@ -37,6 +37,7 @@ import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.HeaderWithFontAwesome;
 import com.mycollab.vaadin.web.ui.*;
 import com.vaadin.event.ShortcutAction;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
 import org.vaadin.viritin.button.MButton;
@@ -75,7 +76,7 @@ public class OpportunitySearchPanel extends DefaultGenericSearchPanel<Opportunit
     protected Component buildExtraControls() {
         return (canCreateOpportunity) ? new MButton(UserUIContext.getMessage(OpportunityI18nEnum.NEW),
                 clickEvent -> EventBusFactory.getInstance().post(new OpportunityEvent.GotoAdd(OpportunitySearchPanel.this, null)))
-                .withIcon(FontAwesome.PLUS).withStyleName(WebThemes.BUTTON_ACTION)
+                .withIcon(VaadinIcons.PLUS).withStyleName(WebThemes.BUTTON_ACTION)
                 .withVisible(UserUIContext.canWrite(RolePermissionCollections.CRM_OPPORTUNITY)) : null;
     }
 
@@ -102,7 +103,7 @@ public class OpportunitySearchPanel extends DefaultGenericSearchPanel<Opportunit
         public ComponentContainer constructBody() {
             MHorizontalLayout layout = new MHorizontalLayout().withMargin(true);
 
-            nameField = new MTextField().withInputPrompt(UserUIContext.getMessage(GenericI18Enum.ACTION_QUERY_BY_TEXT))
+            nameField = new MTextField().withPlaceholder(UserUIContext.getMessage(GenericI18Enum.ACTION_QUERY_BY_TEXT))
                     .withWidth(WebUIConstants.DEFAULT_CONTROL_WIDTH);
             layout.with(nameField).withAlign(nameField, Alignment.MIDDLE_CENTER);
 
@@ -110,7 +111,7 @@ public class OpportunitySearchPanel extends DefaultGenericSearchPanel<Opportunit
             layout.with(myItemCheckbox).withAlign(myItemCheckbox, Alignment.MIDDLE_CENTER);
 
             MButton searchBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_SEARCH), clickEvent -> callSearchAction())
-                    .withIcon(FontAwesome.SEARCH).withStyleName(WebThemes.BUTTON_ACTION)
+                    .withIcon(VaadinIcons.SEARCH).withStyleName(WebThemes.BUTTON_ACTION)
                     .withClickShortcut(ShortcutAction.KeyCode.ENTER);
             layout.with(searchBtn).withAlign(searchBtn, Alignment.MIDDLE_LEFT);
 

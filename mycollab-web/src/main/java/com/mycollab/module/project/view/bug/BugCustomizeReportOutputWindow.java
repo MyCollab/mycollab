@@ -16,7 +16,7 @@
  */
 package com.mycollab.module.project.view.bug;
 
-import com.mycollab.common.TableViewField;
+import com.mycollab.common.GridFieldMeta;
 import com.mycollab.db.query.VariableInjector;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.fielddef.BugTableFieldDef;
@@ -48,7 +48,7 @@ public class BugCustomizeReportOutputWindow extends CustomizeReportOutputWindow<
     }
 
     @Override
-    protected Collection<TableViewField> getDefaultColumns() {
+    protected Collection<GridFieldMeta> getDefaultColumns() {
         return Arrays.asList(BugTableFieldDef.summary, BugTableFieldDef.environment, BugTableFieldDef.priority,
                 BugTableFieldDef.severity, BugTableFieldDef.status, BugTableFieldDef.resolution,
                 BugTableFieldDef.logBy, BugTableFieldDef.dueDate, BugTableFieldDef.assignUser,
@@ -56,7 +56,7 @@ public class BugCustomizeReportOutputWindow extends CustomizeReportOutputWindow<
     }
 
     @Override
-    protected Collection<TableViewField> getAvailableColumns() {
+    protected Collection<GridFieldMeta> getAvailableColumns() {
         return Arrays.asList(BugTableFieldDef.summary, BugTableFieldDef.environment, BugTableFieldDef.priority,
                 BugTableFieldDef.severity, BugTableFieldDef.status, BugTableFieldDef.resolution,
                 BugTableFieldDef.logBy, BugTableFieldDef.startDate, BugTableFieldDef.endDate, BugTableFieldDef.dueDate,

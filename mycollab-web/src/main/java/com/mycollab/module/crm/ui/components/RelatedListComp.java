@@ -19,7 +19,7 @@ package com.mycollab.module.crm.ui.components;
 import com.mycollab.db.arguments.SearchCriteria;
 import com.mycollab.vaadin.ui.IRelatedListHandlers;
 import com.mycollab.vaadin.ui.RelatedListHandler;
-import com.mycollab.vaadin.web.ui.table.IPagedBeanTable;
+import com.mycollab.vaadin.web.ui.table.IPagedGrid;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
 import java.util.HashSet;
@@ -33,7 +33,7 @@ public abstract class RelatedListComp<T, S extends SearchCriteria> extends MVert
     private static final long serialVersionUID = 1L;
 
     protected Set<RelatedListHandler<T>> handlers;
-    protected IPagedBeanTable<S, T> tableItem;
+    protected IPagedGrid<S, T> tableItem;
 
     public RelatedListComp() {
         this.setWidth("100%");

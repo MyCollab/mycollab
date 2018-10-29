@@ -38,6 +38,7 @@ import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.web.ui.*;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
 import org.vaadin.viritin.button.MButton;
@@ -67,7 +68,7 @@ public class ContactOpportunityListComp extends RelatedListComp2<OpportunityServ
             final SplitButton controlsBtn = new SplitButton();
             controlsBtn.addStyleName(WebThemes.BUTTON_ACTION);
             controlsBtn.setCaption(UserUIContext.getMessage(OpportunityI18nEnum.NEW));
-            controlsBtn.setIcon(FontAwesome.PLUS);
+            controlsBtn.setIcon(VaadinIcons.PLUS);
             controlsBtn.addClickListener(event -> fireNewRelatedItem(""));
             controlsBtn.setSizeUndefined();
             MButton selectBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_SELECT), clickEvent -> {
@@ -141,7 +142,7 @@ public class ContactOpportunityListComp extends RelatedListComp2<OpportunityServ
                                     ContactOpportunityListComp.this.refresh();
                                 }
                             })
-            ).withIcon(FontAwesome.TRASH_O).withStyleName(WebThemes.BUTTON_ICON_ONLY)
+            ).withIcon(VaadinIcons.TRASH).withStyleName(WebThemes.BUTTON_ICON_ONLY)
                     .withVisible(UserUIContext.canWrite(RolePermissionCollections.CRM_CONTACT));
 
             blockContent.addComponent(btnDelete);

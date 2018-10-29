@@ -55,7 +55,12 @@ public class ToggleTaskSummaryWithChildRelationshipField extends CustomField<Sim
     }
 
     @Override
-    public Class<? extends SimpleTask> getType() {
-        return SimpleTask.class;
+    protected void doSetValue(SimpleTask simpleTask) {
+
+    }
+
+    @Override
+    public SimpleTask getValue() {
+        return null;
     }
 }

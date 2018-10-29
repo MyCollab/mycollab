@@ -27,7 +27,5 @@ public interface IBeanFieldGroupFieldFactory<B> extends Serializable {
 
     void setBean(B bean);
 
-    void setBuffered(boolean isBuffered);
-
     boolean commit();
 }

@@ -27,7 +27,7 @@ import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.DefaultMassItemActionHandlerContainer;
 import com.mycollab.vaadin.web.ui.DefaultGenericSearchPanel;
-import com.mycollab.vaadin.web.ui.table.AbstractPagedBeanTable;
+import com.mycollab.vaadin.web.ui.table.AbstractPagedGrid;
 import com.vaadin.ui.UI;
 import org.vaadin.viritin.button.MButton;
 
@@ -44,7 +44,7 @@ public class OpportunityListViewImpl extends AbstractListItemComp<OpportunitySea
     @Override
     protected void buildExtraControls() {
         MButton customizeViewBtn = ComponentUtils.createCustomizeViewButton().withListener(
-                clickEvent -> UI.getCurrent().addWindow(new OpportunityListCustomizeWindow(tableItem))
+                clickEvent -> UI.getCurrent().addWindow(new OpportunityListCustomizeWindow(grid))
         );
         this.addExtraButton(customizeViewBtn);
     }
@@ -55,7 +55,7 @@ public class OpportunityListViewImpl extends AbstractListItemComp<OpportunitySea
     }
 
     @Override
-    protected AbstractPagedBeanTable<OpportunitySearchCriteria, SimpleOpportunity> createBeanTable() {
+    protected AbstractPagedGrid<OpportunitySearchCriteria, SimpleOpportunity> createGrid() {
         return new OpportunityTableDisplay(CrmTypeConstants.OPPORTUNITY,
                 OpportunityTableFieldDef.selected, Arrays.asList(
                 OpportunityTableFieldDef.opportunityName, OpportunityTableFieldDef.accountName,

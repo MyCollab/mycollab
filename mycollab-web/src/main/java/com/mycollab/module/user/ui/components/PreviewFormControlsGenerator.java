@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -21,12 +21,12 @@ import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.web.ui.AdvancedPreviewBeanForm;
 import com.mycollab.vaadin.web.ui.OptionPopupContent;
 import com.mycollab.vaadin.web.ui.WebThemes;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
 import org.vaadin.hene.popupbutton.PopupButton;
-import org.vaadin.peter.buttongroup.ButtonGroup;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
@@ -37,6 +37,7 @@ import java.io.Serializable;
  * @author MyCollab Ltd.
  * @since 2.0
  */
+// TODO
 public class PreviewFormControlsGenerator<T> implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -65,7 +66,7 @@ public class PreviewFormControlsGenerator<T> implements Serializable {
     public HorizontalLayout createButtonControls(int buttonEnableFlags, String permissionItem) {
         optionBtn = new PopupButton();
         optionBtn.addStyleName(WebThemes.BUTTON_OPTION);
-        optionBtn.setIcon(FontAwesome.ELLIPSIS_H);
+        optionBtn.setIcon(VaadinIcons.ELLIPSIS_H);
 
         if (permissionItem != null) {
             boolean canWrite = UserUIContext.canWrite(permissionItem);
@@ -77,7 +78,7 @@ public class PreviewFormControlsGenerator<T> implements Serializable {
                     optionBtn.setPopupVisible(false);
                     T item = previewForm.getBean();
                     previewForm.fireAddForm(item);
-                }).withIcon(FontAwesome.PLUS).withStyleName(WebThemes.BUTTON_ACTION);
+                }).withIcon(VaadinIcons.PLUS).withStyleName(WebThemes.BUTTON_ACTION);
                 editButtons.addComponent(addBtn);
             }
 
@@ -94,28 +95,28 @@ public class PreviewFormControlsGenerator<T> implements Serializable {
                 MButton deleteBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_DELETE), clickEvent -> {
                     T item = previewForm.getBean();
                     previewForm.fireDeleteForm(item);
-                }).withIcon(FontAwesome.TRASH_O).withStyleName(WebThemes.BUTTON_DANGER);
+                }).withIcon(VaadinIcons.TRASH).withStyleName(WebThemes.BUTTON_DANGER);
                 editButtons.addComponent(deleteBtn);
             }
 
             layout.with(editButtons);
 
             if (canRead && (buttonEnableFlags & NAVIGATOR_BTN_PRESENTED) == NAVIGATOR_BTN_PRESENTED) {
-                ButtonGroup navigationBtns = new ButtonGroup();
-                MButton previousItem = new MButton("", clickEvent -> {
-                    T item = previewForm.getBean();
-                    previewForm.fireGotoPrevious(item);
-                }).withIcon(FontAwesome.CHEVRON_LEFT).withStyleName(WebThemes.BUTTON_ACTION)
-                        .withDescription(UserUIContext.getMessage(GenericI18Enum.TOOLTIP_SHOW_PREVIOUS_ITEM));
-                navigationBtns.addButton(previousItem);
-
-                MButton nextItemBtn = new MButton("", clickEvent -> {
-                    T item = previewForm.getBean();
-                    previewForm.fireGotoNextItem(item);
-                }).withIcon(FontAwesome.CHEVRON_RIGHT).withStyleName(WebThemes.BUTTON_ACTION)
-                        .withDescription(UserUIContext.getMessage(GenericI18Enum.TOOLTIP_SHOW_NEXT_ITEM));
-                navigationBtns.addButton(nextItemBtn);
-                layout.with(navigationBtns);
+//                ButtonGroup navigationBtns = new ButtonGroup();
+//                MButton previousItem = new MButton("", clickEvent -> {
+//                    T item = previewForm.getBean();
+//                    previewForm.fireGotoPrevious(item);
+//                }).withIcon(FontAwesome.CHEVRON_LEFT).withStyleName(WebThemes.BUTTON_ACTION)
+//                        .withDescription(UserUIContext.getMessage(GenericI18Enum.TOOLTIP_SHOW_PREVIOUS_ITEM));
+//                navigationBtns.addButton(previousItem);
+//
+//                MButton nextItemBtn = new MButton("", clickEvent -> {
+//                    T item = previewForm.getBean();
+//                    previewForm.fireGotoNextItem(item);
+//                }).withIcon(FontAwesome.CHEVRON_RIGHT).withStyleName(WebThemes.BUTTON_ACTION)
+//                        .withDescription(UserUIContext.getMessage(GenericI18Enum.TOOLTIP_SHOW_NEXT_ITEM));
+//                navigationBtns.addButton(nextItemBtn);
+//                layout.with(navigationBtns);
             }
 
             if (canWrite && (buttonEnableFlags & CLONE_BTN_PRESENTED) == CLONE_BTN_PRESENTED) {

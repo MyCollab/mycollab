@@ -33,8 +33,12 @@ public class DummyCustomField<T> extends CustomField<T> {
     }
 
     @Override
-    public Class<? extends T> getType() {
-        return null;
+    protected void doSetValue(T t) {
+
     }
 
+    @Override
+    public T getValue() {
+        return null;
+    }
 }

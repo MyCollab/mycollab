@@ -24,6 +24,7 @@ import com.mycollab.module.crm.service.*;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.web.ui.LabelLink;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomField;
@@ -34,6 +35,7 @@ import org.apache.commons.beanutils.PropertyUtils;
  * @author MyCollab Ltd.
  * @since 1.0
  */
+// TODO
 public class RelatedReadItemField extends CustomField {
     private static final long serialVersionUID = 1L;
 
@@ -56,7 +58,7 @@ public class RelatedReadItemField extends CustomField {
                 return new Label("");
             }
 
-            FontAwesome relatedLink = null;
+            VaadinIcons relatedLink = null;
             String relateItemName = null;
 
             if (CrmTypeConstants.ACCOUNT.equals(type)) {
@@ -123,7 +125,12 @@ public class RelatedReadItemField extends CustomField {
     }
 
     @Override
-    public Class<?> getType() {
-        return Object.class;
+    protected void doSetValue(Object o) {
+
+    }
+
+    @Override
+    public Object getValue() {
+        return null;
     }
 }

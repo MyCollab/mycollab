@@ -16,7 +16,7 @@
  */
 package com.mycollab.module.user.accountsettings.team.view;
 
-import com.mycollab.common.TableViewField;
+import com.mycollab.common.GridFieldMeta;
 import com.mycollab.db.query.VariableInjector;
 import com.mycollab.module.user.AdminTypeConstants;
 import com.mycollab.module.user.accountsettings.localization.UserI18nEnum;
@@ -43,14 +43,14 @@ public class UserCustomizeReportOutputWindow extends CustomizeReportOutputWindow
     }
 
     @Override
-    protected Collection<TableViewField> getDefaultColumns() {
+    protected Collection<GridFieldMeta> getDefaultColumns() {
         return Arrays.asList(UserTableFieldDef.displayName, UserTableFieldDef.roleName,
                 UserTableFieldDef.email, UserTableFieldDef.birthday,
                 UserTableFieldDef.officePhone, UserTableFieldDef.homePhone, UserTableFieldDef.company);
     }
 
     @Override
-    protected Collection<TableViewField> getAvailableColumns() {
+    protected Collection<GridFieldMeta> getAvailableColumns() {
         return Arrays.asList(UserTableFieldDef.displayName, UserTableFieldDef.roleName,
                 UserTableFieldDef.email, UserTableFieldDef.birthday,
                 UserTableFieldDef.officePhone, UserTableFieldDef.homePhone, UserTableFieldDef.company);

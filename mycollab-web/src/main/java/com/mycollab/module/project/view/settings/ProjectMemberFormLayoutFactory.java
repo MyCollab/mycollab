@@ -25,14 +25,13 @@ import com.mycollab.vaadin.ui.FormContainer;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.Field;
+import com.vaadin.data.HasValue;
 
 /**
  * @author MyCollab Ltd.
  * @since 1.0
  */
 public class ProjectMemberFormLayoutFactory extends AbstractFormLayoutFactory {
-    private static final long serialVersionUID = 1L;
     private GridFormLayoutHelper informationLayout;
 
     @Override
@@ -44,7 +43,7 @@ public class ProjectMemberFormLayoutFactory extends AbstractFormLayoutFactory {
     }
 
     @Override
-    protected Component onAttachField(Object propertyId, final Field<?> field) {
+    protected HasValue<?> onAttachField(Object propertyId, final HasValue<?> field) {
         if (propertyId.equals("memberFullName")) {
             return informationLayout.addComponent(field, UserUIContext.getMessage(ProjectMemberI18nEnum.FORM_USER), 0, 0, 2, "100%");
         } else if (propertyId.equals("projectroleid")) {

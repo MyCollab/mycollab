@@ -17,7 +17,7 @@
 package com.mycollab.vaadin.web.ui.field;
 
 import com.mycollab.vaadin.web.ui.LabelLink;
-import com.vaadin.shared.ui.label.ContentMode;
+import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomField;
 import com.vaadin.ui.Label;
@@ -45,11 +45,6 @@ public class LinkViewField extends CustomField<String> {
     }
 
     @Override
-    public Class<String> getType() {
-        return String.class;
-    }
-
-    @Override
     protected Component initContent() {
         if (StringUtils.isNotBlank(value)) {
             final LabelLink l = new LabelLink(value, href);
@@ -63,5 +58,15 @@ public class LinkViewField extends CustomField<String> {
             l.setWidth("100%");
             return l;
         }
+    }
+
+    @Override
+    protected void doSetValue(String s) {
+
+    }
+
+    @Override
+    public String getValue() {
+        return null;
     }
 }

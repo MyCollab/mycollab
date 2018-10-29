@@ -27,7 +27,7 @@ import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.DefaultMassItemActionHandlerContainer;
 import com.mycollab.vaadin.web.ui.DefaultGenericSearchPanel;
-import com.mycollab.vaadin.web.ui.table.AbstractPagedBeanTable;
+import com.mycollab.vaadin.web.ui.table.AbstractPagedGrid;
 import com.vaadin.ui.UI;
 import org.vaadin.viritin.button.MButton;
 
@@ -44,7 +44,7 @@ public class CaseListViewImpl extends AbstractListItemComp<CaseSearchCriteria, S
     @Override
     protected void buildExtraControls() {
         MButton customizeViewBtn = ComponentUtils.createCustomizeViewButton().withListener(clickEvent -> UI.getCurrent().addWindow(
-                new CaseListCustomizeWindow(tableItem)));
+                new CaseListCustomizeWindow(grid)));
         this.addExtraButton(customizeViewBtn);
     }
 
@@ -54,7 +54,7 @@ public class CaseListViewImpl extends AbstractListItemComp<CaseSearchCriteria, S
     }
 
     @Override
-    protected AbstractPagedBeanTable<CaseSearchCriteria, SimpleCase> createBeanTable() {
+    protected AbstractPagedGrid<CaseSearchCriteria, SimpleCase> createGrid() {
         return new CaseTableDisplay(
                 CrmTypeConstants.CASE, CaseTableFieldDef.selected,
                 Arrays.asList(CaseTableFieldDef.subject, CaseTableFieldDef.account,

@@ -16,11 +16,11 @@
  */
 package com.mycollab.module.crm.view.cases;
 
-import com.mycollab.common.TableViewField;
+import com.mycollab.common.GridFieldMeta;
 import com.mycollab.module.crm.CrmTypeConstants;
 import com.mycollab.module.crm.fielddef.CaseTableFieldDef;
-import com.mycollab.vaadin.web.ui.table.AbstractPagedBeanTable;
-import com.mycollab.vaadin.web.ui.table.CustomizedTableWindow;
+import com.mycollab.vaadin.web.ui.table.AbstractPagedGrid;
+import com.mycollab.vaadin.web.ui.table.CustomizedGridWindow;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -29,15 +29,15 @@ import java.util.Collection;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class CaseListCustomizeWindow extends CustomizedTableWindow {
+public class CaseListCustomizeWindow extends CustomizedGridWindow {
     private static final long serialVersionUID = 1L;
 
-    public CaseListCustomizeWindow(AbstractPagedBeanTable table) {
+    public CaseListCustomizeWindow(AbstractPagedGrid table) {
         super(CrmTypeConstants.CASE, table);
     }
 
     @Override
-    protected Collection<TableViewField> getAvailableColumns() {
+    protected Collection<GridFieldMeta> getAvailableColumns() {
         return Arrays.asList(CaseTableFieldDef.account,
                 CaseTableFieldDef.assignUser, CaseTableFieldDef.createdTime,
                 CaseTableFieldDef.email, CaseTableFieldDef.origin,

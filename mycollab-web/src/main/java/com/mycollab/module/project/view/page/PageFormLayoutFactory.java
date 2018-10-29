@@ -21,6 +21,7 @@ import com.mycollab.module.project.i18n.PageI18nEnum;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.AbstractFormLayoutFactory;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
+import com.vaadin.data.HasValue;
 import com.vaadin.ui.*;
 
 /**
@@ -42,7 +43,7 @@ public class PageFormLayoutFactory extends AbstractFormLayoutFactory {
     }
 
     @Override
-    protected Component onAttachField(Object propertyId, Field<?> field) {
+    protected HasValue<?> onAttachField(Object propertyId, HasValue<?> field) {
         if (propertyId.equals("subject")) {
             return informationLayout.addComponent(field, UserUIContext.getMessage(PageI18nEnum.FORM_SUBJECT), 0, 0, 2, "100%");
         } else if (propertyId.equals("content")) {

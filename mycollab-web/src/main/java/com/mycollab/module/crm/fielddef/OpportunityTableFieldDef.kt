@@ -16,7 +16,7 @@
  */
 package com.mycollab.module.crm.fielddef
 
-import com.mycollab.common.TableViewField
+import com.mycollab.common.GridFieldMeta
 import com.mycollab.common.i18n.GenericI18Enum
 import com.mycollab.module.crm.i18n.OpportunityI18nEnum
 import com.mycollab.vaadin.web.ui.WebUIConstants
@@ -27,41 +27,41 @@ import com.mycollab.vaadin.web.ui.WebUIConstants
  */
 object OpportunityTableFieldDef {
     @JvmField
-    val selected = TableViewField(null, "selected", WebUIConstants.TABLE_CONTROL_WIDTH)
+    val selected = GridFieldMeta(null, "selected", WebUIConstants.TABLE_CONTROL_WIDTH)
 
     @JvmField
-    val action = TableViewField(null, "id", WebUIConstants.TABLE_ACTION_CONTROL_WIDTH)
+    val action = GridFieldMeta(null, "id", WebUIConstants.TABLE_ACTION_CONTROL_WIDTH)
 
     @JvmField
-    val opportunityName = TableViewField(GenericI18Enum.FORM_NAME, "opportunityname", WebUIConstants.TABLE_X_LABEL_WIDTH)
+    val opportunityName = GridFieldMeta(GenericI18Enum.FORM_NAME, "opportunityname", WebUIConstants.TABLE_X_LABEL_WIDTH)
 
     @JvmField
-    val currency = TableViewField(GenericI18Enum.FORM_CURRENCY, "currency", WebUIConstants.TABLE_S_LABEL_WIDTH)
+    val currency = GridFieldMeta(GenericI18Enum.FORM_CURRENCY, "currency", WebUIConstants.TABLE_S_LABEL_WIDTH)
 
     @JvmField
-    val amount = TableViewField(OpportunityI18nEnum.FORM_AMOUNT, "amount", WebUIConstants.TABLE_S_LABEL_WIDTH)
+    val amount = GridFieldMeta(OpportunityI18nEnum.FORM_AMOUNT, "amount", WebUIConstants.TABLE_S_LABEL_WIDTH)
 
     @JvmField
-    val probability = TableViewField(OpportunityI18nEnum.FORM_PROBABILITY, "probability", WebUIConstants.TABLE_X_LABEL_WIDTH)
+    val probability = GridFieldMeta(OpportunityI18nEnum.FORM_PROBABILITY, "probability", WebUIConstants.TABLE_X_LABEL_WIDTH)
 
     @JvmField
-    val accountName = TableViewField(OpportunityI18nEnum.FORM_ACCOUNT_NAME, "accountName", WebUIConstants.TABLE_X_LABEL_WIDTH)
+    val accountName = GridFieldMeta(OpportunityI18nEnum.FORM_ACCOUNT_NAME, "accountName", WebUIConstants.TABLE_X_LABEL_WIDTH)
 
     @JvmField
-    val expectedCloseDate = TableViewField(OpportunityI18nEnum.FORM_EXPECTED_CLOSE_DATE, "expectedcloseddate", WebUIConstants.TABLE_DATE_TIME_WIDTH)
+    val expectedCloseDate = GridFieldMeta(OpportunityI18nEnum.FORM_EXPECTED_CLOSE_DATE, "expectedcloseddate", WebUIConstants.TABLE_DATE_TIME_WIDTH)
 
     @JvmField
-    val `type` = TableViewField(GenericI18Enum.FORM_TYPE, "type", WebUIConstants.TABLE_X_LABEL_WIDTH)
+    val `type` = GridFieldMeta(GenericI18Enum.FORM_TYPE, "type", WebUIConstants.TABLE_X_LABEL_WIDTH)
 
     @JvmField
-    val leadSource = TableViewField(OpportunityI18nEnum.FORM_SOURCE, "source", WebUIConstants.TABLE_X_LABEL_WIDTH)
+    val leadSource = GridFieldMeta(OpportunityI18nEnum.FORM_SOURCE, "source", WebUIConstants.TABLE_X_LABEL_WIDTH)
 
     @JvmField
-    val campaignName = TableViewField(OpportunityI18nEnum.FORM_CAMPAIGN_NAME, "campaignName", WebUIConstants.TABLE_X_LABEL_WIDTH)
+    val campaignName = GridFieldMeta(OpportunityI18nEnum.FORM_CAMPAIGN_NAME, "campaignName", WebUIConstants.TABLE_X_LABEL_WIDTH)
 
     @JvmField
-    val assignUser = TableViewField(GenericI18Enum.FORM_ASSIGNEE, "assignUserFullName", WebUIConstants.TABLE_X_LABEL_WIDTH)
+    val assignUser = GridFieldMeta(GenericI18Enum.FORM_ASSIGNEE, "assignUserFullName", WebUIConstants.TABLE_X_LABEL_WIDTH)
 
     @JvmField
-    val saleStage = TableViewField(OpportunityI18nEnum.FORM_SALE_STAGE, "salesstage", WebUIConstants.TABLE_X_LABEL_WIDTH)
+    val saleStage = GridFieldMeta(OpportunityI18nEnum.FORM_SALE_STAGE, "salesstage", WebUIConstants.TABLE_X_LABEL_WIDTH)
 }

@@ -47,4 +47,14 @@ public class TicketSavedFilterComboBox extends SavedFilterComboBox {
         componentsText.setValue(String.format("%s (%d)", selectedQueryName, countNumber));
         componentsText.setReadOnly(true);
     }
+
+    @Override
+    protected void doSetValue(String s) {
+
+    }
+
+    @Override
+    public String getValue() {
+        return null;
+    }
 }

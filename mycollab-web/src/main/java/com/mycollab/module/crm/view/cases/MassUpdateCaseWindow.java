@@ -29,7 +29,7 @@ import com.mycollab.vaadin.web.ui.MassUpdateWindow;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.Field;
+import com.vaadin.data.HasValue;
 
 /**
  * @author MyCollab Ltd.
@@ -68,7 +68,7 @@ public class MassUpdateCaseWindow extends MassUpdateWindow<CaseWithBLOBs> {
 
         // priority, status, account name, origin, type, reason, assignuser
         @Override
-        protected Component onAttachField(Object propertyId, final Field<?> field) {
+        protected HasValue<?> onAttachField(Object propertyId, final HasValue<?> field) {
             if (propertyId.equals("priority")) {
                 return informationLayout.addComponent(field, "Priority", 0, 0);
             } else if (propertyId.equals("status")) {

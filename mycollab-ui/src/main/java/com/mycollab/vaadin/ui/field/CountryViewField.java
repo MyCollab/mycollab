@@ -28,6 +28,7 @@ import java.util.Locale;
  * @author MyCollab Ltd
  * @since 5.4.2
  */
+// TODO:
 public class CountryViewField extends CustomField<String> {
     private String countryCode;
 
@@ -45,7 +46,12 @@ public class CountryViewField extends CustomField<String> {
     }
 
     @Override
-    public Class<? extends String> getType() {
-        return String.class;
+    protected void doSetValue(String s) {
+
+    }
+
+    @Override
+    public String getValue() {
+        return null;
     }
 }

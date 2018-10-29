@@ -18,7 +18,7 @@ package com.mycollab.vaadin.web.ui;
 
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.web.CustomLayoutExt;
-import com.vaadin.server.FontAwesome;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Component;
@@ -33,11 +33,11 @@ import org.vaadin.viritin.layouts.MHorizontalLayout;
 public class AddViewLayout extends CustomLayoutExt {
     private static final long serialVersionUID = 1L;
 
-    private FontAwesome viewIcon;
+    private VaadinIcons viewIcon;
     private Label titleLbl;
     private final MHorizontalLayout header;
 
-    public AddViewLayout(String viewTitle, FontAwesome viewIcon) {
+    public AddViewLayout(String viewTitle, VaadinIcons viewIcon) {
         super("addView");
 
         this.viewIcon = viewIcon;

@@ -83,7 +83,7 @@ public class AccountListPresenter extends CrmGenericListPresenter<AccountListVie
                         NotificationUtil.showWarningNotification(UserUIContext.getMessage(ErrorI18nEnum.NOT_SUPPORT_SENDING_EMAIL_TO_ALL_USERS));
                     } else {
                         List<String> lstMail = new ArrayList<>();
-                        Collection<SimpleAccount> tableData = view.getPagedBeanTable().getCurrentDataList();
+                        Collection<SimpleAccount> tableData = view.getPagedBeanGrid().getCurrentDataList();
                         for (SimpleAccount item : tableData) {
                             if (item.isSelected()) {
                                 lstMail.add(String.format("%s <%s>", item.getAccountname(), item.getEmail()));
@@ -104,7 +104,7 @@ public class AccountListPresenter extends CrmGenericListPresenter<AccountListVie
     @Override
     protected void deleteSelectedItems() {
         if (!isSelectAll) {
-            Collection<SimpleAccount> currentDataList = view.getPagedBeanTable().getCurrentDataList();
+            Collection<SimpleAccount> currentDataList = view.getPagedBeanGrid().getCurrentDataList();
             List<Account> keyList = currentDataList.stream().filter(item -> item.isSelected()).collect(Collectors.toList());
 
             if (keyList.size() > 0) {
@@ -140,7 +140,7 @@ public class AccountListPresenter extends CrmGenericListPresenter<AccountListVie
     @Override
     public void massUpdate(Account value) {
         if (!isSelectAll) {
-            Collection<SimpleAccount> currentDataList = view.getPagedBeanTable().getCurrentDataList();
+            Collection<SimpleAccount> currentDataList = view.getPagedBeanGrid().getCurrentDataList();
             List<Integer> keyList = currentDataList.stream().filter(item -> item.isSelected()).map(item -> item.getId())
                     .collect(Collectors.toList());
 

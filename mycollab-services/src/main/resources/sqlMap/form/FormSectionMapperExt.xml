@@ -6,7 +6,7 @@
         type="com.mycollab.form.domain.SimpleFormSection">
         <collection columnPrefix="field_" notNullColumn="id"
             ofType="com.mycollab.form.domain.FormSectionField"
-            property="fields"
+            property="fieldMetas"
             resultMap="com.mycollab.form.dao.FormSectionFieldMapper.BaseResultMap" />
     </resultMap>
 

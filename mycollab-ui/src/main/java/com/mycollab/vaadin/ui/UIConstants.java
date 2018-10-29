@@ -27,4 +27,5 @@ public class UIConstants {
     public static final String META_INFO = "meta-info";
     public static final String FIELD_NOTE = "field-note";
     public static final String BLOCK = "block";
+    public static final String BUTTON_LINK = "link";
 }

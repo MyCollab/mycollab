@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -21,14 +21,10 @@ import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.i18n.ShellI18nEnum;
 import com.mycollab.configuration.ServerConfiguration;
 import com.mycollab.configuration.SiteConfiguration;
-import com.mycollab.core.MyCollabException;
-import com.mycollab.core.UserInvalidInputException;
 import com.mycollab.core.utils.DateTimeUtils;
-import com.mycollab.core.utils.ImageUtil;
 import com.mycollab.core.utils.TimezoneVal;
 import com.mycollab.i18n.LocalizationHelper;
 import com.mycollab.module.file.StorageUtils;
-import com.mycollab.module.file.service.AccountFavIconService;
 import com.mycollab.module.user.accountsettings.localization.AdminI18nEnum;
 import com.mycollab.module.user.domain.SimpleBillingAccount;
 import com.mycollab.module.user.service.BillingAccountService;
@@ -46,22 +42,17 @@ import com.mycollab.vaadin.web.ui.ServiceMenu;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.mycollab.web.CustomLayoutExt;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.BrowserWindowOpener;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Page;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
-import org.vaadin.easyuploads.UploadField;
-import org.vaadin.teemu.VaadinIcons;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.util.Currency;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -70,6 +61,7 @@ import java.util.GregorianCalendar;
  * @author MyCollab Ltd
  * @since 5.1.0
  */
+// TODO
 @ViewComponent
 public class GeneralSettingViewImpl extends AbstractVerticalPageView implements GeneralSettingView {
     private SimpleBillingAccount billingAccount;
@@ -184,34 +176,34 @@ public class GeneralSettingViewImpl extends AbstractVerticalPageView implements 
 
         MHorizontalLayout buttonControls = new MHorizontalLayout().withMargin(new MarginInfo(true, false, false, false));
         buttonControls.setDefaultComponentAlignment(Alignment.TOP_LEFT);
-        final UploadField logoUploadField = new UploadField() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            protected void updateDisplay() {
-                byte[] imageData = (byte[]) this.getValue();
-                String mimeType = this.getLastMimeType();
-                if (mimeType.equals("image/jpeg")) {
-                    imageData = ImageUtil.convertJpgToPngFormat(imageData);
-                    if (imageData == null) {
-                        throw new UserInvalidInputException(UserUIContext.getMessage(FileI18nEnum.ERROR_INVALID_SUPPORTED_IMAGE_FORMAT));
-                    } else {
-                        mimeType = "image/png";
-                    }
-                }
-
-                if (mimeType.equals("image/png")) {
-                    UI.getCurrent().addWindow(new LogoEditWindow(imageData));
-                } else {
-                    throw new UserInvalidInputException(UserUIContext.getMessage(FileI18nEnum.ERROR_UPLOAD_INVALID_SUPPORTED_IMAGE_FORMAT));
-                }
-            }
-        };
-        logoUploadField.setButtonCaption(UserUIContext.getMessage(GenericI18Enum.ACTION_CHANGE));
-        logoUploadField.addStyleName("upload-field");
-        logoUploadField.setSizeUndefined();
-        logoUploadField.setFieldType(UploadField.FieldType.BYTE_ARRAY);
-        logoUploadField.setVisible(UserUIContext.canBeYes(RolePermissionCollections.ACCOUNT_THEME));
+//        final UploadField logoUploadField = new UploadField() {
+//            private static final long serialVersionUID = 1L;
+//
+//            @Override
+//            protected void updateDisplay() {
+//                byte[] imageData = (byte[]) this.getValue();
+//                String mimeType = this.getLastMimeType();
+//                if (mimeType.equals("image/jpeg")) {
+//                    imageData = ImageUtil.convertJpgToPngFormat(imageData);
+//                    if (imageData == null) {
+//                        throw new UserInvalidInputException(UserUIContext.getMessage(FileI18nEnum.ERROR_INVALID_SUPPORTED_IMAGE_FORMAT));
+//                    } else {
+//                        mimeType = "image/png";
+//                    }
+//                }
+//
+//                if (mimeType.equals("image/png")) {
+//                    UI.getCurrent().addWindow(new LogoEditWindow(imageData));
+//                } else {
+//                    throw new UserInvalidInputException(UserUIContext.getMessage(FileI18nEnum.ERROR_UPLOAD_INVALID_SUPPORTED_IMAGE_FORMAT));
+//                }
+//            }
+//        };
+//        logoUploadField.setButtonCaption(UserUIContext.getMessage(GenericI18Enum.ACTION_CHANGE));
+//        logoUploadField.addStyleName("upload-field");
+//        logoUploadField.setSizeUndefined();
+//        logoUploadField.setFieldType(UploadField.FieldType.BYTE_ARRAY);
+//        logoUploadField.setVisible(UserUIContext.canBeYes(RolePermissionCollections.ACCOUNT_THEME));
 
         MButton resetButton = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_RESET), clickEvent -> {
             BillingAccountService billingAccountService = AppContextUtil.getSpringBean(BillingAccountService.class);
@@ -221,7 +213,7 @@ public class GeneralSettingViewImpl extends AbstractVerticalPageView implements 
         }).withStyleName(WebThemes.BUTTON_OPTION);
         resetButton.setVisible(UserUIContext.canBeYes(RolePermissionCollections.ACCOUNT_THEME));
 
-        buttonControls.with(resetButton, logoUploadField);
+//        buttonControls.with(resetButton, logoUploadField);
         rightPanel.with(previewLayout, buttonControls);
         layout.with(leftPanel, rightPanel).expand(rightPanel);
         formContainer.addSection("Logo", layout);
@@ -240,43 +232,43 @@ public class GeneralSettingViewImpl extends AbstractVerticalPageView implements 
 
         MHorizontalLayout buttonControls = new MHorizontalLayout().withMargin(new MarginInfo(true, false, false, false));
         buttonControls.setDefaultComponentAlignment(Alignment.BOTTOM_LEFT);
-        final UploadField favIconUploadField = new UploadField() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            protected void updateDisplay() {
-                byte[] imageData = (byte[]) this.getValue();
-                String mimeType = this.getLastMimeType();
-                if (mimeType.equals("image/jpeg")) {
-                    imageData = ImageUtil.convertJpgToPngFormat(imageData);
-                    if (imageData == null) {
-                        throw new UserInvalidInputException(UserUIContext.getMessage(FileI18nEnum.ERROR_INVALID_SUPPORTED_IMAGE_FORMAT));
-                    } else {
-                        mimeType = "image/png";
-                    }
-                }
-
-                if (mimeType.equals("image/png")) {
-                    try {
-                        AccountFavIconService favIconService = AppContextUtil.getSpringBean(AccountFavIconService.class);
-                        BufferedImage image = ImageIO.read(new ByteArrayInputStream(imageData));
-                        String newFavIconPath = favIconService.upload(UserUIContext.getUsername(), image, AppUI.getAccountId());
-                        favIconRes.setSource(new ExternalResource(StorageUtils.getFavIconPath(billingAccount.getId(),
-                                newFavIconPath)));
-                        Page.getCurrent().getJavaScript().execute("window.location.reload();");
-                    } catch (IOException e) {
-                        throw new MyCollabException(e);
-                    }
-                } else {
-                    throw new UserInvalidInputException(UserUIContext.getMessage(FileI18nEnum.ERROR_UPLOAD_INVALID_SUPPORTED_IMAGE_FORMAT));
-                }
-            }
-        };
-        favIconUploadField.setButtonCaption(UserUIContext.getMessage(GenericI18Enum.ACTION_CHANGE));
-        favIconUploadField.addStyleName("upload-field");
-        favIconUploadField.setSizeUndefined();
-        favIconUploadField.setFieldType(UploadField.FieldType.BYTE_ARRAY);
-        favIconUploadField.setVisible(UserUIContext.canBeYes(RolePermissionCollections.ACCOUNT_THEME));
+//        final UploadField favIconUploadField = new UploadField() {
+//            private static final long serialVersionUID = 1L;
+//
+//            @Override
+//            protected void updateDisplay() {
+//                byte[] imageData = (byte[]) this.getValue();
+//                String mimeType = this.getLastMimeType();
+//                if (mimeType.equals("image/jpeg")) {
+//                    imageData = ImageUtil.convertJpgToPngFormat(imageData);
+//                    if (imageData == null) {
+//                        throw new UserInvalidInputException(UserUIContext.getMessage(FileI18nEnum.ERROR_INVALID_SUPPORTED_IMAGE_FORMAT));
+//                    } else {
+//                        mimeType = "image/png";
+//                    }
+//                }
+//
+//                if (mimeType.equals("image/png")) {
+//                    try {
+//                        AccountFavIconService favIconService = AppContextUtil.getSpringBean(AccountFavIconService.class);
+//                        BufferedImage image = ImageIO.read(new ByteArrayInputStream(imageData));
+//                        String newFavIconPath = favIconService.upload(UserUIContext.getUsername(), image, AppUI.getAccountId());
+//                        favIconRes.setSource(new ExternalResource(StorageUtils.getFavIconPath(billingAccount.getId(),
+//                                newFavIconPath)));
+//                        Page.getCurrent().getJavaScript().execute("window.location.reload();");
+//                    } catch (IOException e) {
+//                        throw new MyCollabException(e);
+//                    }
+//                } else {
+//                    throw new UserInvalidInputException(UserUIContext.getMessage(FileI18nEnum.ERROR_UPLOAD_INVALID_SUPPORTED_IMAGE_FORMAT));
+//                }
+//            }
+//        };
+//        favIconUploadField.setButtonCaption(UserUIContext.getMessage(GenericI18Enum.ACTION_CHANGE));
+//        favIconUploadField.addStyleName("upload-field");
+//        favIconUploadField.setSizeUndefined();
+//        favIconUploadField.setFieldType(UploadField.FieldType.BYTE_ARRAY);
+//        favIconUploadField.setVisible(UserUIContext.canBeYes(RolePermissionCollections.ACCOUNT_THEME));
 
         MButton resetButton = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_RESET), clickEvent -> {
             BillingAccountService billingAccountService = AppContextUtil.getSpringBean(BillingAccountService.class);
@@ -286,7 +278,7 @@ public class GeneralSettingViewImpl extends AbstractVerticalPageView implements 
         }).withStyleName(WebThemes.BUTTON_OPTION);
         resetButton.setVisible(UserUIContext.canBeYes(RolePermissionCollections.ACCOUNT_THEME));
 
-        buttonControls.with(resetButton, favIconUploadField);
+//        buttonControls.with(resetButton, favIconUploadField);
         rightPanel.with(favIconRes, buttonControls);
         layout.with(leftPanel, rightPanel).expand(rightPanel);
         formContainer.addSection("Favicon", layout);

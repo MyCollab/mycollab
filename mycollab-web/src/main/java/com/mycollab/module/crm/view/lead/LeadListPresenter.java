@@ -72,7 +72,7 @@ public class LeadListPresenter extends CrmGenericListPresenter<LeadListView, Lea
                         NotificationUtil.showWarningNotification(UserUIContext.getMessage(ErrorI18nEnum.NOT_SUPPORT_SENDING_EMAIL_TO_ALL_USERS));
                     } else {
                         List<String> lstMail = new ArrayList<>();
-                        Collection<SimpleLead> tableData = view.getPagedBeanTable().getCurrentDataList();
+                        Collection<SimpleLead> tableData = view.getPagedBeanGrid().getCurrentDataList();
                         for (SimpleLead item : tableData) {
                             if (item.isSelected()) {
                                 lstMail.add(String.format("%s <%s>", item.getLeadName(), item.getEmail()));
@@ -124,7 +124,7 @@ public class LeadListPresenter extends CrmGenericListPresenter<LeadListView, Lea
     @Override
     protected void deleteSelectedItems() {
         if (!isSelectAll) {
-            Collection<SimpleLead> currentDataList = view.getPagedBeanTable().getCurrentDataList();
+            Collection<SimpleLead> currentDataList = view.getPagedBeanGrid().getCurrentDataList();
             List<Lead> keyList = new ArrayList<>();
             for (SimpleLead item : currentDataList) {
                 if (item.isSelected()) {
@@ -146,7 +146,7 @@ public class LeadListPresenter extends CrmGenericListPresenter<LeadListView, Lea
     @Override
     public void massUpdate(Lead value) {
         if (!isSelectAll) {
-            Collection<SimpleLead> currentDataList = view.getPagedBeanTable().getCurrentDataList();
+            Collection<SimpleLead> currentDataList = view.getPagedBeanGrid().getCurrentDataList();
             List<Integer> keyList = new ArrayList<>();
             for (SimpleLead item : currentDataList) {
                 if (item.isSelected()) {

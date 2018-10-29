@@ -42,6 +42,7 @@ import static com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
  * @author MyCollab Ltd
  * @since 5.2.1
  */
+// TODO
 public class TaskSavedFilterComboBox extends SavedFilterComboBox {
     public static final String ALL_TASKS = "ALL_TICKETS";
     public static final String OPEN_TASKS = "OPEN_TICKETS";
@@ -131,5 +132,15 @@ public class TaskSavedFilterComboBox extends SavedFilterComboBox {
         componentsText.setReadOnly(false);
         componentsText.setValue(selectedQueryName + " (" + countNumber + ")");
         componentsText.setReadOnly(true);
+    }
+
+    @Override
+    protected void doSetValue(String s) {
+
+    }
+
+    @Override
+    public String getValue() {
+        return null;
     }
 }

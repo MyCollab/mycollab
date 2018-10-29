@@ -27,8 +27,9 @@ import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.web.ui.WebThemes;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.FontAwesome;
-import com.vaadin.shared.ui.label.ContentMode;
+import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Label;
@@ -46,7 +47,7 @@ public class NewUserAddedWindow extends MWindow {
         MVerticalLayout content = new MVerticalLayout();
         this.withModal(true).withResizable(false).withClosable(false).withCenter().withWidth("600px").withContent(content);
 
-        ELabel infoLbl = ELabel.html(FontAwesome.CHECK_CIRCLE.getHtml() + UserUIContext.getMessage(UserI18nEnum.OPT_NEW_USER_CREATED,
+        ELabel infoLbl = ELabel.html(VaadinIcons.CHECK_CIRCLE.getHtml() + UserUIContext.getMessage(UserI18nEnum.OPT_NEW_USER_CREATED,
                 user.getDisplayName()));
         content.with(infoLbl);
 

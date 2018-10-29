@@ -28,6 +28,7 @@ import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.FormContainer;
 import com.mycollab.vaadin.ui.IDynaFormLayout;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
+import com.vaadin.data.HasValue;
 import com.vaadin.ui.*;
 import org.vaadin.viritin.layouts.MCssLayout;
 
@@ -149,14 +150,14 @@ public class DefaultDynaFormLayout implements IDynaFormLayout {
     }
 
     @Override
-    public Component attachField(Object propertyId, Field<?> field) {
+    public HasValue<?> attachField(Object propertyId, HasValue<?> field) {
         AbstractDynaField dynaField = fieldMappings.get(propertyId);
         if (dynaField != null) {
             DynaSection section = dynaField.getOwnSection();
             GridFormLayoutHelper gridLayout = sectionMappings.get(section);
             HorizontalLayout componentWrapper = gridLayout.getComponentWrapper(UserUIContext.getMessage(dynaField.getDisplayName()));
             if (componentWrapper != null) {
-                componentWrapper.addComponent(field);
+                componentWrapper.addComponent((Component) field);
             }
             return field;
         }

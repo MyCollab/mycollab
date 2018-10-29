@@ -59,7 +59,7 @@ public class ToggleBugSummaryField extends AbstractToggleSummaryField {
     public ToggleBugSummaryField(final BugWithBLOBs bug, int trimCharacters) {
         this.bug = bug;
         this.maxLength = trimCharacters;
-        titleLinkLbl = ELabel.html(buildBugLink()).withStyleName(UIConstants.LABEL_WORD_WRAP).withWidthUndefined();
+        titleLinkLbl = ELabel.html(buildBugLink()).withStyleName(UIConstants.LABEL_WORD_WRAP).withUndefinedWidth();
         this.addComponent(titleLinkLbl);
         buttonControls = new MHorizontalLayout().withStyleName("toggle").withSpacing(false);
         if (CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.BUGS)) {

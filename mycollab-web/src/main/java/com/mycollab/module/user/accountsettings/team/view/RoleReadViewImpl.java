@@ -36,6 +36,8 @@ import com.mycollab.vaadin.ui.FormContainer;
 import com.mycollab.vaadin.ui.field.DefaultViewField;
 import com.mycollab.vaadin.web.ui.AdvancedPreviewBeanForm;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
+import com.vaadin.data.HasValue;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
@@ -55,13 +57,12 @@ public class RoleReadViewImpl extends AbstractVerticalPageView implements RoleRe
     private SimpleRole role;
 
     public RoleReadViewImpl() {
-        super();
         this.setMargin(new MarginInfo(false, true, true, true));
 
         MHorizontalLayout header = new MHorizontalLayout().withMargin(new MarginInfo(true, false, true, false)).withFullWidth();
         header.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
-        ELabel headerText = ELabel.h2(FontAwesome.USERS.getHtml() + " " + UserUIContext.getMessage(RoleI18nEnum.DETAIL));
+        ELabel headerText = ELabel.h2(VaadinIcons.USERS.getHtml() + " " + UserUIContext.getMessage(RoleI18nEnum.DETAIL));
         header.with(headerText).expand(headerText);
         this.addComponent(header);
 
@@ -87,7 +88,7 @@ public class RoleReadViewImpl extends AbstractVerticalPageView implements RoleRe
             private static final long serialVersionUID = 1L;
 
             @Override
-            protected Field<?> onCreateField(Object propertyId) {
+            protected HasValue<?> onCreateField(Object propertyId) {
                 if (Role.Field.isdefault.equalTo(propertyId)) {
                     Enum localizeYesNo = LocalizationHelper.localizeYesNo(role.getIsdefault());
                     return new DefaultViewField(UserUIContext.getMessage(localizeYesNo));

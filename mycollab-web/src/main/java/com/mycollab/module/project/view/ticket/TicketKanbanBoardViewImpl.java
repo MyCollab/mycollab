@@ -56,7 +56,6 @@ import fi.jasoft.dragdroplayouts.client.ui.LayoutDragMode;
 import fi.jasoft.dragdroplayouts.events.LayoutBoundTransferable;
 import fi.jasoft.dragdroplayouts.events.VerticalLocationIs;
 import org.apache.commons.collections.CollectionUtils;
-import org.vaadin.jouni.restrain.Restrain;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
@@ -73,6 +72,7 @@ import static com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum.*;
  * @author MyCollab Ltd
  * @since 5.1.1
  */
+// TODO
 @ViewComponent
 public class TicketKanbanBoardViewImpl extends AbstractVerticalPageView implements TicketKanbanBoardView {
 
@@ -283,7 +283,7 @@ public class TicketKanbanBoardViewImpl extends AbstractVerticalPageView implemen
             MHorizontalLayout headerLayout = new MHorizontalLayout();
 
             ToggleTicketSummaryField toggleTicketSummaryField = new ToggleTicketSummaryField(projectTicket);
-            ELabel iconLbl = ELabel.html(ProjectAssetsManager.getAsset(ticket.getType()).getHtml()).withWidthUndefined();
+            ELabel iconLbl = ELabel.html(ProjectAssetsManager.getAsset(ticket.getType()).getHtml()).withUndefinedWidth();
             headerLayout.with(iconLbl, toggleTicketSummaryField).expand(toggleTicketSummaryField);
 
             this.with(headerLayout);
@@ -377,7 +377,7 @@ public class TicketKanbanBoardViewImpl extends AbstractVerticalPageView implemen
                     return new Not(VerticalLocationIs.MIDDLE);
                 }
             });
-            new Restrain(dragLayoutContainer).setMinHeight("50px").setMaxHeight((UIUtils.getBrowserHeight() - 390) + "px");
+//            new Restrain(dragLayoutContainer).setMinHeight("50px").setMaxHeight((UIUtils.getBrowserHeight() - 390) + "px");
 
             MHorizontalLayout headerLayout = new MHorizontalLayout().withSpacing(false).withFullWidth().withStyleName("header");
             header = new Label(UserUIContext.getMessage(StatusI18nEnum.class, stage));

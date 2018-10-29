@@ -36,9 +36,10 @@ import com.mycollab.vaadin.web.ui.AdvancedPreviewBeanForm;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.mycollab.vaadin.ui.field.UrlLinkViewField;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
+import com.vaadin.data.HasValue;
 import com.vaadin.server.Page;
 import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.shared.ui.label.ContentMode;
+import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.ui.*;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
@@ -50,6 +51,7 @@ import java.awt.image.BufferedImage;
  * @author MyCollab Ltd.
  * @since 2.0
  */
+// TODO
 @ViewComponent
 public class ProfileReadViewImpl extends AbstractVerticalPageView implements ProfileReadView, ImagePreviewCropWindow.ImageSelectionCommand {
     private static final long serialVersionUID = 1L;
@@ -76,16 +78,16 @@ public class ProfileReadViewImpl extends AbstractVerticalPageView implements Pro
         MVerticalLayout userAvatar = new MVerticalLayout().withMargin(false).with(avatarWrapper);
         userAvatar.setSizeUndefined();
 
-        final UploadImageField avatarUploadField = new UploadImageField(this);
-        avatarUploadField.setButtonCaption(UserUIContext.getMessage(UserI18nEnum.BUTTON_CHANGE_AVATAR));
-        userAvatar.addComponent(avatarUploadField);
+//        final UploadImageField avatarUploadField = new UploadImageField(this);
+//        avatarUploadField.setButtonCaption(UserUIContext.getMessage(UserI18nEnum.BUTTON_CHANGE_AVATAR));
+//        userAvatar.addComponent(avatarUploadField);
 
         avatarAndPass.with(userAvatar);
 
         User user = formItem.getBean();
         MVerticalLayout basicLayout = new MVerticalLayout().withMargin(false);
 
-        ELabel usernameLbl = ELabel.h2(UserUIContext.getUser().getDisplayName()).withWidthUndefined();
+        ELabel usernameLbl = ELabel.h2(UserUIContext.getUser().getDisplayName()).withUndefinedWidth();
 
         MButton btnChangeBasicInfo = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_EDIT),
                 clickEvent -> UI.getCurrent().addWindow(new BasicInfoChangeWindow(formItem.getBean())))
@@ -134,7 +136,6 @@ public class ProfileReadViewImpl extends AbstractVerticalPageView implements Pro
         }
 
         private class FormLayoutFactory extends AbstractFormLayoutFactory {
-            private static final long serialVersionUID = 1L;
 
             private GridFormLayoutHelper contactLayout = GridFormLayoutHelper.defaultFormLayoutHelper(1, 5);
             private GridFormLayoutHelper advancedInfoLayout = GridFormLayoutHelper.defaultFormLayoutHelper(1, 3);
@@ -170,7 +171,7 @@ public class ProfileReadViewImpl extends AbstractVerticalPageView implements Pro
             }
 
             @Override
-            protected Component onAttachField(Object propertyId, Field<?> field) {
+            protected HasValue<?> onAttachField(Object propertyId, HasValue<?> field) {
                 if (propertyId.equals("website")) {
                     return advancedInfoLayout.addComponent(field, UserUIContext.getMessage(UserI18nEnum.FORM_WEBSITE), 0, 0);
                 } else if (propertyId.equals("company")) {
@@ -200,7 +201,7 @@ public class ProfileReadViewImpl extends AbstractVerticalPageView implements Pro
             }
 
             @Override
-            protected Field<?> onCreateField(final Object propertyId) {
+            protected HasValue<?> onCreateField(final Object propertyId) {
                 User user = formItem.getBean();
                 if (propertyId.equals("website")) {
                     return new UrlLinkViewField(user.getWebsite());

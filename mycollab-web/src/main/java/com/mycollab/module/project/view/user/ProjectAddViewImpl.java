@@ -32,6 +32,7 @@ import com.mycollab.vaadin.web.ui.AddViewLayout;
 import com.mycollab.vaadin.web.ui.DoubleField;
 import com.mycollab.vaadin.web.ui.I18nValueComboBox;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
+import com.vaadin.data.HasValue;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
@@ -108,7 +109,7 @@ public class ProjectAddViewImpl extends AbstractVerticalPageView implements Proj
         }
 
         @Override
-        public Component onAttachField(Object propertyId, final Field<?> field) {
+        public HasValue<?> onAttachField(Object propertyId, final HasValue<?> field) {
             return projectInformationLayout.onAttachField(propertyId, field);
         }
     }
@@ -134,7 +135,7 @@ public class ProjectAddViewImpl extends AbstractVerticalPageView implements Proj
         }
 
         @Override
-        public Component onAttachField(Object propertyId, final Field<?> field) {
+        public HasValue<?> onAttachField(Object propertyId, final HasValue<?> field) {
             if (propertyId.equals("name")) {
                 return informationLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.FORM_NAME), 0, 0);
             } else if (propertyId.equals("homepage")) {
@@ -175,6 +176,7 @@ public class ProjectAddViewImpl extends AbstractVerticalPageView implements Proj
         }
     }
 
+    // TODO
     private static class EditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<Project> {
         private static final long serialVersionUID = 1L;
 
@@ -183,7 +185,7 @@ public class ProjectAddViewImpl extends AbstractVerticalPageView implements Proj
         }
 
         @Override
-        protected Field<?> onCreateField(final Object propertyId) {
+        protected HasValue<?> onCreateField(final Object propertyId) {
             Project project = attachForm.getBean();
             if (Project.Field.description.equalTo(propertyId)) {
                 final RichTextArea field = new RichTextArea();
@@ -191,25 +193,25 @@ public class ProjectAddViewImpl extends AbstractVerticalPageView implements Proj
                 return field;
             } else if (Project.Field.projectstatus.equalTo(propertyId)) {
                 final ProjectStatusComboBox projectCombo = new ProjectStatusComboBox();
-                projectCombo.setRequired(true);
-                projectCombo.setRequiredError("Please enter a project status");
+//                projectCombo.setRequired(true);
+//                projectCombo.setRequiredError("Please enter a project status");
                 if (project.getProjectstatus() == null) {
                     project.setProjectstatus(StatusI18nEnum.Open.name());
                 }
                 return projectCombo;
             } else if (Project.Field.shortname.equalTo(propertyId)) {
                 final TextField tf = new TextField();
-                tf.setNullRepresentation("");
-                tf.setRequired(true);
-                tf.setRequiredError("Please enter a project short name");
+//                tf.setNullRepresentation("");
+//                tf.setRequired(true);
+//                tf.setRequiredError("Please enter a project short name");
                 return tf;
             } else if (Project.Field.currencyid.equalTo(propertyId)) {
                 return new CurrencyComboBoxField();
             } else if (Project.Field.name.equalTo(propertyId)) {
                 final TextField tf = new TextField();
-                tf.setNullRepresentation("");
-                tf.setRequired(true);
-                tf.setRequiredError("Please enter a Name");
+//                tf.setNullRepresentation("");
+//                tf.setRequired(true);
+//                tf.setRequiredError("Please enter a Name");
                 return tf;
             } else if (Project.Field.accountid.equalTo(propertyId)) {
                 return new AccountSelectionField();

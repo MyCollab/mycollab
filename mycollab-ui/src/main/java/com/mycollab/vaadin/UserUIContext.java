@@ -213,7 +213,7 @@ public class UserUIContext implements Serializable {
         return getInstance().session.getDisplayName();
     }
 
-    public static final TimeZone getUserTimeZone() {
+    public static TimeZone getUserTimeZone() {
         return getInstance().userTimeZone;
     }
 

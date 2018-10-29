@@ -40,6 +40,7 @@ import static com.mycollab.module.crm.i18n.OptionI18nEnum.CampaignStatus;
  * @author MyCollab Ltd.
  * @since 1.0
  */
+// TODO
 class LeadCampaignSelectionWindow extends RelatedItemSelectionWindow<SimpleCampaign, CampaignSearchCriteria> {
 
     LeadCampaignSelectionWindow(LeadCampaignListComp associateLeadList) {
@@ -53,22 +54,22 @@ class LeadCampaignSelectionWindow extends RelatedItemSelectionWindow<SimpleCampa
                 Arrays.asList(CampaignTableFieldDef.campaignname, CampaignTableFieldDef.status,
                         CampaignTableFieldDef.type, CampaignTableFieldDef.endDate));
 
-        tableItem.addGeneratedColumn("campaignname", (source, itemId, columnId) -> {
-            final SimpleCampaign campaign = tableItem.getBeanByIndex(itemId);
-
-            ELabel b = new ELabel(campaign.getCampaignname()).withStyleName(WebThemes.BUTTON_LINK)
-                    .withDescription(CrmTooltipGenerator.generateTooltipCampaign(UserUIContext.getUserLocale(), AppUI.getDateFormat(),
-                            campaign, AppUI.getSiteUrl(), UserUIContext.getUserTimeZone()));
-
-            if (CampaignStatus.Completed.name().equals(campaign.getStatus())) {
-                b.addStyleName(WebThemes.LINK_COMPLETED);
-            } else {
-                if (campaign.getEnddate() != null && (campaign.getEnddate().before(new GregorianCalendar().getTime()))) {
-                    b.addStyleName(WebThemes.LINK_OVERDUE);
-                }
-            }
-            return b;
-        });
+//        gridItem.addGeneratedColumn("campaignname", (source, itemId, columnId) -> {
+//            final SimpleCampaign campaign = gridItem.getBeanByIndex(itemId);
+//
+//            ELabel b = new ELabel(campaign.getCampaignname()).withStyleName(WebThemes.BUTTON_LINK)
+//                    .withDescription(CrmTooltipGenerator.generateTooltipCampaign(UserUIContext.getUserLocale(), AppUI.getDateFormat(),
+//                            campaign, AppUI.getSiteUrl(), UserUIContext.getUserTimeZone()));
+//
+//            if (CampaignStatus.Completed.name().equals(campaign.getStatus())) {
+//                b.addStyleName(WebThemes.LINK_COMPLETED);
+//            } else {
+//                if (campaign.getEnddate() != null && (campaign.getEnddate().before(new GregorianCalendar().getTime()))) {
+//                    b.addStyleName(WebThemes.LINK_OVERDUE);
+//                }
+//            }
+//            return b;
+//        });
 
         MButton selectBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_SELECT), clickEvent -> close())
                 .withStyleName(WebThemes.BUTTON_ACTION);

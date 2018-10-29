@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -19,16 +19,11 @@ package com.mycollab.vaadin.web.ui.field;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.PopupDateFieldExt;
-import com.mycollab.vaadin.web.ui.WebThemes;
 import com.mycollab.vaadin.web.ui.ValueComboBox;
-import com.vaadin.data.Property;
-import com.vaadin.data.Validator.InvalidValueException;
-import com.vaadin.data.util.ObjectProperty;
-import com.vaadin.shared.ui.datefield.Resolution;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomField;
-import org.joda.time.*;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 import java.util.Date;
@@ -37,6 +32,7 @@ import java.util.Date;
  * @author MyCollab Ltd.
  * @since 2.0
  */
+// TODO
 public class DateTimeOptionField extends CustomField<Date> {
     private static final long serialVersionUID = 1L;
 
@@ -58,28 +54,28 @@ public class DateTimeOptionField extends CustomField<Date> {
     public DateTimeOptionField(boolean hideTimeOptionVal) {
         this.hideTimeOption = hideTimeOptionVal;
         popupDateField = new PopupDateFieldExt();
-        popupDateField.addValueChangeListener(valueChangeEvent -> {
-            Date date = (Date) valueChangeEvent.getProperty().getValue();
-            if (date != null) {
-                trickModified = true;
-                popupDateField.setPropertyDataSource(new ObjectProperty(date));
-            }
-        });
-        popupDateField.setImmediate(true);
-        popupDateField.setResolution(Resolution.DAY);
-        hourPickerComboBox = new HourPickerComboBox();
-        hourPickerComboBox.setWidth("60px");
-
-        minutePickerComboBox = new MinutePickerComboBox();
-        minutePickerComboBox.setImmediate(true);
-        minutePickerComboBox.setWidth("60px");
-
-        timeFormatComboBox = new ValueComboBox();
-        timeFormatComboBox.setWidth("65px");
-        timeFormatComboBox.setImmediate(true);
-        timeFormatComboBox.setCaption(null);
-        timeFormatComboBox.loadData("AM", "PM");
-        timeFormatComboBox.setNullSelectionAllowed(false);
+//        popupDateField.addValueChangeListener(valueChangeEvent -> {
+//            Date date = (Date) valueChangeEvent.getProperty().getValue();
+//            if (date != null) {
+//                trickModified = true;
+//                popupDateField.setPropertyDataSource(new ObjectProperty(date));
+//            }
+//        });
+//        popupDateField.setImmediate(true);
+//        popupDateField.setResolution(Resolution.DAY);
+//        hourPickerComboBox = new HourPickerComboBox();
+//        hourPickerComboBox.setWidth("60px");
+//
+//        minutePickerComboBox = new MinutePickerComboBox();
+//        minutePickerComboBox.setImmediate(true);
+//        minutePickerComboBox.setWidth("60px");
+//
+//        timeFormatComboBox = new ValueComboBox();
+//        timeFormatComboBox.setWidth("65px");
+//        timeFormatComboBox.setImmediate(true);
+//        timeFormatComboBox.setCaption(null);
+//        timeFormatComboBox.loadData("AM", "PM");
+//        timeFormatComboBox.setEmptySelectionAllowed(false);
 
         toggleTimeBtn = new Button("", clickEvent -> toggleHideTimeOption(!hideTimeOption));
         toggleTimeBtn.addStyleName(WebThemes.BUTTON_LINK);
@@ -97,20 +93,20 @@ public class DateTimeOptionField extends CustomField<Date> {
         }
     }
 
-    @Override
-    public boolean isModified() {
-        return popupDateField.isModified() || hourPickerComboBox.isModified() || minutePickerComboBox.isModified() ||
-                timeFormatComboBox.isModified() || trickModified;
-    }
-
-    @Override
-    public void setBuffered(boolean buffered) {
-        popupDateField.setBuffered(buffered);
-        hourPickerComboBox.setBuffered(buffered);
-        minutePickerComboBox.setBuffered(buffered);
-        timeFormatComboBox.setBuffered(buffered);
-        super.setBuffered(buffered);
-    }
+//    @Override
+//    public boolean isModified() {
+//        return popupDateField.isModified() || hourPickerComboBox.isModified() || minutePickerComboBox.isModified() ||
+//                timeFormatComboBox.isModified() || trickModified;
+//    }
+//
+//    @Override
+//    public void setBuffered(boolean buffered) {
+//        popupDateField.setBuffered(buffered);
+//        hourPickerComboBox.setBuffered(buffered);
+//        minutePickerComboBox.setBuffered(buffered);
+//        timeFormatComboBox.setBuffered(buffered);
+//        super.setBuffered(buffered);
+//    }
 
     @Override
     protected Component initContent() {
@@ -131,33 +127,33 @@ public class DateTimeOptionField extends CustomField<Date> {
         }
     }
 
-    @Override
-    public void setPropertyDataSource(Property newDataSource) {
-        Date value = (Date) newDataSource.getValue();
-        if (value != null) {
-            DateTime jodaTime = new DateTime(value);
-            jodaTime = jodaTime.toDateTime(DateTimeZone.forTimeZone(UserUIContext.getUserTimeZone()));
-            int hrs = jodaTime.getHourOfDay();
-            int min = jodaTime.getMinuteOfHour();
-            String timeFormat = "AM";
-            if (hrs > 12) {
-                hrs -= 12;
-                timeFormat = "PM";
-            }
-
-            if ((hrs > 0 || min > 0) && hideTimeOption) {
-                toggleHideTimeOption(false);
-            }
-
-            popupDateField.setPropertyDataSource(new ObjectProperty(jodaTime.toDate()));
-            if (!hideTimeOption) {
-                hourPickerComboBox.setPropertyDataSource(new ObjectProperty((hrs < 10) ? "0" + hrs : "" + hrs));
-                minutePickerComboBox.setPropertyDataSource(new ObjectProperty((min < 10) ? "0" + min : "" + min));
-                timeFormatComboBox.setPropertyDataSource(new ObjectProperty(timeFormat));
-            }
-        }
-        super.setPropertyDataSource(newDataSource);
-    }
+//    @Override
+//    public void setPropertyDataSource(Property newDataSource) {
+//        Date value = (Date) newDataSource.getValue();
+//        if (value != null) {
+//            DateTime jodaTime = new DateTime(value);
+//            jodaTime = jodaTime.toDateTime(DateTimeZone.forTimeZone(UserUIContext.getUserTimeZone()));
+//            int hrs = jodaTime.getHourOfDay();
+//            int min = jodaTime.getMinuteOfHour();
+//            String timeFormat = "AM";
+//            if (hrs > 12) {
+//                hrs -= 12;
+//                timeFormat = "PM";
+//            }
+//
+//            if ((hrs > 0 || min > 0) && hideTimeOption) {
+//                toggleHideTimeOption(false);
+//            }
+//
+//            popupDateField.setPropertyDataSource(new ObjectProperty(jodaTime.toDate()));
+//            if (!hideTimeOption) {
+//                hourPickerComboBox.setPropertyDataSource(new ObjectProperty((hrs < 10) ? "0" + hrs : "" + hrs));
+//                minutePickerComboBox.setPropertyDataSource(new ObjectProperty((min < 10) ? "0" + min : "" + min));
+//                timeFormatComboBox.setPropertyDataSource(new ObjectProperty(timeFormat));
+//            }
+//        }
+//        super.setPropertyDataSource(newDataSource);
+//    }
 
     private long calculateMilliSeconds(Integer hour, Integer minus, String timeFormat) {
         long allMinus = 0;
@@ -169,36 +165,43 @@ public class DateTimeOptionField extends CustomField<Date> {
         return allMinus;
     }
 
-    @Override
-    public void commit() throws SourceException, InvalidValueException {
-        Date internalValue = getDateValue();
-        super.setInternalValue(internalValue);
-        super.commit();
-    }
+//    @Override
+//    public void commit() throws SourceException, InvalidValueException {
+//        Date internalValue = getDateValue();
+//        super.setInternalValue(internalValue);
+//        super.commit();
+//    }
 
-    @Override
-    public Class<Date> getType() {
-        return Date.class;
-    }
 
     private Date getDateValue() {
-        Date selectDate = popupDateField.getValue();
-        if (selectDate == null) {
-            return null;
-        }
+//        Date selectDate = popupDateField.getValue();
+//        if (selectDate == null) {
+//            return null;
+//        }
+//
+//        DateTime jodaSelectDate = new DateTime(selectDate).toDateTime(DateTimeZone.forTimeZone(UserUIContext.getUserTimeZone()));
+//        Date baseDate = new LocalDate(jodaSelectDate).toDate();
+//        if (hideTimeOption) {
+//            return new LocalDateTime(baseDate).toDateTime(DateTimeZone.forTimeZone(UserUIContext.getUserTimeZone())).toDate();
+//        } else {
+//            Integer hour = (hourPickerComboBox.getValue() != null) ? Integer.parseInt((String) hourPickerComboBox.getValue()) : 0;
+//            Integer minus = (minutePickerComboBox.getValue() != null) ? Integer.parseInt((String) minutePickerComboBox.getValue()) : 0;
+//            String timeFormat = (timeFormatComboBox.getValue() != null) ? (String) timeFormatComboBox.getValue() : "AM";
+//            long milliseconds = calculateMilliSeconds(hour, minus, timeFormat);
+//            DateTime jodaTime = new DateTime(baseDate).plus(new Duration(milliseconds));
+//            return new LocalDateTime(jodaTime.getMillis()).toDateTime(DateTimeZone.forTimeZone(UserUIContext.getUserTimeZone())).toDate();
+//        }
+        return null;
+    }
 
-        DateTime jodaSelectDate = new DateTime(selectDate).toDateTime(DateTimeZone.forTimeZone(UserUIContext.getUserTimeZone()));
-        Date baseDate = new LocalDate(jodaSelectDate).toDate();
-        if (hideTimeOption) {
-            return new LocalDateTime(baseDate).toDateTime(DateTimeZone.forTimeZone(UserUIContext.getUserTimeZone())).toDate();
-        } else {
-            Integer hour = (hourPickerComboBox.getValue() != null) ? Integer.parseInt((String) hourPickerComboBox.getValue()) : 0;
-            Integer minus = (minutePickerComboBox.getValue() != null) ? Integer.parseInt((String) minutePickerComboBox.getValue()) : 0;
-            String timeFormat = (timeFormatComboBox.getValue() != null) ? (String) timeFormatComboBox.getValue() : "AM";
-            long milliseconds = calculateMilliSeconds(hour, minus, timeFormat);
-            DateTime jodaTime = new DateTime(baseDate).plus(new Duration(milliseconds));
-            return new LocalDateTime(jodaTime.getMillis()).toDateTime(DateTimeZone.forTimeZone(UserUIContext.getUserTimeZone())).toDate();
-        }
+    @Override
+    protected void doSetValue(Date date) {
+
+    }
+
+    @Override
+    public Date getValue() {
+        return null;
     }
 
     private static class HourPickerComboBox extends ValueComboBox {

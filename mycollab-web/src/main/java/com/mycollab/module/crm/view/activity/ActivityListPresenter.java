@@ -97,7 +97,7 @@ public class ActivityListPresenter extends CrmGenericListPresenter<ActivityListV
 
     @Override
     protected void deleteSelectedItems() {
-        Collection<SimpleActivity> currentDataList = view.getPagedBeanTable().getCurrentDataList();
+        Collection<SimpleActivity> currentDataList = view.getPagedBeanGrid().getCurrentDataList();
         List<Integer> keyListCall = new ArrayList<>();
         List<Integer> keyListMeeting = new ArrayList<>();
         List<Integer> keyListTask = new ArrayList<>();

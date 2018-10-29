@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -34,10 +34,13 @@ import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.event.HasPreviewFormHandlers;
 import com.mycollab.vaadin.mvp.ViewComponent;
-import com.mycollab.vaadin.web.ui.*;
+import com.mycollab.vaadin.web.ui.AbstractPreviewItemComp;
+import com.mycollab.vaadin.web.ui.AdvancedPreviewBeanForm;
+import com.mycollab.vaadin.web.ui.WebThemes;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.FontAwesome;
+import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.HorizontalLayout;
@@ -116,11 +119,11 @@ public class ComponentReadViewImpl extends AbstractPreviewItemComp<SimpleCompone
         if (StatusI18nEnum.Open.name().equals(beanItem.getStatus())) {
             removeLayoutStyleName(WebThemes.LINK_COMPLETED);
             quickActionStatusBtn.setCaption(UserUIContext.getMessage(GenericI18Enum.BUTTON_CLOSE));
-            quickActionStatusBtn.setIcon(FontAwesome.ARCHIVE);
+            quickActionStatusBtn.setIcon(VaadinIcons.ARCHIVE);
         } else {
             addLayoutStyleName(WebThemes.LINK_COMPLETED);
             quickActionStatusBtn.setCaption(UserUIContext.getMessage(GenericI18Enum.BUTTON_REOPEN));
-            quickActionStatusBtn.setIcon(FontAwesome.CLIPBOARD);
+            quickActionStatusBtn.setIcon(VaadinIcons.CLIPBOARD);
         }
 
     }
@@ -149,12 +152,12 @@ public class ComponentReadViewImpl extends AbstractPreviewItemComp<SimpleCompone
                 beanItem.setStatus(StatusI18nEnum.Open.name());
                 ComponentReadViewImpl.this.removeLayoutStyleName(WebThemes.LINK_COMPLETED);
                 quickActionStatusBtn.setCaption(UserUIContext.getMessage(GenericI18Enum.BUTTON_CLOSE));
-                quickActionStatusBtn.setIcon(FontAwesome.ARCHIVE);
+                quickActionStatusBtn.setIcon(VaadinIcons.ARCHIVE);
             } else {
                 beanItem.setStatus(StatusI18nEnum.Closed.name());
                 ComponentReadViewImpl.this.addLayoutStyleName(WebThemes.LINK_COMPLETED);
                 quickActionStatusBtn.setCaption(UserUIContext.getMessage(GenericI18Enum.BUTTON_REOPEN));
-                quickActionStatusBtn.setIcon(FontAwesome.CLIPBOARD);
+                quickActionStatusBtn.setIcon(VaadinIcons.CLIPBOARD);
             }
 
             ComponentService service = AppContextUtil.getSpringBean(ComponentService.class);
@@ -182,7 +185,7 @@ public class ComponentReadViewImpl extends AbstractPreviewItemComp<SimpleCompone
             this.removeAllComponents();
             this.withMargin(false);
 
-            Label peopleInfoHeader = new Label(FontAwesome.USER.getHtml() + " " +
+            Label peopleInfoHeader = new Label(VaadinIcons.USER.getHtml() + " " +
                     UserUIContext.getMessage(ProjectCommonI18nEnum.SUB_INFO_PEOPLE), ContentMode.HTML);
             peopleInfoHeader.setStyleName("info-hdr");
             this.addComponent(peopleInfoHeader);

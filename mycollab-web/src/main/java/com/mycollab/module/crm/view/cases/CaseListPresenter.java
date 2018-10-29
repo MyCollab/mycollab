@@ -74,7 +74,7 @@ public class CaseListPresenter extends CrmGenericListPresenter<CaseListView, Cas
                                 .getMessage(ErrorI18nEnum.NOT_SUPPORT_SENDING_EMAIL_TO_ALL_USERS));
                     } else {
                         List<String> lstMail = new ArrayList<>();
-                        Collection<SimpleCase> tableData = view.getPagedBeanTable().getCurrentDataList();
+                        Collection<SimpleCase> tableData = view.getPagedBeanGrid().getCurrentDataList();
                         for (SimpleCase item : tableData) {
                             if (item.isSelected()) {
                                 lstMail.add(item.getEmail());
@@ -125,7 +125,7 @@ public class CaseListPresenter extends CrmGenericListPresenter<CaseListView, Cas
     @Override
     protected void deleteSelectedItems() {
         if (!isSelectAll) {
-            Collection<SimpleCase> currentDataList = view.getPagedBeanTable().getCurrentDataList();
+            Collection<SimpleCase> currentDataList = view.getPagedBeanGrid().getCurrentDataList();
             List<CaseWithBLOBs> keyList = new ArrayList<>();
             for (SimpleCase item : currentDataList) {
                 if (item.isSelected()) {
@@ -148,7 +148,7 @@ public class CaseListPresenter extends CrmGenericListPresenter<CaseListView, Cas
     @Override
     public void massUpdate(CaseWithBLOBs value) {
         if (!isSelectAll) {
-            Collection<SimpleCase> currentDataList = view.getPagedBeanTable().getCurrentDataList();
+            Collection<SimpleCase> currentDataList = view.getPagedBeanGrid().getCurrentDataList();
             List<Integer> keyList = new ArrayList<>();
             for (SimpleCase item : currentDataList) {
                 if (item.isSelected()) {

@@ -30,7 +30,7 @@ import com.mycollab.vaadin.ui.field.DateTimeViewField;
 import com.mycollab.vaadin.ui.field.DefaultViewField;
 import com.mycollab.vaadin.ui.field.RichTextViewField;
 import com.mycollab.vaadin.web.ui.field.UserLinkViewField;
-import com.vaadin.ui.Field;
+import com.vaadin.data.HasValue;
 import org.joda.time.Duration;
 import org.joda.time.format.PeriodFormatter;
 import org.joda.time.format.PeriodFormatterBuilder;
@@ -47,7 +47,7 @@ class CallReadFormFieldFactory extends AbstractBeanFieldGroupViewFieldFactory<Si
     }
 
     @Override
-    protected Field<?> onCreateField(Object propertyId) {
+    protected HasValue<?> onCreateField(Object propertyId) {
         SimpleCall call = attachForm.getBean();
 
         if (propertyId.equals("assignuser")) {

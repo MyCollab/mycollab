@@ -35,7 +35,6 @@ import com.mycollab.vaadin.ui.UIConstants
 import com.vaadin.server.FontAwesome
 import com.vaadin.ui.*
 import org.vaadin.hene.popupbutton.PopupButton
-import org.vaadin.jouni.restrain.Restrain
 import org.vaadin.viritin.button.MButton
 import org.vaadin.viritin.layouts.MCssLayout
 import org.vaadin.viritin.layouts.MHorizontalLayout
@@ -52,7 +51,7 @@ abstract class AbstractNotificationComponent : PopupButton(), PopupButton.PopupV
             withStyleName(WebThemes.SCROLLABLE_CONTAINER)
 
     init {
-        Restrain(notificationContainer).setMaxWidth("500px").setMaxHeight("500px")
+//        Restrain(notificationContainer).setMaxWidth("500px").setMaxHeight("500px")
         this.content = notificationContainer
         this.icon = FontAwesome.BELL
         this.styleName = "notification-button"

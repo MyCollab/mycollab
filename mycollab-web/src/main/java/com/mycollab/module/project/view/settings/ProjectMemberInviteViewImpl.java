@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -19,11 +19,9 @@ package com.mycollab.module.project.view.settings;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.i18n.SecurityI18nEnum;
 import com.mycollab.module.project.CurrentProjectVariables;
-import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.module.project.ProjectRolePermissionCollections;
 import com.mycollab.module.project.domain.SimpleProjectRole;
 import com.mycollab.module.project.event.ProjectMemberEvent;
-import com.mycollab.module.project.event.ProjectMemberEvent.InviteProjectMembers;
 import com.mycollab.module.project.i18n.ProjectMemberI18nEnum;
 import com.mycollab.module.project.i18n.ProjectRoleI18nEnum;
 import com.mycollab.module.project.i18n.RolePermissionI18nEnum;
@@ -34,17 +32,17 @@ import com.mycollab.security.PermissionFlag;
 import com.mycollab.security.PermissionMap;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppUI;
+import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.AbstractVerticalPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
-import com.mycollab.vaadin.event.ViewEvent;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.FormContainer;
 import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.web.ui.AddViewLayout;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
-import com.vaadin.data.util.BeanItem;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Layout;
@@ -57,6 +55,7 @@ import org.vaadin.viritin.layouts.MVerticalLayout;
  * @author MyCollab Ltd.
  * @since 1.0
  */
+// TODO
 @ViewComponent
 public class ProjectMemberInviteViewImpl extends AbstractVerticalPageView implements ProjectMemberInviteView {
     private static final long serialVersionUID = 1L;
@@ -82,7 +81,7 @@ public class ProjectMemberInviteViewImpl extends AbstractVerticalPageView implem
             displayRolePermission(roleId);
         });
 
-        AddViewLayout userAddLayout = new AddViewLayout(UserUIContext.getMessage(ProjectMemberI18nEnum.FORM_INVITE_MEMBERS), FontAwesome.USER);
+        AddViewLayout userAddLayout = new AddViewLayout(UserUIContext.getMessage(ProjectMemberI18nEnum.FORM_INVITE_MEMBERS), VaadinIcons.USER);
         userAddLayout.addHeaderRight(createButtonControls());
 
         GridFormLayoutHelper informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(1, 3);
@@ -105,10 +104,10 @@ public class ProjectMemberInviteViewImpl extends AbstractVerticalPageView implem
     private Layout createButtonControls() {
         MButton inviteBtn = new MButton(UserUIContext.getMessage(ProjectMemberI18nEnum.BUTTON_NEW_INVITEE), clickEvent -> {
             roleId = (Integer) roleComboBox.getValue();
-            BeanItem<SimpleProjectRole> item = (BeanItem<SimpleProjectRole>) roleComboBox.getItem(roleId);
-            String roleName = (item != null) ? item.getBean().getRolename() : "";
-            ProjectMemberInviteViewImpl.this.fireEvent(new ViewEvent<>(this,
-                    new InviteProjectMembers(inviteUserTokenField.getInviteEmails(), roleId, roleName, messageArea.getValue())));
+//            BeanItem<SimpleProjectRole> item = (BeanItem<SimpleProjectRole>) roleComboBox.getItem(roleId);
+//            String roleName = (item != null) ? item.getBean().getRolename() : "";
+//            ProjectMemberInviteViewImpl.this.fireEvent(new ViewEvent<>(this,
+//                    new InviteProjectMembers(inviteUserTokenField.getInviteEmails(), roleId, roleName, messageArea.getValue())));
         }).withIcon(FontAwesome.SEND).withStyleName(WebThemes.BUTTON_ACTION);
 
         MButton cancelBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CANCEL),

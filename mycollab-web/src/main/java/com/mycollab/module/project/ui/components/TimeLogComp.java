@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -24,9 +24,9 @@ import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.web.ui.WebThemes;
-import com.vaadin.server.FontAwesome;
+import com.vaadin.icons.VaadinIcons;
+import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
@@ -52,7 +52,7 @@ public abstract class TimeLogComp<B extends ValuedBean> extends MVerticalLayout 
         HorizontalLayout header = new MHorizontalLayout().withStyleName("info-hdr");
         header.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
-        Label dateInfoHeader = new Label(FontAwesome.CLOCK_O.getHtml() + " " +
+        Label dateInfoHeader = new Label(VaadinIcons.CLOCK.getHtml() + " " +
                 UserUIContext.getMessage(TimeTrackingI18nEnum.SUB_INFO_TIME), ContentMode.HTML);
         header.addComponent(dateInfoHeader);
 
@@ -61,7 +61,7 @@ public abstract class TimeLogComp<B extends ValuedBean> extends MVerticalLayout 
                     showEditTimeWindow(beanItem)).withStyleName(WebThemes.BUTTON_LINK);
             header.addComponent(editBtn);
         }
-        header.addComponent(ELabel.fontIcon(FontAwesome.QUESTION_CIRCLE).withDescription(UserUIContext.getMessage
+        header.addComponent(ELabel.fontIcon(VaadinIcons.QUESTION_CIRCLE).withDescription(UserUIContext.getMessage
                 (TimeTrackingI18nEnum.TIME_EXPLAIN_HELP)).withStyleName(WebThemes.INLINE_HELP));
 
         this.addComponent(header);

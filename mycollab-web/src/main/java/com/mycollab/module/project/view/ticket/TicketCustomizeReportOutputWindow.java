@@ -16,7 +16,7 @@
  */
 package com.mycollab.module.project.view.ticket;
 
-import com.mycollab.common.TableViewField;
+import com.mycollab.common.GridFieldMeta;
 import com.mycollab.db.query.VariableInjector;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.domain.ProjectTicket;
@@ -51,14 +51,14 @@ public class TicketCustomizeReportOutputWindow extends CustomizeReportOutputWind
     }
 
     @Override
-    protected Collection<TableViewField> getDefaultColumns() {
+    protected Collection<GridFieldMeta> getDefaultColumns() {
         return Arrays.asList(TicketTableFieldDef.name, TicketTableFieldDef.startdate, TicketTableFieldDef.duedate,
                 TicketTableFieldDef.priority, TicketTableFieldDef.assignee,
                 TicketTableFieldDef.billableHours, TicketTableFieldDef.nonBillableHours);
     }
 
     @Override
-    protected Collection<TableViewField> getAvailableColumns() {
+    protected Collection<GridFieldMeta> getAvailableColumns() {
         return Arrays.asList(TicketTableFieldDef.name, TicketTableFieldDef.description, TicketTableFieldDef.startdate,
                 TicketTableFieldDef.enddate, TicketTableFieldDef.duedate,
                 TicketTableFieldDef.priority, TicketTableFieldDef.logUser,

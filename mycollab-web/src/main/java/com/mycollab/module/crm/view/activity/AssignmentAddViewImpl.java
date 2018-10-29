@@ -33,7 +33,7 @@ import com.mycollab.vaadin.web.ui.I18nValueComboBox;
 import com.mycollab.vaadin.web.ui.field.DateTimeOptionField;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.Field;
+import com.vaadin.data.HasValue;
 import com.vaadin.ui.RichTextArea;
 import com.vaadin.ui.TextField;
 
@@ -45,6 +45,7 @@ import static com.mycollab.vaadin.web.ui.utils.FormControlsGenerator.generateEdi
  * @author MyCollab Ltd.
  * @since 2.0
  */
+// TODO
 @ViewComponent
 public class AssignmentAddViewImpl extends AbstractEditItemComp<CrmTask> implements AssignmentAddView {
     private static final long serialVersionUID = 1L;
@@ -87,7 +88,7 @@ public class AssignmentAddViewImpl extends AbstractEditItemComp<CrmTask> impleme
         }
 
         @Override
-        protected Field<?> onCreateField(Object propertyId) {
+        protected HasValue<?> onCreateField(Object propertyId) {
             if (CrmTask.Field.startdate.equalTo(propertyId)) {
                 return new DateTimeOptionField();
             } else if (CrmTask.Field.duedate.equalTo(propertyId)) {
@@ -102,11 +103,11 @@ public class AssignmentAddViewImpl extends AbstractEditItemComp<CrmTask> impleme
                 return new ContactSelectionField();
             } else if (CrmTask.Field.subject.equalTo(propertyId)) {
                 TextField tf = new TextField();
-                if (isValidateForm) {
-                    tf.setRequired(true);
-                    tf.setRequiredError("Subject must not be null");
-                    tf.setNullRepresentation("");
-                }
+//                if (isValidateForm) {
+//                    tf.setRequired(true);
+//                    tf.setRequiredError("Subject must not be null");
+//                    tf.setNullRepresentation("");
+//                }
                 return tf;
             } else if (CrmTask.Field.type.equalTo(propertyId)) {
                 return new RelatedEditItemField(attachForm.getBean());
@@ -114,7 +115,7 @@ public class AssignmentAddViewImpl extends AbstractEditItemComp<CrmTask> impleme
                 return new DummyCustomField<Integer>();
             } else if (CrmTask.Field.assignuser.equalTo(propertyId)) {
                 ActiveUserComboBox userBox = new ActiveUserComboBox();
-                userBox.select(attachForm.getBean().getAssignuser());
+//                userBox.select(attachForm.getBean().getAssignuser());
                 return userBox;
             }
             return null;

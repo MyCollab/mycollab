@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -21,7 +21,6 @@ import com.mycollab.cache.CleanCacheEvent;
 import com.mycollab.common.domain.MonitorItem;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.service.MonitorItemService;
-import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.module.file.AttachmentUtils;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.event.TicketEvent;
@@ -31,18 +30,20 @@ import com.mycollab.module.tracker.service.BugRelatedItemService;
 import com.mycollab.module.tracker.service.BugService;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppUI;
+import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.AbstractFormLayoutFactory;
 import com.mycollab.vaadin.ui.AdvancedEditBeanForm;
 import com.mycollab.vaadin.ui.IFormLayoutFactory;
-import com.mycollab.vaadin.ui.UIUtils;
 import com.mycollab.vaadin.web.ui.DefaultDynaFormLayout;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.mycollab.vaadin.web.ui.field.AttachmentUploadField;
-import com.vaadin.server.FontAwesome;
+import com.vaadin.data.HasValue;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.ui.*;
-import org.vaadin.jouni.restrain.Restrain;
+import com.vaadin.ui.AbstractComponent;
+import com.vaadin.ui.Alignment;
+import com.vaadin.ui.VerticalLayout;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
@@ -54,6 +55,7 @@ import java.util.List;
  * @author MyCollab Ltd
  * @since 5.4.3
  */
+// TODO
 public class BugEditForm extends AdvancedEditBeanForm<SimpleBug> {
     @Override
     public void setBean(final SimpleBug item) {
@@ -75,7 +77,7 @@ public class BugEditForm extends AdvancedEditBeanForm<SimpleBug> {
             formLayoutFactory = new DefaultDynaFormLayout(ProjectTypeConstants.BUG, BugDefaultFormLayoutFactory.getForm());
             AbstractComponent gridLayout = formLayoutFactory.getLayout();
             gridLayout.addStyleName(WebThemes.SCROLLABLE_CONTAINER);
-            new Restrain(gridLayout).setMaxHeight((UIUtils.getBrowserHeight() - 180) + "px");
+//            new Restrain(gridLayout).setMaxHeight((UIUtils.getBrowserHeight() - 180) + "px");
             layout.addComponent(gridLayout);
             layout.setExpandRatio(gridLayout, 1.0f);
 
@@ -123,7 +125,7 @@ public class BugEditForm extends AdvancedEditBeanForm<SimpleBug> {
                     }
                     postExecution();
                 }
-            }).withIcon(FontAwesome.SAVE).withStyleName(WebThemes.BUTTON_ACTION);
+            }).withIcon(VaadinIcons.CLIPBOARD).withStyleName(WebThemes.BUTTON_ACTION);
 
             MButton cancelBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> postExecution())
                     .withStyleName(WebThemes.BUTTON_OPTION);
@@ -136,7 +138,7 @@ public class BugEditForm extends AdvancedEditBeanForm<SimpleBug> {
         }
 
         @Override
-        protected Component onAttachField(Object propertyId, Field<?> field) {
+        protected HasValue<?> onAttachField(Object propertyId, HasValue<?> field) {
             return formLayoutFactory.attachField(propertyId, field);
         }
     }

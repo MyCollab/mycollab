@@ -111,7 +111,7 @@ public class OpportunityListPresenter extends CrmGenericListPresenter<Opportunit
     @Override
     protected void deleteSelectedItems() {
         if (!isSelectAll) {
-            Collection<SimpleOpportunity> currentDataList = view.getPagedBeanTable().getCurrentDataList();
+            Collection<SimpleOpportunity> currentDataList = view.getPagedBeanGrid().getCurrentDataList();
             List<Opportunity> keyList = new ArrayList<>();
             for (SimpleOpportunity item : currentDataList) {
                 if (item.isSelected()) {
@@ -133,7 +133,7 @@ public class OpportunityListPresenter extends CrmGenericListPresenter<Opportunit
     @Override
     public void massUpdate(Opportunity value) {
         if (!isSelectAll) {
-            Collection<SimpleOpportunity> currentDataList = view.getPagedBeanTable().getCurrentDataList();
+            Collection<SimpleOpportunity> currentDataList = view.getPagedBeanGrid().getCurrentDataList();
             List<Integer> keyList = new ArrayList<>();
             for (SimpleOpportunity item : currentDataList) {
                 if (item.isSelected()) {

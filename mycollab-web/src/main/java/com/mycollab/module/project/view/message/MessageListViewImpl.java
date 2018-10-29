@@ -48,6 +48,7 @@ import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.*;
 import com.mycollab.vaadin.web.ui.*;
 import com.vaadin.event.ShortcutAction;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
@@ -162,7 +163,7 @@ public class MessageListViewImpl extends AbstractVerticalPageView implements Mes
                             messageService.removeWithSession(message, UserUIContext.getUsername(), AppUI.getAccountId());
                             messageList.setSearchCriteria(searchCriteria);
                         }
-                    })).withIcon(FontAwesome.TRASH_O).withStyleName(WebThemes.BUTTON_ICON_ONLY);
+                    })).withIcon(VaadinIcons.TRASH).withStyleName(WebThemes.BUTTON_ICON_ONLY);
             deleteBtn.setVisible(CurrentProjectVariables.canAccess(ProjectRolePermissionCollections.MESSAGES));
 
             MHorizontalLayout rightHeader = new MHorizontalLayout();
@@ -180,7 +181,7 @@ public class MessageListViewImpl extends AbstractVerticalPageView implements Mes
             notification.setSizeUndefined();
             if (message.getCommentsCount() > 0) {
                 MHorizontalLayout commentNotification = new MHorizontalLayout();
-                Label commentCountLbl = ELabel.html(String.format("%s %s", Integer.toString(message.getCommentsCount()), FontAwesome.COMMENTS.getHtml()));
+                Label commentCountLbl = ELabel.html(String.format("%s %s", Integer.toString(message.getCommentsCount()), VaadinIcons.COMMENTS.getHtml()));
                 commentCountLbl.setSizeUndefined();
                 commentNotification.addComponent(commentCountLbl);
                 notification.addComponent(commentNotification);
@@ -225,13 +226,13 @@ public class MessageListViewImpl extends AbstractVerticalPageView implements Mes
         }
 
         private void createBasicSearchLayout() {
-            nameField = new MTextField().withInputPrompt(UserUIContext.getMessage(GenericI18Enum.ACTION_QUERY_BY_TEXT))
+            nameField = new MTextField().withPlaceholder(UserUIContext.getMessage(GenericI18Enum.ACTION_QUERY_BY_TEXT))
                     .withWidth(WebUIConstants.DEFAULT_CONTROL_WIDTH);
 
             MButton searchBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_SEARCH), clickEvent -> doSearch())
-                    .withStyleName(WebThemes.BUTTON_ACTION).withIcon(FontAwesome.SEARCH)
+                    .withStyleName(WebThemes.BUTTON_ACTION).withIcon(VaadinIcons.SEARCH)
                     .withClickShortcut(ShortcutAction.KeyCode.ENTER);
-            final MHorizontalLayout basicSearchBody = new MHorizontalLayout(nameField, searchBtn).withWidthUndefined()
+            final MHorizontalLayout basicSearchBody = new MHorizontalLayout(nameField, searchBtn).withUndefinedWidth()
                     .withAlign(nameField, Alignment.MIDDLE_LEFT);
             this.setCompositionRoot(basicSearchBody);
         }
@@ -266,9 +267,10 @@ public class MessageListViewImpl extends AbstractVerticalPageView implements Mes
             MVerticalLayout addMessageWrapper = new MVerticalLayout().withWidth("800px");
 
             Label titleLbl = new Label(UserUIContext.getMessage(MessageI18nEnum.FORM_TITLE));
-            final TextField titleField = new MTextField().withFullWidth().withNullRepresentation("").withRequired(true)
-                    .withRequiredError(UserUIContext.getMessage(ErrorI18nEnum.FIELD_MUST_NOT_NULL,
-                            UserUIContext.getMessage(MessageI18nEnum.FORM_TITLE)));
+            // TODO
+            final TextField titleField = new MTextField().withFullWidth().withRequiredIndicatorVisible(true);
+//                    .withRequiredError(UserUIContext.getMessage(ErrorI18nEnum.FIELD_MUST_NOT_NULL,
+//                            UserUIContext.getMessage(MessageI18nEnum.FORM_TITLE)));
 
             MHorizontalLayout titleLayout = new MHorizontalLayout(titleLbl, titleField).expand(titleField).withFullWidth();
 
@@ -307,7 +309,7 @@ public class MessageListViewImpl extends AbstractVerticalPageView implements Mes
                     NotificationUtil.showErrorNotification(UserUIContext.getMessage(ErrorI18nEnum.FIELD_MUST_NOT_NULL,
                             UserUIContext.getMessage(MessageI18nEnum.FORM_TITLE)));
                 }
-            }).withIcon(FontAwesome.SAVE).withStyleName(WebThemes.BUTTON_ACTION);
+            }).withIcon(VaadinIcons.CLIPBOARD).withStyleName(WebThemes.BUTTON_ACTION);
 
             MHorizontalLayout controls = new MHorizontalLayout(attachments, chkIsStick, cancelBtn, saveBtn)
                     .expand(attachments).withFullWidth().alignAll(Alignment.TOP_LEFT);
@@ -323,7 +325,7 @@ public class MessageListViewImpl extends AbstractVerticalPageView implements Mes
             if (!isEmpty) {
                 MButton createMessageBtn = new MButton(UserUIContext.getMessage(MessageI18nEnum.NEW),
                         clickEvent -> createAddMessageLayout())
-                        .withIcon(FontAwesome.PLUS).withStyleName(WebThemes.BUTTON_ACTION)
+                        .withIcon(VaadinIcons.PLUS).withStyleName(WebThemes.BUTTON_ACTION)
                         .withVisible(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.MESSAGES));
 
                 messagePanelBody.addComponent(createMessageBtn);
@@ -346,7 +348,7 @@ public class MessageListViewImpl extends AbstractVerticalPageView implements Mes
         private static final long serialVersionUID = 6711716775690122182L;
 
         @Override
-        protected FontAwesome viewIcon() {
+        protected VaadinIcons viewIcon() {
             return ProjectAssetsManager.getAsset(ProjectTypeConstants.MESSAGE);
         }
 

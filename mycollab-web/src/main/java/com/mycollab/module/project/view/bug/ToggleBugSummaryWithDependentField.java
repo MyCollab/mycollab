@@ -39,6 +39,7 @@ import org.vaadin.viritin.button.MButton;
  * @author MyCollab Ltd
  * @since 5.2.12
  */
+// TODO
 public class ToggleBugSummaryWithDependentField extends CustomField<SimpleBug> {
 
     private ToggleBugSummaryField toggleBugSummaryField;
@@ -68,7 +69,12 @@ public class ToggleBugSummaryWithDependentField extends CustomField<SimpleBug> {
     }
 
     @Override
-    public Class<? extends SimpleBug> getType() {
-        return SimpleBug.class;
+    protected void doSetValue(SimpleBug simpleBug) {
+
+    }
+
+    @Override
+    public SimpleBug getValue() {
+        return null;
     }
 }

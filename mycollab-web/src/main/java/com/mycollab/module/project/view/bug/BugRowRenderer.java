@@ -56,10 +56,10 @@ public class BugRowRenderer implements IBeanList.RowDisplayHandler<SimpleBug> {
         Img img = new Img(bug.getAssignuserFullName(), avatarLink).setTitle(bug.getAssignuserFullName())
                 .setCSSClass(UIConstants.CIRCLE_BOX);
 
-        rowComp.with(ELabel.fontIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG)).withWidthUndefined(),
-                ELabel.html(priorityLink.write()).withWidthUndefined(),
-                ELabel.html(statusSpan.write()).withWidthUndefined(),
-                ELabel.html(img.write()).withWidthUndefined(),
+        rowComp.with(ELabel.fontIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG)).withUndefinedWidth(),
+                ELabel.html(priorityLink.write()).withUndefinedWidth(),
+                ELabel.html(statusSpan.write()).withUndefinedWidth(),
+                ELabel.html(img.write()).withUndefinedWidth(),
                 toggleBugSummaryField).expand(toggleBugSummaryField);
         return rowComp;
     }

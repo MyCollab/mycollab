@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -28,7 +28,7 @@ import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.mycollab.vaadin.web.ui.*;
 import com.mycollab.vaadin.web.ui.VerticalTabsheet.TabImpl;
-import com.vaadin.server.FontAwesome;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import com.vaadin.ui.TabSheet.Tab;
@@ -51,7 +51,7 @@ public abstract class AbstractPreviewItemComp<B> extends AbstractVerticalPageVie
     private static Logger LOG = LoggerFactory.getLogger(AbstractPreviewItemComp.class);
 
     protected B beanItem;
-    private FontAwesome iconResource;
+    private VaadinIcons iconResource;
     protected MHorizontalLayout headerTitle;
     protected MHorizontalLayout header;
     protected VerticalLayout tabContent;
@@ -62,7 +62,7 @@ public abstract class AbstractPreviewItemComp<B> extends AbstractVerticalPageVie
     private MVerticalLayout sidebarContent;
     private MButton favoriteBtn;
 
-    public AbstractPreviewItemComp(FontAwesome iconResource) {
+    public AbstractPreviewItemComp(VaadinIcons iconResource) {
         setSizeFull();
         this.iconResource = iconResource;
         tabSheet = new VerticalTabsheet();

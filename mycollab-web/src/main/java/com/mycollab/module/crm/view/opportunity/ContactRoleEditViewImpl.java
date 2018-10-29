@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -19,7 +19,6 @@ package com.mycollab.module.crm.view.opportunity;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.db.arguments.BasicSearchRequest;
 import com.mycollab.db.arguments.NumberSearchField;
-import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.module.crm.CrmDataTypeFactory;
 import com.mycollab.module.crm.CrmTypeConstants;
 import com.mycollab.module.crm.domain.Contact;
@@ -39,12 +38,14 @@ import com.mycollab.module.crm.view.contact.ContactSelectionField;
 import com.mycollab.module.user.accountsettings.localization.RoleI18nEnum;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppUI;
+import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.AbstractVerticalPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.web.ui.AddViewLayout2;
 import com.mycollab.vaadin.web.ui.I18nValueComboBox;
 import com.mycollab.vaadin.web.ui.WebThemes;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
@@ -61,6 +62,7 @@ import java.util.List;
  * @author MyCollab Ltd.
  * @since 3.0
  */
+// TODO
 @ViewComponent
 public class ContactRoleEditViewImpl extends AbstractVerticalPageView implements ContactRoleEditView {
     private static final long serialVersionUID = 1L;
@@ -102,7 +104,7 @@ public class ContactRoleEditViewImpl extends AbstractVerticalPageView implements
 
     private ComponentContainer createButtonControls() {
         MButton updateBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_UPDATE_LABEL), clickEvent ->
-                updateContactRoles()).withIcon(FontAwesome.SAVE).withStyleName(WebThemes.BUTTON_ACTION);
+                updateContactRoles()).withIcon(VaadinIcons.CLIPBOARD).withStyleName(WebThemes.BUTTON_ACTION);
 
         MButton cancelBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
                 clickEvent -> EventBusFactory.getInstance().post(new ContactEvent.GotoList(this, null)))
@@ -214,20 +216,20 @@ public class ContactRoleEditViewImpl extends AbstractVerticalPageView implements
 
             contactField = new ContactSelectionField();
             this.addComponent(contactField);
-            contactField.setPropertyDataSource(new AbstractField<SimpleContactOpportunityRel>() {
-                private static final long serialVersionUID = 1L;
-
-                @Override
-                public SimpleContactOpportunityRel getValue() {
-                    return contactOpp;
-                }
-
-                @Override
-                public Class<? extends SimpleContactOpportunityRel> getType() {
-                    return SimpleContactOpportunityRel.class;
-                }
-
-            });
+//            contactField.setPropertyDataSource(new AbstractField<SimpleContactOpportunityRel>() {
+//                private static final long serialVersionUID = 1L;
+//
+//                @Override
+//                public SimpleContactOpportunityRel getValue() {
+//                    return contactOpp;
+//                }
+//
+//                @Override
+//                public Class<? extends SimpleContactOpportunityRel> getType() {
+//                    return SimpleContactOpportunityRel.class;
+//                }
+//
+//            });
             contactField.setWidth("250px");
 
             MButton accountLink = new MButton(contactOpp.getAccountName(),
@@ -254,7 +256,7 @@ public class ContactRoleEditViewImpl extends AbstractVerticalPageView implements
                     associateOpportunity.setOpportunityid(opportunity.getId());
                     contactService.removeContactOpportunityRelationship(associateOpportunity, AppUI.getAccountId());
                 }
-            }).withIcon(FontAwesome.TRASH_O).withStyleName(WebThemes.BUTTON_ICON_ONLY);
+            }).withIcon(VaadinIcons.TRASH).withStyleName(WebThemes.BUTTON_ICON_ONLY);
             this.addComponent(deleteBtn);
             this.setExpandRatio(deleteBtn, 1.0f);
         }
@@ -277,7 +279,7 @@ public class ContactRoleEditViewImpl extends AbstractVerticalPageView implements
         private static final long serialVersionUID = 1L;
 
         RoleDecisionComboBox() {
-            this.setNullSelectionAllowed(false);
+//            this.setEmptySelectionAllowed(false);
             this.loadData(Arrays.asList(CrmDataTypeFactory.opportunityContactRoleList));
         }
     }

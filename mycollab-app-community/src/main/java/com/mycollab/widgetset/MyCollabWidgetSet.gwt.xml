@@ -3,41 +3,22 @@
         "-//Google Inc.//DTD Google Web Toolkit 1.7.0//EN"
         "http://google-web-toolkit.googlecode.com/svn/tags/1.7.0/distro-source/core/src/gwt-module.dtd">
 <module>
+
     <!-- WS Compiler: manually edited -->
 
-    <generate-with class="CommunityOptimizedConnectorBundleLoaderFactory">
-        <when-type-assignable class="com.vaadin.client.metadata.ConnectorBundleLoader" />
-    </generate-with>
+    <inherits name="com.vaadin.contextmenu.WidgetSet" />
 
     <inherits name="fi.jasoft.dragdroplayouts.DragDropLayoutsWidgetSet" />
 
-    <inherits name="org.vaadin.openesignforms.ckeditor.widgetset.VaadinCKEditorWidgetset" />
-
     <inherits name="org.vaadin.hene.popupbutton.widgetset.PopupbuttonWidgetset" />
-
-    <inherits name="org.vaadin.risto.stylecalendar.StyleCalendarWidgetset" />
 
     <inherits name="com.vaadin.DefaultWidgetSet" />
 
-    <inherits name="org.vaadin.peter.buttongroup.ButtonGroupWidgetset" />
+    <inherits name="com.vaadin.v7.Vaadin7WidgetSet" />
 
-    <inherits name="com.vaadin.addon.contextmenu.WidgetSet" />
+    <set-property name="vaadin.profiler" value="false" />
 
-    <inherits name="org.vaadin.tepi.listbuilder.widgetset.ListBuilderWidgetset" />
+    <inherits name="org.tepi.listbuilder.WidgetSet" />
 
     <inherits name="org.vaadin.easyuploads.Widgetset" />
-
-    <inherits name="com.mycollab.vaadin.addon.webcomponents.WidgetSet" />
-
-    <inherits name="org.vaadin.suggestfield.WidgetSet" />
-
-    <inherits name="org.vaadin.addons.fancybox.FancyboxWidgetSet" />
-
-    <inherits name="org.vaadin.jouni.restrain.RestrainWidgetset" />
-
-    <inherits name="com.ejt.vaadin.loginform.WidgetSet" />
-
-    <inherits name="org.vaadin.addons.comboboxmultiselect.WidgetSet" />
-
-    <inherits name="org.vaadin.addons.CssCheckBoxWidgetSet" />
 </module>

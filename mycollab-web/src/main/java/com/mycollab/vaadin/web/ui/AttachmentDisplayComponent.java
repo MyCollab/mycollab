@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -34,10 +34,9 @@ import com.mycollab.vaadin.resources.VaadinResourceFactory;
 import com.mycollab.vaadin.resources.file.FileAssetsUtil;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.UIConstants;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.FileDownloader;
-import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
-import org.vaadin.addons.fancybox.Fancybox;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MCssLayout;
 
@@ -47,6 +46,7 @@ import java.util.List;
  * @author MyCollab Ltd.
  * @since 2.0
  */
+// TODO
 public class AttachmentDisplayComponent extends CssLayout {
     private static final long serialVersionUID = 1L;
 
@@ -83,7 +83,7 @@ public class AttachmentDisplayComponent extends CssLayout {
 
         if (MimeTypesUtil.isImageType(docName)) {
             thumbnail.setResource(VaadinResourceFactory.getResource(attachment.getPath()));
-            new Fancybox(thumbnail).setPadding(0).setVersion("2.1.5").setEnabled(true).setDebug(true);
+//            new Fancybox(thumbnail).setPadding(0).setVersion("2.1.5").setEnabled(true).setDebug(true);
         }
 
         Div contentTooltip = new Div().appendChild(new Span().appendText(docName).setStyle("font-weight:bold"));
@@ -117,10 +117,10 @@ public class AttachmentDisplayComponent extends CssLayout {
                             ((ComponentContainer) attachmentLayout.getParent()).removeComponent(attachmentLayout);
                         }
                     });
-        }).withIcon(FontAwesome.TRASH_O).withStyleName("attachment-control");
+        }).withIcon(VaadinIcons.TRASH).withStyleName("attachment-control");
         attachmentLayout.addComponent(trashBtn, "top: 9px; left: 9px; z-index: 1;");
 
-        MButton downloadBtn = new MButton().withIcon(FontAwesome.DOWNLOAD).withStyleName("attachment-control");
+        MButton downloadBtn = new MButton().withIcon(VaadinIcons.DOWNLOAD).withStyleName("attachment-control");
         FileDownloader fileDownloader = new FileDownloader(VaadinResourceFactory.getInstance()
                 .getStreamResource(attachment.getPath()));
         fileDownloader.extend(downloadBtn);

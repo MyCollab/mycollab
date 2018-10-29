@@ -42,7 +42,7 @@ import com.mycollab.vaadin.TooltipHelper;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.ui.registry.AuditLogRegistry;
-import com.vaadin.shared.ui.label.ContentMode;
+import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Label;
 import org.apache.commons.collections.CollectionUtils;

@@ -32,6 +32,7 @@ import com.mycollab.vaadin.web.ui.ModuleHelper;
 import com.mycollab.vaadin.web.ui.OptionPopupContent;
 import com.mycollab.vaadin.web.ui.ServiceMenu;
 import com.mycollab.web.IDesktopModule;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -91,7 +92,7 @@ public class CrmModule extends AbstractSingleContainerPageView implements IDeskt
             Button.ClickListener listener = new CreateItemListener();
 
             addPopupMenu = new PopupButton(UserUIContext.getMessage(GenericI18Enum.ACTION_NEW));
-            addPopupMenu.setIcon(FontAwesome.PLUS_CIRCLE);
+            addPopupMenu.setIcon(VaadinIcons.PLUS_CIRCLE);
             addPopupMenu.addStyleName("add-btn-popup");
             addPopupMenu.setDirection(Alignment.BOTTOM_LEFT);
             OptionPopupContent popupButtonsControl = new OptionPopupContent();

@@ -35,7 +35,7 @@ import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.web.ui.OptionPopupContent;
 import com.mycollab.vaadin.web.ui.SplitButton;
 import com.mycollab.vaadin.web.ui.WebThemes;
-import com.mycollab.vaadin.web.ui.table.AbstractPagedBeanTable;
+import com.mycollab.vaadin.web.ui.table.AbstractPagedGrid;
 import com.vaadin.server.FileDownloader;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.StreamResource;
@@ -67,7 +67,7 @@ public class FollowingTicketViewImpl extends AbstractVerticalPageView implements
         MHorizontalLayout header = new MHorizontalLayout().withFullWidth();
 
         ELabel layoutHeader = ELabel.h2(String.format("%s %s", FontAwesome.EYE.getHtml(), UserUIContext.getMessage(FollowerI18nEnum
-                .OPT_MY_FOLLOWING_TICKETS, 0))).withWidthUndefined();
+                .OPT_MY_FOLLOWING_TICKETS, 0))).withUndefinedWidth();
 
         Button exportBtn = new Button(UserUIContext.getMessage(GenericI18Enum.ACTION_EXPORT), clickEvent -> exportButtonControl.setPopupVisible(true));
         exportButtonControl = new SplitButton(exportBtn);
@@ -130,7 +130,7 @@ public class FollowingTicketViewImpl extends AbstractVerticalPageView implements
     }
 
     @Override
-    public AbstractPagedBeanTable<FollowingTicketSearchCriteria, FollowingTicket> getPagedBeanTable() {
+    public AbstractPagedGrid<FollowingTicketSearchCriteria, FollowingTicket> getPagedBeanGrid() {
         return this.ticketTable;
     }
 }

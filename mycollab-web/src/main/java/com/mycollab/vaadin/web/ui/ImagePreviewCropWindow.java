@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -22,13 +22,14 @@ import com.mycollab.core.MyCollabException;
 import com.mycollab.core.UserInvalidInputException;
 import com.mycollab.core.utils.ImageUtil;
 import com.mycollab.vaadin.UserUIContext;
-import com.mycollab.vaadin.addon.webcomponents.CropField;
-import com.mycollab.vaadin.addon.webcomponents.client.VCropSelection;
 import com.mycollab.vaadin.ui.ELabel;
-import com.vaadin.server.FontAwesome;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.Resource;
 import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.ui.*;
+import com.vaadin.ui.Alignment;
+import com.vaadin.ui.CssLayout;
+import com.vaadin.ui.Embedded;
+import com.vaadin.ui.VerticalLayout;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.vaadin.viritin.button.MButton;
@@ -39,13 +40,13 @@ import org.vaadin.viritin.layouts.MWindow;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 /**
  * @author MyCollab Ltd
  * @since 5.2.12
  */
+// TODO
 public class ImagePreviewCropWindow extends MWindow {
     private static final Logger LOG = LoggerFactory.getLogger(ImagePreviewCropWindow.class);
 
@@ -90,7 +91,7 @@ public class ImagePreviewCropWindow extends MWindow {
                     throw new MyCollabException("Error when saving user avatar", e);
                 }
             }
-        }).withIcon(FontAwesome.CHECK).withStyleName(WebThemes.BUTTON_ACTION);
+        }).withIcon(VaadinIcons.CHECK).withStyleName(WebThemes.BUTTON_ACTION);
 
         MHorizontalLayout controlBtns = new MHorizontalLayout(acceptBtn, cancelBtn);
 
@@ -102,30 +103,30 @@ public class ImagePreviewCropWindow extends MWindow {
         cropBox.setWidth("100%");
         VerticalLayout currentPhotoBox = new VerticalLayout();
         Resource resource = new ByteArrayImageResource(ImageUtil.convertImageToByteArray(originalImage), "image/png");
-        CropField cropField = new CropField(resource);
-        cropField.setImmediate(true);
-        cropField.setSelectionAspectRatio(1.0f);
-        cropField.addValueChangeListener(valueChangeEvent -> {
-            VCropSelection newSelection = (VCropSelection) valueChangeEvent.getProperty().getValue();
-            int x1 = newSelection.getXTopLeft();
-            int y1 = newSelection.getYTopLeft();
-            int x2 = newSelection.getXBottomRight();
-            int y2 = newSelection.getYBottomRight();
-            if (x2 > x1 && y2 > y1) {
-                BufferedImage subImage = originalImage.getSubimage(x1, y1, (x2 - x1), (y2 - y1));
-                ByteArrayOutputStream outStream = new ByteArrayOutputStream();
-                try {
-                    ImageIO.write(subImage, "png", outStream);
-                    scaleImageData = outStream.toByteArray();
-                    displayPreviewImage();
-                } catch (IOException e) {
-                    LOG.error("Error while scale image: ", e);
-                }
-            }
-        });
+//        CropField cropField = new CropField(resource);
+//        cropField.setImmediate(true);
+//        cropField.setSelectionAspectRatio(1.0f);
+//        cropField.addValueChangeListener(valueChangeEvent -> {
+//            VCropSelection newSelection = (VCropSelection) valueChangeEvent.getProperty().getValue();
+//            int x1 = newSelection.getXTopLeft();
+//            int y1 = newSelection.getYTopLeft();
+//            int x2 = newSelection.getXBottomRight();
+//            int y2 = newSelection.getYBottomRight();
+//            if (x2 > x1 && y2 > y1) {
+//                BufferedImage subImage = originalImage.getSubimage(x1, y1, (x2 - x1), (y2 - y1));
+//                ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+//                try {
+//                    ImageIO.write(subImage, "png", outStream);
+//                    scaleImageData = outStream.toByteArray();
+//                    displayPreviewImage();
+//                } catch (IOException e) {
+//                    LOG.error("Error while scale image: ", e);
+//                }
+//            }
+//        });
         currentPhotoBox.setWidth("520px");
         currentPhotoBox.setHeight("470px");
-        currentPhotoBox.addComponent(cropField);
+//        currentPhotoBox.addComponent(cropField);
         cropBox.addComponent(currentPhotoBox);
 
         content.with(previewBox, ELabel.hr(), cropBox);
@@ -139,7 +140,7 @@ public class ImagePreviewCropWindow extends MWindow {
             previewImage.setWidth("100px");
             previewPhoto.addComponent(previewImage);
         } else {
-            previewPhoto.addComponent(ELabel.fontIcon(FontAwesome.QUESTION_CIRCLE).withStyleName("icon-48px").withWidthUndefined());
+            previewPhoto.addComponent(ELabel.fontIcon(VaadinIcons.QUESTION_CIRCLE).withStyleName("icon-48px").withUndefinedWidth());
         }
     }
 

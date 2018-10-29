@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -18,13 +18,13 @@ package com.mycollab.module.project.view.page;
 
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.core.utils.StringUtils;
-import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.module.page.domain.Folder;
 import com.mycollab.module.page.service.PageService;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.event.PageEvent;
 import com.mycollab.module.project.i18n.PageI18nEnum;
 import com.mycollab.spring.AppContextUtil;
+import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.mycollab.vaadin.ui.AbstractFormLayoutFactory;
@@ -32,9 +32,13 @@ import com.mycollab.vaadin.ui.AdvancedEditBeanForm;
 import com.mycollab.vaadin.ui.GenericBeanForm;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
-import com.vaadin.server.FontAwesome;
+import com.vaadin.data.HasValue;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.ui.*;
+import com.vaadin.ui.AbstractComponent;
+import com.vaadin.ui.Alignment;
+import com.vaadin.ui.RichTextArea;
+import com.vaadin.ui.VerticalLayout;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
@@ -85,7 +89,6 @@ class GroupPageAddWindow extends MWindow {
         }
 
         class FormLayoutFactory extends AbstractFormLayoutFactory {
-            private static final long serialVersionUID = 1L;
 
             private GridFormLayoutHelper informationLayout;
 
@@ -107,7 +110,7 @@ class GroupPageAddWindow extends MWindow {
                         GroupPageAddWindow.this.close();
                         EventBusFactory.getInstance().post(new PageEvent.GotoList(GroupPageAddWindow.this, folder.getPath()));
                     }
-                }).withIcon(FontAwesome.SAVE).withStyleName(WebThemes.BUTTON_ACTION);
+                }).withIcon(VaadinIcons.CLIPBOARD).withStyleName(WebThemes.BUTTON_ACTION);
 
                 final MHorizontalLayout controlsBtn = new MHorizontalLayout(cancelBtn, saveBtn).withMargin(new MarginInfo(true, true, true, false));
                 layout.addComponent(controlsBtn);
@@ -116,7 +119,7 @@ class GroupPageAddWindow extends MWindow {
             }
 
             @Override
-            protected Component onAttachField(Object propertyId, Field<?> field) {
+            protected HasValue<?> onAttachField(Object propertyId, HasValue<?> field) {
                 if (propertyId.equals("name")) {
                     return informationLayout.addComponent(field, UserUIContext.getMessage(PageI18nEnum.FORM_GROUP), 0, 0);
                 } else if (propertyId.equals("description")) {
@@ -135,7 +138,7 @@ class GroupPageAddWindow extends MWindow {
         }
 
         @Override
-        protected Field<?> onCreateField(final Object propertyId) {
+        protected HasValue<?> onCreateField(final Object propertyId) {
             if (propertyId.equals("description")) {
                 return new RichTextArea();
             }

@@ -17,7 +17,7 @@
 package com.mycollab.vaadin.ui;
 
 import com.mycollab.core.utils.StringUtils;
-import com.vaadin.shared.ui.label.ContentMode;
+import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.ui.Label;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;

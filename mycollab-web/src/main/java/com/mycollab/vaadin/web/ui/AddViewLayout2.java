@@ -19,7 +19,7 @@ package com.mycollab.vaadin.web.ui;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
-import com.vaadin.server.FontAwesome;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.Resource;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
@@ -47,7 +47,7 @@ public class AddViewLayout2 extends VerticalLayout {
         header = new MHorizontalLayout().withMargin(new MarginInfo(true, false, true, false)).withFullWidth();
         header.setDefaultComponentAlignment(Alignment.TOP_LEFT);
 
-        if (!(icon instanceof FontAwesome)) {
+        if (!(icon instanceof VaadinIcons)) {
             Image iconEmbed = new Image();
             iconEmbed.setSource(icon);
             header.with(iconEmbed);
@@ -87,8 +87,8 @@ public class AddViewLayout2 extends VerticalLayout {
     }
 
     public void setTitle(String viewTitle) {
-        if (viewIcon instanceof FontAwesome) {
-            String title = ((FontAwesome) viewIcon).getHtml() + " " + viewTitle;
+        if (viewIcon instanceof VaadinIcons) {
+            String title = ((VaadinIcons) viewIcon).getHtml() + " " + viewTitle;
             titleLbl.setValue(title);
         } else {
             titleLbl.setValue(viewTitle);

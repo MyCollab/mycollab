@@ -37,6 +37,7 @@ import com.mycollab.vaadin.ui.AdvancedEditBeanForm;
 import com.mycollab.vaadin.ui.GenericBeanForm;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
+import com.vaadin.data.HasValue;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import org.apache.commons.lang3.StringUtils;
@@ -130,7 +131,7 @@ public class ApproveInputWindow extends MWindow {
             }
 
             @Override
-            protected Component onAttachField(Object propertyId, Field<?> field) {
+            protected HasValue<?> onAttachField(Object propertyId, HasValue<?> field) {
                 if (propertyId.equals("assignuser")) {
                     return informationLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.FORM_ASSIGNEE), 0, 0);
                 } else if (propertyId.equals("comment")) {
@@ -148,7 +149,7 @@ public class ApproveInputWindow extends MWindow {
             }
 
             @Override
-            protected Field<?> onCreateField(final Object propertyId) {
+            protected HasValue<?> onCreateField(final Object propertyId) {
                 if (propertyId.equals("assignuser")) {
                     return new ProjectMemberSelectionField();
                 } else if (propertyId.equals("comment")) {

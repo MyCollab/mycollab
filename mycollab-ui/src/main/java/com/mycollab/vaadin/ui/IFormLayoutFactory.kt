@@ -16,10 +16,8 @@
  */
 package com.mycollab.vaadin.ui
 
+import com.vaadin.data.HasValue
 import com.vaadin.ui.AbstractComponent
-import com.vaadin.ui.Component
-import com.vaadin.ui.ComponentContainer
-import com.vaadin.ui.Field
 
 /**
  * @author MyCollab Ltd
@@ -28,7 +26,7 @@ import com.vaadin.ui.Field
 interface IFormLayoutFactory {
     val layout: AbstractComponent
 
-    fun attachField(propertyId: Any, field: Field<*>): Component
+    fun attachField(propertyId: Any, field: HasValue<*>): HasValue<*>
 
     fun bindFields(): Set<String>
 }

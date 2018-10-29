@@ -33,6 +33,7 @@ import org.vaadin.viritin.button.MButton;
  * @author MyCollab Ltd
  * @since 5.2.12
  */
+// TODO
 public class ToggleTaskSummaryWithParentRelationshipField extends CustomField<SimpleTask> {
     private ToggleTaskSummaryField toggleTaskSummaryField;
 
@@ -53,11 +54,6 @@ public class ToggleTaskSummaryWithParentRelationshipField extends CustomField<Si
         return toggleTaskSummaryField;
     }
 
-    @Override
-    public Class<? extends SimpleTask> getType() {
-        return SimpleTask.class;
-    }
-
     public void updateLabel() {
         toggleTaskSummaryField.updateLabel();
     }
@@ -72,5 +68,15 @@ public class ToggleTaskSummaryWithParentRelationshipField extends CustomField<Si
 
     public void reOpenTask() {
         toggleTaskSummaryField.reOpenTask();
+    }
+
+    @Override
+    protected void doSetValue(SimpleTask simpleTask) {
+
+    }
+
+    @Override
+    public SimpleTask getValue() {
+        return null;
     }
 }

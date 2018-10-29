@@ -69,6 +69,10 @@
                     <groupId>com.google.zxing</groupId>
                     <artifactId>core</artifactId>
                 </exclusion>
+                <exclusion>
+                    <groupId>org.eclipse.jdt.core.compiler</groupId>
+                    <artifactId>ecj</artifactId>
+                </exclusion>
             </exclusions>
         </dependency>
 
