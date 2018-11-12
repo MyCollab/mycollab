@@ -64,23 +64,17 @@ class DateParam(id: String, table: String, column: String) : ColumnParam(id, tab
             OneValueSearchField(oper, "DATE($table.$column) <= ", value)
 
     companion object {
-        @JvmField
-        val IS = "is"
+        const val IS = "is"
 
-        @JvmField
-        val IS_NOT = "isn't"
+        const val IS_NOT = "isn't"
 
-        @JvmField
-        val BEFORE = "is before"
+        const val BEFORE = "is before"
 
-        @JvmField
-        val AFTER = "is after"
+        const val AFTER = "is after"
 
-        @JvmField
-        val BETWEEN = "between"
+        const val BETWEEN = "between"
 
-        @JvmField
-        val NOT_BETWEEN = "not between"
+        const val NOT_BETWEEN = "not between"
 
         @JvmField
         val OPTIONS = arrayOf(IS, IS_NOT, BEFORE, AFTER, BETWEEN, NOT_BETWEEN)

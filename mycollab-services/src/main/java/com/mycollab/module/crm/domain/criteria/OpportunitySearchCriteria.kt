@@ -61,14 +61,14 @@ class OpportunitySearchCriteria : SearchCriteria() {
 
         @JvmField val p_saleStage: Param = CacheParamMapper.register(CrmTypeConstants.OPPORTUNITY,
                 OpportunityI18nEnum.FORM_SALE_STAGE, I18nStringListParam("saleStage", "m_crm_opportunity", "salesStage",
-                listOf(*CrmDataTypeFactory.opportunitySalesStageList)))
+                listOf(*CrmDataTypeFactory.opportunitySalesStages)))
 
         @JvmField val p_leadSource = CacheParamMapper.register(CrmTypeConstants.OPPORTUNITY,
                 OpportunityI18nEnum.FORM_LEAD_SOURCE, I18nStringListParam("leadSource", "m_crm_opportunity", "source",
-                Arrays.asList<OptionI18nEnum.OpportunityLeadSource>(*CrmDataTypeFactory.leadSourceList)))
+                Arrays.asList<OptionI18nEnum.OpportunityLeadSource>(*CrmDataTypeFactory.leadSources)))
 
         @JvmField val p_type: Param = CacheParamMapper.register(CrmTypeConstants.OPPORTUNITY, GenericI18Enum.FORM_TYPE,
-                I18nStringListParam("type", "m_crm_opportunity", "type", listOf(*CrmDataTypeFactory.opportunityTypeList)))
+                I18nStringListParam("type", "m_crm_opportunity", "type", listOf(*CrmDataTypeFactory.opportunityTypes)))
 
         @JvmField val p_assignee: Param = CacheParamMapper.register<PropertyListParam<*>>(CrmTypeConstants.OPPORTUNITY, GenericI18Enum.FORM_ASSIGNEE,
                 PropertyListParam<String>("assignee", "m_crm_opportunity", "assignUser"))

@@ -23,5 +23,5 @@ import java.util.Locale
  * @since 1.0
  */
 object CountryValueFactory {
-    @JvmField var countryList = Locale.getISOCountries()
+    @JvmField val countries: Array<out String> = Locale.getISOCountries()!!
 }

@@ -38,7 +38,6 @@ import com.mycollab.vaadin.web.ui.AbstractBeanBlockList;
 import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.icons.VaadinIcons;
-import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MCssLayout;
@@ -62,8 +61,8 @@ public class AccountOpportunityListComp extends RelatedListComp2<OpportunityServ
 
     static {
         Map<String, String> tmpMap = new HashMap<>();
-        for (int i = 0; i < CrmDataTypeFactory.opportunitySalesStageList.length; i++) {
-            OpportunitySalesStage roleKeyName = CrmDataTypeFactory.opportunitySalesStageList[i];
+        for (int i = 0; i < CrmDataTypeFactory.opportunitySalesStages.length; i++) {
+            OpportunitySalesStage roleKeyName = CrmDataTypeFactory.opportunitySalesStages[i];
             if (!tmpMap.containsKey(roleKeyName.name())) {
                 tmpMap.put(roleKeyName.name(), AbstractBeanBlockList.COLOR_STYLENAME_LIST[i]);
             }
@@ -87,7 +86,7 @@ public class AccountOpportunityListComp extends RelatedListComp2<OpportunityServ
         notesWrap.addComponent(noteLbl);
 
         MCssLayout noteBlock = new MCssLayout().withFullWidth().withStyleName("list-note-block");
-        for (OpportunitySalesStage stage : CrmDataTypeFactory.opportunitySalesStageList) {
+        for (OpportunitySalesStage stage : CrmDataTypeFactory.opportunitySalesStages) {
             MHorizontalLayout note = new MHorizontalLayout(new ELabel(UserUIContext.getMessage(stage)))
                     .withStyleName("note-label", colormap.get(stage.name()));
             noteBlock.addComponent(note);

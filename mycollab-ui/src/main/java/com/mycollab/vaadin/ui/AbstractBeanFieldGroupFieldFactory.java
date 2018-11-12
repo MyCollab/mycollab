@@ -22,9 +22,9 @@ import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.field.DefaultViewField;
-import com.mycollab.validator.constraints.DateComparison;
 import com.vaadin.data.*;
 import com.vaadin.ui.AbstractField;
+import com.vaadin.ui.CustomField;
 import com.vaadin.ui.DateField;
 import com.vaadin.ui.TextField;
 import org.apache.commons.beanutils.BeanUtils;
@@ -34,8 +34,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.validation.ConstraintViolation;
-import javax.validation.Path;
-import java.lang.annotation.Annotation;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -48,8 +46,9 @@ public abstract class AbstractBeanFieldGroupFieldFactory<B> implements IBeanFiel
     private static final Logger LOG = LoggerFactory.getLogger(AbstractBeanFieldGroupFieldFactory.class);
 
     protected GenericBeanForm<B> attachForm;
+    protected BeanValidationBinder<B> binder;
+
     private boolean isReadOnlyGroup;
-    private BeanValidationBinder<B> binder;
     private javax.validation.Validator validation;
 
     public AbstractBeanFieldGroupFieldFactory(GenericBeanForm<B> form, boolean isValidateForm, boolean isReadOnlyGroup) {
@@ -88,8 +87,13 @@ public abstract class AbstractBeanFieldGroupFieldFactory<B> implements IBeanFiel
                 } else {
                     if (formField instanceof DummyCustomField) {
                         continue;
-                    } else if (!(formField instanceof CompoundCustomField)) {
-                        binder.bind(formField, bindField);
+                    } else if (!(formField instanceof CustomField)) {
+                        Binder.BindingBuilder<B, ?> bindingBuilder = binder.forField(formField);
+
+                        if (formField instanceof Converter) {
+                            bindingBuilder.withConverter((Converter) formField);
+                        }
+                        bindingBuilder.bind(bindField);
                     }
                 }
 
@@ -123,7 +127,7 @@ public abstract class AbstractBeanFieldGroupFieldFactory<B> implements IBeanFiel
                 } else {
                     if (formField instanceof DummyCustomField) {
                         continue;
-                    } else if (!(formField instanceof CompoundCustomField)) {
+                    } else if (!(formField instanceof CustomField)) {
                         if (!isReadOnlyGroup) {
                             binder.bind(formField, field.getName());
                         }

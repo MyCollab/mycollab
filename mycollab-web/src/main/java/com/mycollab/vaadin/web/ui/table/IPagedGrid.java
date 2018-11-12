@@ -23,6 +23,7 @@ import com.mycollab.vaadin.event.HasPageableHandlers;
 import com.mycollab.vaadin.event.HasSelectableItemHandlers;
 import com.vaadin.data.ValueProvider;
 import com.vaadin.ui.Component;
+import com.vaadin.ui.Grid;
 import com.vaadin.ui.renderers.AbstractRenderer;
 import com.vaadin.util.ReflectTools;
 
@@ -46,7 +47,7 @@ public interface IPagedGrid<S extends SearchCriteria, B> extends HasSelectableIt
     @Deprecated
     void addTableListener(TableClickListener listener);
 
-    <V> void addGeneratedColumn(ValueProvider<B, V> id, AbstractRenderer generatedColumn);
+    <V> Grid.Column addGeneratedColumn(ValueProvider<B, V> id, AbstractRenderer renderer);
 
     List<GridFieldMeta> getDisplayColumns();
 

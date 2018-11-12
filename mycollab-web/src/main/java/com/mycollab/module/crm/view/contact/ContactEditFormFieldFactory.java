@@ -21,15 +21,11 @@ import com.mycollab.module.crm.view.account.AccountSelectionField;
 import com.mycollab.module.crm.view.lead.LeadSourceComboBox;
 import com.mycollab.module.user.ui.components.ActiveUserComboBox;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
-import com.mycollab.vaadin.ui.CompoundCustomField;
-import com.mycollab.vaadin.ui.DateSelectionField;
 import com.mycollab.vaadin.ui.GenericBeanForm;
 import com.mycollab.vaadin.web.ui.CountryComboBox;
 import com.mycollab.vaadin.web.ui.PrefixNameComboBox;
 import com.vaadin.data.HasValue;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.RichTextArea;
-import com.vaadin.ui.TextField;
+import com.vaadin.ui.*;
 import org.vaadin.viritin.fields.MTextField;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
@@ -80,12 +76,14 @@ class ContactEditFormFieldFactory<B extends Contact> extends AbstractBeanFieldGr
         } else if (propertyId.equals("primcountry") || propertyId.equals("othercountry")) {
             return new CountryComboBox();
         } else if (propertyId.equals("birthday")) {
-            return new DateSelectionField();
+            return new DateField();
+        } else if (propertyId.equals("iscallable")) {
+            return new CheckBox();
         }
         return null;
     }
 
-    private class ContactFirstNamePrefixField extends CompoundCustomField<Contact> {
+    private class ContactFirstNamePrefixField extends CustomField<Contact> {
         private static final long serialVersionUID = 1L;
 
         @Override
@@ -103,8 +101,8 @@ class ContactEditFormFieldFactory<B extends Contact> extends AbstractBeanFieldGr
             layout.with(firstNameField).expand(firstNameField);
 
             // binding field group
-//            fieldGroup.bind(prefixSelect, "prefix");
-//            fieldGroup.bind(firstNameField, "firstname");
+            binder.forField(prefixSelect).bind("prefix");
+            binder.forField(firstNameField).bind("firstname");
 
             return layout;
         }

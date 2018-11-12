@@ -22,25 +22,16 @@ import com.vaadin.icons.VaadinIcons;
 import com.vaadin.ui.IconGenerator;
 import com.vaadin.ui.StyleGenerator;
 
-import java.util.Arrays;
-
 /**
  * @author MyCollab Ltd.
  * @since 1.0
  */
-// TODO
 public class PriorityComboBox extends I18nValueComboBox {
     private static final long serialVersionUID = 1L;
 
-    public PriorityComboBox(boolean nullIsAllowable, Enum<?>... keys) {
-        super(nullIsAllowable, keys);
-    }
-
     public PriorityComboBox() {
-        this.setEmptySelectionAllowed(false);
+        super(Priority.class, Priority.Urgent, Priority.High, Priority.Medium, Priority.Low, Priority.None);
         this.setWidth("150px");
-
-        this.loadData(Arrays.asList(Priority.Urgent, Priority.High, Priority.Medium, Priority.Low, Priority.None));
         this.setItemIconGenerator((IconGenerator<String>) item -> {
             if (item.equals(Priority.Urgent.name()) || item.equals(Priority.High.name())
                     || item.equals(Priority.Medium.name())) {
@@ -51,13 +42,4 @@ public class PriorityComboBox extends I18nValueComboBox {
         });
         this.setStyleGenerator((StyleGenerator<String>) itemId -> String.format("task-%s", itemId.toLowerCase()));
     }
-
-//    @Override
-//    public void setPropertyDataSource(Property newDataSource) {
-//        Object value = newDataSource.getValue();
-//        if (value == null) {
-//            newDataSource.setValue(Priority.Medium.name());
-//        }
-//        super.setPropertyDataSource(newDataSource);
-//    }
 }

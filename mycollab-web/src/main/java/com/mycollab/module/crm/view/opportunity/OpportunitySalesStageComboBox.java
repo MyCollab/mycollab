@@ -17,19 +17,16 @@
 package com.mycollab.module.crm.view.opportunity;
 
 import com.mycollab.module.crm.CrmDataTypeFactory;
+import com.mycollab.module.crm.i18n.OptionI18nEnum.OpportunitySalesStage;
 import com.mycollab.vaadin.web.ui.I18nValueComboBox;
-
-import java.util.Arrays;
 
 /**
  * @author MyCollab Ltd.
  * @since 1.0
  */
-// TODO
 public class OpportunitySalesStageComboBox extends I18nValueComboBox {
 
     public OpportunitySalesStageComboBox() {
-        this.loadData(Arrays.asList(CrmDataTypeFactory.opportunitySalesStageList));
-//        this.setEmptySelectionAllowed(false);
+        super(OpportunitySalesStage.class, CrmDataTypeFactory.opportunitySalesStages);
     }
 }

@@ -31,6 +31,7 @@ import com.mycollab.module.crm.event.ContactEvent;
 import com.mycollab.module.crm.event.OpportunityEvent;
 import com.mycollab.module.crm.i18n.AccountI18nEnum;
 import com.mycollab.module.crm.i18n.ContactI18nEnum;
+import com.mycollab.module.crm.i18n.OptionI18nEnum;
 import com.mycollab.module.crm.service.ContactOpportunityService;
 import com.mycollab.module.crm.service.ContactService;
 import com.mycollab.module.crm.ui.CrmAssetsManager;
@@ -54,7 +55,6 @@ import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
@@ -279,8 +279,7 @@ public class ContactRoleEditViewImpl extends AbstractVerticalPageView implements
         private static final long serialVersionUID = 1L;
 
         RoleDecisionComboBox() {
-//            this.setEmptySelectionAllowed(false);
-            this.loadData(Arrays.asList(CrmDataTypeFactory.opportunityContactRoleList));
+            super(OptionI18nEnum.OpportunityContactRole.class, false, CrmDataTypeFactory.opportunityContactRoles);
         }
     }
 }

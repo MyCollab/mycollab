@@ -26,8 +26,6 @@ import com.mycollab.module.crm.CrmDataTypeFactory
 import com.mycollab.module.crm.CrmTypeConstants
 import com.mycollab.module.crm.i18n.CaseI18nEnum
 
-import java.util.Arrays
-
 /**
  * @author MyCollab Ltd.
  * @since 1.0
@@ -54,22 +52,22 @@ class CaseSearchCriteria : SearchCriteria() {
         private val serialVersionUID = 1L
 
         @JvmField val p_priority: Param = CacheParamMapper.register(CrmTypeConstants.CASE, CaseI18nEnum.FORM_PRIORITY,
-                I18nStringListParam("priority", "m_crm_case", "priority", listOf(*CrmDataTypeFactory.casesPriorityList)))
+                I18nStringListParam("priority", "m_crm_case", "priority", listOf(*CrmDataTypeFactory.casesPriorities)))
 
         @JvmField val p_account: Param = CacheParamMapper.register(CrmTypeConstants.CASE, CaseI18nEnum.FORM_ACCOUNT,
                 PropertyParam("account", "m_crm_case", "accountId"))
 
         @JvmField val p_status: Param = CacheParamMapper.register(CrmTypeConstants.CASE, GenericI18Enum.FORM_STATUS,
-                I18nStringListParam("status", "m_crm_case", "status", listOf(*CrmDataTypeFactory.casesStatusList)))
+                I18nStringListParam("status", "m_crm_case", "status", listOf(*CrmDataTypeFactory.casesStatuses)))
 
         @JvmField val p_type: Param = CacheParamMapper.register(CrmTypeConstants.CASE, GenericI18Enum.FORM_TYPE,
-                I18nStringListParam("type", "m_crm_case", "type", listOf(*CrmDataTypeFactory.casesType)))
+                I18nStringListParam("type", "m_crm_case", "type", listOf(*CrmDataTypeFactory.casesTypes)))
 
         @JvmField val p_reason: Param = CacheParamMapper.register(CrmTypeConstants.CASE, CaseI18nEnum.FORM_REASON,
-                I18nStringListParam("reason", "m_crm_case", "reason", listOf(*CrmDataTypeFactory.casesReason)))
+                I18nStringListParam("reason", "m_crm_case", "reason", listOf(*CrmDataTypeFactory.casesReasons)))
 
         @JvmField val p_origin: Param = CacheParamMapper.register(CrmTypeConstants.CASE, CaseI18nEnum.FORM_ORIGIN,
-                I18nStringListParam("origin", "m_crm_case", "origin", listOf(*CrmDataTypeFactory.casesOrigin)))
+                I18nStringListParam("origin", "m_crm_case", "origin", listOf(*CrmDataTypeFactory.casesOrigins)))
 
         @JvmField val p_subject: Param = CacheParamMapper.register(CrmTypeConstants.CASE, CaseI18nEnum.FORM_SUBJECT,
                 StringParam("subject", "m_crm_case", "subject"))

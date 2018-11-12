@@ -56,7 +56,7 @@ public class OpportunitySalesStageDashboard extends PieChartWrapper<OpportunityS
         // create the dataset...
         final DefaultPieDataset dataset = new DefaultPieDataset();
 
-        final OpportunitySalesStage[] salesStages = CrmDataTypeFactory.opportunitySalesStageList;
+        final OpportunitySalesStage[] salesStages = CrmDataTypeFactory.opportunitySalesStages;
         for (final OpportunitySalesStage status : salesStages) {
             boolean isFound = false;
             for (final GroupItem item : groupItems) {

@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -19,6 +19,8 @@ package com.mycollab.module.crm.view.activity;
 import com.mycollab.module.crm.CrmDataTypeFactory;
 import com.mycollab.module.crm.CrmTypeConstants;
 import com.mycollab.module.crm.domain.CrmTask;
+import com.mycollab.module.crm.i18n.OptionI18nEnum.TaskPriority;
+import com.mycollab.module.crm.i18n.OptionI18nEnum.TaskStatus;
 import com.mycollab.module.crm.i18n.TaskI18nEnum;
 import com.mycollab.module.crm.ui.CrmAssetsManager;
 import com.mycollab.module.crm.ui.components.AbstractEditItemComp;
@@ -31,13 +33,11 @@ import com.mycollab.vaadin.ui.*;
 import com.mycollab.vaadin.web.ui.DefaultDynaFormLayout;
 import com.mycollab.vaadin.web.ui.I18nValueComboBox;
 import com.mycollab.vaadin.web.ui.field.DateTimeOptionField;
+import com.vaadin.data.HasValue;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.ComponentContainer;
-import com.vaadin.data.HasValue;
 import com.vaadin.ui.RichTextArea;
 import com.vaadin.ui.TextField;
-
-import java.util.Arrays;
 
 import static com.mycollab.vaadin.web.ui.utils.FormControlsGenerator.generateEditFormControls;
 
@@ -126,9 +126,8 @@ public class AssignmentAddViewImpl extends AbstractEditItemComp<CrmTask> impleme
         private static final long serialVersionUID = 1L;
 
         TaskPriorityComboBox() {
-            super();
+            super(TaskPriority.class, CrmDataTypeFactory.taskPriorities);
             setCaption(null);
-            this.loadData(Arrays.asList(CrmDataTypeFactory.taskPriorities));
         }
     }
 
@@ -136,9 +135,8 @@ public class AssignmentAddViewImpl extends AbstractEditItemComp<CrmTask> impleme
         private static final long serialVersionUID = 1L;
 
         TaskStatusComboBox() {
-            super();
+            super(TaskStatus.class, CrmDataTypeFactory.taskStatuses);
             setCaption(null);
-            this.loadData(Arrays.asList(CrmDataTypeFactory.taskStatuses));
         }
     }
 }

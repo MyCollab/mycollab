@@ -26,7 +26,6 @@ import com.mycollab.module.user.service.UserService;
 import com.mycollab.module.user.ui.components.LanguageSelectionField;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.UserUIContext;
-import com.mycollab.vaadin.ui.DateSelectionField;
 import com.mycollab.vaadin.ui.NotificationUtil;
 import com.mycollab.vaadin.web.ui.TimeZoneSelectionField;
 import com.mycollab.vaadin.web.ui.WebThemes;
@@ -36,6 +35,7 @@ import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.Page;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
+import com.vaadin.ui.DateField;
 import com.vaadin.ui.TextField;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
@@ -51,7 +51,7 @@ class BasicInfoChangeWindow extends MWindow {
     private TextField txtFirstName = new TextField();
     private TextField txtLastName = new TextField();
     private TextField txtEmail = new TextField();
-    private DateSelectionField birthdayField = new DateSelectionField();
+    private DateField birthdayField = new DateField();
     private TimeZoneSelectionField timeZoneField = new TimeZoneSelectionField(false);
     private LanguageSelectionField languageBox = new LanguageSelectionField();
 
@@ -87,7 +87,7 @@ class BasicInfoChangeWindow extends MWindow {
         txtFirstName.setValue(MoreObjects.firstNonNull(user.getFirstname(), ""));
         txtLastName.setValue(MoreObjects.firstNonNull(user.getLastname(), ""));
         txtEmail.setValue(MoreObjects.firstNonNull(user.getEmail(), ""));
-        birthdayField.setValue(user.getDateofbirth());
+//        birthdayField.setValue(user.getDateofbirth());
         mainLayout.addComponent(passInfo.getLayout());
         mainLayout.setComponentAlignment(passInfo.getLayout(), Alignment.TOP_LEFT);
 

@@ -61,15 +61,15 @@ class ContactSearchCriteria : SearchCriteria() {
 
         @JvmField val p_leadsource = CacheParamMapper.register(CrmTypeConstants.CONTACT, ContactI18nEnum.FORM_LEAD_SOURCE,
                 I18nStringListParam("leadsource", "m_crm_contact", "leadSource",
-                        listOf(*CrmDataTypeFactory.leadSourceList)))
+                        listOf(*CrmDataTypeFactory.leadSources)))
 
         @JvmField val p_billingCountry: Param = CacheParamMapper.register(CrmTypeConstants.CONTACT, ContactI18nEnum.FORM_PRIMARY_COUNTRY,
                 StringListParam("billingCountry", "m_crm_contact", "primCountry",
-                        Arrays.asList(*CountryValueFactory.countryList!!)))
+                        Arrays.asList(*CountryValueFactory.countries!!)))
 
         @JvmField val p_shippingCountry: Param = CacheParamMapper.register(CrmTypeConstants.CONTACT, ContactI18nEnum.FORM_OTHER_COUNTRY,
                 StringListParam("shippingCountry", "m_crm_contact", "otherCountry",
-                        Arrays.asList(*CountryValueFactory.countryList!!)))
+                        Arrays.asList(*CountryValueFactory.countries!!)))
 
         @JvmField val p_anyPhone: Param = CacheParamMapper.register(CrmTypeConstants.CONTACT, ContactI18nEnum.FORM_ANY_PHONE,
                 CompositionStringParam("anyPhone",

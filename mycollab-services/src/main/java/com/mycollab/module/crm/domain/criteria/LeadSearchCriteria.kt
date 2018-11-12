@@ -69,17 +69,17 @@ class LeadSearchCriteria : SearchCriteria() {
                         StringParam("", "m_crm_lead", "otherCity")))
 
         @JvmField val p_billingCountry: Param = CacheParamMapper.register(CrmTypeConstants.LEAD, LeadI18nEnum.FORM_PRIMARY_COUNTRY,
-                StringListParam("billingCountry", "m_crm_lead", "primCountry", Arrays.asList(*CountryValueFactory.countryList!!)))
+                StringListParam("billingCountry", "m_crm_lead", "primCountry", Arrays.asList(*CountryValueFactory.countries!!)))
 
         @JvmField val p_shippingCountry: Param = CacheParamMapper.register(CrmTypeConstants.LEAD, LeadI18nEnum.FORM_OTHER_COUNTRY,
                 StringListParam("shippingCountry", "m_crm_lead", "otherCountry",
-                        Arrays.asList(*CountryValueFactory.countryList!!)))
+                        Arrays.asList(*CountryValueFactory.countries!!)))
 
         @JvmField val p_statuses: Param = CacheParamMapper.register(CrmTypeConstants.LEAD, GenericI18Enum.FORM_STATUS,
-                I18nStringListParam("status", "m_crm_lead", "status", listOf(*CrmDataTypeFactory.leadStatusList)))
+                I18nStringListParam("status", "m_crm_lead", "status", listOf(*CrmDataTypeFactory.leadStatuses)))
 
         @JvmField val p_sources = CacheParamMapper.register(CrmTypeConstants.LEAD, LeadI18nEnum.FORM_LEAD_SOURCE,
-                I18nStringListParam("source", "m_crm_lead", "source", listOf(*CrmDataTypeFactory.leadSourceList)))
+                I18nStringListParam("source", "m_crm_lead", "source", listOf(*CrmDataTypeFactory.leadSources)))
 
         @JvmField val p_assignee: Param = CacheParamMapper.register<PropertyListParam<*>>(CrmTypeConstants.LEAD, GenericI18Enum.FORM_ASSIGNEE,
                 PropertyListParam<String>("assignuser", "m_crm_lead", "assignUser"))

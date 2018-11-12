@@ -204,7 +204,7 @@ public class ResolvedInputForm extends AdvancedEditBeanForm<SimpleBug> {
             return null;
         }
 
-        private class ResolutionField extends CompoundCustomField<BugWithBLOBs> {
+        private class ResolutionField extends CustomField<BugWithBLOBs> {
             private MHorizontalLayout layout;
             private BugResolutionComboBox resolutionComboBox;
 

@@ -18,6 +18,7 @@ package com.mycollab.vaadin.ui;
 
 import com.vaadin.ui.ListSelect;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -28,7 +29,7 @@ import java.util.List;
 public class I18nValueListSelect extends ListSelect {
     private static final long serialVersionUID = 1L;
 
-    public void loadData(List<? extends Enum<?>> values) {
+    public void loadData(Collection<? extends Enum<?>> values) {
 //        this.setItemCaptionMode(ItemCaptionMode.EXPLICIT_DEFAULTS_ID);
 //
 //        for (Enum<?> entry : values) {

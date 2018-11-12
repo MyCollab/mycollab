@@ -289,7 +289,7 @@ public class UserAddViewImpl extends AbstractVerticalPageView implements UserAdd
 //                    return new MTextField().withNullRepresentation("").withRequired(true)
 //                            .withRequiredError("This field must be not null");
                 } else if (propertyId.equals("dateofbirth")) {
-                    return new DateSelectionField();
+                    return new DateField();
                 } else if (propertyId.equals("timezone")) {
                     return new TimeZoneSelectionField(false);
                 } else if (propertyId.equals("country")) {

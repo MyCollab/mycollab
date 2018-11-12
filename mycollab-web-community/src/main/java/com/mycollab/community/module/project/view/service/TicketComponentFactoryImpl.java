@@ -23,14 +23,16 @@ import com.mycollab.common.i18n.FollowerI18nEnum;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.i18n.ShellI18nEnum;
 import com.mycollab.community.vaadin.web.ui.field.MetaFieldBuilder;
+import com.mycollab.core.MyCollabException;
+import com.mycollab.core.SecureAccessException;
 import com.mycollab.core.utils.NumberUtils;
 import com.mycollab.module.file.StorageUtils;
+import com.mycollab.module.project.CurrentProjectVariables;
+import com.mycollab.module.project.ProjectRolePermissionCollections;
+import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.domain.ProjectTicket;
 import com.mycollab.module.project.domain.SimpleTask;
-import com.mycollab.module.project.i18n.BugI18nEnum;
-import com.mycollab.module.project.i18n.OptionI18nEnum;
-import com.mycollab.module.project.i18n.TaskI18nEnum;
-import com.mycollab.module.project.i18n.TicketI18nEnum;
+import com.mycollab.module.project.i18n.*;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.module.project.view.bug.BugEditForm;
 import com.mycollab.module.project.view.service.TicketComponentFactory;
@@ -45,17 +47,20 @@ import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.CssLayout;
+import com.vaadin.ui.IconGenerator;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 import org.vaadin.viritin.layouts.MWindow;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author MyCollab Ltd
  * @since 5.4.3
  */
-// TODO
 @Service
 public class TicketComponentFactoryImpl implements TicketComponentFactory {
     @Override
@@ -173,30 +178,37 @@ public class TicketComponentFactoryImpl implements TicketComponentFactory {
             withModal(true).withResizable(false).withCenter().withWidth("1200px").withContent(content);
 
             typeSelection = new ComboBox();
-//            typeSelection.setItemCaptionMode(AbstractSelect.ItemCaptionMode.EXPLICIT_DEFAULTS_ID);
-//            if (CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS)) {
-//                typeSelection.addItem(UserUIContext.getMessage(TaskI18nEnum.SINGLE));
-//                typeSelection.setItemIcon(UserUIContext.getMessage(TaskI18nEnum.SINGLE), ProjectAssetsManager.getAsset(ProjectTypeConstants.TASK));
-//            }
-//
-//            if (CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.BUGS)) {
-//                typeSelection.addItem(UserUIContext.getMessage(BugI18nEnum.SINGLE));
-//                typeSelection.setItemIcon(UserUIContext.getMessage(BugI18nEnum.SINGLE), ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG));
-//            }
-//
-//            if (isIncludeMilestone && CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.MILESTONES)) {
-//                typeSelection.addItem(UserUIContext.getMessage(MilestoneI18nEnum.SINGLE));
-//                typeSelection.setItemIcon(UserUIContext.getMessage(MilestoneI18nEnum.SINGLE), ProjectAssetsManager.getAsset(ProjectTypeConstants.MILESTONE));
-//            }
-//
-//            typeSelection.setEmptySelectionAllowed(false);
-//            if (CollectionUtils.isNotEmpty(typeSelection.getItemIds())) {
-//                typeSelection.select(typeSelection.getItemIds().iterator().next());
-//            } else {
-//                throw new SecureAccessException();
-//            }
-//
-//            typeSelection.setEmptySelectionAllowed(false);
+            List<String> types = new ArrayList<>();
+            if (CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS)) {
+                types.add(UserUIContext.getMessage(TaskI18nEnum.SINGLE));
+            }
+
+            if (CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.BUGS)) {
+                types.add(UserUIContext.getMessage(BugI18nEnum.SINGLE));
+            }
+
+            if (isIncludeMilestone && CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.MILESTONES)) {
+                types.add(UserUIContext.getMessage(MilestoneI18nEnum.SINGLE));
+            }
+
+            if (CollectionUtils.isNotEmpty(types)) {
+                typeSelection.setItems(types);
+                typeSelection.setItemIconGenerator((IconGenerator<String>) value -> {
+                    if (value.equals(UserUIContext.getMessage(TaskI18nEnum.SINGLE))) {
+                        return ProjectAssetsManager.getAsset(ProjectTypeConstants.TASK);
+                    } else if (value.equals(UserUIContext.getMessage(BugI18nEnum.SINGLE))) {
+                        return ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG);
+                    } else if (value.equals(UserUIContext.getMessage(MilestoneI18nEnum.SINGLE))) {
+                        return ProjectAssetsManager.getAsset(ProjectTypeConstants.MILESTONE);
+                    } else {
+                        throw new MyCollabException("Not support type " + value);
+                    }
+                });
+            } else {
+                throw new SecureAccessException();
+            }
+
+            typeSelection.setEmptySelectionAllowed(false);
             typeSelection.addValueChangeListener(valueChangeEvent -> doChange(date, prjId, milestoneId));
 
             GridFormLayoutHelper formLayoutHelper = GridFormLayoutHelper.defaultFormLayoutHelper(1, 1);
@@ -204,7 +216,7 @@ public class TicketComponentFactoryImpl implements TicketComponentFactory {
             formLayout = new CssLayout();
             formLayout.setWidth("100%");
             content.with(formLayoutHelper.getLayout(), formLayout);
-            doChange(date, prjId, milestoneId);
+            typeSelection.setSelectedItem(types.get(0));
         }
 
         private void doChange(Date dateValue, final Integer prjId, final Integer milestoneId) {

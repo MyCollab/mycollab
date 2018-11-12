@@ -36,8 +36,6 @@ import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.RichTextArea;
 import org.vaadin.viritin.fields.MTextField;
 
-import java.util.Arrays;
-
 import static com.mycollab.vaadin.web.ui.utils.FormControlsGenerator.generateEditFormControls;
 
 /**
@@ -123,8 +121,8 @@ public class MeetingAddViewImpl extends AbstractEditItemComp<MeetingWithBLOBs> i
     private static class MeetingStatusComboBox extends I18nValueComboBox {
 
         MeetingStatusComboBox() {
+            super(CallStatus.class, CallStatus.Planned, CallStatus.Held, CallStatus.Not_Held);
             setCaption(null);
-            this.loadData(Arrays.asList(CallStatus.Planned, CallStatus.Held, CallStatus.Not_Held));
         }
     }
 }

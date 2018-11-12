@@ -76,8 +76,6 @@ public abstract class AbstractPagedGrid<S extends SearchCriteria, B> extends Ver
     private List<GridFieldMeta> displayColumns;
     private List<GridFieldMeta> defaultSelectedColumns;
 
-    private final Map<ValueProvider, AbstractRenderer> columnGenerators = new HashMap<>();
-
     public AbstractPagedGrid(Class<B> type, List<GridFieldMeta> displayColumns) {
         this(type, null, displayColumns);
     }
@@ -109,6 +107,9 @@ public abstract class AbstractPagedGrid<S extends SearchCriteria, B> extends Ver
         this.requiredColumn = requiredColumn;
         this.type = type;
         addStyleName(SCROLLABLE_CONTAINER);
+
+        gridItem = new Grid<>();
+        gridItem.setWidth("100%");
     }
 
     public void setDisplayColumns(List<GridFieldMeta> viewFields) {
@@ -194,8 +195,12 @@ public abstract class AbstractPagedGrid<S extends SearchCriteria, B> extends Ver
     }
 
     @Override
-    public <V> void addGeneratedColumn(ValueProvider<B, V> id, AbstractRenderer generatedColumn) {
-        this.columnGenerators.put(id, generatedColumn);
+    public <V> Grid.Column addGeneratedColumn(ValueProvider<B, V> valueProvider, AbstractRenderer renderer) {
+        return gridItem.addColumn(valueProvider).setRenderer(renderer);
+    }
+
+    public <V> Grid.Column addGeneratedColumn(ValueProvider<B, V> valueProvider) {
+        return gridItem.addColumn(valueProvider);
     }
 
     @Override
@@ -325,15 +330,9 @@ public abstract class AbstractPagedGrid<S extends SearchCriteria, B> extends Ver
     }
 
     private void createGrid() {
-        gridItem = new Grid<>();
-        gridItem.setWidth("100%");
-
         gridItem.setItems(currentListData);
 
         // set column generator
-        for (Map.Entry<ValueProvider, AbstractRenderer> entry : columnGenerators.entrySet()) {
-            gridItem.addColumn(entry.getKey()).setRenderer(entry.getValue());
-        }
 
 //        gridItem.addHeaderClickListener(headerClickEvent -> {
 //            String propertyId = (String) headerClickEvent.getPropertyId();
@@ -362,7 +361,7 @@ public abstract class AbstractPagedGrid<S extends SearchCriteria, B> extends Ver
 //            }
 //        });
 
-        setDisplayColumns();
+//        setDisplayColumns();
 
         if (this.getComponentCount() > 0) {
             final Component component0 = this.getComponent(0);

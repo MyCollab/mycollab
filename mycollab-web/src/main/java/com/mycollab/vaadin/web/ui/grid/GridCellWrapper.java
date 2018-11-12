@@ -43,6 +43,7 @@ class GridCellWrapper extends MHorizontalLayout {
         } else if (component instanceof AbstractTextField || component instanceof RichTextArea) {
             component.setWidth("100%");
         }
+
         super.addComponent(component);
     }
 }

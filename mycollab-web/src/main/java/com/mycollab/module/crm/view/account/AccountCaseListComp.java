@@ -64,8 +64,8 @@ public class AccountCaseListComp extends RelatedListComp2<CaseService, CaseSearc
 
     static {
         Map<String, String> tmpMap = new HashMap<>();
-        for (int i = 0; i < CrmDataTypeFactory.casesStatusList.length; i++) {
-            String roleKeyName = CrmDataTypeFactory.casesStatusList[i].name();
+        for (int i = 0; i < CrmDataTypeFactory.casesStatuses.length; i++) {
+            String roleKeyName = CrmDataTypeFactory.casesStatuses[i].name();
             if (!tmpMap.containsKey(roleKeyName)) {
                 tmpMap.put(roleKeyName, AbstractBeanBlockList.COLOR_STYLENAME_LIST[i]);
             }
@@ -89,7 +89,7 @@ public class AccountCaseListComp extends RelatedListComp2<CaseService, CaseSearc
         notesWrap.addComponent(noteLbl);
 
         MCssLayout noteBlock = new MCssLayout().withFullWidth().withStyleName("list-note-block");
-        for (CaseStatus status : CrmDataTypeFactory.casesStatusList) {
+        for (CaseStatus status : CrmDataTypeFactory.casesStatuses) {
             ELabel note = new ELabel(UserUIContext.getMessage(status)).withStyleName("note-label", colorsMap.get(status
                     .name())).withUndefinedWidth();
             noteBlock.addComponent(note);

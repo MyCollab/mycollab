@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -210,7 +210,7 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
             }).withIcon(VaadinIcons.TRASH).withStyleName(WebThemes.BUTTON_ICON_ONLY);
 
             this.addComponent(fieldSelectionBox, 2, 0);
-            this.addComponent(compareSelectionBox, 3, 0);
+//            this.addComponent(compareSelectionBox, 3, 0);
             this.addComponent(valueBox, 4, 0);
             this.addComponent(deleteBtn, 5, 0);
         }
@@ -253,7 +253,7 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
                 valueField.setWidth(width);
                 valueBox.addComponent(valueField);
             } else if (param instanceof BooleanParam) {
-                I18nValueComboBox valueField = new I18nValueComboBox(false, GenericI18Enum.ACTION_YES, GenericI18Enum.ACTION_NO);
+                I18nValueComboBox valueField = new I18nValueComboBox(GenericI18Enum.class, GenericI18Enum.ACTION_YES, GenericI18Enum.ACTION_NO);
                 valueField.setValue(String.valueOf(searchFieldInfo.eval()));
                 valueField.setWidth(width);
                 valueBox.addComponent(valueField);
@@ -294,7 +294,7 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
                 valueBox.addComponent(listSelect);
 
             } else if (param instanceof I18nStringListParam) {
-                List<? extends Enum<?>> values = ((I18nStringListParam) param).getValues();
+                Collection<? extends Enum<?>> values = ((I18nStringListParam) param).getValues();
                 if (CollectionUtils.isNotEmpty(values)) {
                     I18nValueListSelect listSelect = new I18nValueListSelect();
                     listSelect.setCaption(null);
@@ -351,10 +351,10 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
                 }
             });
 
-            compareSelectionBox = new I18nValueComboBox(false);
-            compareSelectionBox.setWidth("150px");
+//            compareSelectionBox = new I18nValueComboBox(false);
+//            compareSelectionBox.setWidth("150px");
 //            compareSelectionBox.setImmediate(true);
-            compareSelectionBox.addValueChangeListener(valueChangeEvent -> displayAssociateInputField((Param) fieldSelectionBox.getValue()));
+//            compareSelectionBox.addValueChangeListener(valueChangeEvent -> displayAssociateInputField((Param) fieldSelectionBox.getValue()));
         }
 
         private void displayAssociateInputField(Param field) {
@@ -371,7 +371,7 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
                 tempTextField.setWidth(width);
                 valueBox.addComponent(tempTextField);
             } else if (field instanceof BooleanParam) {
-                I18nValueComboBox yesNoBox = new I18nValueComboBox(false, GenericI18Enum.ACTION_YES, GenericI18Enum.ACTION_NO);
+                I18nValueComboBox yesNoBox = new I18nValueComboBox(GenericI18Enum.class, GenericI18Enum.ACTION_YES, GenericI18Enum.ACTION_NO);
                 yesNoBox.setWidth(width);
                 valueBox.addComponent(yesNoBox);
             } else if (field instanceof DateParam) {

@@ -20,6 +20,7 @@ import com.mycollab.module.file.AttachmentUtils;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.domain.Milestone;
 import com.mycollab.module.project.domain.SimpleMilestone;
+import com.mycollab.module.project.i18n.OptionI18nEnum.MilestoneStatus;
 import com.mycollab.module.project.view.settings.component.ProjectMemberSelectionField;
 import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
@@ -31,8 +32,6 @@ import com.vaadin.icons.VaadinIcons;
 import com.vaadin.ui.IconGenerator;
 import com.vaadin.ui.RichTextArea;
 import com.vaadin.ui.TextField;
-
-import java.util.Arrays;
 
 import static com.mycollab.module.project.i18n.OptionI18nEnum.MilestoneStatus.*;
 
@@ -92,28 +91,18 @@ public class MilestoneEditFormFieldFactory extends AbstractBeanFieldGroupEditFie
         private static final long serialVersionUID = 1L;
 
         ProgressStatusComboBox() {
-            setCaption(null);
-            this.setEmptySelectionAllowed(false);
-            this.loadData(Arrays.asList(InProgress, Future, Closed));
-            this.setItemIconGenerator((IconGenerator<String>) it -> {
-                if (it.equals(InProgress.name())) {
-                    return VaadinIcons.SPINNER;
-                } else if (it.equals(Future.name())) {
-                    return VaadinIcons.CLOCK;
-                } else {
-                    return VaadinIcons.MINUS_CIRCLE;
+            super(MilestoneStatus.class, InProgress, Future, Closed);
+            this.setItemIconGenerator((IconGenerator<MilestoneStatus>) it -> {
+                switch (it) {
+                    case InProgress:
+                        return VaadinIcons.SPINNER;
+                    case Future:
+                        return VaadinIcons.CLOCK;
+                    default:
+                        return VaadinIcons.MINUS_CIRCLE;
                 }
             });
         }
-
-//        @Override
-//        public void setPropertyDataSource(Property newDataSource) {
-//            Object value = newDataSource.getValue();
-//            if (value == null) {
-//                newDataSource.setValue(MilestoneStatus.InProgress.name());
-//            }
-//            super.setPropertyDataSource(newDataSource);
-//        }
     }
 
 }

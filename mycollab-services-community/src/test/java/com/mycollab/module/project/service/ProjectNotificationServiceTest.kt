@@ -36,6 +36,6 @@ class ProjectNotificationServiceTest : IntegrationServiceTest() {
         assertThat(projectRelayEmailNotifications.size).isEqualTo(1)
         val projectRelayEmailNotification = projectRelayEmailNotifications[0]
         assertThat(projectRelayEmailNotification.notifyUsers.size).isEqualTo(2)
-        assertThat(projectRelayEmailNotification.notifyUsers).extracting("username").contains("admin").contains("user2")
+        assertThat(projectRelayEmailNotification.notifyUsers).extracting("username").contains("admin", "user2")
     }
 }

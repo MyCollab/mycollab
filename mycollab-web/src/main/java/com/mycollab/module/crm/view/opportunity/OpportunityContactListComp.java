@@ -42,7 +42,6 @@ import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.web.ui.*;
 import com.vaadin.icons.VaadinIcons;
-import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
@@ -61,8 +60,8 @@ public class OpportunityContactListComp extends RelatedListComp2<ContactOpportun
 
     static {
         Map<String, String> tmpMap = new HashMap<>();
-        for (int i = 0; i < CrmDataTypeFactory.opportunityContactRoleList.length; i++) {
-            String roleKeyName = CrmDataTypeFactory.opportunityContactRoleList[i].name();
+        for (int i = 0; i < CrmDataTypeFactory.opportunityContactRoles.length; i++) {
+            String roleKeyName = CrmDataTypeFactory.opportunityContactRoles[i].name();
             if (!tmpMap.containsKey(roleKeyName)) {
                 tmpMap.put(roleKeyName, AbstractBeanBlockList.COLOR_STYLENAME_LIST[i]);
             }
@@ -88,7 +87,7 @@ public class OpportunityContactListComp extends RelatedListComp2<ContactOpportun
         CssLayout noteBlock = new CssLayout();
         noteBlock.setWidth("100%");
         noteBlock.setStyleName("list-note-block");
-        for (OptionI18nEnum.OpportunityContactRole role : CrmDataTypeFactory.opportunityContactRoleList) {
+        for (OptionI18nEnum.OpportunityContactRole role : CrmDataTypeFactory.opportunityContactRoles) {
             ELabel note = new ELabel(UserUIContext.getMessage(role)).withStyleName("note-label", colormap.get(role.name()))
                     .withUndefinedWidth().withUndefinedHeight();
             noteBlock.addComponent(note);

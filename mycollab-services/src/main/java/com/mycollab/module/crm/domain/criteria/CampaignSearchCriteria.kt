@@ -25,8 +25,6 @@ import com.mycollab.db.query.*
 import com.mycollab.module.crm.CrmDataTypeFactory
 import com.mycollab.module.crm.CrmTypeConstants
 
-import java.util.Arrays
-
 /**
  * @author MyCollab Ltd.
  * @since 1.0
@@ -60,10 +58,10 @@ class CampaignSearchCriteria : SearchCriteria() {
                 GenericI18Enum.FORM_LAST_UPDATED_TIME, DateParam("lastUpdatedTime", "m_crm_campaign", "lastUpdatedTime"))
 
         @JvmField val p_types: Param = CacheParamMapper.register(CrmTypeConstants.CAMPAIGN, GenericI18Enum.FORM_TYPE,
-                I18nStringListParam("type", "m_crm_campaign", "type", listOf(*CrmDataTypeFactory.campaignTypeList)))
+                I18nStringListParam("type", "m_crm_campaign", "type", listOf(*CrmDataTypeFactory.campaignTypes)))
 
         @JvmField val p_statuses: Param = CacheParamMapper.register(CrmTypeConstants.CAMPAIGN, GenericI18Enum.FORM_STATUS,
-                I18nStringListParam("status", "m_crm_campaign", "status", listOf(*CrmDataTypeFactory.campaignStatusList)))
+                I18nStringListParam("status", "m_crm_campaign", "status", listOf(*CrmDataTypeFactory.campaignStatuses)))
 
         @JvmField val p_assignee: Param = CacheParamMapper.register<PropertyListParam<*>>(CrmTypeConstants.CAMPAIGN, GenericI18Enum.FORM_ASSIGNEE,
                 PropertyListParam<String>("assignuser", "m_crm_campaign", "assignUser"))

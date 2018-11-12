@@ -25,7 +25,7 @@ import com.mycollab.common.i18n.QueryI18nEnum.CollectionI18nEnum
  * @author MyCollab Ltd.
  * @since 4.3.0
  */
-class I18nStringListParam(id: String, table: String, column: String, var values: List<Enum<*>>?) : ColumnParam(id, table, column) {
+class I18nStringListParam(id: String, table: String, column: String, var values: Collection<Enum<*>>?) : ColumnParam(id, table, column) {
 
     fun buildStringParamInList(oper: String, value: Collection<*>): CollectionValueSearchField =
             CollectionValueSearchField(oper, "$table.$column in ", value)

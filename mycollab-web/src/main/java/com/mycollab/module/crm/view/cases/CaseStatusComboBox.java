@@ -17,9 +17,8 @@
 package com.mycollab.module.crm.view.cases;
 
 import com.mycollab.module.crm.CrmDataTypeFactory;
+import com.mycollab.module.crm.i18n.OptionI18nEnum.CaseStatus;
 import com.mycollab.vaadin.web.ui.I18nValueComboBox;
-
-import java.util.Arrays;
 
 /**
  * @author MyCollab Ltd.
@@ -29,7 +28,6 @@ public class CaseStatusComboBox extends I18nValueComboBox {
     private static final long serialVersionUID = 1L;
 
     public CaseStatusComboBox() {
-        setCaption(null);
-        this.loadData(Arrays.asList(CrmDataTypeFactory.casesStatusList));
+        super(CaseStatus.class, CrmDataTypeFactory.casesStatuses);
     }
 }

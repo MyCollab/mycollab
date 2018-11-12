@@ -40,8 +40,6 @@ import com.vaadin.ui.*;
 import org.vaadin.viritin.fields.MTextField;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
-import java.util.Arrays;
-
 import static com.mycollab.vaadin.web.ui.utils.FormControlsGenerator.generateEditFormControls;
 
 /**
@@ -127,7 +125,7 @@ public class CallAddViewImpl extends AbstractEditItemComp<CallWithBLOBs> impleme
             return null;
         }
 
-        private class CallStatusTypeField extends CompoundCustomField {
+        private class CallStatusTypeField extends CustomField {
             private static final long serialVersionUID = 1L;
 
             @Override
@@ -160,9 +158,9 @@ public class CallAddViewImpl extends AbstractEditItemComp<CallWithBLOBs> impleme
         private static final long serialVersionUID = 1L;
 
         CallPurposeComboBox() {
+            super(CallPurpose.class, CallPurpose.Administrative, CallPurpose.Negotiation, CallPurpose.Project,
+                    CallPurpose.Prospecting, CallPurpose.Support);
             setCaption(null);
-            this.loadData(Arrays.asList(CallPurpose.Administrative, CallPurpose.Negotiation, CallPurpose.Project,
-                    CallPurpose.Prospecting, CallPurpose.Support));
         }
     }
 
@@ -238,9 +236,9 @@ public class CallAddViewImpl extends AbstractEditItemComp<CallWithBLOBs> impleme
     private class CallTypeComboBox extends I18nValueComboBox {
 
         CallTypeComboBox() {
+            super(CallType.class, CallType.Inbound, CallType.Outbound);
             setCaption(null);
             this.setWidth("80px");
-            this.loadData(Arrays.asList(CallType.Inbound, CallType.Outbound));
             this.addValueChangeListener(valueChangeEvent -> beanItem.setCalltype((String) CallTypeComboBox.this.getValue()));
         }
     }
@@ -248,9 +246,9 @@ public class CallAddViewImpl extends AbstractEditItemComp<CallWithBLOBs> impleme
     private class CallStatusComboBox extends I18nValueComboBox {
 
         CallStatusComboBox() {
+            super(CallStatus.class, CallStatus.Planned, CallStatus.Held, CallStatus.Not_Held);
             setCaption(null);
             this.setWidth("100px");
-            this.loadData(Arrays.asList(CallStatus.Planned, CallStatus.Held, CallStatus.Not_Held));
             this.addValueChangeListener(valueChangeEvent -> beanItem.setStatus((String) CallStatusComboBox.this.getValue()));
         }
     }

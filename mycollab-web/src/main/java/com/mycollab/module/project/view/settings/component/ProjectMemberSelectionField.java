@@ -30,7 +30,6 @@ import org.vaadin.viritin.layouts.MHorizontalLayout;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-// TODO
 public class ProjectMemberSelectionField extends CustomField<String> {
     private static final long serialVersionUID = 1L;
 
@@ -53,35 +52,9 @@ public class ProjectMemberSelectionField extends CustomField<String> {
         }).withStyleName(WebThemes.BUTTON_LINK);
     }
 
-//    @Override
-//    public void setPropertyDataSource(Property newDataSource) {
-//        Object value = newDataSource.getValue();
-//        if (value instanceof String) {
-//            memberSelectionBox.setValue(value);
-//        }
-//        super.setPropertyDataSource(newDataSource);
-//    }
-//
-//
-//    @Override
-//    public void commit() throws SourceException, InvalidValueException {
-//        SimpleProjectMember value = (SimpleProjectMember) memberSelectionBox.getValue();
-//        if (value != null) {
-//            this.setInternalValue(value.getUsername());
-//        } else {
-//            this.setInternalValue(null);
-//        }
-//
-//        super.commit();
-//    }
-
     @Override
     protected Component initContent() {
         return new MHorizontalLayout(memberSelectionBox, assignToMeBtn);
-    }
-
-    public Registration addValueChangeListener(ValueChangeListener listener) {
-        return memberSelectionBox.addValueChangeListener(listener);
     }
 
     @Override

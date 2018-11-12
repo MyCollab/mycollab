@@ -67,7 +67,7 @@ public class MilestoneComboBox extends ComboBox {
             } else if (MilestoneStatus.Future.toString().equals(milestone1.getStatus())) {
                 return MilestoneStatus.InProgress.toString().equals(milestone2.getStatus()) ? 1 : -1;
             } else {
-                return 1;
+                return 0;
             }
         }
     }

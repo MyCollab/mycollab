@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -19,7 +19,7 @@ package com.mycollab.vaadin.web.ui.chart;
 import com.vaadin.server.*;
 import com.vaadin.server.StreamResource.StreamSource;
 import com.vaadin.ui.Embedded;
-import org.jfree.chart.ChartUtilities;
+import org.jfree.chart.ChartUtils;
 import org.jfree.chart.JFreeChart;
 import org.jfree.graphics2d.svg.SVGGraphics2D;
 import org.slf4j.Logger;
@@ -231,7 +231,7 @@ public class JFreeChartWrapper extends Embedded {
                         } else {
                             // Draw png to bytestream
                             try {
-                                byte[] bytes = ChartUtilities.encodeAsPNG(chart.createBufferedImage(width, height));
+                                byte[] bytes = ChartUtils.encodeAsPNG(chart.createBufferedImage(width, height));
                                 bytestream = new ByteArrayInputStream(bytes);
                             } catch (Exception e) {
                                 log.error("Error while generating PNG chart", e);

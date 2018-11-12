@@ -69,7 +69,7 @@ class PageEditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<Pa
             return ckEditorTextField;
         } else if (propertyId.equals("status")) {
             page.setStatus(WikiI18nEnum.status_public.name());
-            return new I18nValueComboBox(false, WikiI18nEnum.status_public,
+            return new I18nValueComboBox(WikiI18nEnum.class, WikiI18nEnum.status_public,
                     WikiI18nEnum.status_private, WikiI18nEnum.status_archieved);
         } else if (propertyId.equals("subject")) {
             TextField subjectField = new TextField();

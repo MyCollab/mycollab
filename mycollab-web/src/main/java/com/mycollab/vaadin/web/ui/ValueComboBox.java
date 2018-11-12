@@ -22,7 +22,6 @@ import com.vaadin.ui.ComboBox;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-// TODO
 public class ValueComboBox extends ComboBox {
     private static final long serialVersionUID = 1L;
 
