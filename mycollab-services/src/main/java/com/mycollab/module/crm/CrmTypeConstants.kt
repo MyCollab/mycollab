@@ -21,33 +21,33 @@ package com.mycollab.module.crm
  * @since 1.0
  */
 object CrmTypeConstants {
-    @JvmField val DASHBOARD = "Crm-Dashboard"
+    const val DASHBOARD = "Crm-Dashboard"
 
-    @JvmField val FILE = "Crm-File"
+    const val FILE = "Crm-File"
 
-    @JvmField val SETTING = "Crm-Setting"
+    const val SETTING = "Crm-Setting"
 
-    @JvmField val ACCOUNT = "Crm-Account"
+    const val ACCOUNT = "Crm-Account"
 
-    @JvmField val CAMPAIGN = "Crm-Campaign"
+    const val CAMPAIGN = "Crm-Campaign"
 
-    @JvmField val CONTACT = "Crm-Contact"
+    const val CONTACT = "Crm-Contact"
 
-    @JvmField val LEAD = "Crm-Lead"
+    const val LEAD = "Crm-Lead"
 
-    @JvmField val OPPORTUNITY = "Crm-Opportunity"
+    const val OPPORTUNITY = "Crm-Opportunity"
 
-    @JvmField val CASE = "Crm-Case"
+    const val CASE = "Crm-Case"
 
-    @JvmField val TASK = "Crm-Task"
+    const val TASK = "Crm-Task"
 
-    @JvmField val MEETING = "Crm-Meeting"
+    const val MEETING = "Crm-Meeting"
 
-    @JvmField val CALL = "Crm-Call"
+    const val CALL = "Crm-Call"
 
-    @JvmField val NOTE = "Crm-Note"
+    const val NOTE = "Crm-Note"
 
-    @JvmField val ACTIVITY = "Crm-Activity"
+    const val ACTIVITY = "Crm-Activity"
 
-    @JvmField val DETAIL = "Crm-Detail"
+    const val DETAIL = "Crm-Detail"
 }

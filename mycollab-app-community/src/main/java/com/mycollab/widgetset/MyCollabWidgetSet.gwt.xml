@@ -5,10 +5,6 @@
 <module>
     <!-- WS Compiler: manually edited -->
 
-    <generate-with class="CommunityOptimizedConnectorBundleLoaderFactory">
-        <when-type-assignable class="com.vaadin.client.metadata.ConnectorBundleLoader" />
-    </generate-with>
-
     <inherits name="fi.jasoft.dragdroplayouts.DragDropLayoutsWidgetSet" />
 
     <inherits name="org.vaadin.openesignforms.ckeditor.widgetset.VaadinCKEditorWidgetset" />

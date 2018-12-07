@@ -22,6 +22,7 @@ package com.mycollab.module.ecm.spring
 import com.mycollab.module.ecm.ContentSessionFactory
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.context.annotation.DependsOn
 import org.springframework.core.io.ClassPathResource
 import org.springframework.core.io.FileSystemResource
 import org.springframework.extensions.jcr.JcrTemplate
@@ -32,6 +33,7 @@ import javax.jcr.SimpleCredentials
  * @author MyCollab Ltd.
  * @since 4.6.0
  */
+@DependsOn("dbMigration")
 @Configuration
 class EcmConfiguration {
 
