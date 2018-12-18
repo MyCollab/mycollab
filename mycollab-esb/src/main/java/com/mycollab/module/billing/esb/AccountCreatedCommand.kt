@@ -38,8 +38,8 @@ import com.mycollab.module.tracker.service.BugRelatedItemService
 import com.mycollab.module.tracker.service.BugService
 import com.mycollab.module.tracker.service.ComponentService
 import com.mycollab.module.tracker.service.VersionService
-import org.joda.time.DateTime
 import org.springframework.stereotype.Component
+import java.time.LocalDateTime
 import java.util.*
 
 /**
@@ -74,7 +74,7 @@ class AccountCreatedCommand(private val optionValService: OptionValService,
     }
 
     private fun createSampleProjectData(initialUser: String, accountId: Int) {
-        val now = DateTime()
+        val now = LocalDateTime.now()
 
         val project = Project()
         project.saccountid = accountId
@@ -99,14 +99,14 @@ class AccountCreatedCommand(private val optionValService: OptionValService,
         message.saccountid = accountId
         message.projectid = projectId
         message.title = "Thank you for using MyCollab!"
-        message.posteddate = now.toLocalDate().toDate()
+        message.posteddate = now
         messageService.saveWithSession(message, initialUser)
 
         val milestone = Milestone()
         milestone.createduser = initialUser
-        milestone.duedate = now.plusDays(14).toLocalDate().toDate()
-        milestone.startdate = now.toLocalDate().toDate()
-        milestone.enddate = now.plusDays(14).toLocalDate().toDate()
+        milestone.duedate = now.plusDays(14)
+        milestone.startdate = now
+        milestone.enddate = now.plusDays(14)
         milestone.name = "Sample milestone"
         milestone.assignuser = initialUser
         milestone.projectid = projectId
@@ -122,31 +122,31 @@ class AccountCreatedCommand(private val optionValService: OptionValService,
         taskA.priority = Priority.Medium.name
         taskA.saccountid = accountId
         taskA.status = StatusI18nEnum.Open.name
-        taskA.startdate = now.toLocalDate().toDate()
-        taskA.enddate = now.plusDays(3).toLocalDate().toDate()
+        taskA.startdate = now
+        taskA.enddate = now.plusDays(3)
         val taskAId = taskService.saveWithSession(taskA, initialUser)
 
         val taskB = BeanUtility.deepClone(taskA)
         taskB.name = "Task B"
         taskB.id = null
         taskB.milestoneid = sampleMilestoneId
-        taskB.startdate = now.plusDays(2).toLocalDate().toDate()
-        taskB.enddate = now.plusDays(4).toLocalDate().toDate()
+        taskB.startdate = now.plusDays(2)
+        taskB.enddate = now.plusDays(4)
         taskService.saveWithSession(taskB, initialUser)
 
         val taskC = BeanUtility.deepClone(taskA)
         taskC.id = null
         taskC.name = "Task C"
-        taskC.startdate = now.plusDays(3).toLocalDate().toDate()
-        taskC.enddate = now.plusDays(5).toLocalDate().toDate()
+        taskC.startdate = now.plusDays(3)
+        taskC.enddate = now.plusDays(5)
         taskC.parenttaskid = taskAId
         taskService.saveWithSession(taskC, initialUser)
 
         val taskD = BeanUtility.deepClone(taskA)
         taskD.id = null
         taskD.name = "Task D"
-        taskD.startdate = now.toLocalDate().toDate()
-        taskD.enddate = now.plusDays(2).toLocalDate().toDate()
+        taskD.startdate = now
+        taskD.enddate = now.plusDays(2)
         taskService.saveWithSession(taskD, initialUser)
 
         val component = com.mycollab.module.tracker.domain.Component()
@@ -163,7 +163,7 @@ class AccountCreatedCommand(private val optionValService: OptionValService,
         version.createduser = initialUser
         version.name = "Version 1"
         version.description = "Sample version"
-        version.duedate = now.plusDays(21).toLocalDate().toDate()
+        version.duedate = now.plusDays(21)
         version.projectid = projectId
         version.saccountid = accountId
         version.status = StatusI18nEnum.Open.name
@@ -173,7 +173,7 @@ class AccountCreatedCommand(private val optionValService: OptionValService,
         bugA.description = "Sample bug"
         bugA.environment = "All platforms"
         bugA.assignuser = initialUser
-        bugA.duedate = now.plusDays(2).toLocalDate().toDate()
+        bugA.duedate = now.plusDays(2)
         bugA.createduser = initialUser
         bugA.milestoneid = sampleMilestoneId
         bugA.name = "Bug A"

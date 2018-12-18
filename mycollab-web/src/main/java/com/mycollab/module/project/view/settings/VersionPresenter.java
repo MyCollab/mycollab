@@ -62,5 +62,4 @@ public class VersionPresenter extends AbstractPresenter<VersionContainer> {
         presenter.go(view, data);
 
     }
-
 }

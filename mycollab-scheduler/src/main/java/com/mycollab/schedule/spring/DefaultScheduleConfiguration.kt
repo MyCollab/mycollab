@@ -20,7 +20,6 @@ import com.mycollab.configuration.IDeploymentMode
 import com.mycollab.module.project.schedule.email.service.OverdueProjectTicketsNotificationJob
 import com.mycollab.schedule.AutowiringSpringBeanJobFactory
 import com.mycollab.schedule.jobs.CleanupTimeTrackingCacheDataJob
-import com.mycollab.schedule.jobs.CrmSendingRelayEmailNotificationJob
 import com.mycollab.schedule.jobs.LiveInstanceMonitorJob
 import com.mycollab.schedule.jobs.ProjectSendingRelayEmailNotificationJob
 import org.quartz.CronTrigger
@@ -76,14 +75,6 @@ class DefaultScheduleConfiguration {
     }
 
     @Bean
-    fun crmSendRelayNotificationEmailJob(): JobDetailFactoryBean {
-        val bean = JobDetailFactoryBean()
-        bean.setDurability(true)
-        bean.setJobClass(CrmSendingRelayEmailNotificationJob::class.java)
-        return bean
-    }
-
-    @Bean
     fun liveInstanceMonitorJobBean(): JobDetailFactoryBean {
         val bean = JobDetailFactoryBean()
         bean.setDurability(true)
@@ -104,14 +95,6 @@ class DefaultScheduleConfiguration {
         val bean = CronTriggerFactoryBean()
         bean.setJobDetail(projectOverdueAssignmentsNotificationEmailJob().`object`!!)
         bean.setCronExpression("0 0 0 * * ?")
-        return bean
-    }
-
-    @Bean
-    fun crmSendRelayNotificationEmailTrigger(): CronTriggerFactoryBean {
-        val bean = CronTriggerFactoryBean()
-        bean.setJobDetail(crmSendRelayNotificationEmailJob().`object`!!)
-        bean.setCronExpression("0 * * * * ?")
         return bean
     }
 

@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -24,7 +24,6 @@ import com.mycollab.configuration.EnDecryptHelper;
 import com.mycollab.configuration.ServerConfiguration;
 import com.mycollab.configuration.SiteConfiguration;
 import com.mycollab.core.*;
-import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.i18n.LocalizationHelper;
 import com.mycollab.module.billing.UsageExceedBillingPlanException;
 import com.mycollab.module.user.dao.UserAccountMapper;
@@ -34,26 +33,22 @@ import com.mycollab.module.user.domain.UserAccount;
 import com.mycollab.module.user.domain.UserAccountExample;
 import com.mycollab.module.user.service.BillingAccountService;
 import com.mycollab.module.user.service.UserService;
-import com.mycollab.shell.view.ShellController;
 import com.mycollab.shell.event.ShellEvent;
-import com.mycollab.shell.view.LoginPresenter;
-import com.mycollab.shell.view.LoginView;
-import com.mycollab.shell.view.MainWindowContainer;
-import com.mycollab.shell.view.ShellUrlResolver;
+import com.mycollab.shell.view.*;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AsyncInvoker;
-import com.mycollab.vaadin.AppUI;
-import com.mycollab.vaadin.UserUIContext;
-import com.mycollab.vaadin.Utils;
+import com.mycollab.vaadin.*;
 import com.mycollab.vaadin.mvp.ControllerRegistry;
 import com.mycollab.vaadin.mvp.PresenterResolver;
 import com.mycollab.vaadin.ui.NotificationUtil;
 import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.mycollab.vaadin.web.ui.service.BroadcastReceiverService;
 import com.vaadin.annotations.Theme;
+import com.vaadin.annotations.Title;
+import com.vaadin.annotations.Viewport;
 import com.vaadin.annotations.Widgetset;
 import com.vaadin.server.*;
 import com.vaadin.shared.communication.PushMode;
+import com.vaadin.spring.annotation.SpringUI;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.JavaScript;
 import com.vaadin.ui.UI;
@@ -64,7 +59,11 @@ import org.springframework.jdbc.UncategorizedSQLException;
 import org.vaadin.dialogs.ConfirmDialog;
 import org.vaadin.viritin.util.BrowserCookie;
 
-import java.util.*;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Enumeration;
+import java.util.List;
 
 import static com.mycollab.core.utils.ExceptionUtils.getExceptionType;
 
@@ -74,6 +73,9 @@ import static com.mycollab.core.utils.ExceptionUtils.getExceptionType;
  */
 @Theme(Version.THEME_VERSION)
 @Widgetset("com.mycollab.widgetset.MyCollabWidgetSet")
+@SpringUI
+@Viewport("width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no")
+@Title("MyCollab - Online project management")
 public class DesktopApplication extends AppUI {
     private static final long serialVersionUID = 1L;
     private static final Logger LOG = LoggerFactory.getLogger(DesktopApplication.class);
@@ -114,9 +116,7 @@ public class DesktopApplication extends AppUI {
         mainWindowContainer = new MainWindowContainer();
         this.setContent(mainWindowContainer);
 
-        getPage().setTitle("MyCollab - Online project management");
-
-        getPage().addUriFragmentChangedListener(uriFragmentChangedEvent -> enter(uriFragmentChangedEvent.getUriFragment()));
+        getPage().addPopStateListener((Page.PopStateListener) event -> enter(event.getPage().getUriFragment()));
 
         String userAgent = request.getHeader("user-agent");
         if (isInNotSupportedBrowserList(userAgent.toLowerCase())) {
@@ -215,7 +215,7 @@ public class DesktopApplication extends AppUI {
         SecureAccessException secureAccessException = getExceptionType(e, SecureAccessException.class);
         if (secureAccessException != null) {
             NotificationUtil.showWarningNotification("You can not access the specific resource");
-//            EventBusFactory.getInstance().post(new ShellEvent.GotoUserAccountModule(this, new String[]{"preview"}));
+            EventBusFactory.getInstance().post(new ShellEvent.GotoUserAccountModule(this, new String[]{"preview"}));
             return;
         }
 
@@ -314,7 +314,7 @@ public class DesktopApplication extends AppUI {
 
         UserAccountMapper userAccountMapper = AppContextUtil.getSpringBean(UserAccountMapper.class);
         UserAccount userAccount = new UserAccount();
-        userAccount.setLastaccessedtime(new GregorianCalendar().getTime());
+        userAccount.setLastaccessedtime(LocalDateTime.now());
         UserAccountExample ex = new UserAccountExample();
         ex.createCriteria().andAccountidEqualTo(billingAccount.getId()).andUsernameEqualTo(user.getUsername());
         userAccountMapper.updateByExampleSelective(userAccount, ex);

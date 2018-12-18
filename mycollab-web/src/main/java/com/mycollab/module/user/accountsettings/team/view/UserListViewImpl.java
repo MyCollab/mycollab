@@ -44,7 +44,6 @@ import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.mycollab.vaadin.web.ui.SearchTextField;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.icons.VaadinIcons;
-import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
@@ -67,7 +66,7 @@ public class UserListViewImpl extends AbstractVerticalPageView implements UserLi
     private CssLayout contentLayout;
     private UserSearchCriteria searchCriteria;
     private boolean sortAsc = true;
-    private HeaderWithFontAwesome headerText;
+    private HeaderWithIcon headerText;
 
     public UserListViewImpl() {
         this.setMargin(new MarginInfo(false, true, false, true));
@@ -78,7 +77,7 @@ public class UserListViewImpl extends AbstractVerticalPageView implements UserLi
                 .withIcon(VaadinIcons.PLUS).withStyleName(WebThemes.BUTTON_ACTION)
                 .withVisible(UserUIContext.canWrite(RolePermissionCollections.ACCOUNT_USER));
 
-        headerText = HeaderWithFontAwesome.h2(VaadinIcons.USERS, UserUIContext.getMessage(UserI18nEnum.LIST) + " " +
+        headerText = HeaderWithIcon.h2(VaadinIcons.USERS, UserUIContext.getMessage(UserI18nEnum.LIST) + " " +
                 UserUIContext.getMessage(GenericI18Enum.OPT_TOTAL_VALUE, 0));
 
         final MButton sortBtn = new MButton().withIcon(VaadinIcons.CARET_UP).withStyleName(WebThemes.BUTTON_ICON_ONLY);
@@ -180,7 +179,7 @@ public class UserListViewImpl extends AbstractVerticalPageView implements UserLi
         }
 
         MButton editBtn = new MButton("", clickEvent -> EventBusFactory.getInstance().post(new UserEvent.GotoEdit(UserListViewImpl.this, member)))
-                .withIcon(FontAwesome.EDIT).withStyleName(WebThemes.BUTTON_LINK);
+                .withIcon(VaadinIcons.EDIT).withStyleName(WebThemes.BUTTON_LINK);
         buttonControls.with(editBtn);
 
         MButton deleteBtn = new MButton("", clickEvent ->

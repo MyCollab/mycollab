@@ -11,6 +11,10 @@
                         driverClass="com.mysql.jdbc.Driver"
                         password="mycollab123" userId="root" />
 
+        <javaTypeResolver>
+            <property name="useJSR310Types" value="true"/>
+        </javaTypeResolver>
+
         <javaModelGenerator targetPackage="com.mycollab.form.domain" targetProject="src/main/java">
             <property name="rootClass" value="com.mycollab.core.arguments.ValuedBean" />
         </javaModelGenerator>

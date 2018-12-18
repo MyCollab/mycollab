@@ -25,7 +25,7 @@ import com.mycollab.module.page.service.PageService
 import com.mycollab.module.project.ProjectTypeConstants
 import com.mycollab.module.project.service.ProjectPageService
 import org.springframework.stereotype.Service
-import java.util.*
+import java.time.LocalDateTime
 
 @Service
 class ProjectPageServiceImpl(private val pageService: PageService,
@@ -37,7 +37,7 @@ class ProjectPageServiceImpl(private val pageService: PageService,
         val activityStream = ActivityStreamWithBLOBs()
         activityStream.action = ActivityStreamConstants.ACTION_CREATE
         activityStream.createduser = createdUser
-        activityStream.createdtime = GregorianCalendar().time
+        activityStream.createdtime = LocalDateTime.now()
         activityStream.module = ModuleNameConstants.PRJ
         activityStream.namefield = page.subject
         activityStream.saccountid = accountId

@@ -19,6 +19,7 @@ package com.mycollab.module.project.view.task;
 import com.mycollab.common.domain.MonitorItem;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.service.MonitorItemService;
+import com.mycollab.core.MyCollabException;
 import com.mycollab.module.file.AttachmentUtils;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectTypeConstants;
@@ -47,8 +48,8 @@ import com.vaadin.ui.VerticalLayout;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 /**
@@ -107,7 +108,7 @@ public class TaskEditForm extends AdvancedEditBeanForm<SimpleTask> {
                         List<MonitorItem> monitorItems = new ArrayList<>();
                         for (String follower : followers) {
                             MonitorItem monitorItem = new MonitorItem();
-                            monitorItem.setMonitorDate(new GregorianCalendar().getTime());
+                            monitorItem.setMonitorDate(LocalDateTime.now());
                             monitorItem.setSaccountid(AppUI.getAccountId());
                             monitorItem.setType(ProjectTypeConstants.TASK);
                             monitorItem.setTypeid(taskId);
@@ -139,7 +140,11 @@ public class TaskEditForm extends AdvancedEditBeanForm<SimpleTask> {
 
         @Override
         protected HasValue<?> onAttachField(Object propertyId, HasValue<?> field) {
-            return formLayoutFactory.attachField(propertyId, field);
+            try {
+                return formLayoutFactory.attachField(propertyId, field);
+            } catch (Exception e) {
+                throw new MyCollabException("Exception " + propertyId);
+            }
         }
     }
 }

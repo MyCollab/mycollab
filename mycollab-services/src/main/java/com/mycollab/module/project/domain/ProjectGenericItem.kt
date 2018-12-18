@@ -17,8 +17,7 @@
 package com.mycollab.module.project.domain
 
 import com.mycollab.module.project.ProjectTypeConstants
-
-import java.util.Date
+import java.time.LocalDateTime
 
 /**
  * @author MyCollab Ltd.
@@ -35,9 +34,9 @@ class ProjectGenericItem {
 
     var createdUserDisplayName: String? = null
 
-    var createdTime: Date? = null
+    var createdTime: LocalDateTime? = null
 
-    var lastUpdatedTime: Date? = null
+    var lastUpdatedTime: LocalDateTime? = null
 
     var name: String? = null
 

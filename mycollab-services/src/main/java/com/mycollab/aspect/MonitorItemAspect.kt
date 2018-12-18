@@ -29,6 +29,7 @@ import org.slf4j.LoggerFactory
 import org.springframework.aop.framework.Advised
 import org.springframework.beans.factory.annotation.Configurable
 import org.springframework.stereotype.Component
+import java.time.LocalDateTime
 import java.util.*
 
 /**
@@ -56,7 +57,7 @@ class MonitorItemAspect(private var monitorItemService: MonitorItemService,
                 }
 
                 val monitorItem = MonitorItem()
-                monitorItem.monitorDate = GregorianCalendar().time
+                monitorItem.monitorDate = LocalDateTime.now()
                 monitorItem.type = ClassInfoMap.getType(cls)
                 monitorItem.typeid = typeId
                 monitorItem.extratypeid = extraTypeId

@@ -16,13 +16,23 @@
  */
 package com.mycollab.module.project.view;
 
+import com.hp.gagawa.java.elements.A;
+import com.hp.gagawa.java.elements.Br;
+import com.hp.gagawa.java.elements.Div;
 import com.mycollab.common.i18n.GenericI18Enum;
+import com.mycollab.common.i18n.OptionI18nEnum;
+import com.mycollab.core.utils.StringUtils;
+import com.mycollab.module.project.ProjectLinkBuilder;
+import com.mycollab.module.project.ProjectLinkGenerator;
 import com.mycollab.module.project.ProjectTypeConstants;
+import com.mycollab.module.project.domain.Project;
 import com.mycollab.module.project.domain.SimpleProject;
 import com.mycollab.module.project.domain.criteria.ProjectSearchCriteria;
 import com.mycollab.module.project.fielddef.ProjectTableFieldDef;
 import com.mycollab.module.project.service.ProjectService;
+import com.mycollab.module.project.ui.ProjectAssetsUtil;
 import com.mycollab.spring.AppContextUtil;
+import com.mycollab.vaadin.TooltipHelper;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.event.HasMassItemActionHandler;
 import com.mycollab.vaadin.event.HasSearchHandlers;
@@ -31,27 +41,31 @@ import com.mycollab.vaadin.event.HasSelectionOptionHandlers;
 import com.mycollab.vaadin.mvp.AbstractVerticalPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.DefaultMassItemActionHandlerContainer;
+import com.mycollab.vaadin.ui.ELabel;
+import com.mycollab.vaadin.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.CheckBoxDecor;
 import com.mycollab.vaadin.web.ui.SelectionOptionButton;
 import com.mycollab.vaadin.web.ui.WebThemes;
-import com.mycollab.vaadin.web.ui.table.DefaultPagedGrid;
-import com.mycollab.vaadin.web.ui.table.IPagedGrid;
+import com.mycollab.vaadin.web.ui.table.DefaultPagedBeanTable;
+import com.mycollab.vaadin.web.ui.table.IPagedTable;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.ui.*;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
+import org.vaadin.viritin.layouts.MVerticalLayout;
 
 import java.util.Arrays;
+import java.util.HashSet;
 
 /**
  * @author MyCollab Ltd
  * @since 5.2.12
  */
-// TODO
 @ViewComponent
 public class ProjectListViewImpl extends AbstractVerticalPageView implements ProjectListView {
     private ProjectSearchPanel projectSearchPanel;
     private SelectionOptionButton selectOptionButton;
-    private DefaultPagedGrid<ProjectService, ProjectSearchCriteria, SimpleProject> tableItem;
+    private DefaultPagedBeanTable<ProjectService, ProjectSearchCriteria, SimpleProject> tableItem;
     private VerticalLayout bodyLayout;
     private DefaultMassItemActionHandlerContainer tableActionControls;
     private Label selectedItemsNumberLabel = new Label();
@@ -66,56 +80,55 @@ public class ProjectListViewImpl extends AbstractVerticalPageView implements Pro
         projectSearchPanel = new ProjectSearchPanel();
         with(projectSearchPanel);
 
-        bodyLayout = new VerticalLayout();
+        bodyLayout = new MVerticalLayout().withSpacing(false).withMargin(false);
         this.addComponent(bodyLayout);
 
         generateDisplayTable();
     }
 
     private void generateDisplayTable() {
-        tableItem = new DefaultPagedGrid<>(AppContextUtil.getSpringBean(ProjectService.class),
-                SimpleProject.class, ProjectTypeConstants.PROJECT,
-                ProjectTableFieldDef.selected, Arrays.asList(ProjectTableFieldDef.projectName,
-                ProjectTableFieldDef.lead, ProjectTableFieldDef.client, ProjectTableFieldDef.startDate,
-                ProjectTableFieldDef.status));
+        tableItem = new DefaultPagedBeanTable<>(AppContextUtil.getSpringBean(ProjectService.class),
+                SimpleProject.class, ProjectTypeConstants.PROJECT, ProjectTableFieldDef.selected,
+                new HashSet<>(Arrays.asList(ProjectTableFieldDef.projectName,
+                        ProjectTableFieldDef.lead, ProjectTableFieldDef.client, ProjectTableFieldDef.startDate,
+                        ProjectTableFieldDef.status)));
 
-//        gridItem.addGeneratedColumn("selected", (source, itemId, columnId) -> {
-//            final SimpleProject item = gridItem.getBeanByIndex(itemId);
-//            final CheckBoxDecor cb = new CheckBoxDecor("", item.isSelected());
-//            cb.setImmediate(true);
-//            cb.addValueChangeListener(valueChangeEvent -> gridItem.fireSelectItemEvent(item));
-//            item.setExtraData(cb);
-//            return cb;
-//        });
-//
-//        gridItem.addGeneratedColumn(Project.Field.name.name(), (source, itemId, columnId) -> {
-//            SimpleProject project = gridItem.getBeanByIndex(itemId);
-//            A projectLink = new A(ProjectLinkGenerator.generateProjectLink(project.getId())).appendText(project.getName());
-//            projectLink.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(ProjectTypeConstants.PROJECT,
-//                    project.getId() + ""));
-//            projectLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction());
-//            A url;
-//            if (StringUtils.isNotBlank(project.getHomepage())) {
-//                url = new A(project.getHomepage(), "_blank").appendText(project.getHomepage()).setCSSClass(UIConstants.META_INFO);
-//            } else {
-//                url = new A("").appendText(UserUIContext.getMessage(GenericI18Enum.OPT_UNDEFINED));
-//            }
-//
-//            Div projectDiv = new Div().appendChild(projectLink, new Br(), url);
-//            ELabel b = ELabel.html(projectDiv.write());
-//            return new MHorizontalLayout(ProjectAssetsUtil.projectLogoComp(project
-//                    .getShortname(), project.getId(), project.getAvatarid(), 32), b)
-//                    .expand(b).alignAll(Alignment.MIDDLE_LEFT).withMargin(false);
-//        });
-//
-//        gridItem.addGeneratedColumn(Project.Field.memlead.name(), (source, itemId, columnId) -> {
-//            SimpleProject project = gridItem.getBeanByIndex(itemId);
-//            return ELabel.html(ProjectLinkBuilder.generateProjectMemberHtmlLink(project.getId(), project.getMemlead(),
-//                    project.getLeadFullName(), project.getLeadAvatarId(), true));
-//        });
-//
-//        gridItem.addGeneratedColumn(Project.Field.accountid.name(), (source, itemId, columnId) -> {
-//            SimpleProject project = gridItem.getBeanByIndex(itemId);
+        tableItem.addGeneratedColumn("selected", (source, itemId, columnId) -> {
+            final SimpleProject item = tableItem.getBeanByIndex(itemId);
+            final CheckBoxDecor cb = new CheckBoxDecor("", item.isSelected());
+            cb.addValueChangeListener(valueChangeEvent -> tableItem.fireSelectItemEvent(item));
+            item.setExtraData(cb);
+            return cb;
+        });
+
+        tableItem.addGeneratedColumn(Project.Field.name.name(), (source, itemId, columnId) -> {
+            SimpleProject project = tableItem.getBeanByIndex(itemId);
+            A projectLink = new A(ProjectLinkGenerator.generateProjectLink(project.getId())).appendText(project.getName());
+            projectLink.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(ProjectTypeConstants.PROJECT,
+                    project.getId() + ""));
+            projectLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction());
+            A url;
+            if (StringUtils.isNotBlank(project.getHomepage())) {
+                url = new A(project.getHomepage(), "_blank").appendText(project.getHomepage()).setCSSClass(UIConstants.META_INFO);
+            } else {
+                url = new A("").appendText(UserUIContext.getMessage(GenericI18Enum.OPT_UNDEFINED));
+            }
+
+            Div projectDiv = new Div().appendChild(projectLink, new Br(), url);
+            ELabel b = ELabel.html(projectDiv.write());
+            return new MHorizontalLayout(ProjectAssetsUtil.projectLogoComp(project
+                    .getShortname(), project.getId(), project.getAvatarid(), 32), b)
+                    .expand(b).alignAll(Alignment.MIDDLE_LEFT).withMargin(false);
+        });
+
+        tableItem.addGeneratedColumn(Project.Field.memlead.name(), (source, itemId, columnId) -> {
+            SimpleProject project = tableItem.getBeanByIndex(itemId);
+            return ELabel.html(ProjectLinkBuilder.generateProjectMemberHtmlLink(project.getId(), project.getMemlead(),
+                    project.getLeadFullName(), project.getLeadAvatarId(), true));
+        });
+
+//        tableItem.addGeneratedColumn(Project.Field.accountid.name(), (source, itemId, columnId) -> {
+//            SimpleProject project = tableItem.getBeanByIndex(itemId);
 //            if (project.getAccountid() != null) {
 //                LabelLink b = new LabelLink(project.getClientName(),
 //                        ProjectLinkGenerator.generateClientPreviewLink(project.getAccountid()));
@@ -125,26 +138,26 @@ public class ProjectListViewImpl extends AbstractVerticalPageView implements Pro
 //                return new Label();
 //            }
 //        });
-//
-//        gridItem.addGeneratedColumn(Project.Field.planstartdate.name(), (source, itemId, columnId) -> {
-//            SimpleProject project = gridItem.getBeanByIndex(itemId);
-//            return new Label(UserUIContext.formatDate(project.getPlanstartdate()));
-//        });
-//
-//        gridItem.addGeneratedColumn(Project.Field.planenddate.name(), (source, itemId, columnId) -> {
-//            SimpleProject project = gridItem.getBeanByIndex(itemId);
-//            return new Label(UserUIContext.formatDate(project.getPlanenddate()));
-//        });
-//
-//        gridItem.addGeneratedColumn(Project.Field.projectstatus.name(), (source, itemId, columnId) -> {
-//            SimpleProject project = gridItem.getBeanByIndex(itemId);
-//            return ELabel.i18n(project.getProjectstatus(), StatusI18nEnum.class);
-//        });
-//
-//        gridItem.addGeneratedColumn(Project.Field.createdtime.name(), (source, itemId, columnId) -> {
-//            SimpleProject project = gridItem.getBeanByIndex(itemId);
-//            return new Label(UserUIContext.formatDate(project.getCreatedtime()));
-//        });
+
+        tableItem.addGeneratedColumn(Project.Field.planstartdate.name(), (source, itemId, columnId) -> {
+            SimpleProject project = tableItem.getBeanByIndex(itemId);
+            return new Label(UserUIContext.formatDate(project.getPlanstartdate()));
+        });
+
+        tableItem.addGeneratedColumn(Project.Field.planenddate.name(), (source, itemId, columnId) -> {
+            SimpleProject project = tableItem.getBeanByIndex(itemId);
+            return new Label(UserUIContext.formatDate(project.getPlanenddate()));
+        });
+
+        tableItem.addGeneratedColumn(Project.Field.projectstatus.name(), (source, itemId, columnId) -> {
+            SimpleProject project = tableItem.getBeanByIndex(itemId);
+            return ELabel.i18n(project.getProjectstatus(), OptionI18nEnum.StatusI18nEnum.class);
+        });
+
+        tableItem.addGeneratedColumn(Project.Field.createdtime.name(), (source, itemId, columnId) -> {
+            SimpleProject project = tableItem.getBeanByIndex(itemId);
+            return new Label(UserUIContext.formatDate(project.getCreatedtime()));
+        });
 
         tableItem.setWidth("100%");
 
@@ -220,7 +233,7 @@ public class ProjectListViewImpl extends AbstractVerticalPageView implements Pro
     }
 
     @Override
-    public IPagedGrid<ProjectSearchCriteria, SimpleProject> getPagedBeanGrid() {
+    public IPagedTable<ProjectSearchCriteria, SimpleProject> getPagedBeanGrid() {
         return tableItem;
     }
 }

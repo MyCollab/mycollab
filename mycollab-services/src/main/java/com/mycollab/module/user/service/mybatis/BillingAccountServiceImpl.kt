@@ -38,6 +38,7 @@ import com.mycollab.security.PermissionMap
 import org.apache.commons.collections.CollectionUtils
 import org.springframework.dao.DuplicateKeyException
 import org.springframework.stereotype.Service
+import java.time.LocalDateTime
 import java.util.*
 
 /**
@@ -91,7 +92,7 @@ class BillingAccountServiceImpl(private val billingAccountMapper: BillingAccount
         ex.createCriteria().andUsernameEqualTo(username)
         val users = userMapper.selectByExample(ex)
 
-        val now = GregorianCalendar().time
+        val now = LocalDateTime.now()
 
         if (CollectionUtils.isNotEmpty(users)) {
             users

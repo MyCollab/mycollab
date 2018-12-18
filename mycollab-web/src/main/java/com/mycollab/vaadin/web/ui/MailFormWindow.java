@@ -26,7 +26,6 @@ import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.NotificationUtil;
 import com.vaadin.icons.VaadinIcons;
-import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import org.apache.commons.collections.CollectionUtils;
@@ -178,7 +177,7 @@ public class MailFormWindow extends MWindow {
             } else {
                 NotificationUtil.showErrorNotification("Your email is empty value, please fulfil it before sending email!");
             }
-        }).withIcon(FontAwesome.SEND).withStyleName(WebThemes.BUTTON_ACTION);
+        }).withIcon(VaadinIcons.PAPERPLANE).withStyleName(WebThemes.BUTTON_ACTION);
 
         MHorizontalLayout controlsLayout = new MHorizontalLayout(cancelBtn, sendBtn)
                 .withMargin(new MarginInfo(false, true, true, false));

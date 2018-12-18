@@ -39,7 +39,7 @@ import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.NotificationUtil;
 import com.mycollab.vaadin.ui.UIUtils;
-import com.mycollab.vaadin.web.ui.ToggleButtonGroup;
+import com.mycollab.vaadin.web.ui.ButtonGroup;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.event.dd.DragAndDropEvent;
 import com.vaadin.event.dd.DropHandler;
@@ -72,7 +72,6 @@ import static com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum.*;
  * @author MyCollab Ltd
  * @since 5.1.1
  */
-// TODO
 @ViewComponent
 public class TicketKanbanBoardViewImpl extends AbstractVerticalPageView implements TicketKanbanBoardView {
 
@@ -111,13 +110,13 @@ public class TicketKanbanBoardViewImpl extends AbstractVerticalPageView implemen
         MButton kanbanBtn = new MButton(UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_KANBAN)).withIcon(FontAwesome.TH)
                 .withWidth("100px");
 
-        ToggleButtonGroup viewButtons = new ToggleButtonGroup();
+        ButtonGroup viewButtons = new ButtonGroup();
         viewButtons.addButton(advanceDisplayBtn);
         viewButtons.addButton(kanbanBtn);
         viewButtons.withDefaultButton(kanbanBtn);
         groupWrapLayout.addComponent(viewButtons);
 
-        ToggleButtonGroup group = new ToggleButtonGroup();
+        ButtonGroup group = new ButtonGroup();
 
         MButton allFilterBtn = new MButton("All").withStyleName(WebThemes.BUTTON_OPTION).withListener((Button.ClickListener) clickEvent -> {
             statuses = OptionI18nEnum.statuses;

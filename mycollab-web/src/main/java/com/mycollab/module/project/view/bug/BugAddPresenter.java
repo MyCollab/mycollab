@@ -44,6 +44,7 @@ import com.mycollab.vaadin.mvp.ViewScope;
 import com.mycollab.vaadin.web.ui.field.AttachmentUploadField;
 import com.vaadin.ui.HasComponents;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -133,7 +134,7 @@ public class BugAddPresenter extends ProjectGenericPresenter<BugAddView> {
                 List<MonitorItem> monitorItems = new ArrayList<>();
                 for (String follower : followers) {
                     MonitorItem monitorItem = new MonitorItem();
-                    monitorItem.setMonitorDate(new GregorianCalendar().getTime());
+                    monitorItem.setMonitorDate(LocalDateTime.now());
                     monitorItem.setSaccountid(AppUI.getAccountId());
                     monitorItem.setType(ProjectTypeConstants.BUG);
                     monitorItem.setTypeid(bugId);

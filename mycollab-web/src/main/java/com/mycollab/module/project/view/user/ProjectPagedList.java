@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -24,7 +24,6 @@ import com.mycollab.core.utils.NumberUtils;
 import com.mycollab.core.utils.StringUtils;
 import com.mycollab.html.DivLessFormatter;
 import com.mycollab.module.file.StorageUtils;
-import com.mycollab.module.project.ProjectLinkBuilder;
 import com.mycollab.module.project.ProjectLinkGenerator;
 import com.mycollab.module.project.ProjectTooltipGenerator;
 import com.mycollab.module.project.domain.SimpleProject;
@@ -45,7 +44,7 @@ import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.web.ui.DefaultBeanPagedList;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.icons.VaadinIcons;
-import com.vaadin.server.FontAwesome;
+import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
@@ -91,7 +90,7 @@ public class ProjectPagedList extends DefaultBeanPagedList<ProjectService, Proje
             A projectDiv = new A(ProjectLinkGenerator.generateProjectLink(project.getId())).appendText(project.getName());
             ELabel projectLbl = ELabel.h3(projectDiv.write()).withStyleName(UIConstants.TEXT_ELLIPSIS).withFullWidth();
             projectLbl.setDescription(ProjectTooltipGenerator.generateToolTipProject(UserUIContext.getUserLocale(),
-                    AppUI.getDateFormat(), project, AppUI.getSiteUrl(), UserUIContext.getUserTimeZone()));
+                    AppUI.getDateFormat(), project, AppUI.getSiteUrl(), UserUIContext.getUserTimeZone()), ContentMode.HTML);
 
             linkIconFix.addComponent(projectLbl);
 
@@ -100,9 +99,9 @@ public class ProjectPagedList extends DefaultBeanPagedList<ProjectService, Proje
 
             Div activeMembersDiv = new Div().appendText(VaadinIcons.USERS.getHtml() + " " + project.getNumActiveMembers())
                     .setTitle(UserUIContext.getMessage(ProjectMemberI18nEnum.OPT_ACTIVE_MEMBERS));
-            Div createdTimeDiv = new Div().appendText(FontAwesome.CLOCK_O.getHtml() + " " + UserUIContext
+            Div createdTimeDiv = new Div().appendText(VaadinIcons.CLOCK.getHtml() + " " + UserUIContext
                     .formatPrettyTime(project.getCreatedtime())).setTitle(UserUIContext.getMessage(GenericI18Enum.FORM_CREATED_TIME));
-            Div billableHoursDiv = new Div().appendText(FontAwesome.MONEY.getHtml() + " " + NumberUtils.roundDouble(2, project.getTotalBillableHours())).
+            Div billableHoursDiv = new Div().appendText(VaadinIcons.MONEY.getHtml() + " " + NumberUtils.roundDouble(2, project.getTotalBillableHours())).
                     setTitle(UserUIContext.getMessage(TimeTrackingI18nEnum.OPT_BILLABLE_HOURS));
             Div nonBillableHoursDiv = new Div().appendText(VaadinIcons.GIFT.getHtml() + " " + NumberUtils.roundDouble(2,
                     project.getTotalNonBillableHours())).setTitle(UserUIContext.getMessage(TimeTrackingI18nEnum.OPT_NON_BILLABLE_HOURS));
@@ -122,7 +121,7 @@ public class ProjectPagedList extends DefaultBeanPagedList<ProjectService, Proje
             if (project.getAccountid() != null) {
                 Div accountDiv = new Div();
                 if (project.getClientAvatarId() == null) {
-                    accountDiv.appendText(FontAwesome.INSTITUTION.getHtml() + " ");
+                    accountDiv.appendText(VaadinIcons.INSTITUTION.getHtml() + " ");
                 } else {
                     Img clientImg = new Img("", StorageUtils.getEntityLogoPath(AppUI.getAccountId(),
                             project.getClientAvatarId(), 16)).setCSSClass(UIConstants.CIRCLE_BOX);

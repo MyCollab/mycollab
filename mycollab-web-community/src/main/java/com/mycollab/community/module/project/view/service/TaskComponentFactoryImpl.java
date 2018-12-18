@@ -71,7 +71,7 @@ public class TaskComponentFactoryImpl implements TaskComponentFactory {
 
     @Override
     public AbstractComponent createStatusPopupField(SimpleTask task) {
-        return new MetaFieldBuilder().withCaptionAndIcon(FontAwesome.INFO_CIRCLE, task.getStatus()).withDescription
+        return new MetaFieldBuilder().withCaptionAndIcon(VaadinIcons.INFO_CIRCLE, task.getStatus()).withDescription
                 (UserUIContext.getMessage(ShellI18nEnum.OPT_UPGRADE_PRO_INTRO,
                         UserUIContext.getMessage(GenericI18Enum.FORM_STATUS))).build();
     }
@@ -113,13 +113,13 @@ public class TaskComponentFactoryImpl implements TaskComponentFactory {
     public AbstractComponent createDeadlinePopupField(SimpleTask task) {
         if (task.getDeadlineRoundPlusOne() == null) {
             Div divHint = new Div().setCSSClass("nonValue");
-            divHint.appendText(FontAwesome.CLOCK_O.getHtml());
+            divHint.appendText(VaadinIcons.CLOCK.getHtml());
             divHint.appendChild(new Span().appendText(UserUIContext.getMessage(GenericI18Enum.OPT_UNDEFINED)).setCSSClass("hide"));
             return new MetaFieldBuilder().withCaption(divHint.write())
                     .withDescription(UserUIContext.getMessage(ShellI18nEnum.OPT_UPGRADE_PRO_INTRO,
                             UserUIContext.getMessage(GenericI18Enum.FORM_DUE_DATE))).build();
         } else {
-            return new MetaFieldBuilder().withCaption(String.format(" %s %s", FontAwesome.CLOCK_O.getHtml(),
+            return new MetaFieldBuilder().withCaption(String.format(" %s %s", VaadinIcons.CLOCK.getHtml(),
                     UserUIContext.formatPrettyTime(task.getDeadlineRoundPlusOne())))
                     .withDescription(UserUIContext.getMessage(ShellI18nEnum.OPT_UPGRADE_PRO_INTRO,
                             UserUIContext.getMessage(GenericI18Enum.FORM_DUE_DATE))).build();
@@ -162,13 +162,13 @@ public class TaskComponentFactoryImpl implements TaskComponentFactory {
 
     @Override
     public AbstractComponent createFollowersPopupField(SimpleTask task) {
-        return new MetaFieldBuilder().withCaptionAndIcon(FontAwesome.EYE, "" + NumberUtils.zeroIfNull(task.getNumFollowers()))
+        return new MetaFieldBuilder().withCaptionAndIcon(VaadinIcons.EYE, "" + NumberUtils.zeroIfNull(task.getNumFollowers()))
                 .withDescription(UserUIContext.getMessage(FollowerI18nEnum.OPT_SUB_INFO_WATCHERS)).build();
     }
 
     @Override
     public AbstractComponent createBillableHoursPopupField(SimpleTask task) {
-        return new MetaFieldBuilder().withCaptionAndIcon(FontAwesome.MONEY, "" + NumberUtils.zeroIfNull(task.getBillableHours()))
+        return new MetaFieldBuilder().withCaptionAndIcon(VaadinIcons.MONEY, "" + NumberUtils.zeroIfNull(task.getBillableHours()))
                 .withDescription(UserUIContext.getMessage(TimeTrackingI18nEnum.OPT_BILLABLE_HOURS)).build();
     }
 

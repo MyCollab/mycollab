@@ -48,13 +48,13 @@ import org.vaadin.viritin.layouts.MWindow;
  * @author MyCollab Ltd.
  * @since 4.6.0
  */
-public class LinkIssueWindow extends MWindow {
+class LinkIssueWindow extends MWindow {
     private RelatedBugEditForm editForm;
     private BugSelectionField bugSelectionField;
     private SimpleBug hostedBug;
     private RelatedBug relatedBug;
 
-    public LinkIssueWindow(SimpleBug bug) {
+    LinkIssueWindow(SimpleBug bug) {
         super("Dependencies");
         this.hostedBug = bug;
         MVerticalLayout contentLayout = new MVerticalLayout().withMargin(false).withFullWidth();

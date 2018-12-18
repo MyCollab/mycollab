@@ -17,12 +17,10 @@
 package com.mycollab.module.project.view
 
 import com.mycollab.common.UrlTokenizer
-import com.mycollab.vaadin.EventBusFactory
 import com.mycollab.module.project.event.ProjectEvent
 import com.mycollab.module.project.service.ProjectService
 import com.mycollab.module.project.view.bug.BugUrlResolver
 import com.mycollab.module.project.view.client.ClientUrlResolver
-import com.mycollab.module.project.view.file.ProjectFileUrlResolver
 import com.mycollab.module.project.view.message.MessageUrlResolver
 import com.mycollab.module.project.view.milestone.MilestoneUrlResolver
 import com.mycollab.module.project.view.page.PageUrlResolver
@@ -36,6 +34,7 @@ import com.mycollab.module.project.view.time.InvoiceUrlResolver
 import com.mycollab.shell.event.ShellEvent
 import com.mycollab.spring.AppContextUtil
 import com.mycollab.vaadin.AppUI
+import com.mycollab.vaadin.EventBusFactory
 import com.mycollab.vaadin.mvp.PageActionChain
 import com.mycollab.vaadin.mvp.UrlResolver
 import com.mycollab.vaadin.web.ui.ModuleHelper
@@ -51,7 +50,6 @@ open class ProjectUrlResolver : UrlResolver() {
         this.addSubResolver("edit", ProjectEditUrlResolver())
         this.addSubResolver("tag", ProjectTagUrlResolver())
         this.addSubResolver("favorite", ProjectFavoriteUrlResolver())
-        this.addSubResolver("gantt", GanttUrlResolver())
         this.addSubResolver("reports", ReportUrlResolver())
         this.addSubResolver("message", MessageUrlResolver())
         this.addSubResolver("milestone", MilestoneUrlResolver())
@@ -65,11 +63,9 @@ open class ProjectUrlResolver : UrlResolver() {
         this.addSubResolver("setting", SettingUrlResolver())
         this.addSubResolver("time", TimeUrlResolver())
         this.addSubResolver("invoice", InvoiceUrlResolver())
-        this.addSubResolver("file", ProjectFileUrlResolver())
         this.addSubResolver("component", ComponentUrlResolver())
         this.addSubResolver("version", VersionUrlResolver())
         this.addSubResolver("roadmap", RoadmapUrlResolver())
-        this.addSubResolver("calendar", CalendarUrlResolver())
         this.addSubResolver("client", ClientUrlResolver())
         return this
     }
@@ -146,24 +142,6 @@ open class ProjectUrlResolver : UrlResolver() {
                 val chain = PageActionChain(ProjectScreenData.Goto(projectId), MilestoneScreenData.Roadmap())
                 EventBusFactory.getInstance().post(ProjectEvent.GotoMyProject(this, chain))
             }
-        }
-    }
-
-    private class CalendarUrlResolver : ProjectUrlResolver() {
-        override fun handlePage(vararg params: String) {
-            if (params.isNotEmpty()) {
-                val projectId = UrlTokenizer(params[0]).getInt()
-                val chain = PageActionChain(ProjectScreenData.Goto(projectId), ProjectScreenData.GotoCalendarView())
-                EventBusFactory.getInstance().post(ProjectEvent.GotoMyProject(this, chain))
-            }
-        }
-    }
-
-    private class GanttUrlResolver : ProjectUrlResolver() {
-        override fun handlePage(vararg params: String) {
-            val projectId = UrlTokenizer(params[0]).getInt()
-            val chain = PageActionChain(ProjectScreenData.Goto(projectId), ProjectScreenData.GotoGanttChart())
-            EventBusFactory.getInstance().post(ProjectEvent.GotoMyProject(this, chain))
         }
     }
 }

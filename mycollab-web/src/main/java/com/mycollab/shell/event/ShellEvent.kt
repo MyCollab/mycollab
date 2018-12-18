@@ -33,10 +33,6 @@ object ShellEvent {
 
     class GotoProjectModule(source: Any, val data: Any?) : ApplicationEvent(source)
 
-    class GotoCrmModule(source: Any, val data: Any?) : ApplicationEvent(source)
-
-    class GotoFileModule(source: Any, val data: Any?) : ApplicationEvent(source)
-
     class GotoUserAccountModule(source: Any, val data: Any?) : ApplicationEvent(source)
 
     class GotoForgotPasswordPage(source: Any, val data: Any?) : ApplicationEvent(source)
@@ -44,4 +40,6 @@ object ShellEvent {
     class NewNotification(source: Any, val data: Any) : ApplicationEvent(source)
 
     class AddQueryParam(source: Any, val data: Any?) : ApplicationEvent(source)
+
+    class ShowAssociateAddActionsPerModule(source: Any): ApplicationEvent(source)
 }

@@ -49,7 +49,7 @@ import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 import org.vaadin.viritin.layouts.MWindow;
 
-import java.util.GregorianCalendar;
+import java.time.LocalDateTime;
 
 /**
  * @author MyCollab Ltd.
@@ -103,7 +103,7 @@ class AssignTaskWindow extends MWindow {
                         if (StringUtils.isNotBlank(commentValue)) {
                             CommentWithBLOBs comment = new CommentWithBLOBs();
                             comment.setComment(commentArea.getValue());
-                            comment.setCreatedtime(new GregorianCalendar().getTime());
+                            comment.setCreatedtime(LocalDateTime.now());
                             comment.setCreateduser(UserUIContext.getUsername());
                             comment.setSaccountid(AppUI.getAccountId());
                             comment.setType(ProjectTypeConstants.TASK);

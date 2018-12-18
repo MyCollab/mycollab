@@ -22,6 +22,8 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomField;
 import com.vaadin.ui.Label;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -32,10 +34,10 @@ import java.util.Date;
 public class DateViewField extends CustomField<Date> {
     private static final long serialVersionUID = 1L;
 
-    private Date date;
+    private LocalDateTime date;
     private Label dateLbl;
 
-    public DateViewField(Date date) {
+    public DateViewField(LocalDateTime date) {
         this.date = date;
         dateLbl = new Label();
         dateLbl.setWidth("100%");

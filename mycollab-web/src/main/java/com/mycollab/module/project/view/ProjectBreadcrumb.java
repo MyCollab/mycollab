@@ -484,13 +484,6 @@ public class ProjectBreadcrumb extends MHorizontalLayout implements CacheableCom
                 UserUIContext.getMessage(InvoiceI18nEnum.LIST));
     }
 
-    public void gotoFileList() {
-        addSummaryLink();
-        addLink(new Button(UserUIContext.getMessage(ProjectCommonI18nEnum.VIEW_FILE)));
-        AppUI.addFragment(ProjectLinkGenerator.generateFileDashboardLink(project.getId()),
-                UserUIContext.getMessage(BreadcrumbI18nEnum.FRA_FILES));
-    }
-
     public void gotoUserList() {
         addSummaryLink();
         addLink(new Button(UserUIContext.getMessage(ProjectMemberI18nEnum.LIST)));

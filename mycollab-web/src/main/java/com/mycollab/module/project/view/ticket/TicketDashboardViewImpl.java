@@ -54,10 +54,10 @@ import com.mycollab.vaadin.mvp.AbstractVerticalPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.web.ui.QueryParamHandler;
-import com.mycollab.vaadin.web.ui.ToggleButtonGroup;
+import com.mycollab.vaadin.web.ui.ButtonGroup;
 import com.mycollab.vaadin.web.ui.ValueComboBox;
 import com.mycollab.vaadin.web.ui.WebThemes;
-import com.mycollab.vaadin.web.ui.table.AbstractPagedGrid;
+import com.mycollab.vaadin.web.ui.table.AbstractPagedBeanTable;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
@@ -187,7 +187,7 @@ public class TicketDashboardViewImpl extends AbstractVerticalPageView implements
         MButton kanbanBtn = new MButton(UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_KANBAN), clickEvent ->
                 displayKanbanView()).withWidth("100px").withIcon(FontAwesome.TH);
 
-        ToggleButtonGroup viewButtons = new ToggleButtonGroup();
+        ButtonGroup viewButtons = new ButtonGroup();
         viewButtons.addButton(advanceDisplayBtn);
         viewButtons.addButton(kanbanBtn);
         viewButtons.withDefaultButton(advanceDisplayBtn);
@@ -356,7 +356,7 @@ public class TicketDashboardViewImpl extends AbstractVerticalPageView implements
     }
 
     @Override
-    public AbstractPagedGrid<ProjectTicketSearchCriteria, ProjectTicket> getPagedBeanGrid() {
+    public AbstractPagedBeanTable<ProjectTicketSearchCriteria, ProjectTicket> getPagedBeanGrid() {
         return null;
     }
 }

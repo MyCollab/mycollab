@@ -30,7 +30,6 @@ import com.mycollab.module.project.view.service.MilestoneComponentFactory;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.icons.VaadinIcons;
-import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.AbstractComponent;
 import org.springframework.stereotype.Service;
 
@@ -93,7 +92,7 @@ public class MilestoneComponentFactoryImpl implements MilestoneComponentFactory 
 
     @Override
     public AbstractComponent createBillableHoursPopupField(SimpleMilestone milestone) {
-        return new MetaFieldBuilder().withCaptionAndIcon(FontAwesome.MONEY, "" + (milestone.getTotalBugBillableHours() + milestone.getTotalTaskBillableHours()))
+        return new MetaFieldBuilder().withCaptionAndIcon(VaadinIcons.MONEY, "" + (milestone.getTotalBugBillableHours() + milestone.getTotalTaskBillableHours()))
                 .withDescription(UserUIContext.getMessage(TimeTrackingI18nEnum.OPT_BILLABLE_HOURS)).build();
     }
 

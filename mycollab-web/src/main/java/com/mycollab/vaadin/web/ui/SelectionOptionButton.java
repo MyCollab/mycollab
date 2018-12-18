@@ -43,7 +43,6 @@ public class SelectionOptionButton extends SplitButton implements HasSelectionOp
     private final Button selectThisPageBtn;
 
     public SelectionOptionButton(final HasSelectableItemHandlers selectableItemHandlers) {
-        super();
         addStyleName(WebThemes.BUTTON_ACTION);
         addStyleName(WebThemes.BUTTON_SMALL_PADDING);
         setIcon(VaadinIcons.SQUARE_SHADOW);

@@ -35,9 +35,9 @@ import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.web.ui.OptionPopupContent;
 import com.mycollab.vaadin.web.ui.SplitButton;
 import com.mycollab.vaadin.web.ui.WebThemes;
-import com.mycollab.vaadin.web.ui.table.AbstractPagedGrid;
+import com.mycollab.vaadin.web.ui.table.AbstractPagedBeanTable;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.FileDownloader;
-import com.vaadin.server.FontAwesome;
 import com.vaadin.server.StreamResource;
 import com.vaadin.server.StreamResource.StreamSource;
 import com.vaadin.shared.ui.MarginInfo;
@@ -54,7 +54,7 @@ public class FollowingTicketViewImpl extends AbstractVerticalPageView implements
     private static final long serialVersionUID = 1L;
 
     private SplitButton exportButtonControl;
-    private FollowingTicketTableDisplay ticketTable;
+    private FollowingTicketBeanTableDisplay ticketTable;
     private FollowingTicketSearchPanel searchPanel;
 
     public FollowingTicketViewImpl() {
@@ -66,13 +66,13 @@ public class FollowingTicketViewImpl extends AbstractVerticalPageView implements
         removeAllComponents();
         MHorizontalLayout header = new MHorizontalLayout().withFullWidth();
 
-        ELabel layoutHeader = ELabel.h2(String.format("%s %s", FontAwesome.EYE.getHtml(), UserUIContext.getMessage(FollowerI18nEnum
+        ELabel layoutHeader = ELabel.h2(String.format("%s %s", VaadinIcons.EYE.getHtml(), UserUIContext.getMessage(FollowerI18nEnum
                 .OPT_MY_FOLLOWING_TICKETS, 0))).withUndefinedWidth();
 
         Button exportBtn = new Button(UserUIContext.getMessage(GenericI18Enum.ACTION_EXPORT), clickEvent -> exportButtonControl.setPopupVisible(true));
         exportButtonControl = new SplitButton(exportBtn);
         exportButtonControl.addStyleName(WebThemes.BUTTON_OPTION);
-        exportButtonControl.setIcon(FontAwesome.EXTERNAL_LINK);
+        exportButtonControl.setIcon(VaadinIcons.EXTERNAL_LINK);
 
         OptionPopupContent popupButtonsControl = new OptionPopupContent();
         exportButtonControl.setContent(popupButtonsControl);
@@ -80,13 +80,13 @@ public class FollowingTicketViewImpl extends AbstractVerticalPageView implements
         Button exportPdfBtn = new Button(UserUIContext.getMessage(FileI18nEnum.PDF));
         FileDownloader pdfDownloader = new FileDownloader(constructStreamResource(ReportExportType.PDF));
         pdfDownloader.extend(exportPdfBtn);
-        exportPdfBtn.setIcon(FontAwesome.FILE_PDF_O);
+        exportPdfBtn.setIcon(VaadinIcons.FILE_O);
         popupButtonsControl.addOption(exportPdfBtn);
 
         Button exportExcelBtn = new Button(UserUIContext.getMessage(FileI18nEnum.EXCEL));
         FileDownloader excelDownloader = new FileDownloader(constructStreamResource(ReportExportType.EXCEL));
         excelDownloader.extend(exportExcelBtn);
-        exportExcelBtn.setIcon(FontAwesome.FILE_EXCEL_O);
+        exportExcelBtn.setIcon(VaadinIcons.FILE_TABLE);
         popupButtonsControl.addOption(exportExcelBtn);
 
         header.with(layoutHeader, exportButtonControl).withAlign(layoutHeader, Alignment.MIDDLE_LEFT).withAlign(exportButtonControl,
@@ -96,7 +96,7 @@ public class FollowingTicketViewImpl extends AbstractVerticalPageView implements
         searchPanel = new FollowingTicketSearchPanel();
         this.addComponent(searchPanel);
 
-        this.ticketTable = new FollowingTicketTableDisplay();
+        this.ticketTable = new FollowingTicketBeanTableDisplay();
         this.ticketTable.setMargin(new MarginInfo(true, false, false, false));
         this.addComponent(this.ticketTable);
     }
@@ -130,7 +130,7 @@ public class FollowingTicketViewImpl extends AbstractVerticalPageView implements
     }
 
     @Override
-    public AbstractPagedGrid<FollowingTicketSearchCriteria, FollowingTicket> getPagedBeanGrid() {
+    public AbstractPagedBeanTable<FollowingTicketSearchCriteria, FollowingTicket> getPagedBeanBeanGrid() {
         return this.ticketTable;
     }
 }

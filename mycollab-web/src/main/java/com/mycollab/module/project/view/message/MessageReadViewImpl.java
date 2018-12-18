@@ -133,7 +133,7 @@ public class MessageReadViewImpl extends AbstractVerticalPageView implements Mes
             });
             stickyCheck.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.MESSAGES));
 
-            HeaderWithFontAwesome headerText = ComponentUtils.headerH2(ProjectTypeConstants.MESSAGE, message.getTitle());
+            HeaderWithIcon headerText = ComponentUtils.headerH2(ProjectTypeConstants.MESSAGE, message.getTitle());
             header.with(headerText, stickyCheck, deleteBtn).withAlign(headerText, Alignment.MIDDLE_LEFT)
                     .withAlign(stickyCheck, Alignment.MIDDLE_RIGHT).withAlign(deleteBtn, Alignment.MIDDLE_RIGHT).expand(headerText);
 

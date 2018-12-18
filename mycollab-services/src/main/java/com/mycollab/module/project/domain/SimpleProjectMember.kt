@@ -19,6 +19,7 @@ package com.mycollab.module.project.domain
 import com.mycollab.core.arguments.NotBindable
 import com.mycollab.core.utils.StringUtils
 import com.mycollab.security.PermissionMap
+import java.time.LocalDateTime
 
 import java.util.Date
 
@@ -45,7 +46,7 @@ class SimpleProjectMember : ProjectMember() {
 
     var email: String? = null
 
-    var lastAccessTime: Date? = null
+    var lastAccessTime: LocalDateTime? = null
 
     var totalBillableLogTime: Double? = null
 

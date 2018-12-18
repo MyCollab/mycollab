@@ -25,13 +25,12 @@ import com.mycollab.module.project.view.settings.component.ProjectMemberSelectio
 import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.mycollab.vaadin.ui.GenericBeanForm;
+import com.mycollab.vaadin.ui.PopupDateFieldExt;
 import com.mycollab.vaadin.web.ui.I18nValueComboBox;
 import com.mycollab.vaadin.web.ui.field.AttachmentUploadField;
 import com.vaadin.data.HasValue;
 import com.vaadin.icons.VaadinIcons;
-import com.vaadin.ui.IconGenerator;
-import com.vaadin.ui.RichTextArea;
-import com.vaadin.ui.TextField;
+import com.vaadin.ui.*;
 
 import static com.mycollab.module.project.i18n.OptionI18nEnum.MilestoneStatus.*;
 
@@ -78,6 +77,8 @@ public class MilestoneEditFormFieldFactory extends AbstractBeanFieldGroupEditFie
                 attachmentUploadField = new AttachmentUploadField();
             }
             return attachmentUploadField;
+        } else if (Milestone.Field.startdate.equalTo(propertyId) || Milestone.Field.enddate.equalTo(propertyId)) {
+            return new DateField();
         }
 
         return null;

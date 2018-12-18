@@ -18,12 +18,12 @@ package com.mycollab.schedule.jobs
 
 import com.mycollab.common.dao.TimelineTrackingCachingMapper
 import com.mycollab.common.domain.TimelineTrackingCachingExample
-import org.joda.time.LocalDate
 import org.quartz.JobExecutionContext
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.config.BeanDefinition
 import org.springframework.context.annotation.Scope
 import org.springframework.stereotype.Component
+import java.time.LocalDate
 
 /**
  * @author MyCollab Ltd
@@ -38,8 +38,8 @@ class CleanupTimeTrackingCacheDataJob : GenericQuartzJobBean() {
 
     override fun executeJob(context: JobExecutionContext) {
         val ex = TimelineTrackingCachingExample()
-        val lessThan40Days = LocalDate().minusDays(40)
-        ex.createCriteria().andFordayLessThan(lessThan40Days.toDate())
+        val lessThan40Days = LocalDate.now().minusDays(40)
+        ex.createCriteria().andFordayLessThan(lessThan40Days)
         timeTrackingCacheMapper.deleteByExample(ex)
     }
 }

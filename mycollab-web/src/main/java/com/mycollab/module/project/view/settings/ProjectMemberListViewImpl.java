@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -44,14 +44,13 @@ import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.AbstractVerticalPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.ELabel;
-import com.mycollab.vaadin.ui.HeaderWithFontAwesome;
+import com.mycollab.vaadin.ui.HeaderWithIcon;
 import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.ui.UserAvatarControlFactory;
 import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.mycollab.vaadin.web.ui.SearchTextField;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.icons.VaadinIcons;
-import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
@@ -71,7 +70,7 @@ import java.util.List;
 public class ProjectMemberListViewImpl extends AbstractVerticalPageView implements ProjectMemberListView {
     private static final long serialVersionUID = 1L;
     private CssLayout contentLayout;
-    private HeaderWithFontAwesome headerText;
+    private HeaderWithIcon headerText;
     private boolean sortAsc = true;
     private ProjectMemberSearchCriteria searchCriteria;
 
@@ -122,7 +121,7 @@ public class ProjectMemberListViewImpl extends AbstractVerticalPageView implemen
 
         MButton createBtn = new MButton(UserUIContext.getMessage(ProjectMemberI18nEnum.BUTTON_NEW_INVITEES),
                 clickEvent -> EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoInviteMembers(this, null)))
-                .withStyleName(WebThemes.BUTTON_ACTION).withIcon(FontAwesome.SEND);
+                .withStyleName(WebThemes.BUTTON_ACTION).withIcon(VaadinIcons.PAPERPLANE);
         createBtn.setVisible(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.USERS));
         viewHeader.addComponent(createBtn);
 
@@ -170,7 +169,7 @@ public class ProjectMemberListViewImpl extends AbstractVerticalPageView implemen
         MVerticalLayout blockTop = new MVerticalLayout().withMargin(new MarginInfo(false, false, false, true)).withFullWidth();
 
         MButton editBtn = new MButton("", clickEvent -> EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoEdit(this, member)))
-                .withIcon(FontAwesome.EDIT).withStyleName(WebThemes.BUTTON_LINK)
+                .withIcon(VaadinIcons.EDIT).withStyleName(WebThemes.BUTTON_LINK)
                 .withVisible(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.USERS));
         editBtn.setDescription("Edit user '" + member.getDisplayName() + "' information");
 
@@ -234,7 +233,7 @@ public class ProjectMemberListViewImpl extends AbstractVerticalPageView implemen
                 .appendText("" + member.getNumOpenTasks()).setTitle(UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_OPEN_TASKS)) +
                 "  " + ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG).getHtml() + " " + new Span()
                 .appendText("" + member.getNumOpenBugs()).setTitle(UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_OPEN_BUGS)) +
-                " " + FontAwesome.MONEY.getHtml() + " " + new Span().appendText("" + NumberUtils.roundDouble(2,
+                " " + VaadinIcons.MONEY.getHtml() + " " + new Span().appendText("" + NumberUtils.roundDouble(2,
                 member.getTotalBillableLogTime())).setTitle(UserUIContext.getMessage(TimeTrackingI18nEnum.OPT_BILLABLE_HOURS)) +
                 "  " + VaadinIcons.GIFT.getHtml() +
                 " " + new Span().appendText("" + NumberUtils.roundDouble(2, member.getTotalNonBillableLogTime()))

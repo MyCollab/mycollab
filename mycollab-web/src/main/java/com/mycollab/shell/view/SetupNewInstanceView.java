@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -31,15 +31,12 @@ import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.NotificationUtil;
+import com.mycollab.vaadin.ui.field.DateFormatField;
 import com.mycollab.vaadin.web.ui.TimeZoneSelectionField;
 import com.mycollab.vaadin.web.ui.WebThemes;
-import com.mycollab.vaadin.ui.field.DateFormatField;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.mycollab.web.DesktopApplication;
 import com.vaadin.ui.*;
-import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
@@ -137,13 +134,15 @@ class SetupNewInstanceView extends MVerticalLayout {
         formLayout.with(buttonControls).withAlign(buttonControls, Alignment.MIDDLE_RIGHT);
     }
 
+    // TODO
     private boolean isValidDayPattern(String dateFormat) {
-        try {
-            DateTimeFormatter formatter = DateTimeFormat.forPattern(dateFormat);
-            formatter.print(new DateTime());
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
+//        try {
+//            DateTimeFormatter formatter = DateTimeFormat.forPattern(dateFormat);
+//            formatter.print(new DateTime());
+//            return true;
+//        } catch (Exception e) {
+//            return false;
+//        }
+        return true;
     }
 }

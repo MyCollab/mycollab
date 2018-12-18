@@ -18,7 +18,6 @@ package com.mycollab.module.project.view;
 
 import com.hp.gagawa.java.elements.A;
 import com.mycollab.common.i18n.GenericI18Enum;
-import com.mycollab.configuration.SiteConfiguration;
 import com.mycollab.db.arguments.SetSearchField;
 import com.mycollab.db.arguments.StringSearchField;
 import com.mycollab.module.project.domain.ProjectGenericItem;
@@ -78,9 +77,6 @@ public class UserDashboardViewImpl extends AbstractVerticalPageView implements U
         tabSheet.addTab(buildDashboardComp(), UserUIContext.getMessage(GenericI18Enum.VIEW_DASHBOARD), VaadinIcons.DASHBOARD);
         tabSheet.addTab(buildProjectListComp(), UserUIContext.getMessage(ProjectI18nEnum.LIST), VaadinIcons.BUILDING_O);
         tabSheet.addTab(buildFollowingTicketComp(), UserUIContext.getMessage(ProjectCommonI18nEnum.VIEW_FAVORITES), VaadinIcons.EYE);
-        if (!SiteConfiguration.isCommunityEdition()) {
-            tabSheet.addTab(buildCalendarComp(), UserUIContext.getMessage(ProjectCommonI18nEnum.VIEW_CALENDAR), VaadinIcons.CALENDAR);
-        }
 
         tabSheet.addSelectedTabChangeListener(selectedTabChangeEvent -> {
             CssLayout comp = (CssLayout) tabSheet.getSelectedTab();
@@ -97,10 +93,6 @@ public class UserDashboardViewImpl extends AbstractVerticalPageView implements U
             } else if (tabIndex == 4) {
                 SettingPresenter settingPresenter = PresenterResolver.getPresenter(SettingPresenter.class);
                 settingPresenter.onGo(comp, null);
-            } else if (tabIndex == 3) {
-                ICalendarDashboardPresenter calendarPresenter = PresenterResolver.getPresenterAndInitView
-                        (ICalendarDashboardPresenter.class);
-                calendarPresenter.go(comp, null);
             } else if (tabIndex == 1) {
                 ProjectListPresenter projectListPresenter = PresenterResolver.getPresenterAndInitView(ProjectListPresenter.class);
                 projectListPresenter.onGo(comp, null);
@@ -148,14 +140,6 @@ public class UserDashboardViewImpl extends AbstractVerticalPageView implements U
     }
 
     private Component buildFollowingTicketComp() {
-        return new MCssLayout().withFullWidth();
-    }
-
-    private Component buildCalendarComp() {
-        return new MCssLayout().withFullWidth();
-    }
-
-    private Component buildSettingComp() {
         return new MCssLayout().withFullWidth();
     }
 

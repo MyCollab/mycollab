@@ -16,6 +16,9 @@
  */
 package com.mycollab.vaadin.web.ui;
 
+import com.vaadin.data.Converter;
+import com.vaadin.data.Result;
+import com.vaadin.data.ValueContext;
 import com.vaadin.ui.ComboBox;
 
 /**
@@ -23,16 +26,36 @@ import com.vaadin.ui.ComboBox;
  * @since 2.0
  */
 // TODO
-public class KeyCaptionComboBox extends ComboBox {
+public class KeyCaptionComboBox extends ComboBox implements Converter<String, String> {
     private static final long serialVersionUID = 1L;
 
-    public KeyCaptionComboBox(boolean nullSelectionAllowed) {
-//        this.setItemCaptionMode(ItemCaptionMode.EXPLICIT);
-//        this.setEmptySelectionAllowed(nullSelectionAllowed);
+    private Entry[] entries;
+
+    public KeyCaptionComboBox(boolean nullSelectionAllowed, Entry... entries) {
+        this.setEmptySelectionAllowed(nullSelectionAllowed);
+        this.entries = entries;
+        this.setItems(entries);
+//        this.setItemCaptionGenerator((ItemCaptionGenerator<Entry>) entry -> UserUIContext.getMessage(entry.caption));
     }
 
-    public void addItem(Object itemId, String caption) {
-//        this.addItem(itemId);
-//        this.setItemCaption(itemId, caption);
+    @Override
+    public Result<String> convertToModel(String s, ValueContext valueContext) {
+        return Result.ok("A");
+    }
+
+    @Override
+    public String convertToPresentation(String s, ValueContext valueContext) {
+        return "V";
+    }
+
+    public static class Entry {
+        private Object key;
+
+        private Enum<?> caption;
+
+        public Entry(Object key, Enum<?> caption) {
+            this.key = key;
+            this.caption = caption;
+        }
     }
 }

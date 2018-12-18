@@ -79,7 +79,8 @@ public class ProjectOverdueTicketsWidget extends Depot {
         searchCriteria = new ProjectTicketSearchCriteria();
         searchCriteria.setOpenned(new SearchField());
         searchCriteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
-        searchCriteria.setDueDate(new DateSearchField(DateTimeUtils.getCurrentDateWithoutMS()));
+        searchCriteria.setDueDate(new DateSearchField(DateTimeUtils.getCurrentDateWithoutMS().toLocalDate(),
+                DateSearchField.LESS_THAN));
         updateSearchResult();
     }
 

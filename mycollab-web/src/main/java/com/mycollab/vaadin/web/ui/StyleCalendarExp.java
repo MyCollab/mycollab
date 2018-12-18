@@ -23,6 +23,7 @@ import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -72,7 +73,7 @@ public class StyleCalendarExp extends VerticalLayout {
         btnShowPreviousYear.setIcon(new ExternalResource(StorageUtils.generateAssetRelativeLink("icons/16/cal_year_pre.png")));
         btnShowPreviousYear.setStyleName(WebThemes.BUTTON_LINK);
 
-        lbSelectedDate.setValue(UserUIContext.formatDate(new Date()));
+        lbSelectedDate.setValue(UserUIContext.formatDate(LocalDateTime.now()));
         lbSelectedDate.addStyleName("calendarDateLabel");
         lbSelectedDate.setWidth("80");
 

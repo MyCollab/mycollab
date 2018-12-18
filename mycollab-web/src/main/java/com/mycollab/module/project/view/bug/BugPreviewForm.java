@@ -47,11 +47,11 @@ import com.mycollab.vaadin.ui.field.RichTextViewField;
 import com.mycollab.vaadin.web.ui.AdvancedPreviewBeanForm;
 import com.mycollab.vaadin.web.ui.field.ContainerViewField;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
-import com.vaadin.server.FontAwesome;
+import com.vaadin.data.HasValue;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.Alignment;
-import com.vaadin.data.HasValue;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 import org.apache.commons.collections.CollectionUtils;
@@ -219,7 +219,7 @@ public class BugPreviewForm extends AdvancedPreviewBeanForm<SimpleBug> {
                 }
             } else if (BugWithBLOBs.Field.severity.equalTo(propertyId)) {
                 if (StringUtils.isNotBlank(beanItem.getSeverity())) {
-                    String severityLink = FontAwesome.STAR.getHtml() + " " +
+                    String severityLink = VaadinIcons.STAR.getHtml() + " " +
                             UserUIContext.getMessage(BugSeverity.class, beanItem.getSeverity());
                     DefaultViewField lbPriority = new DefaultViewField(severityLink, ContentMode.HTML);
                     lbPriority.addStyleName("bug-severity-" + beanItem.getSeverity().toLowerCase());

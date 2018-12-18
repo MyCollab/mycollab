@@ -7,7 +7,7 @@
     <parent>
         <groupId>com.mycollab</groupId>
         <artifactId>mycollab-parent-community</artifactId>
-        <version>6.0.0</version>
+        <version>7.0.0</version>
         <relativePath>../mycollab-parent-community/pom.xml</relativePath>
     </parent>
     <packaging>jar</packaging>
@@ -57,32 +57,19 @@
         </dependency>
 
         <dependency>
-            <groupId>org.vaadin.touchkit</groupId>
-            <artifactId>touchkit</artifactId>
-            <version>5.0.2</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.vaadin</groupId>
-                    <artifactId>vaadin-themes</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
-        <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>org.vaadin.addon</groupId>
-            <artifactId>easyuploads</artifactId>
-            <version>8.0.0</version>
+            <groupId>com.vaadin</groupId>
+            <artifactId>vaadin-spring-boot-starter</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>com.vaadin</groupId>
-            <artifactId>grid-renderers-collection-addon</artifactId>
-            <version>2.3.2</version>
+            <groupId>org.vaadin.addon</groupId>
+            <artifactId>easyuploads</artifactId>
+            <version>9.0.0</version>
         </dependency>
 
         <dependency>

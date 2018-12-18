@@ -24,11 +24,10 @@ import com.mycollab.module.user.domain.criteria.RoleSearchCriteria;
 import com.mycollab.module.user.event.RoleEvent;
 import com.mycollab.security.RolePermissionCollections;
 import com.mycollab.vaadin.UserUIContext;
-import com.mycollab.vaadin.ui.HeaderWithFontAwesome;
+import com.mycollab.vaadin.ui.HeaderWithIcon;
 import com.mycollab.vaadin.web.ui.*;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.icons.VaadinIcons;
-import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
 import org.apache.commons.lang3.StringUtils;
 import org.vaadin.viritin.button.MButton;
@@ -53,8 +52,8 @@ public class RoleSearchPanel extends DefaultGenericSearchPanel<RoleSearchCriteri
     }
 
     @Override
-    protected HeaderWithFontAwesome buildSearchTitle() {
-        return HeaderWithFontAwesome.h2(VaadinIcons.USERS, UserUIContext.getMessage(RoleI18nEnum.LIST));
+    protected HeaderWithIcon buildSearchTitle() {
+        return HeaderWithIcon.h2(VaadinIcons.USERS, UserUIContext.getMessage(RoleI18nEnum.LIST));
     }
 
     @Override

@@ -25,6 +25,8 @@ import net.sf.dynamicreports.report.constant.HorizontalTextAlignment
 import net.sf.dynamicreports.report.exception.DRException
 import org.slf4j.LoggerFactory
 import java.io.*
+import java.time.LocalDateTime
+import java.time.ZoneId
 import java.util.*
 import java.util.concurrent.CountDownLatch
 
@@ -32,7 +34,7 @@ import java.util.concurrent.CountDownLatch
  * @author MyCollab Ltd
  * @since 5.1.4
  */
-abstract class ReportTemplateExecutor(private var timeZone: TimeZone, protected var locale: Locale,
+abstract class ReportTemplateExecutor(private var timeZone: ZoneId, protected var locale: Locale,
                                       protected var reportTitle: String,
                                       protected var outputForm: ReportExportType) {
 
@@ -58,7 +60,7 @@ abstract class ReportTemplateExecutor(private var timeZone: TimeZone, protected 
                         .setFixedDimension(150, 28), cmp.horizontalGap(20),
                 cmp.verticalList(
                         cmp.text("https://www.mycollab.com").setStyle(reportStyles.italicStyle).setHyperLink(link)
-                                .setHorizontalTextAlignment(HorizontalTextAlignment.RIGHT), cmp.text("Generated at: ${DateTimeUtils.formatDate(GregorianCalendar().time, "yyyy-MM-dd'T'HH:mm:ss",
+                                .setHorizontalTextAlignment(HorizontalTextAlignment.RIGHT), cmp.text("Generated at: ${DateTimeUtils.formatDate(LocalDateTime.now(), "yyyy-MM-dd'T'HH:mm:ss",
                         Locale.US, timeZone)}")
                         .setHorizontalTextAlignment(HorizontalTextAlignment.RIGHT))
         )

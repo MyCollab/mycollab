@@ -23,8 +23,8 @@ import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.domain.criteria.ProjectTicketSearchCriteria;
 import com.mycollab.module.project.i18n.TicketI18nEnum;
 import com.mycollab.vaadin.UserUIContext;
-import org.joda.time.LocalDate;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Collections;
 
@@ -100,7 +100,7 @@ public class TicketQueryInfo {
             new SearchFieldInfo(SearchField.AND, ProjectTicketSearchCriteria.p_dueDate, DateParam.BEFORE, new LazyValueInjector() {
                 @Override
                 protected Object doEval() {
-                    return new LocalDate().toDate();
+                    return LocalDate.now();
                 }
             }), SearchFieldInfo.notInCollection(ProjectTicketSearchCriteria.p_status, new VariableInjector() {
         @Override

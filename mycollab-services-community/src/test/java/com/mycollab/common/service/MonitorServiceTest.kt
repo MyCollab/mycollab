@@ -24,9 +24,8 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner
-
-import java.util.ArrayList
-import java.util.GregorianCalendar
+import java.time.LocalDateTime
+import java.util.*
 
 @RunWith(SpringJUnit4ClassRunner::class)
 class MonitorServiceTest : IntegrationServiceTest() {
@@ -37,7 +36,7 @@ class MonitorServiceTest : IntegrationServiceTest() {
     @DataSet
     fun testSaveBatchMonitor() {
         val mon1 = MonitorItem()
-        mon1.monitorDate = GregorianCalendar().time
+        mon1.monitorDate = LocalDateTime.now()
         mon1.saccountid = 1
         mon1.type = ProjectTypeConstants.BUG
         mon1.typeid = 1

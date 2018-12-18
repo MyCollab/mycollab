@@ -60,7 +60,6 @@ public class ProfileReadViewImpl extends AbstractVerticalPageView implements Pro
     private final MHorizontalLayout avatarAndPass;
 
     public ProfileReadViewImpl() {
-        super();
         this.setMargin(new MarginInfo(false, true, true, true));
         this.avatarAndPass = new MHorizontalLayout().withMargin(new MarginInfo(true, true, true, false)).withFullWidth();
 
@@ -78,9 +77,9 @@ public class ProfileReadViewImpl extends AbstractVerticalPageView implements Pro
         MVerticalLayout userAvatar = new MVerticalLayout().withMargin(false).with(avatarWrapper);
         userAvatar.setSizeUndefined();
 
-//        final UploadImageField avatarUploadField = new UploadImageField(this);
-//        avatarUploadField.setButtonCaption(UserUIContext.getMessage(UserI18nEnum.BUTTON_CHANGE_AVATAR));
-//        userAvatar.addComponent(avatarUploadField);
+        final UploadImageField avatarUploadField = new UploadImageField(this);
+        avatarUploadField.setButtonCaption(UserUIContext.getMessage(UserI18nEnum.BUTTON_CHANGE_AVATAR));
+        userAvatar.addComponent(avatarUploadField);
 
         avatarAndPass.with(userAvatar);
 

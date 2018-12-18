@@ -26,7 +26,7 @@ import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.event.MassItemActionHandler;
 import com.mycollab.vaadin.event.ViewItemAction;
 import com.mycollab.vaadin.reporting.ReportStreamSource;
-import com.mycollab.vaadin.web.ui.table.IPagedGrid;
+import com.mycollab.vaadin.web.ui.table.IPagedTable;
 import com.vaadin.server.StreamResource;
 import com.vaadin.ui.UI;
 
@@ -64,7 +64,7 @@ public abstract class DefaultMassEditActionHandler implements MassItemActionHand
 
     @Override
     public StreamResource buildStreamResource(ReportExportType exportType) {
-        IPagedGrid pagedBeanTable = ((IListView) presenter.getView()).getPagedBeanGrid();
+        IPagedTable pagedBeanTable = ((IListView) presenter.getView()).getPagedBeanGrid();
         final Map<String, Object> additionalParameters = new HashMap<>();
         additionalParameters.put("siteUrl", AppUI.getSiteUrl());
         additionalParameters.put(SimpleReportTemplateExecutor.CRITERIA, presenter.searchCriteria);
@@ -88,7 +88,7 @@ public abstract class DefaultMassEditActionHandler implements MassItemActionHand
         }, exportType.getDefaultFileName());
     }
 
-    protected abstract void onSelectExtra(String id);
+    protected void onSelectExtra(String id) {}
 
     protected abstract Class<?> getReportModelClassType();
 

@@ -33,6 +33,7 @@ import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.stereotype.Service
 import java.sql.PreparedStatement
 import java.sql.SQLException
+import java.time.LocalDateTime
 import java.util.*
 import javax.sql.DataSource
 
@@ -135,7 +136,7 @@ class OptionValServiceImpl(private val optionValMapper: OptionValMapper,
 
     override fun createDefaultOptions(sAccountId: Int?) {
         val option = OptionVal()
-        option.createdtime = GregorianCalendar().time
+        option.createdtime = LocalDateTime.now()
         option.isdefault = true
         option.saccountid = sAccountId
         option.type = ProjectTypeConstants.TASK

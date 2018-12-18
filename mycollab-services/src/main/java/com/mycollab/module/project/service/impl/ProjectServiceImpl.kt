@@ -51,7 +51,7 @@ import com.mycollab.security.PermissionMap
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import java.util.*
+import java.time.LocalDateTime
 
 /**
  * @author MyCollab Ltd.
@@ -95,7 +95,7 @@ class ProjectServiceImpl(private val projectMapper: ProjectMapper,
         val projectMember = ProjectMember()
         projectMember.isadmin = java.lang.Boolean.TRUE
         projectMember.status = ProjectMemberStatusConstants.ACTIVE
-        projectMember.joindate = GregorianCalendar().time
+        projectMember.joindate = LocalDateTime.now()
         projectMember.projectid = projectId
         projectMember.username = username
         projectMember.saccountid = record.saccountid

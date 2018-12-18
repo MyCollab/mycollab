@@ -20,7 +20,7 @@ import com.mycollab.module.project.domain.FollowingTicket
 import com.mycollab.module.project.domain.criteria.FollowingTicketSearchCriteria
 import com.mycollab.vaadin.event.HasSearchHandlers
 import com.mycollab.vaadin.web.ui.InitializingView
-import com.mycollab.vaadin.web.ui.table.AbstractPagedGrid
+import com.mycollab.vaadin.web.ui.table.AbstractPagedBeanTable
 
 /**
  * @author MyCollab Ltd.
@@ -31,5 +31,5 @@ interface FollowingTicketView : InitializingView {
 
     val searchHandlers: HasSearchHandlers<FollowingTicketSearchCriteria>
 
-    val pagedBeanGrid: AbstractPagedGrid<FollowingTicketSearchCriteria, FollowingTicket>
+    val pagedBeanBeanGrid: AbstractPagedBeanTable<FollowingTicketSearchCriteria, FollowingTicket>
 }

@@ -25,8 +25,8 @@ import com.mycollab.module.project.query.CurrentProjectIdInjector;
 import com.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.web.ui.SavedFilterComboBox;
-import org.joda.time.LocalDate;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
@@ -65,7 +65,7 @@ public class BugSavedFilterComboBox extends SavedFilterComboBox {
                         new VariableInjector() {
                             @Override
                             public Object eval() {
-                                return new LocalDate().toDate();
+                                return LocalDateTime.now();
                             }
 
                             @Override

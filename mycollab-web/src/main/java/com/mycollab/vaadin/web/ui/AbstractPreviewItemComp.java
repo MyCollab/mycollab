@@ -228,11 +228,6 @@ public abstract class AbstractPreviewItemComp<B> extends VerticalLayout implemen
         previewLayout.removeTitleStyleName(styleName);
     }
 
-    @Override
-    final public void addViewListener(ViewListener listener) {
-
-    }
-
     abstract protected void onPreviewItem();
 
     abstract protected String initFormTitle();

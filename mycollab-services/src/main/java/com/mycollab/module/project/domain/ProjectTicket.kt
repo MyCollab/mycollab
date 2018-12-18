@@ -23,7 +23,7 @@ import com.mycollab.core.utils.StringUtils
 import com.mycollab.module.project.ProjectTypeConstants
 import com.mycollab.module.tracker.domain.SimpleBug
 import java.io.Serializable
-import java.util.*
+import java.time.LocalDateTime
 
 /**
  * @author MyCollab Ltd.
@@ -50,7 +50,7 @@ class ProjectTicket : ValuedBean(), Serializable {
 
     var createdUserAvatarId: String? = null
 
-    var dueDate: Date? = null
+    var dueDate: LocalDateTime? = null
 
     var projectId: Int? = null
 
@@ -68,9 +68,9 @@ class ProjectTicket : ValuedBean(), Serializable {
 
     var priority: String? = null
 
-    var createdTime: Date? = null
+    var createdTime: LocalDateTime? = null
 
-    var lastUpdatedTime: Date? = null
+    var lastUpdatedTime: LocalDateTime? = null
 
     var sAccountId: Int? = null
 
@@ -80,9 +80,9 @@ class ProjectTicket : ValuedBean(), Serializable {
 
     var numFollowers: Int? = null
 
-    private var startDate: Date? = null
+    private var startDate: LocalDateTime? = null
 
-    private var endDate: Date? = null
+    private var endDate: LocalDateTime? = null
 
     var milestoneId: Int? = null
 
@@ -110,7 +110,7 @@ class ProjectTicket : ValuedBean(), Serializable {
         get() {
             if (dueDate != null && !isClosed) {
                 val currentDay = DateTimeUtils.getCurrentDateWithoutMS()
-                return currentDay.after(dueDate!!)
+                return currentDay.isAfter(dueDate!!)
             }
             return false
         }
@@ -118,41 +118,41 @@ class ProjectTicket : ValuedBean(), Serializable {
     val isClosed: Boolean
         get() = StatusI18nEnum.Closed.name == status || StatusI18nEnum.Verified.name == status
 
-    val dueDatePlusOne: Date?
+    val dueDatePlusOne: LocalDateTime?
         get() {
             val value = dueDate
-            return if (value != null) DateTimeUtils.subtractOrAddDayDuration(value, 1) else null
+            return if (value != null) value.plusDays(1) else null
         }
 
-    fun getStartDate(): Date? {
+    fun getStartDate(): LocalDateTime? {
         return if (startDate != null) {
             startDate
         } else {
             if (endDate != null && dueDate != null) {
-                if (endDate!!.before(dueDate!!)) endDate else dueDate
+                if (endDate!!.isBefore(dueDate!!)) endDate else dueDate
             } else {
                 if (endDate != null) endDate else dueDate
             }
         }
     }
 
-    fun setStartDate(startDate: Date) {
+    fun setStartDate(startDate: LocalDateTime) {
         this.startDate = startDate
     }
 
-    fun getEndDate(): Date? {
+    fun getEndDate(): LocalDateTime? {
         return if (endDate != null) {
             endDate
         } else {
             if (startDate != null && dueDate != null) {
-                if (startDate!!.before(dueDate!!)) dueDate else startDate
+                if (startDate!!.isBefore(dueDate!!)) dueDate else startDate
             } else {
                 if (startDate != null) startDate else dueDate
             }
         }
     }
 
-    fun setEndDate(endDate: Date) {
+    fun setEndDate(endDate: LocalDateTime) {
         this.endDate = endDate
     }
 

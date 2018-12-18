@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -34,9 +34,8 @@ import com.mycollab.vaadin.web.ui.DefaultBeanPagedList;
 import com.mycollab.vaadin.web.ui.Depot;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.CssLayout;
-import org.joda.time.LocalDate;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 /**
  * @author MyCollab Ltd
@@ -76,8 +75,8 @@ public class ProjectUnresolvedTicketsWidget extends Depot {
         searchCriteria = new ProjectTicketSearchCriteria();
         searchCriteria.setOpenned(new SearchField());
         searchCriteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
-        LocalDate now = new LocalDate();
-        Date[] bounceDateOfWeek = DateTimeUtils.getBounceDatesOfWeek(now.toDate());
+        LocalDate now = LocalDate.now();
+        LocalDate[] bounceDateOfWeek = DateTimeUtils.getBounceDatesOfWeek(now);
         RangeDateSearchField range = new RangeDateSearchField(bounceDateOfWeek[0], bounceDateOfWeek[1]);
         searchCriteria.setDateInRange(range);
         updateSearchResult();
@@ -88,9 +87,9 @@ public class ProjectUnresolvedTicketsWidget extends Depot {
         searchCriteria = new ProjectTicketSearchCriteria();
         searchCriteria.setOpenned(new SearchField());
         searchCriteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
-        LocalDate now = new LocalDate();
+        LocalDate now = LocalDate.now();
         now = now.plusDays(7);
-        Date[] bounceDateOfWeek = DateTimeUtils.getBounceDatesOfWeek(now.toDate());
+        LocalDate[] bounceDateOfWeek = DateTimeUtils.getBounceDatesOfWeek(now);
         RangeDateSearchField range = new RangeDateSearchField(bounceDateOfWeek[0], bounceDateOfWeek[1]);
         searchCriteria.setDateInRange(range);
         updateSearchResult();

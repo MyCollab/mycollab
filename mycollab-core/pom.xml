@@ -7,7 +7,7 @@
     <parent>
         <groupId>com.mycollab</groupId>
         <artifactId>mycollab-parent-community</artifactId>
-        <version>6.0.0</version>
+        <version>7.0.0</version>
         <relativePath>../mycollab-parent-community/pom.xml</relativePath>
     </parent>
     <packaging>jar</packaging>
@@ -71,18 +71,19 @@
             <scope>test</scope>
         </dependency>
 
-        <!--Business days calculation library-->
         <dependency>
             <groupId>net.objectlab.kit</groupId>
             <artifactId>datecalc-common</artifactId>
             <version>1.4.0</version>
         </dependency>
 
+
         <dependency>
             <groupId>net.objectlab.kit</groupId>
-            <artifactId>datecalc-joda</artifactId>
+            <artifactId>datecalc-jdk8</artifactId>
             <version>1.4.0</version>
         </dependency>
+
 
         <dependency>
             <groupId>uk.com.robust-it</groupId>

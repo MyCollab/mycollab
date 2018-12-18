@@ -16,10 +16,8 @@
  */
 package com.mycollab.vaadin
 
-import com.mycollab.core.Version
 import com.vaadin.server.DeploymentConfiguration
-import org.vaadin.touchkit.annotations.CacheManifestEnabled
-import org.vaadin.touchkit.server.TouchKitServlet
+import com.vaadin.server.VaadinServlet
 import java.util.*
 import javax.servlet.ServletException
 import javax.servlet.annotation.WebInitParam
@@ -30,9 +28,12 @@ import javax.servlet.annotation.WebServlet
  * @since 3.0
  */
 @WebServlet(name = "MyCollabApplication", urlPatterns = ["/*"], asyncSupported = true, loadOnStartup = 0,
-        initParams = [(WebInitParam(name = "closeIdleSessions", value = "false")), (WebInitParam(name = "productionMode", value = "true")), (WebInitParam(name = "resourceCacheTime", value = "8640000")), (WebInitParam(name = "maxIdleTime", value = "10000")), (WebInitParam(name = "org.atmosphere.websocket.maxIdleTime", value = "86400000"))])
-@CacheManifestEnabled(false)
-class AppServlet : TouchKitServlet() {
+        initParams = [(WebInitParam(name = "closeIdleSessions", value = "false")),
+            (WebInitParam(name = "productionMode", value = "true")),
+            (WebInitParam(name = "resourceCacheTime", value = "8640000")),
+            (WebInitParam(name = "maxIdleTime", value = "10000")),
+            (WebInitParam(name = "org.atmosphere.websocket.maxIdleTime", value = "86400000"))])
+class AppServlet : VaadinServlet() {
 
     private val uiProvider = AppUIProvider()
     private val bootstrapListener = AppBootstrapListener()
@@ -45,11 +46,6 @@ class AppServlet : TouchKitServlet() {
     @Throws(ServletException::class)
     override fun servletInitialized() {
         super.servletInitialized()
-        val s = touchKitSettings
-        s.webAppSettings.isWebAppCapable = true
-        val contextPath = servletConfig.servletContext.contextPath
-        s.applicationIcons.addApplicationIcon("${contextPath}VAADIN/themes/${Version.THEME_MOBILE_VERSION}/icons/icon.png")
-        s.webAppSettings.startupImage = "${contextPath}VAADIN/themes/${Version.THEME_MOBILE_VERSION}/icons/icon.png"
 
         service.addSessionInitListener { sessionInitEvent ->
             sessionInitEvent.session.addBootstrapListener(bootstrapListener)

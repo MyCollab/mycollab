@@ -7,7 +7,7 @@
     <parent>
         <groupId>com.mycollab</groupId>
         <artifactId>mycollab-parent-community</artifactId>
-        <version>6.0.0</version>
+        <version>7.0.0</version>
         <relativePath>../mycollab-parent-community/pom.xml</relativePath>
     </parent>
     <packaging>jar</packaging>
@@ -86,7 +86,7 @@
             <plugin>
                 <groupId>org.mybatis.generator</groupId>
                 <artifactId>mybatis-generator-maven-plugin</artifactId>
-                <version>1.3.6</version>
+                <version>1.3.7</version>
                 <dependencies>
                     <dependency>
                         <groupId>mysql</groupId>
@@ -101,17 +101,7 @@
                 </dependencies>
                 <executions>
 <!--
-                    <execution>
-                        <id>Crm Artifacts Generator</id>
-                        <phase>validate</phase>
-                        <goals>
-                            <goal>generate</goal>
-                        </goals>
-                        <configuration>
-                            <configurationFile>${basedir}/src/main/resources/CrmGeneratorConfig.xml</configurationFile>
-                            <overwrite>true</overwrite>
-                        </configuration>
-                    </execution>
+
                     <execution>
                         <id>User Artifacts Generator</id>
                         <phase>validate</phase>
@@ -145,6 +135,7 @@
                             <overwrite>true</overwrite>
                         </configuration>
                     </execution>
+
                     <execution>
                         <id>Project Artifacts Generator</id>
                         <phase>validate</phase>
@@ -156,6 +147,7 @@
                             <overwrite>true</overwrite>
                         </configuration>
                     </execution>
+
                     <execution>
                         <id>Project Artifacts Premium Generator</id>
                         <phase>validate</phase>
@@ -179,17 +171,6 @@
                         </configuration>
                     </execution>
                     <execution>
-                        <id>Ecm Artifacts Generator</id>
-                        <phase>validate</phase>
-                        <goals>
-                            <goal>generate</goal>
-                        </goals>
-                        <configuration>
-                            <configurationFile>${basedir}/src/main/resources/EcmGeneratorConfig.xml</configurationFile>
-                            <overwrite>true</overwrite>
-                        </configuration>
-                    </execution>
-                    <execution>
                         <id>Form Artifacts Generator</id>
                         <phase>validate</phase>
                         <goals>
@@ -200,7 +181,7 @@
                             <overwrite>true</overwrite>
                         </configuration>
                     </execution>
-                    -->
+-->
                 </executions>
             </plugin>
         </plugins>

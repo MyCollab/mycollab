@@ -88,7 +88,7 @@ public class RoleAddViewImpl extends AbstractVerticalPageView implements RoleAdd
 
         private class FormLayoutFactory extends RoleFormLayoutFactory {
 
-            public FormLayoutFactory() {
+            FormLayoutFactory() {
                 super("");
             }
 
@@ -136,25 +136,9 @@ public class RoleAddViewImpl extends AbstractVerticalPageView implements RoleAdd
                     perMap = new PermissionMap();
                 }
 
-                GridFormLayoutHelper crmFormHelper = GridFormLayoutHelper.defaultFormLayoutHelper(
-                        2, RolePermissionCollections.CRM_PERMISSIONS_ARR.size() / 2 + 1);
-
-                for (int i = 0; i < RolePermissionCollections.CRM_PERMISSIONS_ARR.size(); i++) {
-                    PermissionDefItem permissionDefItem = RolePermissionCollections.CRM_PERMISSIONS_ARR.get(i);
-                    KeyCaptionComboBox permissionBox = PermissionComboBoxFactory.createPermissionSelection(permissionDefItem.getPermissionCls());
-
-                    Integer flag = perMap.getPermissionFlag(permissionDefItem.getKey());
-                    permissionBox.setValue(flag);
-                    permissionControlsMap.put(permissionDefItem.getKey(), permissionBox);
-                    crmFormHelper.addComponent(permissionBox, UserUIContext.getMessage(permissionDefItem.getCaption()), i % 2, i / 2);
-                }
-
                 permissionsPanel.addComponent(constructGridLayout(UserUIContext.getMessage(RoleI18nEnum.SECTION_PROJECT_MANAGEMENT_TITLE),
                         perMap, RolePermissionCollections.PROJECT_PERMISSION_ARR));
-                permissionsPanel.addComponent(constructGridLayout(UserUIContext.getMessage(RoleI18nEnum.SECTION_CRM_TITLE),
-                        perMap, RolePermissionCollections.CRM_PERMISSIONS_ARR));
-                permissionsPanel.addComponent(constructGridLayout(UserUIContext.getMessage(RoleI18nEnum.SECTION_DOCUMENT_TITLE),
-                        perMap, RolePermissionCollections.DOCUMENT_PERMISSION_ARR));
+
                 permissionsPanel.addComponent(constructGridLayout(UserUIContext.getMessage(RoleI18nEnum.SECTION_ACCOUNT_MANAGEMENT_TITLE),
                         perMap, RolePermissionCollections.ACCOUNT_PERMISSION_ARR));
 

@@ -36,6 +36,8 @@ import java.util.GregorianCalendar
 
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.tuple
+import java.time.LocalDate
+import java.time.LocalDateTime
 
 @RunWith(SpringJUnit4ClassRunner::class)
 class VersionServiceTest : IntegrationServiceTest() {
@@ -107,7 +109,7 @@ class VersionServiceTest : IntegrationServiceTest() {
     fun testSaveVersion() {
         val version = Version()
         version.projectid = 1
-        version.duedate = GregorianCalendar(2014, 10, 6).time
+        version.duedate = LocalDateTime.of(2014, 10, 6, 0, 0, 0)
         version.name = "sss"
         version.createduser = "hai79"
         version.saccountid = 1

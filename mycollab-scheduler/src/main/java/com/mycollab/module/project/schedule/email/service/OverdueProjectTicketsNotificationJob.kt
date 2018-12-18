@@ -19,7 +19,7 @@ package com.mycollab.module.project.schedule.email.service
 import com.hp.gagawa.java.elements.A
 import com.hp.gagawa.java.elements.Div
 import com.hp.gagawa.java.elements.Img
-import com.mycollab.common.FontAwesomeUtils
+import com.mycollab.common.FontIconUtils
 import com.mycollab.common.NotificationType
 import com.mycollab.common.domain.MailRecipientField
 import com.mycollab.common.i18n.MailI18nEnum
@@ -49,7 +49,6 @@ import com.mycollab.module.user.AccountLinkGenerator
 import com.mycollab.module.user.domain.SimpleUser
 import com.mycollab.schedule.jobs.GenericQuartzJobBean
 import com.mycollab.spring.AppContextUtil
-import org.joda.time.LocalDate
 import org.quartz.JobExecutionContext
 import org.quartz.JobExecutionException
 import org.slf4j.LoggerFactory
@@ -57,6 +56,8 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.config.BeanDefinition
 import org.springframework.context.annotation.Scope
 import org.springframework.stereotype.Component
+import java.time.LocalDate
+import java.time.LocalDateTime
 import java.util.*
 
 /**
@@ -92,9 +93,9 @@ class OverdueProjectTicketsNotificationJob : GenericQuartzJobBean() {
     override fun executeJob(context: JobExecutionContext) {
         val searchCriteria = ProjectTicketSearchCriteria()
         searchCriteria.saccountid = null
-        val now = LocalDate()
+        val now = LocalDate.now()
         val past = now.minusDays(10000)
-        val rangeDate = RangeDateSearchField(past.toDate(), now.toDate())
+        val rangeDate = RangeDateSearchField(past, now)
         searchCriteria.dateInRange = rangeDate
         searchCriteria.isOpenned = SearchField()
         val accounts = projectAssignmentService.getAccountsHasOverdueAssignments(searchCriteria)
@@ -103,7 +104,7 @@ class OverdueProjectTicketsNotificationJob : GenericQuartzJobBean() {
             contentGenerator.putVariable("logoPath", LinkUtils.accountLogoPath(account.id, account.logopath))
             val projectIds = projectAssignmentService.getProjectsHasOverdueAssignments(searchCriteria)
             for (projectId in projectIds) {
-                searchCriteria.projectIds = SetSearchField<Int>(projectId)
+                searchCriteria.projectIds = SetSearchField(projectId)
                 val siteUrl = deploymentMode.getSiteUrl(account.subdomain)
                 contentGenerator.putVariable("projectNotificationUrl", ProjectLinkGenerator.generateProjectSettingFullLink(siteUrl, projectId))
                 val assignments = projectAssignmentService.findAbsoluteListByCriteria(searchCriteria, 0, Integer.MAX_VALUE)
@@ -150,19 +151,18 @@ class OverdueProjectTicketsNotificationJob : GenericQuartzJobBean() {
         val LOG = LoggerFactory.getLogger(OverdueProjectTicketsNotificationJob::class.java)
 
         class OverdueAssignmentFormatter {
-            fun formatDate(date: Date?): String = DateTimeUtils.formatDate(date, "yyyy-MM-dd", Locale.US)
+            fun formatDate(date: LocalDateTime?): String = DateTimeUtils.formatDate(date, "yyyy-MM-dd", Locale.US)
 
             fun formatLink(siteUrl: String, assignment: ProjectTicket): String {
-                val mode = AppContextUtil.getSpringBean(IDeploymentMode::class.java)
                 try {
                     return when (assignment.type) {
-                        ProjectTypeConstants.BUG -> Div().appendText(FontAwesomeUtils.toHtml(ProjectTypeConstants.BUG)).appendChild(DivLessFormatter.EMPTY_SPACE, A(ProjectLinkGenerator.generateBugPreviewFullLink(siteUrl,
+                        ProjectTypeConstants.BUG -> Div().appendText(FontIconUtils.toHtml(ProjectTypeConstants.BUG)).appendChild(DivLessFormatter.EMPTY_SPACE, A(ProjectLinkGenerator.generateBugPreviewFullLink(siteUrl,
                                 assignment.extraTypeId, assignment.projectShortName)).appendText(assignment.name)).write()
-                        ProjectTypeConstants.TASK -> Div().appendText(FontAwesomeUtils.toHtml(ProjectTypeConstants.TASK)).appendChild(DivLessFormatter.EMPTY_SPACE, A(ProjectLinkGenerator.generateTaskPreviewFullLink(siteUrl,
+                        ProjectTypeConstants.TASK -> Div().appendText(FontIconUtils.toHtml(ProjectTypeConstants.TASK)).appendChild(DivLessFormatter.EMPTY_SPACE, A(ProjectLinkGenerator.generateTaskPreviewFullLink(siteUrl,
                                 assignment.extraTypeId, assignment.projectShortName)).appendText(assignment.name)).write()
-                        ProjectTypeConstants.RISK -> Div().appendText(FontAwesomeUtils.toHtml(ProjectTypeConstants.RISK)).appendChild(DivLessFormatter.EMPTY_SPACE, A(ProjectLinkGenerator.generateRiskPreviewFullLink(siteUrl,
+                        ProjectTypeConstants.RISK -> Div().appendText(FontIconUtils.toHtml(ProjectTypeConstants.RISK)).appendChild(DivLessFormatter.EMPTY_SPACE, A(ProjectLinkGenerator.generateRiskPreviewFullLink(siteUrl,
                                 assignment.projectId!!, assignment.typeId!!)).appendText(assignment.name)).write()
-                        ProjectTypeConstants.MILESTONE -> Div().appendText(FontAwesomeUtils.toHtml(ProjectTypeConstants.MILESTONE)).appendChild(DivLessFormatter.EMPTY_SPACE, A(ProjectLinkGenerator.generateMilestonePreviewFullLink(siteUrl,
+                        ProjectTypeConstants.MILESTONE -> Div().appendText(FontIconUtils.toHtml(ProjectTypeConstants.MILESTONE)).appendChild(DivLessFormatter.EMPTY_SPACE, A(ProjectLinkGenerator.generateMilestonePreviewFullLink(siteUrl,
                                 assignment.projectId!!, assignment.typeId!!)).appendText(assignment.name)).write()
                         else -> throw  MyCollabException("Do not support type $assignment.type")
                     }

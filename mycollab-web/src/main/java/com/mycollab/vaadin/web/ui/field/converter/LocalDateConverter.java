@@ -20,8 +20,8 @@ package com.mycollab.vaadin.web.ui.field.converter;
 import com.vaadin.data.Converter;
 import com.vaadin.data.Result;
 import com.vaadin.data.ValueContext;
-import org.joda.time.LocalDate;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 /**

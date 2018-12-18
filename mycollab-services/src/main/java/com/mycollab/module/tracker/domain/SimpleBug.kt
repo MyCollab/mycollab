@@ -25,6 +25,7 @@ import java.util.Date
 
 import com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum
 import com.mycollab.core.utils.StringUtils.isBlank
+import java.time.LocalDateTime
 
 /**
  * @author MyCollab Ltd.
@@ -71,10 +72,10 @@ class SimpleBug : BugWithBLOBs() {
     val isOverdue: Boolean
         get() = isOverdue(this)
 
-    val dueDateRoundPlusOne: Date?
+    val dueDateRoundPlusOne: LocalDateTime?
         get() {
             val value = duedate
-            return if (value != null) DateTimeUtils.subtractOrAddDayDuration(value, 1) else null
+            return if (value != null) value.plusDays(1) else null
         }
 
     enum class Field {
@@ -103,10 +104,9 @@ class SimpleBug : BugWithBLOBs() {
 
             return when {
                 bug.duedate != null -> {
-                    val today = Calendar.getInstance()
-                    today.set(Calendar.HOUR_OF_DAY, 0)
-                    val todayDate = today.time
-                    todayDate.after(bug.duedate)
+                    // TODO: today must be the 0:0 time
+                    val todayDate = LocalDateTime.now()
+                    todayDate.isAfter(bug.duedate)
                 }
                 else -> false
             }

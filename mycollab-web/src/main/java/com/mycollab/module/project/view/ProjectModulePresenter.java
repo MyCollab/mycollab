@@ -43,8 +43,7 @@ public class ProjectModulePresenter extends AbstractPresenter<ProjectModule> {
 
         String[] params = (String[]) data.getParams();
         if (params == null || params.length == 0) {
-            UserDashboardPresenter presenter = PresenterResolver.getPresenter(UserDashboardPresenter.class);
-            presenter.go(view, null);
+            view.gotoSubView("Dashboard");
         } else {
             ShellUrlResolver.ROOT.getSubResolver("project").handle(params);
         }

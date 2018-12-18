@@ -17,10 +17,12 @@
 package com.mycollab.core.utils;
 
 import net.objectlab.kit.datecalc.common.DateCalculator;
-import net.objectlab.kit.datecalc.joda.LocalDateKitCalculatorsFactory;
-import org.joda.time.LocalDate;
+import net.objectlab.kit.datecalc.jdk8.LocalDateKitCalculatorsFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.time.Duration;
+import java.time.LocalDate;
 
 /**
  * @author MyCollab Ltd
@@ -71,7 +73,7 @@ public class BusinessDayTimeUtils {
                 candidateDuration -=1;
                 end = calc1.getCurrentBusinessDate();
             }
-            long possibleDurations = (end.toDate().getTime() - start.toDate().getTime()) / DateTimeUtils.MILLISECONDS_IN_A_DAY;
+            long possibleDurations = Duration.between(end, start).toDays();
             int varDays = Math.round((possibleDurations + 1) / 2);
             calc1.setStartDate(start);
             LocalDate testDate;

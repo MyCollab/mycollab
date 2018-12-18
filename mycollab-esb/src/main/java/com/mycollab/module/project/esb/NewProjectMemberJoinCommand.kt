@@ -19,7 +19,7 @@ package com.mycollab.module.project.esb
 import com.google.common.eventbus.AllowConcurrentEvents
 import com.google.common.eventbus.Subscribe
 import com.hp.gagawa.java.elements.A
-import com.mycollab.common.FontAwesomeUtils
+import com.mycollab.common.FontIconUtils
 import com.mycollab.common.domain.MailRecipientField
 import com.mycollab.common.i18n.MailI18nEnum
 import com.mycollab.configuration.ApplicationConfiguration
@@ -85,7 +85,7 @@ class NewProjectMemberJoinCommand(private val billingAccountService: BillingAcco
 
         class Formatter {
             fun formatProjectLink(siteUrl: String, newMember: SimpleProjectMember): String =
-                    DivLessFormatter().appendText(FontAwesomeUtils.toHtml(ProjectTypeConstants.PROJECT)).appendChild(DivLessFormatter.EMPTY_SPACE, A(ProjectLinkGenerator.generateProjectFullLink(siteUrl,
+                    DivLessFormatter().appendText(FontIconUtils.toHtml(ProjectTypeConstants.PROJECT)).appendChild(DivLessFormatter.EMPTY_SPACE, A(ProjectLinkGenerator.generateProjectFullLink(siteUrl,
                             newMember.projectid)).appendText(newMember.projectName)).write()
 
 

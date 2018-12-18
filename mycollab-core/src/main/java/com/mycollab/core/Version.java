@@ -1,23 +1,22 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package com.mycollab.core;
 
-import org.joda.time.DateTime;
-
+import java.time.LocalDate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -26,15 +25,14 @@ import java.util.regex.Pattern;
  * @since 4.4.0
  */
 public class Version {
-    public static final String THEME_VERSION = "mycollab_20170210";
-    public static final String THEME_MOBILE_VERSION = "mycollab_20161111";
+    public static final String THEME_VERSION = "mycollab_20181214";
 
     public static String getVersion() {
-        return "6.0.0";
+        return "7.0.0";
     }
 
-    public static DateTime getReleasedDate() {
-        return new DateTime(2017, 5, 25, 0, 0, 0);
+    public static LocalDate getReleasedDate() {
+        return LocalDate.of(2017, 5, 25);
     }
 
     static int[] getVersionNumbers(String ver) {

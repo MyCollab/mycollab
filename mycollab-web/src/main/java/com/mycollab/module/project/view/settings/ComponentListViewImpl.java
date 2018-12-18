@@ -16,15 +16,20 @@
  */
 package com.mycollab.module.project.view.settings;
 
-import com.mycollab.common.GridFieldMeta;
+import com.mycollab.common.TableViewField;
 import com.mycollab.common.i18n.GenericI18Enum;
+import com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.mycollab.module.project.CurrentProjectVariables;
+import com.mycollab.module.project.ProjectLinkGenerator;
 import com.mycollab.module.project.ProjectRolePermissionCollections;
+import com.mycollab.module.project.ProjectTooltipGenerator;
 import com.mycollab.module.project.i18n.ComponentI18nEnum;
+import com.mycollab.module.project.view.settings.component.ProjectUserLink;
 import com.mycollab.module.tracker.domain.SimpleComponent;
 import com.mycollab.module.tracker.domain.criteria.ComponentSearchCriteria;
 import com.mycollab.module.tracker.service.ComponentService;
 import com.mycollab.spring.AppContextUtil;
+import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.event.HasMassItemActionHandler;
 import com.mycollab.vaadin.event.HasSearchHandlers;
@@ -33,29 +38,31 @@ import com.mycollab.vaadin.event.HasSelectionOptionHandlers;
 import com.mycollab.vaadin.mvp.AbstractVerticalPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.DefaultMassItemActionHandlerContainer;
-import com.mycollab.vaadin.web.ui.SelectionOptionButton;
-import com.mycollab.vaadin.web.ui.WebThemes;
-import com.mycollab.vaadin.web.ui.WebUIConstants;
-import com.mycollab.vaadin.web.ui.table.AbstractPagedGrid;
-import com.mycollab.vaadin.web.ui.table.DefaultPagedGrid;
+import com.mycollab.vaadin.ui.ELabel;
+import com.mycollab.vaadin.web.ui.*;
+import com.mycollab.vaadin.web.ui.table.AbstractPagedBeanTable;
+import com.mycollab.vaadin.web.ui.table.DefaultPagedBeanTable;
 import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.ui.*;
-import org.vaadin.viritin.layouts.MHorizontalLayout;
+import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.Label;
+import com.vaadin.ui.VerticalLayout;
+import org.vaadin.viritin.layouts.MCssLayout;
+import org.vaadin.viritin.layouts.MVerticalLayout;
 
 import java.util.Arrays;
+import java.util.HashSet;
 
 /**
  * @author MyCollab Ltd.
  * @since 1.0
  */
-// TODO
 @ViewComponent
 public class ComponentListViewImpl extends AbstractVerticalPageView implements ComponentListView {
     private static final long serialVersionUID = 1L;
 
     private ComponentSearchPanel componentSearchPanel;
     private SelectionOptionButton selectOptionButton;
-    private DefaultPagedGrid<ComponentService, ComponentSearchCriteria, SimpleComponent> tableItem;
+    private DefaultPagedBeanTable<ComponentService, ComponentSearchCriteria, SimpleComponent> tableItem;
     private VerticalLayout componentListLayout;
     private DefaultMassItemActionHandlerContainer tableActionControls;
     private Label selectedItemsNumberLabel = new Label();
@@ -66,63 +73,62 @@ public class ComponentListViewImpl extends AbstractVerticalPageView implements C
         this.componentSearchPanel = new ComponentSearchPanel();
         this.addComponent(this.componentSearchPanel);
 
-        componentListLayout = new VerticalLayout();
+        componentListLayout = new MVerticalLayout().withMargin(false).withSpacing(false);
         this.addComponent(componentListLayout);
 
         this.generateDisplayTable();
     }
 
     private void generateDisplayTable() {
-        tableItem = new DefaultPagedGrid<>(AppContextUtil.getSpringBean(ComponentService.class),
-                SimpleComponent.class, new GridFieldMeta(null, "selected", WebUIConstants.TABLE_CONTROL_WIDTH),
-                Arrays.asList(
-                        new GridFieldMeta(GenericI18Enum.FORM_NAME, "name", WebUIConstants.TABLE_EX_LABEL_WIDTH),
-                        new GridFieldMeta(ComponentI18nEnum.FORM_LEAD, "userLeadFullName", WebUIConstants.TABLE_X_LABEL_WIDTH),
-                        new GridFieldMeta(GenericI18Enum.FORM_STATUS, "status", WebUIConstants.TABLE_M_LABEL_WIDTH),
-                        new GridFieldMeta(GenericI18Enum.FORM_DESCRIPTION, "description", 500),
-                        new GridFieldMeta(GenericI18Enum.FORM_PROGRESS, "id", WebUIConstants.TABLE_M_LABEL_WIDTH)));
+        tableItem = new DefaultPagedBeanTable<>(AppContextUtil.getSpringBean(ComponentService.class),
+                SimpleComponent.class, new TableViewField(null, "selected", WebUIConstants.TABLE_CONTROL_WIDTH),
+                new HashSet<>(Arrays.asList(
+                        new TableViewField(GenericI18Enum.FORM_NAME, "name", WebUIConstants.TABLE_EX_LABEL_WIDTH),
+                        new TableViewField(ComponentI18nEnum.FORM_LEAD, "userLeadFullName", WebUIConstants.TABLE_X_LABEL_WIDTH),
+                        new TableViewField(GenericI18Enum.FORM_STATUS, "status", WebUIConstants.TABLE_M_LABEL_WIDTH),
+                        new TableViewField(GenericI18Enum.FORM_DESCRIPTION, "description", 500),
+                        new TableViewField(GenericI18Enum.FORM_PROGRESS, "id", WebUIConstants.TABLE_M_LABEL_WIDTH))));
 
-//        gridItem.addGeneratedColumn("selected", (source, itemId, columnId) -> {
-//            final SimpleComponent component = gridItem.getBeanByIndex(itemId);
-//            CheckBoxDecor cb = new CheckBoxDecor("", component.isSelected());
-//            cb.setImmediate(true);
-//            cb.addValueChangeListener(valueChangeEvent -> gridItem.fireSelectItemEvent(component));
-//            component.setExtraData(cb);
-//            return cb;
-//        });
-//
-//        gridItem.addGeneratedColumn("name", (source, itemId, columnId) -> {
-//            SimpleComponent bugComponent = gridItem.getBeanByIndex(itemId);
-//            LabelLink b = new LabelLink(bugComponent.getName(), ProjectLinkGenerator
-//                    .generateBugComponentPreviewLink(bugComponent.getProjectid(), bugComponent.getId()));
-//            if (bugComponent.getStatus() != null && bugComponent.getStatus().equals(StatusI18nEnum.Closed.name())) {
-//                b.addStyleName(WebThemes.LINK_COMPLETED);
-//            }
-//            b.setDescription(ProjectTooltipGenerator.generateToolTipComponent(UserUIContext.getUserLocale(),
-//                    bugComponent, AppUI.getSiteUrl(), UserUIContext.getUserTimeZone()));
-//            return b;
-//        });
+        tableItem.addGeneratedColumn("selected", (source, itemId, columnId) -> {
+            final SimpleComponent component = tableItem.getBeanByIndex(itemId);
+            CheckBoxDecor cb = new CheckBoxDecor("", component.isSelected());
+            cb.addValueChangeListener(valueChangeEvent -> tableItem.fireSelectItemEvent(component));
+            component.setExtraData(cb);
+            return cb;
+        });
 
-//        gridItem.addGeneratedColumn("userLeadFullName", (source, itemId, columnId) -> {
-//            SimpleComponent component = gridItem.getBeanByIndex(itemId);
-//            return new ProjectUserLink(component.getProjectid(), component.getUserlead(),
-//                    component.getUserLeadAvatarId(), component.getUserLeadFullName());
-//        });
-//
-//        gridItem.addGeneratedColumn("id", (source, itemId, columnId) -> {
-//            SimpleComponent bugComponent = gridItem.getBeanByIndex(itemId);
-//            return new ProgressBarIndicator(bugComponent.getNumBugs(), bugComponent.getNumOpenBugs(), false);
-//        });
-//
-//        gridItem.addGeneratedColumn("status", (source, itemId, columnId) -> {
-//            SimpleComponent bugComponent = gridItem.getBeanByIndex(itemId);
-//            return ELabel.i18n(bugComponent.getStatus(), StatusI18nEnum.class);
-//        });
-//
-//        gridItem.addGeneratedColumn("description", (source, itemId, columnId) -> {
-//            SimpleComponent version = gridItem.getBeanByIndex(itemId);
-//            return ELabel.richText(version.getDescription());
-//        });
+        tableItem.addGeneratedColumn("name", (source, itemId, columnId) -> {
+            SimpleComponent bugComponent = tableItem.getBeanByIndex(itemId);
+            LabelLink b = new LabelLink(bugComponent.getName(), ProjectLinkGenerator
+                    .generateBugComponentPreviewLink(bugComponent.getProjectid(), bugComponent.getId()));
+            if (bugComponent.getStatus() != null && bugComponent.getStatus().equals(StatusI18nEnum.Closed.name())) {
+                b.addStyleName(WebThemes.LINK_COMPLETED);
+            }
+            b.setDescription(ProjectTooltipGenerator.generateToolTipComponent(UserUIContext.getUserLocale(),
+                    bugComponent, AppUI.getSiteUrl(), UserUIContext.getUserTimeZone()));
+            return b;
+        });
+
+        tableItem.addGeneratedColumn("userLeadFullName", (source, itemId, columnId) -> {
+            SimpleComponent component = tableItem.getBeanByIndex(itemId);
+            return new ProjectUserLink(component.getProjectid(), component.getUserlead(),
+                    component.getUserLeadAvatarId(), component.getUserLeadFullName());
+        });
+
+        tableItem.addGeneratedColumn("id", (source, itemId, columnId) -> {
+            SimpleComponent bugComponent = tableItem.getBeanByIndex(itemId);
+            return new ProgressBarIndicator(bugComponent.getNumBugs(), bugComponent.getNumOpenBugs(), false);
+        });
+
+        tableItem.addGeneratedColumn("status", (source, itemId, columnId) -> {
+            SimpleComponent bugComponent = tableItem.getBeanByIndex(itemId);
+            return ELabel.i18n(bugComponent.getStatus(), StatusI18nEnum.class);
+        });
+
+        tableItem.addGeneratedColumn("description", (source, itemId, columnId) -> {
+            SimpleComponent version = tableItem.getBeanByIndex(itemId);
+            return ELabel.richText(version.getDescription());
+        });
 
         tableItem.setWidth("100%");
         componentListLayout.addComponent(constructTableActionControls());
@@ -135,15 +141,9 @@ public class ComponentListViewImpl extends AbstractVerticalPageView implements C
     }
 
     private ComponentContainer constructTableActionControls() {
-        final CssLayout layoutWrapper = new CssLayout();
-        layoutWrapper.setWidth("100%");
+        MCssLayout layout = new MCssLayout().withStyleName(WebThemes.TABLE_ACTION_CONTROLS).withFullWidth();
 
-        MHorizontalLayout layout = new MHorizontalLayout();
-        layoutWrapper.addStyleName(WebThemes.TABLE_ACTION_CONTROLS);
-        layoutWrapper.addComponent(layout);
-
-        this.selectOptionButton = new SelectionOptionButton(tableItem);
-        layout.addComponent(this.selectOptionButton);
+        selectOptionButton = new SelectionOptionButton(tableItem);
 
         tableActionControls = new DefaultMassItemActionHandlerContainer();
         if (CurrentProjectVariables.canAccess(ProjectRolePermissionCollections.COMPONENTS)) {
@@ -155,9 +155,8 @@ public class ComponentListViewImpl extends AbstractVerticalPageView implements C
         tableActionControls.addDownloadExcelActionItem();
         tableActionControls.addDownloadCsvActionItem();
 
-        layout.with(tableActionControls, selectedItemsNumberLabel)
-                .withAlign(selectedItemsNumberLabel, Alignment.MIDDLE_CENTER);
-        return layoutWrapper;
+        layout.add(selectOptionButton, tableActionControls, selectedItemsNumberLabel);
+        return layout;
     }
 
     @Override
@@ -196,7 +195,7 @@ public class ComponentListViewImpl extends AbstractVerticalPageView implements C
     }
 
     @Override
-    public AbstractPagedGrid<ComponentSearchCriteria, SimpleComponent> getPagedBeanGrid() {
+    public AbstractPagedBeanTable<ComponentSearchCriteria, SimpleComponent> getPagedBeanGrid() {
         return tableItem;
     }
 }

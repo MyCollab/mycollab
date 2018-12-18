@@ -47,6 +47,7 @@ import org.apache.ibatis.session.RowBounds
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.time.LocalDateTime
 import java.util.*
 
 /**
@@ -131,8 +132,8 @@ class UserServiceDBImpl(private val userMapper: UserMapper,
         }
 
         userAccount.username = record.username
-        userAccount.registeredtime = GregorianCalendar().time
-        userAccount.lastaccessedtime = GregorianCalendar().time
+        userAccount.registeredtime = LocalDateTime.now()
+        userAccount.lastaccessedtime = LocalDateTime.now()
         userAccount.registerstatus = RegisterStatusConstants.NOT_LOG_IN_YET
         userAccount.inviteuser = inviteUser
 
@@ -215,7 +216,7 @@ class UserServiceDBImpl(private val userMapper: UserMapper,
             }
 
             userAccount.registerstatus = record.registerstatus
-            userAccount.lastaccessedtime = GregorianCalendar().time
+            userAccount.lastaccessedtime = LocalDateTime.now()
             userAccountMapper.updateByPrimaryKey(userAccount)
         }
     }

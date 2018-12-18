@@ -16,7 +16,7 @@
  */
 package com.mycollab.module.project.ui.components
 
-import com.mycollab.common.GridFieldMeta
+import com.mycollab.common.TableViewField
 import com.mycollab.common.i18n.GenericI18Enum
 import com.mycollab.vaadin.web.ui.WebUIConstants
 
@@ -25,9 +25,9 @@ import com.mycollab.vaadin.web.ui.WebUIConstants
  * @since 4.0
  */
 object GenericTaskTableFieldDef {
-    @JvmField val name = GridFieldMeta(GenericI18Enum.FORM_DESCRIPTION, "name",
+    @JvmField val name = TableViewField(GenericI18Enum.FORM_DESCRIPTION, "name",
             WebUIConstants.TABLE_EX_LABEL_WIDTH)
 
-    @JvmField val assignUser = GridFieldMeta(GenericI18Enum.FORM_ASSIGNEE,
+    @JvmField val assignUser = TableViewField(GenericI18Enum.FORM_ASSIGNEE,
             "assignUser", WebUIConstants.TABLE_EX_LABEL_WIDTH)
 }

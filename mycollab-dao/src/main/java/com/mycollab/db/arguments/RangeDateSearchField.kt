@@ -16,7 +16,7 @@
  */
 package com.mycollab.db.arguments
 
-import java.util.Date
+import java.time.LocalDate
 
 /**
  * @author MyCollab Ltd.
@@ -24,14 +24,14 @@ import java.util.Date
  */
 class RangeDateSearchField : SearchField {
 
-    var from: Date? = null
-    var to: Date? = null
+    var from: LocalDate? = null
+    var to: LocalDate? = null
 
     constructor()
 
-    constructor(from: Date, to: Date) : this(SearchField.AND, from, to)
+    constructor(from: LocalDate, to: LocalDate) : this(SearchField.AND, from, to)
 
-    constructor(oper: String, from: Date, to: Date) {
+    constructor(oper: String, from: LocalDate, to: LocalDate) {
         this.operation = oper
         this.from = from
         this.to = to

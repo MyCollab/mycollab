@@ -23,42 +23,54 @@ import com.mycollab.module.user.domain.criteria.RoleSearchCriteria;
 import com.mycollab.module.user.service.RoleService;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.UserUIContext;
+import com.vaadin.data.Converter;
+import com.vaadin.data.Result;
+import com.vaadin.data.ValueContext;
 import com.vaadin.ui.ComboBox;
+import com.vaadin.ui.ItemCaptionGenerator;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author MyCollab Ltd.
  * @since 1.0
  */
-// TODO
-public class RoleComboBox extends ComboBox {
+public class RoleComboBox extends ComboBox implements Converter<SimpleRole, Integer> {
     private static final long serialVersionUID = 1L;
 
-    public RoleComboBox() {
-//        this.setEmptySelectionAllowed(false);
-//        this.setItemCaptionMode(ItemCaptionMode.PROPERTY);
+    private List<SimpleRole> roles;
 
+    public RoleComboBox() {
         RoleSearchCriteria criteria = new RoleSearchCriteria();
 
         RoleService roleService = AppContextUtil.getSpringBean(RoleService.class);
-        List<SimpleRole> roles = (List<SimpleRole>) roleService.findPageableListByCriteria(new BasicSearchRequest<>(criteria));
-
-//        BeanContainer<String, SimpleRole> beanItem = new BeanContainer<>(SimpleRole.class);
-//        beanItem.setBeanIdProperty("id");
-//        this.setContainerDataSource(beanItem);
-//        this.setItemCaptionPropertyId("rolename");
+        roles = (List<SimpleRole>) roleService.findPageableListByCriteria(new BasicSearchRequest<>(criteria));
 
         SimpleRole ownerRole = new SimpleRole();
         ownerRole.setId(-1);
         ownerRole.setRolename(UserUIContext.getMessage(RoleI18nEnum.OPT_ACCOUNT_OWNER));
-//        beanItem.addBean(ownerRole);
+        roles.add(ownerRole);
+
+        setItems(roles);
+        setItemCaptionGenerator((ItemCaptionGenerator<SimpleRole>) role -> role.getRolename());
 
         roles.forEach(role -> {
-//            beanItem.addBean(role);
             if (Boolean.TRUE.equals(role.getIsdefault())) {
-                this.setValue(role.getId());
+                this.setValue(role);
+                return;
             }
         });
+    }
+
+    @Override
+    public Result<Integer> convertToModel(SimpleRole simpleRole, ValueContext valueContext) {
+        return Result.ok(simpleRole.getId());
+    }
+
+    @Override
+    public SimpleRole convertToPresentation(Integer id, ValueContext valueContext) {
+        Optional<SimpleRole> result = roles.stream().filter(role -> role.getId() == id).findFirst();
+        return result.get();
     }
 }

@@ -1,10 +1,8 @@
 package com.mycollab.configuration;
 
 import com.mycollab.spring.AppContextUtil;
-import org.joda.time.DateTimeZone;
 
 import java.util.Locale;
-import java.util.TimeZone;
 
 import static com.mycollab.configuration.ApplicationProperties.*;
 
@@ -23,8 +21,6 @@ public class SiteConfiguration {
     private String dropboxCallbackUrl;
 
     public static void loadConfiguration() {
-        TimeZone.setDefault(DateTimeZone.UTC.toTimeZone());
-        DateTimeZone.setDefault(DateTimeZone.UTC);
         ApplicationProperties.loadProps();
         instance = new SiteConfiguration();
 

@@ -25,6 +25,7 @@ import java.util.*
  * @author MyCollab Ltd.
  * @since 5.0.3
  */
+@FunctionalInterface
 interface ApplicationEventListener<in ApplicationEvent> : EventListener {
     /**
      * Handles the given application event.

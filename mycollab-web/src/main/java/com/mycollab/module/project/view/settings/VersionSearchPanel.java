@@ -28,7 +28,7 @@ import com.mycollab.module.project.ui.components.ComponentUtils;
 import com.mycollab.module.tracker.domain.criteria.VersionSearchCriteria;
 import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.vaadin.UserUIContext;
-import com.mycollab.vaadin.ui.HeaderWithFontAwesome;
+import com.mycollab.vaadin.ui.HeaderWithIcon;
 import com.mycollab.vaadin.web.ui.*;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.icons.VaadinIcons;
@@ -55,7 +55,7 @@ public class VersionSearchPanel extends DefaultGenericSearchPanel<VersionSearchC
     }
 
     @Override
-    protected HeaderWithFontAwesome buildSearchTitle() {
+    protected HeaderWithIcon buildSearchTitle() {
         return ComponentUtils.headerH2(ProjectTypeConstants.BUG_VERSION, UserUIContext.getMessage(VersionI18nEnum.LIST));
     }
 

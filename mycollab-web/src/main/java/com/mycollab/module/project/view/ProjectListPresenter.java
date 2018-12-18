@@ -52,10 +52,6 @@ public class ProjectListPresenter extends ListSelectionPresenter<ProjectListView
         super.viewAttached();
 
         view.getPopupActionHandlers().setMassActionHandler(new DefaultMassEditActionHandler(this) {
-            @Override
-            protected void onSelectExtra(String id) {
-
-            }
 
             @Override
             protected String getReportTitle() {
@@ -71,9 +67,8 @@ public class ProjectListPresenter extends ListSelectionPresenter<ProjectListView
 
     @Override
     protected void onGo(HasComponents container, ScreenData<?> data) {
-        ComponentContainer componentContainer = (ComponentContainer) container;
-        componentContainer.removeAllComponents();
-        componentContainer.addComponent(view);
+        ProjectModule projectModule = (ProjectModule) container;
+        projectModule.gotoSubView("Projects");
         ProjectSearchCriteria searchCriteria = new ProjectSearchCriteria();
         doSearch(searchCriteria);
     }

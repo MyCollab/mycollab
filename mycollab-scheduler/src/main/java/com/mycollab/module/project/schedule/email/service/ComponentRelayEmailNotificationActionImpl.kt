@@ -134,7 +134,7 @@ class ComponentRelayEmailNotificationActionImpl : SendMailToAllMembersAction<Sim
                 val img = FormatUtils.newImg("avatar", userAvatarLink)
                 val userLink = AccountLinkGenerator.generatePreviewFullUserLink(MailUtils.getSiteUrl(component.saccountid),
                         component.userlead)
-                val link = FormatUtils.newA(userLink, component.userLeadFullName)
+                val link = FormatUtils.newA(userLink, component.userLeadFullName!!)
                 FormatUtils.newLink(img, link).write()
             } else Span().write()
         }

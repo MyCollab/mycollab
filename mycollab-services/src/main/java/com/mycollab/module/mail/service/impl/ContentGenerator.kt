@@ -22,12 +22,12 @@ import com.mycollab.module.file.service.AbstractStorageService
 import com.mycollab.module.mail.service.IContentGenerator
 import com.mycollab.schedule.email.MailStyles
 import freemarker.template.Configuration
-import org.joda.time.LocalDate
 import org.springframework.beans.factory.InitializingBean
 import org.springframework.beans.factory.config.BeanDefinition
 import org.springframework.context.annotation.Scope
 import org.springframework.stereotype.Component
 import java.io.StringWriter
+import java.time.LocalDate
 import java.util.*
 
 /**
@@ -37,9 +37,9 @@ import java.util.*
 @Component
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
 class ContentGenerator(private val applicationConfiguration: ApplicationConfiguration,
-                            private val deploymentMode: IDeploymentMode,
-                            private val templateEngine: Configuration,
-                            private val storageFactory: AbstractStorageService) : IContentGenerator, InitializingBean {
+                       private val deploymentMode: IDeploymentMode,
+                       private val templateEngine: Configuration,
+                       private val storageFactory: AbstractStorageService) : IContentGenerator, InitializingBean {
     private val templateContext = mutableMapOf<String, Any>()
 
     @Throws(Exception::class)
@@ -51,7 +51,7 @@ class ContentGenerator(private val applicationConfiguration: ApplicationConfigur
                 "linkedin_url" to (applicationConfiguration.linkedinUrl ?: ""),
                 "twitter_url" to (applicationConfiguration.twitterUrl ?: ""))
         putVariable("defaultUrls", defaultUrls)
-        putVariable("current_year", LocalDate().year)
+        putVariable("current_year", LocalDate.now().year)
         putVariable("siteName", applicationConfiguration.siteName)
         putVariable("styles", MailStyles.instance())
 

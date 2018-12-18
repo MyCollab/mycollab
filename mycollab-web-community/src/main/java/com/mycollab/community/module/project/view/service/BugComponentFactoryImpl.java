@@ -32,7 +32,6 @@ import com.mycollab.module.tracker.domain.SimpleBug;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.icons.VaadinIcons;
-import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.AbstractComponent;
 import org.springframework.stereotype.Service;
 
@@ -87,7 +86,7 @@ public class BugComponentFactoryImpl implements BugComponentFactory {
 
     @Override
     public AbstractComponent createStatusPopupField(SimpleBug bug) {
-        return new MetaFieldBuilder().withCaptionAndIcon(FontAwesome.INFO_CIRCLE, UserUIContext.getMessage(StatusI18nEnum
+        return new MetaFieldBuilder().withCaptionAndIcon(VaadinIcons.INFO_CIRCLE, UserUIContext.getMessage(StatusI18nEnum
                 .class, bug.getStatus())).withDescription(UserUIContext.getMessage(GenericI18Enum.FORM_STATUS)).build();
     }
 
@@ -95,12 +94,12 @@ public class BugComponentFactoryImpl implements BugComponentFactory {
     public AbstractComponent createDeadlinePopupField(SimpleBug bug) {
         if (bug.getDueDateRoundPlusOne() == null) {
             Div divHint = new Div().setCSSClass("nonValue");
-            divHint.appendText(FontAwesome.CLOCK_O.getHtml());
+            divHint.appendText(VaadinIcons.CLOCK.getHtml());
             divHint.appendChild(new Span().appendText(UserUIContext.getMessage(GenericI18Enum.OPT_UNDEFINED)).setCSSClass("hide"));
             return new MetaFieldBuilder().withCaption(divHint.write()).withDescription(UserUIContext.getMessage
                     (GenericI18Enum.FORM_DUE_DATE)).build();
         } else {
-            return new MetaFieldBuilder().withCaption(String.format("%s %s", FontAwesome.CLOCK_O.getHtml(),
+            return new MetaFieldBuilder().withCaption(String.format("%s %s", VaadinIcons.CLOCK.getHtml(),
                     UserUIContext.formatPrettyTime(bug.getDueDateRoundPlusOne()))).withDescription(UserUIContext.getMessage
                     (GenericI18Enum.FORM_DUE_DATE)).build();
         }
@@ -138,7 +137,7 @@ public class BugComponentFactoryImpl implements BugComponentFactory {
 
     @Override
     public AbstractComponent createBillableHoursPopupField(SimpleBug bug) {
-        return new MetaFieldBuilder().withCaptionAndIcon(FontAwesome.MONEY, "" + bug.getBillableHours())
+        return new MetaFieldBuilder().withCaptionAndIcon(VaadinIcons.MONEY, "" + bug.getBillableHours())
                 .withDescription(UserUIContext.getMessage(TimeTrackingI18nEnum.OPT_BILLABLE_HOURS)).build();
     }
 
@@ -150,7 +149,7 @@ public class BugComponentFactoryImpl implements BugComponentFactory {
 
     @Override
     public AbstractComponent createFollowersPopupField(SimpleBug bug) {
-        return new MetaFieldBuilder().withCaptionAndIcon(FontAwesome.EYE, "" + bug.getNumFollowers())
+        return new MetaFieldBuilder().withCaptionAndIcon(VaadinIcons.EYE, "" + bug.getNumFollowers())
                 .withDescription(UserUIContext.getMessage(FollowerI18nEnum.OPT_SUB_INFO_WATCHERS)).build();
     }
 }

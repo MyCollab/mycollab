@@ -41,7 +41,6 @@ import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.ui.UserAvatarControlFactory;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.icons.VaadinIcons;
-import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
@@ -53,8 +52,8 @@ import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
 import java.lang.reflect.InvocationTargetException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 /**
@@ -96,7 +95,7 @@ public class ProjectFollowersComp<V extends ValuedBean> extends MVerticalLayout 
 
         MHorizontalLayout header = new MHorizontalLayout().withStyleName("info-hdr");
         header.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
-        Label followerHeader = new Label(FontAwesome.EYE.getHtml() + " " +
+        Label followerHeader = new Label(VaadinIcons.EYE.getHtml() + " " +
                 UserUIContext.getMessage(FollowerI18nEnum.OPT_SUB_INFO_WATCHERS), ContentMode.HTML);
         header.addComponent(followerHeader);
 
@@ -210,7 +209,7 @@ public class ProjectFollowersComp<V extends ValuedBean> extends MVerticalLayout 
             for (SimpleProjectMember member : unsavedMembers) {
                 MonitorItem item = new MonitorItem();
                 item.setExtratypeid(CurrentProjectVariables.getProjectId());
-                item.setMonitorDate(new GregorianCalendar().getTime());
+                item.setMonitorDate(LocalDateTime.now());
                 item.setSaccountid(AppUI.getAccountId());
                 item.setType(type);
                 item.setTypeid(typeId);

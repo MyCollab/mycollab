@@ -189,9 +189,6 @@ object CurrentProjectVariables {
     fun hasPageFeature(): Boolean = features.displaypage!!
 
     @JvmStatic
-    fun hasFileFeature(): Boolean = features.displayfile!!
-
-    @JvmStatic
     fun hasTimeFeature(): Boolean = features.displaytimelogging!!
 
     @JvmStatic

@@ -17,6 +17,8 @@
 package com.mycollab.module.project.domain
 
 import java.io.Serializable
+import java.time.LocalDate
+import java.time.LocalDateTime
 import java.util.Date
 
 /**
@@ -37,7 +39,7 @@ class FollowingTicket : Serializable {
 
     var status: String? = null
 
-    var dueDate: Date? = null
+    var dueDate: LocalDate? = null
 
     var assignUser: String? = null
 
@@ -45,5 +47,5 @@ class FollowingTicket : Serializable {
 
     var assignUserFullName: String? = null
 
-    var monitorDate: Date? = null
+    var monitorDate: LocalDateTime? = null
 }

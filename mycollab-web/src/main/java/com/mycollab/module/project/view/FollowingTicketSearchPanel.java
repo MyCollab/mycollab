@@ -31,7 +31,7 @@ import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.UserUIContext;
-import com.mycollab.vaadin.ui.HeaderWithFontAwesome;
+import com.mycollab.vaadin.ui.HeaderWithIcon;
 import com.mycollab.vaadin.web.ui.BasicSearchLayout;
 import com.mycollab.vaadin.web.ui.DefaultGenericSearchPanel;
 import com.mycollab.vaadin.web.ui.SearchLayout;
@@ -61,7 +61,7 @@ public class FollowingTicketSearchPanel extends DefaultGenericSearchPanel<Follow
     private List<SimpleProject> projects;
 
     @Override
-    protected HeaderWithFontAwesome buildSearchTitle() {
+    protected HeaderWithIcon buildSearchTitle() {
         return null;
     }
 

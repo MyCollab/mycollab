@@ -18,6 +18,7 @@ package com.mycollab.module.user.domain.criteria
 
 import com.mycollab.core.utils.DateTimeUtils
 import com.mycollab.db.arguments.*
+import java.time.LocalDateTime
 
 import java.util.Date
 import java.util.Locale
@@ -35,7 +36,7 @@ class UserSearchCriteria : SearchCriteria() {
     var statuses: SetSearchField<String>? = null
 
     // @NOTE: Only works with method find... not getTotalCount(...)
-    fun setLastAccessTimeRange(from: Date, to: Date) {
+    fun setLastAccessTimeRange(from: LocalDateTime, to: LocalDateTime) {
         val expr = "s_user_account.lastAccessedTime >= '${DateTimeUtils.formatDate(from, "yyyy-MM-dd", Locale.US)}' AND s_user_account.lastAccessedTime <='${DateTimeUtils.formatDate(to, "yyyy-MM-dd", Locale.US)}'"
         val searchField = NoValueSearchField(SearchField.AND, expr)
         this.addExtraField(searchField)

@@ -16,7 +16,7 @@
  */
 package com.mycollab.module.project.fielddef
 
-import com.mycollab.common.GridFieldMeta
+import com.mycollab.common.TableViewField
 import com.mycollab.common.i18n.GenericI18Enum
 import com.mycollab.module.project.domain.Milestone
 import com.mycollab.module.project.domain.SimpleMilestone
@@ -29,26 +29,26 @@ import com.mycollab.vaadin.web.ui.WebUIConstants
  */
 object MilestoneTableFieldDef {
     @JvmField
-    val id = GridFieldMeta(GenericI18Enum.FORM_PROGRESS, Milestone.Field.id.name, WebUIConstants.TABLE_M_LABEL_WIDTH)
+    val id = TableViewField(GenericI18Enum.FORM_PROGRESS, Milestone.Field.id.name, WebUIConstants.TABLE_M_LABEL_WIDTH)
 
     @JvmField
-    val milestoneName = GridFieldMeta(GenericI18Enum.FORM_NAME, Milestone.Field.name.name, WebUIConstants.TABLE_X_LABEL_WIDTH)
+    val milestoneName = TableViewField(GenericI18Enum.FORM_NAME, Milestone.Field.name.name, WebUIConstants.TABLE_X_LABEL_WIDTH)
 
     @JvmField
-    val status = GridFieldMeta(GenericI18Enum.FORM_STATUS, Milestone.Field.status.name, WebUIConstants.TABLE_M_LABEL_WIDTH)
+    val status = TableViewField(GenericI18Enum.FORM_STATUS, Milestone.Field.status.name, WebUIConstants.TABLE_M_LABEL_WIDTH)
 
     @JvmField
-    val startDate = GridFieldMeta(GenericI18Enum.FORM_START_DATE, Milestone.Field.startdate.name, WebUIConstants.TABLE_DATE_WIDTH)
+    val startDate = TableViewField(GenericI18Enum.FORM_START_DATE, Milestone.Field.startdate.name, WebUIConstants.TABLE_DATE_WIDTH)
 
     @JvmField
-    val endDate = GridFieldMeta(GenericI18Enum.FORM_END_DATE, Milestone.Field.enddate.name, WebUIConstants.TABLE_DATE_WIDTH)
+    val endDate = TableViewField(GenericI18Enum.FORM_END_DATE, Milestone.Field.enddate.name, WebUIConstants.TABLE_DATE_WIDTH)
 
     @JvmField
-    val assignee = GridFieldMeta(GenericI18Enum.FORM_ASSIGNEE, SimpleMilestone.Field.ownerFullName.name, WebUIConstants.TABLE_M_LABEL_WIDTH)
+    val assignee = TableViewField(GenericI18Enum.FORM_ASSIGNEE, SimpleMilestone.Field.ownerFullName.name, WebUIConstants.TABLE_M_LABEL_WIDTH)
 
     @JvmField
-    val billableHours = GridFieldMeta(TimeTrackingI18nEnum.OPT_BILLABLE_HOURS, "totalBillableHours", WebUIConstants.TABLE_X_LABEL_WIDTH)
+    val billableHours = TableViewField(TimeTrackingI18nEnum.OPT_BILLABLE_HOURS, "totalBillableHours", WebUIConstants.TABLE_X_LABEL_WIDTH)
 
     @JvmField
-    val nonBillableHours = GridFieldMeta(TimeTrackingI18nEnum.OPT_NON_BILLABLE_HOURS, "totalNonBillableHours", WebUIConstants.TABLE_X_LABEL_WIDTH)
+    val nonBillableHours = TableViewField(TimeTrackingI18nEnum.OPT_NON_BILLABLE_HOURS, "totalNonBillableHours", WebUIConstants.TABLE_X_LABEL_WIDTH)
 }

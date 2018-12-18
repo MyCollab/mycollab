@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -49,7 +49,6 @@ import com.mycollab.vaadin.ui.*;
 import com.mycollab.vaadin.web.ui.*;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.icons.VaadinIcons;
-import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import org.apache.commons.collections.CollectionUtils;
@@ -58,7 +57,7 @@ import org.vaadin.viritin.fields.MTextField;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
-import java.util.GregorianCalendar;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -195,7 +194,7 @@ public class MessageListViewImpl extends AbstractVerticalPageView implements Mes
                 Label attachmentCountLbl = new Label(Integer.toString(attachments.size()));
                 attachmentCountLbl.setSizeUndefined();
                 attachmentNotification.addComponent(attachmentCountLbl);
-                Button attachmentIcon = new Button(FontAwesome.PAPERCLIP);
+                Button attachmentIcon = new Button(VaadinIcons.PAPERCLIP);
                 attachmentIcon.addStyleName(WebThemes.BUTTON_ICON_ONLY);
                 attachmentNotification.addComponent(attachmentIcon);
                 notification.addComponent(attachmentNotification);
@@ -291,7 +290,7 @@ public class MessageListViewImpl extends AbstractVerticalPageView implements Mes
             MButton saveBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_POST), clickEvent -> {
                 Message message = new Message();
                 message.setProjectid(CurrentProjectVariables.getProjectId());
-                message.setPosteddate(new GregorianCalendar().getTime());
+                message.setPosteddate(LocalDateTime.now());
                 if (!titleField.getValue().trim().equals("")) {
                     message.setTitle(titleField.getValue());
                     message.setMessage(ckEditorTextField.getValue());

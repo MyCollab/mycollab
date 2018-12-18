@@ -158,10 +158,6 @@ object ProjectLinkGenerator {
             "$siteUrl${generateBugPreviewLink(bugKey, prjShortName)}"
 
     @JvmStatic
-    fun generateFileDashboardLink(projectId: Int): String =
-            "${URL_PREFIX_PARAM}project/file/dashboard/${UrlEncodeDecoder.encode(projectId)}"
-
-    @JvmStatic
     fun generateTimeReportLink(projectId: Int): String =
             "${URL_PREFIX_PARAM}project/time/list/${UrlEncodeDecoder.encode(projectId)}"
 

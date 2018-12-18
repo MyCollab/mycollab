@@ -23,7 +23,7 @@ import com.mycollab.common.domain.OptionVal
 import com.mycollab.common.domain.OptionValExample
 import com.mycollab.module.esb.GenericCommand
 import org.springframework.stereotype.Component
-import java.util.*
+import java.time.LocalDateTime
 
 /**
  * @author MyCollab Ltd
@@ -41,7 +41,7 @@ class AddProjectCommand(private val optionValMapper: OptionValMapper) : GenericC
         val defaultOptions = optionValMapper.selectByExample(ex)
         defaultOptions.forEach {
             val prjOption = OptionVal()
-            prjOption.createdtime = GregorianCalendar().time
+            prjOption.createdtime = LocalDateTime.now()
             prjOption.description = it.description
             prjOption.extraid = event.projectId
             prjOption.isdefault = false

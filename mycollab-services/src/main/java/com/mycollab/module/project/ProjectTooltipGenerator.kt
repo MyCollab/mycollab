@@ -43,6 +43,7 @@ import com.mycollab.module.user.AccountLinkGenerator
 import com.mycollab.spring.AppContextUtil
 import org.jsoup.Jsoup
 import org.slf4j.LoggerFactory
+import java.time.ZoneId
 import java.util.*
 
 /**
@@ -67,7 +68,7 @@ object ProjectTooltipGenerator {
     }
 
     @JvmStatic
-    fun generateTooltipEntity(locale: Locale, dateFormat: String, type: String, typeId: Int, sAccountId: Int, siteUrl: String, timeZone: TimeZone, showProject: Boolean): String? {
+    fun generateTooltipEntity(locale: Locale, dateFormat: String, type: String, typeId: Int, sAccountId: Int, siteUrl: String, timeZone: ZoneId, showProject: Boolean): String? {
         return when (type) {
             ProjectTypeConstants.BUG -> {
                 val bugService = AppContextUtil.getSpringBean(BugService::class.java)
@@ -95,7 +96,7 @@ object ProjectTooltipGenerator {
 
     @JvmStatic
     fun generateToolTipTask(locale: Locale, dateFormat: String, task: SimpleTask?, siteURL: String,
-                            timeZone: TimeZone, showProject: Boolean): String? {
+                            timeZone: ZoneId, showProject: Boolean): String? {
         if (task == null) {
             return generateToolTipNull(locale)
         }
@@ -166,7 +167,7 @@ object ProjectTooltipGenerator {
     }
 
     @JvmStatic
-    fun generateToolTipBug(locale: Locale, dateFormat: String, bug: SimpleBug?, siteURL: String, timeZone: TimeZone, showProject: Boolean): String? {
+    fun generateToolTipBug(locale: Locale, dateFormat: String, bug: SimpleBug?, siteURL: String, timeZone: ZoneId, showProject: Boolean): String? {
         if (bug == null) {
             return generateToolTipNull(locale)
         }
@@ -251,7 +252,7 @@ object ProjectTooltipGenerator {
 
     @JvmStatic
     fun generateToolTipRisk(locale: Locale, dateFormat: String, risk: SimpleRisk?, siteURL: String,
-                            timeZone: TimeZone, showProject: Boolean): String? {
+                            timeZone: ZoneId, showProject: Boolean): String? {
         if (risk == null)
             return generateToolTipNull(locale)
         try {
@@ -334,7 +335,7 @@ object ProjectTooltipGenerator {
 
     @JvmStatic
     fun generateToolTipVersion(locale: Locale, dateFormat: String, version: Version?, siteURL: String,
-                               timeZone: TimeZone): String? {
+                               timeZone: ZoneId): String? {
         if (version == null)
             return generateToolTipNull(locale)
         try {
@@ -366,7 +367,7 @@ object ProjectTooltipGenerator {
     }
 
     @JvmStatic
-    fun generateToolTipComponent(locale: Locale, component: SimpleComponent?, siteURL: String, timeZone: TimeZone): String? {
+    fun generateToolTipComponent(locale: Locale, component: SimpleComponent?, siteURL: String, timeZone: ZoneId): String? {
         if (component == null)
             return generateToolTipNull(locale)
 
@@ -402,7 +403,7 @@ object ProjectTooltipGenerator {
     }
 
     @JvmStatic
-    fun generateToolTipProject(locale: Locale, dateFormat: String, project: SimpleProject?, siteURL: String, timeZone: TimeZone): String? {
+    fun generateToolTipProject(locale: Locale, dateFormat: String, project: SimpleProject?, siteURL: String, timeZone: ZoneId): String? {
         if (project == null)
             return generateToolTipNull(locale)
 
@@ -462,7 +463,7 @@ object ProjectTooltipGenerator {
 
     @JvmStatic
     fun generateToolTipMilestone(locale: Locale, dateFormat: String, milestone: SimpleMilestone?, siteURL: String,
-                                 timeZone: TimeZone, showProject: Boolean): String? {
+                                 timeZone: ZoneId, showProject: Boolean): String? {
         if (milestone == null)
             return generateToolTipNull(locale)
 
@@ -514,7 +515,7 @@ object ProjectTooltipGenerator {
     }
 
     @JvmStatic
-    fun generateToolTipStandUp(locale: Locale, dateFormat: String, standup: SimpleStandupReport?, siteURL: String, timeZone: TimeZone): String? {
+    fun generateToolTipStandUp(locale: Locale, dateFormat: String, standup: SimpleStandupReport?, siteURL: String, timeZone: ZoneId): String? {
         if (standup == null)
             return generateToolTipNull(locale)
 
@@ -559,7 +560,7 @@ object ProjectTooltipGenerator {
     }
 
     @JvmStatic
-    fun generateToolTipPage(locale: Locale, page: Page?, siteURL: String, timeZone: TimeZone): String? {
+    fun generateToolTipPage(locale: Locale, page: Page?, siteURL: String, timeZone: ZoneId): String? {
         if (page == null)
             return generateToolTipNull(locale)
 
@@ -583,7 +584,7 @@ object ProjectTooltipGenerator {
     }
 
     @JvmStatic
-    fun generateToolTipMessage(locale: Locale, message: SimpleMessage?, siteURL: String, timeZone: TimeZone): String? {
+    fun generateToolTipMessage(locale: Locale, message: SimpleMessage?, siteURL: String, timeZone: ZoneId): String? {
         if (message == null)
             return generateToolTipNull(locale)
 

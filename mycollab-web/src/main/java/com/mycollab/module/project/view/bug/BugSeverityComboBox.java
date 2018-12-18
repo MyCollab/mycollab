@@ -32,13 +32,13 @@ public class BugSeverityComboBox extends I18nValueComboBox {
 
     public BugSeverityComboBox() {
         super(BugSeverity.class, OptionI18nEnum.bug_severities);
-        setItemIconGenerator((IconGenerator<BugSeverity>) severity -> VaadinIcons.STAR);
-        setStyleGenerator((StyleGenerator<BugSeverity>) severity -> {
-            if (severity != null) {
-                return "bug-severity-" + severity.toString().toLowerCase();
-            } else {
-                return null;
-            }
-        });
+//        setItemIconGenerator((IconGenerator<BugSeverity>) severity -> VaadinIcons.STAR);
+//        setStyleGenerator((StyleGenerator<BugSeverity>) severity -> {
+//            if (severity != null) {
+//                return "bug-severity-" + severity.toString().toLowerCase();
+//            } else {
+//                return null;
+//            }
+//        });
     }
 }

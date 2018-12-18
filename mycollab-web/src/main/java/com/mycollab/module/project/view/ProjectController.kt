@@ -31,7 +31,6 @@ import com.mycollab.module.project.domain.criteria.ProjectMemberSearchCriteria
 import com.mycollab.module.project.domain.criteria.ProjectRoleSearchCriteria
 import com.mycollab.module.project.event.*
 import com.mycollab.module.project.view.bug.BugPresenter
-import com.mycollab.module.project.view.file.FilePresenter
 import com.mycollab.module.project.view.message.MessagePresenter
 import com.mycollab.module.project.view.milestone.MilestonePresenter
 import com.mycollab.module.project.view.page.PagePresenter
@@ -65,7 +64,6 @@ class ProjectController(val projectView: ProjectView) : AbstractController() {
         bindMessageEvents()
         bindMilestoneEvents()
         bindUserGroupEvents()
-        bindFileEvents()
         bindTimeandInvoiceEvents()
         bindPageEvents()
     }
@@ -95,24 +93,6 @@ class ProjectController(val projectView: ProjectView) : AbstractController() {
             override fun handle(event: ProjectEvent.GotoFavoriteView) {
                 val presenter = PresenterResolver.getPresenter(ProjectDashboardPresenter::class.java)
                 presenter.go(projectView, ProjectScreenData.GotoFavorite())
-            }
-        })
-
-        this.register(object : ApplicationEventListener<ProjectEvent.GotoCalendarView> {
-            @Subscribe
-            override fun handle(event: ProjectEvent.GotoCalendarView) {
-                val data = ProjectScreenData.GotoCalendarView()
-                val presenter = PresenterResolver.getPresenter(ProjectDashboardPresenter::class.java)
-                presenter.go(projectView, data)
-            }
-        })
-
-        this.register(object : ApplicationEventListener<ProjectEvent.GotoGanttChart> {
-            @Subscribe
-            override fun handle(event: ProjectEvent.GotoGanttChart) {
-                val data = ProjectScreenData.GotoGanttChart()
-                val presenter = PresenterResolver.getPresenter(ProjectDashboardPresenter::class.java)
-                presenter.go(projectView, data)
             }
         })
 
@@ -448,16 +428,6 @@ class ProjectController(val projectView: ProjectView) : AbstractController() {
             @Subscribe
             override fun handle(event: CustomizeUIEvent.UpdateFeaturesList) {
                 projectView.updateProjectFeatures()
-            }
-        })
-    }
-
-    private fun bindFileEvents() {
-        this.register(object : ApplicationEventListener<ProjectContentEvent.GotoDashboard> {
-            @Subscribe
-            override fun handle(event: ProjectContentEvent.GotoDashboard) {
-                val presenter = PresenterResolver.getPresenter(FilePresenter::class.java)
-                presenter.go(projectView, FileScreenData.GotoDashboard())
             }
         })
     }

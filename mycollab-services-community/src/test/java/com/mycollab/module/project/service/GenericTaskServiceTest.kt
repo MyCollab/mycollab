@@ -31,7 +31,7 @@ import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner
 import java.text.ParseException
-import java.text.SimpleDateFormat
+import java.time.LocalDate
 
 @RunWith(SpringJUnit4ClassRunner::class)
 class GenericTaskServiceTest : IntegrationServiceTest() {
@@ -53,10 +53,9 @@ class GenericTaskServiceTest : IntegrationServiceTest() {
     @Test
     @Throws(ParseException::class)
     fun testCountTaskOverDue() {
-        val df = SimpleDateFormat("yyyy-MM-dd hh:mm:ss")
-        val d = df.parse("2014-01-23 10:49:49")
+        val d = LocalDate.of(2014, 1, 23)
         val criteria = ProjectTicketSearchCriteria()
-        criteria.dueDate = DateSearchField(d)
+        criteria.dueDate = DateSearchField(d, DateSearchField.LESS_THAN)
         criteria.projectIds = SetSearchField(1)
         criteria.saccountid = NumberSearchField(1)
         val tasks = genericTaskService.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<ProjectTicket>
@@ -68,11 +67,10 @@ class GenericTaskServiceTest : IntegrationServiceTest() {
     @Test
     @Throws(ParseException::class)
     fun testListTaskOverDue() {
-        val df = SimpleDateFormat("yyyy-MM-dd hh:mm:ss")
-        val d = df.parse("2014-01-23 10:49:49")
+        val d = LocalDate.of(2014, 1, 23)
 
         val criteria = ProjectTicketSearchCriteria()
-        criteria.dueDate = DateSearchField(d)
+        criteria.dueDate = DateSearchField(d, DateSearchField.LESS_THAN)
         criteria.projectIds = SetSearchField(1)
         criteria.saccountid = NumberSearchField(1)
         val taskList = genericTaskService.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<ProjectTicket>

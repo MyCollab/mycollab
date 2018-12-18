@@ -49,7 +49,6 @@ import com.mycollab.vaadin.web.ui.AdvancedPreviewBeanForm;
 import com.mycollab.vaadin.web.ui.ReadViewLayout;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.icons.VaadinIcons;
-import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
@@ -300,7 +299,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
         if (CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.BUGS)) {
             MButton linkBtn = new MButton(UserUIContext.getMessage(BugI18nEnum.OPT_BUG_DEPENDENCIES),
                     clickEvent -> UI.getCurrent().addWindow(new LinkIssueWindow(beanItem)))
-                    .withIcon(FontAwesome.BOLT);
+                    .withIcon(VaadinIcons.BOLT);
             bugPreviewFormControls.addOptionButton(linkBtn);
         }
 

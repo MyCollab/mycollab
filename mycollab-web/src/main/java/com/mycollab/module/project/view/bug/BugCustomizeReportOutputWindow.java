@@ -16,7 +16,7 @@
  */
 package com.mycollab.module.project.view.bug;
 
-import com.mycollab.common.GridFieldMeta;
+import com.mycollab.common.TableViewField;
 import com.mycollab.db.query.VariableInjector;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.fielddef.BugTableFieldDef;
@@ -30,10 +30,11 @@ import com.mycollab.module.tracker.service.BugService;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.reporting.CustomizeReportOutputWindow;
-import org.joda.time.LocalDate;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
-import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 import static com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 
@@ -48,28 +49,28 @@ public class BugCustomizeReportOutputWindow extends CustomizeReportOutputWindow<
     }
 
     @Override
-    protected Collection<GridFieldMeta> getDefaultColumns() {
-        return Arrays.asList(BugTableFieldDef.summary, BugTableFieldDef.environment, BugTableFieldDef.priority,
+    protected Set<TableViewField> getDefaultColumns() {
+        return new HashSet<>(Arrays.asList(BugTableFieldDef.summary, BugTableFieldDef.environment, BugTableFieldDef.priority,
                 BugTableFieldDef.severity, BugTableFieldDef.status, BugTableFieldDef.resolution,
                 BugTableFieldDef.logBy, BugTableFieldDef.dueDate, BugTableFieldDef.assignUser,
-                BugTableFieldDef.billableHours, BugTableFieldDef.nonBillableHours);
+                BugTableFieldDef.billableHours, BugTableFieldDef.nonBillableHours));
     }
 
     @Override
-    protected Collection<GridFieldMeta> getAvailableColumns() {
-        return Arrays.asList(BugTableFieldDef.summary, BugTableFieldDef.environment, BugTableFieldDef.priority,
+    protected Set<TableViewField> getAvailableColumns() {
+        return new HashSet<>(Arrays.asList(BugTableFieldDef.summary, BugTableFieldDef.environment, BugTableFieldDef.priority,
                 BugTableFieldDef.severity, BugTableFieldDef.status, BugTableFieldDef.resolution,
                 BugTableFieldDef.logBy, BugTableFieldDef.startDate, BugTableFieldDef.endDate, BugTableFieldDef.dueDate,
                 BugTableFieldDef.assignUser, BugTableFieldDef.milestoneName, BugTableFieldDef.billableHours,
-                BugTableFieldDef.nonBillableHours);
+                BugTableFieldDef.nonBillableHours));
     }
 
     @Override
     protected Object[] buildSampleData() {
         return new Object[]{"Bug A", "Virtual Environment", OptionI18nEnum.Priority.High.name(),
                 BugSeverity.Major.name(), StatusI18nEnum.Open.name(), BugResolution.None.name(),
-                "John Adam", UserUIContext.formatDate(new LocalDate().minusDays(2).toDate()), UserUIContext.formatDate(new
-                LocalDate().plusDays(1).toDate()), UserUIContext.formatDate(new LocalDate().plusDays(2).toDate()),
+                "John Adam", UserUIContext.formatDate(LocalDateTime.now().minusDays(2)), UserUIContext.formatDate(
+                LocalDateTime.now().plusDays(1)), UserUIContext.formatDate(LocalDateTime.now().plusDays(2)),
                 "Will Smith", "Project Execution", "10", "2"};
     }
 }

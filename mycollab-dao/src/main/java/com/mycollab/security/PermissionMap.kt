@@ -121,7 +121,6 @@ class PermissionMap : ValuedBean() {
         @JvmStatic
         fun buildAdminPermissionCollection(): PermissionMap {
             val permissionMap = PermissionMap()
-            RolePermissionCollections.CRM_PERMISSIONS_ARR.forEach { (key) -> permissionMap.addPath(key, AccessPermissionFlag.ACCESS) }
 
             RolePermissionCollections.ACCOUNT_PERMISSION_ARR.forEach { (key) ->
                 when (key) {
@@ -131,8 +130,6 @@ class PermissionMap : ValuedBean() {
             }
 
             RolePermissionCollections.PROJECT_PERMISSION_ARR.forEach { (key) -> permissionMap.addPath(key, BooleanPermissionFlag.TRUE) }
-
-            RolePermissionCollections.DOCUMENT_PERMISSION_ARR.forEach { (key) -> permissionMap.addPath(key, AccessPermissionFlag.ACCESS) }
             return permissionMap
         }
 
@@ -142,7 +139,6 @@ class PermissionMap : ValuedBean() {
         @JvmStatic
         fun buildEmployeePermissionCollection(): PermissionMap {
             val permissionMap = PermissionMap()
-            RolePermissionCollections.CRM_PERMISSIONS_ARR.forEach { permissionMap.addPath(it.key, AccessPermissionFlag.READ_ONLY) }
 
             RolePermissionCollections.ACCOUNT_PERMISSION_ARR.forEach {
                 when {
@@ -157,8 +153,6 @@ class PermissionMap : ValuedBean() {
                     else -> permissionMap.addPath(it.key, BooleanPermissionFlag.FALSE)
                 }
             }
-
-            RolePermissionCollections.DOCUMENT_PERMISSION_ARR.forEach { permissionMap.addPath(it.key, AccessPermissionFlag.READ_WRITE) }
             return permissionMap
         }
 
@@ -168,7 +162,6 @@ class PermissionMap : ValuedBean() {
         @JvmStatic
         fun buildGuestPermissionCollection(): PermissionMap {
             val permissionMap = PermissionMap()
-            RolePermissionCollections.CRM_PERMISSIONS_ARR.forEach { element -> permissionMap.addPath(element.key, AccessPermissionFlag.NO_ACCESS) }
 
             RolePermissionCollections.ACCOUNT_PERMISSION_ARR.forEach {
                 when {
@@ -178,8 +171,6 @@ class PermissionMap : ValuedBean() {
             }
 
             RolePermissionCollections.PROJECT_PERMISSION_ARR.forEach { permissionMap.addPath(it.key, BooleanPermissionFlag.FALSE) }
-
-            RolePermissionCollections.DOCUMENT_PERMISSION_ARR.forEach { permissionMap.addPath(it.key, AccessPermissionFlag.NO_ACCESS) }
             return permissionMap
         }
     }

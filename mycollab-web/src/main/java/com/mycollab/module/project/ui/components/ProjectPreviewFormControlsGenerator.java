@@ -24,7 +24,6 @@ import com.mycollab.vaadin.web.ui.AdvancedPreviewBeanForm;
 import com.mycollab.vaadin.web.ui.OptionPopupContent;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.icons.VaadinIcons;
-import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
@@ -99,7 +98,7 @@ public class ProjectPreviewFormControlsGenerator<T> implements Serializable {
                     optionBtn.setPopupVisible(false);
                     T item = previewForm.getBean();
                     previewForm.fireEditForm(item);
-                }).withIcon(FontAwesome.EDIT).withStyleName(WebThemes.BUTTON_ACTION);
+                }).withIcon(VaadinIcons.EDIT).withStyleName(WebThemes.BUTTON_ACTION);
                 editButtons.addComponent(editBtn);
             }
 
@@ -125,7 +124,7 @@ public class ProjectPreviewFormControlsGenerator<T> implements Serializable {
                     optionBtn.setPopupVisible(false);
                     T item = previewForm.getBean();
                     previewForm.fireCloneForm(item);
-                }).withIcon(FontAwesome.ROAD);
+                }).withIcon(VaadinIcons.ROAD);
                 popupButtonsControl.addOption(cloneBtn);
             }
 
@@ -136,14 +135,14 @@ public class ProjectPreviewFormControlsGenerator<T> implements Serializable {
 //                MButton previousItem = new MButton("", clickEvent -> {
 //                    T item = previewForm.getBean();
 //                    previewForm.fireGotoPrevious(item);
-//                }).withIcon(FontAwesome.CHEVRON_LEFT).withStyleName(WebThemes.BUTTON_OPTION)
+//                }).withIcon(VaadinIcons.CHEVRON_LEFT).withStyleName(WebThemes.BUTTON_OPTION)
 //                        .withDescription(UserUIContext.getMessage(GenericI18Enum.TOOLTIP_SHOW_PREVIOUS_ITEM));
 //                navigationBtns.addButton(previousItem);
 //
 //                MButton nextItemBtn = new MButton("", clickEvent -> {
 //                    T item = previewForm.getBean();
 //                    previewForm.fireGotoNextItem(item);
-//                }).withIcon(FontAwesome.CHEVRON_RIGHT).withStyleName(WebThemes.BUTTON_OPTION)
+//                }).withIcon(VaadinIcons.CHEVRON_RIGHT).withStyleName(WebThemes.BUTTON_OPTION)
 //                        .withDescription(UserUIContext.getMessage(GenericI18Enum.TOOLTIP_SHOW_NEXT_ITEM));
 //                navigationBtns.addButton(nextItemBtn);
 //                layout.addComponent(navigationBtns);

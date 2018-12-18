@@ -22,6 +22,7 @@ import com.hp.gagawa.java.elements.Span;
 import com.hp.gagawa.java.elements.Ul;
 import com.mycollab.common.i18n.FileI18nEnum;
 import com.mycollab.common.i18n.GenericI18Enum;
+import com.mycollab.core.utils.DateTimeUtils;
 import com.mycollab.core.utils.FileUtils;
 import com.mycollab.core.utils.MimeTypesUtil;
 import com.mycollab.core.utils.StringUtils;
@@ -90,7 +91,7 @@ public class AttachmentDisplayComponent extends CssLayout {
         Ul ul = new Ul().appendChild(new Li().appendText(UserUIContext.getMessage(FileI18nEnum.OPT_SIZE_VALUE,
                 FileUtils.getVolumeDisplay(attachment.getSize())))).setStyle("line-height:1.5em");
         ul.appendChild(new Li().appendText(UserUIContext.getMessage(GenericI18Enum.OPT_LAST_MODIFIED,
-                UserUIContext.formatPrettyTime(attachment.getLastModified().getTime()))));
+                UserUIContext.formatPrettyTime(DateTimeUtils.toLocalDateTime(attachment.getLastModified())))));
         contentTooltip.appendChild(ul);
         thumbnail.setDescription(contentTooltip.write());
         thumbnail.setWidth(WebUIConstants.DEFAULT_ATTACHMENT_THUMBNAIL_WIDTH);

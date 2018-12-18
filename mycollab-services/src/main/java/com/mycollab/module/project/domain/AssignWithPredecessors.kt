@@ -17,17 +17,16 @@
 package com.mycollab.module.project.domain
 
 import com.mycollab.core.arguments.NotBindable
-
-import java.util.Date
+import java.time.LocalDateTime
 
 /**
  * @author MyCollab Ltd
  * @since 5.1.3
  */
 abstract class AssignWithPredecessors {
-    var startDate: Date? = null
-    var endDate: Date? = null
-    var deadline: Date? = null
+    var startDate: LocalDateTime? = null
+    var endDate: LocalDateTime? = null
+    var deadline: LocalDateTime? = null
     var projectName: String? = null
     var name: String? = null
     var duration: Long? = null

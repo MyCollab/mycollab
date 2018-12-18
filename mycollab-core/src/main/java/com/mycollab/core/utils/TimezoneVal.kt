@@ -16,9 +16,9 @@
  */
 package com.mycollab.core.utils
 
-import org.joda.time.DateTime
-import org.joda.time.DateTimeZone
-
+import java.time.LocalDateTime
+import java.time.ZoneId
+import java.time.format.TextStyle
 import java.util.*
 
 /**
@@ -26,7 +26,7 @@ import java.util.*
  * @since 5.3.2
  */
 class TimezoneVal(val id: String?) : Comparable<TimezoneVal> {
-    private val timezone: TimeZone = if (id != null) TimeZone.getTimeZone(id) else TimeZone.getDefault()
+    private val timezone: ZoneId = if (id != null) ZoneId.of(id) else ZoneId.systemDefault()
     val area: String
     val location: String
 
@@ -40,12 +40,11 @@ class TimezoneVal(val id: String?) : Comparable<TimezoneVal> {
         area = if (index > -1) timeZoneId.substring(0, index) else "Others"
     }
 
-    private fun getTimeZone(): DateTimeZone = DateTimeZone.forTimeZone(timezone)
-
     override fun compareTo(other: TimezoneVal): Int {
-        val offsetInMillis1 = this.getTimeZone().getOffset(DateTime().millis)
-        val offsetInMillis2 = other.getTimeZone().getOffset(DateTime().millis)
-        return offsetInMillis1 - offsetInMillis2
+        val now = LocalDateTime.now()
+        val offset1 = now.atZone(timezone).offset.totalSeconds
+        val offset2 = now.atZone(other.timezone).offset.totalSeconds
+        return offset1 - offset2
     }
 
     companion object {
@@ -54,14 +53,12 @@ class TimezoneVal(val id: String?) : Comparable<TimezoneVal> {
         init {
             val zoneIds = TimeZone.getAvailableIDs()
             zoneIds.forEach {
-                val timeZone = TimeZone.getTimeZone(it)
                 try {
-                    DateTimeZone.forTimeZone(timeZone) //check compatible between joda timezone and java timezone
                     val timezoneVal = TimezoneVal(it)
                     var timeZones = cacheTimezones[timezoneVal.area]
                     if (timeZones == null) {
                         timeZones = ArrayList()
-                        cacheTimezones.put(timezoneVal.area, timeZones)
+                        cacheTimezones[timezoneVal.area] = timeZones
                     }
                     timeZones.add(timezoneVal)
                 } catch (e: Exception) {
@@ -70,26 +67,26 @@ class TimezoneVal(val id: String?) : Comparable<TimezoneVal> {
             }
 
             val keys = cacheTimezones.keys
-            keys.map { cacheTimezones[it] }.forEach { Collections.sort(it) }
+            keys.map { cacheTimezones[it] }.forEach { it!!.sort() }
         }
 
-        private fun getOffsetString(timeZone: TimeZone): String {
-            val offsetInMillis = DateTimeZone.forTimeZone(timeZone).getOffset(DateTime().millis)
-            var offset = String.format("%02d:%02d", Math.abs(offsetInMillis / 3600000),
-                    Math.abs(offsetInMillis / 60000 % 60))
-            offset = """(GMT${if (offsetInMillis >= 0) "+" else "-"}$offset)"""
+        private fun getOffsetString(timeZone: ZoneId): String {
+            val offsetInSeconds = LocalDateTime.now().atZone(timeZone).offset.totalSeconds
+            var offset = String.format("%02d:%02d", Math.abs(offsetInSeconds / 3600),
+                    Math.abs(offsetInSeconds / 60 % 60))
+            offset = """(GMT${if (offsetInSeconds >= 0) "+" else "-"}$offset)"""
             return offset
         }
 
         @JvmStatic
-        fun valueOf(timeZoneId: String?): TimeZone = if (StringUtils.isBlank(timeZoneId)) {
-            TimeZone.getDefault()
-        } else TimeZone.getTimeZone(timeZoneId)
+        fun valueOf(timeZoneId: String?): ZoneId = if (StringUtils.isBlank(timeZoneId)) {
+            ZoneId.systemDefault()
+        } else ZoneId.of(timeZoneId)
 
         @JvmStatic
         fun getDisplayName(locale: Locale, timeZoneId: String?): String {
             val timeZone = valueOf(timeZoneId)
-            return "${getOffsetString(timeZone)} ${timeZone.getDisplayName(locale)}"
+            return "${getOffsetString(timeZone)} ${timeZone.getDisplayName(TextStyle.SHORT, locale)}"
         }
 
         @JvmStatic

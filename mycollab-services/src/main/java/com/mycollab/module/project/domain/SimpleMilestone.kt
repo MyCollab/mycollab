@@ -59,7 +59,7 @@ class SimpleMilestone : Milestone() {
         get() {
             if (MilestoneStatus.Closed.name != status) {
                 val now = DateTimeUtils.getCurrentDateWithoutMS()
-                return enddate != null && enddate.before(now)
+                return enddate != null && enddate.isBefore(now)
             }
 
             return false

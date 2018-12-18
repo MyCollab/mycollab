@@ -50,6 +50,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
+import java.time.LocalDateTime;
 import java.util.GregorianCalendar;
 
 import static com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
@@ -58,7 +59,6 @@ import static com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
  * @author MyCollab Ltd
  * @since 4.5.5
  */
-// TODO
 public class ResolvedInputForm extends AdvancedEditBeanForm<SimpleBug> {
     private static final long serialVersionUID = 1L;
     private SimpleBug bug;
@@ -130,7 +130,7 @@ public class ResolvedInputForm extends AdvancedEditBeanForm<SimpleBug> {
                     if (StringUtils.isNotBlank(commentValue)) {
                         CommentWithBLOBs comment = new CommentWithBLOBs();
                         comment.setComment(commentValue);
-                        comment.setCreatedtime(new GregorianCalendar().getTime());
+                        comment.setCreatedtime(LocalDateTime.now());
                         comment.setCreateduser(UserUIContext.getUsername());
                         comment.setSaccountid(AppUI.getAccountId());
                         comment.setType(ProjectTypeConstants.BUG);

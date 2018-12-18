@@ -29,7 +29,7 @@ import com.mycollab.vaadin.event.HasPreviewFormHandlers;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.mycollab.vaadin.ui.FormContainer;
-import com.mycollab.vaadin.ui.HeaderWithFontAwesome;
+import com.mycollab.vaadin.ui.HeaderWithIcon;
 import com.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.mycollab.vaadin.web.ui.AdvancedPreviewBeanForm;
 import com.mycollab.vaadin.web.ui.DefaultReadViewLayout;
@@ -53,14 +53,14 @@ public class ProjectRoleReadViewImpl extends MVerticalLayout implements ProjectR
     private SimpleProjectRole beanItem;
     private AdvancedPreviewBeanForm<SimpleProjectRole> previewForm;
     private DefaultReadViewLayout previewLayout;
-    private HeaderWithFontAwesome headerText;
+    private HeaderWithIcon headerText;
     private MHorizontalLayout header;
 
     private GridFormLayoutHelper projectFormHelper;
 
     public ProjectRoleReadViewImpl() {
         withMargin(new MarginInfo(true, false, true, false));
-        headerText = HeaderWithFontAwesome.h2(VaadinIcons.USERS, UserUIContext.getMessage(ProjectRoleI18nEnum.DETAIL));
+        headerText = HeaderWithIcon.h2(VaadinIcons.USERS, UserUIContext.getMessage(ProjectRoleI18nEnum.DETAIL));
         headerText.setSizeUndefined();
         this.addComponent(constructHeader());
 
@@ -175,11 +175,6 @@ public class ProjectRoleReadViewImpl extends MVerticalLayout implements ProjectR
 
     public AdvancedPreviewBeanForm<SimpleProjectRole> getPreviewForm() {
         return previewForm;
-    }
-
-    @Override
-    public void addViewListener(ViewListener listener) {
-
     }
 
 }

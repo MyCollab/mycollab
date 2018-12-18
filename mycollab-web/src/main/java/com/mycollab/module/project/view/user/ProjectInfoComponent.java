@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -57,7 +57,6 @@ import com.mycollab.vaadin.web.ui.OptionPopupContent;
 import com.mycollab.vaadin.web.ui.SearchTextField;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.icons.VaadinIcons;
-import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Component;
@@ -76,7 +75,7 @@ public class ProjectInfoComponent extends MHorizontalLayout {
 
     public ProjectInfoComponent(SimpleProject project) {
         this.withMargin(false).withFullWidth();
-        Component projectIcon = ProjectAssetsUtil.editableProjectLogoComp(project.getShortname(), project.getId(), project.getAvatarid(), 64);
+        Component projectIcon = ProjectAssetsUtil.editableProjectLogoComp(project.getShortname(), project.getId(), project.getAvatarid(), 32);
         this.with(projectIcon).withAlign(projectIcon, Alignment.TOP_LEFT);
 
         ProjectBreadcrumb breadCrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);
@@ -97,7 +96,7 @@ public class ProjectInfoComponent extends MHorizontalLayout {
             footer.with(leadLbl);
         }
         if (project.getHomepage() != null) {
-            ELabel homepageLbl = ELabel.html(FontAwesome.WECHAT.getHtml() + " " + new A(project.getHomepage())
+            ELabel homepageLbl = ELabel.html(VaadinIcons.GLOBE.getHtml() + " " + new A(project.getHomepage())
                     .appendText(project.getHomepage()).setTarget("_blank").write())
                     .withStyleName(ValoTheme.LABEL_SMALL).withUndefinedWidth();
             homepageLbl.setDescription(UserUIContext.getMessage(ProjectI18nEnum.FORM_HOME_PAGE));
@@ -106,7 +105,7 @@ public class ProjectInfoComponent extends MHorizontalLayout {
         if (project.getAccountid() != null && !SiteConfiguration.isCommunityEdition()) {
             Div clientDiv = new Div();
             if (project.getClientAvatarId() == null) {
-                clientDiv.appendText(FontAwesome.INSTITUTION.getHtml() + " ");
+                clientDiv.appendText(VaadinIcons.INSTITUTION.getHtml() + " ");
             } else {
                 Img clientImg = new Img("", StorageUtils.getEntityLogoPath(AppUI.getAccountId(), project.getClientAvatarId(), 16))
                         .setCSSClass(UIConstants.CIRCLE_BOX);
@@ -121,24 +120,13 @@ public class ProjectInfoComponent extends MHorizontalLayout {
 
         if (!SiteConfiguration.isCommunityEdition()) {
             MButton tagBtn = new MButton(UserUIContext.getMessage(ProjectCommonI18nEnum.VIEW_TAG), clickEvent -> EventBusFactory.getInstance().post(new ProjectEvent.GotoTagListView(this, null)))
-                    .withIcon(FontAwesome.TAGS).withStyleName(WebThemes.BUTTON_SMALL_PADDING, WebThemes.BUTTON_LINK);
+                    .withIcon(VaadinIcons.TAGS).withStyleName(WebThemes.BUTTON_SMALL_PADDING, WebThemes.BUTTON_LINK);
             footer.addComponents(tagBtn);
 
             MButton favoriteBtn = new MButton(UserUIContext.getMessage(ProjectCommonI18nEnum.VIEW_FAVORITES),
                     clickEvent -> EventBusFactory.getInstance().post(new ProjectEvent.GotoFavoriteView(this, null)))
-                    .withIcon(FontAwesome.STAR).withStyleName(WebThemes.BUTTON_SMALL_PADDING, WebThemes.BUTTON_LINK);
+                    .withIcon(VaadinIcons.STAR).withStyleName(WebThemes.BUTTON_SMALL_PADDING, WebThemes.BUTTON_LINK);
             footer.addComponents(favoriteBtn);
-
-            MButton eventBtn = new MButton(UserUIContext.getMessage(ProjectCommonI18nEnum.VIEW_CALENDAR),
-                    clickEvent -> EventBusFactory.getInstance().post(new ProjectEvent.GotoCalendarView(this)))
-                    .withIcon(FontAwesome.CALENDAR).withStyleName(WebThemes.BUTTON_SMALL_PADDING, WebThemes.BUTTON_LINK);
-            footer.addComponents(eventBtn);
-
-            MButton ganttChartBtn = new MButton(UserUIContext.getMessage(ProjectCommonI18nEnum.VIEW_GANTT_CHART),
-                    clickEvent -> EventBusFactory.getInstance().post(new ProjectEvent.GotoGanttChart(this, null)))
-                    .withIcon(FontAwesome.BAR_CHART_O).withStyleName(WebThemes.BUTTON_SMALL_PADDING,
-                            WebThemes.BUTTON_LINK);
-            footer.addComponents(ganttChartBtn);
         }
 
         MHorizontalLayout topPanel = new MHorizontalLayout().withMargin(false);
@@ -179,7 +167,7 @@ public class ProjectInfoComponent extends MHorizontalLayout {
                 MButton inviteMemberBtn = new MButton(UserUIContext.getMessage(ProjectMemberI18nEnum.BUTTON_NEW_INVITEES), clickEvent -> {
                     controlsBtn.setPopupVisible(false);
                     EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoInviteMembers(this, null));
-                }).withIcon(FontAwesome.SEND);
+                }).withIcon(VaadinIcons.PAPERPLANE);
                 popupButtonsControl.addOption(inviteMemberBtn);
             }
 
@@ -192,7 +180,7 @@ public class ProjectInfoComponent extends MHorizontalLayout {
             popupButtonsControl.addSeparator();
 
             if (UserUIContext.canAccess(RolePermissionCollections.CREATE_NEW_PROJECT)) {
-                final MButton markProjectTemplateBtn = new MButton().withIcon(FontAwesome.ANCHOR);
+                final MButton markProjectTemplateBtn = new MButton().withIcon(VaadinIcons.ANCHOR);
                 markProjectTemplateBtn.addClickListener(clickEvent -> {
                     Boolean isTemplate = !MoreObjects.firstNonNull(project.getIstemplate(), Boolean.FALSE);
                     project.setIstemplate(isTemplate);
@@ -218,7 +206,7 @@ public class ProjectInfoComponent extends MHorizontalLayout {
                 MButton editProjectBtn = new MButton(UserUIContext.getMessage(ProjectI18nEnum.EDIT), clickEvent -> {
                     controlsBtn.setPopupVisible(false);
                     EventBusFactory.getInstance().post(new ProjectEvent.GotoEdit(ProjectInfoComponent.this, project));
-                }).withIcon(FontAwesome.EDIT);
+                }).withIcon(VaadinIcons.EDIT);
                 popupButtonsControl.addOption(editProjectBtn);
             }
 

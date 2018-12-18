@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -23,16 +23,22 @@ import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import org.joda.time.LocalDate;
-import org.joda.time.LocalDateTime;
+import com.mycollab.configuration.SiteConfiguration;
 
 import java.io.IOException;
-import java.util.*;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.temporal.WeekFields;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
 
 /**
  * @author MyCollab Ltd
  * @since 5.2.1
  */
+// TODO: check minDate, maxDate
 @JsonSerialize(using = VariableInjector.Serializer.class)
 @JsonDeserialize(using = VariableInjector.Deserializer.class)
 public interface VariableInjector<T> {
@@ -47,11 +53,11 @@ public interface VariableInjector<T> {
     VariableInjector LAST_WEEK = new VariableInjector() {
         @Override
         public Object eval() {
-            LocalDate date = new LocalDate();
+            LocalDate date = LocalDate.now();
             date = date.minusWeeks(-1);
-            LocalDate minDate = date.dayOfWeek().withMinimumValue();
-            LocalDate maxDate = date.dayOfWeek().withMaximumValue();
-            return new Date[]{minDate.toDate(), maxDate.toDate()};
+            LocalDate minDate = date.with(WeekFields.of(SiteConfiguration.getDefaultLocale()).dayOfWeek(), 1);
+            LocalDate maxDate = date.with(WeekFields.of(SiteConfiguration.getDefaultLocale()).dayOfWeek(), 7);
+            return new LocalDate[]{minDate, maxDate};
         }
 
         @Override
@@ -73,10 +79,10 @@ public interface VariableInjector<T> {
     VariableInjector THIS_WEEK = new VariableInjector() {
         @Override
         public Object eval() {
-            LocalDate date = new LocalDate();
-            LocalDate minDate = date.dayOfWeek().withMinimumValue();
-            LocalDate maxDate = date.dayOfWeek().withMaximumValue();
-            return new Date[]{minDate.toDate(), maxDate.toDate()};
+            LocalDate date = LocalDate.now();
+            LocalDate minDate = date.with(WeekFields.of(SiteConfiguration.getDefaultLocale()).dayOfWeek(), 1);
+            LocalDate maxDate = date.with(WeekFields.of(SiteConfiguration.getDefaultLocale()).dayOfWeek(), 7);
+            return new LocalDate[]{minDate, maxDate};
         }
 
         @Override
@@ -142,7 +148,8 @@ public interface VariableInjector<T> {
         private Object convertType(String type, String value) {
             if ("date".equals(type)) {
                 long timeInMillis = Long.parseLong(value);
-                return new LocalDateTime(timeInMillis).toDate();
+                // TODO: CHECK timezone
+                return Instant.ofEpochMilli(timeInMillis).atZone(ZoneId.systemDefault()).toLocalDateTime();
             } else {
                 return value;
             }

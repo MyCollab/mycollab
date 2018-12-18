@@ -56,6 +56,8 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.reflect.InvocationTargetException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 
 import static net.sf.dynamicreports.report.builder.DynamicReports.cmp;
@@ -147,7 +149,7 @@ public class FormReportTemplateExecutor<B> extends ReportTemplateExecutor {
                             Object tmpVal = PropertyUtils.getProperty(bean, dynaField.getFieldName());
                             if (tmpVal != null) {
                                 if (tmpVal instanceof Date) {
-                                    value = DateTimeUtils.formatDateToW3C((Date) tmpVal);
+                                    value = DateTimeUtils.formatDateToW3C((LocalDate) tmpVal);
                                 } else {
                                     value = String.valueOf(tmpVal);
                                 }
@@ -173,7 +175,7 @@ public class FormReportTemplateExecutor<B> extends ReportTemplateExecutor {
                             Object tmpVal = PropertyUtils.getProperty(bean, dynaField.getFieldName());
                             if (tmpVal != null) {
                                 if (tmpVal instanceof Date) {
-                                    value = DateTimeUtils.formatDateToW3C((Date) tmpVal);
+                                    value = DateTimeUtils.formatDateToW3C((LocalDate) tmpVal);
                                 } else {
                                     value = String.valueOf(tmpVal);
                                 }

@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -34,15 +34,14 @@ import java.util.Set;
  * @author MyCollab Ltd.
  * @since 2.0
  */
-public abstract class AbstractBeanPagedList<T> extends VerticalLayout implements HasPageableHandlers, IBeanList<T> {
+public abstract class AbstractBeanPagedList<T> extends CssLayout implements HasPageableHandlers, IBeanList<T> {
     private static final long serialVersionUID = 1L;
 
     protected int defaultNumberSearchItems = 10;
     private Set<PageableHandler> pageableHandlers;
     private String[] listControlStyle = {"listControl"};
 
-    protected CssLayout listContainer;
-    private IBeanList.RowDisplayHandler<T> rowDisplayHandler;
+    private RowDisplayHandler<T> rowDisplayHandler;
     protected int currentPage = 1;
     protected int totalPage = 1;
     protected int totalCount;
@@ -52,13 +51,10 @@ public abstract class AbstractBeanPagedList<T> extends VerticalLayout implements
     private QueryHandler<T> queryHandler;
     protected SearchRequest searchRequest;
 
-    public AbstractBeanPagedList(IBeanList.RowDisplayHandler<T> rowDisplayHandler, int defaultNumberSearchItems) {
+    public AbstractBeanPagedList(RowDisplayHandler<T> rowDisplayHandler, int defaultNumberSearchItems) {
+        this.setWidth("100%");
         this.defaultNumberSearchItems = defaultNumberSearchItems;
         this.rowDisplayHandler = rowDisplayHandler;
-        listContainer = new CssLayout();
-        listContainer.setWidth("100%");
-        this.addComponent(listContainer);
-        this.setExpandRatio(listContainer, 1.0f);
         this.addStyleName(WebThemes.SCROLLABLE_CONTAINER);
         queryHandler = buildQueryHandler();
     }
@@ -131,19 +127,19 @@ public abstract class AbstractBeanPagedList<T> extends VerticalLayout implements
 
     public void setCurrentDataList(List<T> list) {
         this.currentListData = list;
-        listContainer.removeAllComponents();
+        this.removeAllComponents();
 
         if (currentListData.size() != 0) {
             int i = 0;
             for (T item : currentListData) {
                 Component row = rowDisplayHandler.generateRow(this, item, i);
-                listContainer.addComponent(row);
+                this.addComponent(row);
                 i++;
             }
         } else {
             String msg = stringWhenEmptyList();
             if (msg != null) {
-                listContainer.addComponent(msgWhenEmptyList());
+                this.addComponent(msgWhenEmptyList());
             }
         }
     }
@@ -165,7 +161,7 @@ public abstract class AbstractBeanPagedList<T> extends VerticalLayout implements
 
     public Component insertRowAt(T item, int index) {
         Component row = rowDisplayHandler.generateRow(this, item, index);
-        listContainer.addComponent(row, index);
+        this.addComponent(row, index);
         return row;
     }
 
@@ -182,7 +178,7 @@ public abstract class AbstractBeanPagedList<T> extends VerticalLayout implements
 
     public Component getRowAt(int index) {
         try {
-            return listContainer.getComponent(index);
+            return this.getComponent(index);
         } catch (Exception e) {
             return null;
         }
@@ -218,19 +214,19 @@ public abstract class AbstractBeanPagedList<T> extends VerticalLayout implements
         }
 
         currentListData = queryHandler.queryCurrentData();
-        listContainer.removeAllComponents();
+        this.removeAllComponents();
 
         if (currentListData.size() != 0) {
             int i = 0;
             for (T item : currentListData) {
                 Component row = rowDisplayHandler.generateRow(this, item, i);
-                listContainer.addComponent(row);
+                this.addComponent(row);
                 i++;
             }
         } else {
             Component component = msgWhenEmptyList();
             if (component != null) {
-                listContainer.addComponent(component);
+                this.addComponent(component);
             }
         }
     }
@@ -250,12 +246,12 @@ public abstract class AbstractBeanPagedList<T> extends VerticalLayout implements
     }
 
     public void removeRow(Component row) {
-        listContainer.removeComponent(row);
+        this.removeComponent(row);
     }
 
     public void setSelectedRow(Component row) {
-        for (int i = 0; i < listContainer.getComponentCount(); i++) {
-            listContainer.getComponent(i).removeStyleName("selected");
+        for (int i = 0; i < this.getComponentCount(); i++) {
+            this.getComponent(i).removeStyleName("selected");
         }
         row.addStyleName("selected");
     }

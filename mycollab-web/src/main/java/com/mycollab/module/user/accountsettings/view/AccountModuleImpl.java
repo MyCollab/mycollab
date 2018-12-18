@@ -35,9 +35,9 @@ import com.mycollab.vaadin.web.ui.ServiceMenu;
 import com.mycollab.vaadin.web.ui.VerticalTabsheet;
 import com.mycollab.vaadin.web.ui.VerticalTabsheet.TabImpl;
 import com.mycollab.vaadin.web.ui.WebThemes;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.BrowserWindowOpener;
 import com.vaadin.server.ExternalResource;
-import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
 import com.vaadin.ui.TabSheet.SelectedTabChangeEvent;
 import com.vaadin.ui.TabSheet.SelectedTabChangeListener;
@@ -52,9 +52,6 @@ import org.vaadin.viritin.layouts.MHorizontalLayout;
 @ViewComponent
 public class AccountModuleImpl extends AbstractSingleContainerPageView implements AccountModule {
     private static final long serialVersionUID = 1L;
-
-    private MHorizontalLayout serviceMenuContainer;
-    private ServiceMenu serviceMenu;
 
     private VerticalTabsheet tabSheet;
 
@@ -71,7 +68,7 @@ public class AccountModuleImpl extends AbstractSingleContainerPageView implement
         AccountSettingBreadcrumb breadcrumb = ViewManager.getCacheComponent(AccountSettingBreadcrumb.class);
 
         MButton helpBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.ACTION_HELP))
-                .withIcon(FontAwesome.MORTAR_BOARD).withStyleName(WebThemes.BUTTON_LINK);
+                .withIcon(VaadinIcons.ACADEMY_CAP).withStyleName(WebThemes.BUTTON_LINK);
         ExternalResource helpRes = new ExternalResource("https://community.mycollab.com/docs/account-management/");
         BrowserWindowOpener helpOpener = new BrowserWindowOpener(helpRes);
         helpOpener.extend(helpBtn);
@@ -81,8 +78,7 @@ public class AccountModuleImpl extends AbstractSingleContainerPageView implement
         tabSheet = new VerticalTabsheet();
         tabSheet.setSizeFull();
         tabSheet.setNavigatorStyleName("sidebar-menu");
-        tabSheet.addToggleNavigatorControl();
-        VerticalLayout contentWrapper = tabSheet.getContentWrapper();
+        CssLayout contentWrapper = tabSheet.getContentWrapper();
         contentWrapper.addStyleName("main-content");
         contentWrapper.addComponentAsFirst(topPanel);
 
@@ -155,48 +151,30 @@ public class AccountModuleImpl extends AbstractSingleContainerPageView implement
         EventBusFactory.getInstance().post(new ProfileEvent.GotoProfileView(this));
     }
 
-    @Override
-    public MHorizontalLayout buildMenu() {
-        if (serviceMenuContainer == null) {
-            serviceMenuContainer = new MHorizontalLayout();
-            serviceMenu = new ServiceMenu();
-            serviceMenu.addService(UserUIContext.getMessage(GenericI18Enum.MODULE_PROJECT), new Button.ClickListener() {
-                @Override
-                public void buttonClick(Button.ClickEvent clickEvent) {
-                    EventBusFactory.getInstance().post(new ShellEvent.GotoProjectModule(this, new String[]{"dashboard"}));
-                    serviceMenu.selectService(0);
-                }
-            });
-
-            serviceMenu.addService(UserUIContext.getMessage(GenericI18Enum.MODULE_CRM), new Button.ClickListener() {
-                private static final long serialVersionUID = 1L;
-
-                @Override
-                public void buttonClick(final Button.ClickEvent event) {
-                    EventBusFactory.getInstance().post(new ShellEvent.GotoCrmModule(this, null));
-                }
-            });
-
-            serviceMenu.addService(UserUIContext.getMessage(GenericI18Enum.MODULE_DOCUMENT), new Button.ClickListener() {
-                private static final long serialVersionUID = 1L;
-
-                @Override
-                public void buttonClick(final Button.ClickEvent event) {
-                    EventBusFactory.getInstance().post(new ShellEvent.GotoFileModule(this, null));
-                }
-            });
-
-
-            serviceMenu.addService(UserUIContext.getMessage(GenericI18Enum.MODULE_PEOPLE), new Button.ClickListener() {
-                @Override
-                public void buttonClick(Button.ClickEvent clickEvent) {
-                    EventBusFactory.getInstance().post(new ShellEvent.GotoUserAccountModule(this, new String[]{"user", "list"}));
-
-                }
-            });
-            serviceMenuContainer.with(serviceMenu);
-        }
-        serviceMenu.selectService(3);
-        return serviceMenuContainer;
-    }
+//    @Override
+//    public MHorizontalLayout buildMenu() {
+//        if (serviceMenuContainer == null) {
+//            serviceMenuContainer = new MHorizontalLayout();
+//            serviceMenu = new ServiceMenu();
+//            serviceMenu.addService(UserUIContext.getMessage(GenericI18Enum.MODULE_PROJECT), new Button.ClickListener() {
+//                @Override
+//                public void buttonClick(Button.ClickEvent clickEvent) {
+//                    EventBusFactory.getInstance().post(new ShellEvent.GotoProjectModule(this, new String[]{"dashboard"}));
+//                    serviceMenu.selectService(0);
+//                }
+//            });
+//
+//
+//            serviceMenu.addService(UserUIContext.getMessage(GenericI18Enum.MODULE_PEOPLE), new Button.ClickListener() {
+//                @Override
+//                public void buttonClick(Button.ClickEvent clickEvent) {
+//                    EventBusFactory.getInstance().post(new ShellEvent.GotoUserAccountModule(this, new String[]{"user", "list"}));
+//
+//                }
+//            });
+//            serviceMenuContainer.with(serviceMenu);
+//        }
+//        serviceMenu.selectService(3);
+//        return serviceMenuContainer;
+//    }
 }

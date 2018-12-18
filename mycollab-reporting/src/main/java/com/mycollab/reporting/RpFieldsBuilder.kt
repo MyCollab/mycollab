@@ -16,18 +16,18 @@
  */
 package com.mycollab.reporting
 
-import com.mycollab.common.GridFieldMeta
+import com.mycollab.common.TableViewField
 
 /**
  * @author MyCollab Ltd.
  * @since 1.0
  */
-class RpFieldsBuilder(fieldMetas: Collection<GridFieldMeta>) {
-    private val viewFields = fieldMetas
-            .map { GridFieldMetaDecorator(it) }
+class RpFieldsBuilder(fields: Collection<TableViewField>) {
+    private val viewFields = fields
+            .map { TableViewFieldDecorator(it) }
             .toMutableList()
 
-    val fields: List<GridFieldMetaDecorator>
+    val fields: List<TableViewFieldDecorator>
         get() = viewFields
 
 }

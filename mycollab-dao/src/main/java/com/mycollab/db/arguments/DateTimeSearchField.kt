@@ -16,25 +16,24 @@
  */
 package com.mycollab.db.arguments
 
-import com.mycollab.core.utils.DateTimeUtils
-import java.util.*
+import java.time.LocalDate
 
 /**
  * @author MyCollab Ltd
  * @since 6.0.0
  */
-class DateTimeSearchField(operation: String, var comparison: String, var dateVal: Date, var value: Date = DateTimeUtils.convertDateTimeToUTC(dateVal)) : SearchField(operation) {
+class DateTimeSearchField(operation: String, var comparison: String, var value: LocalDate) : SearchField(operation) {
     companion object {
-        @JvmField val LESS_THAN = "<"
+        const val LESS_THAN = "<"
 
-        @JvmField val LESS_THAN_EQUAL = "<="
+        const val LESS_THAN_EQUAL = "<="
 
-        @JvmField val GREATER_THAN = ">"
+        const val GREATER_THAN = ">"
 
-        @JvmField val GREATER_THAN_EQUAL = ">="
+        const val GREATER_THAN_EQUAL = ">="
 
-        @JvmField val EQUAL = "="
+        const val EQUAL = "="
 
-        @JvmField val NOT_EQUAL = "<>"
+        const val NOT_EQUAL = "<>"
     }
 }

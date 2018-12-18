@@ -18,7 +18,6 @@ package com.mycollab.module.project.view.user;
 
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
-import com.mycollab.module.crm.view.account.AccountSelectionField;
 import com.mycollab.module.project.domain.Project;
 import com.mycollab.module.project.i18n.ProjectI18nEnum;
 import com.mycollab.module.project.ui.ProjectAssetsUtil;
@@ -214,7 +213,7 @@ public class ProjectAddViewImpl extends AbstractVerticalPageView implements Proj
 //                tf.setRequiredError("Please enter a Name");
                 return tf;
             } else if (Project.Field.accountid.equalTo(propertyId)) {
-                return new AccountSelectionField();
+//                return new AccountSelectionField();
             } else if (Project.Field.memlead.equalTo(propertyId)) {
                 return new ProjectMemberSelectionField();
             } else if (Project.Field.defaultbillingrate.equalTo(propertyId)

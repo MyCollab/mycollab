@@ -16,17 +16,16 @@
  */
 package com.mycollab.module.project.service
 
-import com.mycollab.db.arguments.SearchRequest
 import com.mycollab.core.cache.CacheKey
 import com.mycollab.core.cache.Cacheable
+import com.mycollab.db.arguments.SearchRequest
 import com.mycollab.db.persistence.service.IDefaultService
 import com.mycollab.module.project.domain.SimpleStandupReport
 import com.mycollab.module.project.domain.StandupReportStatistic
 import com.mycollab.module.project.domain.StandupReportWithBLOBs
 import com.mycollab.module.project.domain.criteria.StandupReportSearchCriteria
 import com.mycollab.module.user.domain.SimpleUser
-
-import java.util.Date
+import java.time.LocalDate
 
 /**
  * @author MyCollab Ltd.
@@ -37,10 +36,10 @@ interface StandupReportService : IDefaultService<Int, StandupReportWithBLOBs, St
     fun findById(standupId: Int, @CacheKey sAccountId: Int): SimpleStandupReport?
 
     @Cacheable
-    fun findStandupReportByDateUser(projectId: Int, username: String, onDate: Date, @CacheKey sAccountId: Int): SimpleStandupReport?
+    fun findStandupReportByDateUser(projectId: Int, username: String, onDate: LocalDate, @CacheKey sAccountId: Int): SimpleStandupReport?
 
     @Cacheable
-    fun findUsersNotDoReportYet(projectId: Int, onDate: Date, @CacheKey sAccountId: Int): List<SimpleUser>
+    fun findUsersNotDoReportYet(projectId: Int, onDate: LocalDate, @CacheKey sAccountId: Int): List<SimpleUser>
 
-    fun getProjectReportsStatistic(projectIds: List<Int>, onDate: Date, searchRequest: SearchRequest): List<StandupReportStatistic>
+    fun getProjectReportsStatistic(projectIds: List<Int>, onDate: LocalDate, searchRequest: SearchRequest): List<StandupReportStatistic>
 }

@@ -18,8 +18,6 @@ package com.mycollab.module.project.view
 
 import com.google.common.eventbus.Subscribe
 import com.mycollab.vaadin.ApplicationEventListener
-import com.mycollab.module.crm.domain.SimpleAccount
-import com.mycollab.module.crm.domain.criteria.AccountSearchCriteria
 import com.mycollab.module.project.event.ClientEvent
 import com.mycollab.module.project.event.ProjectEvent
 import com.mycollab.module.project.event.ReportEvent
@@ -63,21 +61,21 @@ class ProjectModuleController(val container: ProjectModule) : AbstractController
             }
         })
 
-        this.register(object : ApplicationEventListener<ClientEvent.GotoList> {
-            @Subscribe override fun handle(event: ClientEvent.GotoList) {
-                val presenter = PresenterResolver.getPresenter(IClientPresenter::class.java)
-                val searchCriteria = AccountSearchCriteria()
-                presenter.go(container, ClientScreenData.Search(searchCriteria))
-            }
-        })
-
-        this.register(object : ApplicationEventListener<ClientEvent.GotoAdd> {
-            @Subscribe override fun handle(event: ClientEvent.GotoAdd) {
-                val presenter = PresenterResolver.getPresenter(IClientPresenter::class.java)
-                val account = SimpleAccount()
-                presenter.go(container, ClientScreenData.Add(account))
-            }
-        })
+//        this.register(object : ApplicationEventListener<ClientEvent.GotoList> {
+//            @Subscribe override fun handle(event: ClientEvent.GotoList) {
+//                val presenter = PresenterResolver.getPresenter(IClientPresenter::class.java)
+//                val searchCriteria = AccountSearchCriteria()
+//                presenter.go(container, ClientScreenData.Search(searchCriteria))
+//            }
+//        })
+//
+//        this.register(object : ApplicationEventListener<ClientEvent.GotoAdd> {
+//            @Subscribe override fun handle(event: ClientEvent.GotoAdd) {
+//                val presenter = PresenterResolver.getPresenter(IClientPresenter::class.java)
+//                val account = SimpleAccount()
+//                presenter.go(container, ClientScreenData.Add(account))
+//            }
+//        })
 
         this.register(object : ApplicationEventListener<ClientEvent.GotoEdit> {
             @Subscribe override fun handle(event: ClientEvent.GotoEdit) {

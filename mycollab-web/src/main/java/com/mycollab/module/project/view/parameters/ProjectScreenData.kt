@@ -32,13 +32,9 @@ object ProjectScreenData {
 
     class GotoTagList(params: Any?) : ScreenData<Any>(params)
 
-    class GotoFavorite() : ScreenData<Any>(null)
+    class GotoFavorite : ScreenData<Any>(null)
 
     class SearchItem(params: String) : ScreenData<String>(params)
 
-    class GotoGanttChart : ScreenData<Any>(null)
-
     class GotoReportConsole : ScreenData<Any>(null)
-
-    class GotoCalendarView : ScreenData<Any>(null)
 }

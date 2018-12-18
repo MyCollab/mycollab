@@ -19,8 +19,7 @@ package com.mycollab.module.project.domain
 import com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum
 import com.mycollab.core.utils.DateTimeUtils
 import com.mycollab.core.utils.StringUtils
-
-import java.util.Date
+import java.time.LocalDateTime
 
 /**
  * @author MyCollab Ltd.
@@ -62,16 +61,16 @@ data class SimpleTask(var projectName: String? = null,
         get() {
             if (!isCompleted) {
                 val now = DateTimeUtils.getCurrentDateWithoutMS()
-                return duedate != null && duedate.before(now)
+                return duedate != null && duedate.isBefore(now)
             }
 
             return false
         }
 
-    val deadlineRoundPlusOne: Date?
+    val deadlineRoundPlusOne: LocalDateTime?
         get() {
             val value = duedate
-            return if (value != null) DateTimeUtils.subtractOrAddDayDuration(value, 1) else null
+            return if (value != null) value.plusDays(1) else null
         }
 
     enum class Field {

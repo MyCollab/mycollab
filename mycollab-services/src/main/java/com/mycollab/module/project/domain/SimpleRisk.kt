@@ -54,7 +54,7 @@ class SimpleRisk : Risk() {
     val isOverdue: Boolean
         get() {
             val now = DateTimeUtils.getCurrentDateWithoutMS()
-            return StatusI18nEnum.Open.name == status && duedate != null && duedate.before(now)
+            return StatusI18nEnum.Open.name == status && duedate != null && duedate.isBefore(now)
         }
 
     enum class Field {

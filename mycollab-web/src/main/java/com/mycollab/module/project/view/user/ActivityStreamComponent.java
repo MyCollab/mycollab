@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -46,12 +46,10 @@ import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Label;
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang3.time.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Date;
-import java.util.GregorianCalendar;
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -85,7 +83,7 @@ public class ActivityStreamComponent extends CssLayout {
         private static final long serialVersionUID = 1L;
 
         public int setSearchCriteria(final ActivityStreamSearchCriteria searchCriteria) {
-            listContainer.removeAllComponents();
+            this.removeAllComponents();
             searchRequest = new BasicSearchRequest<>(searchCriteria, currentPage, defaultNumberSearchItems);
             doSearch();
             return totalCount;
@@ -112,9 +110,9 @@ public class ActivityStreamComponent extends CssLayout {
 
             List<ProjectActivityStream> currentListData = projectActivityStreamService.getProjectActivityStreams(
                     (BasicSearchRequest<ActivityStreamSearchCriteria>) searchRequest);
-            listContainer.removeAllComponents();
+            this.removeAllComponents();
 
-            Date currentDate = new GregorianCalendar(2100, 1, 1).getTime();
+            LocalDate currentDate = LocalDate.of(2100, 1, 1);
             CssLayout currentFeedBlock = new CssLayout();
             AuditLogRegistry auditLogRegistry = AppContextUtil.getSpringBean(AuditLogRegistry.class);
 
@@ -128,8 +126,8 @@ public class ActivityStreamComponent extends CssLayout {
                         }
                     }
 
-                    Date itemCreatedDate = activityStream.getCreatedtime();
-                    if (!DateUtils.isSameDay(currentDate, itemCreatedDate)) {
+                    LocalDate itemCreatedDate = activityStream.getCreatedtime().toLocalDate();
+                    if (!(currentDate.getYear() == itemCreatedDate.getYear())) {
                         currentFeedBlock = new CssLayout();
                         currentFeedBlock.setStyleName("feed-block");
                         feedBlocksPut(currentDate, itemCreatedDate, currentFeedBlock);

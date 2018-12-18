@@ -26,12 +26,9 @@ import com.mycollab.module.ecm.domain.DriveInfo
 import com.mycollab.module.ecm.domain.DriveInfoExample
 import com.mycollab.module.ecm.service.DriveInfoService
 import org.apache.commons.collections.CollectionUtils
-import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import java.util.concurrent.TimeUnit
-import java.util.concurrent.locks.Lock
 
 @Service
 class DriveInfoServiceImpl(private val driveInfoMapper: DriveInfoMapper) : DefaultCrudService<Int, DriveInfo>(), DriveInfoService {

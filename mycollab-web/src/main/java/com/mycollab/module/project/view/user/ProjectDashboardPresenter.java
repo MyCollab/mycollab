@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -20,7 +20,6 @@ import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectRolePermissionCollections;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.view.*;
-import com.mycollab.module.project.view.assignments.ICalendarPresenter;
 import com.mycollab.module.project.view.parameters.ProjectScreenData;
 import com.mycollab.module.project.view.parameters.ReportScreenData;
 import com.mycollab.module.project.view.parameters.StandupScreenData;
@@ -64,12 +63,6 @@ public class ProjectDashboardPresenter extends AbstractPresenter<ProjectDashboar
             presenter.go(view, data);
         } else if (data instanceof ProjectScreenData.SearchItem) {
             ProjectSearchItemPresenter presenter = PresenterResolver.getPresenter(ProjectSearchItemPresenter.class);
-            presenter.go(view, data);
-        } else if (data instanceof ProjectScreenData.GotoGanttChart) {
-            IGanttChartPresenter presenter = PresenterResolver.getPresenter(IGanttChartPresenter.class);
-            presenter.go(view, data);
-        } else if (data instanceof ProjectScreenData.GotoCalendarView) {
-            ICalendarPresenter presenter = PresenterResolver.getPresenter(ICalendarPresenter.class);
             presenter.go(view, data);
         } else if (data instanceof ProjectScreenData.GotoReportConsole || data instanceof StandupScreenData.Search
                 || data instanceof ReportScreenData.GotoWeeklyTiming) {

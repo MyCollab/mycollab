@@ -21,33 +21,24 @@ import com.hp.gagawa.java.elements.B;
 import com.hp.gagawa.java.elements.Div;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.i18n.ShellI18nEnum;
-import com.mycollab.module.mail.service.ExtMailService;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectRolePermissionCollections;
 import com.mycollab.module.project.event.ProjectMemberEvent;
 import com.mycollab.module.project.event.ProjectMemberEvent.InviteProjectMembers;
 import com.mycollab.module.project.i18n.ProjectMemberI18nEnum;
-import com.mycollab.module.project.service.ProjectMemberService;
 import com.mycollab.module.project.view.ProjectBreadcrumb;
 import com.mycollab.shell.view.SystemUIChecker;
-import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.vaadin.UserUIContext;
-import com.mycollab.vaadin.event.ViewEvent;
-import com.mycollab.vaadin.mvp.PageView.ViewListener;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.mvp.ViewManager;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.NotificationUtil;
 import com.mycollab.vaadin.web.ui.AbstractPresenter;
 import com.mycollab.vaadin.web.ui.WebThemes;
-import com.vaadin.server.FontAwesome;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.HasComponents;
-import com.vaadin.ui.Notification;
-import com.vaadin.ui.UI;
-import org.apache.commons.collections.CollectionUtils;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
@@ -69,31 +60,31 @@ public class ProjectMemberInvitePresenter extends AbstractPresenter<ProjectMembe
 
     @Override
     protected void postInitView() {
-        view.addViewListener(new ViewListener<ProjectMemberEvent.InviteProjectMembers>() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void receiveEvent(ViewEvent<InviteProjectMembers> event) {
-                InviteProjectMembers inviteMembers = (InviteProjectMembers) event.getData();
-                ProjectMemberService projectMemberService = AppContextUtil.getSpringBean(ProjectMemberService.class);
-                Collection<String> inviteEmails = inviteMembers.getEmails();
-                if (CollectionUtils.isNotEmpty(inviteEmails)) {
-                    projectMemberService.inviteProjectMembers(inviteEmails.toArray(new String[inviteEmails.size()]),
-                            CurrentProjectVariables.getProjectId(), inviteMembers.getRoleId(),
-                            UserUIContext.getUsername(), inviteMembers.getInviteMessage(), AppUI.getAccountId());
-
-                    ExtMailService mailService = AppContextUtil.getSpringBean(ExtMailService.class);
-                    if (mailService.isMailSetupValid()) {
-                        NotificationUtil.showNotification(UserUIContext.getMessage(ProjectMemberI18nEnum.OPT_INVITATION_SENT_SUCCESSFULLY),
-                                UserUIContext.getMessage(GenericI18Enum.HELP_SPAM_FILTER_PREVENT_MESSAGE),
-                                Notification.Type.HUMANIZED_MESSAGE);
-                        EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoList(this, CurrentProjectVariables.getProjectId()));
-                    } else {
-                        UI.getCurrent().addWindow(new CanSendEmailInstructionWindow(inviteMembers));
-                    }
-                }
-            }
-        });
+//        view.addViewListener(new ViewListener<ProjectMemberEvent.InviteProjectMembers>() {
+//            private static final long serialVersionUID = 1L;
+//
+//            @Override
+//            public void receiveEvent(ViewEvent<InviteProjectMembers> event) {
+//                InviteProjectMembers inviteMembers = (InviteProjectMembers) event.getData();
+//                ProjectMemberService projectMemberService = AppContextUtil.getSpringBean(ProjectMemberService.class);
+//                Collection<String> inviteEmails = inviteMembers.getEmails();
+//                if (CollectionUtils.isNotEmpty(inviteEmails)) {
+//                    projectMemberService.inviteProjectMembers(inviteEmails.toArray(new String[inviteEmails.size()]),
+//                            CurrentProjectVariables.getProjectId(), inviteMembers.getRoleId(),
+//                            UserUIContext.getUsername(), inviteMembers.getInviteMessage(), AppUI.getAccountId());
+//
+//                    ExtMailService mailService = AppContextUtil.getSpringBean(ExtMailService.class);
+//                    if (mailService.isMailSetupValid()) {
+//                        NotificationUtil.showNotification(UserUIContext.getMessage(ProjectMemberI18nEnum.OPT_INVITATION_SENT_SUCCESSFULLY),
+//                                UserUIContext.getMessage(GenericI18Enum.HELP_SPAM_FILTER_PREVENT_MESSAGE),
+//                                Notification.Type.HUMANIZED_MESSAGE);
+//                        EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoList(this, CurrentProjectVariables.getProjectId()));
+//                    } else {
+//                        UI.getCurrent().addWindow(new CanSendEmailInstructionWindow(inviteMembers));
+//                    }
+//                }
+//            }
+//        });
     }
 
     @Override
@@ -139,7 +130,7 @@ public class ProjectMemberInvitePresenter extends AbstractPresenter<ProjectMembe
 
             Collection<String> inviteEmails = invitation.getEmails();
             for (String inviteEmail : inviteEmails) {
-                Div userEmailDiv = new Div().appendText(String.format("&nbsp;&nbsp;&nbsp;&nbsp;%s %s: ", FontAwesome.MAIL_FORWARD.getHtml(),
+                Div userEmailDiv = new Div().appendText(String.format("&nbsp;&nbsp;&nbsp;&nbsp;%s %s: ", VaadinIcons.PAPERPLANE.getHtml(),
                         UserUIContext.getMessage(GenericI18Enum.FORM_EMAIL))).appendChild(new A().setHref("mailto:" + inviteEmail)
                         .appendText(inviteEmail));
                 linksContainer.with(ELabel.html(userEmailDiv.write()), ELabel.hr());

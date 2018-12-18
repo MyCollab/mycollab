@@ -24,6 +24,7 @@ import com.mycollab.module.project.domain.ProjectGenericItem
  * @since 6.0.0
  */
 object ProjectEvent {
+
     class GotoAdd(source: Any, val data: Any?) : ApplicationEvent(source)
 
     class GotoEdit(source: Any, val data: Any?) : ApplicationEvent(source)
@@ -39,10 +40,6 @@ object ProjectEvent {
     class SelectFavoriteItem(source: Any, val data: ProjectGenericItem) : ApplicationEvent(source)
 
     class TimeLoggingChangedEvent(source: Any) : ApplicationEvent(source)
-
-    class GotoCalendarView(source: Any) : ApplicationEvent(source)
-
-    class GotoGanttChart(source: Any, val data: Any?) : ApplicationEvent(source)
 
     class GotoDashboard(source: Any, val data: Any?) : ApplicationEvent(source)
 

@@ -80,7 +80,7 @@ public class TicketSearchPanel extends DefaultGenericSearchPanel<ProjectTicketSe
                 }
             });
             ELabel taskIcon = ELabel.h2(ProjectAssetsManager.getAsset(ProjectTypeConstants.TICKET).getHtml()).withUndefinedWidth();
-            return new MHorizontalLayout(taskIcon, savedFilterComboBox).expand(savedFilterComboBox).alignAll(Alignment.MIDDLE_LEFT);
+            return new MHorizontalLayout(taskIcon, savedFilterComboBox).expand(savedFilterComboBox).alignAll(Alignment.MIDDLE_LEFT).withUndefinedWidth();
         } else return null;
     }
 

@@ -41,6 +41,7 @@ import com.mycollab.module.user.service.RoleService
 import com.mycollab.module.user.service.UserService
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
+import java.time.LocalDateTime
 import java.util.*
 
 /**
@@ -113,7 +114,7 @@ class InviteProjectMembersCommand(private val userService: UserService,
                     val member = ProjectMember()
                     member.projectid = event.projectId
                     member.username = it
-                    member.joindate = Date()
+                    member.joindate = LocalDateTime.now()
                     member.saccountid = event.sAccountId
                     member.billingrate = project.defaultbillingrate
                     member.overtimebillingrate = project.defaultovertimebillingrate

@@ -25,13 +25,10 @@ import com.mycollab.module.project.event.ProjectMemberEvent;
 import com.mycollab.module.project.i18n.ProjectMemberI18nEnum;
 import com.mycollab.module.project.i18n.ProjectRoleI18nEnum;
 import com.mycollab.module.project.i18n.RolePermissionI18nEnum;
-import com.mycollab.module.project.service.ProjectRoleService;
 import com.mycollab.module.project.view.settings.component.InviteUserTokenField;
 import com.mycollab.module.project.view.settings.component.ProjectRoleComboBox;
 import com.mycollab.security.PermissionFlag;
 import com.mycollab.security.PermissionMap;
-import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.AbstractVerticalPageView;
@@ -43,7 +40,6 @@ import com.mycollab.vaadin.web.ui.AddViewLayout;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.vaadin.icons.VaadinIcons;
-import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.TextArea;
@@ -60,7 +56,6 @@ import org.vaadin.viritin.layouts.MVerticalLayout;
 public class ProjectMemberInviteViewImpl extends AbstractVerticalPageView implements ProjectMemberInviteView {
     private static final long serialVersionUID = 1L;
 
-    private Integer roleId = 0;
     private ProjectRoleComboBox roleComboBox;
     private TextArea messageArea;
     private InviteUserTokenField inviteUserTokenField;
@@ -68,7 +63,6 @@ public class ProjectMemberInviteViewImpl extends AbstractVerticalPageView implem
 
     @Override
     public void display() {
-        roleId = 0;
         initContent();
     }
 
@@ -77,8 +71,8 @@ public class ProjectMemberInviteViewImpl extends AbstractVerticalPageView implem
 
         roleComboBox = new ProjectRoleComboBox();
         roleComboBox.addValueChangeListener(valueChangeEvent -> {
-            Integer roleId = (Integer) roleComboBox.getValue();
-            displayRolePermission(roleId);
+            SimpleProjectRole role = (SimpleProjectRole) roleComboBox.getValue();
+            displayRolePermission(role);
         });
 
         AddViewLayout userAddLayout = new AddViewLayout(UserUIContext.getMessage(ProjectMemberI18nEnum.FORM_INVITE_MEMBERS), VaadinIcons.USER);
@@ -103,12 +97,12 @@ public class ProjectMemberInviteViewImpl extends AbstractVerticalPageView implem
 
     private Layout createButtonControls() {
         MButton inviteBtn = new MButton(UserUIContext.getMessage(ProjectMemberI18nEnum.BUTTON_NEW_INVITEE), clickEvent -> {
-            roleId = (Integer) roleComboBox.getValue();
+            SimpleProjectRole role = (SimpleProjectRole) roleComboBox.getValue();
 //            BeanItem<SimpleProjectRole> item = (BeanItem<SimpleProjectRole>) roleComboBox.getItem(roleId);
 //            String roleName = (item != null) ? item.getBean().getRolename() : "";
 //            ProjectMemberInviteViewImpl.this.fireEvent(new ViewEvent<>(this,
 //                    new InviteProjectMembers(inviteUserTokenField.getInviteEmails(), roleId, roleName, messageArea.getValue())));
-        }).withIcon(FontAwesome.SEND).withStyleName(WebThemes.BUTTON_ACTION);
+        }).withIcon(VaadinIcons.PAPERPLANE).withStyleName(WebThemes.BUTTON_ACTION);
 
         MButton cancelBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
                 clickEvent -> EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoList(this, CurrentProjectVariables.getProjectId())))
@@ -121,28 +115,25 @@ public class ProjectMemberInviteViewImpl extends AbstractVerticalPageView implem
 
         projectFormHelper = GridFormLayoutHelper.defaultFormLayoutHelper(2, ProjectRolePermissionCollections.PROJECT_PERMISSIONS.length / 2 + 1, "180px");
         permissionsPanel.addSection(UserUIContext.getMessage(ProjectRoleI18nEnum.SECTION_PERMISSIONS), projectFormHelper.getLayout());
-        roleId = (Integer) roleComboBox.getValue();
-        displayRolePermission(roleId);
+        SimpleProjectRole role = (SimpleProjectRole) roleComboBox.getValue();
+        displayRolePermission(role);
 
         return permissionsPanel;
     }
 
-    private void displayRolePermission(Integer roleId) {
+    private void displayRolePermission(SimpleProjectRole role) {
         projectFormHelper.getLayout().removeAllComponents();
-        if (roleId != null && roleId > 0) {
-            ProjectRoleService roleService = AppContextUtil.getSpringBean(ProjectRoleService.class);
-            SimpleProjectRole role = roleService.findById(roleId, AppUI.getAccountId());
-            if (role != null) {
-                PermissionMap permissionMap = role.getPermissionMap();
-                for (int i = 0; i < ProjectRolePermissionCollections.PROJECT_PERMISSIONS.length; i++) {
-                    String permissionPath = ProjectRolePermissionCollections.PROJECT_PERMISSIONS[i];
-                    Enum permissionKey = RolePermissionI18nEnum.valueOf(permissionPath);
-                    Integer perVal = permissionMap.get(permissionKey.name());
-                    SecurityI18nEnum permissionVal = PermissionFlag.toVal(perVal);
-                    projectFormHelper.addComponent(new Label(UserUIContext.getPermissionCaptionValue(
-                            permissionMap, permissionPath)), UserUIContext.getMessage(permissionKey),
-                            UserUIContext.getMessage(permissionVal.desc()), i % 2, i / 2);
-                }
+        if (role != null) {
+            PermissionMap permissionMap = role.getPermissionMap();
+            for (int i = 0; i < ProjectRolePermissionCollections.PROJECT_PERMISSIONS.length; i++) {
+                String permissionPath = ProjectRolePermissionCollections.PROJECT_PERMISSIONS[i];
+                Enum permissionKey = RolePermissionI18nEnum.valueOf(permissionPath);
+                Integer perVal = permissionMap.get(permissionKey.name());
+                SecurityI18nEnum permissionVal = PermissionFlag.toVal(perVal);
+                projectFormHelper.addComponent(new Label(UserUIContext.getPermissionCaptionValue(
+                        permissionMap, permissionPath)), UserUIContext.getMessage(permissionKey),
+                        UserUIContext.getMessage(permissionVal.desc()), i % 2, i / 2);
+
             }
         } else {
             for (int i = 0; i < ProjectRolePermissionCollections.PROJECT_PERMISSIONS.length; i++) {

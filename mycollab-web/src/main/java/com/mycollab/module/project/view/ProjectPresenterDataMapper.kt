@@ -17,7 +17,6 @@
 package com.mycollab.module.project.view
 
 import com.mycollab.module.project.view.bug.BugPresenter
-import com.mycollab.module.project.view.file.FilePresenter
 import com.mycollab.module.project.view.message.MessagePresenter
 import com.mycollab.module.project.view.milestone.MilestonePresenter
 import com.mycollab.module.project.view.page.PagePresenter
@@ -95,21 +94,16 @@ object ProjectPresenterDataMapper {
             TimeTrackingScreenData.Search::class.java to IFinancePresenter::class.java,
             InvoiceScreenData.GotoInvoiceList::class.java to IFinancePresenter::class.java)
 
-    private val fileMapper = mapOf<Class<out ScreenData<Any>>, Class<out IPresenter<*>>>(
-            FileScreenData.GotoDashboard::class.java to FilePresenter::class.java)
-
     private val projectMapper = mapOf<Class<out ScreenData<Any>>, Class<out IPresenter<*>>>(
             ProjectScreenData.GotoTagList::class.java to ProjectDashboardPresenter::class.java,
             ProjectScreenData.GotoFavorite::class.java to ProjectDashboardPresenter::class.java,
-            ProjectScreenData.GotoGanttChart::class.java to ProjectDashboardPresenter::class.java,
-            ProjectScreenData.GotoCalendarView::class.java to ProjectDashboardPresenter::class.java,
             ProjectScreenData.GotoReportConsole::class.java to ProjectDashboardPresenter::class.java,
             ProjectScreenData.SearchItem::class.java to UserProjectDashboardPresenter::class.java,
             ProjectScreenData.Edit::class.java to ProjectDashboardPresenter::class.java,
             ReportScreenData.GotoWeeklyTiming::class.java to ProjectDashboardPresenter::class.java)
 
     private val allMapper = milestoneMapper + messageMapper + pageMapper + riskMapper + taskMapper +
-            trackerMapper + standupMapper + userMapper + timeMapper + fileMapper + projectMapper
+            trackerMapper + standupMapper + userMapper + timeMapper + projectMapper
 
     @JvmStatic
     fun presenter(screenData: ScreenData<Any>): Class<out IPresenter<*>>? = allMapper[screenData.javaClass]

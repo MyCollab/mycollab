@@ -19,11 +19,12 @@ package com.mycollab.vaadin.web.ui;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.db.arguments.SearchCriteria;
 import com.mycollab.vaadin.UserUIContext;
-import com.mycollab.vaadin.ui.HeaderWithFontAwesome;
+import com.mycollab.vaadin.ui.HeaderWithIcon;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.HorizontalLayout;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 /**
@@ -62,7 +63,7 @@ public abstract class DefaultGenericSearchPanel<S extends SearchCriteria> extend
         return null;
     }
 
-    protected ComponentContainer constructHeader() {
+    MHorizontalLayout constructHeader() {
         if (header == null) {
             headerText = buildSearchTitle();
             if (headerText != null) {
@@ -70,7 +71,7 @@ public abstract class DefaultGenericSearchPanel<S extends SearchCriteria> extend
                 header = new MHorizontalLayout().withFullWidth().withMargin(new MarginInfo(true, false, true, false));
 
                 header.with(headerText, rightComponent).withAlign(headerText, Alignment.MIDDLE_LEFT)
-                        .withAlign(rightComponent, Alignment.MIDDLE_RIGHT).expand(headerText);
+                        .withAlign(rightComponent, Alignment.MIDDLE_RIGHT);
             }
 
             Component extraControls = buildExtraControls();
@@ -84,8 +85,8 @@ public abstract class DefaultGenericSearchPanel<S extends SearchCriteria> extend
     }
 
     public void setTotalCountNumber(Integer countNumber) {
-        if (headerText instanceof HeaderWithFontAwesome) {
-            ((HeaderWithFontAwesome) headerText).appendToTitle(UserUIContext.getMessage(GenericI18Enum.OPT_TOTAL_VALUE, countNumber));
+        if (headerText instanceof HeaderWithIcon) {
+            ((HeaderWithIcon) headerText).appendToTitle(UserUIContext.getMessage(GenericI18Enum.OPT_TOTAL_VALUE, countNumber));
         }
     }
 

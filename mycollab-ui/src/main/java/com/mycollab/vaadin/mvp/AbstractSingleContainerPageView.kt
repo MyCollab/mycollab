@@ -16,7 +16,6 @@
  */
 package com.mycollab.vaadin.mvp
 
-import com.mycollab.vaadin.event.ViewEvent
 import com.vaadin.shared.Registration
 import com.vaadin.ui.Component
 import com.vaadin.ui.CssLayout
@@ -60,9 +59,5 @@ open class AbstractSingleContainerPageView : CustomComponent(), PageView, Single
 
     override fun removeComponentDetachListener(componentDetachListener: ComponentDetachListener) {
 
-    }
-
-    override fun <E> addViewListener(listener: PageView.ViewListener<E>) {
-        addListener(ViewEvent.VIEW_IDENTIFIER, ViewEvent::class.java, listener, PageView.ViewListener.viewInitMethod)
     }
 }

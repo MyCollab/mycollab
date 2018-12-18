@@ -19,9 +19,6 @@ package com.mycollab.servlet
 import com.google.common.base.MoreObjects
 import com.mycollab.core.utils.TimezoneVal
 import com.mycollab.i18n.LocalizationHelper
-import com.mycollab.module.crm.CrmTooltipGenerator
-import com.mycollab.module.crm.CrmTypeConstants
-import com.mycollab.module.crm.service.*
 import com.mycollab.module.project.ProjectTooltipGenerator
 import com.mycollab.module.project.ProjectTypeConstants
 import com.mycollab.module.project.service.*
@@ -111,54 +108,6 @@ class TooltipGeneratorServletRequestHandler : GenericHttpServlet() {
                     val service = AppContextUtil.getSpringBean(StandupReportService::class.java)
                     val standup = service.findById(Integer.parseInt(typeId), sAccountId)
                     html = ProjectTooltipGenerator.generateToolTipStandUp(locale, dateFormat, standup, siteURL, timeZone)
-                }
-                CrmTypeConstants.ACCOUNT -> {
-                    val service = AppContextUtil.getSpringBean(AccountService::class.java)
-                    val account = service.findById(Integer.parseInt(typeId), sAccountId)
-                    html = CrmTooltipGenerator.generateToolTipAccount(locale, account, siteURL)
-                }
-                CrmTypeConstants.CONTACT -> {
-                    val service = AppContextUtil.getSpringBean(ContactService::class.java)
-                    val contact = service.findById(Integer.parseInt(typeId), sAccountId)
-                    html = CrmTooltipGenerator.generateToolTipContact(locale, dateFormat, contact, siteURL, timeZone)
-                }
-                CrmTypeConstants.CAMPAIGN -> {
-                    val service = AppContextUtil.getSpringBean(CampaignService::class.java)
-                    val account = service.findById(Integer.parseInt(typeId), sAccountId)
-                    html = CrmTooltipGenerator.generateTooltipCampaign(locale, dateFormat, account, siteURL, timeZone)
-                }
-                CrmTypeConstants.LEAD -> {
-                    val service = AppContextUtil.getSpringBean(LeadService::class.java)
-                    val lead = service.findById(Integer.parseInt(typeId), sAccountId)
-                    html = CrmTooltipGenerator.generateTooltipLead(locale, lead, siteURL, timeZone)
-                }
-                CrmTypeConstants.OPPORTUNITY -> {
-                    val service = AppContextUtil.getSpringBean(OpportunityService::class.java)
-                    val opportunity = service.findById(
-                            Integer.parseInt(typeId), sAccountId)
-                    html = CrmTooltipGenerator.generateTooltipOpportunity(locale, dateFormat, opportunity, siteURL, timeZone)
-                }
-                CrmTypeConstants.CASE -> {
-                    val service = AppContextUtil.getSpringBean(CaseService::class.java)
-                    val cases = service.findById(Integer.parseInt(typeId), sAccountId)
-                    html = CrmTooltipGenerator.generateTooltipCases(locale, cases, siteURL, timeZone)
-                }
-                CrmTypeConstants.MEETING -> {
-                    val service = AppContextUtil.getSpringBean(MeetingService::class.java)
-                    val meeting = service.findById(
-                            Integer.parseInt(typeId), sAccountId)
-                    html = CrmTooltipGenerator.generateToolTipMeeting(locale, dateFormat, meeting, siteURL, timeZone)
-                }
-                CrmTypeConstants.CALL -> {
-                    val service = AppContextUtil.getSpringBean(CallService::class.java)
-                    val call = service.findById(Integer.parseInt(typeId), sAccountId)
-                    html = CrmTooltipGenerator.generateToolTipCall(locale, dateFormat, call, siteURL, timeZone)
-                }
-                CrmTypeConstants.TASK -> {
-                    val service = AppContextUtil.getSpringBean(TaskService::class.java)
-                    val crmTask = service.findById(Integer.parseInt(typeId), sAccountId)
-                    html = CrmTooltipGenerator.generateToolTipCrmTask(locale, dateFormat,
-                            crmTask, siteURL, timeZone)
                 }
                 AdminTypeConstants.USER -> {
                     val service = AppContextUtil.getSpringBean(UserService::class.java)

@@ -33,15 +33,16 @@ import org.vaadin.viritin.layouts.MVerticalLayout;
  * @since 5.3.5
  */
 class DefaultTicketGroupComponent extends MVerticalLayout implements IGroupComponent, IBlockContainer {
-    private Label headerLbl, estimatedHours, remainHours;
+    private Label headerLbl;
     private DDVerticalLayout wrapBody;
 
     private String titleValue;
 
     DefaultTicketGroupComponent(String titleValue) {
         this.titleValue = titleValue;
-        this.setMargin(new MarginInfo(true, false, true, false));
+        this.withMargin(new MarginInfo(true, false, true, false)).withSpacing(false);
         wrapBody = new DDVerticalLayout();
+        wrapBody.setSpacing(false);
         wrapBody.setWidth("100%");
         wrapBody.addStyleName(WebThemes.BORDER_LIST);
         headerLbl = ELabel.h3("");
@@ -68,9 +69,5 @@ class DefaultTicketGroupComponent extends MVerticalLayout implements IGroupCompo
 
     private void updateTitle() {
         headerLbl.setValue(String.format("%s (%d)", titleValue, wrapBody.getComponentCount()));
-    }
-
-    private void updateHours(ProjectTicket ticket) {
-
     }
 }

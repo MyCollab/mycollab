@@ -7,7 +7,7 @@
     <parent>
         <groupId>com.mycollab</groupId>
         <artifactId>mycollab-parent-community</artifactId>
-        <version>6.0.0</version>
+        <version>7.0.0</version>
         <relativePath>../mycollab-parent-community/pom.xml</relativePath>
     </parent>
     <packaging>jar</packaging>
@@ -69,7 +69,7 @@
             <artifactId>mycollab-web-community</artifactId>
             <version>${project.version}</version>
         </dependency>
-
+<!--
         <dependency>
             <groupId>com.vaadin</groupId>
             <artifactId>vaadin-client-compiled</artifactId>
@@ -87,13 +87,13 @@
                 </exclusion>
             </exclusions>
         </dependency>
-
+-->
         <dependency>
             <groupId>com.vaadin</groupId>
             <artifactId>vaadin-compatibility-client</artifactId>
             <scope>provided</scope>
         </dependency>
-
+        
     </dependencies>
     <build>
         <plugins>

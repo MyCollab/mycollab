@@ -23,7 +23,6 @@ import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.field.DefaultViewField;
 import com.vaadin.data.*;
-import com.vaadin.ui.AbstractField;
 import com.vaadin.ui.CustomField;
 import com.vaadin.ui.DateField;
 import com.vaadin.ui.TextField;
@@ -98,7 +97,7 @@ public abstract class AbstractBeanFieldGroupFieldFactory<B> implements IBeanFiel
                 }
 
                 if (formField instanceof DateField && !(formField instanceof PopupDateFieldExt)) {
-                    ((DateField) formField).setZoneId(UserUIContext.getUserTimeZone().toZoneId());
+                    ((DateField) formField).setZoneId(UserUIContext.getUserTimeZone());
                     ((DateField) formField).setDateFormat(AppUI.getDateFormat());
                 }
                 attachForm.attachField(bindField, formField);
@@ -107,7 +106,7 @@ public abstract class AbstractBeanFieldGroupFieldFactory<B> implements IBeanFiel
             Class<?> beanClass = bean.getClass();
             java.lang.reflect.Field[] fields = ClassUtils.getAllFields(beanClass);
             for (java.lang.reflect.Field field : fields) {
-                AbstractField<?> formField = (AbstractField<?>) onCreateField(field.getName());
+                HasValue<?> formField = onCreateField(field.getName());
                 if (formField == null) {
                     if (field.getAnnotation(NotBindable.class) != null) {
                         continue;
@@ -121,7 +120,7 @@ public abstract class AbstractBeanFieldGroupFieldFactory<B> implements IBeanFiel
                                 formField = new DefaultViewField("Error");
                             }
                         } else {
-//                            formField = fieldGroup.buildAndBind(field.getName());
+                            formField = new TextField();
                         }
                     }
                 } else {
@@ -135,7 +134,7 @@ public abstract class AbstractBeanFieldGroupFieldFactory<B> implements IBeanFiel
                 }
 
                 if (formField instanceof DateField) {
-                    ((DateField) formField).setZoneId(UserUIContext.getUserTimeZone().toZoneId());
+                    ((DateField) formField).setZoneId(UserUIContext.getUserTimeZone());
                     ((DateField) formField).setDateFormat(AppUI.getDateFormat());
                 }
 

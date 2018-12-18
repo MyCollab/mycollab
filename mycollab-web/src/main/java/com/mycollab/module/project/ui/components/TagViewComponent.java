@@ -29,7 +29,6 @@ import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.icons.VaadinIcons;
-import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.HorizontalLayout;
@@ -161,7 +160,7 @@ public class TagViewComponent extends CssLayout {
                     .withStyleName(WebThemes.BUTTON_LINK);
             this.addComponent(tagLink);
             if (canAddNewTag) {
-                MButton deleteBtn = new MButton(FontAwesome.TIMES, clickEvent -> {
+                MButton deleteBtn = new MButton(VaadinIcons.CLOSE, clickEvent -> {
                     ConfirmDialogExt.show(UI.getCurrent(),
                             UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppUI.getSiteName()),
                             UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),

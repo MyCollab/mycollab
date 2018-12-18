@@ -30,6 +30,7 @@ import com.mycollab.vaadin.ui.NotificationUtil;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.vaadin.data.HasValue;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
 import org.springframework.http.converter.FormHttpMessageConverter;
@@ -119,7 +120,7 @@ class TestimonialWindow extends MWindow {
                 }
                 close();
             }
-        }).withStyleName(WebThemes.BUTTON_ACTION).withIcon(FontAwesome.MAIL_FORWARD);
+        }).withStyleName(WebThemes.BUTTON_ACTION).withIcon(VaadinIcons.PAPERPLANE);
 
         MHorizontalLayout buttonControls = new MHorizontalLayout(cancelBtn, submitBtn).withMargin(true);
         content.with(buttonControls).withAlign(buttonControls, Alignment.MIDDLE_RIGHT);

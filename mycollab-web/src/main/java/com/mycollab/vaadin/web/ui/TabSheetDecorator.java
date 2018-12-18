@@ -50,7 +50,7 @@ public class TabSheetDecorator extends TabSheet {
     }
 
     public static class WrappedTab extends CssLayout {
-        public WrappedTab() {
+        WrappedTab() {
             setSizeFull();
         }
 

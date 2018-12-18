@@ -21,21 +21,21 @@ import com.jarektoro.responsivelayout.ResponsiveLayout;
 import com.jarektoro.responsivelayout.ResponsiveRow;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.module.project.i18n.ProjectI18nEnum;
+import com.mycollab.module.project.service.ProjectService;
 import com.mycollab.module.project.view.milestone.AllMilestoneTimelineWidget;
 import com.mycollab.module.project.view.ticket.TicketOverdueWidget;
 import com.mycollab.module.project.view.user.ActivityStreamComponent;
-import com.mycollab.module.project.view.user.MyProjectListComponent;
 import com.mycollab.module.project.view.user.UserUnresolvedTicketWidget;
 import com.mycollab.security.RolePermissionCollections;
+import com.mycollab.spring.AppContextUtil;
+import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.AbstractVerticalPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.mvp.ViewManager;
 import com.mycollab.vaadin.ui.ELabel;
-import com.mycollab.vaadin.ui.UIUtils;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.icons.VaadinIcons;
-import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.UI;
@@ -58,8 +58,8 @@ public class UserProjectDashboardViewImpl extends AbstractVerticalPageView imple
 
     @Override
     public void lazyLoadView() {
-        UserDashboardView userDashboardView = UIUtils.getRoot(this, UserDashboardView.class);
-        List<Integer> prjKeys = userDashboardView.getInvolvedProjectKeys();
+        ProjectService projectService = AppContextUtil.getSpringBean(ProjectService.class);
+        List<Integer> prjKeys = projectService.getProjectKeysUserInvolved(UserUIContext.getUsername(), AppUI.getAccountId());
         if (CollectionUtils.isNotEmpty(prjKeys)) {
             ResponsiveLayout contentWrapper = new ResponsiveLayout(ResponsiveLayout.ContainerType.FIXED);
             contentWrapper.setSizeFull();
@@ -85,8 +85,8 @@ public class UserProjectDashboardViewImpl extends AbstractVerticalPageView imple
             column1.setComponent(leftPanel);
 
             MVerticalLayout rightPanel = new MVerticalLayout().withMargin(false);
-            MyProjectListComponent myProjectListComponent = new MyProjectListComponent();
-            rightPanel.with(myProjectListComponent, activityStreamComponent);
+
+            rightPanel.with(activityStreamComponent);
 
             ResponsiveColumn column2 = new ResponsiveColumn();
             column2.addRule(ResponsiveLayout.DisplaySize.LG, 5);
@@ -101,7 +101,6 @@ public class UserProjectDashboardViewImpl extends AbstractVerticalPageView imple
 
             activityStreamComponent.showFeeds(prjKeys);
             milestoneTimelineWidget.display();
-            myProjectListComponent.displayDefaultProjectsList();
             ticketOverdueWidget.showTicketsByStatus(prjKeys);
             unresolvedAssignmentThisWeekWidget.displayUnresolvedAssignmentsThisWeek();
             unresolvedAssignmentNextWeekWidget.displayUnresolvedAssignmentsNextWeek();

@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -27,7 +27,6 @@ import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.ui.FieldSelection;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.icons.VaadinIcons;
-import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomField;
 import com.vaadin.ui.UI;
@@ -45,7 +44,7 @@ import java.util.List;
 // TODO
 public class BugSelectionField extends CustomField<SimpleBug> implements FieldSelection<SimpleBug> {
     private SimpleBug selectedBug;
-//    private SuggestField suggestField;
+    //    private SuggestField suggestField;
     private List<SimpleBug> items;
     private BugService bugService;
 
@@ -102,7 +101,7 @@ public class BugSelectionField extends CustomField<SimpleBug> implements FieldSe
         return new ArrayList<>(items);
     }
 
-    private class BugSuggestionConverter  {
+    private class BugSuggestionConverter {
 
         private BugSuggestionConverter() {
 //            super(SimpleBug.class, "id", "name", "name");

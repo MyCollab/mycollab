@@ -21,43 +21,41 @@ package com.mycollab.module.project
  * @since 4.0
  */
 object ProjectTypeConstants {
-    @JvmField val PROJECT = "Project"
+    const val PROJECT = "Project"
 
-    @JvmField val PROJECT_ROLE = "project_role"
+    const val PROJECT_ROLE = "project_role"
 
-    @JvmField val TICKET = "Project-Assignment"
+    const val TICKET = "Project-Assignment"
 
-    @JvmField val TASK = "Project-Task"
+    const val TASK = "Project-Task"
 
-    @JvmField val MESSAGE = "Project-Message"
+    const val MESSAGE = "Project-Message"
 
-    @JvmField val MILESTONE = "Project-Milestone"
+    const val MILESTONE = "Project-Milestone"
 
-    @JvmField val RISK = "Project-Risk"
+    const val RISK = "Project-Risk"
 
-    @JvmField val BUG = "Project-Bug"
+    const val BUG = "Project-Bug"
 
-    @JvmField val SPIKE = "Project-Spike"
+    const val SPIKE = "Project-Spike"
 
-    @JvmField val BUG_COMPONENT = "Project-Component"
+    const val BUG_COMPONENT = "Project-Component"
 
-    @JvmField val BUG_VERSION = "Project-Version"
+    const val BUG_VERSION = "Project-Version"
 
-    @JvmField val STANDUP = "Project-StandUp"
+    const val STANDUP = "Project-StandUp"
 
-    @JvmField val PAGE = "Project-Page"
+    const val PAGE = "Project-Page"
 
-    @JvmField val DASHBOARD = "Project-Dashboard"
+    const val DASHBOARD = "Project-Dashboard"
 
-    @JvmField val FILE = "Project-File"
+    const val TIME = "Project-Time"
 
-    @JvmField val TIME = "Project-Time"
+    const val INVOICE = "Project-Invoice"
 
-    @JvmField val INVOICE = "Project-Invoice"
+    const val FINANCE = "Project-Finance"
 
-    @JvmField val FINANCE = "Project-Finance"
+    const val REPORTS = "Project-Reports"
 
-    @JvmField val REPORTS = "Project-Reports"
-
-    @JvmField val MEMBER = "Project-Member"
+    const val MEMBER = "Project-Member"
 }

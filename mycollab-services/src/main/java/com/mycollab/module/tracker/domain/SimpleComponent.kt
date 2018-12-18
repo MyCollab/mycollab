@@ -24,7 +24,7 @@ class SimpleComponent : Component() {
 
     var userLeadAvatarId: String? = null
 
-    lateinit var userLeadFullName: String
+    var userLeadFullName: String? = null
 
     var createdUserAvatarId: String? = null
 

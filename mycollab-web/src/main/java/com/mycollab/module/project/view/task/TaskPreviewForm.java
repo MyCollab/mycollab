@@ -139,7 +139,7 @@ public class TaskPreviewForm extends AdvancedPreviewBeanForm<SimpleTask> {
                     @Subscribe
                     public void handle(TaskEvent.NewTaskAdded event) {
                         final ProjectTaskService projectTaskService = AppContextUtil.getSpringBean(ProjectTaskService.class);
-                        SimpleTask task = projectTaskService.findById((Integer) event.getData(), AppUI.getAccountId());
+                        SimpleTask task = projectTaskService.findById(event.getData(), AppUI.getAccountId());
                         if (task != null && tasksLayout != null) {
                             tasksLayout.addComponent(generateSubTaskContent(task), 0);
                         }

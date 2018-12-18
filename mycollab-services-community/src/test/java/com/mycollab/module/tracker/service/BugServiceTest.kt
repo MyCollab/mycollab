@@ -28,6 +28,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner
+import java.time.LocalDate
 import java.util.*
 
 @RunWith(SpringJUnit4ClassRunner::class)
@@ -124,12 +125,9 @@ class BugServiceTest : IntegrationServiceTest() {
     @Test
     fun testSearchByDateCriteria2() {
         val criteria = BugSearchCriteria()
-        val date = GregorianCalendar()
-        date.set(Calendar.YEAR, 2009)
-        date.set(Calendar.MONTH, 0)
-        date.set(Calendar.DAY_OF_MONTH, 2)
+        val date = LocalDate.of(2009, 1, 2)
 
-        criteria.updatedDate = DateSearchField(date.time)
+        criteria.updatedDate = DateSearchField(date, DateSearchField.EQUAL)
 
         assertThat(bugService.findPageableListByCriteria(BasicSearchRequest(criteria, 0, Integer.MAX_VALUE)).size).isEqualTo(0)
     }
