@@ -144,8 +144,7 @@ class ProjectTaskServiceImpl(private val taskMapper: TaskMapper,
     fun postDirtyUpdate(sAccountId: Int?) {
         asyncEventBus.post(CleanCacheEvent(sAccountId, arrayOf(ProjectService::class.java,
                 ProjectTicketService::class.java, ProjectActivityStreamService::class.java,
-                ProjectMemberService::class.java, MilestoneService::class.java, ItemTimeLoggingService::class.java,
-                GanttAssignmentService::class.java)))
+                ProjectMemberService::class.java, MilestoneService::class.java, ItemTimeLoggingService::class.java)))
     }
 
     override fun massRemoveWithSession(items: List<Task>, username: String?, sAccountId: Int) {

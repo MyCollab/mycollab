@@ -93,7 +93,7 @@
             <artifactId>vaadin-compatibility-client</artifactId>
             <scope>provided</scope>
         </dependency>
-        
+
     </dependencies>
     <build>
         <plugins>
@@ -183,6 +183,7 @@
                             <!-- Comment out compile-theme goal to use on-the-fly theme compilation -->
                             <goal>compile-theme</goal>
                         </goals>
+                        <phase>compile</phase>
                     </execution>
                 </executions>
             </plugin>

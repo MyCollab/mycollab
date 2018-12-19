@@ -46,25 +46,9 @@ public class DbMigrationRunner {
     @PostConstruct
     public void migrate() {
         try {
-            Flyway flyway = new Flyway();
-            flyway.setBaselineOnMigrate(true);
-            flyway.setDataSource(dataSource);
-            flyway.setValidateOnMigrate(false);
-            if (deploymentMode.isDemandEdition()) {
-                flyway.setLocations("db/migration", "db/migration2");
-            } else {
-                flyway.setLocations("db/migration");
-            }
-
-            boolean doMigrateLoop = true;
-            while (doMigrateLoop) {
-                try {
-                    flyway.migrate();
-                    doMigrateLoop = false;
-                } catch (HikariPool.PoolInitializationException e) {
-                    LOG.info("Error: {}", e.getMessage());
-                }
-            }
+            String[] locations = deploymentMode.isDemandEdition() ? new String[]{"db/migration", "db/migration2"} : new String[]{"db/migration"};
+            Flyway flyway = Flyway.configure().baselineOnMigrate(true).dataSource(dataSource).validateOnMigrate(false).locations(locations).load();
+            flyway.migrate();
         } catch (Exception e) {
             LOG.error("Error while migrate database", e);
             System.exit(-1);

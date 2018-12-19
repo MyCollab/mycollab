@@ -69,7 +69,7 @@ class AuditLogAspect(private var cacheService: CacheService,
                 // get old value
                 val service = advised.targetSource.target
                 val oldValue: Any
-                var findMethod = try {
+                val findMethod = try {
                     cls.getMethod("findById", Int::class.javaPrimitiveType, Int::class.javaPrimitiveType)
                 } catch (e: Exception) {
                     cls.getMethod("findByPrimaryKey", Serializable::class.java, Int::class.javaPrimitiveType)

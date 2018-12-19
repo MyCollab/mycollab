@@ -500,8 +500,7 @@ public class V20160521_1__Adjust_Timezone_Data implements SpringJdbcMigration {
             }
         });
 
-        jdbcTemplate.batchUpdate("UPDATE s_account SET defaultTimezone=? WHERE defaultTimezone=?", new BatchPreparedStatementSetter
-                () {
+        jdbcTemplate.batchUpdate("UPDATE s_account SET defaultTimezone=? WHERE defaultTimezone=?", new BatchPreparedStatementSetter() {
             @Override
             public void setValues(PreparedStatement preparedStatement, int i) throws SQLException {
                 preparedStatement.setString(1, timeMap.get(keys[i]));

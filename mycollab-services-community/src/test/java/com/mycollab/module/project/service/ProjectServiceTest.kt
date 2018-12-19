@@ -23,21 +23,20 @@ import com.mycollab.db.arguments.NumberSearchField
 import com.mycollab.db.arguments.SetSearchField
 import com.mycollab.db.arguments.StringSearchField
 import com.mycollab.module.project.domain.Project
-import com.mycollab.module.project.domain.ProjectActivityStream
 import com.mycollab.module.project.domain.SimpleProject
 import com.mycollab.module.project.domain.criteria.ProjectSearchCriteria
 import com.mycollab.test.DataSet
+import com.mycollab.test.rule.DbUnitInitializerRule
 import com.mycollab.test.spring.IntegrationServiceTest
-import org.junit.Assert
-import org.junit.Test
-import org.junit.runner.RunWith
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner
-
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.tuple
+import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.test.context.junit.jupiter.SpringExtension
 
-@RunWith(SpringJUnit4ClassRunner::class)
+@ExtendWith(SpringExtension::class, DbUnitInitializerRule::class)
 class ProjectServiceTest : IntegrationServiceTest() {
 
     @Autowired
@@ -64,7 +63,7 @@ class ProjectServiceTest : IntegrationServiceTest() {
         val criteria = ProjectSearchCriteria()
         criteria.saccountid = NumberSearchField(1)
         val projects = projectService.findPageableListByCriteria(BasicSearchRequest<ProjectSearchCriteria>(criteria)) as List<SimpleProject>
-        Assert.assertEquals(projects.size.toLong(), 4)
+        Assertions.assertEquals(projects.size.toLong(), 4)
         assertThat<SimpleProject>(projects).extracting("id", "name").contains(tuple(1, "A"),
                 tuple(2, "B"), tuple(3, "C"), tuple(4, "D"))
     }
@@ -98,7 +97,7 @@ class ProjectServiceTest : IntegrationServiceTest() {
     @Test
     fun testGetProjectsUserInvolved() {
         val projects = projectService.getProjectsUserInvolved("admin", 1)
-        Assert.assertEquals(2, projects.size.toLong())
+        Assertions.assertEquals(2, projects.size.toLong())
         assertThat(projects.size).isEqualTo(2)
         assertThat(projects).extracting("id", "name").contains(tuple(1, "A"), tuple(2, "B"))
     }

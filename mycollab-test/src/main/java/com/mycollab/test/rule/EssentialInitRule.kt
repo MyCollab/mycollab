@@ -17,21 +17,17 @@
 package com.mycollab.test.rule
 
 import com.mycollab.configuration.SiteConfiguration
-import org.junit.rules.TestRule
-import org.junit.runner.Description
-import org.junit.runners.model.Statement
-
-import java.util.TimeZone
+import org.junit.jupiter.api.extension.BeforeEachCallback
+import org.junit.jupiter.api.extension.ExtensionContext
+import java.util.*
 
 /**
  * @author MyCollab Ltd.
  * @since 4.5.2
  */
-class EssentialInitRule : TestRule {
-
-    override fun apply(base: Statement, description: Description): Statement {
+class EssentialInitRule : BeforeEachCallback {
+    override fun beforeEach(context: ExtensionContext?) {
         SiteConfiguration.loadConfiguration()
         TimeZone.setDefault(TimeZone.getTimeZone("UTC"))
-        return base
     }
 }

@@ -3,8 +3,8 @@
     <s_user username="hai79" firstname="Nguyen" lastname="Hai" email="hainguyen@esofthead.com"/>
     <s_user username="linhduong" firstname="Duong" lastname="Linh" email="linhduong@esofthead" avatarId="linh123"/>
 
-    <s_account id="1" status="Active" paymentMethod="Credit" subdomain="a"/>
-    <s_account id="2" status="Active" paymentMethod="Credit" subdomain="b"/>
+    <s_account id="1" status="Active" paymentMethod="Credit" subdomain="a" createdTime="2013-04-10 00:00:00"/>
+    <s_account id="2" status="Active" paymentMethod="Credit" subdomain="b" createdTime="2013-04-10 00:00:00"/>
 
     <s_user_account id="1" username="hai79" accountId="2" isAccountOwner="1" registeredTime="2013-04-10 00:00:00"
                     registerStatus="Active"/>

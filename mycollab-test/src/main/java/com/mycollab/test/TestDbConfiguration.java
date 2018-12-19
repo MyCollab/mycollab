@@ -43,7 +43,7 @@ public class TestDbConfiguration {
     }
 
     public String getDriverClassName() {
-        return props.getProperty("db.driverClassName", "com.mysql.jdbc.Driver");
+        return props.getProperty("db.driverClassName", "com.mysql.cj.jdbc.Driver");
     }
 
     public String getJdbcUrl() {
@@ -52,7 +52,7 @@ public class TestDbConfiguration {
     }
 
     public String getUsername() {
-        return props.getProperty("db.username", "root");
+        return props.getProperty("db.username", "travis");
     }
 
     public String getPassword() {

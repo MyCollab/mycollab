@@ -18,7 +18,6 @@ public class SiteConfiguration {
 
     private Locale defaultLocale;
     private String endecryptPassword;
-    private String dropboxCallbackUrl;
 
     public static void loadConfiguration() {
         ApplicationProperties.loadProps();
@@ -32,8 +31,6 @@ public class SiteConfiguration {
         }
 
         instance.endecryptPassword = ApplicationProperties.getString(BI_ENDECRYPT_PASSWORD, "mycollab123");
-
-        instance.dropboxCallbackUrl = ApplicationProperties.getString(DROPBOX_AUTH_LINK);
     }
 
     private static SiteConfiguration getInstance() {
@@ -60,10 +57,6 @@ public class SiteConfiguration {
 
     public static Locale getDefaultLocale() {
         return Locale.US;
-    }
-
-    public static String getDropboxCallbackUrl() {
-        return getInstance().dropboxCallbackUrl;
     }
 
     public static String getEnDecryptPassword() {

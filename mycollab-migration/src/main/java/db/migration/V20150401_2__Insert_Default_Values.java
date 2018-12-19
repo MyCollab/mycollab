@@ -16,7 +16,7 @@ import java.util.Map;
 public class V20150401_2__Insert_Default_Values implements SpringJdbcMigration {
     private static final Logger LOG = LoggerFactory.getLogger(V20150401_2__Insert_Default_Values.class);
 
-    public void migrate(JdbcTemplate jdbcTemplate) throws Exception {
+    public void migrate(JdbcTemplate jdbcTemplate) {
         LOG.info("Set up initial values");
 
         LOG.debug("Insert default billing plan");

@@ -16,17 +16,14 @@
  */
 package com.mycollab.common
 
-import com.mycollab.common.GenericLinkUtils
-import com.mycollab.common.InvalidTokenException
-import com.mycollab.common.UrlTokenizer
-import org.junit.Assert
-import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 
 class UrlTokenizerTest {
     private var testData: String? = null
 
-    @Before
+    @BeforeEach
     fun setUp() {
         testData = GenericLinkUtils.encodeParam(1, "a", "b", "1/2/3")
     }
@@ -35,9 +32,9 @@ class UrlTokenizerTest {
     @Throws(InvalidTokenException::class)
     fun testGetProperValue() {
         val tokenizer = UrlTokenizer(testData!!)
-        Assert.assertEquals(1, tokenizer.getInt())
-        Assert.assertEquals("a", tokenizer.getString())
-        Assert.assertEquals("b", tokenizer.getString())
-        Assert.assertEquals("1/2/3", tokenizer.remainValue)
+        Assertions.assertEquals(1, tokenizer.getInt())
+        Assertions.assertEquals("a", tokenizer.getString())
+        Assertions.assertEquals("b", tokenizer.getString())
+        Assertions.assertEquals("1/2/3", tokenizer.remainValue)
     }
 }

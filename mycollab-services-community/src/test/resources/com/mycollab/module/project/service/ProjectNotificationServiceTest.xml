@@ -5,10 +5,10 @@
                paymentMethod="Credit Card" status="Active"/>
 
     <s_user username="admin" firstname="Nguyen" lastname="Hai"
-            middlename="Phuc" email="hainguyen@esofthead.com"/>
+            middlename="Phuc" email="hainguyen@esofthead.com" status="EmailVerified"/>
 
     <s_user username="user2" firstname="A" lastname="B"
-            email="user2@esofthead.com"/>
+            email="user2@esofthead.com" status="EmailVerified"/>
 
     <s_user_account id="1" isAccountOwner="1"
                     registerStatus="Active" username="admin" accountId="1"
@@ -22,7 +22,7 @@
                    projectStatus="Open" sAccountId="1"/>
 
     <m_prj_project id="2" name="B" priority="1" shortname="ccc"
-                   projectStatus="Open" homePage="http://esofthead.com" lead="admin"
+                   projectStatus="Open" homePage="http://esofthead.com" memLead="admin"
                    sAccountId="1"/>
 
     <m_prj_task id="1" projectId="1" taskindex="1" taskkey="1" priority="Medium"

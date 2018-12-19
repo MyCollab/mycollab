@@ -9,7 +9,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
  */
 public class V20150819_1__1_Add_Task_Predecessor implements SpringJdbcMigration {
     @Override
-    public void migrate(JdbcTemplate jdbcTemplate) throws Exception {
+    public void migrate(JdbcTemplate jdbcTemplate) {
         jdbcTemplate.execute("CREATE TABLE `m_prj_predecessor` (" +
                 "  `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT," +
                 "  `type` VARCHAR(45) NOT NULL," +

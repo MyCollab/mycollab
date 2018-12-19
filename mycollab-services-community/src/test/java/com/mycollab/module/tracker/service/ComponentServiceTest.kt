@@ -22,20 +22,18 @@ import com.mycollab.db.arguments.StringSearchField
 import com.mycollab.module.tracker.domain.SimpleComponent
 import com.mycollab.module.tracker.domain.criteria.ComponentSearchCriteria
 import com.mycollab.test.DataSet
+import com.mycollab.test.rule.DbUnitInitializerRule
 import com.mycollab.test.spring.IntegrationServiceTest
-import org.junit.Test
-import org.junit.runner.RunWith
+import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions.tuple
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner
-
-import java.text.DateFormat
+import org.springframework.test.context.junit.jupiter.SpringExtension
 import java.text.ParseException
 import java.text.SimpleDateFormat
 
-import org.assertj.core.api.Assertions.assertThat
-import org.assertj.core.api.Assertions.tuple
-
-@RunWith(SpringJUnit4ClassRunner::class)
+@ExtendWith(SpringExtension::class, DbUnitInitializerRule::class)
 class ComponentServiceTest : IntegrationServiceTest() {
 
     @Autowired
@@ -57,12 +55,11 @@ class ComponentServiceTest : IntegrationServiceTest() {
 
         assertThat(components.size).isEqualTo(4)
         assertThat<SimpleComponent>(components).extracting("id", "description", "status",
-                "name", "numBugs", "numOpenBugs", "userLeadFullName",
-                "lastupdatedtime").contains(
-                tuple(1, "aaaaaaa", "Open", "com 1", 1, 1, "Nguyen Hai", dateformat.parse("2014-10-02 06:45:22")),
-                tuple(2, "bbbbbbb", "Closed", "com 2", 2, 1, "Nghiem Le", dateformat.parse("2014-10-02 07:45:22")),
-                tuple(3, "ccccccc", "Closed", "com 3", 1, 1, "Nguyen Hai", dateformat.parse("2014-10-03 06:45:22")),
-                tuple(4, "ddddddd", "Open", "com 4", 0, 0, "Nghiem Le", dateformat.parse("2014-10-02 06:32:22")))
+                "name", "numBugs", "numOpenBugs", "userLeadFullName").contains(
+                tuple(1, "aaaaaaa", "Open", "com 1", 1, 1, "Nguyen Hai"),
+                tuple(2, "bbbbbbb", "Closed", "com 2", 2, 1, "Nghiem Le"),
+                tuple(3, "ccccccc", "Closed", "com 3", 1, 1, "Nguyen Hai"),
+                tuple(4, "ddddddd", "Open", "com 4", 0, 0, "Nghiem Le"))
     }
 
     @DataSet
@@ -99,9 +96,5 @@ class ComponentServiceTest : IntegrationServiceTest() {
         assertThat<SimpleComponent>(components).extracting("id", "description", "status",
                 "name", "numBugs", "numOpenBugs").contains(
                 tuple(2, "bbbbbbb", "Closed", "com 2", 2, 1))
-    }
-
-    companion object {
-        private val dateformat = SimpleDateFormat("yyyy-MM-dd hh:mm:ss")
     }
 }

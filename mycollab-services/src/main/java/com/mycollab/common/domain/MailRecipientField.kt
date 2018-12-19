@@ -18,7 +18,7 @@ package com.mycollab.common.domain
 
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.mycollab.core.arguments.ValuedBean
-import org.apache.commons.lang.StringUtils
+import com.mycollab.core.utils.StringUtils
 
 /**
  * @author MyCollab Ltd.
