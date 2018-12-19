@@ -21,7 +21,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 class UrlTokenizerTest {
-    private var testData: String? = null
+    private lateinit var testData: String
 
     @BeforeEach
     fun setUp() {
@@ -31,7 +31,7 @@ class UrlTokenizerTest {
     @Test
     @Throws(InvalidTokenException::class)
     fun testGetProperValue() {
-        val tokenizer = UrlTokenizer(testData!!)
+        val tokenizer = UrlTokenizer(testData)
         Assertions.assertEquals(1, tokenizer.getInt())
         Assertions.assertEquals("a", tokenizer.getString())
         Assertions.assertEquals("b", tokenizer.getString())

@@ -17,6 +17,7 @@
 package com.mycollab.core.utils;
 
 import net.objectlab.kit.datecalc.common.DateCalculator;
+import net.objectlab.kit.datecalc.jdk8.LocalDateCalculator;
 import net.objectlab.kit.datecalc.jdk8.LocalDateKitCalculatorsFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,7 +33,7 @@ public class BusinessDayTimeUtils {
     private static Logger LOG = LoggerFactory.getLogger(BusinessDayTimeUtils.class);
 
     public static LocalDate plusDays(LocalDate refDate, int lagDate) {
-        DateCalculator<LocalDate> calc1;
+        LocalDateCalculator calc1;
         boolean isForward = false;
         if (lagDate >= 0) {
             calc1 = LocalDateKitCalculatorsFactory.forwardCalculator("MyCollab");
@@ -97,7 +98,7 @@ public class BusinessDayTimeUtils {
                     calc1.moveByBusinessDays(1);
                     testDate = calc1.getCurrentBusinessDate();
                     if (!testDate.isEqual(end)) {
-//                        LOG.error("Error while calculate duration of " + start + "--" + end);
+                        LOG.error("Error while calculate duration of " + start + "--" + end);
                     }
                     return candidateDuration + 1;
                 }
