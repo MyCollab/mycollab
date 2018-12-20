@@ -20,7 +20,6 @@ import org.ocpsoft.prettytime.PrettyTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -78,8 +77,8 @@ public class DateTimeUtils {
 
     public static String formatDateToW3C(LocalDate date) {
         if (date != null) {
-            String formatW3C = "yyyy-MM-dd'T'HH:mm:ss";
-            SimpleDateFormat formatter = new SimpleDateFormat(formatW3C);
+            String formatW3C = "yyyy-MM-dd";
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern(formatW3C);
             return formatter.format(date);
         }
         return "";
