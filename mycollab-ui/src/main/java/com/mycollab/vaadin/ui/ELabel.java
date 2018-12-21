@@ -25,6 +25,7 @@ import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.themes.ValoTheme;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 
@@ -85,7 +86,7 @@ public class ELabel extends Label {
         return this;
     }
 
-    public ELabel prettyDate(LocalDateTime date) {
+    public ELabel prettyDate(LocalDate date) {
         this.setValue(UserUIContext.formatPrettyTime(date));
         this.setDescription(UserUIContext.formatDate(date));
         return this;

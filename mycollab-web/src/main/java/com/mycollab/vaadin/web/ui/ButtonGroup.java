@@ -20,6 +20,8 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
 
+import java.util.Arrays;
+
 /**
  * @author MyCollab Ltd.
  * @since 2.0
@@ -33,7 +35,12 @@ public class ButtonGroup extends CssLayout {
         this.addStyleName("toggle-btn-group");
     }
 
-    public Button addButton(Button button) {
+    public ButtonGroup(Button... buttons) {
+        this.addStyleName("toggle-btn-group");
+        addButtons(buttons);
+    }
+
+    public void addButton(Button button) {
         super.addComponent(button);
         button.addClickListener(clickEvent -> {
             if (!clickEvent.getButton().equals(selectedBtn)) {
@@ -44,7 +51,10 @@ public class ButtonGroup extends CssLayout {
                 selectedBtn.addStyleName(WebThemes.BTN_ACTIVE);
             }
         });
-        return button;
+    }
+
+    public void addButtons(Button... buttons) {
+        Arrays.stream(buttons).forEach(this::addButton);
     }
 
     public ButtonGroup withDefaultButton(Button button) {

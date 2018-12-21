@@ -163,7 +163,7 @@ public class ReOpenWindow extends MWindow {
         private class EditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<SimpleBug> {
             private static final long serialVersionUID = 1L;
 
-            public EditFormFieldFactory(GenericBeanForm<SimpleBug> form) {
+            EditFormFieldFactory(GenericBeanForm<SimpleBug> form) {
                 super(form);
             }
 

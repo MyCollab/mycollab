@@ -143,7 +143,7 @@ public class MessageReadViewImpl extends AbstractVerticalPageView implements Mes
                 messageLayout.addStyleName("important-message");
             }
 
-            ProjectMemberBlock userBlock = new ProjectMemberBlock(message.getPosteduser(), message.getPostedUserAvatarId(),
+            ProjectMemberBlock userBlock = new ProjectMemberBlock(message.getCreateduser(), message.getPostedUserAvatarId(),
                     message.getFullPostedUserName());
 
             messageLayout.addComponent(userBlock);
@@ -154,8 +154,8 @@ public class MessageReadViewImpl extends AbstractVerticalPageView implements Mes
             messageHeader.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
             ELabel timePostLbl = ELabel.html(UserUIContext.getMessage(MessageI18nEnum.USER_COMMENT_ADD, message.getFullPostedUserName(),
-                    UserUIContext.formatPrettyTime(message.getPosteddate())))
-                    .withDescription(UserUIContext.formatDateTime(message.getPosteddate()));
+                    UserUIContext.formatPrettyTime(message.getCreatedtime())))
+                    .withDescription(UserUIContext.formatDateTime(message.getCreatedtime()));
             timePostLbl.setSizeUndefined();
             timePostLbl.setStyleName(UIConstants.META_INFO);
 

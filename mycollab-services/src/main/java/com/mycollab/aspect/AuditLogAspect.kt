@@ -105,7 +105,7 @@ class AuditLogAspect(private var cacheService: CacheService,
                 }
 
                 val monitorItem = MonitorItem()
-                monitorItem.monitorDate = LocalDateTime.now()
+                monitorItem.createdtime = LocalDateTime.now()
                 monitorItem.type = monitorType
                 monitorItem.typeid = typeId
                 monitorItem.extratypeid = extraTypeId
@@ -188,12 +188,12 @@ class AuditLogAspect(private var cacheService: CacheService,
             try {
                 val typeId = PropertyUtils.getProperty(bean, "id") as Int
                 val auditLog = AuditLog()
-                auditLog.posteduser = username
+                auditLog.createduser = username
                 auditLog.module = ClassInfoMap.getModule(targetCls)
                 auditLog.type = ClassInfoMap.getType(targetCls)
                 auditLog.typeid = typeId
                 auditLog.saccountid = sAccountId
-                auditLog.posteddate = LocalDateTime.now()
+                auditLog.createdtime = LocalDateTime.now()
                 auditLog.changeset = changeSet
                 auditLog.objectClass = bean.javaClass.name
                 if (activityStreamId != null) {

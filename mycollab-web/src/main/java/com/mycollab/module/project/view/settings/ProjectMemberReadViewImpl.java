@@ -193,8 +193,8 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
                 memberInfo.addComponent(memberEmailLabel);
             }
 
-            ELabel memberSinceLabel = ELabel.html(UserUIContext.getMessage(UserI18nEnum.OPT_MEMBER_SINCE, UserUIContext.formatPrettyTime(beanItem.getJoindate())))
-                    .withDescription(UserUIContext.formatDateTime(beanItem.getJoindate())).withFullWidth();
+            ELabel memberSinceLabel = ELabel.html(UserUIContext.getMessage(UserI18nEnum.OPT_MEMBER_SINCE, UserUIContext.formatPrettyTime(beanItem.getCreatedtime())))
+                    .withDescription(UserUIContext.formatDateTime(beanItem.getCreatedtime())).withFullWidth();
             memberInfo.addComponent(memberSinceLabel);
 
             if (ProjectMemberStatusConstants.ACTIVE.equals(beanItem.getStatus())) {

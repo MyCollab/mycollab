@@ -27,17 +27,21 @@ import com.mycollab.module.project.domain.criteria.ProjectMemberSearchCriteria;
 import com.mycollab.module.project.service.ProjectMemberService;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.ui.UserAvatarControlFactory;
+import com.vaadin.data.Converter;
+import com.vaadin.data.Result;
+import com.vaadin.data.ValueContext;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.IconGenerator;
 import com.vaadin.ui.ItemCaptionGenerator;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author MyCollab Ltd.
  * @since 4.0
  */
-public class ProjectMemberSelectionBox extends ComboBox {
+public class ProjectMemberSelectionBox extends ComboBox<SimpleProjectMember> implements Converter<SimpleProjectMember, String> {
     private static final long serialVersionUID = 1L;
 
     private List<SimpleProjectMember> members;
@@ -62,15 +66,17 @@ public class ProjectMemberSelectionBox extends ComboBox {
     }
 
     @Override
-    public void setValue(Object value) {
-        if (value instanceof String) {
-            for (SimpleProjectMember member : members) {
-                if (value.equals(member.getUsername())) {
-                    super.setValue(member);
-                }
-            }
-        } else {
-            super.setValue(value);
-        }
+    public Result<String> convertToModel(SimpleProjectMember projectMember, ValueContext valueContext) {
+        return Result.ok(projectMember.getUsername());
+    }
+
+    @Override
+    public SimpleProjectMember convertToPresentation(String memberName, ValueContext valueContext) {
+        return members.stream().filter(member -> member.getUsername().equals(memberName)).findFirst().get();
+    }
+
+    public void setSelectedUser(String username) {
+        Optional<SimpleProjectMember> foundMember = members.stream().filter(member -> member.getUsername().equals(username)).findFirst();
+        this.setValue(foundMember.orElse(null));
     }
 }

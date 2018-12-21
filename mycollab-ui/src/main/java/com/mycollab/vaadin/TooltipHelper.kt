@@ -21,8 +21,7 @@ package com.mycollab.vaadin
  * @since 4.6.0
  */
 object TooltipHelper {
-    @JvmField
-    val TOOLTIP_ID = "mycollabtip"
+    const val TOOLTIP_ID = "mycollabtip"
 
     @JvmStatic
     fun userHoverJsFunction(username: String): String {
@@ -45,25 +44,11 @@ object TooltipHelper {
         val urlVal = "'${AppUI.siteUrl}/tooltip/'"
         val accountIdVal = "'${AppUI.accountId}'"
         val siteUrlVal = "'${AppUI.siteUrl}'"
-        val timezoneVal = "'${AppUI.accountId}'"
+        val timezoneVal = "'${UserUIContext.getUserTimeZone().id}'"
         val localeVal = "'${UserUIContext.getUserLocale().toLanguageTag()}'"
         val dateFormatVal = "'${AppUI.dateFormat}'"
 
         return "return overIt($uidVal,$typeVal,$typeIdVal,$urlVal,$accountIdVal,$siteUrlVal,$timezoneVal,$localeVal,$dateFormatVal);"
-    }
-
-    @JvmStatic
-    fun crmHoverJsFunction(type: String, typeId: String): String {
-        val uidVal = "'$TOOLTIP_ID'"
-        val typeVal = "'$type'"
-        val typeIdVal = "'$typeId'"
-        val urlVal = "'${AppUI.siteUrl}/tooltip/'"
-        val accountIdVal = "'${AppUI.accountId}'"
-        val siteUrlVal = "'${AppUI.siteUrl}'"
-        val timezoneVal = "'${AppUI.accountId}'"
-        val localeVal = "'${UserUIContext.getUserLocale().toLanguageTag()}'"
-        val dateFormatVal = "'${AppUI.dateFormat}'"
-        return "return crmActivityOverIt($uidVal,$typeVal,$typeIdVal,$urlVal,$accountIdVal,$siteUrlVal,$timezoneVal,$localeVal,$dateFormatVal);";
     }
 
     @JvmStatic

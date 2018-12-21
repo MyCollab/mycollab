@@ -22,7 +22,10 @@ import com.mycollab.vaadin.event.HasPageableHandlers;
 import com.mycollab.vaadin.event.PageableHandler;
 import com.mycollab.vaadin.ui.IBeanList;
 import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.ui.*;
+import com.vaadin.ui.Alignment;
+import com.vaadin.ui.Component;
+import com.vaadin.ui.CssLayout;
+import com.vaadin.ui.Label;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
@@ -257,8 +260,12 @@ public abstract class AbstractBeanPagedList<T> extends CssLayout implements HasP
     }
 
     public interface QueryHandler<T> {
-        int queryTotalCount();
+        default int queryTotalCount() {
+            return 0;
+        }
 
-        List<T> queryCurrentData();
+        default List<T> queryCurrentData() {
+            return null;
+        }
     }
 }

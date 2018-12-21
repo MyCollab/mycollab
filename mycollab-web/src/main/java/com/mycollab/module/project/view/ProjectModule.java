@@ -36,7 +36,10 @@ import com.mycollab.vaadin.ui.UIUtils;
 import com.mycollab.vaadin.web.ui.VerticalTabsheet;
 import com.mycollab.web.IDesktopModule;
 import com.vaadin.icons.VaadinIcons;
-import com.vaadin.ui.*;
+import com.vaadin.ui.CssLayout;
+import com.vaadin.ui.Embedded;
+import com.vaadin.ui.HasComponents;
+import com.vaadin.ui.TabSheet;
 import org.vaadin.sliderpanel.SliderPanel;
 import org.vaadin.sliderpanel.SliderPanelBuilder;
 import org.vaadin.sliderpanel.client.SliderMode;
@@ -86,6 +89,10 @@ public class ProjectModule extends AbstractSingleContainerPageView implements ID
 
         this.buildComponents();
         this.setContent(tabSheet);
+    }
+
+    UserProjectDashboardPresenter getDashboardPresenter() {
+        return userProjectDashboardPresenter;
     }
 
     @Override

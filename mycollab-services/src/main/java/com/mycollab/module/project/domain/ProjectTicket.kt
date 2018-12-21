@@ -18,11 +18,11 @@ package com.mycollab.module.project.domain
 
 import com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum
 import com.mycollab.core.arguments.ValuedBean
-import com.mycollab.core.utils.DateTimeUtils
 import com.mycollab.core.utils.StringUtils
 import com.mycollab.module.project.ProjectTypeConstants
 import com.mycollab.module.tracker.domain.SimpleBug
 import java.io.Serializable
+import java.time.LocalDate
 import java.time.LocalDateTime
 
 /**
@@ -50,7 +50,7 @@ class ProjectTicket : ValuedBean(), Serializable {
 
     var createdUserAvatarId: String? = null
 
-    var dueDate: LocalDateTime? = null
+    var dueDate: LocalDate? = null
 
     var projectId: Int? = null
 
@@ -80,9 +80,9 @@ class ProjectTicket : ValuedBean(), Serializable {
 
     var numFollowers: Int? = null
 
-    private var startDate: LocalDateTime? = null
+    private var startDate: LocalDate? = null
 
-    private var endDate: LocalDateTime? = null
+    private var endDate: LocalDate? = null
 
     var milestoneId: Int? = null
 
@@ -109,8 +109,7 @@ class ProjectTicket : ValuedBean(), Serializable {
     val isOverdue: Boolean
         get() {
             if (dueDate != null && !isClosed) {
-                val currentDay = DateTimeUtils.getCurrentDateWithoutMS()
-                return currentDay.isAfter(dueDate!!)
+                return LocalDate.now().isAfter(dueDate!!)
             }
             return false
         }
@@ -118,13 +117,12 @@ class ProjectTicket : ValuedBean(), Serializable {
     val isClosed: Boolean
         get() = StatusI18nEnum.Closed.name == status || StatusI18nEnum.Verified.name == status
 
-    val dueDatePlusOne: LocalDateTime?
+    val dueDatePlusOne: LocalDate?
         get() {
-            val value = dueDate
-            return if (value != null) value.plusDays(1) else null
+            return dueDate?.plusDays(1)
         }
 
-    fun getStartDate(): LocalDateTime? {
+    fun getStartDate(): LocalDate? {
         return if (startDate != null) {
             startDate
         } else {
@@ -136,11 +134,11 @@ class ProjectTicket : ValuedBean(), Serializable {
         }
     }
 
-    fun setStartDate(startDate: LocalDateTime) {
+    fun setStartDate(startDate: LocalDate) {
         this.startDate = startDate
     }
 
-    fun getEndDate(): LocalDateTime? {
+    fun getEndDate(): LocalDate? {
         return if (endDate != null) {
             endDate
         } else {
@@ -152,7 +150,7 @@ class ProjectTicket : ValuedBean(), Serializable {
         }
     }
 
-    fun setEndDate(endDate: LocalDateTime) {
+    fun setEndDate(endDate: LocalDate) {
         this.endDate = endDate
     }
 

@@ -100,10 +100,10 @@ public class UserProjectDashboardViewImpl extends AbstractVerticalPageView imple
             contentWrapper.addRow(row);
 
             activityStreamComponent.showFeeds(prjKeys);
-            milestoneTimelineWidget.display();
+            milestoneTimelineWidget.display(prjKeys);
             ticketOverdueWidget.showTicketsByStatus(prjKeys);
-            unresolvedAssignmentThisWeekWidget.displayUnresolvedAssignmentsThisWeek();
-            unresolvedAssignmentNextWeekWidget.displayUnresolvedAssignmentsNextWeek();
+            unresolvedAssignmentThisWeekWidget.displayUnresolvedAssignmentsThisWeek(prjKeys);
+            unresolvedAssignmentNextWeekWidget.displayUnresolvedAssignmentsNextWeek(prjKeys);
         } else {
             this.with(ELabel.h1(VaadinIcons.TASKS.getHtml()).withUndefinedWidth());
             this.with(ELabel.h2(UserUIContext.getMessage(GenericI18Enum.VIEW_NO_ITEM_TITLE)).withUndefinedWidth());

@@ -140,7 +140,7 @@ abstract class AppUI : UI() {
         @JvmStatic
         val siteName: String
             get() {
-                var appConfig = AppContextUtil.getSpringBean(ApplicationConfiguration::class.java)
+                val appConfig = AppContextUtil.getSpringBean(ApplicationConfiguration::class.java)
                 return try {
                     MoreObjects.firstNonNull(instance._billingAccount!!.sitename, appConfig.siteName)
                 } catch (e: Exception) {

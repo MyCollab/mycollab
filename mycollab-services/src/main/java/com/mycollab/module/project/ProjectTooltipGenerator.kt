@@ -109,18 +109,17 @@ object ProjectTooltipGenerator {
 
             val trRow1 = Tr()
             val cell11 = buildCellName(LocalizationHelper.getMessage(locale, GenericI18Enum.FORM_START_DATE))
-            val startDate = DateTimeUtils.convertToStringWithUserTimeZone(task.startdate, dateFormat, locale, timeZone)
+            val startDate = DateTimeUtils.formatDate(task.startdate, dateFormat, locale, timeZone)
             val cell12 = buildCellValue(startDate)
             val cell13 = buildCellName(LocalizationHelper.getMessage(locale, GenericI18Enum.FORM_END_DATE))
-            val actualStartDate = DateTimeUtils.convertToStringWithUserTimeZone(task.enddate, dateFormat, locale, timeZone)
+            val actualStartDate = DateTimeUtils.formatDate(task.enddate, dateFormat, locale, timeZone)
             val cell14 = buildCellValue(actualStartDate)
             trRow1.appendChild(cell11, cell12, cell13, cell14)
             tooltipManager.appendRow(trRow1)
 
             val trRow3 = Tr()
             val cell31 = buildCellName(LocalizationHelper.getMessage(locale, GenericI18Enum.FORM_DUE_DATE))
-            val deadline = DateTimeUtils.convertToStringWithUserTimeZone(task.duedate, dateFormat, locale,
-                    timeZone)
+            val deadline = DateTimeUtils.formatDate(task.duedate, dateFormat, locale, timeZone)
             val cell32 = buildCellValue(deadline)
             val cell33 = buildCellName(LocalizationHelper.getMessage(locale, GenericI18Enum.FORM_PRIORITY))
             val cell34 = buildCellValue(LocalizationHelper.getMessage(locale, Priority::class.java, task.priority))
@@ -212,7 +211,7 @@ object ProjectTooltipGenerator {
 
             val trRow5 = Tr()
             val cell51 = buildCellName(LocalizationHelper.getMessage(locale, GenericI18Enum.FORM_DUE_DATE))
-            val dueDate = DateTimeUtils.convertToStringWithUserTimeZone(bug.duedate, dateFormat, locale, timeZone)
+            val dueDate = DateTimeUtils.formatDate(bug.duedate, dateFormat, locale, timeZone)
             val cell52 = buildCellValue(dueDate)
             val cell53 = buildCellName(LocalizationHelper.getMessage(locale, GenericI18Enum.FORM_CREATED_TIME))
             val createdTime = DateTimeUtils.convertToStringWithUserTimeZone(bug.createdtime, dateFormat, locale, timeZone)
@@ -301,7 +300,7 @@ object ProjectTooltipGenerator {
 
             val trRow3 = Tr()
             val cell31 = buildCellName(LocalizationHelper.getMessage(locale, GenericI18Enum.FORM_DUE_DATE))
-            val dueDate = DateTimeUtils.convertToStringWithUserTimeZone(risk.duedate, dateFormat, locale, timeZone)
+            val dueDate = DateTimeUtils.formatDate(risk.duedate, dateFormat, locale, timeZone)
             val cell32 = buildCellValue(dueDate)
             val cell33 = buildCellName(LocalizationHelper.getMessage(locale, GenericI18Enum.FORM_STATUS))
             val cell34 = buildCellValue(LocalizationHelper.getMessage(locale, StatusI18nEnum::class.java, risk.status))
@@ -310,10 +309,10 @@ object ProjectTooltipGenerator {
 
             val trRow4 = Tr()
             val cell41 = buildCellName(LocalizationHelper.getMessage(locale, GenericI18Enum.FORM_START_DATE))
-            val startDate = DateTimeUtils.convertToStringWithUserTimeZone(risk.startdate, dateFormat, locale, timeZone)
+            val startDate = DateTimeUtils.formatDate(risk.startdate, dateFormat, locale, timeZone)
             val cell42 = buildCellValue(startDate)
             val cell43 = buildCellName(LocalizationHelper.getMessage(locale, GenericI18Enum.FORM_END_DATE))
-            val endDate = DateTimeUtils.convertToStringWithUserTimeZone(risk.enddate, dateFormat, locale, timeZone)
+            val endDate = DateTimeUtils.formatDate(risk.enddate, dateFormat, locale, timeZone)
             val cell44 = buildCellValue(endDate)
             trRow4.appendChild(cell41, cell42, cell43, cell44)
             tooltipManager.appendRow(trRow4)
@@ -351,8 +350,8 @@ object ProjectTooltipGenerator {
 
             val trRow3 = Tr()
             val cell31 = buildCellName(LocalizationHelper.getMessage(locale, GenericI18Enum.FORM_DUE_DATE))
-            val duedate = DateTimeUtils.convertToStringWithUserTimeZone(version.duedate, dateFormat, locale, timeZone)
-            val cell32 = buildCellValue(duedate)
+            val dueDate = DateTimeUtils.formatDate(version.duedate, dateFormat, locale, timeZone)
+            val cell32 = buildCellValue(dueDate)
             val cell33 = buildCellName(LocalizationHelper.getMessage(locale, GenericI18Enum.FORM_STATUS))
             val cell34 = buildCellValue(LocalizationHelper.getMessage(locale, StatusI18nEnum::class.java, version.status))
             trRow3.appendChild(cell31, cell32, cell33, cell34)
@@ -421,7 +420,7 @@ object ProjectTooltipGenerator {
 
             val trRow2 = Tr()
             val cell21 = buildCellName(LocalizationHelper.getMessage(locale, GenericI18Enum.FORM_START_DATE))
-            val planStartDate = DateTimeUtils.convertToStringWithUserTimeZone(project.planstartdate, dateFormat, locale, timeZone)
+            val planStartDate = DateTimeUtils.formatDate(project.planstartdate, dateFormat, locale, timeZone)
             val cell22 = buildCellValue(planStartDate)
             val cell23 = buildCellName(LocalizationHelper.getMessage(locale, GenericI18Enum.FORM_CURRENCY))
             val currency = if (project.currencyid != null) project.currencyid else ""
@@ -431,7 +430,7 @@ object ProjectTooltipGenerator {
 
             val trRow3 = Tr()
             val cell31 = buildCellName(LocalizationHelper.getMessage(locale, GenericI18Enum.FORM_END_DATE))
-            val planEndDate = DateTimeUtils.convertToStringWithUserTimeZone(project.planenddate, dateFormat, locale, timeZone)
+            val planEndDate = DateTimeUtils.formatDate(project.planenddate, dateFormat, locale, timeZone)
             val cell32 = buildCellValue(planEndDate)
             val cell33 = buildCellName(LocalizationHelper.getMessage(locale, ProjectI18nEnum.FORM_BILLING_RATE))
             val cell34 = buildCellValue(project.defaultbillingrate)
@@ -477,7 +476,7 @@ object ProjectTooltipGenerator {
 
             val trRow2 = Tr()
             val cell21 = buildCellName(LocalizationHelper.getMessage(locale, GenericI18Enum.FORM_START_DATE))
-            val startDate = DateTimeUtils.convertToStringWithUserTimeZone(milestone.startdate, dateFormat, locale, timeZone)
+            val startDate = DateTimeUtils.formatDate(milestone.startdate, dateFormat, locale, timeZone)
             val cell22 = buildCellValue(startDate)
             val cell23 = buildCellName(LocalizationHelper.getMessage(locale, GenericI18Enum.FORM_ASSIGNEE))
             val assignUserLink = if (milestone.assignuser != null)
@@ -492,7 +491,7 @@ object ProjectTooltipGenerator {
 
             val trRow3 = Tr()
             val cell31 = buildCellName(LocalizationHelper.getMessage(locale, GenericI18Enum.FORM_END_DATE))
-            val endDate = DateTimeUtils.convertToStringWithUserTimeZone(milestone.enddate, dateFormat, locale, timeZone)
+            val endDate = DateTimeUtils.formatDate(milestone.enddate, dateFormat, locale, timeZone)
             val cell32 = buildCellValue(endDate)
             val cell33 = buildCellName(LocalizationHelper.getMessage(locale, GenericI18Enum.FORM_STATUS))
             val cell34 = buildCellValue(LocalizationHelper.getMessage(locale, MilestoneStatus::class.java, milestone.status))

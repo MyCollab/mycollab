@@ -32,6 +32,7 @@ import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import java.text.ParseException
+import java.time.LocalDate
 import java.time.LocalDateTime
 
 @ExtendWith(SpringExtension::class, DbUnitInitializerRule::class)
@@ -103,7 +104,7 @@ class VersionServiceTest : IntegrationServiceTest() {
     fun testSaveVersion() {
         val version = Version()
         version.projectid = 1
-        version.duedate = LocalDateTime.of(2014, 10, 6, 0, 0, 0)
+        version.duedate = LocalDate.of(2014, 10, 6)
         version.name = "sss"
         version.createduser = "hai79"
         version.saccountid = 1

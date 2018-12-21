@@ -38,7 +38,7 @@ public class TimeZoneSelectionField extends CustomField<String> {
     public TimeZoneSelectionField(boolean isVerticalDisplay) {
         this.isVerticalDisplay = isVerticalDisplay;
         areaSelection = new ValueComboBox(false, TimezoneVal.getAreas());
-        areaSelection.addValueChangeListener((ValueChangeListener) valueChangeEvent -> setCboTimeZone((String) areaSelection.getValue()));
+        areaSelection.addValueChangeListener((ValueChangeListener) event -> setCboTimeZone((String) areaSelection.getValue()));
         timezoneSelection = new ComboBox();
         String area = (String) areaSelection.getSelectedItem().get();
 //        areaSelection.setValue(area);

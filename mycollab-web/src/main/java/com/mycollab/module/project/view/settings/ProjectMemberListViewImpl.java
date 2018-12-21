@@ -218,7 +218,7 @@ public class ProjectMemberListViewImpl extends AbstractVerticalPageView implemen
         }
 
         ELabel memberSinceLabel = ELabel.html(UserUIContext.getMessage(UserI18nEnum.OPT_MEMBER_SINCE,
-                UserUIContext.formatPrettyTime(member.getJoindate()))).withDescription(UserUIContext.formatDateTime(member.getJoindate()))
+                UserUIContext.formatPrettyTime(member.getCreatedtime()))).withDescription(UserUIContext.formatDateTime(member.getCreatedtime()))
                 .withFullWidth();
         blockTop.addComponent(memberSinceLabel);
 

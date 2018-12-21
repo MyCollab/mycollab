@@ -40,7 +40,7 @@ public class StartDateOrderComponent extends TicketGroupOrderComponent {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(AppUI.getLongDateFormat()).withLocale(UserUIContext.getUserLocale());
         for (ProjectTicket task : tickets) {
             if (task.getStartDate() != null) {
-                LocalDate startDate = task.getStartDate().toLocalDate();
+                LocalDate startDate = task.getStartDate();
                 LocalDate monDay = DateTimeUtils.getFirstDayOfWeek(startDate);
                 String monDayStr = formatter.format(monDay);
                 Long time = monDay.toEpochDay();

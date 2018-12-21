@@ -9,7 +9,7 @@
         <plugin type="com.mycollab.mybatis.plugin.MyCollabModelFilePlugin"/>
 
         <jdbcConnection connectionURL="jdbc:mysql://localhost:3306/mycollab?verifyServerCertificate=false"
-                        driverClass="com.mysql.jdbc.Driver" password="mycollab123" userId="root"/>
+                        driverClass="com.mysql.cj.jdbc.Driver" password="mycollab123" userId="root"/>
 
         <javaTypeResolver>
             <property name="useJSR310Types" value="true"/>

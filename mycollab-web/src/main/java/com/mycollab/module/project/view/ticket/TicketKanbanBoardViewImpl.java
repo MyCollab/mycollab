@@ -110,42 +110,34 @@ public class TicketKanbanBoardViewImpl extends AbstractVerticalPageView implemen
         MButton kanbanBtn = new MButton(UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_KANBAN)).withIcon(FontAwesome.TH)
                 .withWidth("100px");
 
-        ButtonGroup viewButtons = new ButtonGroup();
-        viewButtons.addButton(advanceDisplayBtn);
-        viewButtons.addButton(kanbanBtn);
-        viewButtons.withDefaultButton(kanbanBtn);
-        groupWrapLayout.addComponent(viewButtons);
-
-        ButtonGroup group = new ButtonGroup();
+        groupWrapLayout.addComponent(new ButtonGroup(advanceDisplayBtn, kanbanBtn).withDefaultButton(kanbanBtn));
 
         MButton allFilterBtn = new MButton("All").withStyleName(WebThemes.BUTTON_OPTION).withListener((Button.ClickListener) clickEvent -> {
             statuses = OptionI18nEnum.statuses;
             baseCriteria.setTypes(new SetSearchField<>(ProjectTypeConstants.BUG, ProjectTypeConstants.TASK, ProjectTypeConstants.RISK));
             queryTickets(baseCriteria);
         });
-        group.addButton(allFilterBtn);
-        group.withDefaultButton(allFilterBtn);
 
         MButton filterBugsBtn = new MButton(UserUIContext.getMessage(BugI18nEnum.SINGLE)).withStyleName(WebThemes.BUTTON_OPTION).withListener((Button.ClickListener) clickEvent -> {
             statuses = OptionI18nEnum.bugStatuses;
             baseCriteria.setTypes(new SetSearchField<>(ProjectTypeConstants.BUG));
             queryTickets(baseCriteria);
         });
-        group.addButton(filterBugsBtn);
 
         MButton filterTasksBtn = new MButton(UserUIContext.getMessage(TaskI18nEnum.SINGLE)).withStyleName(WebThemes.BUTTON_OPTION).withListener((Button.ClickListener) clickEvent -> {
             statuses = OptionI18nEnum.taskStatuses;
             baseCriteria.setTypes(new SetSearchField<>(ProjectTypeConstants.TASK));
             queryTickets(baseCriteria);
         });
-        group.addButton(filterTasksBtn);
 
         MButton filterRisksBtn = new MButton(UserUIContext.getMessage(RiskI18nEnum.SINGLE)).withStyleName(WebThemes.BUTTON_OPTION).withListener((Button.ClickListener) clickEvent -> {
             statuses = OptionI18nEnum.riskStatuses;
             baseCriteria.setTypes(new SetSearchField<>(ProjectTypeConstants.RISK));
             queryTickets(baseCriteria);
         });
-        group.addButton(filterRisksBtn);
+
+        ButtonGroup group = new ButtonGroup(allFilterBtn, filterBugsBtn, filterTasksBtn, filterRisksBtn).withDefaultButton(allFilterBtn);
+
 
         MHorizontalLayout controlLayout = new MHorizontalLayout(ELabel.html("Filter by: "), group)
                 .withDefaultComponentAlignment(Alignment.MIDDLE_CENTER);

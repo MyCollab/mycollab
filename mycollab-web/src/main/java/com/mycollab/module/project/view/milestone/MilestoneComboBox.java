@@ -50,7 +50,7 @@ public class MilestoneComboBox extends ComboBox {
             criteria.setProjectIds(new SetSearchField<>(project.getId()));
             MilestoneService milestoneService = AppContextUtil.getSpringBean(MilestoneService.class);
             List<SimpleMilestone> milestones = (List<SimpleMilestone>) milestoneService.findPageableListByCriteria(new BasicSearchRequest<>(criteria));
-            Collections.sort(milestones, new MilestoneComparator());
+            milestones.sort(new MilestoneComparator());
 
             this.setItems(milestones);
             this.setItemCaptionGenerator((ItemCaptionGenerator<SimpleMilestone>) milestone -> StringUtils.trim(milestone.getName(), 25, true));

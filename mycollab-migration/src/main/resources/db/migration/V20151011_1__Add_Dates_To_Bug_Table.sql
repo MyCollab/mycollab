@@ -1,3 +1,0 @@
-ALTER TABLE `m_tracker_bug`
-ADD COLUMN `startdate` DATETIME NULL,
-ADD COLUMN `enddate` DATETIME NULL;

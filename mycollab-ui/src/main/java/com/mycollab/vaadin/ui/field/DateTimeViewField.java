@@ -27,7 +27,6 @@ import java.time.LocalDateTime;
  * @author MyCollab Ltd.
  * @since 4.5.3
  */
-// TODO
 public class DateTimeViewField extends CustomField<String> {
     private static final long serialVersionUID = 1L;
 

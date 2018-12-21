@@ -16,6 +16,9 @@
  */
 package com.mycollab.module.project.view;
 
+import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
+import com.mycollab.vaadin.AppUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.LoadPolicy;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.mvp.ViewScope;
@@ -37,5 +40,7 @@ public class UserProjectDashboardPresenter extends AbstractPresenter<UserProject
         ProjectModule projectModule = (ProjectModule) container;
         projectModule.gotoSubView("Dashboard");
         view.lazyLoadView();
+
+        AppUI.addFragment("project", UserUIContext.getMessage(ProjectCommonI18nEnum.VIEW_DASHBOARD));
     }
 }

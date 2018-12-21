@@ -16,8 +16,6 @@
  */
 package com.mycollab.module.user.view.component;
 
-import com.mycollab.common.i18n.SecurityI18nEnum;
-import com.mycollab.security.AccessPermissionFlag;
 import com.mycollab.vaadin.web.ui.KeyCaptionComboBox;
 
 /**
@@ -28,10 +26,7 @@ public class AccessPermissionComboBox extends KeyCaptionComboBox {
     private static final long serialVersionUID = 1L;
 
     public AccessPermissionComboBox() {
-        super(false, new Entry(AccessPermissionFlag.NO_ACCESS, SecurityI18nEnum.NO_ACCESS),
-                new Entry(AccessPermissionFlag.READ_ONLY, SecurityI18nEnum.READONLY),
-                new Entry(AccessPermissionFlag.READ_WRITE, SecurityI18nEnum.READ_WRITE),
-                new Entry(AccessPermissionFlag.ACCESS, SecurityI18nEnum.ACCESS));
-        this.setValue(AccessPermissionFlag.READ_ONLY);
+        super(false, Entry.NO_ACCESS, Entry.READ_ONLY, Entry.READ_WRITE, Entry.ACCESS);
+        this.setValue(Entry.READ_ONLY);
     }
 }

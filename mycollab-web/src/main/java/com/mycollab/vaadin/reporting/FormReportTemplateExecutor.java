@@ -287,7 +287,7 @@ public class FormReportTemplateExecutor<B> extends ReportTemplateExecutor {
         if (CollectionUtils.isNotEmpty(changeItems)) {
             TextFieldBuilder<String> authorField = cmp.text(StringUtils.trimHtmlTags(UserUIContext.getMessage(
                     GenericI18Enum.EXT_MODIFIED_ITEM, auditLog.getPostedUserFullName(), UserUIContext.formatPrettyTime
-                            (auditLog.getPosteddate())), Integer.MAX_VALUE)).setStyle(getReportStyles().getMetaInfoStyle());
+                            (auditLog.getCreatedtime())), Integer.MAX_VALUE)).setStyle(getReportStyles().getMetaInfoStyle());
             HorizontalListBuilder infoHeader = cmp.horizontalFlowList().add(authorField);
             VerticalListBuilder block = cmp.verticalList().add(infoHeader).setStyle(getReportStyles().getBorderStyle());
             for (AuditChangeItem item : changeItems) {

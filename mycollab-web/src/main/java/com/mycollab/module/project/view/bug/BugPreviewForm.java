@@ -40,7 +40,7 @@ import com.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.mycollab.vaadin.ui.AbstractFormLayoutFactory;
 import com.mycollab.vaadin.ui.GenericBeanForm;
 import com.mycollab.vaadin.ui.UIConstants;
-import com.mycollab.vaadin.ui.field.DateTimeOptionViewField;
+import com.mycollab.vaadin.ui.field.DateViewField;
 import com.mycollab.vaadin.ui.field.DefaultViewField;
 import com.mycollab.vaadin.ui.field.I18nFormViewField;
 import com.mycollab.vaadin.ui.field.RichTextViewField;
@@ -143,11 +143,11 @@ public class BugPreviewForm extends AdvancedPreviewBeanForm<SimpleBug> {
         protected HasValue<?> onCreateField(final Object propertyId) {
             SimpleBug beanItem = attachForm.getBean();
             if (BugWithBLOBs.Field.duedate.equalTo(propertyId)) {
-                return new DateTimeOptionViewField(beanItem.getDuedate());
+                return new DateViewField(beanItem.getDuedate());
             } else if (BugWithBLOBs.Field.startdate.equalTo(propertyId)) {
-                return new DateTimeOptionViewField(beanItem.getStartdate());
+                return new DateViewField(beanItem.getStartdate());
             } else if (BugWithBLOBs.Field.enddate.equalTo(propertyId)) {
-                return new DateTimeOptionViewField(beanItem.getEnddate());
+                return new DateViewField(beanItem.getEnddate());
             } else if (SimpleBug.Field.assignuserFullName.equalTo(propertyId)) {
                 return new ProjectUserFormLinkField(beanItem.getProjectid(), beanItem.getAssignuser(),
                         beanItem.getAssignUserAvatarId(), beanItem.getAssignuserFullName());

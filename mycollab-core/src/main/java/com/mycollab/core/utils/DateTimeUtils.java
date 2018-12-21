@@ -99,7 +99,7 @@ public class DateTimeUtils {
         return p.format(convertLocalDateTimeToDate(dateTime, zoneId));
     }
 
-    public static String getPrettyDurationValue(LocalDateTime date, Locale locale) {
+    public static String getPrettyDurationValue(TemporalAccessor date, Locale locale) {
 //        Period period = Period.between(date, LocalDate.now());
         // TODO
 //        PeriodFormatter formatter = PeriodFormat.wordBased(locale);

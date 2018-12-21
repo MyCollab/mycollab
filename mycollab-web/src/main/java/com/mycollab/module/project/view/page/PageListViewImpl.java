@@ -24,7 +24,10 @@ import com.mycollab.module.page.domain.Folder;
 import com.mycollab.module.page.domain.Page;
 import com.mycollab.module.page.domain.PageResource;
 import com.mycollab.module.page.service.PageService;
-import com.mycollab.module.project.*;
+import com.mycollab.module.project.CurrentProjectVariables;
+import com.mycollab.module.project.ProjectLinkGenerator;
+import com.mycollab.module.project.ProjectRolePermissionCollections;
+import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.event.PageEvent;
 import com.mycollab.module.project.i18n.PageI18nEnum;
 import com.mycollab.module.project.ui.components.ComponentUtils;
@@ -37,9 +40,9 @@ import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.HeaderWithIcon;
 import com.mycollab.vaadin.ui.SafeHtmlLabel;
+import com.mycollab.vaadin.web.ui.ButtonGroup;
 import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.mycollab.vaadin.web.ui.SortButton;
-import com.mycollab.vaadin.web.ui.ButtonGroup;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.shared.ui.MarginInfo;
@@ -115,8 +118,6 @@ public class PageListViewImpl extends AbstractVerticalPageView implements PageLi
         sortLbl.setSizeUndefined();
         headerLayout.with(sortLbl).withAlign(sortLbl, Alignment.MIDDLE_RIGHT);
 
-        ButtonGroup sortGroup = new ButtonGroup();
-//        headerLayout.with(sortGroup).withAlign(sortGroup, Alignment.MIDDLE_RIGHT);
 
         SortButton sortDateBtn = new SortButton(UserUIContext.getMessage(PageI18nEnum.OPT_SORT_BY_DATE), clickEvent -> {
             dateSourceAscend = !dateSourceAscend;
@@ -127,7 +128,6 @@ public class PageListViewImpl extends AbstractVerticalPageView implements PageLi
             }
             displayPages(resources);
         });
-        sortGroup.addButton(sortDateBtn);
 
         SortButton sortNameBtn = new SortButton(UserUIContext.getMessage(PageI18nEnum.OPT_SORT_BY_NAME), clickEvent -> {
             nameSortAscend = !nameSortAscend;
@@ -138,7 +138,6 @@ public class PageListViewImpl extends AbstractVerticalPageView implements PageLi
             }
             displayPages(resources);
         });
-        sortGroup.addButton(sortNameBtn);
 
         SortButton sortKindBtn = new SortButton(UserUIContext.getMessage(PageI18nEnum.OPT_SORT_BY_KIND), clickEvent -> {
             kindSortAscend = !kindSortAscend;
@@ -149,8 +148,9 @@ public class PageListViewImpl extends AbstractVerticalPageView implements PageLi
             }
             displayPages(resources);
         });
-        sortGroup.addButton(sortKindBtn);
-//        sortGroup.withDefaultButton(sortDateBtn);
+
+        ButtonGroup sortGroup = new ButtonGroup(sortDateBtn, sortNameBtn, sortKindBtn).withDefaultButton(sortDateBtn);
+        headerLayout.with(sortGroup).withAlign(sortGroup, Alignment.MIDDLE_RIGHT);
 
         MButton newGroupBtn = new MButton(UserUIContext.getMessage(PageI18nEnum.NEW_GROUP),
                 clickEvent -> UI.getCurrent().addWindow(new GroupPageAddWindow()))

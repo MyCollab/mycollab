@@ -52,6 +52,9 @@ import org.slf4j.LoggerFactory;
 import java.time.LocalDate;
 import java.util.List;
 
+import static com.mycollab.common.ActivityStreamConstants.*;
+import static com.mycollab.html.DivLessFormatter.EMPTY_SPACE;
+
 /**
  * @author MyCollab Ltd.
  * @since 1.0
@@ -108,7 +111,7 @@ public class ActivityStreamComponent extends CssLayout {
                 }
             }
 
-            List<ProjectActivityStream> currentListData = projectActivityStreamService.getProjectActivityStreams(
+            List<ProjectActivityStream> projectActivities = projectActivityStreamService.getProjectActivityStreams(
                     (BasicSearchRequest<ActivityStreamSearchCriteria>) searchRequest);
             this.removeAllComponents();
 
@@ -117,16 +120,16 @@ public class ActivityStreamComponent extends CssLayout {
             AuditLogRegistry auditLogRegistry = AppContextUtil.getSpringBean(AuditLogRegistry.class);
 
             try {
-                for (ProjectActivityStream activityStream : currentListData) {
-                    if (ProjectTypeConstants.PAGE.equals(activityStream.getType())) {
+                for (ProjectActivityStream projectActivity : projectActivities) {
+                    if (ProjectTypeConstants.PAGE.equals(projectActivity.getType())) {
                         ProjectPageService pageService = AppContextUtil.getSpringBean(ProjectPageService.class);
-                        Page page = pageService.getPage(activityStream.getTypeid(), UserUIContext.getUsername());
+                        Page page = pageService.getPage(projectActivity.getTypeid(), UserUIContext.getUsername());
                         if (page != null) {
-                            activityStream.setNamefield(page.getSubject());
+                            projectActivity.setNamefield(page.getSubject());
                         }
                     }
 
-                    LocalDate itemCreatedDate = activityStream.getCreatedtime().toLocalDate();
+                    LocalDate itemCreatedDate = projectActivity.getCreatedtime().toLocalDate();
                     if (!(currentDate.getYear() == itemCreatedDate.getYear())) {
                         currentFeedBlock = new CssLayout();
                         currentFeedBlock.setStyleName("feed-block");
@@ -137,13 +140,13 @@ public class ActivityStreamComponent extends CssLayout {
                     StringBuilder content = new StringBuilder("");
 
                     // --------------Item hidden div tooltip----------------
-                    String type = ProjectLocalizationTypeMap.getType(activityStream.getType());
-                    String assigneeValue = buildAssigneeValue(activityStream);
-                    String itemLink = buildItemValue(activityStream);
-                    String projectLink = buildProjectValue(activityStream);
+                    String type = ProjectLocalizationTypeMap.getType(projectActivity.getType());
+                    String assigneeValue = buildAssigneeValue(projectActivity);
+                    String itemLink = buildItemValue(projectActivity);
+                    String projectLink = buildProjectValue(projectActivity);
 
-                    if (ActivityStreamConstants.ACTION_CREATE.equals(activityStream.getAction())) {
-                        if (ProjectTypeConstants.PROJECT.equals(activityStream.getType())) {
+                    if (ACTION_CREATE.equals(projectActivity.getAction())) {
+                        if (ProjectTypeConstants.PROJECT.equals(projectActivity.getType())) {
                             content.append(UserUIContext.getMessage(
                                     ProjectCommonI18nEnum.FEED_USER_ACTIVITY_CREATE_ACTION_TITLE,
                                     assigneeValue, type, projectLink));
@@ -152,8 +155,8 @@ public class ActivityStreamComponent extends CssLayout {
                                     ProjectCommonI18nEnum.FEED_PROJECT_USER_ACTIVITY_CREATE_ACTION_TITLE,
                                     assigneeValue, type, itemLink, projectLink));
                         }
-                    } else if (ActivityStreamConstants.ACTION_UPDATE.equals(activityStream.getAction())) {
-                        if (ProjectTypeConstants.PROJECT.equals(activityStream.getType())) {
+                    } else if (ACTION_UPDATE.equals(projectActivity.getAction())) {
+                        if (ProjectTypeConstants.PROJECT.equals(projectActivity.getType())) {
                             content.append(UserUIContext.getMessage(
                                     ProjectCommonI18nEnum.FEED_USER_ACTIVITY_UPDATE_ACTION_TITLE,
                                     assigneeValue, type, projectLink));
@@ -162,20 +165,20 @@ public class ActivityStreamComponent extends CssLayout {
                                     ProjectCommonI18nEnum.FEED_PROJECT_USER_ACTIVITY_UPDATE_ACTION_TITLE,
                                     assigneeValue, type, itemLink, projectLink));
                         }
-                        if (activityStream.getAssoAuditLog() != null) {
-                            content.append(auditLogRegistry.generatorDetailChangeOfActivity(activityStream));
+                        if (projectActivity.getAssoAuditLog() != null) {
+                            content.append(auditLogRegistry.generatorDetailChangeOfActivity(projectActivity));
                         }
-                    } else if (ActivityStreamConstants.ACTION_COMMENT.equals(activityStream.getAction())) {
+                    } else if (ACTION_COMMENT.equals(projectActivity.getAction())) {
                         content.append(UserUIContext.getMessage(
                                 ProjectCommonI18nEnum.FEED_PROJECT_USER_ACTIVITY_COMMENT_ACTION_TITLE,
                                 assigneeValue, type, itemLink, projectLink));
 
-                        if (activityStream.getAssoAuditLog() != null) {
-                            content.append("<ul><li>\"").append(StringUtils.trimHtmlTags(activityStream.getAssoAuditLog().getChangeset(),
+                        if (projectActivity.getAssoAuditLog() != null) {
+                            content.append("<ul><li>\"").append(StringUtils.trimHtmlTags(projectActivity.getAssoAuditLog().getChangeset(),
                                     200)).append("\"</li></ul>");
                         }
-                    } else if (ActivityStreamConstants.ACTION_DELETE.equals(activityStream.getAction())) {
-                        if (ProjectTypeConstants.PROJECT.equals(activityStream.getType())) {
+                    } else if (ActivityStreamConstants.ACTION_DELETE.equals(projectActivity.getAction())) {
+                        if (ProjectTypeConstants.PROJECT.equals(projectActivity.getType())) {
                             content.append(UserUIContext.getMessage(
                                     ProjectCommonI18nEnum.FEED_USER_ACTIVITY_DELETE_ACTION_TITLE,
                                     assigneeValue, type, projectLink));
@@ -210,7 +213,7 @@ public class ActivityStreamComponent extends CssLayout {
             userLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction());
             userLink.appendText(StringUtils.trim(activityStream.getCreatedUserFullName(), 30, true));
 
-            div.appendChild(userAvatar, DivLessFormatter.EMPTY_SPACE, userLink);
+            div.appendChild(userAvatar, EMPTY_SPACE, userLink);
             return div.write();
         }
 
@@ -233,7 +236,7 @@ public class ActivityStreamComponent extends CssLayout {
             itemLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction());
             itemLink.appendText(StringUtils.trim(activityStream.getNamefield(), 50, true));
 
-            div.appendChild(itemImg, DivLessFormatter.EMPTY_SPACE, itemLink);
+            div.appendChild(itemImg, EMPTY_SPACE, itemLink);
             return div.write();
         }
 
@@ -246,7 +249,7 @@ public class ActivityStreamComponent extends CssLayout {
             prjLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction());
             prjLink.appendText(activityStream.getProjectName());
 
-            div.appendChild(prjImg, DivLessFormatter.EMPTY_SPACE, prjLink);
+            div.appendChild(prjImg, EMPTY_SPACE, prjLink);
 
             return div.write();
         }
@@ -254,15 +257,6 @@ public class ActivityStreamComponent extends CssLayout {
         @Override
         protected QueryHandler<ProjectActivityStream> buildQueryHandler() {
             return new QueryHandler<ProjectActivityStream>() {
-                @Override
-                public int queryTotalCount() {
-                    return 0;
-                }
-
-                @Override
-                public List<ProjectActivityStream> queryCurrentData() {
-                    return null;
-                }
             };
         }
     }

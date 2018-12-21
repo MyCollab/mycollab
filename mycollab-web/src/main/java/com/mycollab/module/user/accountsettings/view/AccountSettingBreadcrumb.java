@@ -121,7 +121,7 @@ public class AccountSettingBreadcrumb extends MHorizontalLayout implements Cache
         this.addComponent(new MButton(UserUIContext.getMessage(UserI18nEnum.LIST), new GotoUserListListener()).withStyleName(WebThemes.BUTTON_LINK));
         this.addComponent(new ELabel("/"));
         this.addComponent(generateBreadcrumbLink(user.getDisplayName(),
-                clickEvent -> EventBusFactory.getInstance().post(new UserEvent.GotoRead(this, user.getUsername()))));
+                clickEvent -> EventBusFactory.getInstance().post(new UserEvent.GotoRead(this, user.getUsername()))).withStyleName(WebThemes.BUTTON_LINK));
         this.addComponent(new ELabel("/"));
         this.addComponent(new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_EDIT)).withStyleName(WebThemes.BUTTON_LINK));
         AppUI.addFragment("account/user/edit/" + UrlEncodeDecoder.encode(user.getUsername()),

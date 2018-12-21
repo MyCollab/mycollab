@@ -1,4 +1,0 @@
-ALTER TABLE `s_account`
-ADD COLUMN `sitename` VARCHAR(255) NULL,
-ADD COLUMN `logoPath` VARCHAR(255) NULL,
-ADD COLUMN `defaultTimezone` VARCHAR(45) NULL;

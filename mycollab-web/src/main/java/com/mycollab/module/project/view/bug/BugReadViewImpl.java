@@ -44,10 +44,7 @@ import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.mvp.ViewManager;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.VerticalRemoveInlineComponentMarker;
-import com.mycollab.vaadin.web.ui.AbstractPreviewItemComp;
-import com.mycollab.vaadin.web.ui.AdvancedPreviewBeanForm;
-import com.mycollab.vaadin.web.ui.ReadViewLayout;
-import com.mycollab.vaadin.web.ui.WebThemes;
+import com.mycollab.vaadin.web.ui.*;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
@@ -62,11 +59,12 @@ import org.vaadin.viritin.layouts.MVerticalLayout;
 
 import java.util.List;
 
+import static com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum.*;
+
 /**
  * @author MyCollab Ltd.
  * @since 1.0
  */
-// TODO
 @ViewComponent
 public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implements BugReadView {
     private static final long serialVersionUID = 1L;
@@ -111,76 +109,66 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
     }
 
     private void displayWorkflowControl() {
-//        if (InProgress.name().equals(beanItem.getStatus())) {
-//            bugWorkflowControl.removeAllComponents();
-//            ButtonGroup navButton = new ButtonGroup();
-//
-//            MButton openBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_REOPEN),
-//                    clickEvent -> {
-//                        BugService bugService = AppContextUtil.getSpringBean(BugService.class);
-//                        beanItem.setStatus(ReOpen.name());
-//                        bugService.saveWithSession(beanItem, UserUIContext.getUsername());
-//                        EventBusFactory.getInstance().post(new BugEvent.BugChanged(this, beanItem.getId()));
-//                    })
-//                    .withStyleName(WebThemes.BUTTON_ACTION);
-//            navButton.addButton(openBtn);
-//
-//            MButton resolveBtn = new MButton(UserUIContext.getMessage(BugI18nEnum.BUTTON_RESOLVED),
-//                    clickEvent -> UI.getCurrent().addWindow(new ResolvedInputWindow(beanItem)))
-//                    .withStyleName(WebThemes.BUTTON_ACTION);
-//            navButton.addButton(resolveBtn);
-//            bugWorkflowControl.addComponent(navButton);
-//        } else if (Open.name().equals(beanItem.getStatus()) ||
-//                ReOpen.name().equals(beanItem.getStatus())) {
-//            bugWorkflowControl.removeAllComponents();
-//            ButtonGroup navButton = new ButtonGroup();
-//
-//            MButton inProgressBtn = new MButton(UserUIContext.getMessage(BugI18nEnum.BUTTON_INPROGRESS),
-//                    clickEvent -> {
-//                        BugService bugService = AppContextUtil.getSpringBean(BugService.class);
-//                        beanItem.setStatus(InProgress.name());
-//                        bugService.saveWithSession(beanItem, UserUIContext.getUsername());
-//                        EventBusFactory.getInstance().post(new BugEvent.BugChanged(this, beanItem.getId()));
-//                    })
-//                    .withStyleName(WebThemes.BUTTON_ACTION);
-//            navButton.addButton(inProgressBtn);
-//
-//            MButton resolveBtn = new MButton(UserUIContext.getMessage(BugI18nEnum.BUTTON_RESOLVED),
-//                    clickEvent -> UI.getCurrent().addWindow(new ResolvedInputWindow(beanItem)))
-//                    .withStyleName(WebThemes.BUTTON_ACTION);
-//            navButton.addButton(resolveBtn);
-//            bugWorkflowControl.addComponent(navButton);
-//        } else if (Verified.name().equals(beanItem.getStatus())) {
-//            bugWorkflowControl.removeAllComponents();
-//            ButtonGroup navButton = new ButtonGroup();
-//            MButton reopenBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_REOPEN),
-//                    clickEvent -> UI.getCurrent().addWindow(new ReOpenWindow(beanItem))).withStyleName(WebThemes.BUTTON_ACTION);
-//            navButton.addButton(reopenBtn);
-//
-//            bugWorkflowControl.addComponent(navButton);
-//        } else if (Resolved.name().equals(beanItem.getStatus())) {
-//            bugWorkflowControl.removeAllComponents();
-//            ButtonGroup navButton = new ButtonGroup();
-//            MButton reopenBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_REOPEN),
-//                    clickEvent -> UI.getCurrent().addWindow(new ReOpenWindow(beanItem)))
-//                    .withStyleName(WebThemes.BUTTON_ACTION);
-//            navButton.addButton(reopenBtn);
-//
-//            MButton approveNCloseBtn = new MButton(UserUIContext.getMessage(BugI18nEnum.BUTTON_APPROVE_CLOSE),
-//                    clickEvent -> UI.getCurrent().addWindow(new ApproveInputWindow(beanItem)))
-//                    .withStyleName(WebThemes.BUTTON_ACTION);
-//            navButton.addButton(approveNCloseBtn);
-//            bugWorkflowControl.addComponent(navButton);
-//        } else if (Resolved.name().equals(beanItem.getStatus())) {
-//            bugWorkflowControl.removeAllComponents();
-//            ButtonGroup navButton = new ButtonGroup();
-//            MButton reopenBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_REOPEN),
-//                    clickEvent -> UI.getCurrent().addWindow(new ReOpenWindow(beanItem)))
-//                    .withStyleName(WebThemes.BUTTON_ACTION);
-//            navButton.addButton(reopenBtn);
-//
-//            bugWorkflowControl.addComponent(navButton);
-//        }
+        if (InProgress.name().equals(beanItem.getStatus())) {
+            bugWorkflowControl.removeAllComponents();
+            ButtonGroup navButton = new ButtonGroup();
+
+            MButton openBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_REOPEN),
+                    clickEvent -> {
+                        BugService bugService = AppContextUtil.getSpringBean(BugService.class);
+                        beanItem.setStatus(ReOpen.name());
+                        bugService.saveWithSession(beanItem, UserUIContext.getUsername());
+                        EventBusFactory.getInstance().post(new BugEvent.BugChanged(this, beanItem.getId()));
+                    })
+                    .withStyleName(WebThemes.BUTTON_ACTION);
+
+            MButton resolveBtn = new MButton(UserUIContext.getMessage(BugI18nEnum.BUTTON_RESOLVED),
+                    clickEvent -> UI.getCurrent().addWindow(new ResolvedInputWindow(beanItem)))
+                    .withStyleName(WebThemes.BUTTON_ACTION);
+
+            navButton.addButtons(openBtn, resolveBtn);
+            bugWorkflowControl.addComponent(navButton);
+        } else if (Open.name().equals(beanItem.getStatus()) ||
+                ReOpen.name().equals(beanItem.getStatus())) {
+            bugWorkflowControl.removeAllComponents();
+            ButtonGroup navButton = new ButtonGroup();
+
+            MButton inProgressBtn = new MButton(UserUIContext.getMessage(BugI18nEnum.BUTTON_INPROGRESS),
+                    clickEvent -> {
+                        BugService bugService = AppContextUtil.getSpringBean(BugService.class);
+                        beanItem.setStatus(InProgress.name());
+                        bugService.saveWithSession(beanItem, UserUIContext.getUsername());
+                        EventBusFactory.getInstance().post(new BugEvent.BugChanged(this, beanItem.getId()));
+                    })
+                    .withStyleName(WebThemes.BUTTON_ACTION);
+
+            MButton resolveBtn = new MButton(UserUIContext.getMessage(BugI18nEnum.BUTTON_RESOLVED),
+                    clickEvent -> UI.getCurrent().addWindow(new ResolvedInputWindow(beanItem)))
+                    .withStyleName(WebThemes.BUTTON_ACTION);
+
+            navButton.addButtons(inProgressBtn, resolveBtn);
+            bugWorkflowControl.addComponent(navButton);
+        } else if (Verified.name().equals(beanItem.getStatus())) {
+            bugWorkflowControl.removeAllComponents();
+            ButtonGroup navButton = new ButtonGroup();
+            MButton reopenBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_REOPEN),
+                    clickEvent -> UI.getCurrent().addWindow(new ReOpenWindow(beanItem))).withStyleName(WebThemes.BUTTON_ACTION);
+            navButton.addButton(reopenBtn);
+
+            bugWorkflowControl.addComponent(navButton);
+        } else if (Resolved.name().equals(beanItem.getStatus())) {
+            bugWorkflowControl.removeAllComponents();
+            ButtonGroup navButton = new ButtonGroup();
+            MButton reopenBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_REOPEN),
+                    clickEvent -> UI.getCurrent().addWindow(new ReOpenWindow(beanItem)))
+                    .withStyleName(WebThemes.BUTTON_ACTION);
+
+            MButton approveNCloseBtn = new MButton(UserUIContext.getMessage(BugI18nEnum.BUTTON_APPROVE_CLOSE),
+                    clickEvent -> UI.getCurrent().addWindow(new ApproveInputWindow(beanItem)))
+                    .withStyleName(WebThemes.BUTTON_ACTION);
+            navButton.addButtons(reopenBtn, approveNCloseBtn);
+            bugWorkflowControl.addComponent(navButton);
+        }
         bugWorkflowControl.setVisible(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.BUGS));
     }
 
@@ -256,8 +244,8 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
             BugRelationService bugRelationService = AppContextUtil.getSpringBean(BugRelationService.class);
             List<SimpleRelatedBug> relatedBugs = bugRelationService.findRelatedBugs(bug.getId());
             if (CollectionUtils.isNotEmpty(relatedBugs)) {
-                for (final SimpleRelatedBug relatedBug : relatedBugs) {
-                    if (relatedBug.getRelated()) {
+                for (SimpleRelatedBug relatedBug : relatedBugs) {
+                    if (relatedBug.getRelated() != null) {
                         ELabel relatedLink = new ELabel(UserUIContext.getMessage(BugRelation.class,
                                 relatedBug.getRelatedType())).withStyleName(WebThemes.ARROW_BTN).withUndefinedWidth();
                         ToggleBugSummaryWithDependentField toggleRelatedBugField = new ToggleBugSummaryWithDependentField(bug, relatedBug.getRelatedBug());

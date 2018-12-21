@@ -22,6 +22,7 @@ import com.hp.gagawa.java.elements.Text;
 import com.mycollab.common.ActivityStreamConstants;
 import com.mycollab.common.domain.SimpleActivityStream;
 import com.mycollab.common.domain.criteria.ActivityStreamSearchCriteria;
+import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.core.MyCollabException;
 import com.mycollab.core.utils.StringUtils;
 import com.mycollab.db.arguments.BasicSearchRequest;
@@ -39,9 +40,11 @@ import com.mycollab.module.project.ui.ProjectLocalizationTypeMap;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.TooltipHelper;
 import com.mycollab.vaadin.UserUIContext;
+import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.ui.registry.AuditLogRegistry;
 import com.mycollab.vaadin.web.ui.AbstractBeanPagedList;
+import com.mycollab.vaadin.web.ui.ButtonGroup;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.shared.ui.MarginInfo;
@@ -49,21 +52,16 @@ import com.vaadin.ui.Alignment;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Label;
-import org.apache.commons.lang3.time.DateUtils;
+import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 /**
  * @author MyCollab Ltd.
  * @since 1.0
  */
-// TODO
 public class ProjectActivityStreamPagedList extends AbstractBeanPagedList<ProjectActivityStream> {
     private static final long serialVersionUID = 1L;
 
@@ -101,7 +99,7 @@ public class ProjectActivityStreamPagedList extends AbstractBeanPagedList<Projec
             }
         }
 
-        List<ProjectActivityStream> currentListData = projectActivityStreamService.getProjectActivityStreams((BasicSearchRequest<ActivityStreamSearchCriteria>) searchRequest);
+        List<ProjectActivityStream> projectActivities = projectActivityStreamService.getProjectActivityStreams((BasicSearchRequest<ActivityStreamSearchCriteria>) searchRequest);
         this.removeAllComponents();
         LocalDate currentDate = LocalDate.of(2100, 1, 1);
 
@@ -109,16 +107,16 @@ public class ProjectActivityStreamPagedList extends AbstractBeanPagedList<Projec
         AuditLogRegistry auditLogRegistry = AppContextUtil.getSpringBean(AuditLogRegistry.class);
 
         try {
-            for (ProjectActivityStream activityStream : currentListData) {
-                if (ProjectTypeConstants.PAGE.equals(activityStream.getType())) {
+            for (ProjectActivityStream activity : projectActivities) {
+                if (ProjectTypeConstants.PAGE.equals(activity.getType())) {
                     ProjectPageService pageService = AppContextUtil.getSpringBean(ProjectPageService.class);
-                    Page page = pageService.getPage(activityStream.getTypeid(), UserUIContext.getUsername());
+                    Page page = pageService.getPage(activity.getTypeid(), UserUIContext.getUsername());
                     if (page != null) {
-                        activityStream.setNamefield(page.getSubject());
+                        activity.setNamefield(page.getSubject());
                     }
                 }
 
-                LocalDate itemCreatedDate = activityStream.getCreatedtime().toLocalDate();
+                LocalDate itemCreatedDate = activity.getCreatedtime().toLocalDate();
 
                 if (!currentDate.isEqual(itemCreatedDate)) {
                     currentFeedBlock = new CssLayout();
@@ -127,27 +125,27 @@ public class ProjectActivityStreamPagedList extends AbstractBeanPagedList<Projec
                     currentDate = itemCreatedDate;
                 }
                 StringBuilder content = new StringBuilder();
-                String itemType = ProjectLocalizationTypeMap.getType(activityStream.getType());
-                String assigneeParam = buildAssigneeValue(activityStream);
-                String itemParam = buildItemValue(activityStream);
+                String itemType = ProjectLocalizationTypeMap.getType(activity.getType());
+                String assigneeParam = buildAssigneeValue(activity);
+                String itemParam = buildItemValue(activity);
 
-                if (ActivityStreamConstants.ACTION_CREATE.equals(activityStream.getAction())) {
+                if (ActivityStreamConstants.ACTION_CREATE.equals(activity.getAction())) {
                     content.append(UserUIContext.getMessage(ProjectCommonI18nEnum.FEED_USER_ACTIVITY_CREATE_ACTION_TITLE,
                             assigneeParam, itemType, itemParam));
-                } else if (ActivityStreamConstants.ACTION_UPDATE.equals(activityStream.getAction())) {
+                } else if (ActivityStreamConstants.ACTION_UPDATE.equals(activity.getAction())) {
                     content.append(UserUIContext.getMessage(ProjectCommonI18nEnum.FEED_USER_ACTIVITY_UPDATE_ACTION_TITLE,
                             assigneeParam, itemType, itemParam));
-                    if (activityStream.getAssoAuditLog() != null) {
-                        content.append(auditLogRegistry.generatorDetailChangeOfActivity(activityStream));
+                    if (activity.getAssoAuditLog() != null) {
+                        content.append(auditLogRegistry.generatorDetailChangeOfActivity(activity));
                     }
-                } else if (ActivityStreamConstants.ACTION_COMMENT.equals(activityStream.getAction())) {
+                } else if (ActivityStreamConstants.ACTION_COMMENT.equals(activity.getAction())) {
                     content.append(UserUIContext.getMessage(ProjectCommonI18nEnum.FEED_USER_ACTIVITY_COMMENT_ACTION_TITLE,
                             assigneeParam, itemType, itemParam));
-                    if (activityStream.getAssoAuditLog() != null) {
+                    if (activity.getAssoAuditLog() != null) {
                         content.append("<ul><li>\"").append(
-                                StringUtils.trimHtmlTags(activityStream.getAssoAuditLog().getChangeset(), 200)).append("\"</li></ul>");
+                                StringUtils.trimHtmlTags(activity.getAssoAuditLog().getChangeset(), 200)).append("\"</li></ul>");
                     }
-                } else if (ActivityStreamConstants.ACTION_DELETE.equals(activityStream.getAction())) {
+                } else if (ActivityStreamConstants.ACTION_DELETE.equals(activity.getAction())) {
                     content.append(UserUIContext.getMessage(ProjectCommonI18nEnum.FEED_USER_ACTIVITY_DELETE_ACTION_TITLE,
                             assigneeParam, itemType, itemParam));
                 }
@@ -217,16 +215,12 @@ public class ProjectActivityStreamPagedList extends AbstractBeanPagedList<Projec
 
         if (currentDate.getYear() != nextDate.getYear()) {
             int currentYear = nextDate.getYear();
-            Label yearLbl = new Label("<div>" + currentYear + "</div>", ContentMode.HTML);
-            yearLbl.setStyleName("year-lbl");
-            yearLbl.setWidthUndefined();
+            ELabel yearLbl = ELabel.html("<div>" + currentYear + "</div>").withStyleName("year-lbl").withUndefinedWidth();
             this.addComponent(yearLbl);
         } else {
             blockWrapper.setMargin(new MarginInfo(true, false, false, false));
         }
-        Label dateLbl = new Label(UserUIContext.formatShortDate(nextDate));
-        dateLbl.setStyleName("date-lbl");
-        dateLbl.setWidthUndefined();
+        ELabel dateLbl = new ELabel(UserUIContext.formatShortDate(nextDate)).withStyleName("date-lbl").withUndefinedWidth();
         blockWrapper.with(dateLbl, currentBlock).expand(currentBlock);
 
         this.addComponent(blockWrapper);
@@ -235,39 +229,29 @@ public class ProjectActivityStreamPagedList extends AbstractBeanPagedList<Projec
     @Override
     protected MHorizontalLayout createPageControls() {
         this.controlBarWrapper = new MHorizontalLayout().withFullHeight().withStyleName("page-controls");
-//        ButtonGroup controlBtns = new ButtonGroup();
-//        controlBtns.setStyleName(WebThemes.BUTTON_ACTION);
-//        MButton prevBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_NAV_NEWER), clickEvent -> pageChange(currentPage - 1))
-//                .withWidth("64px").withStyleName(WebThemes.BUTTON_ACTION);
-//        if (currentPage == 1) {
-//            prevBtn.setEnabled(false);
-//        }
-//
-//        MButton nextBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_NAV_OLDER), clickEvent -> pageChange(currentPage + 1))
-//                .withWidth("64px").withStyleName(WebThemes.BUTTON_ACTION);
-//        if (currentPage == totalPage) {
-//            nextBtn.setEnabled(false);
-//        }
-//
-//        controlBtns.addButton(prevBtn);
-//        controlBtns.addButton(nextBtn);
-//
-//        controlBarWrapper.addComponent(controlBtns);
+
+        MButton prevBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_NAV_NEWER), clickEvent -> pageChange(currentPage - 1))
+                .withWidth("64px").withStyleName(WebThemes.BUTTON_ACTION);
+        if (currentPage == 1) {
+            prevBtn.setEnabled(false);
+        }
+
+        MButton nextBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_NAV_OLDER), clickEvent -> pageChange(currentPage + 1))
+                .withWidth("64px").withStyleName(WebThemes.BUTTON_ACTION);
+        if (currentPage == totalPage) {
+            nextBtn.setEnabled(false);
+        }
+
+        ButtonGroup controlBtns = new ButtonGroup(prevBtn, nextBtn);
+        controlBtns.setStyleName(WebThemes.BUTTON_ACTION);
+
+        controlBarWrapper.addComponent(controlBtns);
         return controlBarWrapper;
     }
 
     @Override
     protected QueryHandler<ProjectActivityStream> buildQueryHandler() {
         return new QueryHandler<ProjectActivityStream>() {
-            @Override
-            public int queryTotalCount() {
-                return 0;
-            }
-
-            @Override
-            public List<ProjectActivityStream> queryCurrentData() {
-                return null;
-            }
         };
     }
 }

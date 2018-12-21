@@ -97,7 +97,7 @@ public class VersionListViewImpl extends AbstractVerticalPageView implements Ver
                     .generateBugVersionPreviewLink(version.getProjectid(), version.getId()));
             if (version.getStatus() != null && version.getStatus().equals(StatusI18nEnum.Closed.name())) {
                 b.addStyleName(WebThemes.LINK_COMPLETED);
-            } else if (version.getDuedate() != null && (version.getDuedate().toLocalDate().isBefore(LocalDate.now()))) {
+            } else if (version.getDuedate() != null && (version.getDuedate().isBefore(LocalDate.now()))) {
                 b.addStyleName(WebThemes.LINK_OVERDUE);
             }
             b.setDescription(ProjectTooltipGenerator.generateToolTipVersion(UserUIContext.getUserLocale(), AppUI.getDateFormat(),

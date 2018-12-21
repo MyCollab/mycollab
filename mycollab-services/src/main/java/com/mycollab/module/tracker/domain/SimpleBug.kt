@@ -17,15 +17,11 @@
 package com.mycollab.module.tracker.domain
 
 import com.mycollab.core.arguments.NotBindable
-import com.mycollab.core.utils.DateTimeUtils
 import com.mycollab.core.utils.StringUtils
-
-import java.util.Calendar
-import java.util.Date
 
 import com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum
 import com.mycollab.core.utils.StringUtils.isBlank
-import java.time.LocalDateTime
+import java.time.LocalDate
 
 /**
  * @author MyCollab Ltd.
@@ -72,10 +68,9 @@ class SimpleBug : BugWithBLOBs() {
     val isOverdue: Boolean
         get() = isOverdue(this)
 
-    val dueDateRoundPlusOne: LocalDateTime?
+    val dueDateRoundPlusOne: LocalDate?
         get() {
-            val value = duedate
-            return if (value != null) value.plusDays(1) else null
+            return duedate?.plusDays(1)
         }
 
     enum class Field {
@@ -91,7 +86,7 @@ class SimpleBug : BugWithBLOBs() {
     }
 
     companion object {
-        private val serialVersionUID = 1L
+        private const val serialVersionUID = 1L
 
         @JvmStatic
         fun isCompleted(bug: BugWithBLOBs): Boolean = StatusI18nEnum.Verified.name == bug.status
@@ -104,9 +99,7 @@ class SimpleBug : BugWithBLOBs() {
 
             return when {
                 bug.duedate != null -> {
-                    // TODO: today must be the 0:0 time
-                    val todayDate = LocalDateTime.now()
-                    todayDate.isAfter(bug.duedate)
+                    LocalDate.now().isAfter(bug.duedate)
                 }
                 else -> false
             }

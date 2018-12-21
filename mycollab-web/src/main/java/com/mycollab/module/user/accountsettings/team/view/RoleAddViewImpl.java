@@ -155,7 +155,7 @@ public class RoleAddViewImpl extends AbstractVerticalPageView implements RoleAdd
                 PermissionDefItem permissionDefItem = defItems.get(i);
                 KeyCaptionComboBox permissionBox = PermissionComboBoxFactory.createPermissionSelection(permissionDefItem.getPermissionCls());
                 Integer flag = perMap.getPermissionFlag(permissionDefItem.getKey());
-                permissionBox.setValue(flag);
+                permissionBox.setValue(KeyCaptionComboBox.Entry.of(flag));
                 Enum captionHelp;
                 if (permissionBox instanceof YesNoPermissionComboBox) {
                     captionHelp = SecurityI18nEnum.BOOLEAN_PERMISSION_HELP;
@@ -175,8 +175,8 @@ public class RoleAddViewImpl extends AbstractVerticalPageView implements RoleAdd
 
             for (Map.Entry<String, KeyCaptionComboBox> entry : permissionControlsMap.entrySet()) {
                 KeyCaptionComboBox permissionBox = entry.getValue();
-                Integer perValue = (Integer) permissionBox.getValue();
-                permissionMap.addPath(entry.getKey(), perValue);
+                KeyCaptionComboBox.Entry perValue = permissionBox.getValue();
+                permissionMap.addPath(entry.getKey(), perValue.getKey());
             }
             return permissionMap;
         }

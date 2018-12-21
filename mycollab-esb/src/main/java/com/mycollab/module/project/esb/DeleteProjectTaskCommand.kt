@@ -26,8 +26,6 @@ import com.mycollab.module.ecm.service.ResourceService
 import com.mycollab.module.esb.GenericCommand
 import com.mycollab.module.file.AttachmentUtils
 import com.mycollab.module.project.ProjectTypeConstants
-import com.mycollab.module.project.dao.PredecessorMapper
-import com.mycollab.module.project.domain.PredecessorExample
 import org.springframework.stereotype.Component
 
 /**
@@ -37,7 +35,6 @@ import org.springframework.stereotype.Component
 @Component
 class DeleteProjectTaskCommand(private val resourceService: ResourceService,
                                private val commentMapper: CommentMapper,
-                               private val predecessorMapper: PredecessorMapper,
                                private val tagService: TagService) : GenericCommand() {
 
     @AllowConcurrentEvents
@@ -46,7 +43,6 @@ class DeleteProjectTaskCommand(private val resourceService: ResourceService,
         event.tasks.forEach {
             removeRelatedFiles(event.accountId, it.projectid, it.id)
             removeRelatedComments(it.id)
-            removePredecessorTasks(it.id)
             removeRelatedTags(it.id)
         }
     }
@@ -61,13 +57,6 @@ class DeleteProjectTaskCommand(private val resourceService: ResourceService,
         val ex = CommentExample()
         ex.createCriteria().andTypeEqualTo(ProjectTypeConstants.TASK).andExtratypeidEqualTo(taskId)
         commentMapper.deleteByExample(ex)
-    }
-
-    private fun removePredecessorTasks(taskId: Int) {
-        val ex = PredecessorExample()
-        ex.or().andSourceidEqualTo(taskId).andSourcetypeEqualTo(ProjectTypeConstants.TASK)
-        ex.or().andDescidEqualTo(taskId).andDesctypeEqualTo(ProjectTypeConstants.TASK)
-        predecessorMapper.deleteByExample(ex)
     }
 
     private fun removeRelatedTags(taskId: Int) {

@@ -209,7 +209,7 @@ public class ProjectFollowersComp<V extends ValuedBean> extends MVerticalLayout 
             for (SimpleProjectMember member : unsavedMembers) {
                 MonitorItem item = new MonitorItem();
                 item.setExtratypeid(CurrentProjectVariables.getProjectId());
-                item.setMonitorDate(LocalDateTime.now());
+                item.setCreatedtime(LocalDateTime.now());
                 item.setSaccountid(AppUI.getAccountId());
                 item.setType(type);
                 item.setTypeid(typeId);

@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -136,8 +136,8 @@ public class ProjectRoleAddViewImpl extends AbstractEditItemComp<ProjectRole> im
                 captionHelp = SecurityI18nEnum.ACCESS_PERMISSION_HELP;
             }
 
-            final Integer flag = perMap.getPermissionFlag(permissionPath);
-            permissionBox.setValue(flag);
+            Integer flag = perMap.getPermissionFlag(permissionPath);
+            permissionBox.setValue(KeyCaptionComboBox.Entry.of(flag));
             permissionControlsMap.put(permissionPath, permissionBox);
             permissionFormHelper.addComponent(permissionBox, UserUIContext.getMessage(RolePermissionI18nEnum.valueOf(permissionPath)),
                     UserUIContext.getMessage(captionHelp), i % 2, i / 2);
@@ -152,7 +152,7 @@ public class ProjectRoleAddViewImpl extends AbstractEditItemComp<ProjectRole> im
         PermissionMap permissionMap = new PermissionMap();
         for (Map.Entry<String, KeyCaptionComboBox> entry : permissionControlsMap.entrySet()) {
             KeyCaptionComboBox permissionBox = entry.getValue();
-            Integer perValue = (Integer) permissionBox.getValue();
+            Integer perValue = permissionBox.getValue().getKey();
             permissionMap.addPath(entry.getKey(), perValue);
         }
         return permissionMap;

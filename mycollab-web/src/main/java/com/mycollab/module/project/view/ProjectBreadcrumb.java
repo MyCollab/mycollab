@@ -296,20 +296,6 @@ public class ProjectBreadcrumb extends MHorizontalLayout implements CacheableCom
                 UserUIContext.getMessage(TaskI18nEnum.NEW));
     }
 
-    public void gotoGanttView() {
-        addSummaryLink();
-        addLink(new Button(UserUIContext.getMessage(ProjectCommonI18nEnum.VIEW_GANTT_CHART)));
-        AppUI.addFragment("project/gantt/" + UrlEncodeDecoder.encode(project.getId()),
-                UserUIContext.getMessage(ProjectCommonI18nEnum.VIEW_GANTT_CHART));
-    }
-
-    public void gotoCalendar() {
-        addSummaryLink();
-        addLink(new Button(UserUIContext.getMessage(ProjectCommonI18nEnum.VIEW_CALENDAR)));
-        AppUI.addFragment("project/calendar/" + UrlEncodeDecoder.encode(project.getId()),
-                UserUIContext.getMessage(ProjectCommonI18nEnum.VIEW_CALENDAR));
-    }
-
     public void gotoTaskRead(SimpleTask task) {
         addSummaryLink();
         addEnabledLink(new Button(UserUIContext.getMessage(TicketI18nEnum.LIST), new GotoTicketDashboard()));

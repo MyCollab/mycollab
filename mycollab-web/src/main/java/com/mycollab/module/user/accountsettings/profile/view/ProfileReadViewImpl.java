@@ -51,7 +51,6 @@ import java.awt.image.BufferedImage;
  * @author MyCollab Ltd.
  * @since 2.0
  */
-// TODO
 @ViewComponent
 public class ProfileReadViewImpl extends AbstractVerticalPageView implements ProfileReadView, ImagePreviewCropWindow.ImageSelectionCommand {
     private static final long serialVersionUID = 1L;

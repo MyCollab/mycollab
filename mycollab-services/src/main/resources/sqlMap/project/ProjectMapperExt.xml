@@ -136,7 +136,7 @@
         concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) AS createUserFullName,
         concat(leadUser.firstname, ' ', LTRIM(concat(IFNULL(leadUser.middlename, ''), ' ')), leadUser.lastname) AS leadFullName,
         leadUser.avatarId AS leadAvatarId, m_prj_project.accountId,
-        m_crm_account.accountName AS clientName, m_crm_account.avatarId AS clientAvatarId, m_prj_project.currencyid, m_prj_project.progress,
+        m_customer.accountName AS clientName, m_customer.avatarId AS clientAvatarId, m_prj_project.currencyid, m_prj_project.progress,
         (SELECT COUNT(*) FROM m_tracker_bug WHERE m_tracker_bug.projectId=m_prj_project.id) AS numBugs,
         (SELECT COUNT(*) FROM m_tracker_bug WHERE m_tracker_bug.projectId=m_prj_project.id AND m_tracker_bug.status NOT IN ('Resolved', 'Verified')) AS numOpenBugs,
         (SELECT COUNT(*) FROM m_prj_task WHERE m_prj_task.projectId=m_prj_project.id) AS numTasks,
@@ -156,7 +156,7 @@
         m_prj_customize_view.displayPage AS view_displayPage, m_prj_customize_view.displayFile AS view_displayFile,
         m_prj_customize_view.displayInvoice AS view_displayInvoice
         FROM m_prj_project 
-            LEFT OUTER JOIN m_crm_account ON (m_crm_account.id=m_prj_project.accountId)
+            LEFT OUTER JOIN m_customer ON (m_customer.id=m_prj_project.accountId)
             LEFT OUTER JOIN s_user ON (m_prj_project.createUser = s_user.username)
             LEFT OUTER JOIN s_user AS leadUser ON (m_prj_project.memlead = leadUser.username)
             LEFT OUTER JOIN m_prj_customize_view ON (m_prj_project.id=m_prj_customize_view.projectId)
@@ -227,7 +227,7 @@
                s_activitystream.module, concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) as createdUserFullName,
                s_user.avatarId AS createdUserAvatarId,
                s_activitystream.extraTypeId AS projectId, m_prj_project.name AS projectName, m_prj_project.shortname AS projectShortName,
-               m_audit_log.id AS log_id, m_audit_log.object_class AS log_object_class, m_audit_log.posteddate AS log_posteddate, m_audit_log.posteduser AS log_posteduser, 
+               m_audit_log.id AS log_id, m_audit_log.object_class AS log_object_class, m_audit_log.createdTime AS log_createdTime, m_audit_log.createdUser AS log_createdUser,
                m_audit_log.sAccountId AS log_sAccountId, m_audit_log.type AS log_type, m_audit_log.typeId AS log_typeid, m_audit_log.module AS log_module,
                m_audit_log.changeset AS log_changeset
         FROM s_activitystream
@@ -268,7 +268,7 @@
                s_activitystream.module, concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) as createdUserFullName,
                s_user.avatarId AS createdUserAvatarId,
                s_activitystream.extraTypeId AS projectId, m_prj_project.name AS projectName, m_prj_project.shortname AS projectShortName,
-               m_audit_log.id AS log_id, m_audit_log.object_class AS log_object_class, m_audit_log.posteddate AS log_posteddate, m_audit_log.posteduser AS log_posteduser, 
+               m_audit_log.id AS log_id, m_audit_log.object_class AS log_object_class, m_audit_log.createdTime AS log_createdTime, m_audit_log.createdUser AS log_createdUser,
                m_audit_log.sAccountId AS log_sAccountId, m_audit_log.type AS log_type, m_audit_log.typeId AS log_typeid, m_audit_log.module AS log_module,
                m_audit_log.changeset AS log_changeset
         FROM s_activitystream
@@ -310,7 +310,7 @@
                s_activitystream.module, concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) as createdUserFullName,
                s_user.avatarId AS createdUserAvatarId,
                s_activitystream.extraTypeId AS projectId, m_prj_project.name AS projectName, m_prj_project.shortname AS projectShortName,
-               m_audit_log.id AS log_id, m_audit_log.object_class AS log_object_class, m_audit_log.posteddate AS log_posteddate, m_audit_log.posteduser AS log_posteduser, 
+               m_audit_log.id AS log_id, m_audit_log.object_class AS log_object_class, m_audit_log.createdTime AS log_createdTime, m_audit_log.createdUser AS log_createdUser,
                m_audit_log.sAccountId AS log_sAccountId, m_audit_log.type AS log_type, m_audit_log.typeId AS log_typeid, m_audit_log.module AS log_module,
                m_audit_log.changeset AS log_changeset
         FROM s_activitystream

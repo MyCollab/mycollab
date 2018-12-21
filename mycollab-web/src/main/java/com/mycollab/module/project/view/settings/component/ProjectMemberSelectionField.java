@@ -39,7 +39,7 @@ public class ProjectMemberSelectionField extends CustomField<String> {
     public ProjectMemberSelectionField() {
         memberSelectionBox = new ProjectMemberSelectionBox(true);
         memberSelectionBox.addValueChangeListener(valueChangeEvent -> {
-            SimpleProjectMember value = (SimpleProjectMember) memberSelectionBox.getValue();
+            SimpleProjectMember value = memberSelectionBox.getValue();
             if (value != null) {
                 setValue(value.getDisplayName());
             } else {
@@ -48,7 +48,7 @@ public class ProjectMemberSelectionField extends CustomField<String> {
         });
 
         assignToMeBtn = new MButton(UserUIContext.getMessage(ProjectCommonI18nEnum.ACTION_ASSIGN_TO_ME), clickEvent -> {
-            memberSelectionBox.setValue(UserUIContext.getUser().getUsername());
+            memberSelectionBox.setSelectedUser(UserUIContext.getUser().getUsername());
         }).withStyleName(WebThemes.BUTTON_LINK);
     }
 

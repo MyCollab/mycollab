@@ -63,7 +63,6 @@ public enum ProjectCommonI18nEnum {
     VIEW_MEMBER,
     VIEW_SETTINGS,
     VIEW_FAVORITES,
-    VIEW_GANTT_CHART,
 
     SUB_INFO_PEOPLE,
     ITEM_CREATED_DATE,

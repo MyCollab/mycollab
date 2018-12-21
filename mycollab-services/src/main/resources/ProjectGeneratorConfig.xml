@@ -8,7 +8,7 @@
         <plugin type="com.mycollab.mybatis.plugin.MyCollabModelFilePlugin" />
 
         <jdbcConnection connectionURL="jdbc:mysql://localhost:3306/mycollab?verifyServerCertificate=false"
-                        driverClass="com.mysql.jdbc.Driver" password="mycollab123" userId="root" />
+                        driverClass="com.mysql.cj.jdbc.Driver" password="mycollab123" userId="root" />
 
         <javaTypeResolver>
             <property name="useJSR310Types" value="true"/>
@@ -33,7 +33,6 @@
         <table domainObjectName="ProjectRolePermission" schema="mycollab" tableName="m_prj_role_permission" />
         <table domainObjectName="Task" schema="mycollab" tableName="m_prj_task" />
         <table domainObjectName="ProjectMember" schema="mycollab" tableName="m_prj_member" />
-        <table domainObjectName="Predecessor" schema="mycollab" tableName="m_prj_predecessor" />
         <table domainObjectName="ProjectCustomizeView" schema="mycollab" tableName="m_prj_customize_view" />
         <table domainObjectName="KanbanBoard" schema="mycollab" tableName="m_prj_kanban_board" />
     </context>

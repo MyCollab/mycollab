@@ -104,7 +104,7 @@
             SELECT m_prj_milestone.id, m_prj_milestone.name, m_prj_milestone.description, m_prj_milestone.startDate, m_prj_milestone.endDate,
                    m_prj_milestone.dueDate,
                    m_prj_milestone.assignUser, m_prj_milestone.status, m_prj_milestone.projectId, m_prj_milestone.status, m_prj_milestone.createdTime,
-                   m_prj_milestone.lastUpdatedTime, m_prj_milestone.orderIndex, m_prj_milestone.color,
+                   m_prj_milestone.lastUpdatedTime, m_prj_milestone.color,
                    m_prj_milestone.sAccountId, m_prj_milestone.createdUser, createdUserTbl.avatarId AS createdUserAvatarId,
                    concat(createdUserTbl.firstname, ' ', LTRIM(concat(IFNULL(createdUserTbl.middlename, ''), ' ')), createdUserTbl.lastname) AS createdUserFullName,
                    s_user.avatarId AS ownerAvatarId,

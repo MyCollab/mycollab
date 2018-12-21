@@ -47,5 +47,5 @@ class FollowingTicket : Serializable {
 
     var assignUserFullName: String? = null
 
-    var monitorDate: LocalDateTime? = null
+    var createdTime: LocalDateTime? = null
 }

@@ -114,7 +114,7 @@ class InviteProjectMembersCommand(private val userService: UserService,
                     val member = ProjectMember()
                     member.projectid = event.projectId
                     member.username = it
-                    member.joindate = LocalDateTime.now()
+                    member.createdtime = LocalDateTime.now()
                     member.saccountid = event.sAccountId
                     member.billingrate = project.defaultbillingrate
                     member.overtimebillingrate = project.defaultovertimebillingrate

@@ -28,31 +28,24 @@ import java.util.Locale;
  * @author MyCollab Ltd.
  * @since 4.1
  */
-// TODO
 public class LanguageSelectionField extends CustomField<String> {
     private static final long serialVersionUID = 1L;
 
-    private ComboBox languageBox = new ComboBox();
+    private ComboBox<Locale> languageBox = new ComboBox<>();
     private Label languageCode;
 
     public LanguageSelectionField() {
-//        languageBox.setEmptySelectionAllowed(false);
-//        languageBox.setImmediate(true);
-//        languageBox.setWidth("200px");
-//        languageBox.setItemCaptionMode(AbstractSelect.ItemCaptionMode.EXPLICIT);
-//        languageBox.setFilteringMode(FilteringMode.CONTAINS);
+        languageBox.setEmptySelectionAllowed(false);
+        languageBox.setWidth("200px");
 
         languageCode = new ELabel().withStyleName(UIConstants.META_INFO);
 
-        Locale[] supportedLanguage = LocalizationHelper.getAvailableLocales();
-        for (Locale locale : supportedLanguage) {
-            String language = locale.toLanguageTag();
-//            languageBox.addItem(language);
-//            languageBox.setItemCaption(language, locale.getDisplayName(locale));
-        }
-        languageBox.addValueChangeListener(valueChangeEvent -> {
-//            String value = (String) valueChangeEvent.getProperty().getValue();
-//            languageCode.setValue(value != null ? value : "");
+        Locale[] supportedLanguages = LocalizationHelper.getAvailableLocales();
+        languageBox.setItems(supportedLanguages);
+        languageBox.setItemCaptionGenerator((ItemCaptionGenerator<Locale>) locale -> locale.getDisplayName(locale));
+        languageBox.addValueChangeListener(event -> {
+            Locale locale = event.getValue();
+            languageCode.setValue(locale != null ? locale.getDisplayName(locale) : "");
         });
     }
 
@@ -61,37 +54,15 @@ public class LanguageSelectionField extends CustomField<String> {
         return new MHorizontalLayout(languageBox, languageCode).alignAll(Alignment.MIDDLE_LEFT);
     }
 
-//    @Override
-//    public Class<? extends String> getType() {
-//        return String.class;
-//    }
-//
-//    @Override
-//    public void setPropertyDataSource(Property newDataSource) {
-//        languageBox.setValue(newDataSource.getValue());
-//        super.setPropertyDataSource(newDataSource);
-//    }
-//
-//    @Override
-//    public void commit() throws SourceException, Validator.InvalidValueException {
-//        String value = (String) languageBox.getValue();
-//        setInternalValue(value);
-//        super.commit();
-//    }
-//
-//    @Override
-//    public void setValue(String newFieldValue) throws ReadOnlyException, Converter.ConversionException {
-//        languageBox.setValue(newFieldValue);
-//        super.setValue(newFieldValue);
-//    }
-
     @Override
     public String getValue() {
-        return (String) languageBox.getValue();
+        Locale locale = languageBox.getValue();
+        return (locale != null) ? locale.toLanguageTag() : "";
     }
 
     @Override
-    protected void doSetValue(String s) {
-
+    protected void doSetValue(String value) {
+        Locale locale = Locale.forLanguageTag(value);
+        languageBox.setValue(locale);
     }
 }

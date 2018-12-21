@@ -16,9 +16,11 @@
  */
 package com.mycollab.vaadin.ui;
 
+import com.mycollab.vaadin.AppUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.vaadin.ui.DateField;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 /**
  * @author MyCollab Ltd.
@@ -31,18 +33,18 @@ public class PopupDateFieldExt extends DateField {
         this(null);
     }
 
-    public PopupDateFieldExt(LocalDateTime value) {
+    public PopupDateFieldExt(LocalDate value) {
         this(null, value);
     }
 
-    public PopupDateFieldExt(String caption, LocalDateTime value) {
-//        super(null, value);
-//        this.setTimeZone(UserUIContext.getUserTimeZone());
-//        this.setDateFormat(AppUI.getDateFormat());
+    public PopupDateFieldExt(String caption, LocalDate value) {
+        super(null, value);
+        this.setZoneId(UserUIContext.getUserTimeZone());
+        this.setDateFormat(AppUI.getDateFormat());
     }
 
     public PopupDateFieldExt withWidth(String width) {
-//        this.setWidth(width);
+        this.setWidth(width);
         return this;
     }
 }

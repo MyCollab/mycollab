@@ -13,41 +13,10 @@
     flyway_schema_history*,
     m_audit_log*,
     m_comment*,
-    m_crm_account*,
-    m_crm_accounts_leads*,
-    m_crm_call*,
-    m_crm_campaign*,
-    m_crm_campaigns_accounts*,
-    m_crm_campaigns_contacts*,
-    m_crm_campaigns_leads*,
-    m_crm_case*,
-    m_crm_contact*,
-    m_crm_contacts_cases*,
-    m_crm_contacts_leads*,
-    m_crm_contacts_opportunities*,
-    m_crm_contract*,
-    m_crm_customer*,
-    m_crm_lead*,
-    m_crm_meeting*,
-    m_crm_meeting_invitees*,
-    m_crm_notifications*,
-    m_crm_opportunities_leads*,
-    m_crm_opportunity*,
-    m_crm_product*,
-    m_crm_product_catalog*,
-    m_crm_quote*,
-    m_crm_quote_group_product*,
-    m_crm_target*,
-    m_crm_target_list*,
-    m_crm_task*,
-    m_ecm_activity_log*,
-    m_ecm_driveinfo*,
-    m_ecm_external_drive*,
+    m_customer*,
     m_form_custom_field_value*,
     m_form_section*,
     m_form_section_field*,
-    m_group*,
-    m_group_user*,
     m_monitor_item*,
     m_notification_item*,
     m_options*,
@@ -58,7 +27,6 @@
     m_prj_message*,
     m_prj_milestone*,
     m_prj_notifications*,
-    m_prj_predecessor*,
     m_prj_project*,
     m_prj_risk*,
     m_prj_role*,
@@ -234,8 +202,8 @@
     id CDATA #REQUIRED
     object_class CDATA #REQUIRED
     changeset CDATA #REQUIRED
-    posteddate CDATA #REQUIRED
-    posteduser CDATA #IMPLIED
+    createdTime CDATA #REQUIRED
+    createdUser CDATA #IMPLIED
     sAccountId CDATA #REQUIRED
     type CDATA #REQUIRED
     typeid CDATA #REQUIRED
@@ -255,8 +223,8 @@
     extraTypeId CDATA #IMPLIED
 >
 
-<!ELEMENT m_crm_account EMPTY>
-<!ATTLIST m_crm_account
+<!ELEMENT m_customer EMPTY>
+<!ATTLIST m_customer
     id CDATA #REQUIRED
     accountName CDATA #REQUIRED
     website CDATA #IMPLIED
@@ -286,536 +254,6 @@
     billingCountry CDATA #IMPLIED
     shippingCountry CDATA #IMPLIED
     avatarId CDATA #IMPLIED
->
-
-<!ELEMENT m_crm_accounts_leads EMPTY>
-<!ATTLIST m_crm_accounts_leads
-    id CDATA #REQUIRED
-    accountId CDATA #REQUIRED
-    leadId CDATA #REQUIRED
-    createTime CDATA #REQUIRED
-    isConvertRel CDATA #IMPLIED
->
-
-<!ELEMENT m_crm_call EMPTY>
-<!ATTLIST m_crm_call
-    id CDATA #REQUIRED
-    subject CDATA #REQUIRED
-    startDate CDATA #IMPLIED
-    durationInSeconds CDATA #IMPLIED
-    calltype CDATA #IMPLIED
-    type CDATA #IMPLIED
-    typeid CDATA #IMPLIED
-    lastUpdatedTime CDATA #IMPLIED
-    createdTime CDATA #IMPLIED
-    createdUser CDATA #IMPLIED
-    assignUser CDATA #IMPLIED
-    description CDATA #IMPLIED
-    contactId CDATA #IMPLIED
-    sAccountId CDATA #REQUIRED
-    status CDATA #IMPLIED
-    purpose CDATA #IMPLIED
-    result CDATA #IMPLIED
-    isClosed CDATA #IMPLIED
->
-
-<!ELEMENT m_crm_campaign EMPTY>
-<!ATTLIST m_crm_campaign
-    id CDATA #REQUIRED
-    campaignName CDATA #REQUIRED
-    startDate CDATA #IMPLIED
-    endDate CDATA #IMPLIED
-    currencyId CDATA #IMPLIED
-    impressionnote CDATA #IMPLIED
-    budget CDATA #IMPLIED
-    actualCost CDATA #IMPLIED
-    expectedRevenue CDATA #IMPLIED
-    expectedCost CDATA #IMPLIED
-    objective CDATA #IMPLIED
-    description CDATA #IMPLIED
-    impression CDATA #IMPLIED
-    createdTime CDATA #IMPLIED
-    createdUser CDATA #IMPLIED
-    sAccountId CDATA #REQUIRED
-    status CDATA #IMPLIED
-    type CDATA #IMPLIED
-    assignUser CDATA #IMPLIED
-    lastUpdatedTime CDATA #IMPLIED
-    avatarId CDATA #IMPLIED
->
-
-<!ELEMENT m_crm_campaigns_accounts EMPTY>
-<!ATTLIST m_crm_campaigns_accounts
-    id CDATA #REQUIRED
-    campaignId CDATA #REQUIRED
-    accountId CDATA #REQUIRED
-    createdTime CDATA #REQUIRED
->
-
-<!ELEMENT m_crm_campaigns_contacts EMPTY>
-<!ATTLIST m_crm_campaigns_contacts
-    id CDATA #REQUIRED
-    campaignId CDATA #REQUIRED
-    contactId CDATA #REQUIRED
-    createdTime CDATA #REQUIRED
->
-
-<!ELEMENT m_crm_campaigns_leads EMPTY>
-<!ATTLIST m_crm_campaigns_leads
-    id CDATA #REQUIRED
-    campaignId CDATA #REQUIRED
-    leadId CDATA #REQUIRED
-    createdTime CDATA #REQUIRED
->
-
-<!ELEMENT m_crm_case EMPTY>
-<!ATTLIST m_crm_case
-    id CDATA #REQUIRED
-    priority CDATA #IMPLIED
-    status CDATA #IMPLIED
-    type CDATA #IMPLIED
-    subject CDATA #REQUIRED
-    description CDATA #IMPLIED
-    resolution CDATA #IMPLIED
-    accountId CDATA #REQUIRED
-    createdTime CDATA #IMPLIED
-    createdUser CDATA #IMPLIED
-    sAccountId CDATA #REQUIRED
-    assignUser CDATA #IMPLIED
-    lastUpdatedTime CDATA #IMPLIED
-    reason CDATA #IMPLIED
-    origin CDATA #IMPLIED
-    email CDATA #IMPLIED
-    phonenumber CDATA #IMPLIED
->
-
-<!ELEMENT m_crm_contact EMPTY>
-<!ATTLIST m_crm_contact
-    id CDATA #REQUIRED
-    prefix CDATA #IMPLIED
-    firstname CDATA #IMPLIED
-    lastname CDATA #REQUIRED
-    leadSource CDATA #IMPLIED
-    campaignId CDATA #IMPLIED
-    isCallable CDATA #IMPLIED
-    officePhone CDATA #IMPLIED
-    mobile CDATA #IMPLIED
-    homePhone CDATA #IMPLIED
-    otherPhone CDATA #IMPLIED
-    fax CDATA #IMPLIED
-    birthday CDATA #IMPLIED
-    assistant CDATA #IMPLIED
-    primAddress CDATA #IMPLIED
-    primCity CDATA #IMPLIED
-    primState CDATA #IMPLIED
-    primPostalCode CDATA #IMPLIED
-    primCountry CDATA #IMPLIED
-    description CDATA #IMPLIED
-    title CDATA #IMPLIED
-    assistantPhone CDATA #IMPLIED
-    email CDATA #IMPLIED
-    department CDATA #IMPLIED
-    createdTime CDATA #IMPLIED
-    createdUser CDATA #IMPLIED
-    sAccountId CDATA #REQUIRED
-    assignUser CDATA #IMPLIED
-    otherAddress CDATA #IMPLIED
-    otherCity CDATA #IMPLIED
-    otherState CDATA #IMPLIED
-    otherPostalCode CDATA #IMPLIED
-    otherCountry CDATA #IMPLIED
-    lastUpdatedTime CDATA #IMPLIED
-    accountId CDATA #IMPLIED
-    avatarId CDATA #IMPLIED
->
-
-<!ELEMENT m_crm_contacts_cases EMPTY>
-<!ATTLIST m_crm_contacts_cases
-    id CDATA #REQUIRED
-    contactId CDATA #REQUIRED
-    caseId CDATA #REQUIRED
-    createdTime CDATA #IMPLIED
->
-
-<!ELEMENT m_crm_contacts_leads EMPTY>
-<!ATTLIST m_crm_contacts_leads
-    id CDATA #REQUIRED
-    contactId CDATA #REQUIRED
-    leadId CDATA #REQUIRED
-    isConvertRel CDATA #IMPLIED
->
-
-<!ELEMENT m_crm_contacts_opportunities EMPTY>
-<!ATTLIST m_crm_contacts_opportunities
-    id CDATA #REQUIRED
-    contactId CDATA #REQUIRED
-    opportunityId CDATA #REQUIRED
-    createdTime CDATA #REQUIRED
-    decisionRole CDATA #IMPLIED
->
-
-<!ELEMENT m_crm_contract EMPTY>
-<!ATTLIST m_crm_contract
-    id CDATA #REQUIRED
-    contractname CDATA #REQUIRED
-    status CDATA #IMPLIED
-    code CDATA #IMPLIED
-    accountid CDATA #IMPLIED
-    opportunityid CDATA #IMPLIED
-    currencyid CDATA #IMPLIED
-    customersigneddate CDATA #IMPLIED
-    companysigneddate CDATA #IMPLIED
-    type CDATA #IMPLIED
-    description CDATA #IMPLIED
-    startdate CDATA #IMPLIED
-    enddate CDATA #IMPLIED
-    contractvalue CDATA #IMPLIED
-    createdTime CDATA #IMPLIED
-    createdUser CDATA #IMPLIED
-    sAccountId CDATA #REQUIRED
-    assignUser CDATA #IMPLIED
-    lastUpdatedTime CDATA #IMPLIED
->
-
-<!ELEMENT m_crm_customer EMPTY>
-<!ATTLIST m_crm_customer
-    id CDATA #REQUIRED
-    firstname CDATA #IMPLIED
-    lastname CDATA #REQUIRED
-    leadsource CDATA #IMPLIED
-    assignUser CDATA #IMPLIED
-    department CDATA #IMPLIED
-    officePhone CDATA #IMPLIED
-    mobile CDATA #IMPLIED
-    homePhone CDATA #IMPLIED
-    assisstant CDATA #IMPLIED
-    assisstantPhone CDATA #IMPLIED
-    birthday CDATA #IMPLIED
-    createdTime CDATA #IMPLIED
-    createdUser CDATA #IMPLIED
-    sAccountId CDATA #REQUIRED
-    lastUpdatedTime CDATA #IMPLIED
-    title CDATA #IMPLIED
->
-
-<!ELEMENT m_crm_lead EMPTY>
-<!ATTLIST m_crm_lead
-    id CDATA #REQUIRED
-    campaignId CDATA #IMPLIED
-    leadSourceDesc CDATA #IMPLIED
-    statusDesc CDATA #IMPLIED
-    referredBy CDATA #IMPLIED
-    prefixName CDATA #IMPLIED
-    firstname CDATA #IMPLIED
-    lastname CDATA #REQUIRED
-    accountName CDATA #IMPLIED
-    title CDATA #IMPLIED
-    department CDATA #IMPLIED
-    isCallable CDATA #IMPLIED
-    officePhone CDATA #IMPLIED
-    homePhone CDATA #IMPLIED
-    mobile CDATA #IMPLIED
-    otherPhone CDATA #IMPLIED
-    fax CDATA #IMPLIED
-    primAddress CDATA #IMPLIED
-    primState CDATA #IMPLIED
-    primCity CDATA #IMPLIED
-    primPostalCode CDATA #IMPLIED
-    primCountry CDATA #IMPLIED
-    description CDATA #IMPLIED
-    email CDATA #IMPLIED
-    createdTime CDATA #IMPLIED
-    createdUser CDATA #IMPLIED
-    sAccountId CDATA #REQUIRED
-    assignUser CDATA #IMPLIED
-    status CDATA #IMPLIED
-    source CDATA #IMPLIED
-    website CDATA #IMPLIED
-    otherAddress CDATA #IMPLIED
-    otherState CDATA #IMPLIED
-    otherCity CDATA #IMPLIED
-    otherPostalCode CDATA #IMPLIED
-    otherCountry CDATA #IMPLIED
-    industry CDATA #IMPLIED
-    lastUpdatedTime CDATA #IMPLIED
-    noEmployees CDATA #IMPLIED
-    avatarId CDATA #IMPLIED
->
-
-<!ELEMENT m_crm_meeting EMPTY>
-<!ATTLIST m_crm_meeting
-    id CDATA #REQUIRED
-    subject CDATA #IMPLIED
-    status CDATA #IMPLIED
-    type CDATA #IMPLIED
-    typeid CDATA #IMPLIED
-    startDate CDATA #IMPLIED
-    endDate CDATA #IMPLIED
-    lastUpdatedTime CDATA #IMPLIED
-    createdTime CDATA #IMPLIED
-    createdUser CDATA #IMPLIED
-    sAccountId CDATA #REQUIRED
-    location CDATA #IMPLIED
-    description CDATA #IMPLIED
-    isRecurrence CDATA #IMPLIED
-    recurrenceType CDATA #IMPLIED
-    recurrenceStartDate CDATA #IMPLIED
-    recurrenceEndDate CDATA #IMPLIED
-    contactType CDATA #IMPLIED
-    contactTypeId CDATA #IMPLIED
-    isClosed CDATA #IMPLIED
-    isNotified CDATA #IMPLIED
-    isNotifiedPrior CDATA #IMPLIED
-    recurrenceInfo CDATA #IMPLIED
->
-
-<!ELEMENT m_crm_meeting_invitees EMPTY>
-<!ATTLIST m_crm_meeting_invitees
-    id CDATA #REQUIRED
-    meetingId CDATA #REQUIRED
-    username CDATA #REQUIRED
-    isModerator CDATA #REQUIRED
-    status CDATA #REQUIRED
-    source CDATA #REQUIRED
->
-
-<!ELEMENT m_crm_notifications EMPTY>
-<!ATTLIST m_crm_notifications
-    id CDATA #REQUIRED
-    username CDATA #REQUIRED
-    sAccountId CDATA #REQUIRED
-    level CDATA #REQUIRED
->
-
-<!ELEMENT m_crm_opportunities_leads EMPTY>
-<!ATTLIST m_crm_opportunities_leads
-    id CDATA #REQUIRED
-    opportunityId CDATA #REQUIRED
-    leadId CDATA #REQUIRED
-    createdTime CDATA #REQUIRED
-    isConvertRel CDATA #IMPLIED
->
-
-<!ELEMENT m_crm_opportunity EMPTY>
-<!ATTLIST m_crm_opportunity
-    id CDATA #REQUIRED
-    opportunityName CDATA #REQUIRED
-    currencyid CDATA #IMPLIED
-    accountid CDATA #REQUIRED
-    amount CDATA #IMPLIED
-    type CDATA #IMPLIED
-    source CDATA #IMPLIED
-    expectedClosedDate CDATA #IMPLIED
-    campaignid CDATA #IMPLIED
-    nextStep CDATA #IMPLIED
-    probability CDATA #IMPLIED
-    description CDATA #IMPLIED
-    createdTime CDATA #IMPLIED
-    createdUser CDATA #IMPLIED
-    sAccountId CDATA #REQUIRED
-    assignUser CDATA #IMPLIED
-    opportunityType CDATA #IMPLIED
-    salesStage CDATA #IMPLIED
-    lastUpdatedTime CDATA #IMPLIED
-    avatarId CDATA #IMPLIED
->
-
-<!ELEMENT m_crm_product EMPTY>
-<!ATTLIST m_crm_product
-    id CDATA #REQUIRED
-    productname CDATA #REQUIRED
-    status CDATA #IMPLIED
-    accountid CDATA #IMPLIED
-    website CDATA #IMPLIED
-    quantity CDATA #IMPLIED
-    serialnumber CDATA #IMPLIED
-    assessnumber CDATA #IMPLIED
-    contactid CDATA #IMPLIED
-    supportstartdate CDATA #IMPLIED
-    supportenddate CDATA #IMPLIED
-    salesdate CDATA #IMPLIED
-    unitprice CDATA #IMPLIED
-    description CDATA #IMPLIED
-    producturl CDATA #IMPLIED
-    supportcontact CDATA #IMPLIED
-    supportterm CDATA #IMPLIED
-    supportdesc CDATA #IMPLIED
-    cost CDATA #IMPLIED
-    listprice CDATA #IMPLIED
-    groupid CDATA #IMPLIED
-    tax CDATA #IMPLIED
-    taxClass CDATA #IMPLIED
-    mftNumber CDATA #IMPLIED
-    vendorPartNumber CDATA #IMPLIED
-    createdTime CDATA #IMPLIED
-    createdUser CDATA #IMPLIED
-    sAccountId CDATA #REQUIRED
-    lastUpdatedTime CDATA #IMPLIED
->
-
-<!ELEMENT m_crm_product_catalog EMPTY>
-<!ATTLIST m_crm_product_catalog
-    id CDATA #REQUIRED
-    url CDATA #IMPLIED
-    taxclass CDATA #IMPLIED
-    mft_partnumber CDATA #IMPLIED
-    vendor_partnumber CDATA #IMPLIED
-    currencyid CDATA #IMPLIED
-    cost CDATA #IMPLIED
-    listprice CDATA #IMPLIED
-    discountprice CDATA #IMPLIED
-    pricing_formula CDATA #IMPLIED
-    description CDATA #IMPLIED
-    date_available CDATA #IMPLIED
-    availability CDATA #IMPLIED
-    quantity_in_stock CDATA #IMPLIED
-    support_name CDATA #IMPLIED
-    support_contact CDATA #IMPLIED
-    support_desc CDATA #IMPLIED
-    support_term CDATA #IMPLIED
-    productname CDATA #IMPLIED
-    sAccountId CDATA #REQUIRED
-    createdTime CDATA #IMPLIED
-    lastUpdatedTime CDATA #IMPLIED
->
-
-<!ELEMENT m_crm_quote EMPTY>
-<!ATTLIST m_crm_quote
-    id CDATA #REQUIRED
-    subject CDATA #REQUIRED
-    quotestage CDATA #IMPLIED
-    opportunityid CDATA #IMPLIED
-    validuntil CDATA #IMPLIED
-    shipping CDATA #IMPLIED
-    billaccount CDATA #REQUIRED
-    billcontact CDATA #IMPLIED
-    shipaccount CDATA #IMPLIED
-    shipcontact CDATA #IMPLIED
-    billingaddress CDATA #REQUIRED
-    billingcity CDATA #IMPLIED
-    billingstate CDATA #IMPLIED
-    billingpostalcode CDATA #IMPLIED
-    billingcountry CDATA #IMPLIED
-    shippingaddress CDATA #REQUIRED
-    shippingcity CDATA #IMPLIED
-    shippingstate CDATA #IMPLIED
-    shippingpostalcode CDATA #IMPLIED
-    shippingcountry CDATA #IMPLIED
-    description CDATA #IMPLIED
-    paymentterm CDATA #IMPLIED
-    originalpodate CDATA #IMPLIED
-    purchaseordernum CDATA #IMPLIED
-    createdTime CDATA #IMPLIED
-    createdUser CDATA #IMPLIED
-    sAccountId CDATA #REQUIRED
-    assignUser CDATA #IMPLIED
-    lastUpdatedTime CDATA #IMPLIED
->
-
-<!ELEMENT m_crm_quote_group_product EMPTY>
-<!ATTLIST m_crm_quote_group_product
-    id CDATA #REQUIRED
-    groupname CDATA #IMPLIED
-    groupstate CDATA #IMPLIED
-    tax CDATA #IMPLIED
-    shipping CDATA #IMPLIED
-    quoteid CDATA #REQUIRED
-    createdTime CDATA #IMPLIED
-    lastUpdatedTime CDATA #IMPLIED
->
-
-<!ELEMENT m_crm_target EMPTY>
-<!ATTLIST m_crm_target
-    id CDATA #REQUIRED
-    prefixname CDATA #IMPLIED
-    firstname CDATA #IMPLIED
-    lastname CDATA #REQUIRED
-    title CDATA #IMPLIED
-    department CDATA #IMPLIED
-    birthday CDATA #IMPLIED
-    accountname CDATA #IMPLIED
-    isCallable CDATA #IMPLIED
-    officePhone CDATA #IMPLIED
-    mobile CDATA #IMPLIED
-    homePhone CDATA #IMPLIED
-    otherPhone CDATA #IMPLIED
-    fax CDATA #IMPLIED
-    assistant CDATA #IMPLIED
-    assistantPhone CDATA #IMPLIED
-    primaryAddress CDATA #IMPLIED
-    primaryCity CDATA #IMPLIED
-    primaryState CDATA #IMPLIED
-    primaryPostal CDATA #IMPLIED
-    primaryCountryId CDATA #IMPLIED
-    description CDATA #IMPLIED
-    email CDATA #IMPLIED
-    createdTime CDATA #IMPLIED
-    createdUser CDATA #IMPLIED
-    sAccountId CDATA #REQUIRED
-    assignUser CDATA #IMPLIED
-    lastUpdatedTime CDATA #IMPLIED
->
-
-<!ELEMENT m_crm_target_list EMPTY>
-<!ATTLIST m_crm_target_list
-    id CDATA #REQUIRED
-    name CDATA #REQUIRED
-    type CDATA #IMPLIED
-    description CDATA #IMPLIED
-    createdTime CDATA #IMPLIED
-    createdUser CDATA #IMPLIED
-    sAccountId CDATA #REQUIRED
-    assignUser CDATA #IMPLIED
-    lastUpdatedTime CDATA #IMPLIED
->
-
-<!ELEMENT m_crm_task EMPTY>
-<!ATTLIST m_crm_task
-    id CDATA #REQUIRED
-    subject CDATA #REQUIRED
-    startdate CDATA #IMPLIED
-    duedate CDATA #IMPLIED
-    contactId CDATA #IMPLIED
-    typeid CDATA #IMPLIED
-    description CDATA #IMPLIED
-    createdTime CDATA #IMPLIED
-    createdUser CDATA #IMPLIED
-    sAccountId CDATA #REQUIRED
-    status CDATA #IMPLIED
-    assignUser CDATA #IMPLIED
-    priority CDATA #IMPLIED
-    type CDATA #IMPLIED
-    lastUpdatedTime CDATA #IMPLIED
-    isClosed CDATA #IMPLIED
->
-
-<!ELEMENT m_ecm_activity_log EMPTY>
-<!ATTLIST m_ecm_activity_log
-    id CDATA #REQUIRED
-    createdUser CDATA #REQUIRED
-    createdTime CDATA #REQUIRED
-    createdUserFullName CDATA #IMPLIED
-    actionDesc CDATA #REQUIRED
-    baseFolderPath CDATA #IMPLIED
->
-
-<!ELEMENT m_ecm_driveinfo EMPTY>
-<!ATTLIST m_ecm_driveinfo
-    id CDATA #REQUIRED
-    sAccountId CDATA #REQUIRED
-    usedVolume CDATA #IMPLIED
->
-
-<!ELEMENT m_ecm_external_drive EMPTY>
-<!ATTLIST m_ecm_external_drive
-    id CDATA #REQUIRED
-    storageName CDATA #REQUIRED
-    owner CDATA #REQUIRED
-    accessToken CDATA #REQUIRED
-    createdTime CDATA #REQUIRED
-    lastUpdatedTime CDATA #REQUIRED
-    folderName CDATA #REQUIRED
-    shareAccountId CDATA #IMPLIED
 >
 
 <!ELEMENT m_form_custom_field_value EMPTY>
@@ -890,30 +328,11 @@
     isCustom CDATA #REQUIRED
 >
 
-<!ELEMENT m_group EMPTY>
-<!ATTLIST m_group
-    id CDATA #REQUIRED
-    name CDATA #REQUIRED
-    description CDATA #IMPLIED
-    sAccountId CDATA #REQUIRED
-    createdTime CDATA #REQUIRED
-    createdUser CDATA #IMPLIED
->
-
-<!ELEMENT m_group_user EMPTY>
-<!ATTLIST m_group_user
-    id CDATA #REQUIRED
-    groupId CDATA #REQUIRED
-    user CDATA #REQUIRED
-    createdTime CDATA #IMPLIED
-    isOwner CDATA #REQUIRED
->
-
 <!ELEMENT m_monitor_item EMPTY>
 <!ATTLIST m_monitor_item
     id CDATA #REQUIRED
     user CDATA #REQUIRED
-    monitor_date CDATA #REQUIRED
+    createdTime CDATA #REQUIRED
     type CDATA #REQUIRED
     typeId CDATA #REQUIRED
     extraTypeId CDATA #IMPLIED
@@ -941,7 +360,7 @@
     description CDATA #IMPLIED
     orderIndex CDATA #IMPLIED
     sAccountId CDATA #REQUIRED
-    createdtime CDATA #REQUIRED
+    createdTime CDATA #REQUIRED
     createdUser CDATA #IMPLIED
     extraId CDATA #IMPLIED
     isDefault CDATA #REQUIRED
@@ -1002,13 +421,14 @@
     id CDATA #REQUIRED
     username CDATA #REQUIRED
     projectId CDATA #REQUIRED
-    joinDate CDATA #REQUIRED
+    createdTime CDATA #REQUIRED
     projectRoleId CDATA #IMPLIED
     isAdmin CDATA #REQUIRED
     status CDATA #REQUIRED
     sAccountId CDATA #REQUIRED
     billingRate CDATA #IMPLIED
     overtimeBillingRate CDATA #IMPLIED
+    lastUpdatedTime CDATA #IMPLIED
 >
 
 <!ELEMENT m_prj_message EMPTY>
@@ -1016,9 +436,8 @@
     id CDATA #REQUIRED
     title CDATA #REQUIRED
     message CDATA #IMPLIED
-    posteddate CDATA #REQUIRED
-    posteduser CDATA #IMPLIED
-    projectid CDATA #REQUIRED
+    createdUser CDATA #IMPLIED
+    projectId CDATA #REQUIRED
     category CDATA #IMPLIED
     createdTime CDATA #IMPLIED
     lastUpdatedTime CDATA #IMPLIED
@@ -1044,8 +463,6 @@
     createdUser CDATA #IMPLIED
     prjKey CDATA #IMPLIED
     dueDate CDATA #IMPLIED
-    ganttIndex CDATA #IMPLIED
-    orderIndex CDATA #IMPLIED
     color CDATA #IMPLIED
     priority CDATA #IMPLIED
 >
@@ -1057,19 +474,6 @@
     projectId CDATA #REQUIRED
     sAccountId CDATA #REQUIRED
     level CDATA #REQUIRED
->
-
-<!ELEMENT m_prj_predecessor EMPTY>
-<!ATTLIST m_prj_predecessor
-    id CDATA #REQUIRED
-    sourceType CDATA #REQUIRED
-    predestype CDATA #REQUIRED
-    createdTime CDATA #REQUIRED
-    createdUser CDATA #IMPLIED
-    lagDay CDATA #IMPLIED
-    sourceId CDATA #REQUIRED
-    descId CDATA #REQUIRED
-    descType CDATA #REQUIRED
 >
 
 <!ELEMENT m_prj_project EMPTY>
@@ -1126,7 +530,6 @@
     startDate CDATA #IMPLIED
     endDate CDATA #IMPLIED
     milestoneId CDATA #IMPLIED
-    ganttIndex CDATA #IMPLIED
     percentagecomplete CDATA #IMPLIED
     priority CDATA #REQUIRED
     remainEstimate CDATA #IMPLIED
@@ -1190,7 +593,6 @@
     remainEstimate CDATA #IMPLIED
     parentTaskId CDATA #IMPLIED
     milestoneId CDATA #IMPLIED
-    ganttindex CDATA #IMPLIED
 >
 
 <!ELEMENT m_prj_time_logging EMPTY>
@@ -1211,7 +613,7 @@
     isOvertime CDATA #IMPLIED
     isApproved CDATA #IMPLIED
     approveUser CDATA #IMPLIED
-    approveDate CDATA #IMPLIED
+    approveTime CDATA #IMPLIED
 >
 
 <!ELEMENT m_tracker_bug EMPTY>
@@ -1262,7 +664,6 @@
     bugIndex CDATA #IMPLIED
     startDate CDATA #IMPLIED
     endDate CDATA #IMPLIED
-    ganttIndex CDATA #IMPLIED
     percentagecomplete CDATA #IMPLIED
 >
 
@@ -1443,6 +844,8 @@
     id CDATA #REQUIRED
     isSystemRole CDATA #IMPLIED
     isDefault CDATA #IMPLIED
+    createdTime CDATA #IMPLIED
+    lastUpdatedTime CDATA #IMPLIED
 >
 
 <!ELEMENT s_save_search_result EMPTY>

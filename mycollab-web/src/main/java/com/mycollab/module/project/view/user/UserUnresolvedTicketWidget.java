@@ -37,6 +37,7 @@ import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.CssLayout;
 
 import java.time.LocalDate;
+import java.util.List;
 
 /**
  * @author MyCollab Ltd
@@ -73,12 +74,11 @@ public class UserUnresolvedTicketWidget extends Depot {
         this.bodyContent.addComponent(ticketList);
     }
 
-    public void displayUnresolvedAssignmentsThisWeek() {
+    public void displayUnresolvedAssignmentsThisWeek(List<Integer> projectIds) {
         title = UserUIContext.getMessage(ProjectI18nEnum.OPT_UNRESOLVED_TICKET_THIS_WEEK);
         searchCriteria = new ProjectTicketSearchCriteria();
         searchCriteria.setOpenned(new SearchField());
-        UserDashboardView userDashboardView = UIUtils.getRoot(this, UserDashboardView.class);
-        searchCriteria.setProjectIds(new SetSearchField<>(userDashboardView.getInvolvedProjectKeys()));
+        searchCriteria.setProjectIds(new SetSearchField<>(projectIds));
         LocalDate now = LocalDate.now();
         LocalDate[] bounceDateOfWeek = DateTimeUtils.getBounceDatesOfWeek(now);
         RangeDateSearchField range = new RangeDateSearchField(bounceDateOfWeek[0], bounceDateOfWeek[1]);
@@ -91,12 +91,11 @@ public class UserUnresolvedTicketWidget extends Depot {
         this.setTitle(String.format(title, 0));
     }
 
-    public void displayUnresolvedAssignmentsNextWeek() {
+    public void displayUnresolvedAssignmentsNextWeek(List<Integer> projectIds) {
         title = UserUIContext.getMessage(ProjectI18nEnum.OPT_UNRESOLVED_TICKET_NEXT_WEEK);
         searchCriteria = new ProjectTicketSearchCriteria();
-        UserDashboardView userDashboardView = UIUtils.getRoot(this, UserDashboardView.class);
         searchCriteria.setOpenned(new SearchField());
-        searchCriteria.setProjectIds(new SetSearchField<>(userDashboardView.getInvolvedProjectKeys()));
+        searchCriteria.setProjectIds(new SetSearchField<>(projectIds));
         LocalDate now = LocalDate.now();
         now = now.plusDays(7);
         LocalDate[] bounceDateOfWeek = DateTimeUtils.getBounceDatesOfWeek(now);

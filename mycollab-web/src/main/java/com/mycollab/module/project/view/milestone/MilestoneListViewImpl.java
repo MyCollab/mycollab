@@ -181,13 +181,7 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
                 clickEvent -> EventBusFactory.getInstance().post(new MilestoneEvent.GotoRoadmap(MilestoneListViewImpl.this)))
                 .withIcon(VaadinIcons.BULLETS).withWidth("100px");
 
-
-        ButtonGroup viewButtons = new ButtonGroup();
-        viewButtons.addButton(roadmapBtn);
-        viewButtons.addButton(boardBtn);
-
-        viewButtons.withDefaultButton(boardBtn);
-        layout.with(viewButtons);
+        layout.with(new ButtonGroup(roadmapBtn, boardBtn).withDefaultButton(boardBtn));
 
         return layout;
     }

@@ -39,7 +39,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.Date;
+import java.time.temporal.TemporalAccessor;
 import java.util.Locale;
 
 /**
@@ -335,10 +335,8 @@ public class UserUIContext implements Serializable {
      * @return
      */
     public static String formatDate(LocalDateTime date) {
-        // TODO
-//        return date == null ? "" : DateTimeUtils.formatDate(date, AppUI.getDateFormat(), UserUIContext.getUserLocale(),
-//                UserUIContext.getUserTimeZone());
-        return "Implemented";
+        return date == null ? "" : DateTimeUtils.formatDate(date, AppUI.getDateFormat(), UserUIContext.getUserLocale(),
+                UserUIContext.getUserTimeZone());
     }
 
     /**
@@ -359,13 +357,11 @@ public class UserUIContext implements Serializable {
     }
 
     public static String formatShortDate(LocalDate date) {
-        // TODO
-//        return date == null ? "" : DateTimeUtils.formatDate(date, AppUI.getShortDateFormat(), UserUIContext.getUserLocale(),
-//                UserUIContext.getUserTimeZone());
-        return "Implemented";
+        return date == null ? "" : DateTimeUtils.formatDate(date, AppUI.getShortDateFormat(), UserUIContext.getUserLocale(),
+                UserUIContext.getUserTimeZone());
     }
 
-    public static String formatDuration(LocalDateTime date) {
+    public static String formatDuration(TemporalAccessor date) {
         return DateTimeUtils.getPrettyDurationValue(date, getUserLocale());
     }
 

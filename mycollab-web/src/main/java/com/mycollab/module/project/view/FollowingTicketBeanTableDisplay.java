@@ -140,9 +140,9 @@ public class FollowingTicketBeanTableDisplay extends DefaultPagedBeanTable<Proje
             return new UserLink(ticket.getAssignUser(), ticket.getAssignUserAvatarId(), ticket.getAssignUserFullName());
         });
 
-        this.addGeneratedColumn("monitorDate", (source, itemId, columnId) -> {
+        this.addGeneratedColumn("createdTime", (source, itemId, columnId) -> {
             FollowingTicket ticket = FollowingTicketBeanTableDisplay.this.getBeanByIndex(itemId);
-            return new ELabel().prettyDateTime(ticket.getMonitorDate());
+            return new ELabel().prettyDateTime(ticket.getCreatedTime());
         });
     }
 }

@@ -95,7 +95,7 @@ class ProjectServiceImpl(private val projectMapper: ProjectMapper,
         val projectMember = ProjectMember()
         projectMember.isadmin = java.lang.Boolean.TRUE
         projectMember.status = ProjectMemberStatusConstants.ACTIVE
-        projectMember.joindate = LocalDateTime.now()
+        projectMember.createdtime = LocalDateTime.now()
         projectMember.projectid = projectId
         projectMember.username = username
         projectMember.saccountid = record.saccountid

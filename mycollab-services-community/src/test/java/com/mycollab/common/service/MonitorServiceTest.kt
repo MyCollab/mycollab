@@ -37,7 +37,7 @@ class MonitorServiceTest : IntegrationServiceTest() {
     @DataSet
     fun testSaveBatchMonitor() {
         val mon1 = MonitorItem()
-        mon1.monitorDate = LocalDateTime.now()
+        mon1.createdtime = LocalDateTime.now()
         mon1.saccountid = 1
         mon1.type = ProjectTypeConstants.BUG
         mon1.typeid = 1

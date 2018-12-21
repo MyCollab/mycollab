@@ -36,7 +36,10 @@ import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 import org.vaadin.viritin.layouts.MWindow;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @author MyCollab Ltd.
@@ -46,7 +49,7 @@ public abstract class CustomizedTableWindow extends MWindow {
     private static final long serialVersionUID = 1L;
 
     private CustomViewStoreService customViewStoreService;
-    private ListBuilder listBuilder;
+    private ListBuilder<TableViewField> listBuilder;
     private AbstractPagedBeanTable<?, ?> tableItem;
 
     protected String viewId;
@@ -63,7 +66,7 @@ public abstract class CustomizedTableWindow extends MWindow {
         this.setContent(contentLayout);
 
         ListDataProvider<TableViewField> dataProvider = new ListDataProvider<>(this.getAvailableColumns());
-        listBuilder = new ListBuilder("", dataProvider);
+        listBuilder = new ListBuilder<>("", dataProvider);
         listBuilder.setLeftColumnCaption(UserUIContext.getMessage(GenericI18Enum.OPT_AVAILABLE_COLUMNS));
         listBuilder.setRightColumnCaption(UserUIContext.getMessage(GenericI18Enum.OPT_VIEW_COLUMNS));
         listBuilder.setWidth(100, Sizeable.Unit.PERCENTAGE);
@@ -92,7 +95,7 @@ public abstract class CustomizedTableWindow extends MWindow {
         contentLayout.with(restoreLink).withAlign(restoreLink, Alignment.TOP_RIGHT);
 
         final MButton saveBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_SAVE), clickEvent -> {
-            Set<TableViewField> selectedColumns = (Set<TableViewField>) listBuilder.getValue();
+            Set<TableViewField> selectedColumns = listBuilder.getValue();
             table.setDisplayColumns(selectedColumns);
             // Save custom table view def
             CustomViewStore viewDef = new CustomViewStore();

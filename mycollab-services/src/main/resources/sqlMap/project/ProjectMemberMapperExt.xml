@@ -110,8 +110,8 @@
 
     <sql id="selectMember">
         <![CDATA[
-          SELECT m_prj_member.id, m_prj_member.username, m_prj_member.projectId, m_prj_member.joinDate,
-                 m_prj_member.isAdmin, m_prj_member.status, m_prj_member.sAccountId,
+          SELECT m_prj_member.id, m_prj_member.username, m_prj_member.projectId, m_prj_member.createdTime,
+                 m_prj_member.lastUpdatedTime, m_prj_member.isAdmin, m_prj_member.status, m_prj_member.sAccountId,
                  m_prj_member.billingRate, m_prj_member.overtimeBillingRate, m_prj_project.name AS projectName,
                  concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) AS memberFullName,
                  m_prj_role.rolename, s_user.email as email, s_user.avatarId AS memberAvatarId, m_prj_role.id as projectRoleId,
@@ -135,7 +135,7 @@
                 ${orderField.field} ${orderField.direction},
             #end
         #end
-        m_prj_member.joinDate DESC
+        m_prj_member.createdTime DESC
     </sql>
 
     <select id="getTotalCount" parameterType="com.mycollab.module.project.domain.criteria.ProjectMemberSearchCriteria"
@@ -167,7 +167,7 @@
     <select id="findMemberByUsername" parameterType="map" resultMap="ProjectMemberResult" lang="velocity">
         <![CDATA[
         SELECT m_prj_member.id, m_prj_member.username, m_prj_member.projectId,
-            m_prj_member.joinDate, m_prj_member.projectRoleId,
+            m_prj_member.createdTime, m_prj_member.lastUpdatedTime, m_prj_member.projectRoleId,
             m_prj_member.isAdmin, m_prj_member.status, s_user.email as email,
             m_prj_member.billingRate, m_prj_member.overtimeBillingRate,
             m_prj_role.rolename, m_prj_member.sAccountId,
@@ -269,7 +269,7 @@
     <select id="findMembersHourlyInProject" parameterType="map" resultMap="ProjectMemberResult" lang="velocity">
         <![CDATA[
         SELECT m_prj_member.id, m_prj_member.username, m_prj_member.projectId,
-            m_prj_member.joinDate, m_prj_member.projectRoleId,
+            m_prj_member.createdTime, m_prj_member.lastUpdatedTime, m_prj_member.projectRoleId,
             m_prj_member.isAdmin, m_prj_member.status, s_user.email as email,
             m_prj_member.billingRate, m_prj_member.overtimeBillingRate,
             m_prj_role.rolename, m_prj_member.sAccountId,

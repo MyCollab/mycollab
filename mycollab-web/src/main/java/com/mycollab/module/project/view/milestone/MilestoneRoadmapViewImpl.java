@@ -246,12 +246,8 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
         MButton roadmapBtn = new MButton(UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_LIST)).withIcon
                 (VaadinIcons.BULLETS).withWidth("100px");
 
-        ButtonGroup viewButtons = new ButtonGroup();
-        viewButtons.addButton(roadmapBtn);
-        viewButtons.addButton(boardBtn);
-
-        viewButtons.withDefaultButton(roadmapBtn);
-        return new MHorizontalLayout(createBtn, printBtn, viewButtons);
+        return new MHorizontalLayout(createBtn, printBtn,
+                new ButtonGroup(roadmapBtn, boardBtn).withDefaultButton(roadmapBtn));
     }
 
     private static class MilestoneBlock extends BlockRowRender {

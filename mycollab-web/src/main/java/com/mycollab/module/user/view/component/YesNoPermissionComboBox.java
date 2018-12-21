@@ -16,8 +16,6 @@
  */
 package com.mycollab.module.user.view.component;
 
-import com.mycollab.common.i18n.SecurityI18nEnum;
-import com.mycollab.security.BooleanPermissionFlag;
 import com.mycollab.vaadin.web.ui.KeyCaptionComboBox;
 
 /**
@@ -28,8 +26,7 @@ public class YesNoPermissionComboBox extends KeyCaptionComboBox {
     private static final long serialVersionUID = 1L;
 
     public YesNoPermissionComboBox() {
-        super(false, new Entry(BooleanPermissionFlag.TRUE, SecurityI18nEnum.YES),
-                new Entry(BooleanPermissionFlag.FALSE, SecurityI18nEnum.NO));
-        this.setValue(BooleanPermissionFlag.FALSE);
+        super(false, Entry.TRUE, Entry.FALSE);
+        this.setValue(Entry.FALSE);
     }
 }

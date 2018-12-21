@@ -57,9 +57,7 @@ import org.vaadin.viritin.layouts.MVerticalLayout;
 import org.vaadin.viritin.layouts.MWindow;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -168,7 +166,7 @@ public class TicketComponentFactoryImpl implements TicketComponentFactory {
     }
 
     @Override
-    public MWindow createNewTicketWindow(LocalDateTime date, Integer prjId, Integer milestoneId, boolean isIncludeMilestone) {
+    public MWindow createNewTicketWindow(LocalDate date, Integer prjId, Integer milestoneId, boolean isIncludeMilestone) {
         return new NewTicketWindow(date, prjId, milestoneId, isIncludeMilestone);
     }
 
@@ -177,7 +175,7 @@ public class TicketComponentFactoryImpl implements TicketComponentFactory {
         private ComboBox typeSelection;
         private CssLayout formLayout;
 
-        NewTicketWindow(LocalDateTime date, final Integer prjId, final Integer milestoneId, boolean isIncludeMilestone) {
+        NewTicketWindow(LocalDate date, final Integer prjId, final Integer milestoneId, boolean isIncludeMilestone) {
             super(UserUIContext.getMessage(TicketI18nEnum.NEW));
             MVerticalLayout content = new MVerticalLayout();
             withModal(true).withResizable(false).withCenter().withWidth("1200px").withContent(content);
@@ -224,7 +222,7 @@ public class TicketComponentFactoryImpl implements TicketComponentFactory {
             typeSelection.setSelectedItem(types.get(0));
         }
 
-        private void doChange(LocalDateTime dateValue, final Integer prjId, final Integer milestoneId) {
+        private void doChange(LocalDate dateValue, final Integer prjId, final Integer milestoneId) {
             formLayout.removeAllComponents();
             String value = (String) typeSelection.getValue();
             if (UserUIContext.getMessage(TaskI18nEnum.SINGLE).equals(value)) {

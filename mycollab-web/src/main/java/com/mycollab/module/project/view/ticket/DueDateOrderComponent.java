@@ -40,7 +40,7 @@ public class DueDateOrderComponent extends TicketGroupOrderComponent {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(AppUI.getLongDateFormat()).withLocale(UserUIContext.getUserLocale());
         for (ProjectTicket ticket : tickets) {
             if (ticket.getDueDate() != null) {
-                LocalDate dueDate = ticket.getDueDate().toLocalDate();
+                LocalDate dueDate = ticket.getDueDate();
                 LocalDate firstDayInWeek = DateTimeUtils.getFirstDayOfWeek(dueDate);
                 String monDayStr = formatter.format(firstDayInWeek);
                 Long time = firstDayInWeek.toEpochDay();

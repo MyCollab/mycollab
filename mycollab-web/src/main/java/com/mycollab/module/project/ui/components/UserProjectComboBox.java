@@ -16,21 +16,45 @@
  */
 package com.mycollab.module.project.ui.components;
 
+import com.mycollab.core.SecureAccessException;
+import com.mycollab.module.project.domain.Project;
+import com.mycollab.module.project.domain.SimpleProject;
+import com.mycollab.module.project.service.ProjectService;
+import com.mycollab.spring.AppContextUtil;
+import com.mycollab.vaadin.AppUI;
 import com.vaadin.ui.ComboBox;
+import com.vaadin.ui.ItemCaptionGenerator;
+
+import java.util.List;
+import java.util.Optional;
 
 /**
  * @author MyCollab Ltd
  * @since 6.0.0
  */
-// TODO
-public class UserProjectComboBox extends ComboBox {
+public class UserProjectComboBox extends ComboBox<SimpleProject> {
+    private List<SimpleProject> projects;
+
     public UserProjectComboBox(String username) {
-//        setItemCaptionMode(ItemCaptionMode.EXPLICIT);
-//        ProjectService projectService = AppContextUtil.getSpringBean(ProjectService.class);
-//        List<SimpleProject> projects = projectService.getProjectsUserInvolved(username, AppUI.getAccountId());
-//        projects.forEach(project -> {
-//            addItem(project.getId());
-//            setItemCaption(project.getId(), project.getName());
-//        });
+        ProjectService projectService = AppContextUtil.getSpringBean(ProjectService.class);
+        projects = projectService.getProjectsUserInvolved(username, AppUI.getAccountId());
+        setItems(projects);
+        setItemCaptionGenerator((ItemCaptionGenerator<SimpleProject>) Project::getName);
+    }
+
+    public SimpleProject setSelectedProjectById(Integer projectId) {
+        if (projects.size() == 0) {
+            throw new SecureAccessException();
+        }
+
+        SimpleProject result;
+        if (projectId == null) {
+            result = projects.get(0);
+        } else {
+            Optional<SimpleProject> canPro = projects.stream().filter(project -> project.getId() == projectId).findFirst();
+            result = canPro.orElse(projects.get(0));
+        }
+        setValue(result);
+        return result;
     }
 }

@@ -44,7 +44,7 @@
     <sql id="selectMessage">
         <![CDATA[
           SELECT m_prj_message.id, m_prj_message.category, m_prj_message.title, m_prj_message.message,
-          m_prj_message.posteddate, m_prj_message.posteduser, m_prj_message.projectId,
+          m_prj_message.posteddate, m_prj_message.createdUser, m_prj_message.projectId,
               (SELECT count(*)
                     FROM m_comment 
                     WHERE m_comment.type='Project-Message' AND m_comment.typeId=m_prj_message.id) AS commentsCount,
@@ -53,7 +53,7 @@
               m_prj_project.name AS projectName, s_user.avatarId AS postedUserAvatarId, m_prj_message.sAccountId,
               m_prj_message.isStick
               FROM m_prj_message
-                LEFT OUTER JOIN s_user ON (m_prj_message.posteduser = s_user.username)
+                LEFT OUTER JOIN s_user ON (m_prj_message.createdUser = s_user.username)
                 LEFT OUTER JOIN m_prj_project ON (m_prj_message.projectId=m_prj_project.id)
         ]]>
     </sql>

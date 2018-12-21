@@ -243,7 +243,7 @@ public class ProjectActivityComponent extends MVerticalLayout implements Reloada
             final MHorizontalLayout layout = new MHorizontalLayout().withMargin(new MarginInfo(true, false, true, false))
                     .withFullWidth();
 
-            ProjectMemberBlock memberBlock = new ProjectMemberBlock(auditLog.getPosteduser(), auditLog.getPostedUserAvatarId(),
+            ProjectMemberBlock memberBlock = new ProjectMemberBlock(auditLog.getCreateduser(), auditLog.getPostedUserAvatarId(),
                     auditLog.getPostedUserFullName());
             layout.addComponent(memberBlock);
 
@@ -253,8 +253,8 @@ public class ProjectActivityComponent extends MVerticalLayout implements Reloada
             messageHeader.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
             ELabel timePostLbl = ELabel.html(UserUIContext.getMessage(GenericI18Enum.EXT_MODIFIED_ITEM, auditLog.getPostedUserFullName(),
-                    UserUIContext.formatPrettyTime(auditLog.getPosteddate())))
-                    .withDescription(UserUIContext.formatDateTime(auditLog.getPosteddate()));
+                    UserUIContext.formatPrettyTime(auditLog.getCreatedtime())))
+                    .withDescription(UserUIContext.formatDateTime(auditLog.getCreatedtime()));
             timePostLbl.setStyleName(UIConstants.META_INFO);
             messageHeader.with(timePostLbl).expand(timePostLbl);
 

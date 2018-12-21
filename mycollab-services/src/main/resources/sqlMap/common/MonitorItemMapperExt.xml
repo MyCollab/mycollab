@@ -47,7 +47,7 @@
 
     <sql id="selectItem">
         <![CDATA[
-          SELECT m_monitor_item.id, m_monitor_item.user, m_monitor_item.monitor_date, m_monitor_item.type, m_monitor_item.typeId,
+          SELECT m_monitor_item.id, m_monitor_item.user, m_monitor_item.createdTime, m_monitor_item.type, m_monitor_item.typeId,
                  m_monitor_item.extratypeid,
                  changeUser.avatarId AS userAvatarId,
                  concat(changeUser.firstname, ' ', LTRIM(IFNULL(concat(changeUser.middlename,' '), '')), changeUser.lastname) as userFullname
@@ -63,7 +63,7 @@
                 ${orderField.field} ${orderField.direction},
             #end
         #end
-        m_monitor_item.monitor_date DESC
+        m_monitor_item.createdTime DESC
     </sql>
 
     <select id="getTotalCount" parameterType="com.mycollab.common.domain.criteria.MonitorSearchCriteria" resultType="int" lang="velocity">
@@ -77,11 +77,11 @@
     </select>
 
     <insert id="saveMonitorItems">
-        insert into m_monitor_item (id, user, monitor_date, type, typeId, extraTypeId, sAccountId)
+        insert into m_monitor_item (id, user, createdTime, type, typeId, extraTypeId, sAccountId)
         values
         <foreach collection="monitors" item="monitorItem" separator=",">
             (
-            #{monitorItem.id}, #{monitorItem.user}, #{monitorItem.monitorDate}, #{monitorItem.type},
+            #{monitorItem.id}, #{monitorItem.user}, #{monitorItem.createdtime}, #{monitorItem.type},
             #{monitorItem.typeid}, #{monitorItem.extratypeid}, #{monitorItem.saccountid}
             )
         </foreach>

@@ -187,11 +187,7 @@ public class TicketDashboardViewImpl extends AbstractVerticalPageView implements
         MButton kanbanBtn = new MButton(UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_KANBAN), clickEvent ->
                 displayKanbanView()).withWidth("100px").withIcon(FontAwesome.TH);
 
-        ButtonGroup viewButtons = new ButtonGroup();
-        viewButtons.addButton(advanceDisplayBtn);
-        viewButtons.addButton(kanbanBtn);
-        viewButtons.withDefaultButton(advanceDisplayBtn);
-        groupWrapLayout.addComponent(viewButtons);
+        groupWrapLayout.addComponent(new ButtonGroup(advanceDisplayBtn, kanbanBtn).withDefaultButton(advanceDisplayBtn));
 
         MHorizontalLayout mainLayout = new MHorizontalLayout().withFullHeight().withFullWidth();
         wrapBody = new MVerticalLayout().withMargin(new MarginInfo(false, true, true, false));

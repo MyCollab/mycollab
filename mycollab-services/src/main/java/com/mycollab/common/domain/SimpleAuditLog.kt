@@ -36,13 +36,10 @@ class SimpleAuditLog : AuditLog() {
 
     var postedUserFullName: String? = null
         get() = if (StringUtils.isBlank(field)) {
-            StringUtils.extractNameFromEmail(posteduser)
+            StringUtils.extractNameFromEmail(createduser)
         } else field
 
     var postedUserAvatarId: String? = null
-
-    val createdtime: LocalDateTime
-        get() = posteddate
 
     private fun parseChangeItems(): List<AuditChangeItem>? = JsonDeSerializer.fromJson<List<AuditChangeItem>>(
             this.changeset, object : TypeReference<List<AuditChangeItem>>() {

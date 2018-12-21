@@ -135,7 +135,7 @@ public class MessageListViewImpl extends AbstractVerticalPageView implements Mes
                 messageLayout.addStyleName("important-message");
             }
 
-            ProjectMemberBlock userBlock = new ProjectMemberBlock(message.getPosteduser(), message.getPostedUserAvatarId(),
+            ProjectMemberBlock userBlock = new ProjectMemberBlock(message.getCreateduser(), message.getPostedUserAvatarId(),
                     message.getFullPostedUserName());
             messageLayout.addComponent(userBlock);
 
@@ -148,7 +148,7 @@ public class MessageListViewImpl extends AbstractVerticalPageView implements Mes
             messageHeader.setDefaultComponentAlignment(Alignment.TOP_LEFT);
             CssLayout leftHeader = new CssLayout();
             leftHeader.addComponent(ELabel.h3(labelLink.write()));
-            ELabel timePostLbl = new ELabel().prettyDateTime(message.getPosteddate());
+            ELabel timePostLbl = new ELabel().prettyDateTime(message.getCreatedtime());
             timePostLbl.setStyleName(UIConstants.META_INFO);
 
             MButton deleteBtn = new MButton("", clickEvent -> ConfirmDialogExt.show(UI.getCurrent(),
@@ -290,11 +290,10 @@ public class MessageListViewImpl extends AbstractVerticalPageView implements Mes
             MButton saveBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_POST), clickEvent -> {
                 Message message = new Message();
                 message.setProjectid(CurrentProjectVariables.getProjectId());
-                message.setPosteddate(LocalDateTime.now());
                 if (!titleField.getValue().trim().equals("")) {
                     message.setTitle(titleField.getValue());
                     message.setMessage(ckEditorTextField.getValue());
-                    message.setPosteduser(UserUIContext.getUsername());
+                    message.setCreateduser(UserUIContext.getUsername());
                     message.setSaccountid(AppUI.getAccountId());
                     message.setIsstick(chkIsStick.getValue());
                     MessageListViewImpl.this.fireSaveItem(message);

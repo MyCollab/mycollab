@@ -56,7 +56,6 @@ import java.util.List;
  * @author MyCollab Ltd
  * @since 5.4.3
  */
-// TODO
 public class TaskEditForm extends AdvancedEditBeanForm<SimpleTask> {
 
     @Override
@@ -80,7 +79,6 @@ public class TaskEditForm extends AdvancedEditBeanForm<SimpleTask> {
                     Task.Field.parenttaskid.name());
             AbstractComponent gridLayout = formLayoutFactory.getLayout();
             gridLayout.addStyleName(WebThemes.SCROLLABLE_CONTAINER);
-//            new Restrain(gridLayout).setMaxHeight((UIUtils.getBrowserHeight() - 180) + "px");
             layout.addComponent(gridLayout);
             layout.setExpandRatio(gridLayout, 1.0f);
 
@@ -108,7 +106,7 @@ public class TaskEditForm extends AdvancedEditBeanForm<SimpleTask> {
                         List<MonitorItem> monitorItems = new ArrayList<>();
                         for (String follower : followers) {
                             MonitorItem monitorItem = new MonitorItem();
-                            monitorItem.setMonitorDate(LocalDateTime.now());
+                            monitorItem.setCreatedtime(LocalDateTime.now());
                             monitorItem.setSaccountid(AppUI.getAccountId());
                             monitorItem.setType(ProjectTypeConstants.TASK);
                             monitorItem.setTypeid(taskId);
