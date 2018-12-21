@@ -64,11 +64,11 @@ DROP TABLE IF EXISTS `m_comment`;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `m_comment` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `comment` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+  `comment` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `createdUser` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `createdTime` datetime NOT NULL,
   `type` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `typeId` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+  `typeId` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `sAccountId` int(11) DEFAULT NULL,
   `extraTypeId` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -519,7 +519,7 @@ CREATE TABLE `m_crm_contacts_leads` (
   KEY `FK_m_crm_contacts_leads_2_idx` (`leadId`),
   CONSTRAINT `FK_m_crm_contacts_leads_1` FOREIGN KEY (`contactId`) REFERENCES `m_crm_contact` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_m_crm_contacts_leads_2` FOREIGN KEY (`leadId`) REFERENCES `m_crm_lead` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1361,16 +1361,16 @@ CREATE TABLE `m_form_custom_field_value` (
   `date3` datetime DEFAULT NULL,
   `date4` datetime DEFAULT NULL,
   `date5` datetime DEFAULT NULL,
-  `text1` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
-  `text2` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
-  `text3` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
-  `text4` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
-  `text5` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
-  `textarea1` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
-  `textarea2` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
-  `textarea3` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
-  `textarea4` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
-  `textarea5` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+  `text1` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `text2` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `text3` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `text4` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `text5` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `textarea1` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `textarea2` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `textarea3` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `textarea4` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `textarea5` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `bool1` bit(1) DEFAULT NULL,
   `bool2` bit(1) DEFAULT NULL,
   `bool3` bit(1) DEFAULT NULL,
@@ -1446,7 +1446,7 @@ CREATE TABLE `m_form_section_field` (
   `displayName` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `fieldFormat` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `fieldname` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `fieldType` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `fieldType` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `isRequired` bit(1) NOT NULL,
   `isCustom` bit(1) NOT NULL,
   PRIMARY KEY (`id`),
@@ -1615,7 +1615,7 @@ CREATE TABLE `m_prj_customize_view` (
   PRIMARY KEY (`id`),
   KEY `FK_m_prj_customize_view_1_idx` (`projectId`),
   CONSTRAINT `FK_m_prj_customize_view_1` FOREIGN KEY (`projectId`) REFERENCES `m_prj_project` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1988,7 +1988,7 @@ CREATE TABLE `m_prj_risk` (
   `milestoneId` int(11) DEFAULT NULL,
   `ganttIndex` int(5) unsigned DEFAULT NULL,
   `percentagecomplete` double DEFAULT NULL,
-  `priority` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `priority` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `remainEstimate` double DEFAULT NULL,
   `originalEstimate` double DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -2124,7 +2124,7 @@ CREATE TABLE `m_prj_task` (
   `percentagecomplete` double NOT NULL,
   `startDate` datetime DEFAULT NULL,
   `endDate` datetime DEFAULT NULL,
-  `priority` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `priority` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `duration` bigint(20) DEFAULT NULL,
   `isestimated` bit(1) DEFAULT NULL,
   `projectId` int(10) unsigned NOT NULL,
@@ -2178,7 +2178,7 @@ DROP TABLE IF EXISTS `m_prj_time_logging`;
 CREATE TABLE `m_prj_time_logging` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `projectId` int(10) unsigned NOT NULL,
-  `type` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `type` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `typeId` int(11) DEFAULT NULL,
   `note` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `logValue` double NOT NULL,
@@ -2224,7 +2224,7 @@ CREATE TABLE `m_tracker_bug` (
   `createdTime` datetime DEFAULT NULL,
   `createdUser` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `severity` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `priority` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `priority` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `lastUpdatedTime` datetime DEFAULT NULL,
   `status` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `dueDate` datetime DEFAULT NULL,
@@ -2496,7 +2496,7 @@ CREATE TABLE `s_account_theme` (
   PRIMARY KEY (`id`),
   KEY `FK_s_account_theme_1_idx` (`sAccountId`),
   CONSTRAINT `FK_s_account_theme_1` FOREIGN KEY (`sAccountId`) REFERENCES `s_account` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2520,7 +2520,7 @@ CREATE TABLE `s_activitystream` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `sAccountId` int(11) NOT NULL,
   `type` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `typeId` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `typeId` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `createdTime` datetime DEFAULT NULL,
   `action` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `createdUser` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -2676,7 +2676,7 @@ CREATE TABLE `s_relay_email_notification` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `sAccountId` int(11) NOT NULL,
   `type` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `typeId` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `typeId` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `action` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `changeBy` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `changeComment` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
@@ -2768,7 +2768,7 @@ CREATE TABLE `s_save_search_result` (
   `type` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `createdTime` datetime DEFAULT NULL,
   `lastUpdatedTime` datetime DEFAULT NULL,
-  `queryName` varchar(400) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `queryName` varchar(400) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `isShared` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `FK_s_save_search_result_1_idx` (`sAccountId`),
@@ -2840,7 +2840,7 @@ CREATE TABLE `s_tag` (
   KEY `FK_s_tag_2_idx` (`createdUser`),
   CONSTRAINT `FK_s_tag_1` FOREIGN KEY (`sAccountId`) REFERENCES `s_account` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_s_tag_2` FOREIGN KEY (`createdUser`) REFERENCES `s_user` (`username`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2927,7 +2927,7 @@ CREATE TABLE `s_user` (
   `lastname` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `nickname` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `dateofbirth` datetime DEFAULT NULL,
-  `password` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `password` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `website` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `registeredTime` datetime DEFAULT NULL,
