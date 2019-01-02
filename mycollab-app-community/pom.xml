@@ -171,6 +171,7 @@
             <plugin>
                 <groupId>com.vaadin</groupId>
                 <artifactId>vaadin-maven-plugin</artifactId>
+                <version>${vaadin.version}</version>
                 <executions>
                     <execution>
                         <goals>
@@ -333,6 +334,7 @@
                     </execution>
                 </executions>
             </plugin>
+<!--
             <plugin>
                 <groupId>com.spotify</groupId>
                 <artifactId>dockerfile-maven-plugin</artifactId>
@@ -342,9 +344,7 @@
                         <id>default</id>
                         <goals>
                             <goal>build</goal>
-                            <!--
                             <goal>push</goal>
-                            -->
                         </goals>
                     </execution>
                 </executions>
@@ -354,6 +354,7 @@
                     <contextDirectory>${project.build.directory}</contextDirectory>
                 </configuration>
             </plugin>
+            -->
         </plugins>
     </build>
 </project>
