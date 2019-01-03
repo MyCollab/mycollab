@@ -1,0 +1,117 @@
+.reindeer .v-buttongroup {
+	border: 0;
+}
+
+.reindeer .v-buttongroup .v-button {
+	height: 25px;
+}
+
+.reindeer .v-buttongroup .v-button-left .v-button-wrap {
+	padding: 4px 6px 0 3px;
+}
+
+.reindeer .v-buttongroup .v-button-middle .v-button-wrap {
+	padding: 4px 6px 0 6px;
+}
+
+.reindeer .v-buttongroup .v-button-right .v-button-wrap {
+	padding: 4px 9px 0 6px;
+}
+
+.reindeer .v-buttongroup .v-button-left .v-button-wrap,
+.reindeer .v-buttongroup .v-button-middle .v-button-wrap,
+.reindeer .v-buttongroup .v-button-left.v-disabled .v-button-wrap,
+.reindeer .v-buttongroup .v-button-middle.v-disabled .v-button-wrap,
+.reindeer .v-buttongroup .v-button-left.v-disabled:active .v-button-wrap,
+.reindeer .v-buttongroup .v-button-middle.v-disabled:active .v-button-wrap,
+.reindeer .v-buttongroup .v-button-left.v-disabled:focus .v-button-wrap,
+.reindeer .v-buttongroup .v-button-middle.v-disabled:focus .v-button-wrap {
+	background-position: left -130px;
+}
+
+.reindeer .v-buttongroup .v-button-middle,
+.reindeer .v-buttongroup .v-button-middle.v-disabled:active,
+.reindeer .v-buttongroup .v-button-middle.v-disabled:focus {
+	border-left: 1px solid #ccc;
+	background-position: 5px -104px;
+	padding: 0;
+}
+
+.reindeer .v-buttongroup .v-button-right {
+	border-left: 1px solid #ccc;
+	padding: 0;
+	background-image: none;
+}
+
+.reindeer .v-buttongroup .v-button-left:focus .v-button-wrap {
+	background-position: left -26px;
+}
+
+.reindeer .v-buttongroup .v-button-middle:focus,
+.reindeer .v-buttongroup .v-button-middle:focus .v-button-wrap {
+	background-position: left -26px;
+}
+
+.reindeer .v-buttongroup .v-button-left:active .v-button-wrap,
+.reindeer .v-buttongroup .v-button-left.v-pressed .v-button-wrap,
+.reindeer .v-buttongroup .v-button-middle:active .v-button-wrap,
+.reindeer .v-buttongroup .v-button-middle.v-pressed .v-button-wrap {
+	background-position: left -78px;
+}
+
+
+.runo .v-buttongroup {
+	border: 0;
+}
+
+.runo .v-buttongroup .v-button {
+	padding: 0;
+}
+
+.runo .v-buttongroup .v-button-left .v-button-wrap {
+	border-radius: 11px 0 0 11px;
+	border-width: 1px 0 1px 1px;
+}
+
+.runo .v-buttongroup .v-button-middle .v-button-wrap {
+	border-radius: 0;
+	border-width: 1px 0px 1px 1px;
+}
+
+.runo .v-buttongroup .v-button-right .v-button-wrap {
+	border-radius: 0 11px 11px 0;
+	border-width: 1px 1px 1px 1px;
+}
+
+
+.chameleon .v-buttongroup {
+	border: 0;
+}
+
+.chameleon .v-buttongroup .v-button {
+	padding: 0;
+}
+
+.chameleon .v-buttongroup .v-button-left,
+.chameleon .v-buttongroup .v-button-left.v-disabled,
+.chameleon .v-buttongroup .v-button-left.v-disabled:active,
+.chameleon .v-buttongroup .v-button-left.v-disabled:focus {
+	border-radius: 3px 0 0 3px;
+	border-width: 1px 0 1px 1px;
+}
+
+.chameleon .v-buttongroup .v-button-middle,
+.chameleon .v-buttongroup .v-button-middle.v-disabled,
+.chameleon .v-buttongroup .v-button-middle.v-disabled:active,
+.chameleon .v-buttongroup .v-button-middle.v-disabled:focus {
+	border-radius: 0;
+	border-width: 1px 0px 1px 1px;
+}
+
+.chameleon .v-buttongroup .v-button-right,
+.chameleon .v-buttongroup .v-button-right.v-disabled,
+.chameleon .v-buttongroup .v-button-right.v-disabled:active,
+.chameleon .v-buttongroup .v-button-right.v-disabled:focus {
+	border-radius: 0 3px 3px 0;
+	border-width: 1px 1px 1px 1px;
+}

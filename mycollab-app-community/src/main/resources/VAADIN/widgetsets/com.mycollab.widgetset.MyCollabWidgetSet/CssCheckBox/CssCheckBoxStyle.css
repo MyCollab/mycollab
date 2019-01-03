@@ -1,0 +1,144 @@
+.v-csscheckbox {
+	position: relative;
+	width: 60px;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+}
+
+.v-csscheckbox-checkbox {
+	display: none;
+}
+
+.v-csscheckbox-label {
+	display: block;
+	overflow: hidden;
+	cursor: pointer;
+	border: 2px solid #CCCCCC;
+	border-radius: 20px;
+}
+
+.v-csscheckbox-inner {
+	display: block;
+	width: 200%;
+	margin-left: -100%;
+}
+
+.v-csscheckbox-inner:before, .v-csscheckbox-inner:after {
+	display: block;
+	float: left;
+	width: 50%;
+	height: 20px;
+	padding: 0;
+	line-height: 20px;
+	font-size: 20px;
+	color: white;
+	font-family: Trebuchet, Arial, sans-serif;
+	font-weight: bold;
+	box-sizing: border-box;
+}
+
+.v-csscheckbox-inner:before {
+	font-family: FontAwesome;
+	content: "\f00c";
+	padding-left: 10px;
+	background-color: #49E845;
+	color: #FFFFFF;
+}
+
+.v-csscheckbox-inner:after {
+	font-family: FontAwesome;
+	content: "\f00d";
+	padding-right: 10px;
+	background-color: #FF3636;
+	color: #FFFFFF;
+	text-align: right;
+}
+
+.v-csscheckbox-switch {
+	display: block;
+	width: 20px;
+	margin: 0px;
+	background: #FFFFFF;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	right: calc(100% - 24px); /* Calculated by the width of the controller minus the switch button width (width + 2 * border)*/
+	border: 2px solid #CCCCCC;
+	border-radius: 20px;
+}
+
+.v-csscheckbox-checkbox:checked + .v-csscheckbox-label .v-csscheckbox-inner {
+	margin-left: 0;
+}
+
+.v-csscheckbox-checkbox:checked + .v-csscheckbox-label .v-csscheckbox-switch {
+	right: 0px;
+}
+
+
+
+.simple-button.v-csscheckbox{
+	width: 24px;
+}
+
+.simple-button .v-csscheckbox-switch {
+	display: none;
+}
+
+.simple-button .v-csscheckbox-inner {
+	width: 200%;
+}
+
+.simple-button .v-csscheckbox-inner:before,
+.simple-button .v-csscheckbox-inner:after{
+	font-size: 16px;
+	text-align: center;
+	padding-left: 0px;
+	padding-right: 0px;
+}
+
+/* Bigger Checkbox specific style */
+.csscheckbox-big.v-csscheckbox {
+	width: 100px;
+}
+
+.csscheckbox-big:not(.simple-button) .v-csscheckbox-switch {
+	width: 36px;
+	border-radius: 36px;
+	right: calc(100% - 40px); /* Calculated by the width of the controller minus the switch button width (width + 2 * border)*/
+}
+
+.csscheckbox-big .v-csscheckbox-inner:before,
+.csscheckbox-big .v-csscheckbox-inner:after {
+	height: 36px;
+	line-height: 36px;
+	font-size: 35px;
+}
+
+/* Bigger Simple button specific style */
+.csscheckbox-big.simple-button.v-csscheckbox{
+	width: 40px;
+}
+
+.csscheckbox-big.simple-button .v-csscheckbox-inner:before,
+.csscheckbox-big.simple-button .v-csscheckbox-inner:after {
+	height: 36px;
+	line-height: 36px;
+	font-size: 32px;
+}
+
+/* Animate properties */
+.v-csscheckbox.animated .v-csscheckbox-inner {
+    transition: margin 0.3s ease-in 0s;
+}
+
+.v-csscheckbox.animated .v-csscheckbox-switch {
+    transition: all 0.3s ease-in 0s;
+}
+
+/* Disabled state background */
+.v-csscheckbox.v-disabled .v-csscheckbox-inner:before,
+.v-csscheckbox.v-disabled .v-csscheckbox-inner:after{
+    background-color: gray;
+}

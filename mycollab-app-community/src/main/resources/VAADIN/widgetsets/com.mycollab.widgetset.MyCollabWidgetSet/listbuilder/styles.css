@@ -1,0 +1,87 @@
+/* Styles for the ListBuilder add-on */
+.v-modified .v-listbuilder-selections,
+.v-modified .v-listbuilder-options {
+	background: #ffffe0;
+}
+.v-listbuilder {
+	white-space: nowrap;
+}
+
+/* Styles for the list boxes and their captions */
+.v-listbuilder-options {
+	float: left;
+}
+.v-listbuilder-caption-left {
+	float: left;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+.v-listbuilder-selections {
+	float: left;
+	font-weight: bold;
+}
+.v-listbuilder-caption-right {
+	float: right;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+/* Black style mods */
+.black .v-listbuilder select {
+	border-color: #38393a;
+	border-top-color: #2c2d2e;
+	border-bottom-color: #3e3f3f;
+	background: #151717;
+	color: #c9ccce;
+}
+
+/* Custom Button styles */
+.v-listbuilder-buttons {
+	float: left;
+	text-align: center;
+}
+.v-listbuilder-buttons .v-listbuilder-deco {
+	clear: both;
+}
+.v-listbuilder-buttons .v-button {
+	float: none;
+}
+.v-listbuilder .v-button-caption {
+	width: 11px;
+	height: 11px;
+	background-repeat: no-repeat;
+	background-position: left bottom;
+	padding-top: 3px;
+}
+.v-listbuilder-button-add .v-button-caption {
+	background-image: url(icons/right.png);
+}
+.v-listbuilder-button-remove .v-button-caption {
+	background-image: url(icons/left.png);
+}
+.v-listbuilder-button-up .v-button-caption {
+	background-image: url(icons/up.png);
+}
+.v-listbuilder-button-down .v-button-caption {
+	background-image: url(icons/down.png);
+}
+.v-listbuilder .v-button-wrap, 
+.v-listbuilder .v-disabled.v-button .v-button-wrap {
+    padding: 4px 5px 0 0;
+}
+
+/* Error styles disabled by default */
+/*
+.v-select-error .v-listbuilder-selections,
+.v-select-error .v-listbuilder-options {
+	background: #ffaaaa;
+}
+ */
+
+/* Required styles disabled by default */
+/*
+.v-select-required .v-listbuilder-selections,
+.v-select-required .v-listbuilder-options {
+	background: #ffaaaa;
+}
+ */

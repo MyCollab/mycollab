@@ -1,0 +1,57 @@
+.slidemenu {
+	background-color: #ccc;
+	-webkit-transition: -webkit-transform 500ms;
+	transition: transform 500ms;
+	transition-delay: 0;
+	-webkit-transform: translate(0, 0);
+	transform: translate(0, 0);
+}
+
+.slidemenu .v-window-outerheader {
+	display: none;
+}
+
+.slidemenu .v-window-contents {
+	background-color: #ccc;
+}
+
+.slidemenu .loading {
+	font-size: 36px;
+	height: auto;
+	line-height: 43px;
+	text-align: center;
+	margin-top: 100px;
+}
+
+.slidemenu .modalcurtain {
+	left: 100%;
+	top: 0;
+	width: 200%;
+	height: 100%;
+	background-color: transparent;
+	position: absolute;
+	overflow: hidden;
+}
+
+.slidemenu .menubutton {
+	line-height: 25px;
+}
+
+.slidemenu .menubutton .v-button-wrap {
+	text-align: left;
+}
+
+.slidemenu .menubutton .v-button-wrap .v-button-caption {
+	font-size: 14pt;
+}
+
+.slidemenu .menulabel {
+	font-size: 14pt;
+	font-weight: 600;
+	padding-top: 15px;
+}
+
+.slidemenu.opening {
+	-webkit-transform: translate(100%, 0);
+	transform: translate3d(100%, 0, 0);
+}

@@ -172,6 +172,9 @@
                 <groupId>com.vaadin</groupId>
                 <artifactId>vaadin-maven-plugin</artifactId>
                 <version>${vaadin.version}</version>
+                <configuration>
+                    <webappDirectory>src/main/resources/VAADIN/widgetsets/</webappDirectory>
+                </configuration>
                 <executions>
                     <execution>
                         <goals>

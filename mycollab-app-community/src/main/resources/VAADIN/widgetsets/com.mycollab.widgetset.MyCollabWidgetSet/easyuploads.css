@@ -1,0 +1,26 @@
+.v-multifileupload-dropzone {
+	background: #d2d2d2 url(drophere.gif) no-repeat center center; 
+	text-align:center; 
+	display:inline-block;
+	margin-right: 5px;
+	vertical-align: middle;
+	width: 106px;
+	height:40px
+}
+
+.v-multifileupload-dropzone .v-label {
+	text-align:center;
+	width: 100%;
+	font-size:13px;
+}
+
+
+.v-multifileupload-uploads {
+	display:inline-block;
+	vertical-align: middle;
+}
+
+.v-upload .swfupload {
+	position: absolute;
+	z-index: 1;
+}
