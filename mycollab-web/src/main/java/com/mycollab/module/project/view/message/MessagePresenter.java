@@ -54,7 +54,7 @@ public class MessagePresenter extends AbstractPresenter<MessageContainer> {
                 presenter.go(view, data);
             } else if (data == null) {
                 MessageSearchCriteria searchCriteria = new MessageSearchCriteria();
-                searchCriteria.setProjectids(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
+                searchCriteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
                 MessageListPresenter presenter = PresenterResolver.getPresenter(MessageListPresenter.class);
                 presenter.go(view, new ScreenData.Preview<>(searchCriteria));
             }

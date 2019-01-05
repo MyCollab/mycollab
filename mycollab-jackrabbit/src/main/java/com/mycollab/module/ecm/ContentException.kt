@@ -12,15 +12,16 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <http:></http:>//www.gnu.org/licenses/>.
  */
-package com.mycollab.module.file
+package com.mycollab.module.ecm
+
+import com.mycollab.core.MyCollabException
 
 /**
+ * Generic exception relate to MyCollab storage processing.
+ *
  * @author MyCollab Ltd.
  * @since 1.0
  */
-class CloudDriveInfo(var storageName: String?, var accessToken: String?) {
-
-    var folderName: String? = null
-}
+class ContentException(message: String) : MyCollabException(message)

@@ -17,7 +17,6 @@
 package com.mycollab.db.migration.service;
 
 import com.mycollab.configuration.IDeploymentMode;
-import com.zaxxer.hikari.pool.HikariPool;
 import org.flywaydb.core.Flyway;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,7 +45,17 @@ public class DbMigrationRunner {
     @PostConstruct
     public void migrate() {
         try {
-            String[] locations = deploymentMode.isDemandEdition() ? new String[]{"db/migration", "db/migration2"} : new String[]{"db/migration"};
+            String dbProductName = dataSource.getConnection().getMetaData().getDatabaseProductName();
+            String[] locations;
+
+            if (dbProductName.equals("H2")) {
+                locations = new String[]{"db/migration/h2"};
+            } else if (dbProductName.equals("PostgreSQL")) {
+                locations = new String[]{"db/migration/postgresql"};
+            } else {
+                locations = deploymentMode.isDemandEdition() ? new String[]{"db/migration/mysql", "db/migration2"} : new String[]{"db/migration/mysql"};
+            }
+
             Flyway flyway = Flyway.configure().baselineOnMigrate(true).dataSource(dataSource).validateOnMigrate(false).locations(locations).load();
             flyway.migrate();
         } catch (Exception e) {

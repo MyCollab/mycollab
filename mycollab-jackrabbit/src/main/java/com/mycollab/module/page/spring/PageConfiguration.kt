@@ -35,6 +35,7 @@ import javax.jcr.SimpleCredentials
  * @since 4.6.0
  */
 @Configuration
+@DependsOn("appContextUtil")
 class PageConfiguration {
 
     @Bean

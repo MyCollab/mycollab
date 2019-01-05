@@ -37,7 +37,7 @@ import java.time.LocalDate
 @ExtendWith(SpringExtension::class, DbUnitInitializerRule::class)
 class GenericTaskServiceTest : IntegrationServiceTest() {
     @Autowired
-    private lateinit var genericTaskService: ProjectTicketService
+    private lateinit var projectTicketService: ProjectTicketService
 
     @DataSet
     @Test
@@ -45,7 +45,7 @@ class GenericTaskServiceTest : IntegrationServiceTest() {
         val criteria = ProjectTicketSearchCriteria()
         criteria.projectIds = SetSearchField(1)
         criteria.saccountid = NumberSearchField(1)
-        val tasks = genericTaskService.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<ProjectTicket>
+        val tasks = projectTicketService.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<ProjectTicket>
         assertThat(tasks.size).isEqualTo(2)
         assertThat<ProjectTicket>(tasks).extracting("type", "name").contains(tuple("Project-Risk", "b"), tuple("Project-Bug", "name 1"))
     }
@@ -59,7 +59,7 @@ class GenericTaskServiceTest : IntegrationServiceTest() {
         criteria.dueDate = DateSearchField(d, DateSearchField.LESS_THAN)
         criteria.projectIds = SetSearchField(1)
         criteria.saccountid = NumberSearchField(1)
-        val tasks = genericTaskService.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<ProjectTicket>
+        val tasks = projectTicketService.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<ProjectTicket>
         assertThat(tasks.size).isEqualTo(1)
         assertThat<ProjectTicket>(tasks).extracting("type", "name").contains(tuple("Project-Risk", "b"))
     }
@@ -74,7 +74,7 @@ class GenericTaskServiceTest : IntegrationServiceTest() {
         criteria.dueDate = DateSearchField(d, DateSearchField.LESS_THAN)
         criteria.projectIds = SetSearchField(1)
         criteria.saccountid = NumberSearchField(1)
-        val taskList = genericTaskService.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<ProjectTicket>
+        val taskList = projectTicketService.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<ProjectTicket>
 
         assertThat(taskList.size).isEqualTo(1)
         assertThat<ProjectTicket>(taskList).extracting("type", "name").contains(tuple("Project-Risk", "b"))

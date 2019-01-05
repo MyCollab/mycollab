@@ -49,54 +49,54 @@
 
     <m_monitor_item id="1" createdTime="2014-10-21 00:00:00"
                     type="Project-Task" typeId="1" extraTypeId="1" sAccountId="1"
-                    user="hainguyen@esofthead.com"/>
+                    username="hainguyen@esofthead.com"/>
 
     <m_monitor_item id="2" createdTime="2014-10-22 00:00:00"
                     type="Project-Task" typeId="2" extraTypeId="1" sAccountId="1"
-                    user="hainguyen@esofthead.com"/>
+                    username="hainguyen@esofthead.com"/>
 
     <m_monitor_item id="3" createdTime="2014-10-23 00:00:00"
                     type="Project-Bug" typeId="1" extraTypeId="1" sAccountId="1"
-                    user="hainguyen@esofthead.com"/>
+                    username="hainguyen@esofthead.com"/>
 
     <m_monitor_item id="4" createdTime="2014-10-24 00:00:00"
                     type="Project-Bug" typeId="2" extraTypeId="1" sAccountId="1"
-                    user="hainguyen@esofthead.com"/>
+                    username="hainguyen@esofthead.com"/>
 
     <m_monitor_item id="5" createdTime="2014-09-21 00:00:00"
                     type="Project-Task" typeId="3" extraTypeId="2" sAccountId="1"
-                    user="hainguyen@esofthead.com"/>
+                    username="hainguyen@esofthead.com"/>
 
     <m_monitor_item id="6" createdTime="2014-09-22 00:00:00"
                     type="Project-Task" typeId="4" extraTypeId="2" sAccountId="1"
-                    user="hainguyen@esofthead.com"/>
+                    username="hainguyen@esofthead.com"/>
 
     <m_monitor_item id="7" createdTime="2014-09-23 00:00:00"
                     type="Project-Bug" typeId="3" extraTypeId="2" sAccountId="1"
-                    user="hainguyen@esofthead.com"/>
+                    username="hainguyen@esofthead.com"/>
 
     <m_monitor_item id="8" createdTime="2014-09-24 00:00:00"
                     type="Project-Bug" typeId="4" extraTypeId="2" sAccountId="1"
-                    user="hainguyen@esofthead.com"/>
+                    username="hainguyen@esofthead.com"/>
 
     <m_monitor_item id="11" createdTime="2014-10-23 00:00:00"
                     type="Project-Risk" typeId="1" extraTypeId="1" sAccountId="1"
-                    user="hainguyen@esofthead.com"/>
+                    username="hainguyen@esofthead.com"/>
 
     <m_monitor_item id="12" createdTime="2014-10-24 00:00:00"
                     type="Project-Risk" typeId="2" extraTypeId="1" sAccountId="1"
-                    user="hainguyen@esofthead.com"/>
+                    username="hainguyen@esofthead.com"/>
 
     <m_monitor_item id="13" createdTime="2014-09-21 00:00:00"
                     type="Project-Problem" typeId="3" extraTypeId="2" sAccountId="1"
-                    user="hainguyen@esofthead.com"/>
+                    username="hainguyen@esofthead.com"/>
 
     <m_monitor_item id="15" createdTime="2014-09-23 00:00:00"
                     type="Project-Risk" typeId="3" extraTypeId="2" sAccountId="1"
-                    user="hainguyen@esofthead.com"/>
+                    username="hainguyen@esofthead.com"/>
 
     <m_monitor_item id="16" createdTime="2014-09-24 00:00:00"
                     type="Project-Risk" typeId="4" extraTypeId="2" sAccountId="1"
-                    user="hainguyen@esofthead.com"/>
+                    username="hainguyen@esofthead.com"/>
 
 </dataset>

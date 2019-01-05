@@ -40,7 +40,7 @@ class DeleteProjectMemberCommand(private val monitorItemMapper: MonitorItemMappe
     private fun removeAssociateWatchers(members: Array<ProjectMember>) {
         members.forEach {
             val monitorEx =  MonitorItemExample()
-            monitorEx.createCriteria().andExtratypeidEqualTo(it.projectid).andUserEqualTo(it.username)
+            monitorEx.createCriteria().andExtratypeidEqualTo(it.projectid).andUsernameEqualTo(it.username)
                     .andSaccountidEqualTo(it.saccountid)
             monitorItemMapper.deleteByExample(monitorEx)
         }

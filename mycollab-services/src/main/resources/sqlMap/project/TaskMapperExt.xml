@@ -149,9 +149,9 @@
                  m_prj_milestone.name AS milestoneName, m_prj_project.name AS projectName, m_prj_project.shortname AS projectShortname, m_prj_task.status,
                  m_prj_task.createdUser, m_prj_task.taskkey,
                  s_user.avatarId AS assignUserAvatarId,
-                 concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) AS assignUserFullName,
+                 concat(s_user.firstname, ' ', s_user.lastname) AS assignUserFullName,
                  log_user.avatarId AS logByAvatarId,
-                 concat(log_user.firstname, ' ', LTRIM(concat(IFNULL(log_user.middlename, ''), ' ')), log_user.lastname) AS logByFullName,
+                 concat(log_user.firstname, ' ', log_user.lastname) AS logByFullName,
                  parentTask.name AS parentTaskName, parentTask.taskkey AS parentTaskKey,
                  (SELECT count(*)
                     FROM m_comment
@@ -270,8 +270,7 @@
     <select id="getAssignedDefectsSummary" parameterType="com.mycollab.module.project.domain.criteria.TaskSearchCriteria"
             resultMap="com.mycollab.common.dao.GroupItemMapper.BaseResultMap" lang="velocity">
         SELECT m_prj_task.assignUser AS groupid, COUNT(IFNULL(m_prj_task.assignUser, '')) AS value,
-            s_user.avatarId AS extraValue, concat(s_user.firstname, ' ',
-            LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) as groupname
+            s_user.avatarId AS extraValue, concat(s_user.firstname, ' ', s_user.lastname) as groupname
         FROM m_prj_task
             LEFT OUTER JOIN s_user ON (m_prj_task.assignUser = s_user.username)
         #ifnotnull($_parameter.searchCriteria)

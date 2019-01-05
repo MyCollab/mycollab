@@ -29,6 +29,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
 
 @ExtendWith(SpringExtension::class, DbUnitInitializerRule::class)
 class RelayEmailNotificationServiceTest : IntegrationServiceTest() {
+
     @Autowired
     private lateinit var relayEmailNotificationService: RelayEmailNotificationService
 

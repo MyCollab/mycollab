@@ -289,7 +289,7 @@ class ProjectController(val projectView: ProjectView) : AbstractController() {
             @Subscribe
             override fun handle(event: MessageEvent.GotoList) {
                 val searchCriteria = MessageSearchCriteria()
-                searchCriteria.projectids = SetSearchField(CurrentProjectVariables.projectId)
+                searchCriteria.projectIds = SetSearchField(CurrentProjectVariables.projectId)
                 val data = MessageScreenData.Search(searchCriteria)
                 val presenter = PresenterResolver.getPresenter(MessagePresenter::class.java)
                 presenter.go(projectView, data)

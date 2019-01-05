@@ -1,0 +1,17 @@
+<!DOCTYPE dataset PUBLIC "-//MyCollab/MyCollab Database Schema//EN" "http://www.mycollab.com/mycollab.dtd">
+<dataset>
+
+    <s_account id="1" createdTime="2013-04-10 13:29:23" paymentMethod="Credit Card" status="Active"/>
+
+    <m_prj_project id="1" name="a" sAccountId="1" shortname="aaa" projectStatus="Open"/>
+    <m_prj_project id="2" name="b" sAccountId="1" shortname="bbb" projectStatus="Open"/>
+    <m_prj_project id="3" name="c" sAccountId="1" shortname="ccc" projectStatus="Open"/>
+
+    <m_prj_message id="1" title="message1" projectId="1" sAccountId="1"/>
+    <m_prj_message id="2" title="message2" projectId="1" sAccountId="1"/>
+
+    <m_prj_message id="3" title="message3" projectId="2" sAccountId="1"/>
+
+    <m_prj_message id="4" title="message4" projectId="3" sAccountId="1"/>
+
+</dataset>

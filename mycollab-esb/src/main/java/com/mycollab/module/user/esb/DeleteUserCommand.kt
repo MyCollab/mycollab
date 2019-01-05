@@ -56,7 +56,7 @@ class DeleteUserCommand(private val projectMemberMapper: ProjectMemberMapper,
 
     private fun removeUserMonitorItems(event: DeleteUserEvent) {
         val ex = MonitorItemExample()
-        ex.createCriteria().andSaccountidEqualTo(event.sAccountId).andUserEqualTo(event.username)
+        ex.createCriteria().andSaccountidEqualTo(event.sAccountId).andUsernameEqualTo(event.username)
         monitorItemMapper.deleteByExample(ex)
     }
 }

@@ -42,6 +42,7 @@ import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.web.ui.*;
 import com.mycollab.vaadin.web.ui.table.AbstractPagedBeanTable;
 import com.mycollab.vaadin.web.ui.table.DefaultPagedBeanTable;
+import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Label;
@@ -105,7 +106,7 @@ public class ComponentListViewImpl extends AbstractVerticalPageView implements C
                 b.addStyleName(WebThemes.LINK_COMPLETED);
             }
             b.setDescription(ProjectTooltipGenerator.generateToolTipComponent(UserUIContext.getUserLocale(),
-                    bugComponent, AppUI.getSiteUrl(), UserUIContext.getUserTimeZone()));
+                    bugComponent, AppUI.getSiteUrl(), UserUIContext.getUserTimeZone()), ContentMode.HTML);
             return b;
         });
 

@@ -35,15 +35,13 @@ class ProjectTaskServiceTest : IntegrationServiceTest() {
     @Test
     fun testFindById() {
         val task = projectTaskService.findById(1, 1)
-        assertThat(task!!.name).isEqualTo("task1")
-        assertThat(task.projectShortname).isEqualTo("aaa")
+        assertThat(task).extracting("name", "projectShortname").contains("task1", "aaa")
     }
 
     @DataSet
     @Test
     fun testFindByProjectAndTaskKey() {
         val task = projectTaskService.findByProjectAndTaskKey(1, "aaa", 1)
-        assertThat(task!!.name).isEqualTo("task1")
-        assertThat(task.projectShortname).isEqualTo("aaa")
+        assertThat(task).extracting("name", "projectShortname").contains("task1", "aaa")
     }
 }

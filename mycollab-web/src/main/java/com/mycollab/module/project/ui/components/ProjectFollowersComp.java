@@ -213,7 +213,7 @@ public class ProjectFollowersComp<V extends ValuedBean> extends MVerticalLayout 
                 item.setSaccountid(AppUI.getAccountId());
                 item.setType(type);
                 item.setTypeid(typeId);
-                item.setUser(member.getUsername());
+                item.setUsername(member.getUsername());
                 items.add(item);
             }
             return items;

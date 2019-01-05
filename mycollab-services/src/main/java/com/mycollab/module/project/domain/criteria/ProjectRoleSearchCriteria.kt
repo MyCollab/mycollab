@@ -24,9 +24,6 @@ import com.mycollab.db.arguments.StringSearchField
  * @author MyCollab Ltd.
  * @since 1.0
  */
-class ProjectRoleSearchCriteria : SearchCriteria() {
-
-    var rolename: StringSearchField? = null
-    var projectId: NumberSearchField? = null
-    var id: NumberSearchField? = null
-}
+class ProjectRoleSearchCriteria(var id: NumberSearchField? = null,
+                                var projectId: NumberSearchField? = null,
+                                var roleName: StringSearchField? = null) : SearchCriteria()

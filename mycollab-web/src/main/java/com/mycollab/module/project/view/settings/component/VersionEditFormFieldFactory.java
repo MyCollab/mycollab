@@ -28,7 +28,6 @@ import com.vaadin.ui.TextField;
  * @author MyCollab Ltd
  * @since 5.3.0
  */
-// TODO
 public class VersionEditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<Version> {
     private static final long serialVersionUID = 1L;
 

@@ -18,6 +18,7 @@ package com.mycollab.common.service
 
 import com.mycollab.db.arguments.BasicSearchRequest
 import com.mycollab.db.arguments.NumberSearchField
+import com.mycollab.db.arguments.StringSearchField
 import com.mycollab.module.user.domain.SimpleUser
 import com.mycollab.module.user.domain.criteria.UserSearchCriteria
 import com.mycollab.module.user.service.UserService
@@ -32,6 +33,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
 
 @ExtendWith(SpringExtension::class, DbUnitInitializerRule::class)
 class UserServiceTest : IntegrationServiceTest() {
+
     @Autowired
     private lateinit var userService: UserService
 
@@ -40,11 +42,14 @@ class UserServiceTest : IntegrationServiceTest() {
     fun testGetListUser() {
         val criteria = UserSearchCriteria()
         criteria.saccountid = NumberSearchField(1)
+        criteria.subDomain = StringSearchField.and("a")
         val users = userService.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<SimpleUser>
         assertThat(users.size).isEqualTo(4)
         assertThat<SimpleUser>(users).extracting("username").contains(
                 "hainguyen@esofthead.com", "linhduong@esofthead.com",
                 "huynguyen@esofthead.com", "test@esofthead.com")
+
+        assertThat(userService.getTotalCount(criteria)).isEqualTo(4)
     }
 
     @DataSet
@@ -57,17 +62,13 @@ class UserServiceTest : IntegrationServiceTest() {
         userService.updateUserAccount(user, 1)
 
         val anotherUser = userService.findUserByUserNameInAccount("hannguyen@esofthead.com", 1)
-        assertThat(anotherUser!!.email).isEqualTo("hannguyen@esofthead.com")
-        assertThat(anotherUser.lastname).isEqualTo("Hai")
+        assertThat(anotherUser).extracting("email", "lastname").contains("hannguyen@esofthead.com", "Hai")
     }
 
     @DataSet
     @Test
     fun testFindUserByUsernameInAccount() {
         val user = userService.findUserByUserNameInAccount("hainguyen@esofthead.com", 1)
-        assertThat(user!!.username).isEqualTo("hainguyen@esofthead.com")
-        assertThat(user.accountId).isEqualTo(1)
-        assertThat(user.firstname).isEqualTo("Nguyen")
-        assertThat(user.lastname).isEqualTo("Hai")
+        assertThat(user).extracting("username", "accountId", "firstname", "lastname").contains("hainguyen@esofthead.com", 1, "Nguyen", "Hai")
     }
 }

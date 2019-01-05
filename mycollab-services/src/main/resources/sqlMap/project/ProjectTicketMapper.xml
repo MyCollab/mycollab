@@ -292,10 +292,10 @@
     <sql id="selectGenericTaskFromRisk">
     <![CDATA[
           SELECT mainTbl.name, mainTbl.description, mainTbl.assignUser,
-            concat(assignUserTbl.firstname, ' ', LTRIM(concat(IFNULL(assignUserTbl.middlename, ''), ' ')), assignUserTbl.lastname) AS assignUserFullName,
+            concat(assignUserTbl.firstname, ' ', assignUserTbl.lastname) AS assignUserFullName,
             assignUserTbl.avatarId as assignUserAvatarId,
             createdUserTbl.username AS createdUser, createdUserTbl.avatarId as createdUserAvatarId,
-            concat(createdUserTbl.firstname, ' ', LTRIM(concat(IFNULL(createdUserTbl.middlename, ''), ' ')), createdUserTbl.lastname) AS createdUserFullName,
+            concat(createdUserTbl.firstname, ' ', createdUserTbl.lastname) AS createdUserFullName,
             mainTbl.dueDate, mainTbl.projectId, m_prj_project.name AS projectName,
             m_prj_project.shortname AS projectShortName, NULL AS extraTypeId, mainTbl.status,
             'Project-Risk' AS type, mainTbl.id AS typeId, mainTbl.createdTime, mainTbl.lastUpdatedTime,
@@ -313,7 +313,7 @@
           FROM m_prj_risk AS mainTbl
               LEFT OUTER JOIN s_user assignUserTbl ON (mainTbl.assignUser=assignUserTbl.username)
               LEFT OUTER JOIN s_user createdUserTbl ON (mainTbl.createdUser=createdUserTbl.username)
-              LEFT OUTER JOIN m_prj_project ON (mainTbl.projectId=m_prj_project.id AND m_prj_project.projectStatus="Open")
+              LEFT OUTER JOIN m_prj_project ON (mainTbl.projectId=m_prj_project.id AND m_prj_project.projectStatus='Open')
               LEFT OUTER JOIN m_prj_milestone ON (mainTbl.milestoneId=m_prj_milestone.id)
         ]]>
     </sql>
@@ -321,34 +321,34 @@
     <sql id="selectGenericTaskFromMilestone">
         <![CDATA[
           SELECT mainTbl.name, mainTbl.description, mainTbl.assignUser,
-            concat(assignUserTbl.firstname, ' ', LTRIM(concat(IFNULL(assignUserTbl.middlename, ''), ' ')), assignUserTbl.lastname) AS assignUserFullName,
+            concat(assignUserTbl.firstname, ' ', assignUserTbl.lastname) AS assignUserFullName,
             assignUserTbl.avatarId as assignUserAvatarId,
             createdUserTbl.username AS createdUser, createdUserTbl.avatarId as createdUserAvatarId,
-            concat(createdUserTbl.firstname, ' ', LTRIM(concat(IFNULL(createdUserTbl.middlename, ''), ' ')), createdUserTbl.lastname) AS createdUserFullName,
+            concat(createdUserTbl.firstname, ' ', createdUserTbl.lastname) AS createdUserFullName,
             mainTbl.endDate AS dueDate, mainTbl.projectId, m_prj_project.name AS projectName,
             m_prj_project.shortname AS projectShortName, NULL AS extraTypeId, mainTbl.status,
             'Project-Milestone' AS type, mainTbl.id AS typeId, mainTbl.createdTime, mainTbl.lastUpdatedTime,
             (SELECT count(*)
                     FROM m_comment
                     WHERE m_comment.type='Project-Milestone' AND m_comment.typeId=mainTbl.id) AS numComments,
-            0 AS numFollowers, 0 AS billableHours, 0 AS nonBillableHours, "" AS priority,
+            0 AS numFollowers, 0 AS billableHours, 0 AS nonBillableHours, '' AS priority,
             mainTbl.sAccountId, mainTbl.startDate, mainTbl.endDate,
             mainTbl.id AS milestoneId, 0 AS originalEstimate, 0 AS remainEstimate,
             mainTbl.name AS milestoneName
           FROM m_prj_milestone AS mainTbl
             LEFT OUTER JOIN s_user assignUserTbl ON (mainTbl.assignUser=assignUserTbl.username)
             LEFT OUTER JOIN s_user createdUserTbl ON (mainTbl.createdUser=createdUserTbl.username)
-            LEFT OUTER JOIN m_prj_project ON (mainTbl.projectId=m_prj_project.id AND m_prj_project.projectStatus="Open")
+            LEFT OUTER JOIN m_prj_project ON (mainTbl.projectId=m_prj_project.id AND m_prj_project.projectStatus='Open')
         ]]>
     </sql>
 
     <sql id="selectGenericTaskFromBug">
     <![CDATA[
           SELECT mainTbl.name, mainTbl.description, mainTbl.assignUser,
-                concat(assignUserTbl.firstname, ' ', LTRIM(concat(IFNULL(assignUserTbl.middlename, ''), ' ')), assignUserTbl.lastname) AS assignUserFullName,
+                concat(assignUserTbl.firstname, ' ', assignUserTbl.lastname) AS assignUserFullName,
                 assignUserTbl.avatarId as assignUserAvatarId,
                 createdUserTbl.username AS createdUser, createdUserTbl.avatarId as createdUserAvatarId,
-                concat(createdUserTbl.firstname, ' ', LTRIM(concat(IFNULL(createdUserTbl.middlename, ''), ' ')), createdUserTbl.lastname) AS createdUserFullName,
+                concat(createdUserTbl.firstname, ' ', createdUserTbl.lastname) AS createdUserFullName,
                 mainTbl.dueDate, mainTbl.projectId, m_prj_project.name AS projectName,
                 m_prj_project.shortname AS projectShortName, mainTbl.bugkey AS extraTypeId, mainTbl.status,
                 'Project-Bug' AS type, mainTbl.id AS typeId, mainTbl.createdTime, mainTbl.lastUpdatedTime,
@@ -366,7 +366,7 @@
           FROM m_tracker_bug AS mainTbl
               LEFT OUTER JOIN s_user AS assignUserTbl ON (mainTbl.assignUser=assignUserTbl.username)
               LEFT OUTER JOIN s_user createdUserTbl ON (mainTbl.createdUser=createdUserTbl.username)
-              LEFT OUTER JOIN m_prj_project ON (mainTbl.projectId=m_prj_project.id AND m_prj_project.projectStatus="Open")
+              LEFT OUTER JOIN m_prj_project ON (mainTbl.projectId=m_prj_project.id AND m_prj_project.projectStatus='Open')
               LEFT OUTER JOIN m_prj_milestone ON (mainTbl.milestoneId=m_prj_milestone.id)
         ]]>
     </sql>
@@ -374,10 +374,10 @@
     <sql id="selectGenericTaskFromTask">
     <![CDATA[
           SELECT mainTbl.name,  mainTbl.description, mainTbl.assignUser,
-            concat(assignUserTbl.firstname, ' ', LTRIM(concat(IFNULL(assignUserTbl.middlename, ''), ' ')), assignUserTbl.lastname) AS assignUserFullName,
+            concat(assignUserTbl.firstname, ' ', assignUserTbl.lastname) AS assignUserFullName,
             assignUserTbl.avatarId as assignUserAvatarId,
             createdUserTbl.username AS createdUser, createdUserTbl.avatarId as createdUserAvatarId,
-            concat(createdUserTbl.firstname, ' ', LTRIM(concat(IFNULL(createdUserTbl.middlename, ''), ' ')), createdUserTbl.lastname) AS createdUserFullName,
+            concat(createdUserTbl.firstname, ' ', createdUserTbl.lastname) AS createdUserFullName,
             mainTbl.dueDate, mainTbl.projectId, m_prj_project.name AS projectName,
             m_prj_project.shortname AS projectShortName, mainTbl.taskkey AS extraTypeId, mainTbl.status,
             'Project-Task' AS type, mainTbl.id AS typeId, mainTbl.createdTime, mainTbl.lastUpdatedTime,
@@ -395,7 +395,7 @@
           FROM m_prj_task AS mainTbl
             LEFT OUTER JOIN s_user assignUserTbl ON (mainTbl.assignUser=assignUserTbl.username)
             LEFT OUTER JOIN s_user createdUserTbl ON (mainTbl.createdUser=createdUserTbl.username)
-            LEFT OUTER JOIN m_prj_project ON (mainTbl.projectId=m_prj_project.id AND m_prj_project.projectStatus="Open")
+            LEFT OUTER JOIN m_prj_project ON (mainTbl.projectId=m_prj_project.id AND m_prj_project.projectStatus='Open')
             LEFT OUTER JOIN m_prj_milestone ON (mainTbl.milestoneId=m_prj_milestone.id)
         ]]>
     </sql>
@@ -531,7 +531,7 @@
 
     <select id="getAccountsHasOverdueAssignments" parameterType="com.mycollab.module.project.domain.criteria.ProjectTicketSearchCriteria"
             resultMap="com.mycollab.module.user.dao.BillingAccountMapper.BaseResultMap" lang="velocity">
-        SELECT s_account.id, s_account.subdomain
+        SELECT s_account.id, s_account.subDomain
         FROM s_account
         WHERE
           EXISTS (
@@ -604,7 +604,7 @@
         tmpTbl.avatarId AS extraValue
           FROM
           ((SELECT mainTbl.assignUser, mainTbl.id AS typeId, 'Project-Task' AS type,
-              concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) as fullname,
+              concat(s_user.firstname, ' ', s_user.lastname) as fullname,
               s_user.avatarId AS avatarId
           FROM m_prj_task AS mainTbl
             INNER JOIN m_prj_member ON (mainTbl.assignUser=m_prj_member.username AND m_prj_member.status='Active')
@@ -616,7 +616,7 @@
           #end)
           UNION
           (SELECT mainTbl.assignUser, mainTbl.id AS typeId, 'Project-Bug' AS type,
-              concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) as fullname,
+              concat(s_user.firstname, ' ', s_user.lastname) as fullname,
               s_user.avatarId AS avatarId
           FROM m_tracker_bug AS mainTbl
             INNER JOIN m_prj_member ON (mainTbl.assignUser=m_prj_member.username AND m_prj_member.status='Active')
@@ -628,7 +628,7 @@
           #end)
           UNION
           (SELECT mainTbl.assignUser, mainTbl.id AS typeId, 'Project-Risk' AS type,
-              concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) as fullname,
+              concat(s_user.firstname, ' ', s_user.lastname) as fullname,
               s_user.avatarId AS avatarId
           FROM m_prj_risk AS mainTbl
             INNER JOIN m_prj_member ON (mainTbl.assignUser=m_prj_member.username AND m_prj_member.status='Active')

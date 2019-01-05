@@ -106,11 +106,11 @@ public class UserReadViewImpl extends AbstractVerticalPageView implements UserRe
         if (Boolean.TRUE.equals(user.isAccountOwner())) {
             roleDiv = new Div().appendText(UserUIContext.getMessage(RoleI18nEnum.OPT_ACCOUNT_OWNER));
         } else {
-            roleDiv = new A(AccountLinkGenerator.generateRoleLink(user.getRoleid())).appendText(user.getRoleName());
+            roleDiv = new A(AccountLinkGenerator.generateRoleLink(user.getRoleId())).appendText(user.getRoleName());
         }
 
         userFormLayout.addComponent(ELabel.html(roleDiv.write()), UserUIContext.getMessage(UserI18nEnum.FORM_ROLE), 0, 0);
-        userFormLayout.addComponent(new Label(UserUIContext.formatDate(user.getDateofbirth())),
+        userFormLayout.addComponent(new Label(UserUIContext.formatDate(user.getBirthday())),
                 UserUIContext.getMessage(UserI18nEnum.FORM_BIRTHDAY), 0, 1);
 
         if (Boolean.TRUE.equals(AppUI.showEmailPublicly())) {
@@ -178,12 +178,12 @@ public class UserReadViewImpl extends AbstractVerticalPageView implements UserRe
                         if (Boolean.TRUE.equals(user.isAccountOwner())) {
                             return new DefaultViewField(UserUIContext.getMessage(RoleI18nEnum.OPT_ACCOUNT_OWNER));
                         } else {
-                            return new LinkViewField(user.getRoleName(), AccountLinkGenerator.generateRoleLink(user.getRoleid()));
+                            return new LinkViewField(user.getRoleName(), AccountLinkGenerator.generateRoleLink(user.getRoleId()));
                         }
                     } else if (propertyId.equals("website")) {
                         return new UrlLinkViewField(user.getWebsite());
-                    } else if (propertyId.equals("dateofbirth")) {
-                        return new DateViewField(user.getDateofbirth());
+                    } else if (propertyId.equals("birthday")) {
+                        return new DateViewField(user.getBirthday());
                     } else if (propertyId.equals("timezone")) {
                         return new DefaultViewField(TimezoneVal.getDisplayName(UserUIContext.getUserLocale(), user.getTimezone()));
                     } else if (propertyId.equals("facebookaccount")) {

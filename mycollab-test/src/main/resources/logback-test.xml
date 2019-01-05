@@ -7,7 +7,7 @@
         </encoder>
     </appender>
     <logger name="org.springframework" level="INFO"/>
-    <logger name="com.mycollab" level="INFO"/>
+    <logger name="com.mycollab" level="DEBUG"/>
     <logger name="java.sql" level="INFO"/>
     <logger name="org.apache.ibatis" level="INFO"/>
     <logger name="org.mybatis.spring" level="INFO"/>

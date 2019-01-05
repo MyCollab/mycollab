@@ -42,7 +42,7 @@ class RiskFieldFormatter : FieldGroupFormatter() {
         this.generateFieldDisplayHandler(Risk.Field.startdate.name, GenericI18Enum.FORM_START_DATE, FieldGroupFormatter.DATE_FIELD)
         this.generateFieldDisplayHandler(Risk.Field.enddate.name, GenericI18Enum.FORM_END_DATE, FieldGroupFormatter.DATE_FIELD)
         this.generateFieldDisplayHandler(Risk.Field.milestoneid.name, MilestoneI18nEnum.SINGLE, MilestoneHistoryFieldFormat())
-        this.generateFieldDisplayHandler(Risk.Field.probalitity.name, RiskI18nEnum.FORM_PROBABILITY,
+        this.generateFieldDisplayHandler(Risk.Field.probability.name, RiskI18nEnum.FORM_PROBABILITY,
                 I18nHistoryFieldFormat(RiskProbability::class.java))
         this.generateFieldDisplayHandler(Risk.Field.status.name, GenericI18Enum.FORM_STATUS,
                 I18nHistoryFieldFormat(StatusI18nEnum::class.java))

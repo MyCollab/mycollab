@@ -19,10 +19,10 @@
                ${searchCriteria.id.operation}  m_prj_message.id = @{searchCriteria.id.value,jdbcType=NUMERIC}
             #end
             
-            #ifnotnull($searchCriteria.projectids)
-                ${searchCriteria.projectids.operation}
+            #ifnotnull($searchCriteria.projectIds)
+                ${searchCriteria.projectIds.operation}
                 m_prj_message.projectId IN
-                #repeat(${searchCriteria.projectids.values} $projectId "," "(" ")")
+                #repeat(${searchCriteria.projectIds.values} $projectId "," "(" ")")
                     @{projectId,jdbcType=NUMERIC}
                 #end
             #end
@@ -44,12 +44,12 @@
     <sql id="selectMessage">
         <![CDATA[
           SELECT m_prj_message.id, m_prj_message.category, m_prj_message.title, m_prj_message.message,
-          m_prj_message.posteddate, m_prj_message.createdUser, m_prj_message.projectId,
+          m_prj_message.createdTime, m_prj_message.createdUser, m_prj_message.projectId,
               (SELECT count(*)
                     FROM m_comment 
                     WHERE m_comment.type='Project-Message' AND m_comment.typeId=m_prj_message.id) AS commentsCount,
               m_prj_message.createdTime, m_prj_message.lastUpdatedTime, m_prj_message.isStick,
-              concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) AS fullPostedUserName,
+              concat(s_user.firstname, ' ', s_user.lastname) AS fullPostedUserName,
               m_prj_project.name AS projectName, s_user.avatarId AS postedUserAvatarId, m_prj_message.sAccountId,
               m_prj_message.isStick
               FROM m_prj_message
@@ -76,7 +76,7 @@
             #end
         #end
 
-        ORDER BY m_prj_message.isStick DESC, m_prj_message.posteddate DESC
+        ORDER BY m_prj_message.isStick DESC, m_prj_message.createdTime DESC
     </select>
 
     <select id="findMessageById" parameterType="java.lang.Integer"

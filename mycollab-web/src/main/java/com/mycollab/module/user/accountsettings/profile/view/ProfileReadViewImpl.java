@@ -97,7 +97,7 @@ public class ProfileReadViewImpl extends AbstractVerticalPageView implements Pro
 
         GridFormLayoutHelper userFormLayout = GridFormLayoutHelper.defaultFormLayoutHelper(1, 5).withCaptionWidth("140px");
         userFormLayout.getLayout().addStyleName(WebThemes.GRIDFORM_BORDERLESS);
-        userFormLayout.addComponent(new Label(UserUIContext.formatDate(user.getDateofbirth())),
+        userFormLayout.addComponent(new Label(UserUIContext.formatDate(user.getBirthday())),
                 UserUIContext.getMessage(UserI18nEnum.FORM_BIRTHDAY), 0, 0);
         userFormLayout.addComponent(new Label(new A("mailto:" + user.getEmail()).appendText(user.getEmail()).setTarget("_blank")
                 .write(), ContentMode.HTML), UserUIContext.getMessage(GenericI18Enum.FORM_EMAIL), 0, 1);

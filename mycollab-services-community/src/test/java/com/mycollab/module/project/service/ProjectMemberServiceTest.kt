@@ -69,8 +69,6 @@ class ProjectMemberServiceTest : IntegrationServiceTest() {
     @Test
     fun testFindMemberByUsername() {
         val member = projectMemberService.findMemberByUsername("user1", 1, 1)
-        assertThat(member!!.projectid).isEqualTo(1)
-        assertThat(member.status).isEqualTo("Active")
-        assertThat(member.username).isEqualTo("user1")
+        assertThat(member).extracting("projectid", "status", "username").contains(1, "Active", "user1")
     }
 }

@@ -44,13 +44,13 @@ class MonitorItemServiceImpl(private val monitorItemMapper: MonitorItemMapper,
 
     override fun isUserWatchingItem(username: String, type: String, typeId: Int): Boolean {
         val ex = MonitorItemExample()
-        ex.createCriteria().andUserEqualTo(username).andTypeEqualTo(type).andTypeidEqualTo(typeId)
+        ex.createCriteria().andUsernameEqualTo(username).andTypeEqualTo(type).andTypeidEqualTo(typeId)
         return monitorItemMapper.countByExample(ex) > 0
     }
 
     override fun saveWithSession(record: MonitorItem, username: String?): Int {
         val ex = MonitorItemExample()
-        ex.createCriteria().andTypeEqualTo(record.type).andTypeidEqualTo(record.typeid).andUserEqualTo(record.user)
+        ex.createCriteria().andTypeEqualTo(record.type).andTypeidEqualTo(record.typeid).andUsernameEqualTo(record.username)
         val count = monitorItemMapper.countByExample(ex)
         return if (count > 0) 1 else super.saveWithSession(record, username)
     }

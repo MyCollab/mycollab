@@ -45,7 +45,7 @@ public abstract class AbstractBeanFieldGroupFieldFactory<B> implements IBeanFiel
     private static final Logger LOG = LoggerFactory.getLogger(AbstractBeanFieldGroupFieldFactory.class);
 
     protected GenericBeanForm<B> attachForm;
-    protected BeanValidationBinder<B> binder;
+    private BeanValidationBinder<B> binder;
 
     private boolean isReadOnlyGroup;
     private javax.validation.Validator validation;

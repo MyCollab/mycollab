@@ -29,11 +29,9 @@ import org.assertj.core.api.Assertions.tuple
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.test.context.junit.jupiter.SpringExtension
 import java.text.ParseException
-import java.text.SimpleDateFormat
 
-@ExtendWith(SpringExtension::class, DbUnitInitializerRule::class)
+@ExtendWith(DbUnitInitializerRule::class)
 class ComponentServiceTest : IntegrationServiceTest() {
 
     @Autowired

@@ -294,7 +294,7 @@ object ProjectTooltipGenerator {
             val cell22 = buildCellLink(assignUserLink, assignUserAvatarLink,
                     risk.assignedToUserFullName)
             val cell23 = buildCellName(LocalizationHelper.getMessage(locale, RiskI18nEnum.FORM_PROBABILITY))
-            val cell24 = buildCellValue(risk.probalitity)
+            val cell24 = buildCellValue(risk.probability)
             trRow2.appendChild(cell21, cell22, cell23, cell24)
             tooltipManager.appendRow(trRow2)
 

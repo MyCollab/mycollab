@@ -24,16 +24,18 @@ import com.mycollab.module.project.ProjectTypeConstants
  * @since 1.0
  */
 object AttachmentUtils {
-    private val COMMENT_PATH = "common-comment"
+    private const val COMMENT_PATH = "common-comment"
 
-    @JvmStatic fun getProjectEntityAttachmentPath(accountId: Int?, projectId: Int?, type: String, typeId: String): String =
-            String.format("%d/project/%d/.attachments/%s/%s", accountId, projectId, type.toLowerCase(), typeId)
+    @JvmStatic
+    fun getProjectEntityAttachmentPath(accountId: Int?, projectId: Int?, type: String, typeId: String): String =
+            "$accountId/project/$projectId/.attachments/${type.toLowerCase()}/$typeId"
 
-    @JvmStatic fun getProjectEntityCommentAttachmentPath(accountId: Int?, projectId: Int?, type: String, typeId: String, commentId: Int?): String =
-            String.format("%d/project/%d/.attachments/%s/%s/%s/%d",
-                    accountId, projectId, type.toLowerCase(), typeId, COMMENT_PATH, commentId)
+    @JvmStatic
+    fun getProjectEntityCommentAttachmentPath(accountId: Int?, projectId: Int?, type: String, typeId: String, commentId: Int?): String =
+            "$accountId/project/$projectId/.attachments/${type.toLowerCase()}/$typeId/$COMMENT_PATH/$commentId"
 
-    @JvmStatic fun getCommentAttachmentPath(type: String, accountId: Int?, extraTypeId: Int?, typeId: String, commentId: Int): String =
+    @JvmStatic
+    fun getCommentAttachmentPath(type: String, accountId: Int?, extraTypeId: Int?, typeId: String, commentId: Int): String =
             if (ProjectTypeConstants.BUG == type || ProjectTypeConstants.MESSAGE == type ||
                     ProjectTypeConstants.MILESTONE == type
                     || ProjectTypeConstants.RISK == type || ProjectTypeConstants.TASK == type

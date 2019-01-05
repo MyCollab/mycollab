@@ -18,9 +18,12 @@ package com.mycollab.test.spring;
 
 import com.mycollab.configuration.ApplicationConfiguration;
 import com.mycollab.configuration.ServerConfiguration;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 /**
  * @author MyCollab Ltd.
@@ -28,6 +31,7 @@ import org.springframework.test.context.ContextConfiguration;
  */
 @ContextConfiguration(classes = RootConfigurationTest.class)
 @ActiveProfiles(profiles = "test")
+@ExtendWith(SpringExtension.class)
 public class IntegrationServiceTest {
 
     @MockBean

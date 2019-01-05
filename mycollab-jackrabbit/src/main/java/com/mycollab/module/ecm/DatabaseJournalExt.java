@@ -16,22 +16,23 @@
  */
 package com.mycollab.module.ecm;
 
-import com.mycollab.configuration.DatabaseConfiguration;
+import com.mycollab.module.ecm.DbUtil;
 import com.mycollab.spring.AppContextUtil;
+import com.zaxxer.hikari.HikariDataSource;
 import org.apache.jackrabbit.core.journal.DatabaseJournal;
 
 /**
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class ContentDatabaseJournal extends DatabaseJournal {
+public class DatabaseJournalExt extends DatabaseJournal {
 
-    public ContentDatabaseJournal() {
-        DatabaseConfiguration dbConf = AppContextUtil.getSpringBean(DatabaseConfiguration.class);
-        setDriver(dbConf.getDriverClassName());
-        setUser(dbConf.getUsername());
-        setPassword(dbConf.getPassword());
-        setUrl(dbConf.getUrl());
-        this.setDatabaseType("mysql");
+    public DatabaseJournalExt() {
+        HikariDataSource ds = AppContextUtil.getSpringBean(HikariDataSource.class);
+        setDriver(ds.getDriverClassName());
+        setUser(ds.getUsername());
+        setPassword(ds.getPassword());
+        setUrl(ds.getJdbcUrl());
+        setDatabaseType(DbUtil.getSchemaType(ds.getDriverClassName()));
     }
 }

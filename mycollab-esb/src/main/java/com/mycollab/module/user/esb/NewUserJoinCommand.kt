@@ -61,7 +61,7 @@ class NewUserJoinCommand(private val billingAccountService: BillingAccountServic
 
             fun formatRoleName(siteUrl: String, newMember: SimpleUser): String =
                     if (newMember.isAccountOwner == true) "Account Owner"
-                    else A(AccountLinkGenerator.generatePreviewFullRoleLink(siteUrl, newMember.roleid)).appendText(newMember.roleName).write()
+                    else A(AccountLinkGenerator.generatePreviewFullRoleLink(siteUrl, newMember.roleId)).appendText(newMember.roleName).write()
         }
     }
 

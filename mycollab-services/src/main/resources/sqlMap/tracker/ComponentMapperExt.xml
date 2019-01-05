@@ -45,9 +45,9 @@
                 m_tracker_component.userlead, m_tracker_component.description, 
                 m_tracker_component.sAccountId, m_tracker_component.lastUpdatedTime, m_tracker_component.createdTime, m_tracker_component.status,
                 m_tracker_component.createduser, createdUserTbl.avatarId AS createdUserAvatarId,
-                concat(createdUserTbl.firstname,  ' ', LTRIM(concat(IFNULL(createdUserTbl.middlename, ''), ' ')), createdUserTbl.lastname) AS createdUserFullName,
+                concat(createdUserTbl.firstname,' ', createdUserTbl.lastname) AS createdUserFullName,
                 s_user.avatarId AS userLeadAvatarId,
-               concat(s_user.firstname,  ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) AS userLeadFullName,
+               concat(s_user.firstname, ' ', s_user.lastname) AS userLeadFullName,
                (SELECT COUNT(*) 
                         FROM m_tracker_bug, m_tracker_bug_related_item 
                         WHERE m_tracker_bug.id=m_tracker_bug_related_item.bugid 

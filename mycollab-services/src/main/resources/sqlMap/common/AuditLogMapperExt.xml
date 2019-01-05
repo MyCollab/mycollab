@@ -36,7 +36,7 @@
         SELECT m_audit_log.id, m_audit_log.object_class, m_audit_log.createdTime, m_audit_log.createdUser,
             m_audit_log.sAccountId, m_audit_log.type, m_audit_log.typeId, m_audit_log.module, m_audit_log.changeset,
             s_user.avatarId AS postedUserAvatarId,
-            concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) as postedUserFullName
+            concat(s_user.firstname, ' ', s_user.lastname) as postedUserFullName
         FROM m_audit_log
         LEFT OUTER JOIN s_user ON (s_user.username = m_audit_log.createdUser)
         ]]>

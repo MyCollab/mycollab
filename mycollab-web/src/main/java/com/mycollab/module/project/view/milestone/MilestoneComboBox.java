@@ -41,7 +41,7 @@ import java.util.List;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class MilestoneComboBox extends ComboBox {
+public class MilestoneComboBox extends ComboBox<SimpleMilestone> {
 
     public MilestoneComboBox() {
         MilestoneSearchCriteria criteria = new MilestoneSearchCriteria();

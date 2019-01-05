@@ -61,7 +61,7 @@ class MonitorItemAspect(private var monitorItemService: MonitorItemService,
                 monitorItem.type = ClassInfoMap.getType(cls)
                 monitorItem.typeid = typeId
                 monitorItem.extratypeid = extraTypeId
-                monitorItem.user = username
+                monitorItem.username = username
                 monitorItem.saccountid = sAccountId
 
                 monitorItemService.saveWithSession(monitorItem, username)
@@ -70,7 +70,7 @@ class MonitorItemAspect(private var monitorItemService: MonitorItemService,
                     val moreUser = PropertyUtils.getProperty(bean, watchableAnnotation.userFieldName) as? String
                     if (moreUser != null && moreUser != username) {
                         monitorItem.id = null
-                        monitorItem.user = moreUser
+                        monitorItem.username = moreUser
                         monitorItemService.saveWithSession(monitorItem, moreUser)
                     }
                 }

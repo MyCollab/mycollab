@@ -130,7 +130,7 @@ class ProjectRiskRelayEmailNotificationActionImpl : SendMailToAllMembersAction<S
         init {
             put(Risk.Field.name, GenericI18Enum.FORM_NAME, true)
             put(Risk.Field.description, GenericI18Enum.FORM_DESCRIPTION, true)
-            put(Risk.Field.probalitity, I18nFieldFormat(Risk.Field.probalitity.name, RiskI18nEnum.FORM_PROBABILITY,
+            put(Risk.Field.probability, I18nFieldFormat(Risk.Field.probability.name, RiskI18nEnum.FORM_PROBABILITY,
                     RiskProbability::class.java))
             put(Risk.Field.consequence, I18nFieldFormat(Risk.Field.consequence.name, RiskI18nEnum.FORM_CONSEQUENCE, RiskConsequence::class.java))
             put(Risk.Field.startdate, DateFieldFormat(Risk.Field.startdate.name, GenericI18Enum.FORM_START_DATE))

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE dataset PUBLIC "-//MyCollab/MyCollab Database Schema//EN" "http://www.mycollab.com/mycollab.dtd">
 <dataset>
-    <s_account id="1" status="Active" createdTime="2013-08-08 00:00:00"/>
+    <s_account id="1" status="Active" createdTime="2013-08-08 00:00:00" subDomain="a"/>
     <s_user username="hainguyen@esofthead.com" firstname="Nguyen"
             lastname="Hai" email="hainguyen@esofthead.com"/>
 

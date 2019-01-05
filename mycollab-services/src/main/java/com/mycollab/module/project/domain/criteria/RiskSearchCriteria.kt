@@ -20,6 +20,7 @@ import com.mycollab.common.i18n.GenericI18Enum
 import com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum
 import com.mycollab.db.arguments.NumberSearchField
 import com.mycollab.db.arguments.SearchCriteria
+import com.mycollab.db.arguments.SetSearchField
 import com.mycollab.db.arguments.StringSearchField
 import com.mycollab.db.query.*
 import com.mycollab.module.project.ProjectTypeConstants
@@ -42,7 +43,7 @@ class RiskSearchCriteria : SearchCriteria() {
 
     var assignUser: StringSearchField? = null
 
-    var projectId: NumberSearchField? = null
+    var projectIds: SetSearchField<Int>? = null
 
     var id: NumberSearchField? = null
 

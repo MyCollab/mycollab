@@ -116,7 +116,7 @@ public class BugEditForm extends AdvancedEditBeanForm<SimpleBug> {
                             monitorItem.setSaccountid(AppUI.getAccountId());
                             monitorItem.setType(ProjectTypeConstants.BUG);
                             monitorItem.setTypeid(bugId);
-                            monitorItem.setUser(follower);
+                            monitorItem.setUsername(follower);
                             monitorItem.setExtratypeid(bean.getProjectid());
                             monitorItems.add(monitorItem);
                         }

@@ -32,9 +32,8 @@ class UserSearchCriteria : SearchCriteria() {
     var displayName: StringSearchField? = null
     var username: StringSearchField? = null
     var registerStatuses: SetSearchField<String>? = null
-    var subdomain: StringSearchField? = null
+    var subDomain: StringSearchField? = null
     var statuses: SetSearchField<String>? = null
-
     // @NOTE: Only works with method find... not getTotalCount(...)
     fun setLastAccessTimeRange(from: LocalDateTime, to: LocalDateTime) {
         val expr = "s_user_account.lastAccessedTime >= '${DateTimeUtils.formatDate(from, "yyyy-MM-dd", Locale.US)}' AND s_user_account.lastAccessedTime <='${DateTimeUtils.formatDate(to, "yyyy-MM-dd", Locale.US)}'"

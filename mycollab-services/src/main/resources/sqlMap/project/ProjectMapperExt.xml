@@ -133,8 +133,8 @@
         m_prj_project.projectStatus, m_prj_project.description, m_prj_project.defaultBillingRate,
         m_prj_project.defaultOvertimeBillingRate, m_prj_project.sAccountId,
         m_prj_project.createdtime, m_prj_project.lastUpdatedTime, m_prj_project.avatarId, m_prj_project.contextAsk, m_prj_project.memlead,
-        concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) AS createUserFullName,
-        concat(leadUser.firstname, ' ', LTRIM(concat(IFNULL(leadUser.middlename, ''), ' ')), leadUser.lastname) AS leadFullName,
+        concat(s_user.firstname, ' ', s_user.lastname) AS createUserFullName,
+        concat(leadUser.firstname, ' ', leadUser.lastname) AS leadFullName,
         leadUser.avatarId AS leadAvatarId, m_prj_project.accountId,
         m_customer.accountName AS clientName, m_customer.avatarId AS clientAvatarId, m_prj_project.currencyid, m_prj_project.progress,
         (SELECT COUNT(*) FROM m_tracker_bug WHERE m_tracker_bug.projectId=m_prj_project.id) AS numBugs,
@@ -224,7 +224,7 @@
     <select id="getProjectActivityStreams" parameterType="com.mycollab.module.project.domain.criteria.ProjectGenericItemSearchCriteria" resultMap="ActivityStreamResult" lang="velocity">
          (SELECT s_activitystream.id, s_activitystream.sAccountId, s_activitystream.type, s_activitystream.typeId, m_tracker_bug.bugkey AS itemKey, 
                s_activitystream.createdTime, s_activitystream.action, s_activitystream.createdUser, s_activitystream.nameField, s_activitystream.extraTypeId,
-               s_activitystream.module, concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) as createdUserFullName,
+               s_activitystream.module, concat(s_user.firstname, ' ', s_user.lastname) as createdUserFullName,
                s_user.avatarId AS createdUserAvatarId,
                s_activitystream.extraTypeId AS projectId, m_prj_project.name AS projectName, m_prj_project.shortname AS projectShortName,
                m_audit_log.id AS log_id, m_audit_log.object_class AS log_object_class, m_audit_log.createdTime AS log_createdTime, m_audit_log.createdUser AS log_createdUser,
@@ -245,7 +245,7 @@
         UNION(
         SELECT s_activitystream.id, s_activitystream.sAccountId, s_activitystream.type, s_activitystream.typeId, m_tracker_bug.bugkey AS itemKey, 
                s_activitystream.createdTime, s_activitystream.action, s_activitystream.createdUser, m_tracker_bug.name AS nameField, s_activitystream.extraTypeId,
-               s_activitystream.module, concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) as createdUserFullName,
+               s_activitystream.module, concat(s_user.firstname, ' ', s_user.lastname) as createdUserFullName,
                s_user.avatarId AS createdUserAvatarId, s_activitystream.extraTypeId AS projectId, m_prj_project.name AS projectName, m_prj_project.shortname AS projectShortName,
                NULL AS log_id, NULL AS log_object_class, NULL AS log_posteddate, NULL AS log_posteduser, 
                NULL AS log_sAccountId, NULL AS log_type, NULL AS log_typeid, NULL AS log_module, 
@@ -265,7 +265,7 @@
         UNION
         (SELECT s_activitystream.id, s_activitystream.sAccountId, s_activitystream.type, s_activitystream.typeId, m_prj_task.taskkey AS itemKey, 
                s_activitystream.createdTime, s_activitystream.action, s_activitystream.createdUser, s_activitystream.nameField, s_activitystream.extraTypeId,
-               s_activitystream.module, concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) as createdUserFullName,
+               s_activitystream.module, concat(s_user.firstname, ' ', s_user.lastname) as createdUserFullName,
                s_user.avatarId AS createdUserAvatarId,
                s_activitystream.extraTypeId AS projectId, m_prj_project.name AS projectName, m_prj_project.shortname AS projectShortName,
                m_audit_log.id AS log_id, m_audit_log.object_class AS log_object_class, m_audit_log.createdTime AS log_createdTime, m_audit_log.createdUser AS log_createdUser,
@@ -286,7 +286,7 @@
         UNION
         (SELECT s_activitystream.id, s_activitystream.sAccountId, s_activitystream.type, s_activitystream.typeId, m_prj_task.taskkey AS itemKey, 
                s_activitystream.createdTime, s_activitystream.action, s_activitystream.createdUser, m_prj_task.name AS nameField, s_activitystream.extraTypeId,
-               s_activitystream.module, concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) as createdUserFullName,
+               s_activitystream.module, concat(s_user.firstname, ' ', s_user.lastname) as createdUserFullName,
                s_user.avatarId AS createdUserAvatarId,
                s_activitystream.extraTypeId AS projectId, m_prj_project.name AS projectName, m_prj_project.shortname AS projectShortName,
                NULL AS log_id, NULL AS log_object_class, NULL AS log_posteddate, NULL AS log_posteduser, 
@@ -307,7 +307,7 @@
         UNION
         (SELECT s_activitystream.id, s_activitystream.sAccountId, s_activitystream.type, s_activitystream.typeId, null AS itemKey,
                s_activitystream.createdTime, s_activitystream.action, s_activitystream.createdUser, s_activitystream.nameField, s_activitystream.extraTypeId,
-               s_activitystream.module, concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) as createdUserFullName,
+               s_activitystream.module, concat(s_user.firstname, ' ', s_user.lastname) as createdUserFullName,
                s_user.avatarId AS createdUserAvatarId,
                s_activitystream.extraTypeId AS projectId, m_prj_project.name AS projectName, m_prj_project.shortname AS projectShortName,
                m_audit_log.id AS log_id, m_audit_log.object_class AS log_object_class, m_audit_log.createdTime AS log_createdTime, m_audit_log.createdUser AS log_createdUser,
@@ -328,7 +328,7 @@
         (
         SELECT s_activitystream.id, s_activitystream.sAccountId, s_activitystream.type, s_activitystream.typeId, null AS itemKey,
                s_activitystream.createdTime, s_activitystream.action, s_activitystream.createdUser, m_prj_message.title AS nameField, s_activitystream.extraTypeId,
-               s_activitystream.module, concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) as createdUserFullName,
+               s_activitystream.module, concat(s_user.firstname, ' ', s_user.lastname) as createdUserFullName,
                s_user.avatarId AS createdUserAvatarId,
                s_activitystream.extraTypeId AS projectId, m_prj_project.name AS projectName, m_prj_project.shortname AS projectShortName,
                NULL AS log_id, NULL AS log_object_class, NULL AS log_posteddate, NULL AS log_posteduser, 
@@ -352,7 +352,7 @@
         SELECT s_activitystream.id, s_activitystream.sAccountId, s_activitystream.type, s_activitystream.typeId, null AS itemKey,
           s_activitystream.createdTime, s_activitystream.action, s_activitystream.createdUser,
           m_tracker_component.name AS nameField, s_activitystream.extraTypeId, s_activitystream.module,
-          concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) as createdUserFullName,
+          concat(s_user.firstname, ' ', s_user.lastname) as createdUserFullName,
           s_user.avatarId AS createdUserAvatarId,
           s_activitystream.extraTypeId AS projectId, m_prj_project.name AS projectName,
           m_prj_project.shortname AS projectShortName,
@@ -377,7 +377,7 @@
         SELECT s_activitystream.id, s_activitystream.sAccountId, s_activitystream.type, s_activitystream.typeId, null AS itemKey,
           s_activitystream.createdTime, s_activitystream.action, s_activitystream.createdUser,
           m_tracker_version.name AS nameField, s_activitystream.extraTypeId,
-          s_activitystream.module, concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) as createdUserFullName,
+          s_activitystream.module, concat(s_user.firstname, ' ', s_user.lastname) as createdUserFullName,
           s_user.avatarId AS createdUserAvatarId, s_activitystream.extraTypeId AS projectId,
           m_prj_project.name AS projectName, m_prj_project.shortname AS projectShortName,
           NULL AS log_id, NULL AS log_object_class, NULL AS log_posteddate, NULL AS log_posteduser,
@@ -400,7 +400,7 @@
         (
         SELECT s_activitystream.id, s_activitystream.sAccountId, s_activitystream.type, s_activitystream.typeId, null AS itemKey,
                s_activitystream.createdTime, s_activitystream.action, s_activitystream.createdUser, m_prj_risk.name AS nameField, s_activitystream.extraTypeId,
-               s_activitystream.module, concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) as createdUserFullName,
+               s_activitystream.module, concat(s_user.firstname, ' ', s_user.lastname) as createdUserFullName,
                s_user.avatarId AS createdUserAvatarId,
                s_activitystream.extraTypeId AS projectId, m_prj_project.name AS projectName, m_prj_project.shortname AS projectShortName,
                NULL AS log_id, NULL AS log_object_class, NULL AS log_posteddate, NULL AS log_posteduser, 
@@ -423,7 +423,7 @@
         (
         SELECT s_activitystream.id, s_activitystream.sAccountId, s_activitystream.type, s_activitystream.typeId, null AS itemKey,
                s_activitystream.createdTime, s_activitystream.action, s_activitystream.createdUser, NULL AS nameField, s_activitystream.extraTypeId,
-               s_activitystream.module, concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) as createdUserFullName,
+               s_activitystream.module, concat(s_user.firstname, ' ', s_user.lastname) as createdUserFullName,
                s_user.avatarId AS createdUserAvatarId,
                s_activitystream.extraTypeId AS projectId, m_prj_project.name AS projectName, m_prj_project.shortname AS projectShortName,
                NULL AS log_id, NULL AS log_object_class, NULL AS log_posteddate, NULL AS log_posteduser, 
@@ -463,7 +463,7 @@
     <select id="getAccountInfoOfProject" resultMap="com.mycollab.module.user.dao.BillingAccountMapper.BaseResultMap"
             parameterType="java.lang.Integer" lang="velocity">
         <![CDATA[
-        SELECT s_account.subdomain, s_account.id, s_account.logoPath
+        SELECT s_account.subDomain, s_account.id, s_account.logoPath
             FROM s_account, m_prj_project
             WHERE m_prj_project.sAccountId=s_account.id AND
                   m_prj_project.id=@{projectId,jdbcType=NUMERIC}
@@ -487,15 +487,15 @@
         s_relay_email_notification.changeComment,
         s_account.logoPath AS accountLogo,
         m_tracker_bug.projectId AS projectId,
-        concat(changeUser.firstname, ' ', LTRIM(IFNULL(changeUser.middlename, '')), changeUser.lastname) as changeByUserFullName,
+        concat(changeUser.firstname, ' ', changeUser.lastname) as changeByUserFullName,
         notifier.firstname AS notifiers_firstname, notifier.lastname AS notifiers_lastname,
         notifier.username AS notifiers_username, notifier.timezone AS notifiers_timezone,
         notifier.email AS notifiers_email, notifier.language AS notifiers_language, s_relay_email_notification.sAccountId AS notifiers_accountId
         FROM s_relay_email_notification
             INNER JOIN s_user AS changeUser ON (changeUser.username=s_relay_email_notification.changeby)
             INNER JOIN m_monitor_item ON (m_monitor_item.typeId=s_relay_email_notification.typeId AND s_relay_email_notification.type=m_monitor_item.type)
-            INNER JOIN s_user AS notifier ON (m_monitor_item.user=notifier.username AND notifier.status='EmailVerified')
-            INNER JOIN m_tracker_bug ON  (s_relay_email_notification.type="Project-Bug" AND m_tracker_bug.id=s_relay_email_notification.typeId)
+            INNER JOIN s_user AS notifier ON (m_monitor_item.username=notifier.username AND notifier.status='EmailVerified')
+            INNER JOIN m_tracker_bug ON  (s_relay_email_notification.type='Project-Bug' AND m_tracker_bug.id=s_relay_email_notification.typeId)
             INNER JOIN s_account ON (s_relay_email_notification.sAccountId=s_account.id))
         UNION
         (SELECT s_relay_email_notification.id,
@@ -508,15 +508,15 @@
         s_relay_email_notification.changeComment,
         s_account.logoPath AS accountLogo,
         m_prj_task.projectId AS projectId,
-        concat(changeUser.firstname, ' ', LTRIM(IFNULL(changeUser.middlename, '')), changeUser.lastname) as changeByUserFullName,
+        concat(changeUser.firstname, ' ', changeUser.lastname) as changeByUserFullName,
         notifier.firstname AS notifiers_firstname, notifier.lastname AS notifiers_lastname,
         notifier.username AS notifiers_username, notifier.timezone AS notifiers_timezone,
         notifier.email AS notifiers_email, notifier.language AS notifiers_language, s_relay_email_notification.sAccountId AS notifiers_accountId
         FROM s_relay_email_notification
             LEFT OUTER JOIN s_user AS changeUser ON (changeUser.username=s_relay_email_notification.changeby)
             INNER JOIN m_monitor_item ON (m_monitor_item.typeId=s_relay_email_notification.typeId AND s_relay_email_notification.type=m_monitor_item.type)
-            INNER JOIN s_user AS notifier ON (m_monitor_item.user=notifier.username AND notifier.status='EmailVerified')
-            INNER JOIN m_prj_task ON (s_relay_email_notification.type="Project-Task" AND m_prj_task.id=s_relay_email_notification.typeId)
+            INNER JOIN s_user AS notifier ON (m_monitor_item.username=notifier.username AND notifier.status='EmailVerified')
+            INNER JOIN m_prj_task ON (s_relay_email_notification.type='Project-Task' AND m_prj_task.id=s_relay_email_notification.typeId)
             INNER JOIN s_account ON (s_relay_email_notification.sAccountId=s_account.id))
         UNION
         (SELECT s_relay_email_notification.id,
@@ -529,13 +529,13 @@
         s_relay_email_notification.changeComment,
         s_account.logoPath AS accountLogo,
         m_prj_message.projectId AS projectId,
-        concat(changeUser.firstname, ' ', LTRIM(IFNULL(changeUser.middlename, '')), changeUser.lastname) as changeByUserFullName,
+        concat(changeUser.firstname, ' ', changeUser.lastname) as changeByUserFullName,
         NULL AS notifiers_firstname, NULL AS notifiers_lastname, NULL AS notifiers_username,
         NULL AS notifiers_timezone, NULL AS notifiers_email,  NULL AS notifiers_language,
         NULL AS notifiers_accountId
         FROM s_relay_email_notification
             INNER JOIN s_user AS changeUser ON (changeUser.username=s_relay_email_notification.changeby AND changeUser.status='EmailVerified')
-            INNER JOIN m_prj_message ON (s_relay_email_notification.type="Project-Message" AND m_prj_message.id=s_relay_email_notification.typeId)
+            INNER JOIN m_prj_message ON (s_relay_email_notification.type='Project-Message' AND m_prj_message.id=s_relay_email_notification.typeId)
             INNER JOIN s_account ON (s_relay_email_notification.sAccountId=s_account.id))
         UNION
         (SELECT s_relay_email_notification.id,
@@ -548,13 +548,13 @@
         s_relay_email_notification.changeComment,
         s_account.logoPath AS accountLogo,
         m_prj_milestone.projectId AS projectId,
-        concat(changeUser.firstname, ' ', LTRIM(IFNULL(changeUser.middlename, '')), changeUser.lastname) as changeByUserFullName,
+        concat(changeUser.firstname, ' ', changeUser.lastname) as changeByUserFullName,
         NULL AS notifiers_firstname, NULL AS notifiers_lastname,
         NULL AS notifiers_username, NULL AS notifiers_timezone,
         NULL AS notifiers_email, NULL AS notifiers_language, NULL AS notifiers_accountId
         FROM s_relay_email_notification
             INNER JOIN s_user AS changeUser ON (changeUser.username=s_relay_email_notification.changeby AND changeUser.status='EmailVerified')
-            INNER JOIN m_prj_milestone ON (s_relay_email_notification.type="Project-Milestone" AND m_prj_milestone.id=s_relay_email_notification.typeId)
+            INNER JOIN m_prj_milestone ON (s_relay_email_notification.type='Project-Milestone' AND m_prj_milestone.id=s_relay_email_notification.typeId)
             INNER JOIN s_account ON (s_relay_email_notification.sAccountId=s_account.id))
         UNION
         (SELECT s_relay_email_notification.id,
@@ -567,13 +567,13 @@
         s_relay_email_notification.changeComment,
         s_account.logoPath AS accountLogo,
         m_prj_risk.projectId AS projectId,
-        concat(changeUser.firstname, ' ', LTRIM(IFNULL(changeUser.middlename, '')), changeUser.lastname) as changeByUserFullName,
+        concat(changeUser.firstname, ' ', changeUser.lastname) as changeByUserFullName,
         NULL AS notifiers_firstname, NULL AS notifiers_lastname,
         NULL AS notifiers_username, NULL AS notifiers_timezone,
         NULL AS notifiers_email, NULL AS notifiers_language, NULL AS notifiers_accountId
         FROM s_relay_email_notification
             INNER JOIN s_user AS changeUser ON (changeUser.username=s_relay_email_notification.changeby AND changeUser.status='EmailVerified')
-            INNER JOIN m_prj_risk ON (s_relay_email_notification.type="Project-Risk" AND m_prj_risk.id=s_relay_email_notification.typeId)
+            INNER JOIN m_prj_risk ON (s_relay_email_notification.type='Project-Risk' AND m_prj_risk.id=s_relay_email_notification.typeId)
             INNER JOIN s_account ON (s_relay_email_notification.sAccountId=s_account.id))
         UNION
         (SELECT s_relay_email_notification.id,
@@ -586,13 +586,13 @@
         s_relay_email_notification.changeComment,
         s_account.logoPath AS accountLogo,
         m_tracker_component.projectId AS projectId,
-        concat(changeUser.firstname, ' ', LTRIM(IFNULL(changeUser.middlename, '')), changeUser.lastname) as changeByUserFullName,
+        concat(changeUser.firstname, ' ', changeUser.lastname) as changeByUserFullName,
         NULL AS notifiers_firstname, NULL AS notifiers_lastname, NULL AS notifiers_username,
         NULL AS notifiers_timezone, NULL AS notifiers_email, NULL AS notifiers_language,
         NULL AS notifiers_accountId
         FROM s_relay_email_notification
             INNER JOIN s_user AS changeUser ON (changeUser.username=s_relay_email_notification.changeby AND changeUser.status='EmailVerified')
-            INNER JOIN m_tracker_component ON (s_relay_email_notification.type="Project-Component" AND m_tracker_component.id=s_relay_email_notification.typeId)
+            INNER JOIN m_tracker_component ON (s_relay_email_notification.type='Project-Component' AND m_tracker_component.id=s_relay_email_notification.typeId)
             INNER JOIN s_account ON (s_relay_email_notification.sAccountId=s_account.id))
         UNION
         (SELECT s_relay_email_notification.id,
@@ -605,13 +605,13 @@
         s_relay_email_notification.changeComment,
         s_account.logoPath AS accountLogo,
         m_tracker_version.projectId AS projectId,
-        concat(changeUser.firstname, ' ', LTRIM(IFNULL(changeUser.middlename, '')), changeUser.lastname) as changeByUserFullName,
+        concat(changeUser.firstname, ' ', changeUser.lastname) as changeByUserFullName,
         NULL AS notifiers_firstname, NULL AS notifiers_lastname, NULL AS notifiers_username,
         NULL AS notifiers_timezone, NULL AS notifiers_email, NULL AS notifiers_language,
         NULL AS notifiers_accountId
         FROM s_relay_email_notification
             INNER JOIN s_user AS changeUser ON (changeUser.username=s_relay_email_notification.changeby AND changeUser.status='EmailVerified')
-            INNER JOIN m_tracker_version ON (s_relay_email_notification.type="Project-Version" AND m_tracker_version.id=s_relay_email_notification.typeId)
+            INNER JOIN m_tracker_version ON (s_relay_email_notification.type='Project-Version' AND m_tracker_version.id=s_relay_email_notification.typeId)
             INNER JOIN s_account ON (s_relay_email_notification.sAccountId=s_account.id))
         ]]>
     </select>

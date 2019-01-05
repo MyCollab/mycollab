@@ -20,8 +20,10 @@
 package com.mycollab.module.ecm.spring
 
 import com.mycollab.module.ecm.ContentSessionFactory
+import org.apache.jackrabbit.core.persistence.pool.PostgreSQLPersistenceManager
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.context.annotation.DependsOn
 import org.springframework.core.io.ClassPathResource
 import org.springframework.core.io.FileSystemResource
 import org.springframework.extensions.jcr.JcrTemplate
@@ -33,6 +35,7 @@ import javax.jcr.SimpleCredentials
  * @since 4.6.0
  */
 @Configuration
+@DependsOn("appContextUtil")
 class EcmConfiguration {
 
     @Bean

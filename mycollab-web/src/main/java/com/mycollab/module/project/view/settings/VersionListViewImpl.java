@@ -41,6 +41,7 @@ import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.web.ui.*;
 import com.mycollab.vaadin.web.ui.table.AbstractPagedBeanTable;
 import com.mycollab.vaadin.web.ui.table.DefaultPagedBeanTable;
+import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Label;
@@ -101,7 +102,7 @@ public class VersionListViewImpl extends AbstractVerticalPageView implements Ver
                 b.addStyleName(WebThemes.LINK_OVERDUE);
             }
             b.setDescription(ProjectTooltipGenerator.generateToolTipVersion(UserUIContext.getUserLocale(), AppUI.getDateFormat(),
-                    version, AppUI.getSiteUrl(), UserUIContext.getUserTimeZone()));
+                    version, AppUI.getSiteUrl(), UserUIContext.getUserTimeZone()), ContentMode.HTML);
             return b;
         });
 

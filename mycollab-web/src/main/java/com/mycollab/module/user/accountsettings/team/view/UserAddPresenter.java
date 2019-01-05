@@ -75,7 +75,7 @@ public class UserAddPresenter extends AbstractPresenter<UserAddView> {
 
         UserService userService = AppContextUtil.getSpringBean(UserService.class);
         user.setAccountId(AppUI.getAccountId());
-        user.setSubdomain(AppUI.getSubDomain());
+        user.setSubDomain(AppUI.getSubDomain());
 
         if (user.getStatus() == null) {
             user.setStatus(UserStatusConstants.EMAIL_VERIFIED_REQUEST);
@@ -90,7 +90,7 @@ public class UserAddPresenter extends AbstractPresenter<UserAddView> {
                 user.setPassword(RandomPasswordGenerator.generateRandomPassword());
             }
             String userPassword = user.getPassword();
-            userService.saveUserAccount(user, user.getRoleid(), AppUI.getSubDomain(), AppUI.getAccountId(), UserUIContext.getUsername(), true);
+            userService.saveUserAccount(user, user.getRoleId(), AppUI.getSubDomain(), AppUI.getAccountId(), UserUIContext.getUsername(), true);
             UI.getCurrent().addWindow(new NewUserAddedWindow(user, userPassword));
         } else {
             userService.updateUserAccount(user, AppUI.getAccountId());

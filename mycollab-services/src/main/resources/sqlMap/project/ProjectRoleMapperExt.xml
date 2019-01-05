@@ -16,8 +16,8 @@
             ${searchCriteria.id.operation} m_prj_role.id ${searchCriteria.id.compareOperator} @{searchCriteria.id.value,jdbcType=NUMERIC}
         #end
         
-        #ifnotnull($searchCriteria.rolename)
-            ${searchCriteria.rolename.operation} m_prj_role.rolename LIKE '%${searchCriteria.rolename.value}%'
+        #ifnotnull($searchCriteria.roleName)
+            ${searchCriteria.roleName.operation} m_prj_role.roleName LIKE '%${searchCriteria.roleName.value}%'
         #end
         
         #ifnotnull($searchCriteria.saccountid)

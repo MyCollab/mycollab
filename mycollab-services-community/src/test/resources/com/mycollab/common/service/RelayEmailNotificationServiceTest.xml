@@ -12,7 +12,7 @@
         registerStatus="Active" username="hainguyen" accountId="1"
         registeredTime="2013-04-10 13:29:23" />
 
-    <m_monitor_item id="1" user="hainguyen" createdTime="2013-04-10 13:29:23" type="a" typeId="1" sAccountId="1"/>
+    <m_monitor_item id="1" username="hainguyen" createdTime="2013-04-10 13:29:23" type="a" typeId="1" sAccountId="1"/>
 
     <s_relay_email_notification typeId="1" sAccountId="1" type="a" action="a" changeBy="hainguyen" id="1" />
 </dataset>

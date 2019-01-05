@@ -36,7 +36,7 @@ class MessageUrlResolver : ProjectUrlResolver() {
         override fun handlePage(vararg params: String) {
             val projectId = UrlTokenizer(params[0]).getInt()
             val searchCriteria = MessageSearchCriteria()
-            searchCriteria.projectids = SetSearchField(projectId)
+            searchCriteria.projectIds = SetSearchField(projectId)
             val chain = PageActionChain(ProjectScreenData.Goto(projectId),
                     MessageScreenData.Search(searchCriteria))
             EventBusFactory.getInstance().post(ProjectEvent.GotoMyProject(this, chain))

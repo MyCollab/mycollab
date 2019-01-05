@@ -207,8 +207,8 @@ public class UserListViewImpl extends AbstractVerticalPageView implements UserLi
         memberInfo.addComponent(memberLinkLbl);
         memberInfo.addComponent(ELabel.hr());
 
-        if (member.getRoleid() != null) {
-            String memberRoleLinkPrefix = String.format("<a href=\"%s\"", AccountLinkGenerator.generateRoleLink(member.getRoleid()));
+        if (member.getRoleId() != null) {
+            String memberRoleLinkPrefix = String.format("<a href=\"%s\"", AccountLinkGenerator.generateRoleLink(member.getRoleId()));
             ELabel memberRole = new ELabel(ContentMode.HTML).withStyleName(UIConstants.TEXT_ELLIPSIS);
             if (Boolean.TRUE.equals(member.isAccountOwner())) {
                 memberRole.setValue(String.format("%sstyle=\"color: #B00000;\">%s</a>", memberRoleLinkPrefix,

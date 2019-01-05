@@ -44,7 +44,7 @@
         <![CDATA[
         SELECT 'Project-Task' as type, m_prj_project.id AS projectId, m_prj_project.name AS projectName,
             m_prj_task.name AS name, m_prj_task.assignUser AS assignUser,
-            concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) as assignUserFullName,
+            concat(s_user.firstname, ' ', s_user.lastname) as assignUserFullName,
             s_user.avatarId AS assignUserAvatarId, m_monitor_item.createdTime AS createdTime,
             m_prj_task.id AS typeId, m_prj_task.dueDate, m_prj_task.status
                
@@ -59,7 +59,7 @@
         <![CDATA[
         SELECT 'Project-Bug' as type, m_prj_project.id AS projectId, m_prj_project.name AS projectName,
             m_tracker_bug.name AS name, s_user.username AS assignUser,
-            concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) as assignUserFullName,
+            concat(s_user.firstname, ' ', s_user.lastname) as assignUserFullName,
             s_user.avatarId AS assignUserAvatarId, m_monitor_item.createdTime AS createdTime,
             m_tracker_bug.id AS typeId, m_tracker_bug.dueDate, m_tracker_bug.status
                
@@ -74,7 +74,7 @@
         <![CDATA[
         SELECT 'Project-Risk' as type, m_prj_project.id AS projectId, m_prj_project.name AS projectName,
             m_prj_risk.name AS name, s_user.username AS assignUser,
-            concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) as assignUserFullName,
+            concat(s_user.firstname, ' ', s_user.lastname) as assignUserFullName,
             s_user.avatarId AS assignUserAvatarId, m_monitor_item.createdTime AS createdTime,
             m_prj_risk.id AS typeId, m_prj_risk.dueDate, m_prj_risk.status
                

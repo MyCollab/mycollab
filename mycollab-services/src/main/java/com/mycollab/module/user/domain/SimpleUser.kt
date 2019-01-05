@@ -27,7 +27,7 @@ import com.google.common.base.MoreObjects
  */
 class SimpleUser : User() {
 
-    var roleid: Int? = null
+    var roleId: Int? = null
 
     var roleName: String? = null
 
@@ -37,7 +37,7 @@ class SimpleUser : User() {
     @NotBindable
     var isAccountOwner: Boolean? = null
 
-    var subdomain: String? = null
+    var subDomain: String? = null
     var accountId: Int? = null
     var registerstatus: String? = null
     var inviteUser: String? = null
@@ -46,7 +46,7 @@ class SimpleUser : User() {
     var displayName: String? = null
         get() {
             if (StringUtils.isBlank(field)) {
-                val result = firstname + " " + lastname
+                val result = "$firstname $lastname"
                 if (StringUtils.isBlank(result)) {
                     val displayName = username
                     return StringUtils.extractNameFromEmail(displayName)
@@ -67,7 +67,7 @@ class SimpleUser : User() {
     var canSendEmail: Boolean? = null
 
     enum class Field {
-        displayName, roleName, roleid;
+        displayName, roleName, roleId;
 
         fun equalTo(value: Any): Boolean = name == value
     }

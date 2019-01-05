@@ -238,7 +238,7 @@ public class MessageListViewImpl extends AbstractVerticalPageView implements Mes
 
         private void doSearch() {
             messageSearchCriteria = new MessageSearchCriteria();
-            messageSearchCriteria.setProjectids(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
+            messageSearchCriteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
             messageSearchCriteria.setMessage(StringSearchField.and(nameField.getValue()));
             notifySearchHandler(messageSearchCriteria);
         }

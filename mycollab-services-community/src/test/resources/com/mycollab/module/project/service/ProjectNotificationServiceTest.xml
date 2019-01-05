@@ -5,7 +5,7 @@
                paymentMethod="Credit Card" status="Active"/>
 
     <s_user username="admin" firstname="Nguyen" lastname="Hai"
-            middlename="Phuc" email="hainguyen@esofthead.com" status="EmailVerified"/>
+            email="hainguyen@esofthead.com" status="EmailVerified"/>
 
     <s_user username="user2" firstname="A" lastname="B"
             email="user2@esofthead.com" status="EmailVerified"/>
@@ -35,11 +35,11 @@
                    projectId="2" name="AAA" bugkey="20"/>
 
     <m_monitor_item id="1" createdTime="2013-04-10 13:29:23" type="Project-Task" typeId="1" sAccountId="1"
-                    user="admin"/>
+                    username="admin"/>
     <m_monitor_item id="2" createdTime="2013-04-10 13:29:23" type="Project-Task" typeId="1" sAccountId="1"
-                    user="user2"/>
+                    username="user2"/>
     <m_monitor_item id="3" createdTime="2013-04-10 13:29:23" type="Project-Task" typeId="1" sAccountId="1"
-                    user="user2"/>
+                    username="user2"/>
 
     <s_relay_email_notification id="1" sAccountId="1" type="Project-Task" typeId="1" action="Create" changeBy="admin"/>
 </dataset>

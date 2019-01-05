@@ -110,12 +110,7 @@ class BugEditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<Sim
 
             return tf;
         } else if (propertyId.equals("milestoneid")) {
-            final MilestoneComboBox milestoneBox = new MilestoneComboBox();
-//            milestoneBox.addValueChangeListener(valueChangeEvent -> {
-//                String milestoneName = milestoneBox.getItemCaption(milestoneBox.getValue());
-//                beanItem.setMilestoneName(milestoneName);
-//            });
-            return milestoneBox;
+            return new MilestoneComboBox();
         } else if (BugWithBLOBs.Field.originalestimate.equalTo(propertyId) ||
                 (BugWithBLOBs.Field.remainestimate.equalTo(propertyId))) {
             return new DoubleField();

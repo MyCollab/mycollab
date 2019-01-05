@@ -69,11 +69,8 @@ class BugServiceTest : IntegrationServiceTest() {
     @Test
     fun testGetExtBug() {
         val bug = bugService.findById(1, 1)
-        assertThat(bug!!.loguserFullName).isEqualTo("Nguyen Hai")
-        assertThat(bug.assignuserFullName).isEqualTo("Nguyen Hai")
-        assertThat(bug.affectedVersions!!.size).isEqualTo(1)
-        assertThat(bug.fixedVersions!!.size).isEqualTo(2)
-        assertThat(bug.components!!.size).isEqualTo(1)
+        assertThat(bug).extracting("loguserFullName", "assignuserFullName", "affectedVersions.size", "fixedVersions.size", "components.size")
+                .contains("Nguyen Hai", "Nguyen Hai", 1, 2, 1)
     }
 
     @DataSet
@@ -150,7 +147,8 @@ class BugServiceTest : IntegrationServiceTest() {
         bug.projectid = 1
         bug.saccountid = 1
         val bugId = bugService.saveWithSession(bug, "admin")
+
         val expectedBug = bugService.findById(bugId, 1);
-        assertThat(expectedBug!!.name).isEqualTo("summary4")
+        assertThat(expectedBug).extracting("name").contains("summary4")
     }
 }

@@ -10,9 +10,9 @@
 
     <sql id="selectBillingAccount">
         <![CDATA[
-        SELECT s_account.id, s_account.createdTime, s_account.billingPlanId, s_account.subdomain,
+        SELECT s_account.id, s_account.createdTime, s_account.billingPlanId, s_account.subDomain,
             s_account.accountName, s_account.status,
-            s_account.sitename, s_account.logoPath, s_account.defaultTimezone,
+            s_account.siteName, s_account.logoPath, s_account.defaultTimezone,
             s_account.defaultCurrencyId, s_account.defaultYYMMDDFormat, s_account.defaultMMDDFormat,
             s_account.defaultHumanDateFormat, s_account.defaultLanguageTag,
             s_account.logoPath, s_account.faviconPath, s_account.displayEmailPublicly,
@@ -35,7 +35,7 @@
 
     <select id="getAccountByDomain" resultMap="SimpleBillingAccountResult" parameterType="java.lang.String">
         <include refid="selectBillingAccount" />
-        WHERE s_account.subdomain = #{domainName}
+        WHERE s_account.subDomain = #{domainName}
     </select>
 
     <select id="getDefaultAccountByDomain" resultMap="SimpleBillingAccountResult">
