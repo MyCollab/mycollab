@@ -228,7 +228,7 @@ public class ProjectActivityStreamPagedList extends AbstractBeanPagedList<Projec
 
     @Override
     protected MHorizontalLayout createPageControls() {
-        this.controlBarWrapper = new MHorizontalLayout().withFullHeight().withStyleName("page-controls");
+        controlBarWrapper = new MHorizontalLayout().withFullHeight().withStyleName("page-controls");
 
         MButton prevBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_NAV_NEWER), clickEvent -> pageChange(currentPage - 1))
                 .withWidth("64px").withStyleName(WebThemes.BUTTON_ACTION);

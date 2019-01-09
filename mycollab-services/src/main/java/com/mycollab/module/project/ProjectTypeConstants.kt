@@ -25,6 +25,8 @@ object ProjectTypeConstants {
 
     const val PROJECT_ROLE = "project_role"
 
+    const val CLIENT = "Project-Client"
+
     const val TICKET = "Project-Assignment"
 
     const val TASK = "Project-Task"

@@ -22,6 +22,8 @@ import com.vaadin.icons.VaadinIcons;
 import com.vaadin.ui.IconGenerator;
 import com.vaadin.ui.StyleGenerator;
 
+import static com.mycollab.module.project.i18n.OptionI18nEnum.Priority.*;
+
 /**
  * @author MyCollab Ltd.
  * @since 1.0
@@ -30,11 +32,10 @@ public class PriorityComboBox extends I18nValueComboBox {
     private static final long serialVersionUID = 1L;
 
     public PriorityComboBox() {
-        super(Priority.class, Priority.Urgent, Priority.High, Priority.Medium, Priority.Low, Priority.None);
+        super(Priority.class, Urgent, High, Medium, Low, None);
         this.setWidth("150px");
-        this.setItemIconGenerator((IconGenerator<String>) item -> {
-            if (item.equals(Priority.Urgent.name()) || item.equals(Priority.High.name())
-                    || item.equals(Priority.Medium.name())) {
+        this.setItemIconGenerator((IconGenerator<Enum>) item -> {
+            if (item == Urgent || item == High || item == Medium) {
                 return VaadinIcons.ARROW_UP;
             } else {
                 return VaadinIcons.ARROW_DOWN;

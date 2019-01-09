@@ -54,7 +54,7 @@
                 LIMIT 1)
         #end
         #ifnotnull($searchCriteria.types)
-            ${searchCriteria.types.operation} "Project-Task" IN
+            ${searchCriteria.types.operation} 'Project-Task' IN
             #repeat(${searchCriteria.types.values} $type "," "(" ")")
                 @{type}
             #end
@@ -98,7 +98,7 @@
                 LIMIT 1)
         #end
         #ifnotnull($searchCriteria.types)
-            ${searchCriteria.types.operation} "Project-Message" IN
+            ${searchCriteria.types.operation} 'Project-Message' IN
             #repeat(${searchCriteria.types.values} $type "," "(" ")")
                 @{type}
             #end
@@ -141,7 +141,7 @@
                 LIMIT 1)
         #end
         #ifnotnull($searchCriteria.types)
-            ${searchCriteria.types.operation} "Project-Milestone" IN
+            ${searchCriteria.types.operation} 'Project-Milestone' IN
             #repeat(${searchCriteria.types.values} $type "," "(" ")")
                 @{type}
             #end
@@ -187,7 +187,7 @@
                 LIMIT 1)
         #end
         #ifnotnull($searchCriteria.types)
-            ${searchCriteria.types.operation} "Project-Bug" IN
+            ${searchCriteria.types.operation} 'Project-Bug' IN
             #repeat(${searchCriteria.types.values} $type "," "(" ")")
                 @{type}
             #end
@@ -232,7 +232,7 @@
                 LIMIT 1)
         #end
         #ifnotnull($searchCriteria.types)
-            ${searchCriteria.types.operation} "Project-Component" IN
+            ${searchCriteria.types.operation} 'Project-Component' IN
             #repeat(${searchCriteria.types.values} $type "," "(" ")")
                 @{type}
             #end
@@ -277,7 +277,7 @@
                 LIMIT 1)
         #end
         #ifnotnull($searchCriteria.types)
-            ${searchCriteria.types.operation} "Project-Version" IN
+            ${searchCriteria.types.operation} 'Project-Version' IN
             #repeat(${searchCriteria.types.values} $type "," "(" ")")
                 @{type}
             #end
@@ -323,7 +323,7 @@
                 LIMIT 1)
         #end
         #ifnotnull($searchCriteria.types)
-            ${searchCriteria.types.operation} "Project-Risk" IN
+            ${searchCriteria.types.operation} 'Project-Risk' IN
             #repeat(${searchCriteria.types.values} $type "," "(" ")")
                 @{type}
             #end
@@ -361,7 +361,7 @@
         m_prj_message.message AS description, m_prj_project.id AS projectId, m_prj_project.name AS projectName,
         m_prj_project.shortname AS projectShortName, NULL AS extraTypeId
         FROM m_prj_message
-        LEFT OUTER JOIN s_user ON (m_prj_message.posteduser = s_user.username)
+        LEFT OUTER JOIN s_user ON (m_prj_message.createdUser = s_user.username)
         INNER JOIN m_prj_project ON (m_prj_message.projectId = m_prj_project.id)
     </sql>
 

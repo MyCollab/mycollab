@@ -22,7 +22,6 @@ package com.mycollab.vaadin.web.ui;
  */
 public class WebThemes {
     public static final String BOX = "box";
-    public static final String HEADER_VIEW = "hdr-view";
     public static final String CUSTOM_FIELD_COMPONENT = "customFieldComponent";
     public static final String CUSTOM_FIELD_SECTION = "customFieldSection";
     public static final String POPUP_WITHOUT_INDICATOR = "nonPopupIndicator";

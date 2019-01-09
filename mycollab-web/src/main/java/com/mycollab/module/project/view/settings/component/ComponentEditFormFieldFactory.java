@@ -22,12 +22,12 @@ import com.mycollab.vaadin.ui.GenericBeanForm;
 import com.vaadin.data.HasValue;
 import com.vaadin.ui.RichTextArea;
 import com.vaadin.ui.TextField;
+import org.vaadin.viritin.fields.MTextField;
 
 /**
  * @author MyCollab Ltd
  * @since 5.3.0
  */
-// TODO
 public class ComponentEditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<Component> {
     private static final long serialVersionUID = 1L;
 
@@ -38,13 +38,9 @@ public class ComponentEditFormFieldFactory extends AbstractBeanFieldGroupEditFie
     @Override
     protected HasValue<?> onCreateField(final Object propertyId) {
         if (Component.Field.name.equalTo(propertyId)) {
-            final TextField tf = new TextField();
-//            if (isValidateForm) {
-//                tf.setNullRepresentation("");
-//                tf.setRequired(true);
+            final MTextField tf = new MTextField().withRequiredIndicatorVisible(true);
 //                tf.setRequiredError(UserUIContext.getMessage(ErrorI18nEnum.FIELD_MUST_NOT_NULL,
 //                        UserUIContext.getMessage(GenericI18Enum.FORM_NAME)));
-//            }
             return tf;
         } else if (Component.Field.description.equalTo(propertyId)) {
             return new RichTextArea();

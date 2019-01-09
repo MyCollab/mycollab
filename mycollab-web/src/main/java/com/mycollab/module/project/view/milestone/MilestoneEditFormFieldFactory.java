@@ -38,7 +38,6 @@ import static com.mycollab.module.project.i18n.OptionI18nEnum.MilestoneStatus.*;
  * @author MyCollab Ltd.
  * @since 3.0
  */
-// TODO
 public class MilestoneEditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<SimpleMilestone> {
     private static final long serialVersionUID = 1L;
 
@@ -52,7 +51,7 @@ public class MilestoneEditFormFieldFactory extends AbstractBeanFieldGroupEditFie
     protected HasValue<?> onCreateField(Object propertyId) {
         if (Milestone.Field.assignuser.equalTo(propertyId)) {
             ProjectMemberSelectionField memberSelectionField = new ProjectMemberSelectionField();
-//            memberSelectionField.setRequired(true);
+            memberSelectionField.setRequiredIndicatorVisible(true);
 //            memberSelectionField.setRequiredError("Please select an assignee");
             return memberSelectionField;
         } else if (propertyId.equals("status")) {
@@ -103,6 +102,7 @@ public class MilestoneEditFormFieldFactory extends AbstractBeanFieldGroupEditFie
                         return VaadinIcons.MINUS_CIRCLE;
                 }
             });
+            this.setValue(InProgress);
         }
     }
 

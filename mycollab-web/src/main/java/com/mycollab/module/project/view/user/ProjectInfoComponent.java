@@ -74,7 +74,8 @@ import org.vaadin.viritin.layouts.MVerticalLayout;
 public class ProjectInfoComponent extends MHorizontalLayout {
 
     public ProjectInfoComponent(SimpleProject project) {
-        this.withMargin(false).withFullWidth();
+        this.withMargin(false).withFullWidth().withStyleName("top-panel");
+        setId("tab-content-header");
         Component projectIcon = ProjectAssetsUtil.editableProjectLogoComp(project.getShortname(), project.getId(), project.getAvatarid(), 32);
         this.with(projectIcon).withAlign(projectIcon, Alignment.TOP_LEFT);
 
@@ -102,7 +103,7 @@ public class ProjectInfoComponent extends MHorizontalLayout {
             homepageLbl.setDescription(UserUIContext.getMessage(ProjectI18nEnum.FORM_HOME_PAGE));
         }
 
-        if (project.getAccountid() != null && !SiteConfiguration.isCommunityEdition()) {
+        if (project.getClientid() != null && !SiteConfiguration.isCommunityEdition()) {
             Div clientDiv = new Div();
             if (project.getClientAvatarId() == null) {
                 clientDiv.appendText(VaadinIcons.INSTITUTION.getHtml() + " ");
@@ -111,7 +112,7 @@ public class ProjectInfoComponent extends MHorizontalLayout {
                         .setCSSClass(UIConstants.CIRCLE_BOX);
                 clientDiv.appendChild(clientImg).appendChild(DivLessFormatter.EMPTY_SPACE);
             }
-            clientDiv.appendChild(new A(ProjectLinkGenerator.generateClientPreviewLink(project.getAccountid()))
+            clientDiv.appendChild(new A(ProjectLinkGenerator.generateClientPreviewLink(project.getClientid()))
                     .appendText(StringUtils.trim(project.getClientName(), 30, true)));
             ELabel accountBtn = ELabel.html(clientDiv.write()).withStyleName(WebThemes.BUTTON_LINK)
                     .withUndefinedWidth();

@@ -2313,12 +2313,6 @@ div.v-window {
 	border: 1px solid #e5e5e5;
 }
 
-.v-panel-content {
-	border-style: solid;
-	border-width: 0px 1px 0px 1px;
-	border-color: #e5e5e5;
-}
-
 .v-filterselect-suggestpopup .gwt-MenuItem-selected {
 	background-image: none;
 }
@@ -17047,12 +17041,6 @@ div.v-window {
 	border: 1px solid #e5e5e5;
 }
 
-.v-panel-content {
-	border-style: solid;
-	border-width: 0px 1px 0px 1px;
-	border-color: #e5e5e5;
-}
-
 .v-filterselect-suggestpopup .gwt-MenuItem-selected {
 	background-image: none;
 }
@@ -19789,6 +19777,8 @@ div.v-csslayout.rightsidebar-layout .content-wrap {
 	display: inline-block;
 }
 
-.debugComp {
-	background-color: red;
+.v-button.closed-button {
+	text-align: right;
+	padding-top: 5px;
+	padding-right: 5px;
 }

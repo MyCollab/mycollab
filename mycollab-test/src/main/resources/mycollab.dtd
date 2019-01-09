@@ -571,8 +571,8 @@
 <!ELEMENT m_prj_invoice EMPTY>
 <!ATTLIST m_prj_invoice
     id CDATA #REQUIRED
-    createdTime CDATA #REQUIRED
-    lastUpdatedTime CDATA #REQUIRED
+    createdTime CDATA #IMPLIED
+    lastUpdatedTime CDATA #IMPLIED
     createdUser CDATA #REQUIRED
     assignUser CDATA #IMPLIED
     amount CDATA #REQUIRED
@@ -596,8 +596,8 @@
     projectId CDATA #REQUIRED
     sAccountId CDATA #REQUIRED
     lead CDATA #IMPLIED
-    createdTime CDATA #REQUIRED
-    lastUpdatedTime CDATA #REQUIRED
+    createdTime CDATA #IMPLIED
+    lastUpdatedTime CDATA #IMPLIED
 >
 
 <!ELEMENT m_prj_member EMPTY>
@@ -605,7 +605,7 @@
     id CDATA #REQUIRED
     username CDATA #REQUIRED
     projectId CDATA #REQUIRED
-    createdTime CDATA #REQUIRED
+    createdTime CDATA #IMPLIED
     projectRoleId CDATA #IMPLIED
     isAdmin CDATA #REQUIRED
     status CDATA #REQUIRED
@@ -665,9 +665,9 @@
     id CDATA #REQUIRED
     name CDATA #REQUIRED
     createUser CDATA #IMPLIED
-    accountId CDATA #IMPLIED
+    clientId CDATA #IMPLIED
     priority CDATA #IMPLIED
-    shortname CDATA #REQUIRED
+    shortName CDATA #REQUIRED
     planStartDate CDATA #IMPLIED
     planEndDate CDATA #IMPLIED
     targetBudget CDATA #IMPLIED
@@ -678,7 +678,7 @@
     description CDATA #IMPLIED
     defaultBillingRate CDATA #IMPLIED
     defaultOvertimeBillingRate CDATA #IMPLIED
-    currencyid CDATA #IMPLIED
+    currencyId CDATA #IMPLIED
     progress CDATA #IMPLIED
     sAccountId CDATA #REQUIRED
     createdTime CDATA #IMPLIED
@@ -686,8 +686,8 @@
     avatarId CDATA #IMPLIED
     contextAsk CDATA #IMPLIED
     deadline CDATA #IMPLIED
-    ispublic CDATA #IMPLIED
-    istemplate CDATA #IMPLIED
+    isPublic CDATA #IMPLIED
+    isTemplate CDATA #IMPLIED
     memLead CDATA #IMPLIED
     color CDATA #IMPLIED
 >
@@ -723,7 +723,7 @@
 <!ELEMENT m_prj_role EMPTY>
 <!ATTLIST m_prj_role
     id CDATA #REQUIRED
-    rolename CDATA #REQUIRED
+    roleName CDATA #REQUIRED
     description CDATA #IMPLIED
     sAccountId CDATA #REQUIRED
     projectId CDATA #REQUIRED
@@ -733,9 +733,9 @@
 <!ELEMENT m_prj_role_permission EMPTY>
 <!ATTLIST m_prj_role_permission
     id CDATA #REQUIRED
-    roleid CDATA #REQUIRED
+    roleId CDATA #REQUIRED
     roleVal CDATA #REQUIRED
-    projectid CDATA #REQUIRED
+    projectId CDATA #REQUIRED
 >
 
 <!ELEMENT m_prj_standup EMPTY>
@@ -748,8 +748,8 @@
     whatproblem CDATA #IMPLIED
     forday CDATA #REQUIRED
     logBy CDATA #REQUIRED
-    createdTime CDATA #REQUIRED
-    lastUpdatedTime CDATA #REQUIRED
+    createdTime CDATA #IMPLIED
+    lastUpdatedTime CDATA #IMPLIED
 >
 
 <!ELEMENT m_prj_task EMPTY>
@@ -787,9 +787,9 @@
     typeId CDATA #IMPLIED
     note CDATA #IMPLIED
     logValue CDATA #REQUIRED
-    loguser CDATA #IMPLIED
-    createdTime CDATA #REQUIRED
-    lastUpdatedTime CDATA #REQUIRED
+    logUser CDATA #IMPLIED
+    createdTime CDATA #IMPLIED
+    lastUpdatedTime CDATA #IMPLIED
     sAccountId CDATA #REQUIRED
     logForDay CDATA #REQUIRED
     isBillable CDATA #REQUIRED
@@ -981,7 +981,7 @@
     name CDATA #REQUIRED
     subReference CDATA #REQUIRED
     accountId CDATA #REQUIRED
-    createdTime CDATA #REQUIRED
+    createdTime CDATA #IMPLIED
     status CDATA #REQUIRED
     country CDATA #IMPLIED
     city CDATA #IMPLIED
@@ -991,13 +991,14 @@
     phone CDATA #IMPLIED
     contactName CDATA #IMPLIED
     subscriptionCustomerUrl CDATA #IMPLIED
+    lastUpdatedTime CDATA #IMPLIED
 >
 
 <!ELEMENT s_billing_subscription_history EMPTY>
 <!ATTLIST s_billing_subscription_history
     id CDATA #REQUIRED
     orderId CDATA #REQUIRED
-    createdTime CDATA #REQUIRED
+    createdTime CDATA #IMPLIED
     subscriptionId CDATA #REQUIRED
     status CDATA #REQUIRED
     expiredDate CDATA #REQUIRED
@@ -1041,7 +1042,7 @@
 <!ELEMENT s_email_preference EMPTY>
 <!ATTLIST s_email_preference
     email CDATA #REQUIRED
-    createdTime CDATA #REQUIRED
+    createdTime CDATA #IMPLIED
     subscribe CDATA #REQUIRED
 >
 
@@ -1050,8 +1051,8 @@
     id CDATA #REQUIRED
     type CDATA #REQUIRED
     typeid CDATA #REQUIRED
-    lastUpdatedTime CDATA #REQUIRED
-    createdTime CDATA #REQUIRED
+    lastUpdatedTime CDATA #IMPLIED
+    createdTime CDATA #IMPLIED
     extraTypeId CDATA #IMPLIED
     createdUser CDATA #REQUIRED
     sAccountId CDATA #REQUIRED
@@ -1100,6 +1101,8 @@
     changeBy CDATA #REQUIRED
     changeComment CDATA #IMPLIED
     extraTypeId CDATA #IMPLIED
+    createdTime CDATA #IMPLIED
+    lastUpdatedTime CDATA #IMPLIED
 >
 
 <!ELEMENT s_role_permission EMPTY>
@@ -1138,7 +1141,7 @@
 <!ATTLIST s_table_customize_view
     id CDATA #REQUIRED
     createdUser CDATA #REQUIRED
-    createdTime CDATA #REQUIRED
+    createdTime CDATA #IMPLIED
     viewId CDATA #REQUIRED
     viewInfo CDATA #REQUIRED
     sAccountId CDATA #REQUIRED
@@ -1250,7 +1253,7 @@
     id CDATA #REQUIRED
     username CDATA #REQUIRED
     userAgent CDATA #REQUIRED
-    createdTime CDATA #REQUIRED
+    createdTime CDATA #IMPLIED
     sAccountId CDATA #REQUIRED
 >
 
@@ -1264,7 +1267,8 @@
     queryId CDATA #IMPLIED
     queryText CDATA #IMPLIED
     createdUser CDATA #REQUIRED
-    createdTime CDATA #REQUIRED
+    createdTime CDATA #IMPLIED
+    lastUpdatedTime CDATA #IMPLIED
 >
 
 <!ELEMENT sys_config EMPTY>

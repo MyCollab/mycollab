@@ -209,7 +209,7 @@ public abstract class AbstractBeanPagedList<T> extends CssLayout implements HasP
             if (controlBarWrapper != null) {
                 this.removeComponent(controlBarWrapper);
             }
-            this.addComponent(this.createPageControls());
+            this.addComponent(createPageControls());
         } else {
             if (getComponentCount() == 2) {
                 removeComponent(getComponent(1));

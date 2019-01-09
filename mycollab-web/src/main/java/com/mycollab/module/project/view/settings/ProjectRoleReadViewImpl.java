@@ -33,7 +33,6 @@ import com.mycollab.vaadin.ui.HeaderWithIcon;
 import com.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.mycollab.vaadin.web.ui.AdvancedPreviewBeanForm;
 import com.mycollab.vaadin.web.ui.DefaultReadViewLayout;
-import com.mycollab.vaadin.web.ui.WebThemes;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.vaadin.data.HasValue;
 import com.vaadin.icons.VaadinIcons;
@@ -143,7 +142,7 @@ public class ProjectRoleReadViewImpl extends MVerticalLayout implements ProjectR
     }
 
     private MHorizontalLayout constructHeader() {
-        MHorizontalLayout container = new MHorizontalLayout().withStyleName(WebThemes.HEADER_VIEW).withMargin(false).withFullWidth();
+        MHorizontalLayout container = new MHorizontalLayout().withMargin(false).withFullWidth();
         container.with(headerText).alignAll(Alignment.MIDDLE_LEFT).expand(headerText);
         return container;
     }

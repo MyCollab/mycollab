@@ -18,7 +18,6 @@ package com.mycollab.module.project.view;
 
 import com.mycollab.vaadin.mvp.AbstractVerticalPageView;
 import com.mycollab.vaadin.ui.ELabel;
-import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Component;
@@ -46,7 +45,7 @@ public class AbstractProjectPageView extends AbstractVerticalPageView {
     }
 
     private ComponentContainer constructHeader() {
-        header = new MHorizontalLayout().with(headerText).withStyleName(WebThemes.HEADER_VIEW).withFullWidth().withMargin(true);
+        header = new MHorizontalLayout().with(headerText).withFullWidth().withMargin(true);
         header.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
         return header;
     }

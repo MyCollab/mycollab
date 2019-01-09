@@ -89,3 +89,23 @@ ADD CONSTRAINT `FK_m_prj_time_logging_3`
   ON DELETE CASCADE
   ON UPDATE CASCADE;
 
+ALTER TABLE `m_prj_project`
+CHANGE COLUMN `accountId` `clientId` INT(10) UNSIGNED NULL DEFAULT NULL ;
+ALTER TABLE `m_prj_project`
+ADD CONSTRAINT `FK_m_prj_project_6`
+  FOREIGN KEY (`clientId`)
+  REFERENCES `m_customer` (`id`)
+  ON DELETE SET NULL
+  ON UPDATE SET NULL;
+
+ALTER TABLE `m_prj_project`
+CHANGE COLUMN `currencyid` `currencyId` VARCHAR(4) NULL DEFAULT NULL ,
+CHANGE COLUMN `ispublic` `isPublic` TINYINT(1) NULL DEFAULT NULL ,
+CHANGE COLUMN `istemplate` `isTemplate` TINYINT(1) NULL DEFAULT NULL ;
+
+ALTER TABLE `m_prj_project`
+CHANGE COLUMN `shortname` `shortName` VARCHAR(45) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' NOT NULL ;
+
+ALTER TABLE `s_relay_email_notification`
+ADD COLUMN `createdTime` DATETIME NULL,
+ADD COLUMN `lastUpdatedTime` DATETIME NULL;

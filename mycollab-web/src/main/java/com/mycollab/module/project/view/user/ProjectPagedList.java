@@ -118,7 +118,7 @@ public class ProjectPagedList extends DefaultBeanPagedList<ProjectService, Proje
                 metaDiv.appendChild(1, DivLessFormatter.EMPTY_SPACE);
             }
 
-            if (project.getAccountid() != null) {
+            if (project.getClientid() != null) {
                 Div accountDiv = new Div();
                 if (project.getClientAvatarId() == null) {
                     accountDiv.appendText(VaadinIcons.INSTITUTION.getHtml() + " ");
@@ -128,7 +128,7 @@ public class ProjectPagedList extends DefaultBeanPagedList<ProjectService, Proje
                     accountDiv.appendChild(clientImg).appendChild(DivLessFormatter.EMPTY_SPACE);
                 }
 
-                accountDiv.appendChild(new A(ProjectLinkGenerator.generateClientPreviewLink(project.getAccountid()))
+                accountDiv.appendChild(new A(ProjectLinkGenerator.generateClientPreviewLink(project.getClientid()))
                         .appendText(StringUtils.trim(project.getClientName(), 30, true))).setCSSClass(UIConstants.BLOCK)
                         .setTitle(project.getClientName());
                 metaDiv.appendChild(0, accountDiv);

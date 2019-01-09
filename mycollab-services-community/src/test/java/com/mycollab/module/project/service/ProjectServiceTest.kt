@@ -116,4 +116,11 @@ class ProjectServiceTest : IntegrationServiceTest() {
                 tuple("Project-Bug", "1", 20), tuple("Project-Task", "1", 10),
                 tuple("Project-Risk", "1", null))
     }
+
+    @DataSet
+    @Test
+    fun testFindProjectWithCustomer() {
+        val project = projectService.findById(3, 1)
+        assertThat(project).extracting("clientName", "clientid", "leadFullName", "shortname").contains("a", 1, "Nguyen Hai", "bbb")
+    }
 }

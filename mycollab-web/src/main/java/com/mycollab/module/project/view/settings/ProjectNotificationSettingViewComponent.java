@@ -42,14 +42,13 @@ import org.vaadin.viritin.layouts.MVerticalLayout;
 public class ProjectNotificationSettingViewComponent extends BlockWidget {
     private static final long serialVersionUID = 1L;
 
-
     public ProjectNotificationSettingViewComponent(final ProjectNotificationSetting bean) {
         super(UserUIContext.getMessage(ProjectSettingI18nEnum.VIEW_TITLE));
 
         MVerticalLayout body = new MVerticalLayout().withMargin(new MarginInfo(true, false, false, false));
         body.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
-        final RadioButtonGroup<String> optionGroup = new RadioButtonGroup(null);
+        final RadioButtonGroup<String> optionGroup = new RadioButtonGroup<>(null);
         optionGroup.setItems(NotificationType.Default.name(), NotificationType.None.name(), NotificationType.Minimal.name(), NotificationType.Full.name());
         optionGroup.setItemCaptionGenerator((ItemCaptionGenerator<String>) item -> {
             if (item.equals(NotificationType.Default.name())) {

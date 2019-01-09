@@ -27,26 +27,26 @@ import java.time.LocalDate;
  * @author MyCollab Ltd.
  * @since 4.5.3
  */
-public class DateViewField extends CustomField<String> {
-    private LocalDate date;
+public class DateViewField extends CustomField<LocalDate> {
+    private Label label;
 
-    public DateViewField(LocalDate date) {
-        this.date = date;
+    public DateViewField() {
+        label = new Label();
     }
 
     @Override
     protected Component initContent() {
-        String dateValue = (date == null) ? "" : UserUIContext.formatDate(date);
-        return new Label(dateValue);
+        return label;
     }
 
     @Override
-    protected void doSetValue(String s) {
-
+    protected void doSetValue(LocalDate value) {
+        String dateValue = (value == null) ? "" : UserUIContext.formatDate(value);
+        label.setValue(dateValue);
     }
 
     @Override
-    public String getValue() {
+    public LocalDate getValue() {
         return null;
     }
 }

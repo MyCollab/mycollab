@@ -56,11 +56,15 @@ public class I18nValueComboBox<T extends Enum<T>> extends ComboBox<T> implements
 
     @Override
     public Result<String> convertToModel(T value, ValueContext context) {
-        return Result.ok(UserUIContext.getMessage(value));
+        return Result.ok(value.name());
     }
 
     @Override
     public T convertToPresentation(String value, ValueContext context) {
+        if (value == null) {
+            T selectedValue = getValue();
+            return selectedValue;
+        }
         return Enum.valueOf(eClass, value);
     }
 }

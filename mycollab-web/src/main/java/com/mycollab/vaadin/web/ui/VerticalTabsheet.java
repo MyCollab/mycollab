@@ -185,9 +185,9 @@ public class VerticalTabsheet extends CustomComponent {
             this.showTabsCaption();
 
             toggleBtn.setStyleName(WebThemes.BUTTON_ICON_ONLY + " closed-button");
-            navigatorContainer.setComponentAlignment(toggleBtn, Alignment.TOP_RIGHT);
             toggleBtn.setIcon(VaadinIcons.CLOSE_SMALL);
             toggleBtn.setDescription(UserUIContext.getMessage(ShellI18nEnum.ACTION_COLLAPSE_MENU));
+            navigatorContainer.setComponentAlignment(toggleBtn, Alignment.MIDDLE_CENTER);
         }
     }
 
@@ -233,9 +233,16 @@ public class VerticalTabsheet extends CustomComponent {
             clearTabSelection();
             selectedButton.addStyleName(TAB_SELECTED_STYLE);
             selectedComp = tab;
-            if (contentWrapper.getComponentCount() > 1) {
-                contentWrapper.removeComponent(contentWrapper.getComponent(contentWrapper.getComponentCount()-1));
+
+            // Hack for tab view has both header - content or content only
+            if (contentWrapper.getComponentCount()> 0 && "tab-content-header".equals(contentWrapper.getComponent(0).getId())) {
+                if (contentWrapper.getComponentCount() > 1) {
+                    contentWrapper.removeComponent(contentWrapper.getComponent(contentWrapper.getComponentCount() - 1));
+                }
+            } else {
+                contentWrapper.removeAllComponents();
             }
+
             Component tabComponent = tab.getComponent();
             contentWrapper.addComponent(tabComponent);
             return tabComponent;

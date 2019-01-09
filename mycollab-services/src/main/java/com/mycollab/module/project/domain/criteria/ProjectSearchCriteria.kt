@@ -38,7 +38,7 @@ class ProjectSearchCriteria : SearchCriteria() {
     var projectStatuses: SetSearchField<String>? = null
     var involvedMember: StringSearchField? = null
     var projectName: StringSearchField? = null
-    var accountId: NumberSearchField? = null
+    var clientId: NumberSearchField? = null
 
     companion object {
         private const val serialVersionUID = 1L

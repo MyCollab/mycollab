@@ -42,6 +42,7 @@ import com.mycollab.vaadin.TooltipHelper;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.ui.registry.AuditLogRegistry;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Label;
@@ -68,17 +69,18 @@ public class ActivityStreamComponent extends CssLayout {
 
     public ActivityStreamComponent() {
         this.activityStreamList = new ProjectActivityStreamPagedList2();
+        setWidth("100%");
     }
 
     public void showFeeds(List<Integer> prjKeys) {
         this.removeAllComponents();
         if (CollectionUtils.isNotEmpty(prjKeys)) {
-            this.addComponent(activityStreamList);
+            addComponent(activityStreamList);
             ActivityStreamSearchCriteria searchCriteria = new ActivityStreamSearchCriteria();
             searchCriteria.setModuleSet(new SetSearchField<>(ModuleNameConstants.PRJ));
             searchCriteria.setExtraTypeIds(new SetSearchField<>(prjKeys.toArray(new Integer[prjKeys.size()])));
             searchCriteria.setSaccountid(new NumberSearchField(AppUI.getAccountId()));
-            this.activityStreamList.setSearchCriteria(searchCriteria);
+            activityStreamList.setSearchCriteria(searchCriteria);
         }
     }
 
@@ -235,6 +237,10 @@ public class ActivityStreamComponent extends CssLayout {
             itemLink.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(activityStream.getType(), activityStream.getTypeid()));
             itemLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction());
             itemLink.appendText(StringUtils.trim(activityStream.getNamefield(), 50, true));
+
+            if (ActivityStreamConstants.ACTION_DELETE.equals(activityStream.getAction())) {
+                itemLink.setCSSClass(WebThemes.LINK_COMPLETED);
+            }
 
             div.appendChild(itemImg, EMPTY_SPACE, itemLink);
             return div.write();

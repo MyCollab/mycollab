@@ -43,6 +43,8 @@ import com.vaadin.ui.Embedded;
 import com.vaadin.ui.VerticalLayout;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.vaadin.cropper.Cropper;
+import org.vaadin.cropper.client.CropSelection;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
@@ -51,14 +53,14 @@ import org.vaadin.viritin.layouts.MWindow;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 /**
  * @author MyCollab Ltd.
  * @since 4.1
  */
-// TODO
-public class LogoEditWindow extends MWindow {
+class LogoEditWindow extends MWindow {
     private static final long serialVersionUID = -5294741083557671011L;
     private static final Logger LOG = LoggerFactory.getLogger(LogoEditWindow.class);
 
@@ -68,7 +70,7 @@ public class LogoEditWindow extends MWindow {
     private Embedded previewImage;
     private byte[] scaleImageData;
 
-    public LogoEditWindow(byte[] imageData) {
+    LogoEditWindow(byte[] imageData) {
         super(UserUIContext.getMessage(FileI18nEnum.ACTION_CHANGE_LOGO));
         this.withModal(true).withResizable(false).withWidth("800px").withHeight("800px");
         content = new MVerticalLayout();
@@ -126,30 +128,29 @@ public class LogoEditWindow extends MWindow {
         VerticalLayout currentPhotoBox = new VerticalLayout();
         Resource resource = new ByteArrayImageResource(
                 ImageUtil.convertImageToByteArray(originalImage), "image/png");
-//        CropField cropField = new CropField(resource);
-//        cropField.setImmediate(true);
-//        cropField.setSelectionAspectRatio(150 / 28);
-//        cropField.addValueChangeListener(valueChangeEvent -> {
-//            VCropSelection newSelection = (VCropSelection) valueChangeEvent.getProperty().getValue();
-//            int x1 = newSelection.getXTopLeft();
-//            int y1 = newSelection.getYTopLeft();
-//            int x2 = newSelection.getXBottomRight();
-//            int y2 = newSelection.getYBottomRight();
-//            if (x2 > x1 && y2 > y1) {
-//                BufferedImage subImage = originalImage.getSubimage(x1, y1, (x2 - x1), (y2 - y1));
-//                ByteArrayOutputStream outStream = new ByteArrayOutputStream();
-//                try {
-//                    ImageIO.write(subImage, "png", outStream);
-//                    scaleImageData = outStream.toByteArray();
-//                    displayPreviewImage();
-//                } catch (IOException e) {
-//                    LOG.error("Error while scale image: ", e);
-//                }
-//            }
-//        });
+        Cropper cropField = new Cropper(resource);
+        cropField.setAspectRatio(150 / 28);
+        cropField.addCropSelectionChangedListener(valueChangeEvent -> {
+            CropSelection newSelection = valueChangeEvent.getSelection();
+            int x1 = newSelection.getX();
+            int y1 = newSelection.getY();
+            int x2 = newSelection.getWidth();
+            int y2 = newSelection.getHeight();
+            if (x2 > x1 && y2 > y1) {
+                BufferedImage subImage = originalImage.getSubimage(x1, y1, x2, y2);
+                ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+                try {
+                    ImageIO.write(subImage, "png", outStream);
+                    scaleImageData = outStream.toByteArray();
+                    displayPreviewImage();
+                } catch (IOException e) {
+                    LOG.error("Error while scale image: ", e);
+                }
+            }
+        });
         currentPhotoBox.setWidth("650px");
         currentPhotoBox.setHeight("650px");
-//        currentPhotoBox.addComponent(cropField);
+        currentPhotoBox.addComponent(cropField);
         cropBox.addComponent(currentPhotoBox);
 
         content.with(previewBox, ELabel.hr(), cropBox);

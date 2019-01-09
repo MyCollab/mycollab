@@ -86,9 +86,9 @@ public class MilestonePreviewForm extends AdvancedPreviewBeanForm<SimpleMileston
         protected HasValue<?> onCreateField(final Object propertyId) {
             SimpleMilestone milestone = attachForm.getBean();
             if (Milestone.Field.startdate.equalTo(propertyId)) {
-                return new DateViewField(milestone.getStartdate());
+                return new DateViewField();
             } else if (Milestone.Field.enddate.equalTo(propertyId)) {
-                return new DateViewField(milestone.getEnddate());
+                return new DateViewField();
             } else if (Milestone.Field.assignuser.equalTo(propertyId)) {
                 return new ProjectUserFormLinkField(milestone.getProjectid(), milestone.getAssignuser(),
                         milestone.getOwnerAvatarId(), milestone.getOwnerFullName());

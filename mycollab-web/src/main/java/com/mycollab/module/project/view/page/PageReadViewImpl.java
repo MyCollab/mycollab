@@ -16,11 +16,11 @@
  */
 package com.mycollab.module.project.view.page;
 
-import com.hp.gagawa.java.elements.*;
-import com.mycollab.common.i18n.DayI18nEnum;
+import com.hp.gagawa.java.elements.A;
+import com.hp.gagawa.java.elements.Div;
+import com.hp.gagawa.java.elements.Img;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.core.utils.StringUtils;
-import com.mycollab.html.DivLessFormatter;
 import com.mycollab.module.file.StorageUtils;
 import com.mycollab.module.page.domain.Page;
 import com.mycollab.module.page.domain.PageVersion;
@@ -90,7 +90,7 @@ public class PageReadViewImpl extends AbstractPreviewItemComp<Page> implements P
 
         header.addComponent(headerLbl, 0);
         header.addComponent(pageVersionsSelection, 1);
-        header.withFullWidth().withStyleName(WebThemes.HEADER_VIEW).expand(pageVersionsSelection).alignAll(Alignment.MIDDLE_LEFT);
+        header.withFullWidth().expand(pageVersionsSelection).alignAll(Alignment.MIDDLE_LEFT);
     }
 
     @Override

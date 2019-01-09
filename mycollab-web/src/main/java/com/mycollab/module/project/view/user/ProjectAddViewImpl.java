@@ -148,7 +148,7 @@ public class ProjectAddViewImpl extends AbstractVerticalPageView implements Proj
                 return informationLayout.addComponent(field, UserUIContext.getMessage(ProjectI18nEnum.FORM_LEADER), 0, 2);
             } else if (propertyId.equals("planstartdate")) {
                 return financialLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.FORM_START_DATE), 0, 0);
-            } else if (Project.Field.accountid.equalTo(propertyId)) {
+            } else if (Project.Field.clientid.equalTo(propertyId)) {
                 return financialLayout.addComponent(field, UserUIContext.getMessage(ProjectI18nEnum.FORM_ACCOUNT_NAME),
                         UserUIContext.getMessage(ProjectI18nEnum.FORM_ACCOUNT_NAME_HELP), 1, 0);
             } else if (propertyId.equals("planenddate")) {
@@ -212,7 +212,7 @@ public class ProjectAddViewImpl extends AbstractVerticalPageView implements Proj
 //                tf.setRequired(true);
 //                tf.setRequiredError("Please enter a Name");
                 return tf;
-            } else if (Project.Field.accountid.equalTo(propertyId)) {
+            } else if (Project.Field.clientid.equalTo(propertyId)) {
 //                return new AccountSelectionField();
             } else if (Project.Field.memlead.equalTo(propertyId)) {
                 return new ProjectMemberSelectionField();

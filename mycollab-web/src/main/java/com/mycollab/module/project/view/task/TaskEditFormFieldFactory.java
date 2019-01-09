@@ -16,19 +16,30 @@
  */
 package com.mycollab.module.project.view.task;
 
+import com.mycollab.module.file.AttachmentUtils;
+import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.domain.SimpleTask;
+import com.mycollab.module.project.domain.Task;
+import com.mycollab.module.project.ui.components.PriorityComboBox;
 import com.mycollab.module.project.ui.components.ProjectSubscribersComp;
+import com.mycollab.module.project.ui.components.TaskSliderField;
+import com.mycollab.module.project.view.milestone.MilestoneComboBox;
+import com.mycollab.module.project.view.settings.component.ProjectMemberSelectionField;
+import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.mycollab.vaadin.ui.GenericBeanForm;
 import com.mycollab.vaadin.web.ui.field.AttachmentUploadField;
 import com.vaadin.data.HasValue;
+import com.vaadin.ui.DateField;
+import com.vaadin.ui.RichTextArea;
+import org.vaadin.viritin.fields.DoubleField;
+import org.vaadin.viritin.fields.MTextField;
 
 /**
  * @author MyCollab Ltd
  * @since 5.1.1
  */
-// TODO
 class TaskEditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<SimpleTask> {
     private static final long serialVersionUID = 1L;
 
@@ -42,32 +53,30 @@ class TaskEditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<Si
 
     @Override
     protected HasValue<?> onCreateField(final Object propertyId) {
-//        if (Task.Field.assignuser.equalTo(propertyId)) {
-//            ProjectMemberSelectionField field = new ProjectMemberSelectionField();
-//            field.addValueChangeListener(valueChangeEvent -> {
-//                Property property = valueChangeEvent.getProperty();
-//                SimpleProjectMember member = (SimpleProjectMember) property.getValue();
-//                if (member != null) {
-//                    subscribersComp.addFollower(member.getUsername());
-//                }
-//            });
-//            return field;
-//        } else if (Task.Field.milestoneid.equalTo(propertyId)) {
-//            return new MilestoneComboBox();
-//        } else if (Task.Field.description.equalTo(propertyId)) {
-//            final RichTextArea richTextArea = new RichTextArea();
-//            richTextArea.setNullRepresentation("");
-//            return richTextArea;
-//        } else if (Task.Field.name.equalTo(propertyId)) {
-//            return new MTextField().withNullRepresentation("").withRequired(true).withRequiredError(UserUIContext
+        if (Task.Field.assignuser.equalTo(propertyId)) {
+            ProjectMemberSelectionField field = new ProjectMemberSelectionField();
+            field.addValueChangeListener(valueChangeEvent -> {
+                String username = valueChangeEvent.getValue();
+                if (username != null) {
+                    subscribersComp.addFollower(username);
+                }
+            });
+            return field;
+        } else if (Task.Field.milestoneid.equalTo(propertyId)) {
+            return new MilestoneComboBox();
+        } else if (Task.Field.description.equalTo(propertyId)) {
+            return new RichTextArea();
+        } else if (Task.Field.name.equalTo(propertyId)) {
+            return new MTextField().withRequiredIndicatorVisible(true);
+//            .withRequiredError(UserUIContext
 //                    .getMessage(ErrorI18nEnum.FIELD_MUST_NOT_NULL, UserUIContext.getMessage(GenericI18Enum.FORM_NAME)));
-//        } else if (Task.Field.status.equalTo(propertyId)) {
-//            return new TaskStatusComboBox();
-//        } else if (Task.Field.percentagecomplete.equalTo(propertyId)) {
-//            return new TaskSliderField();
-//        } else if (Task.Field.priority.equalTo(propertyId)) {
-//            return new PriorityComboBox();
-//        } else if (Task.Field.duration.equalTo(propertyId)) {
+        } else if (Task.Field.status.equalTo(propertyId)) {
+            return new TaskStatusComboBox();
+        } else if (Task.Field.percentagecomplete.equalTo(propertyId)) {
+            return new TaskSliderField();
+        } else if (Task.Field.priority.equalTo(propertyId)) {
+            return new PriorityComboBox();
+        } else if (Task.Field.duration.equalTo(propertyId)) {
 //            final TextField field = new TextField();
 //            field.setConverter(new HumanTimeConverter());
 //            final SimpleTask beanItem = attachForm.getBean();
@@ -95,31 +104,27 @@ class TaskEditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<Si
 //                }
 //            });
 //            return field;
-//        } else if (Task.Field.originalestimate.equalTo(propertyId) || Task.Field.remainestimate.equalTo(propertyId)) {
-//            return new DoubleField();
-//        } else if (Task.Field.startdate.equalTo(propertyId)) {
-//            final DateTimeOptionField startDateField = new DateTimeOptionField(true);
-//            startDateField.addValueChangeListener(valueChangeEvent -> calculateDurationBaseOnStartAndEndDates());
-//            return startDateField;
-//        } else if (Task.Field.enddate.equalTo(propertyId)) {
-//            DateTimeOptionField endDateField = new DateTimeOptionField(true);
-//            endDateField.addValueChangeListener(valueChangeEvent -> calculateDurationBaseOnStartAndEndDates());
-//            return endDateField;
-//        } else if (Task.Field.id.equalTo(propertyId)) {
-//            Task beanItem = attachForm.getBean();
-//            if (beanItem.getId() != null) {
-//                String attachmentPath = AttachmentUtils.getProjectEntityAttachmentPath(AppUI.getAccountId(),
-//                        beanItem.getProjectid(), ProjectTypeConstants.TASK, "" + beanItem.getId());
-//                attachmentUploadField = new AttachmentUploadField(attachmentPath);
-//            } else {
-//                attachmentUploadField = new AttachmentUploadField();
-//            }
-//            return attachmentUploadField;
-//        } else if (Task.Field.duedate.equalTo(propertyId)) {
-//            return new DateTimeOptionField(true);
-//        } else if (propertyId.equals("selected")) {
-//            return subscribersComp;
-//        }
+        } else if (Task.Field.originalestimate.equalTo(propertyId) || Task.Field.remainestimate.equalTo(propertyId)) {
+            return new DoubleField();
+        } else if (Task.Field.startdate.equalTo(propertyId)) {
+            return new DateField();
+        } else if (Task.Field.enddate.equalTo(propertyId)) {
+            return new DateField();
+        } else if (Task.Field.id.equalTo(propertyId)) {
+            Task beanItem = attachForm.getBean();
+            if (beanItem.getId() != null) {
+                String attachmentPath = AttachmentUtils.getProjectEntityAttachmentPath(AppUI.getAccountId(),
+                        beanItem.getProjectid(), ProjectTypeConstants.TASK, "" + beanItem.getId());
+                attachmentUploadField = new AttachmentUploadField(attachmentPath);
+            } else {
+                attachmentUploadField = new AttachmentUploadField();
+            }
+            return attachmentUploadField;
+        } else if (Task.Field.duedate.equalTo(propertyId)) {
+            return new DateField();
+        } else if (propertyId.equals("selected")) {
+            return subscribersComp;
+        }
         return null;
     }
 

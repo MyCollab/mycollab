@@ -27,7 +27,8 @@ import com.vaadin.icons.VaadinIcons
  * @since 5.0.0
  */
 object ProjectAssetsManager {
-    private val resources = mapOf(ProjectTypeConstants.DASHBOARD to VaadinIcons.DASHBOARD,
+    private val resources = mapOf(
+            ProjectTypeConstants.DASHBOARD to VaadinIcons.DASHBOARD,
             ProjectTypeConstants.MESSAGE to VaadinIcons.COMMENT,
             ProjectTypeConstants.MILESTONE to VaadinIcons.FLAG_CHECKERED,
             ProjectTypeConstants.TASK to VaadinIcons.TASKS,
@@ -42,14 +43,15 @@ object ProjectAssetsManager {
             ProjectTypeConstants.INVOICE to VaadinIcons.CREDIT_CARD,
             ProjectTypeConstants.STANDUP to VaadinIcons.CUBES,
             ProjectTypeConstants.MEMBER to VaadinIcons.USERS,
-            ProjectTypeConstants.PROJECT to VaadinIcons.CALENDAR_O
+            ProjectTypeConstants.PROJECT to VaadinIcons.CALENDAR_O,
+            ProjectTypeConstants.CLIENT to VaadinIcons.COIN_PILES
     )
 
     @JvmStatic
     fun getAsset(resId: String): VaadinIcons = resources[resId] ?: VaadinIcons.DASHBOARD
 
     @JvmStatic
-    fun toHexString(resId: String): String = "&#x" + Integer.toHexString(resources[resId]!!.codepoint)
+    fun toHexString(resId: String): String = "&#x${Integer.toHexString(resources[resId]!!.codepoint)}"
 
     @JvmStatic
     fun getPriority(priority: String?): VaadinIcons =
@@ -73,7 +75,6 @@ object ProjectAssetsManager {
             temp = Priority.Medium.name
         }
         val icon = getPriority(temp)
-        return String.format("<span class=\"priority-%s v-icon\" style=\"font-family: VaadinIcons;\">&#x%s;</span>",
-                temp.toLowerCase(), Integer.toHexString(icon.codepoint))
+        return "<span class=\"priority-${temp.toLowerCase()} v-icon\" style=\"font-family: VaadinIcons;\">&#x${Integer.toHexString(icon.codepoint)};</span>"
     }
 }

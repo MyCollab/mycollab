@@ -20,7 +20,6 @@ class MessageServiceTest(@Autowired val messageService: MessageService) : Integr
         val criteria = MessageSearchCriteria()
         criteria.projectIds = SetSearchField(1, 2)
         assertThat(messageService.getTotalCount(criteria)).isEqualTo(3)
-
         assertThat(messageService.findPageableListByCriteria(BasicSearchRequest(criteria)).size).isEqualTo(3)
     }
 }

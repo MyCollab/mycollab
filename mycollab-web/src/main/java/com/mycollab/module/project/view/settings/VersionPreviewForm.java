@@ -70,7 +70,7 @@ public class VersionPreviewForm extends AdvancedPreviewBeanForm<Version> {
         protected HasValue<?> onCreateField(Object propertyId) {
             Version beanItem = attachForm.getBean();
             if (Version.Field.duedate.equalTo(propertyId)) {
-                return new DateViewField(beanItem.getDuedate());
+                return new DateViewField();
             } else if (Version.Field.id.equalTo(propertyId)) {
                 ContainerViewField containerField = new ContainerViewField();
                 containerField.addComponentField(new BugsComp(beanItem));

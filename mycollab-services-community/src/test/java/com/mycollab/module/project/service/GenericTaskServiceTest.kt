@@ -74,9 +74,9 @@ class GenericTaskServiceTest : IntegrationServiceTest() {
         criteria.dueDate = DateSearchField(d, DateSearchField.LESS_THAN)
         criteria.projectIds = SetSearchField(1)
         criteria.saccountid = NumberSearchField(1)
-        val taskList = projectTicketService.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<ProjectTicket>
+        val tasks = projectTicketService.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<ProjectTicket>
 
-        assertThat(taskList.size).isEqualTo(1)
-        assertThat<ProjectTicket>(taskList).extracting("type", "name").contains(tuple("Project-Risk", "b"))
+        assertThat(tasks.size).isEqualTo(1)
+        assertThat<ProjectTicket>(tasks).extracting("type", "name").contains(tuple("Project-Risk", "b"))
     }
 }

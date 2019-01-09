@@ -57,7 +57,7 @@ public class ProjectRoleListViewImpl extends AbstractVerticalPageView implements
     private ProjectRoleSearchPanel searchPanel;
     private SelectionOptionButton selectOptionButton;
     private DefaultPagedBeanTable<ProjectRoleService, ProjectRoleSearchCriteria, SimpleProjectRole> tableItem;
-    private VerticalLayout listLayout;
+    private MVerticalLayout listLayout;
     private DefaultMassItemActionHandlerContainer tableActionControls;
     private Label selectedItemsNumberLabel = new Label();
 
@@ -92,8 +92,7 @@ public class ProjectRoleListViewImpl extends AbstractVerticalPageView implements
         });
 
         tableItem.setWidth("100%");
-        listLayout.addComponent(this.constructTableActionControls());
-        listLayout.addComponent(this.tableItem);
+        listLayout.with(constructTableActionControls(), tableItem);
     }
 
     @Override

@@ -64,6 +64,7 @@ public class MilestoneAddWindow extends MWindow {
         MButton saveBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_SAVE), clickEvent -> {
             if (editForm.validateForm()) {
                 MilestoneService milestoneService = AppContextUtil.getSpringBean(MilestoneService.class);
+                milestone.setSaccountid(AppUI.getAccountId());
                 Integer milestoneId;
                 if (milestone.getId() == null) {
                     milestoneId = milestoneService.saveWithSession(milestone, UserUIContext.getUsername());
@@ -86,7 +87,7 @@ public class MilestoneAddWindow extends MWindow {
 
         MButton cancelBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
                 .withStyleName(WebThemes.BUTTON_OPTION);
-        MHorizontalLayout buttonControls = new MHorizontalLayout(cancelBtn, saveBtn).withMargin(true);
+        MHorizontalLayout buttonControls = new MHorizontalLayout(cancelBtn, saveBtn);
         content.addComponent(buttonControls);
         content.setComponentAlignment(buttonControls, Alignment.MIDDLE_RIGHT);
     }

@@ -93,11 +93,11 @@ public class TaskPreviewForm extends AdvancedPreviewBeanForm<SimpleTask> {
                 return new ProjectUserFormLinkField(beanItem.getProjectid(), beanItem.getAssignuser(),
                         beanItem.getAssignUserAvatarId(), beanItem.getAssignUserFullName());
             } else if (Task.Field.startdate.equalTo(propertyId)) {
-                return new DateViewField(beanItem.getStartdate());
+                return new DateViewField();
             } else if (Task.Field.enddate.equalTo(propertyId)) {
-                return new DateViewField(beanItem.getEnddate());
+                return new DateViewField();
             } else if (Task.Field.duedate.equalTo(propertyId)) {
-                return new DateViewField(beanItem.getDuedate());
+                return new DateViewField();
             } else if (Task.Field.milestoneid.equalTo(propertyId)) {
                 return new ProjectItemViewField(ProjectTypeConstants.MILESTONE, beanItem.getMilestoneid() + "", beanItem.getMilestoneName());
             } else if (Task.Field.id.equalTo(propertyId)) {

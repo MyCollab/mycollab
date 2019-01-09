@@ -192,7 +192,7 @@ public class TicketSearchPanel extends DefaultGenericSearchPanel<ProjectTicketSe
         @Override
         protected Component buildSelectionComp(String fieldId) {
             if ("assignuser".equals(fieldId) || "createduser".equals(fieldId)) {
-                return new ProjectMemberListSelect(false, Arrays.asList(CurrentProjectVariables.getProjectId()));
+                return new ProjectMemberListSelect(false, Collections.singletonList(CurrentProjectVariables.getProjectId()));
             } else if ("milestone".equals(fieldId)) {
                 return new MilestoneListSelect();
             } else if ("type".equals(fieldId)) {

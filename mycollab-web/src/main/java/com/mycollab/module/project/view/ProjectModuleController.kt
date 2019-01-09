@@ -32,6 +32,7 @@ import com.mycollab.vaadin.mvp.AbstractController
 import com.mycollab.vaadin.mvp.PageActionChain
 import com.mycollab.vaadin.mvp.PresenterResolver
 import com.mycollab.vaadin.mvp.ScreenData
+import java.time.LocalDate
 import java.util.*
 
 /**
@@ -42,7 +43,7 @@ class ProjectModuleController(val container: ProjectModule) : AbstractController
     init {
         this.register(object : ApplicationEventListener<ProjectEvent.GotoUserDashboard> {
             @Subscribe override fun handle(event: ProjectEvent.GotoUserDashboard) {
-                val presenter = PresenterResolver.getPresenter(UserDashboardPresenter::class.java)
+                val presenter = PresenterResolver.getPresenter(UserProjectDashboardPresenter::class.java)
                 presenter.go(container, null)
             }
         })
@@ -123,7 +124,7 @@ class ProjectModuleController(val container: ProjectModule) : AbstractController
         this.register(object : ApplicationEventListener<StandUpEvent.GotoList> {
             @Subscribe override fun handle(event: StandUpEvent.GotoList) {
                 val presenter = PresenterResolver.getPresenter(IReportPresenter::class.java)
-                presenter.go(container, StandupScreenData.Search(GregorianCalendar().time))
+                presenter.go(container, StandupScreenData.Search(LocalDate.now()))
             }
         })
     }

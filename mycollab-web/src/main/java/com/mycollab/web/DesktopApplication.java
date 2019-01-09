@@ -178,10 +178,8 @@ public class DesktopApplication extends AppUI {
                         UserUIContext.getMessage(GenericI18Enum.ACTION_NO),
                         confirmDialog -> {
                             if (confirmDialog.isConfirmed()) {
-                                Collection<Window> windowsList = UI.getCurrent().getWindows();
-                                for (Window window : windowsList) {
-                                    window.close();
-                                }
+                                Collection<Window> windows = UI.getCurrent().getWindows();
+                                windows.forEach(Window::close);
                                 EventBusFactory.getInstance().post(new ShellEvent.GotoUserAccountModule(this, new String[]{"billing"}));
                             }
                         });
@@ -269,7 +267,7 @@ public class DesktopApplication extends AppUI {
                 confirmDialog -> {
                 });
         Button okBtn = dialog.getOkButton();
-        BrowserWindowOpener opener = new BrowserWindowOpener("http://support.mycollab.com");
+        BrowserWindowOpener opener = new BrowserWindowOpener("https://mycollab.userecho.com/en/");
         opener.extend(okBtn);
     }
 

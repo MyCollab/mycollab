@@ -101,7 +101,7 @@
                 </dependencies>
                 <executions>
 
-<!--
+
                     <execution>
                         <id>User Artifacts Generator</id>
                         <phase>validate</phase>
@@ -181,7 +181,7 @@
                             <overwrite>true</overwrite>
                         </configuration>
                     </execution>
--->
+
                 </executions>
             </plugin>
         </plugins>

@@ -54,12 +54,12 @@ public class UserProjectDashboardViewImpl extends AbstractVerticalPageView imple
 
     @Override
     public void lazyLoadView() {
+        withMargin(true);
         ProjectService projectService = AppContextUtil.getSpringBean(ProjectService.class);
         List<Integer> prjKeys = projectService.getProjectKeysUserInvolved(UserUIContext.getUsername(), AppUI.getAccountId());
         if (CollectionUtils.isNotEmpty(prjKeys)) {
             ResponsiveLayout contentWrapper = new ResponsiveLayout(ResponsiveLayout.ContainerType.FIXED);
             contentWrapper.setSizeFull();
-            contentWrapper.addStyleName(WebThemes.MARGIN_TOP);
             addComponent(contentWrapper);
 
             ResponsiveRow row = new ResponsiveRow();
@@ -70,11 +70,7 @@ public class UserProjectDashboardViewImpl extends AbstractVerticalPageView imple
             UserUnresolvedTicketWidget unresolvedAssignmentThisWeekWidget = new UserUnresolvedTicketWidget();
             UserUnresolvedTicketWidget unresolvedAssignmentNextWeekWidget = new UserUnresolvedTicketWidget();
 
-            ResponsiveColumn column1 = new ResponsiveColumn();
-            column1.addRule(ResponsiveLayout.DisplaySize.LG, 7);
-            column1.addRule(ResponsiveLayout.DisplaySize.MD, 7);
-            column1.addRule(ResponsiveLayout.DisplaySize.SM, 12);
-            column1.addRule(ResponsiveLayout.DisplaySize.XS, 12);
+            ResponsiveColumn column1 = new ResponsiveColumn(12, 12, 6, 6);
             MVerticalLayout leftPanel = new MVerticalLayout(milestoneTimelineWidget,
                     unresolvedAssignmentThisWeekWidget, unresolvedAssignmentNextWeekWidget, ticketOverdueWidget)
                     .withMargin(new MarginInfo(true, true, false, false)).withFullWidth();
@@ -84,11 +80,7 @@ public class UserProjectDashboardViewImpl extends AbstractVerticalPageView imple
 
             rightPanel.with(activityStreamComponent);
 
-            ResponsiveColumn column2 = new ResponsiveColumn();
-            column2.addRule(ResponsiveLayout.DisplaySize.LG, 5);
-            column2.addRule(ResponsiveLayout.DisplaySize.MD, 5);
-            column1.addRule(ResponsiveLayout.DisplaySize.SM, 12);
-            column1.addRule(ResponsiveLayout.DisplaySize.XS, 12);
+            ResponsiveColumn column2 = new ResponsiveColumn(12, 12, 6, 6);
             column2.setComponent(rightPanel);
 
             row.addColumn(column1);

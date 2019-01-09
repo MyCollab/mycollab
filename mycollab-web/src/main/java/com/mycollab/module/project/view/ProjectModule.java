@@ -83,6 +83,7 @@ public class ProjectModule extends AbstractSingleContainerPageView implements ID
         tabSheet = new VerticalTabsheet();
         tabSheet.setSizeFull();
         tabSheet.setNavigatorStyleName("sidebar-menu");
+        tabSheet.setNavigatorWidth("200px");
         CssLayout contentWrapper = tabSheet.getContentWrapper();
         contentWrapper.addStyleName("main-content");
 

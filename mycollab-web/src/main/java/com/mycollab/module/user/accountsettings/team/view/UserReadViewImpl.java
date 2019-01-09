@@ -183,7 +183,7 @@ public class UserReadViewImpl extends AbstractVerticalPageView implements UserRe
                     } else if (propertyId.equals("website")) {
                         return new UrlLinkViewField(user.getWebsite());
                     } else if (propertyId.equals("birthday")) {
-                        return new DateViewField(user.getBirthday());
+                        return new DateViewField();
                     } else if (propertyId.equals("timezone")) {
                         return new DefaultViewField(TimezoneVal.getDisplayName(UserUIContext.getUserLocale(), user.getTimezone()));
                     } else if (propertyId.equals("facebookaccount")) {

@@ -23,6 +23,9 @@ import com.mycollab.module.project.domain.SimpleProjectMember;
 import com.mycollab.module.project.domain.criteria.ProjectMemberSearchCriteria;
 import com.mycollab.module.project.service.ProjectMemberService;
 import com.mycollab.spring.AppContextUtil;
+import com.mycollab.vaadin.ui.UserAvatarControlFactory;
+import com.vaadin.ui.IconGenerator;
+import com.vaadin.ui.ItemCaptionGenerator;
 import com.vaadin.ui.ListSelect;
 
 import java.util.List;
@@ -31,33 +34,26 @@ import java.util.List;
  * @author MyCollab Ltd.
  * @since 4.0
  */
-// TODO
-public class ProjectMemberListSelect extends ListSelect {
+public class ProjectMemberListSelect extends ListSelect<SimpleProjectMember> {
     private static final long serialVersionUID = 1L;
 
     public ProjectMemberListSelect(List<Integer> projectIds) {
         this(true, projectIds);
     }
 
-    public ProjectMemberListSelect(boolean listActiveMembersOnly, List<Integer> projectIds) {
-//        this.setItemCaptionMode(ItemCaptionMode.EXPLICIT);
-//        this.setEmptySelectionAllowed(false);
-//        this.setMultiSelect(true);
-
+    public ProjectMemberListSelect(boolean activeMembers, List<Integer> projectIds) {
         ProjectMemberSearchCriteria criteria = new ProjectMemberSearchCriteria();
         criteria.setProjectIds(new SetSearchField<>(projectIds));
 
-        if (listActiveMembersOnly) {
+        if (activeMembers) {
             criteria.setStatuses(new SetSearchField<>(ProjectMemberStatusConstants.ACTIVE));
         }
 
         ProjectMemberService projectMemberService = AppContextUtil.getSpringBean(ProjectMemberService.class);
-        List<SimpleProjectMember> memberList = (List<SimpleProjectMember>) projectMemberService.findPageableListByCriteria(new BasicSearchRequest<>(criteria));
-        for (SimpleProjectMember member : memberList) {
-//            this.addItem(member.getUsername());
-//            this.setItemCaption(member.getUsername(), member.getDisplayName());
-//            this.setItemIcon(member.getUsername(), UserAvatarControlFactory.createAvatarResource(member.getMemberAvatarId(), 16));
-        }
+        List<SimpleProjectMember> members = (List<SimpleProjectMember>) projectMemberService.findPageableListByCriteria(new BasicSearchRequest<>(criteria));
+        this.setItems(members);
+        this.setItemCaptionGenerator((ItemCaptionGenerator<SimpleProjectMember>) SimpleProjectMember::getDisplayName);
+        setItemIconGenerator((IconGenerator<SimpleProjectMember>) member -> UserAvatarControlFactory.createAvatarResource(member.getMemberAvatarId(), 16));
         this.setRows(4);
     }
 }

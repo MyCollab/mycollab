@@ -21,10 +21,14 @@ import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.i18n.ShellI18nEnum;
 import com.mycollab.configuration.ServerConfiguration;
 import com.mycollab.configuration.SiteConfiguration;
+import com.mycollab.core.MyCollabException;
+import com.mycollab.core.UserInvalidInputException;
 import com.mycollab.core.utils.DateTimeUtils;
+import com.mycollab.core.utils.ImageUtil;
 import com.mycollab.core.utils.TimezoneVal;
 import com.mycollab.i18n.LocalizationHelper;
 import com.mycollab.module.file.StorageUtils;
+import com.mycollab.module.file.service.AccountFavIconService;
 import com.mycollab.module.user.accountsettings.localization.AdminI18nEnum;
 import com.mycollab.module.user.domain.SimpleBillingAccount;
 import com.mycollab.module.user.service.BillingAccountService;
@@ -46,13 +50,18 @@ import com.mycollab.web.CustomLayoutExt;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.BrowserWindowOpener;
 import com.vaadin.server.ExternalResource;
-import com.vaadin.server.Page;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
+import org.vaadin.easyuploads.UploadField;
 import org.vaadin.viritin.button.MButton;
+import org.vaadin.viritin.layouts.MCssLayout;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Currency;
 
@@ -60,7 +69,6 @@ import java.util.Currency;
  * @author MyCollab Ltd
  * @since 5.1.0
  */
-// TODO
 @ViewComponent
 public class GeneralSettingViewImpl extends AbstractVerticalPageView implements GeneralSettingView {
     private SimpleBillingAccount billingAccount;
@@ -136,9 +144,9 @@ public class GeneralSettingViewImpl extends AbstractVerticalPageView implements 
 
     private void buildLogoPanel() {
         FormContainer formContainer = new FormContainer();
-        MHorizontalLayout layout = new MHorizontalLayout().withFullWidth().withMargin(true);
+        MHorizontalLayout layout = new MHorizontalLayout().withFullWidth().withMargin(new MarginInfo(true, false, true, false));
         MVerticalLayout leftPanel = new MVerticalLayout().withMargin(false);
-        Label logoDesc = new Label(UserUIContext.getMessage(AdminI18nEnum.OPT_LOGO_FORMAT_DESCRIPTION));
+        ELabel logoDesc =  ELabel.html(UserUIContext.getMessage(AdminI18nEnum.OPT_LOGO_FORMAT_DESCRIPTION)).withFullWidth();
         leftPanel.with(logoDesc).withWidth("250px");
 
         MVerticalLayout rightPanel = new MVerticalLayout().withMargin(false);
@@ -175,34 +183,33 @@ public class GeneralSettingViewImpl extends AbstractVerticalPageView implements 
 
         MHorizontalLayout buttonControls = new MHorizontalLayout().withMargin(new MarginInfo(true, false, false, false));
         buttonControls.setDefaultComponentAlignment(Alignment.TOP_LEFT);
-//        final UploadField logoUploadField = new UploadField() {
-//            private static final long serialVersionUID = 1L;
-//
-//            @Override
-//            protected void updateDisplay() {
-//                byte[] imageData = (byte[]) this.getValue();
-//                String mimeType = this.getLastMimeType();
-//                if (mimeType.equals("image/jpeg")) {
-//                    imageData = ImageUtil.convertJpgToPngFormat(imageData);
-//                    if (imageData == null) {
-//                        throw new UserInvalidInputException(UserUIContext.getMessage(FileI18nEnum.ERROR_INVALID_SUPPORTED_IMAGE_FORMAT));
-//                    } else {
-//                        mimeType = "image/png";
-//                    }
-//                }
-//
-//                if (mimeType.equals("image/png")) {
-//                    UI.getCurrent().addWindow(new LogoEditWindow(imageData));
-//                } else {
-//                    throw new UserInvalidInputException(UserUIContext.getMessage(FileI18nEnum.ERROR_UPLOAD_INVALID_SUPPORTED_IMAGE_FORMAT));
-//                }
-//            }
-//        };
-//        logoUploadField.setButtonCaption(UserUIContext.getMessage(GenericI18Enum.ACTION_CHANGE));
-//        logoUploadField.addStyleName("upload-field");
-//        logoUploadField.setSizeUndefined();
-//        logoUploadField.setFieldType(UploadField.FieldType.BYTE_ARRAY);
-//        logoUploadField.setVisible(UserUIContext.canBeYes(RolePermissionCollections.ACCOUNT_THEME));
+        final UploadField logoUploadField = new UploadField() {
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            protected void updateDisplayComponent() {
+                byte[] imageData = this.getValue();
+                String mimeType = this.getLastMimeType();
+                if (mimeType.equals("image/jpeg")) {
+                    imageData = ImageUtil.convertJpgToPngFormat(imageData);
+                    if (imageData == null) {
+                        throw new UserInvalidInputException(UserUIContext.getMessage(FileI18nEnum.ERROR_INVALID_SUPPORTED_IMAGE_FORMAT));
+                    } else {
+                        mimeType = "image/png";
+                    }
+                }
+
+                if (mimeType.equals("image/png")) {
+                    UI.getCurrent().addWindow(new LogoEditWindow(imageData));
+                } else {
+                    throw new UserInvalidInputException(UserUIContext.getMessage(FileI18nEnum.ERROR_UPLOAD_INVALID_SUPPORTED_IMAGE_FORMAT));
+                }
+            }
+        };
+        logoUploadField.setButtonCaption(UserUIContext.getMessage(GenericI18Enum.ACTION_CHANGE));
+        logoUploadField.addStyleName("upload-field");
+        logoUploadField.setSizeUndefined();
+        logoUploadField.setVisible(UserUIContext.canBeYes(RolePermissionCollections.ACCOUNT_THEME));
 
         MButton resetButton = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_RESET), clickEvent -> {
             BillingAccountService billingAccountService = AppContextUtil.getSpringBean(BillingAccountService.class);
@@ -212,7 +219,7 @@ public class GeneralSettingViewImpl extends AbstractVerticalPageView implements 
         }).withStyleName(WebThemes.BUTTON_OPTION);
         resetButton.setVisible(UserUIContext.canBeYes(RolePermissionCollections.ACCOUNT_THEME));
 
-//        buttonControls.with(resetButton, logoUploadField);
+        buttonControls.with(resetButton, logoUploadField);
         rightPanel.with(previewLayout, buttonControls);
         layout.with(leftPanel, rightPanel).expand(rightPanel);
         formContainer.addSection("Logo", layout);
@@ -221,9 +228,9 @@ public class GeneralSettingViewImpl extends AbstractVerticalPageView implements 
 
     private void buildShortcutIconPanel() {
         FormContainer formContainer = new FormContainer();
-        MHorizontalLayout layout = new MHorizontalLayout().withFullWidth().withMargin(new MarginInfo(true));
+        MHorizontalLayout layout = new MHorizontalLayout().withFullWidth().withMargin(new MarginInfo(true, false, true, false));
         MVerticalLayout leftPanel = new MVerticalLayout().withMargin(false);
-        Label logoDesc = new Label(UserUIContext.getMessage(FileI18nEnum.OPT_FAVICON_FORMAT_DESCRIPTION));
+        ELabel logoDesc =  ELabel.html(UserUIContext.getMessage(FileI18nEnum.OPT_FAVICON_FORMAT_DESCRIPTION)).withFullWidth();
         leftPanel.with(logoDesc).withWidth("250px");
         MVerticalLayout rightPanel = new MVerticalLayout().withMargin(false);
         final Image favIconRes = new Image("", new ExternalResource(StorageUtils.getFavIconPath(billingAccount.getId(),
@@ -231,43 +238,42 @@ public class GeneralSettingViewImpl extends AbstractVerticalPageView implements 
 
         MHorizontalLayout buttonControls = new MHorizontalLayout().withMargin(new MarginInfo(true, false, false, false));
         buttonControls.setDefaultComponentAlignment(Alignment.BOTTOM_LEFT);
-//        final UploadField favIconUploadField = new UploadField() {
-//            private static final long serialVersionUID = 1L;
-//
-//            @Override
-//            protected void updateDisplay() {
-//                byte[] imageData = (byte[]) this.getValue();
-//                String mimeType = this.getLastMimeType();
-//                if (mimeType.equals("image/jpeg")) {
-//                    imageData = ImageUtil.convertJpgToPngFormat(imageData);
-//                    if (imageData == null) {
-//                        throw new UserInvalidInputException(UserUIContext.getMessage(FileI18nEnum.ERROR_INVALID_SUPPORTED_IMAGE_FORMAT));
-//                    } else {
-//                        mimeType = "image/png";
-//                    }
-//                }
-//
-//                if (mimeType.equals("image/png")) {
-//                    try {
-//                        AccountFavIconService favIconService = AppContextUtil.getSpringBean(AccountFavIconService.class);
-//                        BufferedImage image = ImageIO.read(new ByteArrayInputStream(imageData));
-//                        String newFavIconPath = favIconService.upload(UserUIContext.getUsername(), image, AppUI.getAccountId());
-//                        favIconRes.setSource(new ExternalResource(StorageUtils.getFavIconPath(billingAccount.getId(),
-//                                newFavIconPath)));
-//                        Utils.reloadPage();
-//                    } catch (IOException e) {
-//                        throw new MyCollabException(e);
-//                    }
-//                } else {
-//                    throw new UserInvalidInputException(UserUIContext.getMessage(FileI18nEnum.ERROR_UPLOAD_INVALID_SUPPORTED_IMAGE_FORMAT));
-//                }
-//            }
-//        };
-//        favIconUploadField.setButtonCaption(UserUIContext.getMessage(GenericI18Enum.ACTION_CHANGE));
-//        favIconUploadField.addStyleName("upload-field");
-//        favIconUploadField.setSizeUndefined();
-//        favIconUploadField.setFieldType(UploadField.FieldType.BYTE_ARRAY);
-//        favIconUploadField.setVisible(UserUIContext.canBeYes(RolePermissionCollections.ACCOUNT_THEME));
+        final UploadField favIconUploadField = new UploadField() {
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            protected void updateDisplayComponent() {
+                byte[] imageData = this.getValue();
+                String mimeType = this.getLastMimeType();
+                if (mimeType.equals("image/jpeg")) {
+                    imageData = ImageUtil.convertJpgToPngFormat(imageData);
+                    if (imageData == null) {
+                        throw new UserInvalidInputException(UserUIContext.getMessage(FileI18nEnum.ERROR_INVALID_SUPPORTED_IMAGE_FORMAT));
+                    } else {
+                        mimeType = "image/png";
+                    }
+                }
+
+                if (mimeType.equals("image/png")) {
+                    try {
+                        AccountFavIconService favIconService = AppContextUtil.getSpringBean(AccountFavIconService.class);
+                        BufferedImage image = ImageIO.read(new ByteArrayInputStream(imageData));
+                        String newFavIconPath = favIconService.upload(UserUIContext.getUsername(), image, AppUI.getAccountId());
+                        favIconRes.setSource(new ExternalResource(StorageUtils.getFavIconPath(billingAccount.getId(),
+                                newFavIconPath)));
+                        Utils.reloadPage();
+                    } catch (IOException e) {
+                        throw new MyCollabException(e);
+                    }
+                } else {
+                    throw new UserInvalidInputException(UserUIContext.getMessage(FileI18nEnum.ERROR_UPLOAD_INVALID_SUPPORTED_IMAGE_FORMAT));
+                }
+            }
+        };
+        favIconUploadField.setButtonCaption(UserUIContext.getMessage(GenericI18Enum.ACTION_CHANGE));
+        favIconUploadField.addStyleName("upload-field");
+        favIconUploadField.setSizeUndefined();
+        favIconUploadField.setVisible(UserUIContext.canBeYes(RolePermissionCollections.ACCOUNT_THEME));
 
         MButton resetButton = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_RESET), clickEvent -> {
             BillingAccountService billingAccountService = AppContextUtil.getSpringBean(BillingAccountService.class);
@@ -277,7 +283,7 @@ public class GeneralSettingViewImpl extends AbstractVerticalPageView implements 
         }).withStyleName(WebThemes.BUTTON_OPTION);
         resetButton.setVisible(UserUIContext.canBeYes(RolePermissionCollections.ACCOUNT_THEME));
 
-//        buttonControls.with(resetButton, favIconUploadField);
+        buttonControls.with(resetButton, favIconUploadField);
         rightPanel.with(favIconRes, buttonControls);
         layout.with(leftPanel, rightPanel).expand(rightPanel);
         formContainer.addSection("Favicon", layout);
@@ -286,18 +292,18 @@ public class GeneralSettingViewImpl extends AbstractVerticalPageView implements 
 
     private void buildLanguageUpdatePanel() {
         FormContainer formContainer = new FormContainer();
-        MHorizontalLayout layout = new MHorizontalLayout().withFullWidth().withMargin(new MarginInfo(true));
+        MHorizontalLayout layout = new MHorizontalLayout().withFullWidth().withMargin(new MarginInfo(true, false, true, false));
         MVerticalLayout leftPanel = new MVerticalLayout().withMargin(false);
-        Label logoDesc = new Label(UserUIContext.getMessage(ShellI18nEnum.OPT_LANGUAGE_DOWNLOAD));
-        leftPanel.with(logoDesc).withWidth("250px");
+        ELabel languageDownloadDesc = ELabel.html(UserUIContext.getMessage(ShellI18nEnum.OPT_LANGUAGE_DOWNLOAD)).withFullWidth();
+        leftPanel.with(languageDownloadDesc).withWidth("250px");
         MVerticalLayout rightPanel = new MVerticalLayout().withMargin(false);
         MButton downloadBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_DOWNLOAD))
                 .withStyleName(WebThemes.BUTTON_ACTION).withIcon(VaadinIcons.DOWNLOAD);
         ServerConfiguration serverConfiguration = AppContextUtil.getSpringBean(ServerConfiguration.class);
         BrowserWindowOpener opener = new BrowserWindowOpener(serverConfiguration.getApiUrl("localization/translations"));
         opener.extend(downloadBtn);
-        rightPanel.with(downloadBtn, new ELabel(UserUIContext.getMessage(ShellI18nEnum
-                .OPT_UPDATE_LANGUAGE_INSTRUCTION)).withStyleName(UIConstants.META_INFO));
+        rightPanel.with(downloadBtn, new ELabel(UserUIContext.getMessage(ShellI18nEnum.OPT_UPDATE_LANGUAGE_INSTRUCTION))
+                .withStyleName(UIConstants.META_INFO).withFullWidth());
         layout.with(leftPanel, rightPanel).expand(rightPanel);
         formContainer.addSection("Languages", layout);
         this.with(formContainer);

@@ -93,3 +93,46 @@ CHANGE COLUMN `issueDate` `issueDate` DATE NOT NULL ;
 
 ALTER TABLE `m_prj_time_logging`
 CHANGE COLUMN `logForDay` `logForDay` DATE NOT NULL ;
+
+ALTER TABLE `m_prj_invoice`
+CHANGE COLUMN `createdTime` `createdTime` DATETIME NULL ,
+CHANGE COLUMN `lastUpdatedTime` `lastUpdatedTime` DATETIME NULL ;
+
+ALTER TABLE `m_prj_kanban_board`
+CHANGE COLUMN `createdTime` `createdTime` DATETIME NULL ,
+CHANGE COLUMN `lastUpdatedTime` `lastUpdatedTime` DATETIME NULL ;
+
+ALTER TABLE `m_prj_member`
+CHANGE COLUMN `createdTime` `createdTime` DATETIME NULL ;
+
+ALTER TABLE `m_prj_standup`
+CHANGE COLUMN `createdTime` `createdTime` DATETIME NULL ,
+CHANGE COLUMN `lastUpdatedTime` `lastUpdatedTime` DATETIME NULL ;
+
+ALTER TABLE `m_prj_time_logging`
+CHANGE COLUMN `createdTime` `createdTime` DATETIME NULL ,
+CHANGE COLUMN `lastUpdatedTime` `lastUpdatedTime` DATETIME NULL ;
+
+ALTER TABLE `s_billing_subscription`
+ADD COLUMN `lastUpdatedTime` DATETIME NULL,
+CHANGE COLUMN `createdTime` `createdTime` DATETIME NULL ;
+
+ALTER TABLE `s_billing_subscription_history`
+CHANGE COLUMN `createdTime` `createdTime` DATETIME NULL ;
+
+ALTER TABLE `s_email_preference`
+CHANGE COLUMN `createdTime` `createdTime` DATETIME NULL ;
+
+ALTER TABLE `s_favorite`
+CHANGE COLUMN `lastUpdatedTime` `lastUpdatedTime` DATETIME NULL ,
+CHANGE COLUMN `createdTime` `createdTime` DATETIME NULL ;
+
+ALTER TABLE `s_table_customize_view`
+CHANGE COLUMN `createdTime` `createdTime` DATETIME NULL ;
+
+ALTER TABLE `s_user_tracking`
+CHANGE COLUMN `createdTime` `createdTime` DATETIME NULL ;
+
+ALTER TABLE `s_widgets`
+ADD COLUMN `lastUpdatedTime` DATETIME NULL,
+CHANGE COLUMN `createdTime` `createdTime` DATETIME NULL ;

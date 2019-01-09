@@ -54,7 +54,7 @@ public class ProjectRoleSearchPanel extends DefaultGenericSearchPanel<ProjectRol
 
     @Override
     protected HeaderWithIcon buildSearchTitle() {
-        return HeaderWithIcon.h2(VaadinIcons.GROUP, UserUIContext.getMessage(ProjectRoleI18nEnum.LIST));
+        return HeaderWithIcon.h2(VaadinIcons.CLIPBOARD_USER, UserUIContext.getMessage(ProjectRoleI18nEnum.LIST));
     }
 
     @Override

@@ -37,6 +37,6 @@ class BillingSpringServletRegistrator {
     @Bean("resetPasswordServlet")
     fun resetPasswordServlet() = ServletRegistrationBean(ResetPasswordHandler(), "/user/recoverypassword/action/*")
 
-    @Bean("resetPasswordServlet")
-    fun resetPasswordPage() = ServletRegistrationBean(ResetPasswordHandler(), "/user/recoverypassword/*")
+    @Bean("resetPasswordPageServlet")
+    fun resetPasswordPage() = ServletRegistrationBean(ResetPasswordUpdatePage(), "/user/recoverypassword/*")
 }

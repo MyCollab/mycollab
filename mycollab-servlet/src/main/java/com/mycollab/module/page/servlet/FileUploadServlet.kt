@@ -77,7 +77,7 @@ class FileUploadServlet : GenericHttpServlet() {
                 var fileName = content.substring(content.indexOf('=') + 1).trim { it <= ' ' }.replace("\"", "")
                 val index = fileName.lastIndexOf(".")
                 if (index != -1) {
-                    fileName = "${fileName.substring(0, index - 1)}${GregorianCalendar().timeInMillis}${fileName.substring(index)}"
+                    fileName = "${fileName.substring(0, index - 1)}${System.currentTimeMillis()}${fileName.substring(index)}"
                     return fileName
                 }
             }

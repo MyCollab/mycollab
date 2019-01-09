@@ -30,6 +30,7 @@ import com.mycollab.module.project.domain.SimpleProject;
 import com.mycollab.module.project.domain.criteria.ProjectSearchCriteria;
 import com.mycollab.module.project.fielddef.ProjectTableFieldDef;
 import com.mycollab.module.project.service.ProjectService;
+import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.module.project.ui.ProjectAssetsUtil;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.TooltipHelper;
@@ -44,6 +45,7 @@ import com.mycollab.vaadin.ui.DefaultMassItemActionHandlerContainer;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.web.ui.CheckBoxDecor;
+import com.mycollab.vaadin.web.ui.LabelLink;
 import com.mycollab.vaadin.web.ui.SelectionOptionButton;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.mycollab.vaadin.web.ui.table.DefaultPagedBeanTable;
@@ -65,7 +67,7 @@ public class ProjectListViewImpl extends AbstractVerticalPageView implements Pro
     private ProjectSearchPanel projectSearchPanel;
     private SelectionOptionButton selectOptionButton;
     private DefaultPagedBeanTable<ProjectService, ProjectSearchCriteria, SimpleProject> tableItem;
-    private VerticalLayout bodyLayout;
+    private MVerticalLayout bodyLayout;
     private DefaultMassItemActionHandlerContainer tableActionControls;
     private Label selectedItemsNumberLabel = new Label();
 
@@ -77,10 +79,9 @@ public class ProjectListViewImpl extends AbstractVerticalPageView implements Pro
     public void initContent() {
         removeAllComponents();
         projectSearchPanel = new ProjectSearchPanel();
-        with(projectSearchPanel);
 
         bodyLayout = new MVerticalLayout().withSpacing(false).withMargin(false);
-        this.addComponent(bodyLayout);
+        this.with(projectSearchPanel, bodyLayout).expand(bodyLayout);
 
         generateDisplayTable();
     }
@@ -126,17 +127,17 @@ public class ProjectListViewImpl extends AbstractVerticalPageView implements Pro
                     project.getLeadFullName(), project.getLeadAvatarId(), true));
         });
 
-//        tableItem.addGeneratedColumn(Project.Field.accountid.name(), (source, itemId, columnId) -> {
-//            SimpleProject project = tableItem.getBeanByIndex(itemId);
-//            if (project.getAccountid() != null) {
-//                LabelLink b = new LabelLink(project.getClientName(),
-//                        ProjectLinkGenerator.generateClientPreviewLink(project.getAccountid()));
-//                b.setIconLink(CrmAssetsManager.getAsset(CrmTypeConstants.ACCOUNT));
-//                return b;
-//            } else {
-//                return new Label();
-//            }
-//        });
+        tableItem.addGeneratedColumn(Project.Field.clientid.name(), (source, itemId, columnId) -> {
+            SimpleProject project = tableItem.getBeanByIndex(itemId);
+            if (project.getClientid() != null) {
+                LabelLink b = new LabelLink(project.getClientName(),
+                        ProjectLinkGenerator.generateClientPreviewLink(project.getClientid()));
+                b.setIconLink(ProjectAssetsManager.getAsset(ProjectTypeConstants.CLIENT));
+                return b;
+            } else {
+                return new Label();
+            }
+        });
 
         tableItem.addGeneratedColumn(Project.Field.planstartdate.name(), (source, itemId, columnId) -> {
             SimpleProject project = tableItem.getBeanByIndex(itemId);
@@ -160,8 +161,7 @@ public class ProjectListViewImpl extends AbstractVerticalPageView implements Pro
 
         tableItem.setWidth("100%");
 
-        bodyLayout.addComponent(constructTableActionControls());
-        bodyLayout.addComponent(tableItem);
+        bodyLayout.with(constructTableActionControls(), tableItem).expand(tableItem);
     }
 
     private ComponentContainer constructTableActionControls() {

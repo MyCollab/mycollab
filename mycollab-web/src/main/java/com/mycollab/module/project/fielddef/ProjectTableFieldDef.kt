@@ -37,7 +37,7 @@ object ProjectTableFieldDef {
     val lead = TableViewField(ProjectI18nEnum.FORM_LEADER, Project.Field.memlead.name, WebUIConstants.TABLE_EX_LABEL_WIDTH)
 
     @JvmField
-    val client = TableViewField(ProjectI18nEnum.FORM_ACCOUNT_NAME, Project.Field.accountid.name, WebUIConstants.TABLE_EX_LABEL_WIDTH)
+    val client = TableViewField(ProjectI18nEnum.FORM_ACCOUNT_NAME, Project.Field.clientid.name, WebUIConstants.TABLE_EX_LABEL_WIDTH)
 
     @JvmField
     val createdDate = TableViewField(GenericI18Enum.FORM_CREATED_TIME, Project.Field.createdtime.name, WebUIConstants.TABLE_DATE_WIDTH)

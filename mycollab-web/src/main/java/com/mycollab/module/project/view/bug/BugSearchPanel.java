@@ -198,7 +198,7 @@ public class BugSearchPanel extends DefaultGenericSearchPanel<BugSearchCriteria>
         @Override
         protected Component buildSelectionComp(String fieldId) {
             if ("assignuser".equals(fieldId)) {
-                return new ProjectMemberListSelect(false, Arrays.asList(CurrentProjectVariables.getProjectId()));
+                return new ProjectMemberListSelect(false, Collections.singletonList(CurrentProjectVariables.getProjectId()));
             } else if ("affected_versions".equals(fieldId)) {
                 return new VersionListSelect();
             } else if ("fixed_versions".equals(fieldId)) {

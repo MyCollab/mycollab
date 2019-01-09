@@ -86,7 +86,7 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
         previewForm = initPreviewForm();
         previewForm.setWidth("100%");
 
-        bottomLayout = new MHorizontalLayout().withMargin(new MarginInfo(true, false, true, false)).withFullWidth();
+        bottomLayout = new MHorizontalLayout().withMargin(true).withFullWidth();
         this.addHeaderRightContent(createButtonControls());
         this.with(previewForm, bottomLayout);
     }
@@ -161,7 +161,7 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
 
         @Override
         public AbstractComponent getLayout() {
-            HorizontalLayout blockContent = new HorizontalLayout();
+            MHorizontalLayout blockContent = new MHorizontalLayout();
             blockContent.addStyleName("member-block");
             Image memberAvatar = UserAvatarControlFactory.createUserAvatarEmbeddedComponent(beanItem.getMemberAvatarId(), 100);
             memberAvatar.addStyleName(UIConstants.CIRCLE_BOX);
@@ -176,7 +176,7 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
                             (ProjectRolePermissionCollections.USERS));
             memberInfo.addComponent(new MHorizontalLayout(memberLink, editNotificationBtn).alignAll(Alignment.MIDDLE_LEFT));
 
-            String memberRoleLinkPrefix = String.format("<a href=\"%s%s%s\"", AppUI.getSiteUrl(), GenericLinkUtils.URL_PREFIX_PARAM,
+            String memberRoleLinkPrefix = String.format("<a href=\"%s%s\"", AppUI.getSiteUrl(),
                     ProjectLinkGenerator.generateRolePreviewLink(beanItem.getProjectid(), beanItem.getProjectroleid()));
             ELabel memberRole = new ELabel(ContentMode.HTML).withStyleName(UIConstants.META_INFO).withUndefinedWidth();
             if (Boolean.TRUE.equals(beanItem.getIsadmin()) || beanItem.getProjectroleid() == null) {

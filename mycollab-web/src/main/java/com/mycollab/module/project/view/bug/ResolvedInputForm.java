@@ -51,7 +51,6 @@ import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 import java.time.LocalDateTime;
-import java.util.GregorianCalendar;
 
 import static com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 

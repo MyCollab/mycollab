@@ -55,7 +55,7 @@ class FollowingTicketBeanTableDisplay extends DefaultPagedBeanTable<ProjectFollo
     FollowingTicketBeanTableDisplay() {
         super(AppContextUtil.getSpringBean(ProjectFollowingTicketService.class), FollowingTicket.class,
                 Arrays.asList(FollowingTicketFieldDef.summary,
-                        FollowingTicketFieldDef.project, FollowingTicketFieldDef.assignee, FollowingTicketFieldDef.createdDate));
+                        FollowingTicketFieldDef.project, FollowingTicketFieldDef.assignee, FollowingTicketFieldDef.createdTime));
 
         this.addGeneratedColumn("name", (source, itemId, columnId) -> {
             final FollowingTicket ticket = getBeanByIndex(itemId);

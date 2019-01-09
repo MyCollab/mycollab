@@ -23,12 +23,8 @@ import com.mycollab.common.domain.NullCustomViewStore
 import com.mycollab.common.service.CustomViewStoreService
 import com.mycollab.db.persistence.ICrudGenericDAO
 import com.mycollab.db.persistence.service.DefaultCrudService
-import org.apache.commons.collections.CollectionUtils
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
-
-import java.util.GregorianCalendar
 
 /**
  * @author MyCollab Ltd.
