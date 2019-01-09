@@ -22,10 +22,10 @@ import com.vaadin.ui.ComboBox;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class ValueComboBox extends ComboBox {
+public class StringValueComboBox extends ComboBox<String> {
     private static final long serialVersionUID = 1L;
 
-    public ValueComboBox() {
+    public StringValueComboBox() {
         this.setPageLength(20);
     }
 
@@ -33,13 +33,12 @@ public class ValueComboBox extends ComboBox {
      * @param nullIsAllowable
      * @param values
      */
-    public ValueComboBox(boolean nullIsAllowable, String... values) {
-        this();
+    public StringValueComboBox(boolean nullIsAllowable, String... values) {
         this.setEmptySelectionAllowed(nullIsAllowable);
         this.loadData(values);
     }
 
-    public final void loadData(String... values) {
+    public void loadData(String... values) {
         this.setItems(values);
 
         if (!this.isEmptySelectionAllowed() && values.length > 0) {

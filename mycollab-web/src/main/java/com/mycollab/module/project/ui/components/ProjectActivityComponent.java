@@ -47,10 +47,8 @@ import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.UI;
+import com.vaadin.ui.*;
+import com.vaadin.ui.themes.ValoTheme;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
@@ -60,6 +58,7 @@ import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MMarginInfo;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -69,7 +68,6 @@ import java.util.List;
  * @author MyCollab Ltd
  * @since 5.1.4
  */
-// TODO
 public class ProjectActivityComponent extends MVerticalLayout implements ReloadableComponent {
     private static Logger LOG = LoggerFactory.getLogger(ProjectActivityComponent.class);
     private String type;
@@ -86,8 +84,8 @@ public class ProjectActivityComponent extends MVerticalLayout implements Reloada
         @Override
         public int compare(Object o1, Object o2) {
             try {
-                Date createTime1 = (Date) PropertyUtils.getProperty(o1, "createdtime");
-                Date createTime2 = (Date) PropertyUtils.getProperty(o2, "createdtime");
+                LocalDateTime createTime1 = (LocalDateTime) PropertyUtils.getProperty(o1, "createdtime");
+                LocalDateTime createTime2 = (LocalDateTime) PropertyUtils.getProperty(o2, "createdtime");
                 return createTime1.compareTo(createTime2);
             } catch (Exception e) {
                 return 0;
@@ -101,25 +99,26 @@ public class ProjectActivityComponent extends MVerticalLayout implements Reloada
         this.groupFormatter = AuditLogRegistry.getFieldGroupFormatterOfType(type);
         headerLbl = new ELabel(UserUIContext.getMessage(GenericI18Enum.OPT_CHANGE_HISTORY, 0));
 
-//        final OptionGroup sortDirection = new OptionGroup();
-//        sortDirection.addStyleName("sortDirection");
-//        String oldestFirstDirection = UserUIContext.getMessage(GenericI18Enum.OPT_OLDEST_FIRST);
-//        final String newestFirstDirection = UserUIContext.getMessage(GenericI18Enum.OPT_NEWEST_FIRST);
-//        sortDirection.addItems(newestFirstDirection, oldestFirstDirection);
-//        sortDirection.setValue(newestFirstDirection);
-//        sortDirection.addValueChangeListener(valueChangeEvent -> {
-//            Object value = sortDirection.getValue();
-//            isAscending = newestFirstDirection.equals(value);
-//            displayActivities();
-//        });
+        final RadioButtonGroup<String> sortDirection = new RadioButtonGroup<>();
+        sortDirection.addStyleName(ValoTheme.OPTIONGROUP_HORIZONTAL);
 
-//        MHorizontalLayout headerPanel = new MHorizontalLayout().withMargin(true).withStyleName(WebThemes.FORM_SECTION)
-//                .withFullWidth().with(headerLbl, sortDirection).withAlign(headerLbl, Alignment.MIDDLE_LEFT)
-//                .withAlign(sortDirection, Alignment.MIDDLE_RIGHT);
+        String oldestFirstDirection = UserUIContext.getMessage(GenericI18Enum.OPT_OLDEST_FIRST);
+        final String newestFirstDirection = UserUIContext.getMessage(GenericI18Enum.OPT_NEWEST_FIRST);
+        sortDirection.setItems(newestFirstDirection, oldestFirstDirection);
+        sortDirection.setValue(newestFirstDirection);
+        sortDirection.addValueChangeListener(valueChangeEvent -> {
+            Object value = sortDirection.getValue();
+            isAscending = newestFirstDirection.equals(value);
+            displayActivities();
+        });
+
+        MHorizontalLayout headerPanel = new MHorizontalLayout().withMargin(true).withStyleName(WebThemes.FORM_SECTION)
+                .withFullWidth().with(headerLbl, sortDirection).withAlign(headerLbl, Alignment.MIDDLE_LEFT)
+                .withAlign(sortDirection, Alignment.MIDDLE_RIGHT);
 
         commentBox = new ProjectCommentInput(this, type, extraTypeId);
         activityBox = new MVerticalLayout().withMargin(new MMarginInfo(true, true, true, false));
-//        this.with(headerPanel, commentBox, activityBox);
+        this.with(headerPanel, commentBox, activityBox);
 
         commentService = AppContextUtil.getSpringBean(CommentService.class);
         auditLogService = AppContextUtil.getSpringBean(AuditLogService.class);

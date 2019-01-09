@@ -53,6 +53,9 @@ import org.vaadin.viritin.layouts.MHorizontalLayout;
 public class AccountModuleImpl extends AbstractSingleContainerPageView implements AccountModule {
     private static final long serialVersionUID = 1L;
 
+    private MHorizontalLayout serviceMenuContainer;
+    private ServiceMenu serviceMenu;
+
     private VerticalTabsheet tabSheet;
 
     private ProfilePresenter profilePresenter;
@@ -151,30 +154,21 @@ public class AccountModuleImpl extends AbstractSingleContainerPageView implement
         EventBusFactory.getInstance().post(new ProfileEvent.GotoProfileView(this));
     }
 
-//    @Override
-//    public MHorizontalLayout buildMenu() {
-//        if (serviceMenuContainer == null) {
-//            serviceMenuContainer = new MHorizontalLayout();
-//            serviceMenu = new ServiceMenu();
-//            serviceMenu.addService(UserUIContext.getMessage(GenericI18Enum.MODULE_PROJECT), new Button.ClickListener() {
-//                @Override
-//                public void buttonClick(Button.ClickEvent clickEvent) {
-//                    EventBusFactory.getInstance().post(new ShellEvent.GotoProjectModule(this, new String[]{"dashboard"}));
-//                    serviceMenu.selectService(0);
-//                }
-//            });
-//
-//
-//            serviceMenu.addService(UserUIContext.getMessage(GenericI18Enum.MODULE_PEOPLE), new Button.ClickListener() {
-//                @Override
-//                public void buttonClick(Button.ClickEvent clickEvent) {
-//                    EventBusFactory.getInstance().post(new ShellEvent.GotoUserAccountModule(this, new String[]{"user", "list"}));
-//
-//                }
-//            });
-//            serviceMenuContainer.with(serviceMenu);
-//        }
-//        serviceMenu.selectService(3);
-//        return serviceMenuContainer;
-//    }
+    @Override
+    public MHorizontalLayout buildMenu() {
+        if (serviceMenuContainer == null) {
+            serviceMenuContainer = new MHorizontalLayout();
+            serviceMenu = new ServiceMenu();
+            serviceMenu.addService(UserUIContext.getMessage(GenericI18Enum.MODULE_PROJECT), new Button.ClickListener() {
+                @Override
+                public void buttonClick(Button.ClickEvent clickEvent) {
+                    EventBusFactory.getInstance().post(new ShellEvent.GotoProjectModule(this, new String[]{"dashboard"}));
+                    serviceMenu.selectService(0);
+                }
+            });
+            serviceMenuContainer.with(serviceMenu);
+        }
+        serviceMenu.selectService(3);
+        return serviceMenuContainer;
+    }
 }

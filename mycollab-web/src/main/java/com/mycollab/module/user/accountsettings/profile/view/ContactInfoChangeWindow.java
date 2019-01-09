@@ -23,12 +23,12 @@ import com.mycollab.module.user.domain.User;
 import com.mycollab.module.user.service.UserService;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.UserUIContext;
+import com.mycollab.vaadin.Utils;
 import com.mycollab.vaadin.ui.NotificationUtil;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.icons.VaadinIcons;
-import com.vaadin.server.Page;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.TextField;
@@ -133,7 +133,7 @@ class ContactInfoChangeWindow extends MWindow {
             UserService userService = AppContextUtil.getSpringBean(UserService.class);
             userService.updateWithSession(user, UserUIContext.getUsername());
             close();
-            Page.getCurrent().getJavaScript().execute("window.location.reload();");
+            Utils.reloadPage();
         }
     }
 }

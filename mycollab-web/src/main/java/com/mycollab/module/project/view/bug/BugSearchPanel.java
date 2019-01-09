@@ -17,6 +17,7 @@
 package com.mycollab.module.project.view.bug;
 
 import com.mycollab.common.i18n.GenericI18Enum;
+import com.mycollab.common.i18n.QueryI18nEnum;
 import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.db.arguments.SearchField;
 import com.mycollab.db.query.ConstantValueInjector;
@@ -48,8 +49,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import static com.mycollab.common.i18n.QueryI18nEnum.CollectionI18nEnum;
-import static com.mycollab.common.i18n.QueryI18nEnum.StringI18nEnum;
+import static com.mycollab.common.i18n.QueryI18nEnum.*;
 
 /**
  * @author MyCollab Ltd.
@@ -164,10 +164,10 @@ public class BugSearchPanel extends DefaultGenericSearchPanel<BugSearchCriteria>
         @Override
         protected BugSearchCriteria fillUpSearchCriteria() {
             List<SearchFieldInfo<BugSearchCriteria>> searchFieldInfos = new ArrayList<>();
-            searchFieldInfos.add(new SearchFieldInfo(SearchField.AND, BugSearchCriteria.p_textDesc, StringI18nEnum.CONTAINS.name(),
+            searchFieldInfos.add(new SearchFieldInfo(SearchField.AND, BugSearchCriteria.p_textDesc, CONTAINS.name(),
                     ConstantValueInjector.valueOf(nameField.getValue().trim())));
             if (myItemCheckbox.getValue()) {
-                searchFieldInfos.add(new SearchFieldInfo(SearchField.AND, BugSearchCriteria.p_assignee, CollectionI18nEnum.IN.name(),
+                searchFieldInfos.add(new SearchFieldInfo(SearchField.AND, BugSearchCriteria.p_assignee, IN.name(),
                         ConstantValueInjector.valueOf(Collections.singletonList(UserUIContext.getUsername()))));
             }
             EventBusFactory.getInstance().post(new ShellEvent.AddQueryParam(this, searchFieldInfos));

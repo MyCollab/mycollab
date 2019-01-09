@@ -21,6 +21,7 @@ package com.mycollab.vaadin.web.ui;
 
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
+import org.vaadin.viritin.layouts.MCssLayout;
 
 /**
  * @author MyCollab Ltd.
@@ -34,16 +35,12 @@ public class RightSidebarLayout extends CssLayout {
 
     public RightSidebarLayout() {
         this.setStyleName("rightsidebar-layout");
-        this.setWidth("100%");
+        this.setSizeFull();
 
-        contentWrap = new CssLayout();
-        contentWrap.setStyleName("content-wrap");
-        contentWrap.setWidth("100%");
+        contentWrap = new MCssLayout().withStyleName("content-wrap").withFullSize();
         this.addComponent(contentWrap);
 
-        sidebarWrap = new CssLayout();
-        sidebarWrap.setStyleName("sidebar-wrap");
-        sidebarWrap.setWidth("250px");
+        sidebarWrap = new MCssLayout().withStyleName("sidebar-wrap").withWidth("250px").withFullHeight();
         this.addComponent(sidebarWrap);
     }
 

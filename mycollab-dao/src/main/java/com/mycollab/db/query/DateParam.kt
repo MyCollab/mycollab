@@ -21,7 +21,7 @@ import com.mycollab.db.arguments.BetweenValuesSearchField
 import com.mycollab.db.arguments.OneValueSearchField
 import com.mycollab.db.arguments.SearchField
 import java.lang.reflect.Array
-import java.util.*
+import java.time.LocalDate
 
 /**
  * @author MyCollab Ltd.
@@ -29,14 +29,14 @@ import java.util.*
  */
 class DateParam(id: String, table: String, column: String) : ColumnParam(id, table, column) {
 
-    fun buildSearchField(prefixOper: String, compareOper: String, dateValue1: Date, dateValue2: Date): SearchField =
+    fun buildSearchField(prefixOper: String, compareOper: String, dateValue1: LocalDate, dateValue2: LocalDate): SearchField =
             when (compareOper) {
                 DateParam.BETWEEN -> buildDateValBetween(prefixOper, dateValue1, dateValue2)
                 DateParam.NOT_BETWEEN -> buildDateValNotBetween(prefixOper, dateValue1, dateValue2)
                 else -> throw MyCollabException("Not support yet")
             }
 
-    fun buildSearchField(prefixOper: String, compareOper: String, dateValue: Date): SearchField =
+    fun buildSearchField(prefixOper: String, compareOper: String, dateValue: LocalDate): SearchField =
             when (compareOper) {
                 DateParam.IS -> buildDateIsEqual(prefixOper, dateValue)
                 DateParam.IS_NOT -> buildDateIsNotEqual(prefixOper, dateValue)
@@ -45,22 +45,22 @@ class DateParam(id: String, table: String, column: String) : ColumnParam(id, tab
                 else -> throw MyCollabException("Not support yet")
             }
 
-    private fun buildDateValBetween(oper: String, value1: Date, value2: Date): BetweenValuesSearchField =
+    private fun buildDateValBetween(oper: String, value1: LocalDate, value2: LocalDate): BetweenValuesSearchField =
             BetweenValuesSearchField(oper, "DATE($table.$column) BETWEEN", value1, value2)
 
-    private fun buildDateValNotBetween(oper: String, value1: Date, value2: Date): BetweenValuesSearchField =
+    private fun buildDateValNotBetween(oper: String, value1: LocalDate, value2: LocalDate): BetweenValuesSearchField =
             BetweenValuesSearchField(oper, "DATE($table.$column) NOT BETWEEN", value1, value2)
 
-    private fun buildDateIsEqual(oper: String, value: Date): OneValueSearchField =
+    private fun buildDateIsEqual(oper: String, value: LocalDate): OneValueSearchField =
             OneValueSearchField(oper, "DATE($table.$column) = ", value)
 
-    private fun buildDateIsNotEqual(oper: String, value: Date): OneValueSearchField =
+    private fun buildDateIsNotEqual(oper: String, value: LocalDate): OneValueSearchField =
             OneValueSearchField(oper, "DATE($table.$column) <> ", value)
 
-    private fun buildDateIsGreaterThan(oper: String, value: Date): OneValueSearchField =
+    private fun buildDateIsGreaterThan(oper: String, value: LocalDate): OneValueSearchField =
             OneValueSearchField(oper, "DATE($table.$column) >= ", value)
 
-    private fun buildDateIsLessThan(oper: String, value: Date): OneValueSearchField =
+    private fun buildDateIsLessThan(oper: String, value: LocalDate): OneValueSearchField =
             OneValueSearchField(oper, "DATE($table.$column) <= ", value)
 
     companion object {
@@ -84,9 +84,9 @@ class DateParam(id: String, table: String, column: String) : ColumnParam(id, tab
             val value = variableInjector.eval()
             return if (value != null) {
                 if (value.javaClass.isArray) {
-                    dateParam.buildSearchField(SearchField.AND, BETWEEN, Array.get(value, 0) as Date, Array.get(value, 1) as Date)
+                    dateParam.buildSearchField(SearchField.AND, BETWEEN, Array.get(value, 0) as LocalDate, Array.get(value, 1) as LocalDate)
                 } else {
-                    dateParam.buildSearchField(SearchField.AND, BETWEEN, value as Date)
+                    dateParam.buildSearchField(SearchField.AND, BETWEEN, value as LocalDate)
                 }
             } else null
         }

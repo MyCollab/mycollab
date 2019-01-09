@@ -1,23 +1,22 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package com.mycollab.module.user.accountsettings.team.view;
 
 import com.mycollab.core.utils.RandomPasswordGenerator;
-import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.module.billing.RegisterStatusConstants;
 import com.mycollab.module.billing.UserStatusConstants;
 import com.mycollab.module.user.accountsettings.view.AccountSettingBreadcrumb;
@@ -28,13 +27,14 @@ import com.mycollab.security.AccessPermissionFlag;
 import com.mycollab.security.RolePermissionCollections;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppUI;
+import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.vaadin.UserUIContext;
+import com.mycollab.vaadin.Utils;
 import com.mycollab.vaadin.event.DefaultEditFormHandler;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.mvp.ViewManager;
 import com.mycollab.vaadin.mvp.ViewPermission;
 import com.mycollab.vaadin.web.ui.AbstractPresenter;
-import com.vaadin.server.Page;
 import com.vaadin.ui.HasComponents;
 import com.vaadin.ui.UI;
 
@@ -98,7 +98,7 @@ public class UserAddPresenter extends AbstractPresenter<UserAddView> {
         }
 
         if (isRefreshable) {
-            Page.getCurrent().getJavaScript().execute("window.location.reload();");
+            Utils.reloadPage();
         }
     }
 

@@ -20,6 +20,7 @@ import com.mycollab.vaadin.UserUIContext;
 import com.vaadin.data.Converter;
 import com.vaadin.data.Result;
 import com.vaadin.data.ValueContext;
+import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.ItemCaptionGenerator;
 
 import java.util.Arrays;
@@ -29,7 +30,7 @@ import java.util.Collection;
  * @author MyCollab Ltd.
  * @since 4.3.0
  */
-public class I18nValueComboBox<T extends Enum<T>> extends ValueComboBox implements Converter<T, String> {
+public class I18nValueComboBox<T extends Enum<T>> extends ComboBox<T> implements Converter<T, String> {
     private static final long serialVersionUID = 1L;
 
     private Class<T> eClass;
@@ -50,7 +51,7 @@ public class I18nValueComboBox<T extends Enum<T>> extends ValueComboBox implemen
 
     public final void loadData(Collection<T> values) {
         this.setItems(values);
-        this.setItemCaptionGenerator((ItemCaptionGenerator<Enum<?>>) o -> UserUIContext.getMessage(o));
+        this.setItemCaptionGenerator((ItemCaptionGenerator<T>) o -> UserUIContext.getMessage(o));
     }
 
     @Override

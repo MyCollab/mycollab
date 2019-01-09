@@ -53,13 +53,12 @@ import com.mycollab.vaadin.event.HasSelectionOptionHandlers;
 import com.mycollab.vaadin.mvp.AbstractVerticalPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.ELabel;
-import com.mycollab.vaadin.web.ui.QueryParamHandler;
 import com.mycollab.vaadin.web.ui.ButtonGroup;
-import com.mycollab.vaadin.web.ui.ValueComboBox;
+import com.mycollab.vaadin.web.ui.QueryParamHandler;
+import com.mycollab.vaadin.web.ui.StringValueComboBox;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.mycollab.vaadin.web.ui.table.AbstractPagedBeanTable;
 import com.vaadin.icons.VaadinIcons;
-import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.ComboBox;
@@ -133,7 +132,7 @@ public class TicketDashboardViewImpl extends AbstractVerticalPageView implements
         groupWrapLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
         groupWrapLayout.addComponent(new ELabel(UserUIContext.getMessage(GenericI18Enum.ACTION_SORT)));
-        final ComboBox sortCombo = new ValueComboBox(false, UserUIContext.getMessage(GenericI18Enum.OPT_SORT_DESCENDING),
+        final ComboBox sortCombo = new StringValueComboBox(false, UserUIContext.getMessage(GenericI18Enum.OPT_SORT_DESCENDING),
                 UserUIContext.getMessage(GenericI18Enum.OPT_SORT_ASCENDING));
         sortCombo.addValueChangeListener(valueChangeEvent -> {
             String sortValue = (String) sortCombo.getValue();
@@ -148,7 +147,7 @@ public class TicketDashboardViewImpl extends AbstractVerticalPageView implements
         groupWrapLayout.addComponent(sortCombo);
 
         groupWrapLayout.addComponent(new ELabel(UserUIContext.getMessage(GenericI18Enum.OPT_GROUP)));
-        final ComboBox groupCombo = new ValueComboBox(false, UserUIContext.getMessage(GenericI18Enum.FORM_DUE_DATE),
+        final ComboBox groupCombo = new StringValueComboBox(false, UserUIContext.getMessage(GenericI18Enum.FORM_DUE_DATE),
                 UserUIContext.getMessage(GenericI18Enum.FORM_START_DATE), UserUIContext.getMessage(GenericI18Enum.FORM_CREATED_TIME),
                 UserUIContext.getMessage(GenericI18Enum.OPT_PLAIN), UserUIContext.getMessage(GenericI18Enum.OPT_USER),
                 UserUIContext.getMessage(MilestoneI18nEnum.SINGLE));
@@ -182,10 +181,10 @@ public class TicketDashboardViewImpl extends AbstractVerticalPageView implements
 
 
         MButton advanceDisplayBtn = new MButton(UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_LIST))
-                .withIcon(FontAwesome.NAVICON).withWidth("100px");
+                .withIcon(VaadinIcons.ALIGN_JUSTIFY).withWidth("100px");
 
         MButton kanbanBtn = new MButton(UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_KANBAN), clickEvent ->
-                displayKanbanView()).withWidth("100px").withIcon(FontAwesome.TH);
+                displayKanbanView()).withWidth("100px").withIcon(VaadinIcons.GRID_SMALL_O);
 
         groupWrapLayout.addComponent(new ButtonGroup(advanceDisplayBtn, kanbanBtn).withDefaultButton(advanceDisplayBtn));
 
@@ -193,7 +192,8 @@ public class TicketDashboardViewImpl extends AbstractVerticalPageView implements
         wrapBody = new MVerticalLayout().withMargin(new MarginInfo(false, true, true, false));
         rightColumn = new MVerticalLayout().withWidth("370px").withMargin(new MarginInfo(true, false, false, false));
         mainLayout.with(wrapBody, rightColumn).expand(wrapBody);
-        this.with(ticketSearchPanel, mainLayout);
+
+        this.with(ticketSearchPanel, mainLayout).expand(mainLayout);
     }
 
     @Override
@@ -309,7 +309,7 @@ public class TicketDashboardViewImpl extends AbstractVerticalPageView implements
                 if (currentPage >= newNumPages) {
                     wrapBody.removeComponent(wrapBody.getComponent(1));
                 }
-            }).withStyleName(WebThemes.BUTTON_ACTION).withIcon(FontAwesome.ANGLE_DOUBLE_DOWN);
+            }).withStyleName(WebThemes.BUTTON_ACTION).withIcon(VaadinIcons.ANGLE_DOUBLE_DOWN);
             wrapBody.addComponent(moreBtn);
         }
         List<ProjectTicket> tickets = (List<ProjectTicket>) projectTicketService.findTicketsByCriteria(new BasicSearchRequest<>

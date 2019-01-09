@@ -164,7 +164,7 @@ public class DesktopApplication extends AppUI {
 
         SessionExpireException sessionExpireException = getExceptionType(e, SessionExpireException.class);
         if (sessionExpireException != null) {
-            Page.getCurrent().getJavaScript().execute("window.location.reload();");
+            Utils.reloadPage();
             return;
         }
 
@@ -362,10 +362,6 @@ public class DesktopApplication extends AppUI {
 
     public UserUIContext getAssociateContext() {
         return (UserUIContext) getAttribute("context");
-    }
-
-    public void reloadPage() {
-        getUI().getPage().getJavaScript().execute("window.location.reload();");
     }
 
     private class ShellErrorHandler {

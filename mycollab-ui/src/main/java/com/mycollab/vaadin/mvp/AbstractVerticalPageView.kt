@@ -25,6 +25,6 @@ import org.vaadin.viritin.layouts.MVerticalLayout
 abstract class AbstractVerticalPageView : MVerticalLayout(), PageView {
 
     init {
-        this.withSpacing(false).withMargin(false)
+        this.withSpacing(false).withMargin(false).withFullSize()
     }
 }

@@ -86,7 +86,7 @@ public class AdRequestWindow extends MWindow {
             close();
             NotificationUtil.showNotification("We appreciate your kindness action", "Thank you for your time");
             turnOffAdd(user);
-        }).withIcon(FontAwesome.HEART).withStyleName(WebThemes.BUTTON_ACTION);
+        }).withIcon(VaadinIcons.HEART).withStyleName(WebThemes.BUTTON_ACTION);
 
         MHorizontalLayout btnControls = new MHorizontalLayout(ignoreBtn, loveBtn);
         content.with(message, rateSourceforge, tweetUs, linkedIn, testimonialAd, rateSourceforge, new

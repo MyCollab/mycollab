@@ -330,7 +330,7 @@ public class UserUIContext implements Serializable {
      * @param textIfDateIsNull
      * @return
      */
-    public static String formatDate(LocalDateTime date, String textIfDateIsNull) {
+    public static String formatDate(TemporalAccessor date, String textIfDateIsNull) {
         return date == null ? textIfDateIsNull : formatDate(date);
     }
 

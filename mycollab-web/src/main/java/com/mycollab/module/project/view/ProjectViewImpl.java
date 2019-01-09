@@ -105,13 +105,13 @@ public class ProjectViewImpl extends AbstractVerticalPageView implements Project
         private UserSettingPresenter userPresenter;
 
         ProjectViewWrap(SimpleProject project) {
-            this.setWidth("100%");
-            this.addStyleName("project-view");
+            this.withFullSize().withStyleName("project-view");
 
             myProjectTab = new VerticalTabsheet();
             myProjectTab.setSizeFull();
             myProjectTab.setNavigatorWidth("100%");
             myProjectTab.setNavigatorStyleName("sidebar-menu");
+            myProjectTab.addToggleNavigatorControl();
 
             myProjectTab.addSelectedTabChangeListener(selectedTabChangeEvent -> {
                 Tab tab = ((VerticalTabsheet) selectedTabChangeEvent.getSource()).getSelectedTab();
@@ -141,12 +141,10 @@ public class ProjectViewImpl extends AbstractVerticalPageView implements Project
             contentWrapper.addStyleName("main-content");
 
             MVerticalLayout topPanel = new MVerticalLayout(new ProjectInfoComponent(project)).withSpacing(false).
-                    withMargin(false).
-                    withFullWidth().withStyleName("top-panel").withUndefinedHeight().withFullWidth();
+                    withMargin(false).withFullWidth().withStyleName("top-panel").withUndefinedHeight().withFullWidth();
             contentWrapper.addComponentAsFirst(topPanel);
 
-            CssLayout navigatorWrapper = myProjectTab.getNavigatorWrapper();
-            navigatorWrapper.setWidth("250px");
+            myProjectTab.setNavigatorWidth("250px");
 
             buildComponents();
             this.addComponent(myProjectTab);
@@ -176,7 +174,7 @@ public class ProjectViewImpl extends AbstractVerticalPageView implements Project
         }
 
         private void buildComponents() {
-            Integer prjId = CurrentProjectVariables.getProjectId();
+            int prjId = CurrentProjectVariables.getProjectId();
 
             myProjectTab.addTab(constructProjectDashboardComponent(), ProjectTypeConstants.DASHBOARD, 1,
                     UserUIContext.getMessage(ProjectCommonI18nEnum.VIEW_DASHBOARD),

@@ -32,6 +32,7 @@ import com.mycollab.security.RolePermissionCollections;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.UserUIContext;
+import com.mycollab.vaadin.Utils;
 import com.mycollab.vaadin.mvp.AbstractVerticalPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.AccountAssetsResolver;
@@ -207,7 +208,7 @@ public class GeneralSettingViewImpl extends AbstractVerticalPageView implements 
             BillingAccountService billingAccountService = AppContextUtil.getSpringBean(BillingAccountService.class);
             billingAccount.setLogopath(null);
             billingAccountService.updateWithSession(billingAccount, UserUIContext.getUsername());
-            Page.getCurrent().getJavaScript().execute("window.location.reload();");
+            Utils.reloadPage();
         }).withStyleName(WebThemes.BUTTON_OPTION);
         resetButton.setVisible(UserUIContext.canBeYes(RolePermissionCollections.ACCOUNT_THEME));
 
@@ -253,7 +254,7 @@ public class GeneralSettingViewImpl extends AbstractVerticalPageView implements 
 //                        String newFavIconPath = favIconService.upload(UserUIContext.getUsername(), image, AppUI.getAccountId());
 //                        favIconRes.setSource(new ExternalResource(StorageUtils.getFavIconPath(billingAccount.getId(),
 //                                newFavIconPath)));
-//                        Page.getCurrent().getJavaScript().execute("window.location.reload();");
+//                        Utils.reloadPage();
 //                    } catch (IOException e) {
 //                        throw new MyCollabException(e);
 //                    }
@@ -272,7 +273,7 @@ public class GeneralSettingViewImpl extends AbstractVerticalPageView implements 
             BillingAccountService billingAccountService = AppContextUtil.getSpringBean(BillingAccountService.class);
             billingAccount.setFaviconpath(null);
             billingAccountService.updateWithSession(billingAccount, UserUIContext.getUsername());
-            Page.getCurrent().getJavaScript().execute("window.location.reload();");
+            Utils.reloadPage();
         }).withStyleName(WebThemes.BUTTON_OPTION);
         resetButton.setVisible(UserUIContext.canBeYes(RolePermissionCollections.ACCOUNT_THEME));
 

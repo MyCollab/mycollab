@@ -151,7 +151,7 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
     }
 
     private void displayWidget() {
-        final MilestoneSearchCriteria tmpCriteria = BeanUtility.deepClone(baseCriteria);
+        MilestoneSearchCriteria tmpCriteria = BeanUtility.deepClone(baseCriteria);
         tmpCriteria.setStatuses(new SetSearchField<>(MilestoneStatus.Closed.name()));
         int totalCloseCount = milestoneService.getTotalCount(tmpCriteria);
         closeMilestoneSelection.setCaption(String.format("%s (%d)",
@@ -211,14 +211,14 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
     private void initUI() {
         headerText = ELabel.h2("");
 
-        MHorizontalLayout header = new MHorizontalLayout().withStyleName("hdr-view").withFullWidth().withMargin(true)
+        MHorizontalLayout headerComp = new MHorizontalLayout().withFullWidth().withMargin(true)
                 .with(headerText, createHeaderRight()).withAlign(headerText, Alignment.MIDDLE_LEFT).expand(headerText);
-        this.addComponent(header);
+        this.addComponent(headerComp);
         roadMapView = new MVerticalLayout().withSpacing(false);
         filterPanel = new MVerticalLayout().withWidth("250px").withStyleName(WebThemes.BOX);
-//        FloatingComponent floatingComponent = FloatingComponent.floatThis(filterPanel);
-//        floatingComponent.setContainerId("main-body");
-        this.addComponent(new MHorizontalLayout().withFullWidth().with(roadMapView, filterPanel).expand(roadMapView));
+
+        MHorizontalLayout bodyComp = new MHorizontalLayout(roadMapView, filterPanel).withFullWidth().expand(roadMapView);
+        this.with(headerComp, bodyComp).expand(bodyComp);
     }
 
     private HorizontalLayout createHeaderRight() {

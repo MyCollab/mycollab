@@ -24,7 +24,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -34,18 +35,18 @@ import java.util.Set;
 public class FieldDefAnalyzer {
     private static Logger LOG = LoggerFactory.getLogger(FieldDefAnalyzer.class);
 
-    public static Set<TableViewField> toTableFields(String jsonValue) {
+    public static List<TableViewField> toTableFields(String jsonValue) {
         try {
             ObjectMapper mapper = new ObjectMapper();
             return mapper.readValue(jsonValue, new TypeReference<Set<TableViewField>>() {
             });
         } catch (Exception e) {
             LOG.error("Error", e);
-            return new HashSet<>();
+            return new ArrayList<>();
         }
     }
 
-    public static String toJson(Set<TableViewField> fields) {
+    public static String toJson(List<TableViewField> fields) {
         try {
             ObjectMapper mapper = new ObjectMapper();
             return mapper.writeValueAsString(fields);

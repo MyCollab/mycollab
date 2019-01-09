@@ -20,7 +20,7 @@ package com.mycollab.vaadin.web.ui;
  * @author MyCollab Ltd.
  * @since 3.0
  */
-public class PrefixNameComboBox extends ValueComboBox {
+public class PrefixNameComboBox extends StringValueComboBox {
     private static final long serialVersionUID = 1L;
 
     public PrefixNameComboBox() {

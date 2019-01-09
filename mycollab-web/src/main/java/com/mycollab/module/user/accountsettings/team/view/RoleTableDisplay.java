@@ -29,16 +29,16 @@ import com.mycollab.vaadin.web.ui.LabelLink;
 import com.mycollab.vaadin.web.ui.table.DefaultPagedBeanTable;
 import com.vaadin.ui.Label;
 
-import java.util.Set;
+import java.util.List;
 
 /**
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class RoleTableDisplay extends DefaultPagedBeanTable<RoleService, RoleSearchCriteria, SimpleRole> {
+class RoleTableDisplay extends DefaultPagedBeanTable<RoleService, RoleSearchCriteria, SimpleRole> {
     private static final long serialVersionUID = 1L;
 
-    public RoleTableDisplay(TableViewField requiredColumn, Set<TableViewField> displayColumns) {
+    RoleTableDisplay(TableViewField requiredColumn, List<TableViewField> displayColumns) {
         super(AppContextUtil.getSpringBean(RoleService.class), SimpleRole.class, requiredColumn, displayColumns);
 
         this.addGeneratedColumn("selected", (source, itemId, columnId) -> {

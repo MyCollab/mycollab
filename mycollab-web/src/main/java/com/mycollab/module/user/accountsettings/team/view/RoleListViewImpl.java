@@ -42,7 +42,6 @@ import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
 import java.util.Arrays;
-import java.util.HashSet;
 
 /**
  * @author MyCollab Ltd.
@@ -70,7 +69,7 @@ public class RoleListViewImpl extends AbstractVerticalPageView implements RoleLi
 
     private void generateDisplayTable() {
         tableItem = new RoleTableDisplay(RoleTableFieldDef.selected,
-                new HashSet<>(Arrays.asList(RoleTableFieldDef.rolename, RoleTableFieldDef.isDefault, RoleTableFieldDef.description)));
+                Arrays.asList(RoleTableFieldDef.rolename, RoleTableFieldDef.isDefault, RoleTableFieldDef.description));
         listLayout.addComponent(constructTableActionControls());
         listLayout.addComponent(tableItem);
     }

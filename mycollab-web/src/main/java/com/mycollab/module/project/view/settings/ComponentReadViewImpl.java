@@ -180,7 +180,7 @@ public class ComponentReadViewImpl extends AbstractPreviewItemComp<SimpleCompone
     private static class PeopleInfoComp extends MVerticalLayout {
         private static final long serialVersionUID = 1L;
 
-        public void displayEntryPeople(ValuedBean bean) {
+        void displayEntryPeople(ValuedBean bean) {
             this.removeAllComponents();
             this.withMargin(false);
 

@@ -46,7 +46,7 @@ public interface IPagedTable<S extends SearchCriteria, T> extends HasSelectableI
 
     void addGeneratedColumn(Object id, Table.ColumnGenerator generatedColumn);
 
-    Set<TableViewField> getDisplayColumns();
+    List<TableViewField> getDisplayColumns();
 
     T getBeanByIndex(Object itemId);
 

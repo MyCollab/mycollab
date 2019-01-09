@@ -31,7 +31,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 
-import static com.mycollab.common.i18n.QueryI18nEnum.StringI18nEnum;
+import static com.mycollab.common.i18n.QueryI18nEnum.IS_NOT;
 
 /**
  * @author MyCollab Ltd
@@ -84,7 +84,7 @@ public class BugSavedFilterComboBox extends SavedFilterComboBox {
                             }
                         }),
                 new SearchFieldInfo(SearchField.AND, new StringParam("id-status",
-                        "m_tracker_bug", "status"), StringI18nEnum.IS_NOT.name(),
+                        "m_tracker_bug", "status"), IS_NOT.name(),
                         ConstantValueInjector.valueOf(StatusI18nEnum.Verified.name())));
 
         SearchQueryInfo myBugsQuery = new SearchQueryInfo(MY_BUGS, UserUIContext.getMessage(BugI18nEnum.VAL_MY_BUGS),

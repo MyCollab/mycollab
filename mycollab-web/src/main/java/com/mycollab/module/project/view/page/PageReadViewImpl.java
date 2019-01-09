@@ -90,7 +90,7 @@ public class PageReadViewImpl extends AbstractPreviewItemComp<Page> implements P
 
         header.addComponent(headerLbl, 0);
         header.addComponent(pageVersionsSelection, 1);
-        header.withFullWidth().withStyleName("hdr-view").expand(pageVersionsSelection).alignAll(Alignment.MIDDLE_LEFT);
+        header.withFullWidth().withStyleName(WebThemes.HEADER_VIEW).expand(pageVersionsSelection).alignAll(Alignment.MIDDLE_LEFT);
     }
 
     @Override

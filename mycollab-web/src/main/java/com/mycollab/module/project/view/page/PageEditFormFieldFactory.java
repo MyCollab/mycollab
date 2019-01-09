@@ -64,7 +64,7 @@ class PageEditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<Pa
 
             CKEditorTextField ckEditorTextField = new CKEditorTextField(config);
             ckEditorTextField.setHeight("450px");
-//            ckEditorTextField.setRequired(true);
+            ckEditorTextField.setRequiredIndicatorVisible(true);
 //            ckEditorTextField.setRequiredError("Content must be not null");
             return ckEditorTextField;
         } else if (propertyId.equals("status")) {
@@ -73,7 +73,7 @@ class PageEditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<Pa
                     WikiI18nEnum.status_private, WikiI18nEnum.status_archieved);
         } else if (propertyId.equals("subject")) {
             TextField subjectField = new TextField();
-//            subjectField.setRequired(true);
+            subjectField.setRequiredIndicatorVisible(true);
 //            subjectField.setRequiredError(UserUIContext.getMessage(ErrorI18nEnum.FIELD_MUST_NOT_NULL,
 //                    UserUIContext.getMessage(PageI18nEnum.FORM_SUBJECT)));
             return subjectField;

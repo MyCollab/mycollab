@@ -55,7 +55,6 @@ import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
 import java.util.Arrays;
-import java.util.HashSet;
 
 /**
  * @author MyCollab Ltd
@@ -89,9 +88,9 @@ public class ProjectListViewImpl extends AbstractVerticalPageView implements Pro
     private void generateDisplayTable() {
         tableItem = new DefaultPagedBeanTable<>(AppContextUtil.getSpringBean(ProjectService.class),
                 SimpleProject.class, ProjectTypeConstants.PROJECT, ProjectTableFieldDef.selected,
-                new HashSet<>(Arrays.asList(ProjectTableFieldDef.projectName,
+                Arrays.asList(ProjectTableFieldDef.projectName,
                         ProjectTableFieldDef.lead, ProjectTableFieldDef.client, ProjectTableFieldDef.startDate,
-                        ProjectTableFieldDef.status)));
+                        ProjectTableFieldDef.status));
 
         tableItem.addGeneratedColumn("selected", (source, itemId, columnId) -> {
             final SimpleProject item = tableItem.getBeanByIndex(itemId);

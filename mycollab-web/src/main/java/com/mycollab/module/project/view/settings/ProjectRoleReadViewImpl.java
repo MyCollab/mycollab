@@ -37,8 +37,9 @@ import com.mycollab.vaadin.web.ui.WebThemes;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.vaadin.data.HasValue;
 import com.vaadin.icons.VaadinIcons;
-import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.ui.*;
+import com.vaadin.ui.Alignment;
+import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.Label;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
@@ -59,24 +60,18 @@ public class ProjectRoleReadViewImpl extends MVerticalLayout implements ProjectR
     private GridFormLayoutHelper projectFormHelper;
 
     public ProjectRoleReadViewImpl() {
-        withMargin(new MarginInfo(true, false, true, false));
-        headerText = HeaderWithIcon.h2(VaadinIcons.USERS, UserUIContext.getMessage(ProjectRoleI18nEnum.DETAIL));
-        headerText.setSizeUndefined();
-        this.addComponent(constructHeader());
+        withMargin(true);
+        headerText = HeaderWithIcon.h2(VaadinIcons.CLIPBOARD_USER, UserUIContext.getMessage(ProjectRoleI18nEnum.DETAIL));
+        header = constructHeader();
+        this.addComponent(header);
 
         previewForm = initPreviewForm();
         ComponentContainer actionControls = createButtonControls();
-
-        addHeaderRightContent(actionControls);
-
-        CssLayout contentWrapper = new CssLayout();
-        contentWrapper.setWidth("100%");
-        contentWrapper.setStyleName(WebThemes.CONTENT_WRAPPER);
+        header.with(actionControls).expand(actionControls);
 
         previewLayout = new DefaultReadViewLayout("");
-        contentWrapper.addComponent(previewLayout);
         previewLayout.addBody(previewForm);
-        this.addComponent(contentWrapper);
+        this.addComponent(previewLayout);
     }
 
     protected AdvancedPreviewBeanForm<SimpleProjectRole> initPreviewForm() {
@@ -147,14 +142,10 @@ public class ProjectRoleReadViewImpl extends MVerticalLayout implements ProjectR
         }
     }
 
-    private ComponentContainer constructHeader() {
-        header = new MHorizontalLayout().withStyleName("hdr-view").withFullWidth().withMargin(true);
-        header.with(headerText).alignAll(Alignment.MIDDLE_LEFT).expand(headerText);
-        return header;
-    }
-
-    public void addHeaderRightContent(Component c) {
-        header.addComponent(c);
+    private MHorizontalLayout constructHeader() {
+        MHorizontalLayout container = new MHorizontalLayout().withStyleName(WebThemes.HEADER_VIEW).withMargin(false).withFullWidth();
+        container.with(headerText).alignAll(Alignment.MIDDLE_LEFT).expand(headerText);
+        return container;
     }
 
     public void previewItem(final SimpleProjectRole item) {

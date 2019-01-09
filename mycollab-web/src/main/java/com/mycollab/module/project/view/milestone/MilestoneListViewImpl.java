@@ -110,47 +110,20 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
 
     @Override
     protected void displayView() {
-        initUI();
-        constructBody();
+        Component headerComp = buildHeader();
+        Component bodyComp = buildBody();
+        this.with(headerComp, bodyComp).expand(bodyComp);
         displayMilestones();
     }
 
-    private void displayMilestones() {
-        closeContainer.removeAllComponents();
-        inProgressContainer.removeAllComponents();
-        futureContainer.removeAllComponents();
-        baseCriteria = new MilestoneSearchCriteria();
-        baseCriteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
-        MilestoneService milestoneService = AppContextUtil.getSpringBean(MilestoneService.class);
-        List<SimpleMilestone> milestones = (List<SimpleMilestone>) milestoneService.findAbsoluteListByCriteria(baseCriteria, 0, Integer.MAX_VALUE);
-        int totalClosedMilestones = 0, totalInprogressMilestones = 0, totalFutureMilestones = 0;
-
-        for (SimpleMilestone milestone : milestones) {
-            ComponentContainer componentContainer = new MilestoneBox(milestone);
-            if (MilestoneStatus.InProgress.name().equals(milestone.getStatus())) {
-                inProgressContainer.addComponent(componentContainer);
-                totalInprogressMilestones++;
-            } else if (MilestoneStatus.Future.name().equals(milestone.getStatus())) {
-                futureContainer.addComponent(componentContainer);
-                totalFutureMilestones++;
-            } else if (MilestoneStatus.Closed.name().equals(milestone.getStatus())) {
-                closeContainer.addComponent(componentContainer);
-                totalClosedMilestones++;
-            }
-        }
-
-        updateClosedMilestoneNumber(totalClosedMilestones);
-        updateFutureMilestoneNumber(totalFutureMilestones);
-        updateInProgressMilestoneNumber(totalInprogressMilestones);
-    }
-
-    private void initUI() {
+    private Component buildHeader() {
         HeaderWithIcon headerText = ComponentUtils.headerH2(ProjectTypeConstants.MILESTONE,
                 UserUIContext.getMessage(MilestoneI18nEnum.LIST));
 
-        MHorizontalLayout header = new MHorizontalLayout().withStyleName("hdr-view").withFullWidth().withMargin(true)
-                .with(headerText, createHeaderRight()).withAlign(headerText, Alignment.MIDDLE_LEFT).expand(headerText);
-        this.addComponent(header);
+        MHorizontalLayout header = new MHorizontalLayout(headerText, createHeaderRight()).withMargin(true)
+                .withAlign(headerText, Alignment.MIDDLE_LEFT).expand(headerText);
+
+        return header;
     }
 
     private HorizontalLayout createHeaderRight() {
@@ -186,9 +159,8 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
         return layout;
     }
 
-    private void constructBody() {
+    private Component buildBody() {
         CustomLayout bodyContent = CustomLayoutExt.createLayout("milestoneView");
-        bodyContent.setWidth("100%");
         bodyContent.setStyleName("milestone-view");
 
         MHorizontalLayout closedHeaderLayout = new MHorizontalLayout();
@@ -218,7 +190,36 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
         futureContainer = new MVerticalLayout().withStyleName("milestone-col").withFullWidth();
         bodyContent.addComponent(this.futureContainer, "future-milestones");
 
-        this.addComponent(bodyContent);
+        return bodyContent;
+    }
+
+    private void displayMilestones() {
+        closeContainer.removeAllComponents();
+        inProgressContainer.removeAllComponents();
+        futureContainer.removeAllComponents();
+        baseCriteria = new MilestoneSearchCriteria();
+        baseCriteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
+        MilestoneService milestoneService = AppContextUtil.getSpringBean(MilestoneService.class);
+        List<SimpleMilestone> milestones = (List<SimpleMilestone>) milestoneService.findAbsoluteListByCriteria(baseCriteria, 0, Integer.MAX_VALUE);
+        int totalClosedMilestones = 0, totalInProgressMilestones = 0, totalFutureMilestones = 0;
+
+        for (SimpleMilestone milestone : milestones) {
+            ComponentContainer componentContainer = new MilestoneBox(milestone);
+            if (MilestoneStatus.InProgress.name().equals(milestone.getStatus())) {
+                inProgressContainer.addComponent(componentContainer);
+                totalInProgressMilestones++;
+            } else if (MilestoneStatus.Future.name().equals(milestone.getStatus())) {
+                futureContainer.addComponent(componentContainer);
+                totalFutureMilestones++;
+            } else if (MilestoneStatus.Closed.name().equals(milestone.getStatus())) {
+                closeContainer.addComponent(componentContainer);
+                totalClosedMilestones++;
+            }
+        }
+
+        updateClosedMilestoneNumber(totalClosedMilestones);
+        updateFutureMilestoneNumber(totalFutureMilestones);
+        updateInProgressMilestoneNumber(totalInProgressMilestones);
     }
 
     private void updateClosedMilestoneNumber(int closeMilestones) {

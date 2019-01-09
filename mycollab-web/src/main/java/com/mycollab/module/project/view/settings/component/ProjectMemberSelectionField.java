@@ -20,7 +20,6 @@ import com.mycollab.module.project.domain.SimpleProjectMember;
 import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.web.ui.WebThemes;
-import com.vaadin.shared.Registration;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomField;
 import org.vaadin.viritin.button.MButton;
@@ -59,11 +58,12 @@ public class ProjectMemberSelectionField extends CustomField<String> {
 
     @Override
     protected void doSetValue(String s) {
-
+        System.out.println("Value: " + s);
     }
 
     @Override
     public String getValue() {
-        return null;
+        SimpleProjectMember member = memberSelectionBox.getValue();
+        return (member != null) ? member.getUsername() : null;
     }
 }

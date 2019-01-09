@@ -68,7 +68,7 @@ public class ProjectRoleAddViewImpl extends AbstractEditItemComp<ProjectRole> im
 
     @Override
     protected VaadinIcons initFormIconResource() {
-        return VaadinIcons.GROUP;
+        return VaadinIcons.CLIPBOARD_USER;
     }
 
     @Override

@@ -21,7 +21,6 @@ import com.mycollab.core.Version
 import com.mycollab.module.file.StorageUtils
 import com.mycollab.module.user.service.BillingAccountService
 import com.mycollab.spring.AppContextUtil
-import com.mycollab.vaadin.AppUIProvider.Companion.MOBILE_APP
 import com.mycollab.vaadin.TooltipHelper.TOOLTIP_ID
 import com.vaadin.server.BootstrapFragmentResponse
 import com.vaadin.server.BootstrapListener
@@ -50,26 +49,25 @@ class AppBootstrapListener : BootstrapListener {
         response.document.head().append("<meta name=\"robots\" content=\"nofollow\" />")
 
         val deploymentMode = AppContextUtil.getSpringBean(IDeploymentMode::class.java)
-        if (MOBILE_APP != response.uiClass.name || !Utils.isTablet(request)) {
-            response.document.head()
-                    .append("<script type=\"text/javascript\" src=\"${deploymentMode.getCdnUrl()}js/jquery-2.1.4.min.js\"></script>")
-            response.document.head()
-                    .append("<script type=\"text/javascript\" src=\"${deploymentMode.getCdnUrl()}js/stickytooltip-1.0.2.js?v=${Version.getVersion()}\"></script>")
 
-            val div1 = response.document.body().appendElement("div")
-            div1.attr("id", "div1$TOOLTIP_ID")
-            div1.attr("class", "stickytooltip")
+        response.document.head()
+                .append("<script type=\"text/javascript\" src=\"${deploymentMode.getCdnUrl()}js/jquery-2.1.4.min.js\"></script>")
+        response.document.head()
+                .append("<script type=\"text/javascript\" src=\"${deploymentMode.getCdnUrl()}js/stickytooltip-1.0.2.js?v=${Version.getVersion()}\"></script>")
 
-            val div12 = div1.appendElement("div")
-            div12.attr("style", "padding:5px")
+        val div1 = response.document.body().appendElement("div")
+        div1.attr("id", "div1$TOOLTIP_ID")
+        div1.attr("class", "stickytooltip")
 
-            val div13 = div12.appendElement("div")
-            div13.attr("id", "div13$TOOLTIP_ID")
-            div13.attr("class", "atip")
-            div13.attr("style", "width:550px")
+        val div12 = div1.appendElement("div")
+        div12.attr("style", "padding:5px")
 
-            val div14 = div13.appendElement("div")
-            div14.attr("id", "div14$TOOLTIP_ID")
-        }
+        val div13 = div12.appendElement("div")
+        div13.attr("id", "div13$TOOLTIP_ID")
+        div13.attr("class", "atip")
+        div13.attr("style", "width:550px")
+
+        val div14 = div13.appendElement("div")
+        div14.attr("id", "div14$TOOLTIP_ID")
     }
 }

@@ -36,10 +36,7 @@ import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 import org.vaadin.viritin.layouts.MWindow;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author MyCollab Ltd.
@@ -76,7 +73,7 @@ public abstract class CustomizedTableWindow extends MWindow {
         contentLayout.with(listBuilder).withAlign(listBuilder, Alignment.TOP_CENTER);
 
         MButton restoreLink = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_RESET), clickEvent -> {
-            Set<TableViewField> defaultSelectedColumns = tableItem.getDefaultSelectedColumns();
+            Set<TableViewField> defaultSelectedColumns = new HashSet<>(tableItem.getDefaultSelectedColumns());
             if (defaultSelectedColumns != null) {
                 final Set<TableViewField> selectedColumns = new HashSet<>();
                 final Collection<TableViewField> itemIds = ((ListDataProvider<TableViewField>) listBuilder.getDataProvider()).getItems();
@@ -96,13 +93,13 @@ public abstract class CustomizedTableWindow extends MWindow {
 
         final MButton saveBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_SAVE), clickEvent -> {
             Set<TableViewField> selectedColumns = listBuilder.getValue();
-            table.setDisplayColumns(selectedColumns);
+            table.setDisplayColumns(new ArrayList<>(selectedColumns));
             // Save custom table view def
             CustomViewStore viewDef = new CustomViewStore();
             viewDef.setSaccountid(AppUI.getAccountId());
             viewDef.setCreateduser(UserUIContext.getUsername());
             viewDef.setViewid(viewId);
-            viewDef.setViewinfo(FieldDefAnalyzer.toJson(selectedColumns));
+            viewDef.setViewinfo(FieldDefAnalyzer.toJson(new ArrayList<>(selectedColumns)));
             customViewStoreService.saveOrUpdateViewLayoutDef(viewDef);
             close();
         }).withIcon(VaadinIcons.CLIPBOARD).withStyleName(WebThemes.BUTTON_ACTION);

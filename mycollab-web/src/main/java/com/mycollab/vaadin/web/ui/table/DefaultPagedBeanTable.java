@@ -21,7 +21,6 @@ import com.mycollab.db.arguments.SearchCriteria;
 import com.mycollab.db.persistence.service.ISearchableService;
 
 import java.util.List;
-import java.util.Set;
 
 /**
  * @param <SearchService>
@@ -36,18 +35,18 @@ public class DefaultPagedBeanTable<SearchService extends ISearchableService<S>, 
 
     private final SearchService searchService;
 
-    public DefaultPagedBeanTable(SearchService searchService, Class<T> type, Set<TableViewField> displayColumns) {
+    public DefaultPagedBeanTable(SearchService searchService, Class<T> type, List<TableViewField> displayColumns) {
         super(type, displayColumns);
         this.searchService = searchService;
     }
 
     public DefaultPagedBeanTable(SearchService searchService, Class<T> type, TableViewField requiredColumn,
-                                 Set<TableViewField> displayColumns) {
+                                 List<TableViewField> displayColumns) {
         this(searchService, type, null, requiredColumn, displayColumns);
     }
 
     public DefaultPagedBeanTable(SearchService searchService, Class<T> type, String viewId,
-                                 TableViewField requiredColumn, Set<TableViewField> displayColumns) {
+                                 TableViewField requiredColumn, List<TableViewField> displayColumns) {
         super(type, viewId, requiredColumn, displayColumns);
         this.searchService = searchService;
     }

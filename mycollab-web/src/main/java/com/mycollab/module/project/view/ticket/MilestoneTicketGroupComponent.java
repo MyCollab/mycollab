@@ -52,31 +52,32 @@ import org.vaadin.viritin.layouts.MVerticalLayout;
  * @since 5.4.5
  */
 class MilestoneTicketGroupComponent extends MVerticalLayout implements IGroupComponent, IBlockContainer {
-    private MVerticalLayout headerGroup;
     private Label headerLbl;
     private DDVerticalLayout wrapBody;
 
     private SimpleMilestone milestone;
 
     MilestoneTicketGroupComponent(Integer milestoneId) {
-        this.setMargin(new MarginInfo(true, false, true, false));
+        this.withMargin(new MarginInfo(true, false, true, false)).withSpacing(false);
         wrapBody = new DDVerticalLayout();
         wrapBody.setWidth("100%");
+        wrapBody.setSpacing(false);
         wrapBody.addStyleName(WebThemes.BORDER_LIST);
         headerLbl = ELabel.h3("");
 
         MilestoneService milestoneService = AppContextUtil.getSpringBean(MilestoneService.class);
+        MVerticalLayout headerGroup;
         if (milestoneId == null) {
-            headerGroup = new MVerticalLayout(headerLbl).withMargin(false);
+            headerGroup = new MVerticalLayout(headerLbl).withMargin(false).withSpacing(false);
         } else {
             milestone = milestoneService.findById(milestoneId, AppUI.getAccountId());
             if (milestone != null) {
                 ELabel milestoneDateLbl = new ELabel(UserUIContext.getMessage(GenericI18Enum.OPT_FROM_TO,
                         UserUIContext.formatDate(milestone.getStartdate()), UserUIContext.formatDate(milestone.getEnddate())))
                         .withStyleName(UIConstants.META_INFO);
-                headerGroup = new MVerticalLayout(headerLbl, milestoneDateLbl).withMargin(false);
+                headerGroup = new MVerticalLayout(headerLbl, milestoneDateLbl).withMargin(false).withSpacing(false);
             } else {
-                headerGroup = new MVerticalLayout(headerLbl).withMargin(false);
+                headerGroup = new MVerticalLayout(headerLbl).withMargin(false).withSpacing(false);
             }
         }
 

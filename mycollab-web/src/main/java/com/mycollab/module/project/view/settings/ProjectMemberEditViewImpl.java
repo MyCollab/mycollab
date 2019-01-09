@@ -170,7 +170,7 @@ public class ProjectMemberEditViewImpl extends AbstractEditItemComp<SimpleProjec
 
         AdminRoleSelectionField() {
             roleComboBox = new ProjectRoleComboBox();
-            roleComboBox.addValueChangeListener(valueChangeEvent -> displayRolePermission((Integer) roleComboBox.getValue()));
+//            roleComboBox.addValueChangeListener(valueChangeEvent -> displayRolePermission((Integer) roleComboBox.getValue()));
         }
 
 //        @Override

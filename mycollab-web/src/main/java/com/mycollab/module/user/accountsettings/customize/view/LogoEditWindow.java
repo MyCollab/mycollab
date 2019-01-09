@@ -28,13 +28,13 @@ import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.vaadin.UserUIContext;
+import com.mycollab.vaadin.Utils;
 import com.mycollab.vaadin.ui.AccountAssetsResolver;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.web.ui.ByteArrayImageResource;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.icons.VaadinIcons;
-import com.vaadin.server.Page;
 import com.vaadin.server.Resource;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
@@ -109,7 +109,7 @@ public class LogoEditWindow extends MWindow {
                     AccountLogoService accountLogoService = AppContextUtil.getSpringBean(AccountLogoService.class);
                     accountLogoService.upload(UserUIContext.getUsername(),
                             image, AppUI.getAccountId());
-                    Page.getCurrent().getJavaScript().execute("window.location.reload();");
+                    Utils.reloadPage();
                 } catch (IOException e) {
                     throw new MyCollabException("Error when saving account logo", e);
                 }

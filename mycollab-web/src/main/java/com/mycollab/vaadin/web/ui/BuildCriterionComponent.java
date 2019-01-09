@@ -30,12 +30,10 @@ import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.*;
 import com.vaadin.data.HasValue;
-import com.vaadin.data.provider.DataProvider;
 import com.vaadin.data.provider.ListDataProvider;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
-import com.vaadin.v7.ui.Field;
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,7 +41,6 @@ import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
-import javax.naming.directory.SearchResult;
 import java.lang.reflect.Array;
 import java.util.*;
 
@@ -178,7 +175,7 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
 
         private int index;
         private Label indexLbl;
-        private ValueComboBox operatorSelectionBox;
+        private StringValueComboBox operatorSelectionBox;
         private ComboBox fieldSelectionBox;
         private I18nValueComboBox compareSelectionBox;
         private MVerticalLayout valueBox;
@@ -198,7 +195,7 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
             if (index == 1) {
                 this.addComponent(ELabel.html("&nbsp;").withWidth("90px"), 1, 0);
             } else {
-                operatorSelectionBox = new ValueComboBox(false, SearchField.AND, SearchField.OR);
+                operatorSelectionBox = new StringValueComboBox(false, SearchField.AND, SearchField.OR);
                 operatorSelectionBox.setWidth("90px");
                 this.addComponent(operatorSelectionBox, 1, 0);
             }
@@ -335,9 +332,9 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
                     } else if (field instanceof NumberParam) {
                         compareSelectionBox.loadData(Arrays.asList(NumberParam.OPTIONS));
                     } else if (field instanceof BooleanParam) {
-                        compareSelectionBox.loadData(BooleanParam.OPTIONS);
+                        compareSelectionBox.loadData(Arrays.asList(BooleanParam.OPTIONS));
                     } else if (field instanceof DateParam) {
-                        compareSelectionBox.loadData(DateParam.OPTIONS);
+                        compareSelectionBox.loadData(Arrays.asList(DateParam.OPTIONS));
                     } else if (field instanceof PropertyParam) {
                         compareSelectionBox.loadData(Arrays.asList(PropertyParam.OPTIONS));
                     } else if (field instanceof PropertyListParam || field instanceof CustomSqlParam || field instanceof SearchCriteriaBridgeParam) {

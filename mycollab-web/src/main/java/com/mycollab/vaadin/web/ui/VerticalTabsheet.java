@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -31,11 +31,11 @@ import com.vaadin.ui.TabSheet.SelectedTabChangeEvent;
 import com.vaadin.ui.TabSheet.SelectedTabChangeListener;
 import com.vaadin.ui.TabSheet.Tab;
 import org.vaadin.viritin.button.MButton;
+import org.vaadin.viritin.layouts.MCssLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 /**
@@ -45,15 +45,14 @@ import java.util.Map;
 public class VerticalTabsheet extends CustomComponent {
     private static final long serialVersionUID = 1L;
 
-    private static final String TABSHEET_STYLENAME = "vertical-tabsheet";
-    private static final String TAB_STYLENAME = "tab";
-    private static final String TAB_SELECTED_STYLENAME = "tab-selected";
+    private static final String TABSHEET_STYLE = "vertical-tabsheet";
+    private static final String TAB_STYLE = "tab";
+    private static final String TAB_SELECTED_STYLE = "tab-selected";
 
     private VerticalLayout navigatorContainer;
-    private CssLayout navigatorWrapper;
+    private MCssLayout navigatorWrapper;
 
-    private VerticalLayout tabContainer;
-    private CssLayout contentWrapper;
+    private MCssLayout contentWrapper;
 
     private Map<String, Tab> compMap = new HashMap<>();
 
@@ -63,26 +62,15 @@ public class VerticalTabsheet extends CustomComponent {
     private Boolean retainVisibility = true;
 
     public VerticalTabsheet() {
-        CssLayout contentLayout = new CssLayout();
-        contentLayout.setHeight("100%");
-
-        navigatorWrapper = new CssLayout();
-        navigatorWrapper.setStyleName("navigator-wrap");
+        navigatorWrapper = new MCssLayout().withStyleName("navigator-wrap").withFullHeight();
 
         navigatorContainer = new MVerticalLayout().withMargin(new MarginInfo(true, false, true, false));
         navigatorWrapper.addComponent(navigatorContainer);
 
-        contentWrapper = new CssLayout();
-        contentWrapper.setStyleName("container-wrap");
+        contentWrapper = new MCssLayout().withStyleName("container-wrap").withFullSize();
 
-        tabContainer = new MVerticalLayout().withSpacing(false).withMargin(false);
-        contentWrapper.addComponent(tabContainer);
-
-        contentLayout.addComponent(navigatorWrapper);
-        contentLayout.addComponent(contentWrapper);
-
-        this.setCompositionRoot(contentLayout);
-        this.setStyleName(TABSHEET_STYLENAME);
+        this.setCompositionRoot(new MCssLayout(navigatorWrapper, contentWrapper).withFullSize());
+        this.setStyleName(TABSHEET_STYLE);
     }
 
     private void hideTabsCaption() {
@@ -118,9 +106,9 @@ public class VerticalTabsheet extends CustomComponent {
             button.addClickListener(clickEvent -> {
                 if (!clickEvent.isCtrlKey() && !clickEvent.isMetaKey()) {
                     if (selectedButton != button) {
-                        clearTabSelection(true);
+                        clearTabSelection();
                         selectedButton = button;
-                        selectedButton.addStyleName(TAB_SELECTED_STYLENAME);
+                        selectedButton.addStyleName(TAB_SELECTED_STYLE);
                         selectedComp = compMap.get(button.getTabId());
                     }
                     fireTabChangeEvent(new SelectedTabChangeEvent(VerticalTabsheet.this, true));
@@ -130,7 +118,7 @@ public class VerticalTabsheet extends CustomComponent {
             });
 
             button.setIcon(resource);
-            button.withStyleName(TAB_STYLENAME, UIConstants.TEXT_ELLIPSIS).withWidth("90%");
+            button.withStyleName(TAB_STYLE, UIConstants.TEXT_ELLIPSIS).withWidth("90%");
 
             if (button.getLevel() > 0) {
                 int insertIndex = 0;
@@ -242,13 +230,14 @@ public class VerticalTabsheet extends CustomComponent {
         Button btn = getButtonById(viewId);
         if (btn != null) {
             selectedButton = btn;
-            clearTabSelection(true);
-            selectedButton.addStyleName(TAB_SELECTED_STYLENAME);
+            clearTabSelection();
+            selectedButton.addStyleName(TAB_SELECTED_STYLE);
             selectedComp = tab;
-            tabContainer.removeAllComponents();
+            if (contentWrapper.getComponentCount() > 1) {
+                contentWrapper.removeComponent(contentWrapper.getComponent(contentWrapper.getComponentCount()-1));
+            }
             Component tabComponent = tab.getComponent();
-            tabContainer.addComponent(tabComponent);
-            tabContainer.setExpandRatio(tabComponent, 1.0f);
+            contentWrapper.addComponent(tabComponent);
             return tabComponent;
         } else {
             return null;
@@ -269,32 +258,19 @@ public class VerticalTabsheet extends CustomComponent {
 
     public void setNavigatorWidth(String width) {
         navigatorContainer.setWidth(width);
-        for (Component childComponent : navigatorContainer) {
-            childComponent.setWidth(width);
-        }
+        navigatorContainer.forEach(comp -> comp.setWidth(width));
     }
 
     public void setNavigatorStyleName(String styleName) {
         navigatorContainer.setStyleName(styleName);
     }
 
-    private void clearTabSelection(boolean setDefaultIcon) {
-        Iterator<Component> iterator = navigatorContainer.iterator();
-        if (setDefaultIcon) {
-            while (iterator.hasNext()) {
-                Component btn = iterator.next();
-                if (btn.getStyleName().contains(TAB_SELECTED_STYLENAME)) {
-                    btn.removeStyleName(TAB_SELECTED_STYLENAME);
-                }
+    private void clearTabSelection() {
+        navigatorContainer.forEach(component -> {
+            if (component.getStyleName().contains(TAB_SELECTED_STYLE)) {
+                component.removeStyleName(TAB_SELECTED_STYLE);
             }
-        } else {
-            while (iterator.hasNext()) {
-                Component btn = iterator.next();
-                if (btn.getStyleName().contains(TAB_SELECTED_STYLENAME)) {
-                    btn.removeStyleName(TAB_SELECTED_STYLENAME);
-                }
-            }
-        }
+        });
     }
 
     public CssLayout getContentWrapper() {

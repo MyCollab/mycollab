@@ -17,10 +17,8 @@
 package com.mycollab.vaadin.web.ui;
 
 import com.mycollab.db.arguments.SearchCriteria;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.HorizontalLayout;
+import com.mycollab.web.CustomLayoutExt;
+import com.vaadin.ui.*;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 /**
@@ -34,30 +32,20 @@ abstract public class BasicSearchLayout<S extends SearchCriteria> extends Search
     protected ComponentContainer body;
 
     public BasicSearchLayout(DefaultGenericSearchPanel<S> parent) {
-        super(parent, "basicSearch");
-        this.initLayout();
-    }
-
-    private void initLayout() {
+        super(parent);
+        CustomLayout layout = CustomLayoutExt.createLayout("basicSearch");
         header = this.constructHeader();
         body = this.constructBody();
         if (header != null) {
-            this.addComponent(header, "basicSearchHeader");
+            layout.addComponent(header, "basicSearchHeader");
         }
 
-        this.addComponent(body, "basicSearchBody");
-    }
-
-    @Override
-    protected void addHeaderRight(Component component) {
-        if (header == null)
-            return;
-
-        header.with(component).withAlign(component, Alignment.MIDDLE_RIGHT);
+        layout.addComponent(body, "basicSearchBody");
+        this.setCompositionRoot(layout);
     }
 
     private MHorizontalLayout constructHeader() {
-        return ((DefaultGenericSearchPanel)searchPanel).constructHeader();
+        return searchPanel.constructHeader();
     }
 
     abstract public ComponentContainer constructBody();

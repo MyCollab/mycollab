@@ -26,6 +26,7 @@ import com.mycollab.module.project.ui.ProjectAssetsUtil;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.UserUIContext;
+import com.mycollab.vaadin.Utils;
 import com.mycollab.vaadin.web.ui.ImagePreviewCropWindow;
 import com.mycollab.vaadin.web.ui.UploadImageField;
 import com.vaadin.server.Page;
@@ -40,16 +41,15 @@ import java.awt.image.BufferedImage;
  * @author MyCollab Ltd
  * @since 5.4.8
  */
-// TODO
 public class ProjectLogoUploadWindow extends MWindow implements ImagePreviewCropWindow.ImageSelectionCommand {
     public ProjectLogoUploadWindow(String shortName, Integer projectId, String projectAvatar) {
         super(UserUIContext.getMessage(GenericI18Enum.OPT_UPLOAD_IMAGE));
         withModal(true).withResizable(false).withWidth("200px").withCenter();
         Component projectIcon = ProjectAssetsUtil.projectLogoComp(shortName, projectId, projectAvatar, 100);
         projectIcon.setWidthUndefined();
-//        UploadImageField avatarUploadField = new UploadImageField(this);
-//        withContent(new MVerticalLayout(projectIcon, avatarUploadField)
-//                .withDefaultComponentAlignment(Alignment.TOP_CENTER));
+        UploadImageField avatarUploadField = new UploadImageField(this);
+        withContent(new MVerticalLayout(projectIcon, avatarUploadField)
+                .withDefaultComponentAlignment(Alignment.TOP_CENTER));
     }
 
     @Override
@@ -62,6 +62,6 @@ public class ProjectLogoUploadWindow extends MWindow implements ImagePreviewCrop
         ProjectService projectService = AppContextUtil.getSpringBean(ProjectService.class);
         project.setAvatarid(newLogoId);
         projectService.updateSelectiveWithSession(project, UserUIContext.getUsername());
-        Page.getCurrent().getJavaScript().execute("window.location.reload();");
+        Utils.reloadPage();
     }
 }

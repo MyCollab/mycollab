@@ -17,7 +17,6 @@
 package com.mycollab.module.project.view.ticket;
 
 import com.mycollab.common.i18n.GenericI18Enum;
-import com.mycollab.common.i18n.QueryI18nEnum;
 import com.mycollab.db.arguments.SearchField;
 import com.mycollab.db.arguments.SetSearchField;
 import com.mycollab.db.query.ConstantValueInjector;
@@ -46,6 +45,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+
+import static com.mycollab.common.i18n.QueryI18nEnum.CONTAINS;
+import static com.mycollab.common.i18n.QueryI18nEnum.IN;
 
 /**
  * @author MyCollab Ltd
@@ -80,7 +82,7 @@ public class TicketSearchPanel extends DefaultGenericSearchPanel<ProjectTicketSe
                 }
             });
             ELabel taskIcon = ELabel.h2(ProjectAssetsManager.getAsset(ProjectTypeConstants.TICKET).getHtml()).withUndefinedWidth();
-            return new MHorizontalLayout(taskIcon, savedFilterComboBox).expand(savedFilterComboBox).alignAll(Alignment.MIDDLE_LEFT).withUndefinedWidth();
+            return new MHorizontalLayout(taskIcon, savedFilterComboBox).withUndefinedWidth();
         } else return null;
     }
 
@@ -158,12 +160,10 @@ public class TicketSearchPanel extends DefaultGenericSearchPanel<ProjectTicketSe
         protected ProjectTicketSearchCriteria fillUpSearchCriteria() {
             List<SearchFieldInfo<ProjectTicketSearchCriteria>> searchFieldInfos = new ArrayList<>();
             searchFieldInfos.add(new SearchFieldInfo(SearchField.AND, ProjectTicketSearchCriteria.p_name,
-                    QueryI18nEnum.StringI18nEnum.CONTAINS.name(),
-                    ConstantValueInjector.valueOf(nameField.getValue().trim())));
+                    CONTAINS.name(), ConstantValueInjector.valueOf(nameField.getValue().trim())));
             if (myItemCheckbox.getValue()) {
                 searchFieldInfos.add(new SearchFieldInfo(SearchField.AND, ProjectTicketSearchCriteria.p_assignee,
-                        QueryI18nEnum.CollectionI18nEnum.IN.name(),
-                        ConstantValueInjector.valueOf(Collections.singletonList(UserUIContext.getUsername()))));
+                        IN.name(), ConstantValueInjector.valueOf(Collections.singletonList(UserUIContext.getUsername()))));
             }
             EventBusFactory.getInstance().post(new ShellEvent.AddQueryParam(this, searchFieldInfos));
             searchCriteria = SearchFieldInfo.buildSearchCriteria(ProjectTicketSearchCriteria.class, searchFieldInfos);

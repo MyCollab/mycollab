@@ -77,7 +77,7 @@ public class FollowingTicketSearchPanel extends DefaultGenericSearchPanel<Follow
     }
 
     public void doSearch() {
-        basicSearchLayout.callSearchAction();
+        this.callSearchAction();
     }
 
     private class FollowingTicketBasicSearchLayout extends BasicSearchLayout<FollowingTicketSearchCriteria> {
@@ -87,7 +87,7 @@ public class FollowingTicketSearchPanel extends DefaultGenericSearchPanel<Follow
         private TextField summaryField;
         private CheckBox taskSelect, bugSelect, riskSelect;
 
-        public FollowingTicketBasicSearchLayout() {
+        FollowingTicketBasicSearchLayout() {
             super(FollowingTicketSearchPanel.this);
         }
 

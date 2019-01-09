@@ -52,10 +52,6 @@ import java.util.List;
 @ViewComponent
 public class UserProjectDashboardViewImpl extends AbstractVerticalPageView implements UserProjectDashboardView {
 
-    public UserProjectDashboardViewImpl() {
-        addStyleName(WebThemes.CONTENT_WRAPPER);
-    }
-
     @Override
     public void lazyLoadView() {
         ProjectService projectService = AppContextUtil.getSpringBean(ProjectService.class);

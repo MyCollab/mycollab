@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -23,10 +23,11 @@ import com.mycollab.db.query.SearchFieldInfo;
 import com.mycollab.shell.event.ShellEvent;
 import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.vaadin.UserUIContext;
+import com.mycollab.web.CustomLayoutExt;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.CustomLayout;
 import com.vaadin.ui.HorizontalLayout;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
@@ -43,10 +44,11 @@ public abstract class DynamicQueryParamLayout<S extends SearchCriteria> extends 
 
     protected String type;
     private BuildCriterionComponent<S> buildCriterionComp;
-    private ComponentContainer header;
+    private MHorizontalLayout header;
 
     public DynamicQueryParamLayout(DefaultGenericSearchPanel<S> parent, String type) {
-        super(parent, "advancedSearch");
+        super(parent);
+        CustomLayout layout = CustomLayoutExt.createLayout("advancedSearch");
         this.type = type;
         header = constructHeader();
         buildCriterionComp = new BuildCriterionComponent<S>(this, getParamFields(), type) {
@@ -58,17 +60,10 @@ public abstract class DynamicQueryParamLayout<S extends SearchCriteria> extends 
             }
         };
 
-        this.addComponent(header, "advSearchHeader");
-        this.addComponent(buildCriterionComp, "advSearchBody");
-        this.addComponent(createButtonControls(), "advSearchFooter");
-    }
-
-    @Override
-    protected void addHeaderRight(Component c) {
-        if (header == null)
-            return;
-
-        header.addComponent(c);
+        layout.addComponent(header, "advSearchHeader");
+        layout.addComponent(buildCriterionComp, "advSearchBody");
+        layout.addComponent(createButtonControls(), "advSearchFooter");
+        setCompositionRoot(layout);
     }
 
     private HorizontalLayout createButtonControls() {
@@ -79,7 +74,7 @@ public abstract class DynamicQueryParamLayout<S extends SearchCriteria> extends 
                 .withStyleName(WebThemes.BUTTON_OPTION);
 
         MButton basicSearchBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_BASIC_SEARCH),
-                clickEvent -> ((DefaultGenericSearchPanel<S>) searchPanel).moveToBasicSearchLayout())
+                clickEvent -> searchPanel.moveToBasicSearchLayout())
                 .withStyleName(WebThemes.BUTTON_LINK);
 
         return new MHorizontalLayout(searchBtn, clearBtn, basicSearchBtn).withMargin(new MarginInfo(false, true, false, true));
@@ -102,7 +97,7 @@ public abstract class DynamicQueryParamLayout<S extends SearchCriteria> extends 
 
     protected abstract Class<S> getType();
 
-    private ComponentContainer constructHeader() {
+    private MHorizontalLayout constructHeader() {
         return ((DefaultGenericSearchPanel) searchPanel).constructHeader();
     }
 

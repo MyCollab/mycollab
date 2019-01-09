@@ -39,7 +39,7 @@ import java.util.List;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class ProjectRoleComboBox extends ComboBox implements Converter<SimpleProjectRole, Integer> {
+public class ProjectRoleComboBox extends ComboBox<SimpleProjectRole> implements Converter<SimpleProjectRole, Integer> {
     private static final long serialVersionUID = 1L;
 
     private List<SimpleProjectRole> roles;

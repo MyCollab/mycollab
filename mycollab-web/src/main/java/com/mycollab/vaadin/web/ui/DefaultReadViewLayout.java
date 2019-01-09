@@ -28,8 +28,7 @@ public class DefaultReadViewLayout extends ReadViewLayout {
     private ELabel titleLbl;
 
     public DefaultReadViewLayout(String title) {
-        super();
-        this.setWidth("100%");
+        this.setSizeFull();
         this.addHeader(buildHeader(title));
     }
 

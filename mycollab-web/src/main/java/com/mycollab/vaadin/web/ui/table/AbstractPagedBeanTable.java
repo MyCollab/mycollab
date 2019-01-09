@@ -78,20 +78,20 @@ public abstract class AbstractPagedBeanTable<S extends SearchCriteria, B> extend
     protected Class<B> type;
 
     private TableViewField requiredColumn;
-    private Set<TableViewField> displayColumns;
-    private Set<TableViewField> defaultSelectedColumns;
+    private List<TableViewField> displayColumns;
+    private List<TableViewField> defaultSelectedColumns;
 
     private final Map<Object, ColumnGenerator> columnGenerators = new HashMap<>();
 
-    public AbstractPagedBeanTable(Class<B> type, Set<TableViewField> displayColumns) {
+    public AbstractPagedBeanTable(Class<B> type, List<TableViewField> displayColumns) {
         this(type, null, displayColumns);
     }
 
-    public AbstractPagedBeanTable(Class<B> type, TableViewField requiredColumn, Set<TableViewField> displayColumns) {
+    public AbstractPagedBeanTable(Class<B> type, TableViewField requiredColumn, List<TableViewField> displayColumns) {
         this(type, null, requiredColumn, displayColumns);
     }
 
-    public AbstractPagedBeanTable(Class<B> type, String viewId, TableViewField requiredColumn, Set<TableViewField> displayColumns) {
+    public AbstractPagedBeanTable(Class<B> type, String viewId, TableViewField requiredColumn, List<TableViewField> displayColumns) {
         this.setMargin(false);
         if (viewId != null) {
             CustomViewStoreService customViewStoreService = AppContextUtil.getSpringBean(CustomViewStoreService.class);
@@ -117,7 +117,7 @@ public abstract class AbstractPagedBeanTable<S extends SearchCriteria, B> extend
         addStyleName(SCROLLABLE_CONTAINER);
     }
 
-    public void setDisplayColumns(Set<TableViewField> viewFields) {
+    public void setDisplayColumns(List<TableViewField> viewFields) {
         this.displayColumns = viewFields;
         displayTableColumns();
         this.markAsDirty();
@@ -138,17 +138,17 @@ public abstract class AbstractPagedBeanTable<S extends SearchCriteria, B> extend
             columnHeadersCol.add(UserUIContext.getMessage(viewField.getDescKey()));
         });
 
-//        for (int i = 0; i < displayColumns.size(); i++) {
-//            TableViewField viewField = displayColumns.get(i);
-//            visibleColumnsCol.add(viewField.getField());
-//            columnHeadersCol.add(UserUIContext.getMessage(viewField.getDescKey()));
-//
-//            if (i == 0) {
-//                tableItem.setColumnExpandRatio(viewField.getField(), 1.0f);
-//            } else {
-//                tableItem.setColumnWidth(viewField.getField(), viewField.getDefaultWidth());
-//            }
-//        }
+        for (int i = 0; i < displayColumns.size(); i++) {
+            TableViewField viewField = displayColumns.get(i);
+            visibleColumnsCol.add(viewField.getField());
+            columnHeadersCol.add(UserUIContext.getMessage(viewField.getDescKey()));
+
+            if (i == 0) {
+                tableItem.setColumnExpandRatio(viewField.getField(), 1.0f);
+            } else {
+                tableItem.setColumnWidth(viewField.getField(), viewField.getDefaultWidth());
+            }
+        }
 
         String[] visibleColumns = visibleColumnsCol.toArray(new String[visibleColumnsCol.size()]);
         String[] columnHeaders = columnHeadersCol.toArray(new String[columnHeadersCol.size()]);
@@ -395,12 +395,12 @@ public abstract class AbstractPagedBeanTable<S extends SearchCriteria, B> extend
         return tableItem;
     }
 
-    public Set<TableViewField> getDefaultSelectedColumns() {
+    public List<TableViewField> getDefaultSelectedColumns() {
         return defaultSelectedColumns;
     }
 
     @Override
-    public Set<TableViewField> getDisplayColumns() {
+    public List<TableViewField> getDisplayColumns() {
         return displayColumns;
     }
 

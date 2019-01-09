@@ -20,6 +20,7 @@ import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Text;
 import com.mycollab.common.i18n.ErrorI18nEnum;
 import com.mycollab.common.i18n.GenericI18Enum;
+import com.mycollab.db.arguments.SearchCriteria;
 import com.mycollab.db.arguments.SetSearchField;
 import com.mycollab.db.arguments.StringSearchField;
 import com.mycollab.module.ecm.domain.Content;
@@ -57,7 +58,6 @@ import org.vaadin.viritin.fields.MTextField;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
-import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -111,19 +111,19 @@ public class MessageListViewImpl extends AbstractVerticalPageView implements Mes
         this.removeAllComponents();
         this.searchCriteria = criteria;
         MessageService messageService = AppContextUtil.getSpringBean(MessageService.class);
-        Integer totalCount = messageService.getTotalCount(searchCriteria);
+        int totalCount = messageService.getTotalCount(searchCriteria);
 
         this.isEmpty = !(totalCount > 0);
         topMessagePanel.createBasicLayout();
-        this.addComponent(topMessagePanel);
+        this.with(topMessagePanel);
 
         if (this.isEmpty) {
-            addComponent(new MessageListNoItemView());
+            MessageListNoItemView messageListNoItemView = new MessageListNoItemView();
+            with(messageListNoItemView).expand(messageListNoItemView);
         } else {
             messageList.setSearchCriteria(searchCriteria);
-            addComponent(messageList);
+            with(messageList).expand(messageList);
         }
-
     }
 
     private class MessageRowDisplayHandler implements IBeanList.RowDisplayHandler<SimpleMessage> {
@@ -144,7 +144,7 @@ public class MessageListViewImpl extends AbstractVerticalPageView implements Mes
             A labelLink = new A(ProjectLinkGenerator.generateMessagePreviewLink(message.getProjectid(), message.getId()),
                     new Text(message.getTitle()));
 
-            MHorizontalLayout messageHeader = new MHorizontalLayout().withMargin(new MarginInfo(false, true, false, false));
+            MHorizontalLayout messageHeader = new MHorizontalLayout().withMargin(false);
             messageHeader.setDefaultComponentAlignment(Alignment.TOP_LEFT);
             CssLayout leftHeader = new CssLayout();
             leftHeader.addComponent(ELabel.h3(labelLink.write()));
@@ -211,8 +211,7 @@ public class MessageListViewImpl extends AbstractVerticalPageView implements Mes
         }
     }
 
-    private static class MessageSearchPanel extends GenericSearchPanel<MessageSearchCriteria> {
-        private MessageSearchCriteria messageSearchCriteria;
+    private static class MessageSearchPanel extends DefaultGenericSearchPanel<MessageSearchCriteria> {
         private TextField nameField;
 
         MessageSearchPanel() {
@@ -220,27 +219,28 @@ public class MessageListViewImpl extends AbstractVerticalPageView implements Mes
         }
 
         @Override
-        public void setTotalCountNumber(Integer totalCountNumber) {
+        protected SearchLayout<MessageSearchCriteria> createBasicSearchLayout() {
+            return new BasicSearchLayout<MessageSearchCriteria>(MessageSearchPanel.this) {
+                @Override
+                public ComponentContainer constructBody() {
+                    nameField = new MTextField().withPlaceholder(UserUIContext.getMessage(GenericI18Enum.ACTION_QUERY_BY_TEXT))
+                            .withWidth(WebUIConstants.DEFAULT_CONTROL_WIDTH);
 
-        }
+                    MButton searchBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_SEARCH), clickEvent -> callSearchAction())
+                            .withStyleName(WebThemes.BUTTON_ACTION).withIcon(VaadinIcons.SEARCH)
+                            .withClickShortcut(ShortcutAction.KeyCode.ENTER);
+                    return new MHorizontalLayout(nameField, searchBtn).withUndefinedWidth()
+                            .withAlign(nameField, Alignment.MIDDLE_LEFT);
+                }
 
-        private void createBasicSearchLayout() {
-            nameField = new MTextField().withPlaceholder(UserUIContext.getMessage(GenericI18Enum.ACTION_QUERY_BY_TEXT))
-                    .withWidth(WebUIConstants.DEFAULT_CONTROL_WIDTH);
-
-            MButton searchBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_SEARCH), clickEvent -> doSearch())
-                    .withStyleName(WebThemes.BUTTON_ACTION).withIcon(VaadinIcons.SEARCH)
-                    .withClickShortcut(ShortcutAction.KeyCode.ENTER);
-            final MHorizontalLayout basicSearchBody = new MHorizontalLayout(nameField, searchBtn).withUndefinedWidth()
-                    .withAlign(nameField, Alignment.MIDDLE_LEFT);
-            this.setCompositionRoot(basicSearchBody);
-        }
-
-        private void doSearch() {
-            messageSearchCriteria = new MessageSearchCriteria();
-            messageSearchCriteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
-            messageSearchCriteria.setMessage(StringSearchField.and(nameField.getValue()));
-            notifySearchHandler(messageSearchCriteria);
+                @Override
+                protected MessageSearchCriteria fillUpSearchCriteria() {
+                    MessageSearchCriteria criteria = new MessageSearchCriteria();
+                    criteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
+                    criteria.setMessage(StringSearchField.and(nameField.getValue()));
+                    return criteria;
+                }
+            };
         }
     }
 
@@ -263,7 +263,7 @@ public class MessageListViewImpl extends AbstractVerticalPageView implements Mes
 
         private void createAddMessageLayout() {
             messagePanelBody.removeAllComponents();
-            MVerticalLayout addMessageWrapper = new MVerticalLayout().withWidth("800px");
+            MVerticalLayout newMessageLayout = new MVerticalLayout().withWidth("800px");
 
             Label titleLbl = new Label(UserUIContext.getMessage(MessageI18nEnum.FORM_TITLE));
             // TODO
@@ -277,7 +277,7 @@ public class MessageListViewImpl extends AbstractVerticalPageView implements Mes
             ckEditorTextField.setWidth("100%");
             ckEditorTextField.setHeight("200px");
 
-            addMessageWrapper.with(titleLayout, ckEditorTextField).withAlign(titleLayout, Alignment.MIDDLE_LEFT)
+            newMessageLayout.with(titleLayout, ckEditorTextField).withAlign(titleLayout, Alignment.MIDDLE_LEFT)
                     .withAlign(ckEditorTextField, Alignment.MIDDLE_CENTER).expand(ckEditorTextField);
 
             final AttachmentPanel attachments = new AttachmentPanel();
@@ -309,11 +309,9 @@ public class MessageListViewImpl extends AbstractVerticalPageView implements Mes
                 }
             }).withIcon(VaadinIcons.CLIPBOARD).withStyleName(WebThemes.BUTTON_ACTION);
 
-            MHorizontalLayout controls = new MHorizontalLayout(attachments, chkIsStick, cancelBtn, saveBtn)
-                    .expand(attachments).withFullWidth().alignAll(Alignment.TOP_LEFT);
-
-            addMessageWrapper.with(controls).withAlign(controls, Alignment.MIDDLE_CENTER);
-            messagePanelBody.addComponent(addMessageWrapper);
+            MHorizontalLayout controls = new MHorizontalLayout(chkIsStick, cancelBtn, saveBtn).alignAll(Alignment.MIDDLE_CENTER);
+            newMessageLayout.with(attachments, controls).withAlign(controls, Alignment.MIDDLE_RIGHT);
+            messagePanelBody.addComponent(newMessageLayout);
         }
 
         void createBasicLayout() {

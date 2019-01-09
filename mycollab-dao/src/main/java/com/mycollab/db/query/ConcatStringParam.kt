@@ -16,7 +16,7 @@
  */
 package com.mycollab.db.query
 
-import com.mycollab.common.i18n.QueryI18nEnum.StringI18nEnum.*
+import com.mycollab.common.i18n.QueryI18nEnum.*
 import com.mycollab.core.MyCollabException
 import com.mycollab.db.arguments.OneValueSearchField
 import com.mycollab.db.arguments.SearchField
@@ -57,6 +57,7 @@ class ConcatStringParam(id: String, private val table: String, private val colum
 
     companion object {
 
-        @JvmField val OPTIONS = arrayOf(CONTAINS, NOT_CONTAINS)
+        @JvmField
+        val OPTIONS = arrayOf(CONTAINS, NOT_CONTAINS)
     }
 }

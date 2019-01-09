@@ -27,6 +27,7 @@ public class FormContainer extends VerticalLayout {
     public FormContainer() {
         this.addStyleName("form");
         this.setWidth("100%");
+        this.setMargin(false);
         this.setDefaultComponentAlignment(Alignment.TOP_CENTER);
     }
 

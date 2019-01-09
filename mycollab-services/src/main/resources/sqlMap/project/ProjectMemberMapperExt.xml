@@ -118,8 +118,8 @@
                  (SELECT COUNT(*) FROM m_tracker_bug WHERE m_tracker_bug.assignUser=m_prj_member.username AND  m_tracker_bug.projectId=m_prj_member.projectId AND m_tracker_bug.status IN ('Open', 'InProgress', 'Reopenned')) AS numOpenBugs,
                  (SELECT COUNT(*) FROM m_prj_task WHERE m_prj_task.assignUser=m_prj_member.username AND m_prj_task.projectId=m_prj_member.projectId AND m_prj_task.status='Open') AS numOpenTasks,
                  s_user_account.lastAccessedTime AS lastAccessTime,
-                  (SELECT COALESCE(SUM(m_prj_time_logging.logValue), 0) FROM m_prj_time_logging WHERE m_prj_time_logging.projectId = m_prj_member.projectId AND m_prj_time_logging.loguser = m_prj_member.username AND m_prj_time_logging.isBillable=1) AS totalBillableLogTime,
-            (SELECT COALESCE(SUM(m_prj_time_logging.logValue), 0) FROM m_prj_time_logging WHERE m_prj_time_logging.projectId = m_prj_member.projectId AND m_prj_time_logging.loguser = m_prj_member.username AND m_prj_time_logging.isBillable=0) AS totalNonBillableLogTime
+                  (SELECT COALESCE(SUM(m_prj_time_logging.logValue), 0) FROM m_prj_time_logging WHERE m_prj_time_logging.projectId = m_prj_member.projectId AND m_prj_time_logging.logUser = m_prj_member.username AND m_prj_time_logging.isBillable=1) AS totalBillableLogTime,
+            (SELECT COALESCE(SUM(m_prj_time_logging.logValue), 0) FROM m_prj_time_logging WHERE m_prj_time_logging.projectId = m_prj_member.projectId AND m_prj_time_logging.logUser = m_prj_member.username AND m_prj_time_logging.isBillable=0) AS totalNonBillableLogTime
             FROM m_prj_member
               LEFT OUTER JOIN m_prj_project ON (m_prj_member.projectId = m_prj_project.id)
               LEFT OUTER JOIN s_user ON (m_prj_member.username=s_user.username)
@@ -175,8 +175,8 @@
             (SELECT COUNT(*) FROM m_tracker_bug WHERE m_tracker_bug.assignUser=m_prj_member.username AND  m_tracker_bug.projectId=m_prj_member.projectId AND m_tracker_bug.status IN ('Open', 'InProgress', 'Reopenned')) AS numOpenBugs,
             (SELECT COUNT(*) FROM m_prj_task WHERE m_prj_task.assignUser=m_prj_member.username AND m_prj_task.projectId=m_prj_member.projectId AND m_prj_task.status='Open') AS numOpenTasks,
             s_user_account.lastAccessedTime AS lastAccessTime, m_prj_project.name AS projectName,
-            (SELECT COALESCE(SUM(m_prj_time_logging.logValue), 0) FROM m_prj_time_logging WHERE m_prj_time_logging.projectId = m_prj_member.projectId AND m_prj_time_logging.loguser = m_prj_member.username AND m_prj_time_logging.isBillable=1) AS totalBillableLogTime,
-            (SELECT COALESCE(SUM(m_prj_time_logging.logValue), 0) FROM m_prj_time_logging WHERE m_prj_time_logging.projectId = m_prj_member.projectId AND m_prj_time_logging.loguser = m_prj_member.username AND m_prj_time_logging.isBillable=0) AS totalNonBillableLogTime
+            (SELECT COALESCE(SUM(m_prj_time_logging.logValue), 0) FROM m_prj_time_logging WHERE m_prj_time_logging.projectId = m_prj_member.projectId AND m_prj_time_logging.logUser = m_prj_member.username AND m_prj_time_logging.isBillable=1) AS totalBillableLogTime,
+            (SELECT COALESCE(SUM(m_prj_time_logging.logValue), 0) FROM m_prj_time_logging WHERE m_prj_time_logging.projectId = m_prj_member.projectId AND m_prj_time_logging.logUser = m_prj_member.username AND m_prj_time_logging.isBillable=0) AS totalNonBillableLogTime
         FROM m_prj_member
         	INNER JOIN m_prj_project ON (m_prj_member.projectId = m_prj_project.id)
 	        LEFT OUTER JOIN m_prj_role ON (m_prj_role.id=m_prj_member.projectRoleId)
@@ -280,11 +280,11 @@
             (SELECT COALESCE(SUM(m_prj_time_logging.logValue), 0)
                 FROM m_prj_time_logging
                 WHERE m_prj_time_logging.projectId = m_prj_member.projectId
-                    AND m_prj_time_logging.loguser = m_prj_member.username AND m_prj_time_logging.isBillable=1
+                    AND m_prj_time_logging.logUser = m_prj_member.username AND m_prj_time_logging.isBillable=1
                     AND m_prj_time_logging.logForDay BETWEEN @{start} AND @{end}) AS totalBillableLogTime,
             (SELECT COALESCE(SUM(m_prj_time_logging.logValue), 0)
                 FROM m_prj_time_logging
-                WHERE m_prj_time_logging.projectId = m_prj_member.projectId AND m_prj_time_logging.loguser = m_prj_member.username
+                WHERE m_prj_time_logging.projectId = m_prj_member.projectId AND m_prj_time_logging.logUser = m_prj_member.username
                     AND m_prj_time_logging.isBillable=0 AND m_prj_time_logging.logForDay BETWEEN @{start} AND @{end}) AS totalNonBillableLogTime
         FROM m_prj_member
             INNER JOIN s_user ON (m_prj_member.username=s_user.username)

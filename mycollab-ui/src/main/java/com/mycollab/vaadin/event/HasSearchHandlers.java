@@ -37,5 +37,5 @@ public interface HasSearchHandlers<S extends SearchCriteria> {
     /**
      * @param totalCountNumber
      */
-    void setTotalCountNumber(Integer totalCountNumber);
+    default void setTotalCountNumber(Integer totalCountNumber) {}
 }

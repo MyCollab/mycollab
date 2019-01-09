@@ -26,7 +26,6 @@ import com.mycollab.vaadin.web.ui.ButtonGroup
 import com.mycollab.vaadin.web.ui.WebThemes
 import com.vaadin.icons.VaadinIcons
 import com.vaadin.server.FileDownloader
-import com.vaadin.server.FontAwesome
 import com.vaadin.server.Resource
 import com.vaadin.server.StreamResource
 import com.vaadin.shared.ui.MarginInfo
@@ -84,17 +83,17 @@ class DefaultMassItemActionHandlerContainer : MHorizontalLayout(), HasMassItemAc
     }
 
     fun addDownloadPdfActionItem() {
-        addDownloadActionItem(ReportExportType.PDF, FontAwesome.FILE_PDF_O,
+        addDownloadActionItem(ReportExportType.PDF, VaadinIcons.FILE_O,
                 "export", "export.pdf", UserUIContext.getMessage(GenericI18Enum.BUTTON_EXPORT_PDF))
     }
 
     fun addDownloadExcelActionItem() {
-        addDownloadActionItem(ReportExportType.EXCEL, FontAwesome.FILE_EXCEL_O,
+        addDownloadActionItem(ReportExportType.EXCEL, VaadinIcons.FILE_TABLE,
                 "export", "export.xlsx", UserUIContext.getMessage(GenericI18Enum.BUTTON_EXPORT_EXCEL))
     }
 
     fun addDownloadCsvActionItem() {
-        addDownloadActionItem(ReportExportType.CSV, FontAwesome.FILE_TEXT_O,
+        addDownloadActionItem(ReportExportType.CSV, VaadinIcons.FILE_TEXT_O,
                 "export", "export.csv", UserUIContext.getMessage(GenericI18Enum.BUTTON_EXPORT_CSV))
     }
 

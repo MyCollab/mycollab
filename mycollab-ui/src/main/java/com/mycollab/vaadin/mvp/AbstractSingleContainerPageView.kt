@@ -30,7 +30,7 @@ import com.vaadin.ui.SingleComponentContainer
  */
 open class AbstractSingleContainerPageView : CustomComponent(), PageView, SingleComponentContainer {
 
-    private val contentLayout: CssLayout = CssLayout()
+    private val contentLayout = CssLayout()
 
     init {
         contentLayout.setSizeFull()

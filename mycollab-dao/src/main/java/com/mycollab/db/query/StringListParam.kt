@@ -16,7 +16,8 @@
  */
 package com.mycollab.db.query
 
-import com.mycollab.common.i18n.QueryI18nEnum.CollectionI18nEnum
+import com.mycollab.common.i18n.QueryI18nEnum.IN
+import com.mycollab.common.i18n.QueryI18nEnum.NOT_IN
 import com.mycollab.db.arguments.CollectionValueSearchField
 
 /**
@@ -33,6 +34,7 @@ class StringListParam(id: String, table: String, column: String, var values: Lis
 
     companion object {
 
-        @JvmField val OPTIONS = arrayOf(CollectionI18nEnum.IN, CollectionI18nEnum.NOT_IN)
+        @JvmField
+        val OPTIONS = arrayOf(IN, NOT_IN)
     }
 }

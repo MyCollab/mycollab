@@ -26,13 +26,13 @@ import com.mycollab.module.user.service.UserService;
 import com.mycollab.module.user.ui.components.LanguageSelectionField;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.UserUIContext;
+import com.mycollab.vaadin.Utils;
 import com.mycollab.vaadin.ui.NotificationUtil;
 import com.mycollab.vaadin.web.ui.TimeZoneSelectionField;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.icons.VaadinIcons;
-import com.vaadin.server.Page;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.DateField;
@@ -124,13 +124,13 @@ class BasicInfoChangeWindow extends MWindow {
         user.setFirstname(txtFirstName.getValue());
         user.setLastname(txtLastName.getValue());
         user.setEmail(txtEmail.getValue());
-//        user.setDateofbirth(birthdayField.getDate());
+        user.setBirthday(birthdayField.getValue());
         user.setLanguage(languageBox.getValue());
         user.setTimezone(timeZoneField.getValue());
 
         final UserService userService = AppContextUtil.getSpringBean(UserService.class);
         userService.updateWithSession(user, UserUIContext.getUsername());
         close();
-        Page.getCurrent().getJavaScript().execute("window.location.reload();");
+        Utils.reloadPage();
     }
 }

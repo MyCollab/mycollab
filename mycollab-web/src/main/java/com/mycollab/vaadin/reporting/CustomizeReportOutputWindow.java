@@ -40,14 +40,11 @@ import com.mycollab.vaadin.web.ui.MailFormWindow;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.data.provider.ListDataProvider;
 import com.vaadin.icons.VaadinIcons;
-import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Sizeable;
 import com.vaadin.server.StreamResource;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.ItemCaptionGenerator;
 import com.vaadin.ui.UI;
-import com.vaadin.v7.data.util.BeanItemContainer;
-import com.vaadin.v7.ui.AbstractSelect;
 import com.vaadin.v7.ui.OptionGroup;
 import com.vaadin.v7.ui.Table;
 import org.tepi.listbuilder.ListBuilder;
@@ -56,10 +53,7 @@ import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 import org.vaadin.viritin.layouts.MWindow;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -93,7 +87,7 @@ public abstract class CustomizeReportOutputWindow<S extends SearchCriteria, B ex
         listBuilder.setLeftColumnCaption(UserUIContext.getMessage(GenericI18Enum.OPT_AVAILABLE_COLUMNS));
         listBuilder.setRightColumnCaption(UserUIContext.getMessage(GenericI18Enum.OPT_VIEW_COLUMNS));
         listBuilder.setWidth(100, Sizeable.Unit.PERCENTAGE);
-        listBuilder.setItemCaptionGenerator((ItemCaptionGenerator<TableViewField>)item -> UserUIContext.getMessage(item.getDescKey()));
+        listBuilder.setItemCaptionGenerator((ItemCaptionGenerator<TableViewField>) item -> UserUIContext.getMessage(item.getDescKey()));
 
         final Set<TableViewField> viewColumnIds = this.getViewColumns();
         listBuilder.setValue(viewColumnIds);
@@ -136,7 +130,7 @@ public abstract class CustomizeReportOutputWindow<S extends SearchCriteria, B ex
                     viewDef.setSaccountid(AppUI.getAccountId());
                     viewDef.setCreateduser(UserUIContext.getUsername());
                     viewDef.setViewid(viewId);
-                    viewDef.setViewinfo(FieldDefAnalyzer.toJson(columns));
+                    viewDef.setViewinfo(FieldDefAnalyzer.toJson(new ArrayList<>(columns)));
                     customViewStoreService.saveOrUpdateViewLayoutDef(viewDef);
 
                     SimpleReportTemplateExecutor reportTemplateExecutor = new SimpleReportTemplateExecutor.AllItems<>(
@@ -160,7 +154,7 @@ public abstract class CustomizeReportOutputWindow<S extends SearchCriteria, B ex
         fileDownloader.extend(exportBtn);
 
         final MButton exportMailBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.ACTION_EXPORT_MAIL))
-                .withStyleName(WebThemes.BUTTON_ACTION).withIcon(FontAwesome.MAIL_REPLY_ALL);
+                .withStyleName(WebThemes.BUTTON_ACTION).withIcon(VaadinIcons.REPLY_ALL);
         exportMailBtn.addClickListener(clickEvent -> {
             Collection<TableViewField> columns = (Collection<TableViewField>) listBuilder.getValue();
             SimpleReportTemplateExecutor reportTemplateExecutor = new SimpleReportTemplateExecutor.AllItems<>(
@@ -206,7 +200,7 @@ public abstract class CustomizeReportOutputWindow<S extends SearchCriteria, B ex
                 UserUIContext.getUsername(), viewId);
         if (!(viewLayoutDef instanceof NullCustomViewStore)) {
             try {
-                return FieldDefAnalyzer.toTableFields(viewLayoutDef.getViewinfo());
+                return new HashSet<>(FieldDefAnalyzer.toTableFields(viewLayoutDef.getViewinfo()));
             } catch (Exception e) {
                 return getDefaultColumns();
             }

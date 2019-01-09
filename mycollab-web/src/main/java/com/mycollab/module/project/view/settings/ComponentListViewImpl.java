@@ -51,7 +51,6 @@ import org.vaadin.viritin.layouts.MCssLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
 import java.util.Arrays;
-import java.util.HashSet;
 
 /**
  * @author MyCollab Ltd.
@@ -83,12 +82,12 @@ public class ComponentListViewImpl extends AbstractVerticalPageView implements C
     private void generateDisplayTable() {
         tableItem = new DefaultPagedBeanTable<>(AppContextUtil.getSpringBean(ComponentService.class),
                 SimpleComponent.class, new TableViewField(null, "selected", WebUIConstants.TABLE_CONTROL_WIDTH),
-                new HashSet<>(Arrays.asList(
+                Arrays.asList(
                         new TableViewField(GenericI18Enum.FORM_NAME, "name", WebUIConstants.TABLE_EX_LABEL_WIDTH),
                         new TableViewField(ComponentI18nEnum.FORM_LEAD, "userLeadFullName", WebUIConstants.TABLE_X_LABEL_WIDTH),
                         new TableViewField(GenericI18Enum.FORM_STATUS, "status", WebUIConstants.TABLE_M_LABEL_WIDTH),
                         new TableViewField(GenericI18Enum.FORM_DESCRIPTION, "description", 500),
-                        new TableViewField(GenericI18Enum.FORM_PROGRESS, "id", WebUIConstants.TABLE_M_LABEL_WIDTH))));
+                        new TableViewField(GenericI18Enum.FORM_PROGRESS, "id", WebUIConstants.TABLE_M_LABEL_WIDTH)));
 
         tableItem.addGeneratedColumn("selected", (source, itemId, columnId) -> {
             final SimpleComponent component = tableItem.getBeanByIndex(itemId);

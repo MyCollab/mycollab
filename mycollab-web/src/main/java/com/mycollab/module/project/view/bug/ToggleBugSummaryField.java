@@ -47,16 +47,16 @@ import org.vaadin.viritin.layouts.MHorizontalLayout;
  * @author MyCollab Ltd
  * @since 5.2.3
  */
-public class ToggleBugSummaryField extends AbstractToggleSummaryField {
+class ToggleBugSummaryField extends AbstractToggleSummaryField {
     private boolean isRead = true;
     private BugWithBLOBs bug;
     private int maxLength;
 
-    public ToggleBugSummaryField(final BugWithBLOBs bug) {
+    ToggleBugSummaryField(final BugWithBLOBs bug) {
         this(bug, Integer.MAX_VALUE);
     }
 
-    public ToggleBugSummaryField(final BugWithBLOBs bug, int trimCharacters) {
+    ToggleBugSummaryField(final BugWithBLOBs bug, int trimCharacters) {
         this.bug = bug;
         this.maxLength = trimCharacters;
         titleLinkLbl = ELabel.html(buildBugLink()).withStyleName(UIConstants.LABEL_WORD_WRAP).withUndefinedWidth();

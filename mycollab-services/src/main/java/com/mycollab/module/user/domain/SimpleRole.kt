@@ -53,13 +53,10 @@ class SimpleRole : Role() {
 
         private val LOG = LoggerFactory.getLogger(SimpleRole::class.java)
 
-        @JvmField
-        val ADMIN = "Administrator"
+        const val ADMIN = "Administrator"
 
-        @JvmField
-        val EMPLOYEE = "Employee"
+        const val EMPLOYEE = "Employee"
 
-        @JvmField
-        val GUEST = "Guest"
+        const val GUEST = "Guest"
     }
 }

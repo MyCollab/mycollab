@@ -37,7 +37,7 @@ import com.mycollab.vaadin.web.ui.table.DefaultPagedBeanTable;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.ui.Label;
 
-import java.util.Set;
+import java.util.List;
 
 /**
  * @author MyCollab Ltd.
@@ -46,15 +46,15 @@ import java.util.Set;
 class BugTableDisplay extends DefaultPagedBeanTable<BugService, BugSearchCriteria, SimpleBug> {
     private static final long serialVersionUID = 1L;
 
-    BugTableDisplay(Set<TableViewField> displayColumns) {
+    BugTableDisplay(List<TableViewField> displayColumns) {
         this(null, displayColumns);
     }
 
-    BugTableDisplay(TableViewField requiredColumn, Set<TableViewField> displayColumns) {
+    BugTableDisplay(TableViewField requiredColumn, List<TableViewField> displayColumns) {
         this(null, requiredColumn, displayColumns);
     }
 
-    BugTableDisplay(String viewId, TableViewField requiredColumn, Set<TableViewField> displayColumns) {
+    BugTableDisplay(String viewId, TableViewField requiredColumn, List<TableViewField> displayColumns) {
         super(AppContextUtil.getSpringBean(BugService.class), SimpleBug.class, viewId, requiredColumn, displayColumns);
 
         this.addGeneratedColumn("assignuserFullName", (source, itemId, columnId) -> {

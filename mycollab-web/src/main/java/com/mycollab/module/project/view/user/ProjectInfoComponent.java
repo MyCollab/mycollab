@@ -119,7 +119,8 @@ public class ProjectInfoComponent extends MHorizontalLayout {
         }
 
         if (!SiteConfiguration.isCommunityEdition()) {
-            MButton tagBtn = new MButton(UserUIContext.getMessage(ProjectCommonI18nEnum.VIEW_TAG), clickEvent -> EventBusFactory.getInstance().post(new ProjectEvent.GotoTagListView(this, null)))
+            MButton tagBtn = new MButton(UserUIContext.getMessage(ProjectCommonI18nEnum.VIEW_TAG),
+                    clickEvent -> EventBusFactory.getInstance().post(new ProjectEvent.GotoTagListView(this, null)))
                     .withIcon(VaadinIcons.TAGS).withStyleName(WebThemes.BUTTON_SMALL_PADDING, WebThemes.BUTTON_LINK);
             footer.addComponents(tagBtn);
 

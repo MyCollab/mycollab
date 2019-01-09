@@ -34,7 +34,7 @@ import com.mycollab.vaadin.web.ui.WebThemes;
 import com.mycollab.vaadin.web.ui.table.DefaultPagedBeanTable;
 import org.vaadin.viritin.button.MButton;
 
-import java.util.Set;
+import java.util.List;
 
 /**
  * @author MyCollab Ltd.
@@ -43,7 +43,7 @@ import java.util.Set;
 public class TicketTableDisplay extends DefaultPagedBeanTable<ProjectTicketService, ProjectTicketSearchCriteria, ProjectTicket> {
     private static final long serialVersionUID = 1L;
 
-    public TicketTableDisplay(Set<TableViewField> displayColumns) {
+    public TicketTableDisplay(List<TableViewField> displayColumns) {
         super(AppContextUtil.getSpringBean(ProjectTicketService.class), ProjectTicket.class, displayColumns);
 
         addGeneratedColumn("name", (source, itemId, columnId) -> {

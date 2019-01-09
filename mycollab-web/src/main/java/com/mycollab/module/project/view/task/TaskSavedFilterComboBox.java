@@ -17,7 +17,6 @@
 package com.mycollab.module.project.view.task;
 
 import com.mycollab.common.domain.OptionVal;
-import com.mycollab.common.i18n.QueryI18nEnum;
 import com.mycollab.common.service.OptionValService;
 import com.mycollab.db.arguments.SearchField;
 import com.mycollab.db.query.*;
@@ -37,6 +36,7 @@ import java.util.Collections;
 import java.util.List;
 
 import static com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
+import static com.mycollab.common.i18n.QueryI18nEnum.IS_NOT;
 
 /**
  * @author MyCollab Ltd
@@ -96,7 +96,7 @@ public class TaskSavedFilterComboBox extends SavedFilterComboBox {
                     protected Object doEval() {
                         return LocalDate.now();
                     }
-                }), new SearchFieldInfo(SearchField.AND, new StringParam("id-status", "m_prj_task", "status"), QueryI18nEnum.StringI18nEnum.IS_NOT.name(),
+                }), new SearchFieldInfo(SearchField.AND, new StringParam("id-status", "m_prj_task", "status"), IS_NOT.name(),
                 ConstantValueInjector.valueOf(StatusI18nEnum.Closed.name())));
 
         SearchQueryInfo myTasksQuery = new SearchQueryInfo(MY_TASKS, UserUIContext.getMessage(TaskI18nEnum.VAL_MY_TASKS),

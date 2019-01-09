@@ -19,7 +19,7 @@ package com.mycollab.vaadin.web.ui.field;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.PopupDateFieldExt;
-import com.mycollab.vaadin.web.ui.ValueComboBox;
+import com.mycollab.vaadin.web.ui.StringValueComboBox;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
@@ -42,7 +42,7 @@ public class DateTimeOptionField extends CustomField<Date> {
     private PopupDateFieldExt popupDateField;
     private HourPickerComboBox hourPickerComboBox;
     private MinutePickerComboBox minutePickerComboBox;
-    private ValueComboBox timeFormatComboBox;
+    private StringValueComboBox timeFormatComboBox;
     private Button toggleTimeBtn;
     private boolean hideTimeOption = true;
     private boolean trickModified = false;
@@ -204,7 +204,7 @@ public class DateTimeOptionField extends CustomField<Date> {
         return null;
     }
 
-    private static class HourPickerComboBox extends ValueComboBox {
+    private static class HourPickerComboBox extends StringValueComboBox {
         private static final long serialVersionUID = 1L;
         private final String[] HOURS = new String[]{"00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11"};
 
@@ -215,7 +215,7 @@ public class DateTimeOptionField extends CustomField<Date> {
         }
     }
 
-    private static class MinutePickerComboBox extends ValueComboBox {
+    private static class MinutePickerComboBox extends StringValueComboBox {
         private static final long serialVersionUID = 1L;
         private String[] MINUS = new String[]{"00", "15", "30", "45"};
 

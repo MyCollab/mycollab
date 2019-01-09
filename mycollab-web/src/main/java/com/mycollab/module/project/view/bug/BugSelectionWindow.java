@@ -35,7 +35,6 @@ import org.vaadin.viritin.layouts.MVerticalLayout;
 import org.vaadin.viritin.layouts.MWindow;
 
 import java.util.Arrays;
-import java.util.HashSet;
 
 /**
  * @author MyCollab Ltd.
@@ -68,7 +67,7 @@ class BugSelectionWindow extends MWindow {
 
     private DefaultPagedBeanTable<BugService, BugSearchCriteria, SimpleBug> createBugTable() {
         final DefaultPagedBeanTable<BugService, BugSearchCriteria, SimpleBug> tableItem = new BugTableDisplay(
-                new HashSet<>(Arrays.asList(BugTableFieldDef.summary, BugTableFieldDef.severity, BugTableFieldDef.resolution)));
+                Arrays.asList(BugTableFieldDef.summary, BugTableFieldDef.severity, BugTableFieldDef.resolution));
         tableItem.setWidth("100%");
         tableItem.setDisplayNumItems(10);
         tableItem.addGeneratedColumn("name", (source, itemId, columnId) -> {

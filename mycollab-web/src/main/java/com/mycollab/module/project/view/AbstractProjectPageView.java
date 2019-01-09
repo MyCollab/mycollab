@@ -41,13 +41,12 @@ public class AbstractProjectPageView extends AbstractVerticalPageView {
         this.headerText = ELabel.h2(String.format("%s %s", icon.getHtml(), headerText));
         super.addComponent(constructHeader());
 
-        contentWrapper = new MCssLayout().withStyleName(WebThemes.CONTENT_WRAPPER);
+        contentWrapper = new MCssLayout();
         super.addComponent(contentWrapper);
-
     }
 
     private ComponentContainer constructHeader() {
-        header = new MHorizontalLayout().with(headerText).withStyleName("hdr-view").withFullWidth().withMargin(true);
+        header = new MHorizontalLayout().with(headerText).withStyleName(WebThemes.HEADER_VIEW).withFullWidth().withMargin(true);
         header.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
         return header;
     }

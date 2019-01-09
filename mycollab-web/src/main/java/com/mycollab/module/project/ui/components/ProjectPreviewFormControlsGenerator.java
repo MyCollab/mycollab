@@ -31,6 +31,7 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
 import org.vaadin.hene.popupbutton.PopupButton;
 import org.vaadin.viritin.button.MButton;
+import org.vaadin.viritin.layouts.MCssLayout;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 import java.io.Serializable;
@@ -55,12 +56,14 @@ public class ProjectPreviewFormControlsGenerator<T> implements Serializable {
     private PopupButton optionBtn;
     private OptionPopupContent popupButtonsControl;
     private MHorizontalLayout editButtons;
+
+    MHorizontalLayout wrapLayout;
     private MHorizontalLayout layout;
 
     public ProjectPreviewFormControlsGenerator(AdvancedPreviewBeanForm<T> editForm) {
         this.previewForm = editForm;
-        layout = new MHorizontalLayout();
-        layout.setSizeUndefined();
+        wrapLayout = new MHorizontalLayout().withMargin(false);
+        layout = new MHorizontalLayout().withMargin(false);
         layout.setDefaultComponentAlignment(Alignment.MIDDLE_RIGHT);
         popupButtonsControl = new OptionPopupContent();
         editButtons = new MHorizontalLayout();
@@ -128,7 +131,7 @@ public class ProjectPreviewFormControlsGenerator<T> implements Serializable {
                 popupButtonsControl.addOption(cloneBtn);
             }
 
-            layout.with(editButtons);
+            wrapLayout.withComponent(editButtons);
 
             if (canRead && (buttonEnableFlags & NAVIGATOR_BTN_PRESENTED) == NAVIGATOR_BTN_PRESENTED) {
                 ButtonGroup navigationBtns = new ButtonGroup();
@@ -145,23 +148,23 @@ public class ProjectPreviewFormControlsGenerator<T> implements Serializable {
                 }).withIcon(VaadinIcons.CHEVRON_RIGHT).withStyleName(WebThemes.BUTTON_OPTION)
                         .withDescription(UserUIContext.getMessage(GenericI18Enum.TOOLTIP_SHOW_NEXT_ITEM));
                 navigationBtns.addButton(nextItemBtn);
-                layout.addComponent(navigationBtns);
+                wrapLayout.withComponent(navigationBtns);
             }
 
             if (popupButtonsControl.getComponentCount() > 0) {
                 optionBtn.setContent(popupButtonsControl);
-                layout.addComponent(optionBtn);
+                wrapLayout.withComponent(optionBtn);
             }
         }
 
-        return layout;
+        return layout.with(wrapLayout).withAlign(wrapLayout, Alignment.MIDDLE_RIGHT);
     }
 
     /**
      * @param comp
      */
     public void insertToControlBlock(Component comp) {
-        layout.addComponent(comp, 0);
+        wrapLayout.addComponent(comp, 0);
     }
 
     public void addOptionButton(Button button) {

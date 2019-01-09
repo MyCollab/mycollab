@@ -78,3 +78,14 @@ ADD CONSTRAINT `FK_m_prj_role_permission_2`
 ALTER TABLE `m_prj_role`
 CHANGE COLUMN `rolename` `roleName` VARCHAR(255) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' NOT NULL ;
 
+ALTER TABLE `m_prj_time_logging`
+DROP FOREIGN KEY `FK_m_prj_time_logging_3`;
+ALTER TABLE `m_prj_time_logging`
+CHANGE COLUMN `loguser` `logUser` VARCHAR(45) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' NULL DEFAULT NULL ;
+ALTER TABLE `m_prj_time_logging`
+ADD CONSTRAINT `FK_m_prj_time_logging_3`
+  FOREIGN KEY (`logUser`)
+  REFERENCES `s_user` (`username`)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE;
+

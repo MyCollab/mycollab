@@ -69,7 +69,7 @@ public class ProjectListPresenter extends ListSelectionPresenter<ProjectListView
     @Override
     protected void onGo(HasComponents container, ScreenData<?> data) {
         ProjectModule projectModule = (ProjectModule) container;
-        projectModule.gotoSubView("Projects");
+//        projectModule.gotoSubView("Projects");
         ProjectSearchCriteria searchCriteria = new ProjectSearchCriteria();
         doSearch(searchCriteria);
 

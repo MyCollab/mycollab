@@ -26,7 +26,7 @@ import com.vaadin.ui.AbstractComponent
 interface IFormLayoutFactory {
     val layout: AbstractComponent
 
-    fun attachField(propertyId: Any, field: HasValue<*>): HasValue<*>
+    fun attachField(propertyId: Any, field: HasValue<*>): HasValue<*>?
 
     fun bindFields(): Set<String>
 }

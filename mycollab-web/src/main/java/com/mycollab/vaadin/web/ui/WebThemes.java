@@ -38,7 +38,6 @@ public class WebThemes {
     public static final String MILESTONE_BOX = "milestone-box";
     public static final String MULTI_SELECT_BG = "multiselect";
     public static final String BTN_ACTIVE = "btn-group-default";
-    public static final String CONTENT_WRAPPER = "content-wrapper";
     public static final String OPTION_POPUP_CONTENT = "optionPopupContent";
     public static final String MESSAGE_CONTAINER = "message-container";
     public static final String BUTTON_SMALL_PADDING = "small-padding";
@@ -49,7 +48,6 @@ public class WebThemes {
     public static final String LABEL_OVERDUE = "overdue";
     public static final String GRIDFORM_STANDARD = "colored-gridlayout";
     public static final String GRIDFORM_BORDERLESS = "borderless";
-    public static final String FORM = "form";
     public static final String FORM_SECTION = "section";
     public static final String ARROW_BTN = "arrow-btn";
     public static final String CURSOR_POINTER = "cursor_pointer";

@@ -17,6 +17,7 @@
 package com.mycollab.vaadin
 
 import com.mycollab.configuration.SiteConfiguration
+import com.vaadin.server.Page
 import com.vaadin.server.VaadinRequest
 import com.vaadin.server.VaadinServletRequest
 
@@ -39,4 +40,6 @@ object Utils {
     } catch (e: Exception) {
         false
     }
+
+    @JvmStatic fun reloadPage(): Unit = Page.getCurrent().javaScript.execute("window.location.reload();")
 }

@@ -91,3 +91,5 @@ ALTER TABLE `m_prj_invoice`
 CHANGE COLUMN `issueDate` `issueDate` DATE NOT NULL ;
 
 
+ALTER TABLE `m_prj_time_logging`
+CHANGE COLUMN `logForDay` `logForDay` DATE NOT NULL ;

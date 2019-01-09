@@ -3,7 +3,6 @@ package com.mycollab.module.project.view.ticket;
 import com.google.common.eventbus.Subscribe;
 import com.mycollab.common.i18n.OptionI18nEnum;
 import com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
-import com.mycollab.db.arguments.BasicSearchRequest;
 import com.mycollab.db.arguments.SetSearchField;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectTypeConstants;
@@ -17,6 +16,7 @@ import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.mycollab.module.project.i18n.RiskI18nEnum;
 import com.mycollab.module.project.i18n.TaskI18nEnum;
 import com.mycollab.module.project.query.TicketQueryInfo;
+import com.mycollab.module.project.service.ProjectMemberService;
 import com.mycollab.module.project.service.ProjectTaskService;
 import com.mycollab.module.project.service.ProjectTicketService;
 import com.mycollab.module.project.service.RiskService;
@@ -27,12 +27,10 @@ import com.mycollab.module.project.view.ProjectView;
 import com.mycollab.module.project.view.service.TicketComponentFactory;
 import com.mycollab.module.tracker.domain.BugWithBLOBs;
 import com.mycollab.module.tracker.service.BugService;
+import com.mycollab.module.user.domain.SimpleUser;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.ApplicationEventListener;
-import com.mycollab.vaadin.AsyncInvoker;
+import com.mycollab.vaadin.*;
 import com.mycollab.vaadin.AsyncInvoker.PageCommand;
-import com.mycollab.vaadin.EventBusFactory;
-import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.event.HasSearchHandlers;
 import com.mycollab.vaadin.mvp.AbstractVerticalPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
@@ -45,7 +43,7 @@ import com.vaadin.event.dd.DragAndDropEvent;
 import com.vaadin.event.dd.DropHandler;
 import com.vaadin.event.dd.acceptcriteria.AcceptCriterion;
 import com.vaadin.event.dd.acceptcriteria.Not;
-import com.vaadin.server.FontAwesome;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.dd.HorizontalDropLocation;
 import com.vaadin.shared.ui.dd.VerticalDropLocation;
@@ -55,7 +53,6 @@ import fi.jasoft.dragdroplayouts.DDVerticalLayout;
 import fi.jasoft.dragdroplayouts.client.ui.LayoutDragMode;
 import fi.jasoft.dragdroplayouts.events.LayoutBoundTransferable;
 import fi.jasoft.dragdroplayouts.events.VerticalLocationIs;
-import org.apache.commons.collections.CollectionUtils;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
@@ -96,7 +93,6 @@ public class TicketKanbanBoardViewImpl extends AbstractVerticalPageView implemen
             };
 
     public TicketKanbanBoardViewImpl() {
-        this.setSizeFull();
         this.withSpacing(true).withMargin(new MarginInfo(false, true, true, true));
         searchPanel = new TicketSearchPanel();
         MHorizontalLayout groupWrapLayout = new MHorizontalLayout();
@@ -105,9 +101,9 @@ public class TicketKanbanBoardViewImpl extends AbstractVerticalPageView implemen
 
         MButton advanceDisplayBtn = new MButton(UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_LIST),
                 clickEvent -> EventBusFactory.getInstance().post(new TicketEvent.GotoDashboard(this, null)))
-                .withIcon(FontAwesome.NAVICON).withWidth("100px");
+                .withIcon(VaadinIcons.ALIGN_JUSTIFY).withWidth("100px");
 
-        MButton kanbanBtn = new MButton(UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_KANBAN)).withIcon(FontAwesome.TH)
+        MButton kanbanBtn = new MButton(UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_KANBAN)).withIcon(VaadinIcons.GRID_SMALL_O)
                 .withWidth("100px");
 
         groupWrapLayout.addComponent(new ButtonGroup(advanceDisplayBtn, kanbanBtn).withDefaultButton(kanbanBtn));
@@ -137,7 +133,6 @@ public class TicketKanbanBoardViewImpl extends AbstractVerticalPageView implemen
         });
 
         ButtonGroup group = new ButtonGroup(allFilterBtn, filterBugsBtn, filterTasksBtn, filterRisksBtn).withDefaultButton(allFilterBtn);
-
 
         MHorizontalLayout controlLayout = new MHorizontalLayout(ELabel.html("Filter by: "), group)
                 .withDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
@@ -225,34 +220,54 @@ public class TicketKanbanBoardViewImpl extends AbstractVerticalPageView implemen
         kanbanBlocks = new ConcurrentHashMap<>();
 
         setProjectNavigatorVisibility(false);
-        AsyncInvoker.access(getUI(), new PageCommand() {
-            @Override
-            public void run() {
-                Arrays.stream(statuses).forEach(status -> {
-                    KanbanBlock block = new KanbanBlock(status.name());
-                    kanbanBlocks.put(status.name(), block);
-                    kanbanLayout.addComponent(block);
-                });
-                push();
+        buildMembersBlock();
 
-                int totalTickets = ticketService.getTotalCount(searchCriteria);
-                searchPanel.setTotalCountNumber(totalTickets);
-                int pages = totalTickets / 50;
-                for (int page = 0; page < pages + 1; page++) {
-                    List<ProjectTicket> tickets = (List<ProjectTicket>) ticketService.findPageableListByCriteria(new BasicSearchRequest<>(searchCriteria, page + 1, 50));
-                    if (CollectionUtils.isNotEmpty(tickets)) {
-                        tickets.forEach(ticket -> {
-                            String status = ticket.getStatus();
-                            KanbanBlock kanbanBlock = kanbanBlocks.get(status);
-                            if (kanbanBlock != null) {
-                                kanbanBlock.addBlockItem(new KanbanBlockItem(ticket));
-                            }
+//        AsyncInvoker.access(getUI(), new PageCommand() {
+//            @Override
+//            public void run() {
+//                Arrays.stream(statuses).forEach(status -> {
+//                    KanbanBlock block = new KanbanBlock(status.name());
+//                    kanbanBlocks.put(status.name(), block);
+//                    kanbanLayout.addComponent(block);
+//                });
+//                push();
+//
+//                int totalTickets = ticketService.getTotalCount(searchCriteria);
+//                searchPanel.setTotalCountNumber(totalTickets);
+//                int pages = totalTickets / 50;
+//                for (int page = 0; page < pages + 1; page++) {
+//                    List<ProjectTicket> tickets = (List<ProjectTicket>) ticketService.findPageableListByCriteria(new BasicSearchRequest<>(searchCriteria, page + 1, 50));
+//                    if (CollectionUtils.isNotEmpty(tickets)) {
+//                        tickets.forEach(ticket -> {
+//                            String status = ticket.getStatus();
+//                            KanbanBlock kanbanBlock = kanbanBlocks.get(status);
+//                            if (kanbanBlock != null) {
+//                                kanbanBlock.addBlockItem(new KanbanBlockItem(ticket));
+//                            }
+//                        });
+//                        this.push();
+//                    }
+//                }
+//            }
+//        });
+    }
+
+    private void buildMembersBlock() {
+        ProjectMemberService projectMemberService = AppContextUtil.getSpringBean(ProjectMemberService.class);
+        List<SimpleUser> activeMembers = projectMemberService.getActiveUsersInProject(CurrentProjectVariables.getProjectId(), AppUI.getAccountId());
+
+        activeMembers.forEach(member ->
+                AsyncInvoker.access(getUI(), new PageCommand() {
+                    @Override
+                    public void run() {
+                        Arrays.stream(statuses).forEach(status -> {
+                            KanbanBlock block = new KanbanBlock(status.name());
+                            kanbanBlocks.put(status.name(), block);
+                            kanbanLayout.addComponent(block);
                         });
-                        this.push();
+                        push();
                     }
-                }
-            }
-        });
+                }));
     }
 
     private static class KanbanBlockItem extends BlockRowRender {
@@ -295,13 +310,14 @@ public class TicketKanbanBoardViewImpl extends AbstractVerticalPageView implemen
         private Label header;
 
         KanbanBlock(String stage) {
-            this.withFullHeight().withWidth("250px").withStyleName("kanban-block").withMargin(false);
+            this.withWidth("250px").withStyleName("kanban-block").withMargin(false);
             this.status = stage;
             final String optionId = UUID.randomUUID().toString() + "-" + stage.hashCode();
             this.setId(optionId);
             JavaScript.getCurrent().execute("$('#" + optionId + "').css({'background-color':'lightgray'});");
 
             dragLayoutContainer = new DDVerticalLayout();
+            dragLayoutContainer.setMargin(false);
             dragLayoutContainer.setSpacing(true);
             dragLayoutContainer.setComponentVerticalDropRatio(0.3f);
             dragLayoutContainer.setDragMode(LayoutDragMode.CLONE);
@@ -368,7 +384,6 @@ public class TicketKanbanBoardViewImpl extends AbstractVerticalPageView implemen
                     return new Not(VerticalLocationIs.MIDDLE);
                 }
             });
-//            new Restrain(dragLayoutContainer).setMinHeight("50px").setMaxHeight((UIUtils.getBrowserHeight() - 390) + "px");
 
             MHorizontalLayout headerLayout = new MHorizontalLayout().withSpacing(false).withFullWidth().withStyleName("header");
             header = new Label(UserUIContext.getMessage(StatusI18nEnum.class, stage));

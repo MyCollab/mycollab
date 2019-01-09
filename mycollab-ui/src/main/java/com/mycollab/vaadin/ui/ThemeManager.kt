@@ -33,6 +33,81 @@ import com.vaadin.server.Page
 object ThemeManager {
 
     @JvmStatic
+    fun loadMobileTheme(sAccountId: Int) {
+        val themeService = AppContextUtil.getSpringBean(AccountThemeService::class.java)
+        var accountTheme = themeService.findTheme(sAccountId)
+
+        if (accountTheme == null) {
+            accountTheme = themeService.findDefaultTheme(AppUI.accountId)
+            if (accountTheme == null) {
+                throw UserInvalidInputException(UserUIContext.getMessage(ShellI18nEnum.ERROR_CAN_NOT_LOAD_THEME))
+            }
+        }
+
+        val extraStyles = StringBuilder()
+
+        extraStyles.append(".v-touchkit-navbar-caption { width: ${UIUtils.getBrowserWidth() - 144}px !important; }")
+        extraStyles.append(".v-touchkit-navbar-caption span { width: ${UIUtils.getBrowserWidth() - 144}px !important; }")
+
+        if (accountTheme.vtabsheetbg != null) {
+            extraStyles.append(".section { background-color: #").append(accountTheme.vtabsheetbg).append("; }")
+            extraStyles.append(".v-navbar-quickmenu-content { background-color: #").append(accountTheme.vtabsheetbg).append("; }")
+            extraStyles.append(".slidemenu .v-window-contents { background-color: #").append(accountTheme.vtabsheetbg).append("; }")
+            extraStyles.append(".project-dashboard .project-info-layout { background-color: #").append(accountTheme.vtabsheetbg).append("; }")
+        }
+
+        if (accountTheme.vtabsheettext != null) {
+            extraStyles.append(".project-dashboard .project-info-layout .v-icon { color: #${accountTheme.vtabsheettext}; }")
+            extraStyles.append(".project-dashboard .project-info-layout .project-name { color: #${accountTheme.vtabsheettext}; }")
+            extraStyles.append(".project-dashboard .project-info-layout .meta-info { color: ${ColorUtils.darkerColor("#" + accountTheme.vtabsheettext)}; }")
+            extraStyles.append(".v-navbar-quickmenu-content .v-button { color: #${accountTheme.vtabsheettext}; }")
+            extraStyles.append(".slidemenu .v-window-contents .v-button { color: #${accountTheme.vtabsheettext} !important; }")
+            extraStyles.append(".section { color: #${accountTheme.vtabsheettext}; }")
+            extraStyles.append(".section .v-touchkit-navbutton { color: #${accountTheme.vtabsheettext} !important; }")
+            extraStyles.append(".section .v-touchkit-navbutton::after { color: #${accountTheme.vtabsheettext} !important; }")
+            extraStyles.append(".slidemenu .v-window-contents .menulabel { color: ${ColorUtils.brighterColor("#" + accountTheme.vtabsheettext)}; }")
+        }
+
+        /* Action Buttons */
+
+        if (accountTheme.actionbtn != null) {
+            extraStyles.append(".v-touchkit-tabbar-toolbar .v-button.selected { background-color: #${accountTheme.actionbtn} !important; }")
+            extraStyles.append(".v-button.v-button-action-btn, .v-button-action-btn:focus { background-color: #${accountTheme.actionbtn}; }")
+        }
+
+        if (accountTheme.actionbtntext != null) {
+            extraStyles.append(".v-touchkit-tabbar-toolbar .v-button.selected { color: #${accountTheme.actionbtntext}; }")
+            extraStyles.append(".v-button.v-button-action-btn, .v-button-action-btn:focus { color: #${accountTheme.actionbtntext}; }")
+        }
+
+        /* Option Buttons */
+
+        if (accountTheme.optionbtn != null) {
+            extraStyles.append(".v-touchkit-tabbar-toolbar .v-button { background-color: #${accountTheme.optionbtn} !important; }")
+            extraStyles.append(".v-button.v-button-option-btn, .v-button-option-btn:focus { background-color: #${accountTheme.optionbtn}; }")
+        }
+
+        if (accountTheme.optionbtntext != null) {
+            extraStyles.append(".v-touchkit-tabbar-toolbar .v-button { color: #${accountTheme.optionbtntext} !important; }")
+            extraStyles.append(".v-button.v-button-option-btn, .v-button-option-btn:focus { color: #${accountTheme.optionbtntext}; }")
+        }
+
+        /* Danger Buttons */
+
+        if (accountTheme.dangerbtn != null) {
+
+        }
+
+        if (accountTheme.dangerbtntext != null) {
+
+        }
+
+        if (extraStyles.isNotBlank()) {
+            Page.getCurrent().styles.add(extraStyles.toString())
+        }
+    }
+
+    @JvmStatic
     fun loadDesktopTheme(sAccountId: Int) {
         val themeService = AppContextUtil.getSpringBean(AccountThemeService::class.java)
         var accountTheme = themeService.findTheme(sAccountId)

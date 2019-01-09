@@ -66,7 +66,7 @@ public class UserSettingViewImpl extends AbstractVerticalPageView implements Use
         myProjectTab.addTab(userPresenter.getView(), UserUIContext.getMessage(ProjectMemberI18nEnum.LIST), VaadinIcons.USERS);
 
         rolePresenter = PresenterResolver.getPresenter(ProjectRolePresenter.class);
-        myProjectTab.addTab(rolePresenter.getView(), UserUIContext.getMessage(ProjectRoleI18nEnum.LIST), VaadinIcons.WORKPLACE);
+        myProjectTab.addTab(rolePresenter.getView(), UserUIContext.getMessage(ProjectRoleI18nEnum.LIST), VaadinIcons.CLIPBOARD_USER);
 
         componentPresenter = PresenterResolver.getPresenter(ComponentPresenter.class);
         myProjectTab.addTab(componentPresenter.getView(), UserUIContext.getMessage(ComponentI18nEnum.LIST),
