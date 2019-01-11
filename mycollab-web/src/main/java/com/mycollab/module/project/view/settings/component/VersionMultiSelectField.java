@@ -56,15 +56,6 @@ public class VersionMultiSelectField extends MultiSelectComp {
         UI.getCurrent().addWindow(new VersionAddWindow());
     }
 
-//    @Override
-//    public void setPropertyDataSource(Property newDataSource) {
-//        List<Version> versions = (List<Version>) newDataSource.getValue();
-//        if (versions != null) {
-//            this.setSelectedItems(versions);
-//        }
-//        super.setPropertyDataSource(newDataSource);
-//    }
-
 
     @Override
     protected void doSetValue(Object o) {

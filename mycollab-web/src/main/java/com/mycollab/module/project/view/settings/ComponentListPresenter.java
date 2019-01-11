@@ -108,7 +108,7 @@ public class ComponentListPresenter extends ProjectGenericListPresenter<Componen
     @Override
     protected void deleteSelectedItems() {
         if (!isSelectAll) {
-            Collection<SimpleComponent> currentDataList = view.getPagedBeanGrid().getCurrentDataList();
+            Collection<SimpleComponent> currentDataList = view.getPagedBeanGrid().getItems();
             List<Component> keyList = new ArrayList<>();
             for (SimpleComponent item : currentDataList) {
                 if (item.isSelected()) {

@@ -7,9 +7,9 @@
 
     <s_user firstname="a2" lastname="b2" username="nghiemle@esofthead.com" email="nghiemle@esofthead.com"/>
 
-    <m_prj_project id="1" name="a" sAccountId="1" shortname="aaa" projectStatus="Open"/>
+    <m_prj_project id="1" name="a" sAccountId="1" shortName="aaa" status="Open"/>
 
-    <m_prj_project id="2" name="b" sAccountId="1" shortname="bbb" projectStatus="Open"/>
+    <m_prj_project id="2" name="b" sAccountId="1" shortName="bbb" status="Open"/>
 
     <m_prj_task sAccountId="1" projectId="1" id="1" percentagecomplete="40" name="task 1" taskkey="1"
                 assignUser="hainguyen@esofthead.com" priority="Medium"/>

@@ -23,6 +23,11 @@ ADD CONSTRAINT `FK_m_audit_log_1`
 ALTER TABLE `s_account`
 ADD INDEX `FK_s_account_1_idx` (`billingPlanId` ASC);
 
+ALTER TABLE `m_prj_project`
+CHANGE COLUMN `projectType` `type` VARCHAR(45) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' NULL DEFAULT NULL ,
+CHANGE COLUMN `projectStatus` `status` VARCHAR(45) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' NOT NULL ;
+
+
 ALTER TABLE `s_account`
 ADD CONSTRAINT `FK_s_account_1`
   FOREIGN KEY (`billingPlanId`)
@@ -109,3 +114,6 @@ CHANGE COLUMN `shortname` `shortName` VARCHAR(45) CHARACTER SET 'utf8mb4' COLLAT
 ALTER TABLE `s_relay_email_notification`
 ADD COLUMN `createdTime` DATETIME NULL,
 ADD COLUMN `lastUpdatedTime` DATETIME NULL;
+
+ALTER TABLE `m_customer`
+CHANGE COLUMN `accountName` `name` VARCHAR(255) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' NOT NULL , RENAME TO  `m_client` ;

@@ -33,7 +33,6 @@ import java.util.List;
  * @author MyCollab Ltd.
  * @since 4.5.3
  */
-// TODO
 public class AttachmentUploadField extends CustomField {
     private static final long serialVersionUID = 1L;
 

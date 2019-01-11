@@ -51,7 +51,7 @@ class ProjectServiceTest : IntegrationServiceTest() {
         val project = Project()
         project.saccountid = 1
         project.name = "Example"
-        project.projectstatus = "Open"
+        project.status = "Open"
         project.shortname = "abc"
         val projectId = projectService.saveWithSession(project, "admin")
         assertThat(projectId).isGreaterThan(0)

@@ -18,11 +18,11 @@
                     registerStatus="Active" username="user2" accountId="1"
                     registeredTime="2013-04-10 13:29:23"/>
 
-    <m_prj_project id="1" name="A" priority="1" shortname="ddd"
-                   projectStatus="Open" sAccountId="1"/>
+    <m_prj_project id="1" name="A" priority="1" shortName="ddd"
+                   status="Open" sAccountId="1"/>
 
-    <m_prj_project id="2" name="B" priority="1" shortname="ccc"
-                   projectStatus="Open" homePage="http://esofthead.com" memLead="admin"
+    <m_prj_project id="2" name="B" priority="1" shortName="ccc"
+                   status="Open" homePage="http://esofthead.com" memLead="admin"
                    sAccountId="1"/>
 
     <m_prj_task id="1" projectId="1" taskindex="1" taskkey="1" priority="Medium"

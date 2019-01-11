@@ -61,7 +61,6 @@ import com.mycollab.vaadin.web.ui.table.AbstractPagedBeanTable;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
-import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import org.slf4j.Logger;
@@ -132,10 +131,10 @@ public class TicketDashboardViewImpl extends AbstractVerticalPageView implements
         groupWrapLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
         groupWrapLayout.addComponent(new ELabel(UserUIContext.getMessage(GenericI18Enum.ACTION_SORT)));
-        final ComboBox sortCombo = new StringValueComboBox(false, UserUIContext.getMessage(GenericI18Enum.OPT_SORT_DESCENDING),
+        final StringValueComboBox sortCombo = new StringValueComboBox(false, UserUIContext.getMessage(GenericI18Enum.OPT_SORT_DESCENDING),
                 UserUIContext.getMessage(GenericI18Enum.OPT_SORT_ASCENDING));
         sortCombo.addValueChangeListener(valueChangeEvent -> {
-            String sortValue = (String) sortCombo.getValue();
+            String sortValue = sortCombo.getValue();
             if (UserUIContext.getMessage(GenericI18Enum.OPT_SORT_ASCENDING).equals(sortValue)) {
                 sortDirection = SearchCriteria.ASC;
             } else {
@@ -147,14 +146,14 @@ public class TicketDashboardViewImpl extends AbstractVerticalPageView implements
         groupWrapLayout.addComponent(sortCombo);
 
         groupWrapLayout.addComponent(new ELabel(UserUIContext.getMessage(GenericI18Enum.OPT_GROUP)));
-        final ComboBox groupCombo = new StringValueComboBox(false, UserUIContext.getMessage(GenericI18Enum.FORM_DUE_DATE),
+        final StringValueComboBox groupCombo = new StringValueComboBox(false, UserUIContext.getMessage(GenericI18Enum.FORM_DUE_DATE),
                 UserUIContext.getMessage(GenericI18Enum.FORM_START_DATE), UserUIContext.getMessage(GenericI18Enum.FORM_CREATED_TIME),
                 UserUIContext.getMessage(GenericI18Enum.OPT_PLAIN), UserUIContext.getMessage(GenericI18Enum.OPT_USER),
                 UserUIContext.getMessage(MilestoneI18nEnum.SINGLE));
         groupByState = UserUIContext.getMessage(MilestoneI18nEnum.SINGLE);
         groupCombo.setValue(UserUIContext.getMessage(MilestoneI18nEnum.SINGLE));
         groupCombo.addValueChangeListener(valueChangeEvent -> {
-            groupByState = (String) groupCombo.getValue();
+            groupByState = groupCombo.getValue();
             queryAndDisplayTickets();
         });
 
@@ -218,8 +217,8 @@ public class TicketDashboardViewImpl extends AbstractVerticalPageView implements
         baseCriteria.setTypes(CurrentProjectVariables.getRestrictedTicketTypes());
 
         statisticSearchCriteria = BeanUtility.deepClone(baseCriteria);
-        statisticSearchCriteria.setOpenned(new SearchField());
-        statisticSearchCriteria.setTypes(new SetSearchField(ProjectTypeConstants.BUG, ProjectTypeConstants.TASK,
+        statisticSearchCriteria.setOpen(new SearchField());
+        statisticSearchCriteria.setTypes(new SetSearchField<>(ProjectTypeConstants.BUG, ProjectTypeConstants.TASK,
                 ProjectTypeConstants.RISK));
 
         if (StringUtils.isNotBlank(query)) {

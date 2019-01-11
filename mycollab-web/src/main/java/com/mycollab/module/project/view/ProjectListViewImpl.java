@@ -20,7 +20,6 @@ import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Br;
 import com.hp.gagawa.java.elements.Div;
 import com.mycollab.common.i18n.GenericI18Enum;
-import com.mycollab.common.i18n.OptionI18nEnum;
 import com.mycollab.core.utils.StringUtils;
 import com.mycollab.module.project.ProjectLinkBuilder;
 import com.mycollab.module.project.ProjectLinkGenerator;
@@ -51,12 +50,17 @@ import com.mycollab.vaadin.web.ui.WebThemes;
 import com.mycollab.vaadin.web.ui.table.DefaultPagedBeanTable;
 import com.mycollab.vaadin.web.ui.table.IPagedTable;
 import com.vaadin.icons.VaadinIcons;
-import com.vaadin.ui.*;
+import com.vaadin.ui.Alignment;
+import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.Label;
+import com.vaadin.ui.UI;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
 import java.util.Arrays;
+
+import static com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 
 /**
  * @author MyCollab Ltd
@@ -149,9 +153,9 @@ public class ProjectListViewImpl extends AbstractVerticalPageView implements Pro
             return new Label(UserUIContext.formatDate(project.getPlanenddate()));
         });
 
-        tableItem.addGeneratedColumn(Project.Field.projectstatus.name(), (source, itemId, columnId) -> {
+        tableItem.addGeneratedColumn(Project.Field.status.name(), (source, itemId, columnId) -> {
             SimpleProject project = tableItem.getBeanByIndex(itemId);
-            return ELabel.i18n(project.getProjectstatus(), OptionI18nEnum.StatusI18nEnum.class);
+            return ELabel.i18n(project.getStatus(), StatusI18nEnum.class);
         });
 
         tableItem.addGeneratedColumn(Project.Field.createdtime.name(), (source, itemId, columnId) -> {

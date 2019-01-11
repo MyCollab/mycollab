@@ -28,19 +28,19 @@ import static com.mycollab.module.project.i18n.OptionI18nEnum.Priority.*;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class PriorityComboBox extends I18nValueComboBox {
+public class PriorityComboBox extends I18nValueComboBox<Priority> {
     private static final long serialVersionUID = 1L;
 
     public PriorityComboBox() {
         super(Priority.class, Urgent, High, Medium, Low, None);
         this.setWidth("150px");
-        this.setItemIconGenerator((IconGenerator<Enum>) item -> {
+        this.setItemIconGenerator((IconGenerator<Priority>) item -> {
             if (item == Urgent || item == High || item == Medium) {
                 return VaadinIcons.ARROW_UP;
             } else {
                 return VaadinIcons.ARROW_DOWN;
             }
         });
-        this.setStyleGenerator((StyleGenerator<String>) itemId -> String.format("task-%s", itemId.toLowerCase()));
+        this.setStyleGenerator((StyleGenerator<Priority>) itemId -> String.format("task-%s", itemId.name().toLowerCase()));
     }
 }

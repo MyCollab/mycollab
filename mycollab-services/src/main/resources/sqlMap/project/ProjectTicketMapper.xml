@@ -55,8 +55,8 @@
             ${searchCriteria.assignUser.operation} mainTbl.assignUser = @{searchCriteria.assignUser.value}
         #end
         
-        #ifnotnull($searchCriteria.isOpenned)
-            ${searchCriteria.isOpenned.operation} mainTbl.status NOT IN ('Closed')
+        #ifnotnull($searchCriteria.open)
+            ${searchCriteria.open.operation} mainTbl.status NOT IN ('Closed')
         #end
 
         #ifnotnull($searchCriteria.unAssignee)
@@ -90,7 +90,7 @@
         #end
         
         #ifnotnull($searchCriteria.dueDate)
-            ${searchCriteria.dueDate.operation} CAST(mainTbl.dueDate AS DATE ) ${searchCriteria.dueDate.comparison} @{searchCriteria.dueDate.value}
+            ${searchCriteria.dueDate.operation} mainTbl.dueDate ${searchCriteria.dueDate.comparison} @{searchCriteria.dueDate.value}
         #end
 
         #selectExpr($searchCriteria.extraFields)
@@ -120,8 +120,8 @@
             ${searchCriteria.assignUser.operation} mainTbl.assignUser = @{searchCriteria.assignUser.value}
         #end
         
-        #ifnotnull($searchCriteria.isOpenned)
-            ${searchCriteria.isOpenned.operation} mainTbl.status NOT IN ('Verified')
+        #ifnotnull($searchCriteria.open)
+            ${searchCriteria.open.operation} mainTbl.status NOT IN ('Verified')
         #end
 
         #ifnotnull($searchCriteria.unAssignee)
@@ -154,7 +154,7 @@
         #end
         
          #ifnotnull($searchCriteria.dueDate)
-            ${searchCriteria.dueDate.operation} CAST(mainTbl.dueDate AS DATE ) ${searchCriteria.dueDate.comparison} @{searchCriteria.dueDate.value}
+            ${searchCriteria.dueDate.operation} mainTbl.dueDate ${searchCriteria.dueDate.comparison} @{searchCriteria.dueDate.value}
         #end
 
         #selectExpr($searchCriteria.extraFields)
@@ -184,8 +184,8 @@
             ${searchCriteria.assignUser.operation} mainTbl.assignUser = @{searchCriteria.assignUser.value}
         #end
         
-        #ifnotnull($searchCriteria.isOpenned)
-            ${searchCriteria.isOpenned.operation} mainTbl.status NOT IN ('Closed')
+        #ifnotnull($searchCriteria.open)
+            ${searchCriteria.open.operation} mainTbl.status NOT IN ('Closed')
         #end
 
         #ifnotnull($searchCriteria.unAssignee)
@@ -218,7 +218,7 @@
         #end
         
         #ifnotnull($searchCriteria.dueDate)
-            ${searchCriteria.dueDate.operation} CAST(mainTbl.dueDate AS DATE) ${searchCriteria.dueDate.comparison} @{searchCriteria.dueDate.value}
+            ${searchCriteria.dueDate.operation} mainTbl.dueDate ${searchCriteria.dueDate.comparison} @{searchCriteria.dueDate.value}
         #end
 
         #selectExpr($searchCriteria.extraFields)
@@ -248,8 +248,8 @@
             ${searchCriteria.assignUser.operation} mainTbl.assignUser = @{searchCriteria.assignUser.value}
         #end
 
-        #ifnotnull($searchCriteria.isOpenned)
-            ${searchCriteria.isOpenned.operation} mainTbl.status NOT IN ('Closed')
+        #ifnotnull($searchCriteria.open)
+            ${searchCriteria.open.operation} mainTbl.status NOT IN ('Closed')
         #end
 
         #ifnotnull($searchCriteria.unAssignee)
@@ -282,7 +282,7 @@
         #end
 
         #ifnotnull($searchCriteria.dueDate)
-            ${searchCriteria.dueDate.operation} CAST(mainTbl.enddate AS DATE) ${searchCriteria.dueDate.comparison} @{searchCriteria.dueDate.value}
+            ${searchCriteria.dueDate.operation} mainTbl.enddate ${searchCriteria.dueDate.comparison} @{searchCriteria.dueDate.value}
         #end
 
         #selectExpr($searchCriteria.extraFields)
@@ -313,7 +313,7 @@
           FROM m_prj_risk AS mainTbl
               LEFT OUTER JOIN s_user assignUserTbl ON (mainTbl.assignUser=assignUserTbl.username)
               LEFT OUTER JOIN s_user createdUserTbl ON (mainTbl.createdUser=createdUserTbl.username)
-              LEFT OUTER JOIN m_prj_project ON (mainTbl.projectId=m_prj_project.id AND m_prj_project.projectStatus='Open')
+              LEFT OUTER JOIN m_prj_project ON (mainTbl.projectId=m_prj_project.id AND m_prj_project.status='Open')
               LEFT OUTER JOIN m_prj_milestone ON (mainTbl.milestoneId=m_prj_milestone.id)
         ]]>
     </sql>
@@ -338,7 +338,7 @@
           FROM m_prj_milestone AS mainTbl
             LEFT OUTER JOIN s_user assignUserTbl ON (mainTbl.assignUser=assignUserTbl.username)
             LEFT OUTER JOIN s_user createdUserTbl ON (mainTbl.createdUser=createdUserTbl.username)
-            LEFT OUTER JOIN m_prj_project ON (mainTbl.projectId=m_prj_project.id AND m_prj_project.projectStatus='Open')
+            LEFT OUTER JOIN m_prj_project ON (mainTbl.projectId=m_prj_project.id AND m_prj_project.status='Open')
         ]]>
     </sql>
 
@@ -366,7 +366,7 @@
           FROM m_tracker_bug AS mainTbl
               LEFT OUTER JOIN s_user AS assignUserTbl ON (mainTbl.assignUser=assignUserTbl.username)
               LEFT OUTER JOIN s_user createdUserTbl ON (mainTbl.createdUser=createdUserTbl.username)
-              LEFT OUTER JOIN m_prj_project ON (mainTbl.projectId=m_prj_project.id AND m_prj_project.projectStatus='Open')
+              LEFT OUTER JOIN m_prj_project ON (mainTbl.projectId=m_prj_project.id AND m_prj_project.status='Open')
               LEFT OUTER JOIN m_prj_milestone ON (mainTbl.milestoneId=m_prj_milestone.id)
         ]]>
     </sql>
@@ -395,7 +395,7 @@
           FROM m_prj_task AS mainTbl
             LEFT OUTER JOIN s_user assignUserTbl ON (mainTbl.assignUser=assignUserTbl.username)
             LEFT OUTER JOIN s_user createdUserTbl ON (mainTbl.createdUser=createdUserTbl.username)
-            LEFT OUTER JOIN m_prj_project ON (mainTbl.projectId=m_prj_project.id AND m_prj_project.projectStatus='Open')
+            LEFT OUTER JOIN m_prj_project ON (mainTbl.projectId=m_prj_project.id AND m_prj_project.status='Open')
             LEFT OUTER JOIN m_prj_milestone ON (mainTbl.milestoneId=m_prj_milestone.id)
         ]]>
     </sql>

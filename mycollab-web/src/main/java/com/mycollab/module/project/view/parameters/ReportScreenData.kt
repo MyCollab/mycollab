@@ -23,6 +23,8 @@ import com.mycollab.vaadin.mvp.ScreenData
  * @since 6.0.0
  */
 object ReportScreenData {
+    class GotoConsole: ScreenData<Any>(null)
+
     class GotoWeeklyTiming : ScreenData<Any>(null)
 
     class GotoTimesheet : ScreenData<Any>(null)

@@ -202,7 +202,7 @@ class ProjectServiceImpl(private val projectMapper: ProjectMapper,
     override fun getProjectKeysUserInvolved(username: String, sAccountId: Int): List<Int> {
         val searchCriteria = ProjectSearchCriteria()
         searchCriteria.involvedMember = StringSearchField.and(username)
-        searchCriteria.projectStatuses = SetSearchField(StatusI18nEnum.Open.name)
+        searchCriteria.statuses = SetSearchField(StatusI18nEnum.Open.name)
         return projectMapperExt.getUserProjectKeys(searchCriteria)
     }
 
@@ -218,7 +218,7 @@ class ProjectServiceImpl(private val projectMapper: ProjectMapper,
     override fun getTotalActiveProjectsInAccount(@CacheKey sAccountId: Int): Int {
         val criteria = ProjectSearchCriteria()
         criteria.saccountid = NumberSearchField(sAccountId)
-        criteria.projectStatuses = SetSearchField(StatusI18nEnum.Open.name)
+        criteria.statuses = SetSearchField(StatusI18nEnum.Open.name)
         return projectMapperExt.getTotalCount(criteria)
     }
 
@@ -231,7 +231,7 @@ class ProjectServiceImpl(private val projectMapper: ProjectMapper,
     override fun getTotalActiveProjectsOfInvolvedUsers(username: String, @CacheKey sAccountId: Int?): Int? {
         val criteria = ProjectSearchCriteria()
         criteria.involvedMember = StringSearchField.and(username)
-        criteria.projectStatuses = SetSearchField(StatusI18nEnum.Open.name)
+        criteria.statuses = SetSearchField(StatusI18nEnum.Open.name)
         return projectMapperExt.getTotalCount(criteria)
     }
 

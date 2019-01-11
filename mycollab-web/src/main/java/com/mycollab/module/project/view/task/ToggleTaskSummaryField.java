@@ -47,10 +47,10 @@ import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.shared.ui.MarginInfo;
+import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.themes.ValoTheme;
-import org.vaadin.addons.CssCheckBox;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
@@ -58,25 +58,24 @@ import org.vaadin.viritin.layouts.MHorizontalLayout;
  * @author MyCollab Ltd
  * @since 5.2.3
  */
-public class ToggleTaskSummaryField extends AbstractToggleSummaryField {
+class ToggleTaskSummaryField extends AbstractToggleSummaryField {
     private boolean isRead = true;
     private SimpleTask task;
     private int maxLength;
-    private CssCheckBox toggleStatusSelect;
+    private CheckBox toggleStatusSelect;
 
-    public ToggleTaskSummaryField(final SimpleTask task, boolean toggleStatusSupport) {
+    ToggleTaskSummaryField(final SimpleTask task, boolean toggleStatusSupport) {
         this(task, Integer.MAX_VALUE, toggleStatusSupport, false);
     }
 
-    public ToggleTaskSummaryField(final SimpleTask task, int maxLength, boolean toggleStatusSupport, boolean canRemove) {
+    ToggleTaskSummaryField(final SimpleTask task, int maxLength, boolean toggleStatusSupport, boolean canRemove) {
         this.setWidth("100%");
         this.maxLength = maxLength;
         this.task = task;
         titleLinkLbl = ELabel.html(buildTaskLink()).withUndefinedWidth().withStyleName(UIConstants.LABEL_WORD_WRAP);
 
         if (toggleStatusSupport && CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS)) {
-            toggleStatusSelect = new CssCheckBox();
-            toggleStatusSelect.setSimpleMode(true);
+            toggleStatusSelect = new CheckBox();
             toggleStatusSelect.setValue(task.isCompleted());
             displayTooltip();
             toggleStatusSelect.addValueChangeListener(valueChangeEvent -> {
@@ -110,8 +109,7 @@ public class ToggleTaskSummaryField extends AbstractToggleSummaryField {
                     }
                 }
             });
-            this.addComponent(toggleStatusSelect);
-            this.addComponent(ELabel.EMPTY_SPACE());
+            this.withComponents(toggleStatusSelect, ELabel.EMPTY_SPACE());
         }
 
         this.addComponent(titleLinkLbl);
@@ -174,9 +172,7 @@ public class ToggleTaskSummaryField extends AbstractToggleSummaryField {
 
     private void updateFieldValue(TextField editField) {
         removeComponent(editField);
-        addComponent(titleLinkLbl);
-        addComponent(buttonControls);
-        addStyleName("editable-field");
+        withComponents(titleLinkLbl, buttonControls).withStyleName("editable-field");
         String newValue = editField.getValue();
         if (StringUtils.isNotBlank(newValue) && !newValue.equals(task.getName())) {
             task.setName(newValue);

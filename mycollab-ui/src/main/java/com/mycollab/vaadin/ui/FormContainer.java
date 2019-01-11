@@ -18,16 +18,15 @@ package com.mycollab.vaadin.ui;
 
 import com.vaadin.ui.*;
 import org.vaadin.viritin.layouts.MCssLayout;
+import org.vaadin.viritin.layouts.MVerticalLayout;
 
 /**
  * @author MyCollab Ltd
  * @since 5.2.2
  */
-public class FormContainer extends VerticalLayout {
+public class FormContainer extends MVerticalLayout {
     public FormContainer() {
-        this.addStyleName("form");
-        this.setWidth("100%");
-        this.setMargin(false);
+        this.withStyleName("form").withFullWidth().withMargin(false);
         this.setDefaultComponentAlignment(Alignment.TOP_CENTER);
     }
 

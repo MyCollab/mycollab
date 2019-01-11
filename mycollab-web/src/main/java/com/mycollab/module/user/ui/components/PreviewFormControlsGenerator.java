@@ -19,6 +19,7 @@ package com.mycollab.module.user.ui.components;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.web.ui.AdvancedPreviewBeanForm;
+import com.mycollab.vaadin.web.ui.ButtonGroup;
 import com.mycollab.vaadin.web.ui.OptionPopupContent;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.icons.VaadinIcons;
@@ -36,7 +37,6 @@ import java.io.Serializable;
  * @author MyCollab Ltd.
  * @since 2.0
  */
-// TODO
 public class PreviewFormControlsGenerator<T> implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -101,21 +101,21 @@ public class PreviewFormControlsGenerator<T> implements Serializable {
             layout.with(editButtons);
 
             if (canRead && (buttonEnableFlags & NAVIGATOR_BTN_PRESENTED) == NAVIGATOR_BTN_PRESENTED) {
-//                ButtonGroup navigationBtns = new ButtonGroup();
-//                MButton previousItem = new MButton("", clickEvent -> {
-//                    T item = previewForm.getBean();
-//                    previewForm.fireGotoPrevious(item);
-//                }).withIcon(VaadinIcons.CHEVRON_LEFT).withStyleName(WebThemes.BUTTON_ACTION)
-//                        .withDescription(UserUIContext.getMessage(GenericI18Enum.TOOLTIP_SHOW_PREVIOUS_ITEM));
-//                navigationBtns.addButton(previousItem);
-//
-//                MButton nextItemBtn = new MButton("", clickEvent -> {
-//                    T item = previewForm.getBean();
-//                    previewForm.fireGotoNextItem(item);
-//                }).withIcon(VaadinIcons.CHEVRON_RIGHT).withStyleName(WebThemes.BUTTON_ACTION)
-//                        .withDescription(UserUIContext.getMessage(GenericI18Enum.TOOLTIP_SHOW_NEXT_ITEM));
-//                navigationBtns.addButton(nextItemBtn);
-//                layout.with(navigationBtns);
+                ButtonGroup navigationBtns = new ButtonGroup();
+                MButton previousItem = new MButton("", clickEvent -> {
+                    T item = previewForm.getBean();
+                    previewForm.fireGotoPrevious(item);
+                }).withIcon(VaadinIcons.CHEVRON_LEFT).withStyleName(WebThemes.BUTTON_ACTION)
+                        .withDescription(UserUIContext.getMessage(GenericI18Enum.TOOLTIP_SHOW_PREVIOUS_ITEM));
+                navigationBtns.addButton(previousItem);
+
+                MButton nextItemBtn = new MButton("", clickEvent -> {
+                    T item = previewForm.getBean();
+                    previewForm.fireGotoNextItem(item);
+                }).withIcon(VaadinIcons.CHEVRON_RIGHT).withStyleName(WebThemes.BUTTON_ACTION)
+                        .withDescription(UserUIContext.getMessage(GenericI18Enum.TOOLTIP_SHOW_NEXT_ITEM));
+                navigationBtns.addButton(nextItemBtn);
+                layout.with(navigationBtns);
             }
 
             if (canWrite && (buttonEnableFlags & CLONE_BTN_PRESENTED) == CLONE_BTN_PRESENTED) {

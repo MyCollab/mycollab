@@ -59,10 +59,10 @@ class SimpleProject : Project() {
     var customizeView: ProjectCustomizeView? = null
 
     val isProjectArchived: Boolean
-        get() = StatusI18nEnum.Archived.name == this.projectstatus
+        get() = StatusI18nEnum.Archived.name == this.status
 
     val isArchived: Boolean
-        get() = StatusI18nEnum.Archived.name == projectstatus
+        get() = StatusI18nEnum.Archived.name == status
 
     enum class Field {
         leadFullName, totalBillableHours, totalNonBillableHours, clientName;

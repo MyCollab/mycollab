@@ -179,7 +179,7 @@ public abstract class AbstractPagedBeanTable<S extends SearchCriteria, B> extend
     }
 
     @Override
-    public Collection<B> getCurrentDataList() {
+    public Collection<B> getItems() {
         return currentListData;
     }
 

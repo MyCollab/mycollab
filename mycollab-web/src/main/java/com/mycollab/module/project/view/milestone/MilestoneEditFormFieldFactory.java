@@ -25,12 +25,14 @@ import com.mycollab.module.project.view.settings.component.ProjectMemberSelectio
 import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.mycollab.vaadin.ui.GenericBeanForm;
-import com.mycollab.vaadin.ui.PopupDateFieldExt;
 import com.mycollab.vaadin.web.ui.I18nValueComboBox;
 import com.mycollab.vaadin.web.ui.field.AttachmentUploadField;
 import com.vaadin.data.HasValue;
 import com.vaadin.icons.VaadinIcons;
-import com.vaadin.ui.*;
+import com.vaadin.ui.DateField;
+import com.vaadin.ui.IconGenerator;
+import com.vaadin.ui.RichTextArea;
+import org.vaadin.viritin.fields.MTextField;
 
 import static com.mycollab.module.project.i18n.OptionI18nEnum.MilestoneStatus.*;
 
@@ -52,18 +54,11 @@ public class MilestoneEditFormFieldFactory extends AbstractBeanFieldGroupEditFie
         if (Milestone.Field.assignuser.equalTo(propertyId)) {
             ProjectMemberSelectionField memberSelectionField = new ProjectMemberSelectionField();
             memberSelectionField.setRequiredIndicatorVisible(true);
-//            memberSelectionField.setRequiredError("Please select an assignee");
             return memberSelectionField;
         } else if (propertyId.equals("status")) {
             return new ProgressStatusComboBox();
         } else if (propertyId.equals("name")) {
-            final TextField tf = new TextField();
-//            if (isValidateForm) {
-//                tf.setNullRepresentation("");
-//                tf.setRequired(true);
-//                tf.setRequiredError("Please enter name");
-//            }
-            return tf;
+            return new MTextField().withRequiredIndicatorVisible(true);
         } else if (propertyId.equals("description")) {
             return new RichTextArea();
         } else if (Milestone.Field.saccountid.equalTo(propertyId)) {
@@ -87,7 +82,7 @@ public class MilestoneEditFormFieldFactory extends AbstractBeanFieldGroupEditFie
         return attachmentUploadField;
     }
 
-    private static class ProgressStatusComboBox extends I18nValueComboBox {
+    private static class ProgressStatusComboBox extends I18nValueComboBox<MilestoneStatus> {
         private static final long serialVersionUID = 1L;
 
         ProgressStatusComboBox() {

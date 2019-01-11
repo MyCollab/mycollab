@@ -67,7 +67,7 @@ public class AccountModuleImpl extends AbstractSingleContainerPageView implement
         addStyleName("module");
         ControllerRegistry.addController(new UserAccountController(this));
 
-        MHorizontalLayout topPanel = new MHorizontalLayout().withFullWidth().withMargin(true).withStyleName("border-bottom");
+        MHorizontalLayout topPanel = new MHorizontalLayout().withFullWidth().withMargin(true).withStyleName(WebThemes.BORDER_BOTTOM);
         AccountSettingBreadcrumb breadcrumb = ViewManager.getCacheComponent(AccountSettingBreadcrumb.class);
 
         MButton helpBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.ACTION_HELP))

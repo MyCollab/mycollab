@@ -34,7 +34,7 @@ class ProjectTicketSearchCriteria : SearchCriteria() {
 
     var assignUser: StringSearchField? = null
 
-    var isOpenned: SearchField? = null
+    var open: SearchField? = null
 
     var unAssignee: SearchField? = null
 

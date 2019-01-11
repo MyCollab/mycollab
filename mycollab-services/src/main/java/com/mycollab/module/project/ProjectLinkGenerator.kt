@@ -151,9 +151,6 @@ object ProjectLinkGenerator {
     fun generateBugEditLink(bugKey: Int?, prjShortName: String): String = "${URL_PREFIX_PARAM}project/bug/edit/$prjShortName-$bugKey"
 
     @JvmStatic
-    fun generateBugsLink(projectId: Int): String = "${URL_PREFIX_PARAM}project/bug/list/${UrlEncodeDecoder.encode(projectId)}"
-
-    @JvmStatic
     fun generateBugPreviewFullLink(siteUrl: String, bugKey: Int?, prjShortName: String): String =
             "$siteUrl${generateBugPreviewLink(bugKey, prjShortName)}"
 
@@ -164,7 +161,6 @@ object ProjectLinkGenerator {
     @JvmStatic
     fun generateInvoiceListLink(projectId: Int): String =
             "${URL_PREFIX_PARAM}project/invoice/list/${UrlEncodeDecoder.encode(projectId)}"
-
 
     @JvmStatic
     fun generateRolePreviewLink(projectId: Int, roleId: Int?): String =

@@ -30,18 +30,11 @@ import java.util.Currency;
  * @author MyCollab Ltd
  * @since 5.3.1
  */
-// TODO
 public class CurrencyViewField extends CustomField<String> {
     private ELabel label;
 
-    public CurrencyViewField(String value) {
-        if (StringUtils.isBlank(value)) {
-            label = new ELabel("");
-        } else {
-            Currency currency = CurrencyUtils.getInstance(value);
-            label = new ELabel(String.format("%s (%s)", currency.getDisplayName(UserUIContext.getUserLocale()), currency.getCurrencyCode()))
-                    .withFullWidth().withStyleName(UIConstants.LABEL_WORD_WRAP);
-        }
+    public CurrencyViewField() {
+        label = new ELabel().withFullWidth().withStyleName(UIConstants.LABEL_WORD_WRAP);
     }
 
     @Override
@@ -50,8 +43,13 @@ public class CurrencyViewField extends CustomField<String> {
     }
 
     @Override
-    protected void doSetValue(String s) {
-
+    protected void doSetValue(String value) {
+        if (StringUtils.isBlank(value)) {
+            label.setValue("");
+        } else {
+            Currency currency = CurrencyUtils.getInstance(value);
+            label.setValue(String.format("%s (%s)", currency.getDisplayName(UserUIContext.getUserLocale()), currency.getCurrencyCode()));
+        }
     }
 
     @Override

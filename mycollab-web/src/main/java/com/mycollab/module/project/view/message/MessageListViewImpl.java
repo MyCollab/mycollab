@@ -229,7 +229,7 @@ public class MessageListViewImpl extends AbstractVerticalPageView implements Mes
                     MButton searchBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_SEARCH), clickEvent -> callSearchAction())
                             .withStyleName(WebThemes.BUTTON_ACTION).withIcon(VaadinIcons.SEARCH)
                             .withClickShortcut(ShortcutAction.KeyCode.ENTER);
-                    return new MHorizontalLayout(nameField, searchBtn).withUndefinedWidth()
+                    return new MHorizontalLayout(nameField, searchBtn).withMargin(true)
                             .withAlign(nameField, Alignment.MIDDLE_LEFT);
                 }
 
@@ -266,19 +266,16 @@ public class MessageListViewImpl extends AbstractVerticalPageView implements Mes
             MVerticalLayout newMessageLayout = new MVerticalLayout().withWidth("800px");
 
             Label titleLbl = new Label(UserUIContext.getMessage(MessageI18nEnum.FORM_TITLE));
-            // TODO
             final TextField titleField = new MTextField().withFullWidth().withRequiredIndicatorVisible(true);
-//                    .withRequiredError(UserUIContext.getMessage(ErrorI18nEnum.FIELD_MUST_NOT_NULL,
-//                            UserUIContext.getMessage(MessageI18nEnum.FORM_TITLE)));
 
             MHorizontalLayout titleLayout = new MHorizontalLayout(titleLbl, titleField).expand(titleField).withFullWidth();
 
-            final RichTextArea ckEditorTextField = new RichTextArea();
-            ckEditorTextField.setWidth("100%");
-            ckEditorTextField.setHeight("200px");
+            final RichTextArea descField = new RichTextArea();
+            descField.setWidth("100%");
+            descField.setHeight("200px");
 
-            newMessageLayout.with(titleLayout, ckEditorTextField).withAlign(titleLayout, Alignment.MIDDLE_LEFT)
-                    .withAlign(ckEditorTextField, Alignment.MIDDLE_CENTER).expand(ckEditorTextField);
+            newMessageLayout.with(titleLayout, descField).withAlign(titleLayout, Alignment.MIDDLE_LEFT)
+                    .withAlign(descField, Alignment.MIDDLE_CENTER).expand(descField);
 
             final AttachmentPanel attachments = new AttachmentPanel();
             final CheckBox chkIsStick = new CheckBox(UserUIContext.getMessage(MessageI18nEnum.FORM_IS_STICK));
@@ -292,7 +289,7 @@ public class MessageListViewImpl extends AbstractVerticalPageView implements Mes
                 message.setProjectid(CurrentProjectVariables.getProjectId());
                 if (!titleField.getValue().trim().equals("")) {
                     message.setTitle(titleField.getValue());
-                    message.setMessage(ckEditorTextField.getValue());
+                    message.setMessage(descField.getValue());
                     message.setCreateduser(UserUIContext.getUsername());
                     message.setSaccountid(AppUI.getAccountId());
                     message.setIsstick(chkIsStick.getValue());

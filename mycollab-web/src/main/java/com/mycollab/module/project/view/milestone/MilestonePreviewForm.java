@@ -54,7 +54,6 @@ import com.mycollab.vaadin.web.ui.field.ContainerViewField;
 import com.vaadin.data.HasValue;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.shared.ui.ContentMode;
-import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.Component;
@@ -124,9 +123,9 @@ public class MilestonePreviewForm extends AdvancedPreviewBeanForm<SimpleMileston
             final CheckBox openSelection = new CheckBox(UserUIContext.getMessage(StatusI18nEnum.Open), true);
             openSelection.addValueChangeListener(valueChangeEvent -> {
                 if (openSelection.getValue()) {
-                    searchCriteria.setOpenned(new SearchField());
+                    searchCriteria.setOpen(new SearchField());
                 } else {
-                    searchCriteria.setOpenned(null);
+                    searchCriteria.setOpen(null);
                 }
                 updateSearchStatus();
             });
@@ -166,7 +165,7 @@ public class MilestonePreviewForm extends AdvancedPreviewBeanForm<SimpleMileston
             this.with(header, assignmentsLayout);
             searchCriteria = new ProjectTicketSearchCriteria();
             searchCriteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
-            searchCriteria.setOpenned(new SearchField());
+            searchCriteria.setOpen(new SearchField());
             searchCriteria.setTypes(new SetSearchField<>(ProjectTypeConstants.BUG, ProjectTypeConstants.TASK, ProjectTypeConstants.RISK));
             searchCriteria.setMilestoneId(new NumberSearchField(beanItem.getId()));
             updateSearchStatus();

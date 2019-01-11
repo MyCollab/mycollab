@@ -18,6 +18,7 @@ package com.mycollab.module.project.view.user;
 
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
+import com.mycollab.core.MyCollabException;
 import com.mycollab.module.project.domain.Project;
 import com.mycollab.module.project.i18n.ProjectI18nEnum;
 import com.mycollab.module.project.ui.ProjectAssetsUtil;
@@ -28,12 +29,13 @@ import com.mycollab.vaadin.mvp.AbstractVerticalPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.*;
 import com.mycollab.vaadin.web.ui.AddViewLayout;
-import com.mycollab.vaadin.web.ui.DoubleField;
 import com.mycollab.vaadin.web.ui.I18nValueComboBox;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.vaadin.data.HasValue;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
+import org.vaadin.viritin.fields.DoubleField;
+import org.vaadin.viritin.fields.MTextField;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
@@ -179,7 +181,7 @@ public class ProjectAddViewImpl extends AbstractVerticalPageView implements Proj
     private static class EditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<Project> {
         private static final long serialVersionUID = 1L;
 
-        public EditFormFieldFactory(GenericBeanForm<Project> form) {
+        EditFormFieldFactory(GenericBeanForm<Project> form) {
             super(form);
         }
 
@@ -190,30 +192,22 @@ public class ProjectAddViewImpl extends AbstractVerticalPageView implements Proj
                 final RichTextArea field = new RichTextArea();
                 field.setHeight("350px");
                 return field;
-            } else if (Project.Field.projectstatus.equalTo(propertyId)) {
-                final ProjectStatusComboBox projectCombo = new ProjectStatusComboBox();
-//                projectCombo.setRequired(true);
-//                projectCombo.setRequiredError("Please enter a project status");
-                if (project.getProjectstatus() == null) {
-                    project.setProjectstatus(StatusI18nEnum.Open.name());
+            } else if (Project.Field.status.equalTo(propertyId)) {
+                final ProjectStatusComboBox statusSelection = new ProjectStatusComboBox();
+                statusSelection.setRequiredIndicatorVisible(true);
+                if (project.getStatus() == null) {
+                    project.setStatus(StatusI18nEnum.Open.name());
                 }
-                return projectCombo;
+                return statusSelection;
             } else if (Project.Field.shortname.equalTo(propertyId)) {
-                final TextField tf = new TextField();
-//                tf.setNullRepresentation("");
-//                tf.setRequired(true);
-//                tf.setRequiredError("Please enter a project short name");
-                return tf;
+                return new MTextField().withRequiredIndicatorVisible(true);
             } else if (Project.Field.currencyid.equalTo(propertyId)) {
                 return new CurrencyComboBoxField();
             } else if (Project.Field.name.equalTo(propertyId)) {
-                final TextField tf = new TextField();
-//                tf.setNullRepresentation("");
-//                tf.setRequired(true);
-//                tf.setRequiredError("Please enter a Name");
-                return tf;
+                return new MTextField().withRequiredIndicatorVisible(true);
             } else if (Project.Field.clientid.equalTo(propertyId)) {
-//                return new AccountSelectionField();
+                throw new MyCollabException("Need implement");
+//                return new ClientSelectionField();
             } else if (Project.Field.memlead.equalTo(propertyId)) {
                 return new ProjectMemberSelectionField();
             } else if (Project.Field.defaultbillingrate.equalTo(propertyId)
@@ -227,7 +221,7 @@ public class ProjectAddViewImpl extends AbstractVerticalPageView implements Proj
         }
     }
 
-    private static class ProjectStatusComboBox extends I18nValueComboBox {
+    private static class ProjectStatusComboBox extends I18nValueComboBox<StatusI18nEnum> {
         ProjectStatusComboBox() {
             super(StatusI18nEnum.class, StatusI18nEnum.Open, StatusI18nEnum.Closed);
         }

@@ -25,5 +25,7 @@ import com.mycollab.vaadin.event.ApplicationEvent
 object TimeTrackingEvent {
     class TimeLoggingEntryChange(source: Any) : ApplicationEvent(source)
 
+    class TimeLoggingChangedEvent(source: Any) : ApplicationEvent(source)
+
     class GotoList(source: Any, val data: Any?) : ApplicationEvent(source)
 }

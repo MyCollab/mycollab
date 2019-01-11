@@ -27,7 +27,7 @@ import com.vaadin.ui.StyleGenerator;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class BugSeverityComboBox extends I18nValueComboBox {
+public class BugSeverityComboBox extends I18nValueComboBox<BugSeverity> {
     private static final long serialVersionUID = 1L;
 
     public BugSeverityComboBox() {

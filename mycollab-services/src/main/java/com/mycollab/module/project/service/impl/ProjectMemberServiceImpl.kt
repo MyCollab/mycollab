@@ -39,6 +39,7 @@ import com.mycollab.module.project.service.ProjectMemberService
 import com.mycollab.module.user.domain.SimpleUser
 import org.apache.commons.collections.CollectionUtils
 import org.springframework.stereotype.Service
+import java.time.LocalDate
 import java.util.*
 
 /**
@@ -128,6 +129,6 @@ class ProjectMemberServiceImpl(private val projectMemberMapper: ProjectMemberMap
     override fun getActiveUserOfProject(username: String, projectId: Int, @CacheKey sAccountId: Int): SimpleUser? =
             projectMemberMapperExt.getActiveUserOfProject(username, projectId, sAccountId)
 
-    override fun findMembersHourlyInProject(projectId: Int?, sAccountId: Int?, start: Date, end: Date): List<SimpleProjectMember> =
+    override fun findMembersHourlyInProject(projectId: Int?, sAccountId: Int?, start: LocalDate, end: LocalDate): List<SimpleProjectMember> =
             projectMemberMapperExt.findMembersHourlyInProject(projectId, sAccountId, start, end)
 }

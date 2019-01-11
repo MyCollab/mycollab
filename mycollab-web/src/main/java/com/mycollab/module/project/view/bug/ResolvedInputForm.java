@@ -214,10 +214,10 @@ public class ResolvedInputForm extends AdvancedEditBeanForm<SimpleBug> {
             @Override
             protected Component initContent() {
                 layout = new MHorizontalLayout(resolutionComboBox);
-//                fieldGroup.bind(resolutionComboBox, BugWithBLOBs.Field.resolution.name());
+//                TODO fieldGroup.bind(resolutionComboBox, BugWithBLOBs.Field.resolution.name());
                 resolutionComboBox.addValueChangeListener(valueChangeEvent -> {
-                    String value = (String) resolutionComboBox.getValue();
-                    if (BugResolution.Duplicate.name().equals(value)) {
+                    BugResolution value = resolutionComboBox.getValue();
+                    if (BugResolution.Duplicate == value) {
                         bugSelectionField = new BugSelectionField();
                         layout.with(new Label(" with "), bugSelectionField);
                     } else {

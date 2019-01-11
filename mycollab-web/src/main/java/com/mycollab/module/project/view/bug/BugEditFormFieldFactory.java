@@ -30,18 +30,17 @@ import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.mycollab.vaadin.ui.GenericBeanForm;
-import com.mycollab.vaadin.web.ui.DoubleField;
 import com.mycollab.vaadin.web.ui.field.AttachmentUploadField;
 import com.vaadin.data.HasValue;
 import com.vaadin.ui.DateField;
 import com.vaadin.ui.RichTextArea;
-import com.vaadin.ui.TextField;
+import org.vaadin.viritin.fields.DoubleField;
+import org.vaadin.viritin.fields.MTextField;
 
 /**
  * @author MyCollab Ltd
  * @since 5.2.0
  */
-// TODO
 class BugEditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<SimpleBug> {
     private static final long serialVersionUID = 1L;
 
@@ -71,13 +70,12 @@ class BugEditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<Sim
             return new PriorityComboBox();
         } else if (propertyId.equals("assignuser")) {
             ProjectMemberSelectionField field = new ProjectMemberSelectionField();
-//            field.addValueChangeListener(valueChangeEvent -> {
-//                Property property = valueChangeEvent.getProperty();
-//                SimpleProjectMember member = (SimpleProjectMember) property.getValue();
-//                if (member != null) {
-//                    subscribersComp.addFollower(member.getUsername());
-//                }
-//            });
+            field.addValueChangeListener(valueChangeEvent -> {
+                String username = valueChangeEvent.getValue();
+                if (username != null) {
+                    subscribersComp.addFollower(username);
+                }
+            });
             return field;
         } else if (propertyId.equals("id")) {
             if (beanItem.getId() != null) {
@@ -100,15 +98,7 @@ class BugEditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<Sim
             fixedVersionSelect = new VersionMultiSelectField();
             return fixedVersionSelect;
         } else if (propertyId.equals("name")) {
-            final TextField tf = new TextField();
-//            if (isValidateForm) {
-//                tf.setNullRepresentation("");
-//                tf.setRequired(true);
-//                tf.setRequiredError(UserUIContext.getMessage(ErrorI18nEnum.FIELD_MUST_NOT_NULL,
-//                        UserUIContext.getMessage(BugI18nEnum.FORM_SUMMARY)));
-//            }
-
-            return tf;
+            return new MTextField().withRequiredIndicatorVisible(true);
         } else if (propertyId.equals("milestoneid")) {
             return new MilestoneComboBox();
         } else if (BugWithBLOBs.Field.originalestimate.equalTo(propertyId) ||

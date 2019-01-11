@@ -3,7 +3,7 @@
 
     <s_account id="1" createdTime="2013-04-10 13:29:23" paymentMethod="Credit Card" status="Active"/>
 
-    <m_prj_project id="1" name="aaa" shortname="a" projectStatus="Open" sAccountId="1"/>
+    <m_prj_project id="1" name="aaa" shortName="a" status="Open" sAccountId="1"/>
 
-    <m_prj_role id="1" rolename="role1" sAccountId="1" projectId="1"/>
+    <m_prj_role id="1" roleName="role1" sAccountId="1" projectId="1"/>
 </dataset>

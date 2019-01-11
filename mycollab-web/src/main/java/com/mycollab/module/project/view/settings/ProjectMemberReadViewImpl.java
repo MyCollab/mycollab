@@ -19,7 +19,6 @@ package com.mycollab.module.project.view.settings;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Img;
 import com.hp.gagawa.java.elements.Span;
-import com.mycollab.common.GenericLinkUtils;
 import com.mycollab.common.ModuleNameConstants;
 import com.mycollab.common.domain.criteria.ActivityStreamSearchCriteria;
 import com.mycollab.core.utils.DateTimeUtils;
@@ -280,9 +279,9 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
             isOpenSelection.addValueChangeListener(valueChangeEvent -> {
                 boolean isOpenOption = isOpenSelection.getValue();
                 if (isOpenOption) {
-                    searchCriteria.setOpenned(new SearchField());
+                    searchCriteria.setOpen(new SearchField());
                 } else {
-                    searchCriteria.setOpenned(null);
+                    searchCriteria.setOpen(null);
                 }
                 updateSearchResult();
             });
@@ -299,7 +298,7 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
             searchCriteria = new ProjectTicketSearchCriteria();
             searchCriteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
             searchCriteria.setAssignUser(StringSearchField.and(beanItem.getUsername()));
-            searchCriteria.setOpenned(new SearchField());
+            searchCriteria.setOpen(new SearchField());
             updateSearchResult();
         }
 

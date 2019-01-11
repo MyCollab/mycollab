@@ -20,6 +20,7 @@ import com.mycollab.common.domain.SaveSearchResult;
 import com.mycollab.common.domain.criteria.SaveSearchResultCriteria;
 import com.mycollab.common.i18n.ErrorI18nEnum;
 import com.mycollab.common.i18n.GenericI18Enum;
+import com.mycollab.common.i18n.QueryI18nEnum;
 import com.mycollab.common.json.QueryAnalyzer;
 import com.mycollab.common.service.SaveSearchResultService;
 import com.mycollab.core.UserInvalidInputException;
@@ -42,6 +43,7 @@ import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
 import java.lang.reflect.Array;
+import java.time.LocalDate;
 import java.util.*;
 
 /**
@@ -177,7 +179,7 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
         private Label indexLbl;
         private StringValueComboBox operatorSelectionBox;
         private ComboBox fieldSelectionBox;
-        private I18nValueComboBox compareSelectionBox;
+        private I18nValueComboBox<QueryI18nEnum> compareSelectionBox;
         private MVerticalLayout valueBox;
         private Button deleteBtn;
 
@@ -241,7 +243,7 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
                 }
             }
 
-            compareSelectionBox.setValue(searchFieldInfo.getCompareOper());
+            compareSelectionBox.setValueByString(searchFieldInfo.getCompareOper());
             valueBox.removeAllComponents();
 
             if (param instanceof StringParam || param instanceof ConcatStringParam) {
@@ -255,23 +257,23 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
                 valueField.setWidth(width);
                 valueBox.addComponent(valueField);
             } else if (param instanceof BooleanParam) {
-                I18nValueComboBox valueField = new I18nValueComboBox(GenericI18Enum.class, GenericI18Enum.ACTION_YES, GenericI18Enum.ACTION_NO);
-                valueField.setValue(String.valueOf(searchFieldInfo.eval()));
+                I18nValueComboBox<GenericI18Enum> valueField = new I18nValueComboBox<>(GenericI18Enum.class, GenericI18Enum.ACTION_YES, GenericI18Enum.ACTION_NO);
+                valueField.setValueByString(String.valueOf(searchFieldInfo.eval()));
                 valueField.setWidth(width);
                 valueBox.addComponent(valueField);
             } else if (param instanceof DateParam) {
-                String compareItem = (String) compareSelectionBox.getValue();
-                if (DateParam.BETWEEN.equals(compareItem) || DateParam.NOT_BETWEEN.equals(compareItem)) {
-                    PopupDateFieldExt field1 = new PopupDateFieldExt();
-//                    field1.setValue((Date) Array.get(searchFieldInfo.eval(), 0));
+                QueryI18nEnum compareItem = compareSelectionBox.getValue();
+                if (QueryI18nEnum.BETWEEN == compareItem || QueryI18nEnum.NOT_BETWEEN == compareItem) {
+                    DateField field1 = new DateField();
+                    field1.setValue((LocalDate) Array.get(searchFieldInfo.eval(), 0));
                     field1.setWidth(width);
-                    PopupDateFieldExt field2 = new PopupDateFieldExt();
-//                    field2.setValue((Date) Array.get(searchFieldInfo.eval(), 1));
+                    DateField field2 = new DateField();
+                    field2.setValue((LocalDate) Array.get(searchFieldInfo.eval(), 1));
                     field2.setWidth(width);
                     valueBox.with(field1, field2);
                 } else {
-                    PopupDateFieldExt field = new PopupDateFieldExt();
-//                    field.setValue((Date) searchFieldInfo.eval());
+                    DateField field = new DateField();
+                    field.setValue((LocalDate) searchFieldInfo.eval());
                     field.setWidth(width);
                     valueBox.addComponent(field);
                 }
@@ -358,7 +360,7 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
 
         private void displayAssociateInputField(Param field) {
             String width = "300px";
-            String compareItem = (String) compareSelectionBox.getValue();
+            QueryI18nEnum compareItem =  compareSelectionBox.getValue();
             valueBox.removeAllComponents();
 
             if (field instanceof StringParam || field instanceof ConcatStringParam) {
@@ -374,12 +376,15 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
                 yesNoBox.setWidth(width);
                 valueBox.addComponent(yesNoBox);
             } else if (field instanceof DateParam) {
-                if (DateParam.BETWEEN.equals(compareItem) || DateParam.NOT_BETWEEN.equals(compareItem)) {
-                    PopupDateFieldExt field1 = new PopupDateFieldExt().withWidth(width);
-                    PopupDateFieldExt field2 = new PopupDateFieldExt().withWidth(width);
+                if (QueryI18nEnum.BETWEEN.equals(compareItem) || QueryI18nEnum.NOT_BETWEEN.equals(compareItem)) {
+                    DateField field1 = new DateField();
+                    field1.setWidth(width);
+                    DateField field2 = new DateField();
+                    field2.setWidth(width);
                     valueBox.with(field1, field2);
                 } else {
-                    PopupDateFieldExt tempDateField = new PopupDateFieldExt().withWidth(width);
+                    DateField tempDateField = new DateField();
+                    tempDateField.setWidth(width);
                     valueBox.addComponent(tempDateField);
                 }
             } else if (field instanceof PropertyParam || field instanceof PropertyListParam || field instanceof CustomSqlParam
@@ -411,7 +416,7 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
         private SearchFieldInfo buildSearchFieldInfo() {
             String prefixOper = (operatorSelectionBox != null) ? (String) operatorSelectionBox.getValue() : "AND";
             Param param = (Param) fieldSelectionBox.getValue();
-            String compareOper = (String) compareSelectionBox.getValue();
+            QueryI18nEnum compareOper = compareSelectionBox.getValue();
             Object value;
             int componentCount = valueBox.getComponentCount();
             if (componentCount == 1) {
@@ -436,7 +441,7 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
                         return null;
                     }
                 }
-                return new SearchFieldInfo(prefixOper, param, compareOper, ConstantValueInjector.valueOf(value));
+                return new SearchFieldInfo(prefixOper, param, compareOper.name(), ConstantValueInjector.valueOf(value));
             } else {
                 return null;
             }

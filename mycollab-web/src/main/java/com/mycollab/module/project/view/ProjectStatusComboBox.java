@@ -23,7 +23,7 @@ import com.mycollab.vaadin.web.ui.I18nValueComboBox;
  * @author MyCollab Ltd
  * @since 5.3.5
  */
-public class ProjectStatusComboBox extends I18nValueComboBox {
+public class ProjectStatusComboBox extends I18nValueComboBox<StatusI18nEnum> {
     private static final long serialVersionUID = 1L;
 
     public ProjectStatusComboBox() {

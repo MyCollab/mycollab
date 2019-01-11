@@ -25,7 +25,8 @@ import com.mycollab.module.tracker.domain.Version;
 import com.mycollab.module.tracker.domain.criteria.VersionSearchCriteria;
 import com.mycollab.module.tracker.service.VersionService;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.web.ui.IntegerKeyListSelect;
+import com.vaadin.ui.ItemCaptionGenerator;
+import com.vaadin.ui.ListSelect;
 
 import java.util.List;
 
@@ -33,25 +34,20 @@ import java.util.List;
  * @author MyCollab Ltd.
  * @since 4.5.0
  */
-// TODO
-public class VersionListSelect extends IntegerKeyListSelect {
+public class VersionListSelect extends ListSelect<Version> {
     private static final long serialVersionUID = 1L;
 
-    public VersionListSelect() {
-//        this.setItemCaptionMode(ItemCaptionMode.EXPLICIT);
-//        this.setMultiSelect(true);
+    private List<Version> versions;
 
+    public VersionListSelect() {
+        this.setRows(4);
         VersionSearchCriteria searchCriteria = new VersionSearchCriteria();
         searchCriteria.setStatus(StringSearchField.and(StatusI18nEnum.Open.name()));
         searchCriteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
 
         VersionService versionService = AppContextUtil.getSpringBean(VersionService.class);
-        List<Version> versions = (List<Version>) versionService.findPageableListByCriteria(new BasicSearchRequest<>(searchCriteria));
-        for (Version version : versions) {
-//            this.addItem(version.getId());
-//            this.setItemCaption(version.getId(), version.getName());
-        }
-
-        this.setRows(4);
+        versions = (List<Version>) versionService.findPageableListByCriteria(new BasicSearchRequest<>(searchCriteria));
+        this.setItems(versions);
+        this.setItemCaptionGenerator((ItemCaptionGenerator<Version>) Version::getName);
     }
 }

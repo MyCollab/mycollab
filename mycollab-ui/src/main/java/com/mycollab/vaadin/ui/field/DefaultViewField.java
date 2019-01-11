@@ -63,6 +63,10 @@ public final class DefaultViewField extends CustomField<Object> {
 
     @Override
     protected void doSetValue(Object value) {
-        System.out.println("Set value: " + value);
+        if (value != null) {
+            label.setValue(value.toString());
+        } else {
+            label.setValue("");
+        }
     }
 }

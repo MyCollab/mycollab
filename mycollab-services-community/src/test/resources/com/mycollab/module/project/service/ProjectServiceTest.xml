@@ -18,21 +18,21 @@
                     registerStatus="Active" username="user2" accountId="1"
                     registeredTime="2013-04-10 13:29:23"/>
 
-    <m_customer id="1" accountName="a" sAccountId="1"/>
+    <m_client id="1" name="a" sAccountId="1"/>
 
     <m_prj_project id="1" name="A" priority="1" shortName="ddd"
-                   projectStatus="Open" sAccountId="1"/>
+                   status="Open" sAccountId="1"/>
 
     <m_prj_project id="2" name="B" priority="1" shortName="ccc"
-                   projectStatus="Open" homePage="http://esofthead.com" memLead="admin"
+                   status="Open" homePage="http://esofthead.com" memLead="admin"
                    sAccountId="1"/>
 
     <m_prj_project id="3" name="C" priority="1" shortName="bbb"
-                   projectStatus="Open" homePage="http://esofthead.com" memLead="admin"
+                   status="Open" homePage="http://esofthead.com" memLead="admin"
                    clientId="1" sAccountId="1"/>
 
     <m_prj_project id="4" name="D" sAccountId="1"
-                   shortName="aaa" projectStatus="Open"/>
+                   shortName="aaa" status="Open"/>
 
     <m_prj_member status="Active" isAdmin="1" projectId="1"
                   sAccountId="1" createdTime="2013-04-10 13:29:23" username="admin"

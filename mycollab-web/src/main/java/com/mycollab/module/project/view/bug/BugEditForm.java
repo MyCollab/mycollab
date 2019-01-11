@@ -43,9 +43,9 @@ import com.vaadin.icons.VaadinIcons;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.Alignment;
-import com.vaadin.ui.VerticalLayout;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
+import org.vaadin.viritin.layouts.MVerticalLayout;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -55,7 +55,6 @@ import java.util.List;
  * @author MyCollab Ltd
  * @since 5.4.3
  */
-// TODO
 public class BugEditForm extends AdvancedEditBeanForm<SimpleBug> {
     @Override
     public void setBean(final SimpleBug item) {
@@ -73,13 +72,11 @@ public class BugEditForm extends AdvancedEditBeanForm<SimpleBug> {
 
         @Override
         public AbstractComponent getLayout() {
-            VerticalLayout layout = new VerticalLayout();
+            MVerticalLayout layout = new MVerticalLayout();
             formLayoutFactory = new DefaultDynaFormLayout(ProjectTypeConstants.BUG, BugDefaultFormLayoutFactory.getForm());
             AbstractComponent gridLayout = formLayoutFactory.getLayout();
             gridLayout.addStyleName(WebThemes.SCROLLABLE_CONTAINER);
-//            new Restrain(gridLayout).setMaxHeight((UIUtils.getBrowserHeight() - 180) + "px");
-            layout.addComponent(gridLayout);
-            layout.setExpandRatio(gridLayout, 1.0f);
+            gridLayout.addStyleName("windowMaxHeight");
 
             MButton saveBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_SAVE), clickEvent -> {
                 if (validateForm()) {
@@ -112,7 +109,6 @@ public class BugEditForm extends AdvancedEditBeanForm<SimpleBug> {
                         List<MonitorItem> monitorItems = new ArrayList<>();
                         for (String follower : followers) {
                             MonitorItem monitorItem = new MonitorItem();
-                            monitorItem.setCreatedtime(LocalDateTime.now());
                             monitorItem.setSaccountid(AppUI.getAccountId());
                             monitorItem.setType(ProjectTypeConstants.BUG);
                             monitorItem.setTypeid(bugId);
@@ -130,10 +126,10 @@ public class BugEditForm extends AdvancedEditBeanForm<SimpleBug> {
             MButton cancelBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> postExecution())
                     .withStyleName(WebThemes.BUTTON_OPTION);
 
-            MHorizontalLayout buttonControls = new MHorizontalLayout(cancelBtn, saveBtn).withMargin(new MarginInfo(true, false, false, false));
+            MHorizontalLayout buttonControls = new MHorizontalLayout(cancelBtn, saveBtn)
+                    .withMargin(new MarginInfo(true, false, false, false));
 
-            layout.addComponent(buttonControls);
-            layout.setComponentAlignment(buttonControls, Alignment.MIDDLE_RIGHT);
+            layout.with(gridLayout, buttonControls).expand(gridLayout).withAlign(buttonControls, Alignment.MIDDLE_RIGHT);
             return layout;
         }
 

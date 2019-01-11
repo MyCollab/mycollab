@@ -26,7 +26,7 @@
             <property name="rootInterface" value="com.mycollab.db.persistence.ICrudGenericDAO"/>
         </javaClientGenerator>
 
-        <table schema="mycollab" tableName="m_customer" domainObjectName="Customer"/>
+        <table schema="mycollab" tableName="m_client" domainObjectName="Client"/>
         <table schema="mycollab" tableName="m_monitor_item" domainObjectName="MonitorItem"/>
         <table schema="mycollab" tableName="s_activitystream" domainObjectName="ActivityStream"/>
         <table schema="mycollab" tableName="m_comment" domainObjectName="Comment"/>

@@ -71,11 +71,11 @@ class BasicInfoChangeWindow extends MWindow {
 
         passInfo.addComponent(txtFirstName, UserUIContext.getMessage(UserI18nEnum.FORM_FIRST_NAME), 0, 0);
         passInfo.addComponent(txtLastName, UserUIContext.getMessage(UserI18nEnum.FORM_LAST_NAME), 0, 1);
-//        txtLastName.setRequired(true);
+        txtLastName.setRequiredIndicatorVisible(true);
         passInfo.addComponent(txtEmail, UserUIContext.getMessage(GenericI18Enum.FORM_EMAIL), 0, 2);
-//        txtEmail.setRequired(true);
+        txtEmail.setRequiredIndicatorVisible(true);
         passInfo.addComponent(birthdayField, UserUIContext.getMessage(UserI18nEnum.FORM_BIRTHDAY), 0, 3);
-//        birthdayField.setDate(user.getDateofbirth());
+        birthdayField.setValue(user.getBirthday());
 
         passInfo.addComponent(timeZoneField, UserUIContext.getMessage(UserI18nEnum.FORM_TIMEZONE), 0, 4);
         timeZoneField.setValue(user.getTimezone());
@@ -87,7 +87,7 @@ class BasicInfoChangeWindow extends MWindow {
         txtFirstName.setValue(MoreObjects.firstNonNull(user.getFirstname(), ""));
         txtLastName.setValue(MoreObjects.firstNonNull(user.getLastname(), ""));
         txtEmail.setValue(MoreObjects.firstNonNull(user.getEmail(), ""));
-//        birthdayField.setValue(user.getDateofbirth());
+
         mainLayout.addComponent(passInfo.getLayout());
         mainLayout.setComponentAlignment(passInfo.getLayout(), Alignment.TOP_LEFT);
 

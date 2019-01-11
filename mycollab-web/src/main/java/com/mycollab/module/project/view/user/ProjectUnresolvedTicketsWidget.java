@@ -43,7 +43,7 @@ import java.time.LocalDate;
  */
 public class ProjectUnresolvedTicketsWidget extends Depot {
     private ProjectTicketSearchCriteria searchCriteria;
-    private DefaultBeanPagedList<ProjectTicketService, ProjectTicketSearchCriteria, ProjectTicket> taskList;
+    private DefaultBeanPagedList<ProjectTicketService, ProjectTicketSearchCriteria, ProjectTicket> ticketList;
     private String title = "";
 
     public ProjectUnresolvedTicketsWidget() {
@@ -59,7 +59,7 @@ public class ProjectUnresolvedTicketsWidget extends Depot {
             }
             updateSearchResult();
         });
-        taskList = new DefaultBeanPagedList(AppContextUtil.getSpringBean(ProjectTicketService.class),
+        ticketList = new DefaultBeanPagedList(AppContextUtil.getSpringBean(ProjectTicketService.class),
                 new TicketRowDisplayHandler(false), 10) {
             @Override
             protected String stringWhenEmptyList() {
@@ -67,13 +67,13 @@ public class ProjectUnresolvedTicketsWidget extends Depot {
             }
         };
         addHeaderElement(myItemsSelection);
-        bodyContent.addComponent(taskList);
+        bodyContent.addComponent(ticketList);
     }
 
     public void displayUnresolvedAssignmentsThisWeek() {
         title = UserUIContext.getMessage(ProjectI18nEnum.OPT_UNRESOLVED_TICKET_THIS_WEEK);
         searchCriteria = new ProjectTicketSearchCriteria();
-        searchCriteria.setOpenned(new SearchField());
+        searchCriteria.setOpen(new SearchField());
         searchCriteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
         LocalDate now = LocalDate.now();
         LocalDate[] bounceDateOfWeek = DateTimeUtils.getBounceDatesOfWeek(now);
@@ -85,7 +85,7 @@ public class ProjectUnresolvedTicketsWidget extends Depot {
     public void displayUnresolvedAssignmentsNextWeek() {
         title = UserUIContext.getMessage(ProjectI18nEnum.OPT_UNRESOLVED_TICKET_NEXT_WEEK);
         searchCriteria = new ProjectTicketSearchCriteria();
-        searchCriteria.setOpenned(new SearchField());
+        searchCriteria.setOpen(new SearchField());
         searchCriteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
         LocalDate now = LocalDate.now();
         now = now.plusDays(7);
@@ -96,7 +96,7 @@ public class ProjectUnresolvedTicketsWidget extends Depot {
     }
 
     private void updateSearchResult() {
-        taskList.setSearchCriteria(searchCriteria);
-        this.setTitle(String.format(title, taskList.getTotalCount()));
+        ticketList.setSearchCriteria(searchCriteria);
+        this.setTitle(String.format(title, ticketList.getTotalCount()));
     }
 }

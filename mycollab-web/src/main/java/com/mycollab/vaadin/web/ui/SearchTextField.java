@@ -16,6 +16,8 @@
  */
 package com.mycollab.vaadin.web.ui;
 
+import com.mycollab.common.i18n.GenericI18Enum;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.event.ShortcutListener;
@@ -30,7 +32,6 @@ import static com.mycollab.core.utils.StringUtils.isNotBlank;
  * @author MyCollab Ltd.
  * @since 5.0.3
  */
-// TODO
 public abstract class SearchTextField extends MHorizontalLayout {
     private TextField innerField;
 
@@ -38,8 +39,7 @@ public abstract class SearchTextField extends MHorizontalLayout {
         this.setDefaultComponentAlignment(Alignment.MIDDLE_RIGHT);
         ELabel icon = ELabel.fontIcon(VaadinIcons.SEARCH);
         innerField = new TextField();
-//        innerField.setImmediate(true);
-//        innerField.setInputPrompt(UserUIContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
+        innerField.setPlaceholder(UserUIContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
         innerField.setWidth("180px");
         this.with(icon, innerField).withStyleName("searchfield");
         ShortcutListener shortcutListener = new ShortcutListener("searchfield", ShortcutAction.KeyCode.ENTER, null) {
@@ -56,11 +56,13 @@ public abstract class SearchTextField extends MHorizontalLayout {
         ShortcutExtension.installShortcutAction(innerField, shortcutListener);
     }
 
-    abstract public void doSearch(String value);
+    abstract protected void doSearch(String value);
 
-    abstract public void emptySearch();
+    protected void emptySearch() {
 
-//    public void setInputPrompt(String value) {
-//        innerField.setInputPrompt(value);
-//    }
+    };
+
+    public void setPlaceholder(String value) {
+        innerField.setPlaceholder(value);
+    }
 }

@@ -54,6 +54,7 @@ public class WebThemes {
     public static final String FLEX_DISPLAY = "flex";
     public static final String PANEL_HEADER = "panel-header";
     public static final String SCROLLABLE_CONTAINER = "scrollable-container";
+    public static final String BORDER_BOTTOM = "border-bottom";
     public static final String BORDER_LIST = "border-list";
     public static final String BORDER_LIST_ROW = "row";
 

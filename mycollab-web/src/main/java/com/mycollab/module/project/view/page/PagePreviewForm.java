@@ -22,6 +22,7 @@ import com.mycollab.vaadin.ui.AbstractFormLayoutFactory;
 import com.mycollab.vaadin.ui.GenericBeanForm;
 import com.mycollab.vaadin.ui.field.RichTextViewField;
 import com.mycollab.vaadin.web.ui.AdvancedPreviewBeanForm;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.data.HasValue;
 import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.Component;
@@ -45,7 +46,7 @@ public class PagePreviewForm extends AdvancedPreviewBeanForm<Page> {
 
         @Override
         public AbstractComponent getLayout() {
-            layout = new MVerticalLayout().withStyleName("border-bottom").withFullWidth();
+            layout = new MVerticalLayout().withStyleName(WebThemes.BORDER_BOTTOM).withFullWidth();
             return layout;
         }
 

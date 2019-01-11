@@ -27,7 +27,6 @@ import org.vaadin.viritin.layouts.MHorizontalLayout;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-// TODO
 public class TaskSliderField extends CustomField<Double> {
     private static final long serialVersionUID = 1L;
 
@@ -40,66 +39,37 @@ public class TaskSliderField extends CustomField<Double> {
         progressLbl.setWidthUndefined();
         slider = new Slider();
         slider.setOrientation(SliderOrientation.HORIZONTAL);
-//        slider.setImmediate(true);
         slider.setWidth("150px");
-//        slider.addValueChangeListener(valueChangeEvent -> {
-//            Double value = (Double) valueChangeEvent.getProperty().getValue();
-//            if (value != null) {
-//                double roundValue = Math.ceil(value / 10) * 10;
-//                slider.setValue(roundValue);
-//                progressLbl.setValue(roundValue + "%");
-//                setInternalValue(roundValue);
-//            } else {
-//                slider.setValue(0d);
-//                progressLbl.setValue("0%");
-//                setInternalValue(0d);
-//            }
-//        });
+        slider.addValueChangeListener(valueChangeEvent -> {
+            displayValue(valueChangeEvent.getValue());
+        });
         body = new MHorizontalLayout(slider, progressLbl);
     }
-
-//    @Override
-//    public void setPropertyDataSource(Property newDataSource) {
-//        Double value = (Double) newDataSource.getValue();
-//        if (value != null) {
-//            double roundValue = Math.ceil(value / 10) * 10;
-//            newDataSource.setValue(roundValue);
-//            slider.setPropertyDataSource(newDataSource);
-//            progressLbl.setValue(roundValue + "%");
-//        }
-//        super.setPropertyDataSource(newDataSource);
-//    }
-//
-//    @Override
-//    public boolean isModified() {
-//        return slider.isModified();
-//    }
-//
-//    @Override
-//    public void setBuffered(boolean buffered) {
-//        slider.setBuffered(buffered);
-//    }
 
     @Override
     protected Component initContent() {
         return body;
     }
 
-//    @Override
-//    public void commit() throws SourceException, Validator.InvalidValueException {
-//        Double value = slider.getValue();
-//        setInternalValue(value);
-//        super.commit();
-//    }
-
 
     @Override
-    protected void doSetValue(Double aDouble) {
-
+    protected void doSetValue(Double value) {
+        displayValue(value);
     }
 
     @Override
     public Double getValue() {
-        return null;
+        return slider.getValue();
+    }
+
+    private void displayValue(Double value) {
+        if (value != null) {
+            double roundValue = Math.ceil(value / 10) * 10;
+            slider.setValue(roundValue);
+            progressLbl.setValue(roundValue + "%");
+        } else {
+            slider.setValue(0d);
+            progressLbl.setValue("0%");
+        }
     }
 }

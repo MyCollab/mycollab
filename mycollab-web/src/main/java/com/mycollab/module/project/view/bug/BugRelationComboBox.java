@@ -23,7 +23,7 @@ import com.mycollab.vaadin.web.ui.I18nValueComboBox;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class BugRelationComboBox extends I18nValueComboBox {
+public class BugRelationComboBox extends I18nValueComboBox<BugRelation> {
     private static final long serialVersionUID = 1L;
 
     public BugRelationComboBox() {

@@ -25,10 +25,10 @@ import static com.mycollab.module.project.i18n.OptionI18nEnum.BugResolution.*;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-class BugResolutionComboBox extends I18nValueComboBox {
+class BugResolutionComboBox extends I18nValueComboBox<BugResolution> {
     private static final long serialVersionUID = 1L;
 
-    private BugResolutionComboBox(boolean nullIsAllowable, Enum<?>... values) {
+    private BugResolutionComboBox(boolean nullIsAllowable, BugResolution... values) {
         super(BugResolution.class, nullIsAllowable, values);
     }
 

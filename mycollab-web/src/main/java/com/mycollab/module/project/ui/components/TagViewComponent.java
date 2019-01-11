@@ -87,7 +87,7 @@ public class TagViewComponent extends CssLayout {
     private HorizontalLayout createSaveTagComp() {
         final MHorizontalLayout layout = new MHorizontalLayout();
 //        final SuggestField field = new SuggestField();
-//        field.setInputPrompt(UserUIContext.getMessage(TagI18nEnum.OPT_ENTER_TAG_NAME));
+//        field.setPlaceholder(UserUIContext.getMessage(TagI18nEnum.OPT_ENTER_TAG_NAME));
 //        field.setMinimumQueryCharacters(2);
 //        field.setSuggestionConverter(new TagSuggestionConverter());
 //        field.setSuggestionHandler(query -> {

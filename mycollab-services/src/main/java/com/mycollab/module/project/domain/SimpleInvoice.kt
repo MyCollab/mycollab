@@ -16,6 +16,8 @@
  */
 package com.mycollab.module.project.domain
 
+import com.mycollab.common.domain.Client
+
 /**
  * @author MyCollab Ltd
  * @since 5.2.10
@@ -25,4 +27,5 @@ class SimpleInvoice : Invoice() {
     var createUserAvatarId: String? = null
     var assignUserFullName: String? = null
     var assignUserAvatarId: String? = null
+    var client: Client? = null
 }

@@ -37,11 +37,11 @@ import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.*;
 import com.mycollab.vaadin.ui.field.DefaultViewField;
-import com.mycollab.vaadin.web.ui.DoubleField;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.vaadin.data.HasValue;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.ui.*;
+import org.vaadin.viritin.fields.DoubleField;
 
 import static com.mycollab.vaadin.web.ui.utils.FormControlsGenerator.generateEditFormControls;
 
@@ -94,7 +94,7 @@ public class ProjectMemberEditViewImpl extends AbstractEditItemComp<SimpleProjec
     private class EditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<SimpleProjectMember> {
         private static final long serialVersionUID = 1L;
 
-        public EditFormFieldFactory(GenericBeanForm<SimpleProjectMember> form) {
+        EditFormFieldFactory(GenericBeanForm<SimpleProjectMember> form) {
             super(form);
         }
 

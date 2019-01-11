@@ -65,7 +65,7 @@ public class ProjectViewImpl extends AbstractVerticalPageView implements Project
     private ProjectViewWrap viewWrap;
 
     @Override
-    public void initView(final SimpleProject project) {
+    public void initView(SimpleProject project) {
         removeAllComponents();
         viewWrap = new ProjectViewWrap(project);
         ControllerRegistry.addController(new ProjectController(this));

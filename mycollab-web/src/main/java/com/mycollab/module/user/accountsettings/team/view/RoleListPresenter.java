@@ -85,7 +85,7 @@ public class RoleListPresenter extends ListSelectionPresenter<RoleListView, Role
     @Override
     protected void deleteSelectedItems() {
         if (!isSelectAll) {
-            Collection<SimpleRole> currentDataList = view.getPagedBeanGrid().getCurrentDataList();
+            Collection<SimpleRole> currentDataList = view.getPagedBeanGrid().getItems();
             List<Role> keyList = new ArrayList<>();
             for (SimpleRole item : currentDataList) {
                 if (item.isSelected()) {

@@ -57,7 +57,7 @@ public class ProjectPreviewFormControlsGenerator<T> implements Serializable {
     private OptionPopupContent popupButtonsControl;
     private MHorizontalLayout editButtons;
 
-    MHorizontalLayout wrapLayout;
+    private MHorizontalLayout wrapLayout;
     private MHorizontalLayout layout;
 
     public ProjectPreviewFormControlsGenerator(AdvancedPreviewBeanForm<T> editForm) {

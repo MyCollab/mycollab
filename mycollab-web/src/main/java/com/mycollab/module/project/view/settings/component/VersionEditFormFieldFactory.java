@@ -19,10 +19,10 @@ package com.mycollab.module.project.view.settings.component;
 import com.mycollab.module.tracker.domain.Version;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.mycollab.vaadin.ui.GenericBeanForm;
-import com.mycollab.vaadin.ui.PopupDateFieldExt;
 import com.vaadin.data.HasValue;
+import com.vaadin.ui.DateField;
 import com.vaadin.ui.RichTextArea;
-import com.vaadin.ui.TextField;
+import org.vaadin.viritin.fields.MTextField;
 
 /**
  * @author MyCollab Ltd
@@ -38,20 +38,11 @@ public class VersionEditFormFieldFactory extends AbstractBeanFieldGroupEditField
     @Override
     protected HasValue<?> onCreateField(final Object propertyId) {
         if (Version.Field.name.equalTo(propertyId)) {
-            final TextField tf = new TextField();
-//            if (isValidateForm) {
-//                tf.setNullRepresentation("");
-//                tf.setRequired(true);
-//                tf.setRequiredError(UserUIContext.getMessage(ErrorI18nEnum.FIELD_MUST_NOT_NULL, UserUIContext
-//                        .getMessage(GenericI18Enum.FORM_NAME)));
-//            }
-            return tf;
+            return new MTextField().withRequiredIndicatorVisible(true);
         } else if (Version.Field.description.equalTo(propertyId)) {
             return new RichTextArea();
         } else if (Version.Field.duedate.equalTo(propertyId)) {
-            final PopupDateFieldExt dateField = new PopupDateFieldExt();
-//            dateField.setResolution(Resolution.DAY);
-            return dateField;
+            return new DateField();
         }
 
         return null;

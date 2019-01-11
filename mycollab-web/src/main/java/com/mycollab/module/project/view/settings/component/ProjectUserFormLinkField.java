@@ -23,7 +23,6 @@ import com.vaadin.ui.CustomField;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-// TODO
 public class ProjectUserFormLinkField extends CustomField {
     private static final long serialVersionUID = 1L;
 

@@ -27,17 +27,17 @@ import java.util.UUID;
  * @author Mycollab Ltd
  * @since 5.2.11
  */
-public class PrintButton extends MButton {
-    private FormReportStreamSource formReportStreamSource;
+public class PrintButton<B> extends MButton {
+    private FormReportStreamSource<B> formReportStreamSource;
 
     public PrintButton() {
         setIcon(VaadinIcons.PRINT);
-        formReportStreamSource = new FormReportStreamSource(new FormReportTemplateExecutor(""));
+        formReportStreamSource = new FormReportStreamSource<>(new FormReportTemplateExecutor<B>(""));
         BrowserWindowOpener printWindowOpener = new BrowserWindowOpener(new StreamResource(formReportStreamSource, UUID.randomUUID().toString() + ".pdf"));
         printWindowOpener.extend(this);
     }
 
-    public void doPrint(Object bean, FormReportLayout formReportLayout) {
+    public void doPrint(B bean, FormReportLayout formReportLayout) {
         formReportStreamSource.setBean(bean);
         formReportStreamSource.setFormLayout(formReportLayout);
     }

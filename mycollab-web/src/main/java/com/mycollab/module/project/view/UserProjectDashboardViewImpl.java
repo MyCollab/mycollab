@@ -52,9 +52,13 @@ import java.util.List;
 @ViewComponent
 public class UserProjectDashboardViewImpl extends AbstractVerticalPageView implements UserProjectDashboardView {
 
+    public UserProjectDashboardViewImpl() {
+        withMargin(true);
+    }
+
     @Override
     public void lazyLoadView() {
-        withMargin(true);
+        removeAllComponents();
         ProjectService projectService = AppContextUtil.getSpringBean(ProjectService.class);
         List<Integer> prjKeys = projectService.getProjectKeysUserInvolved(UserUIContext.getUsername(), AppUI.getAccountId());
         if (CollectionUtils.isNotEmpty(prjKeys)) {

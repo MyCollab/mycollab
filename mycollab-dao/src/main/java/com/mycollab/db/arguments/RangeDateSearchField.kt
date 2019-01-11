@@ -22,18 +22,7 @@ import java.time.LocalDate
  * @author MyCollab Ltd.
  * @since 1.0
  */
-class RangeDateSearchField : SearchField {
-
-    var from: LocalDate? = null
-    var to: LocalDate? = null
-
-    constructor()
+class RangeDateSearchField(var oper: String = SearchField.AND, var from: LocalDate?, var to: LocalDate?) : SearchField() {
 
     constructor(from: LocalDate, to: LocalDate) : this(SearchField.AND, from, to)
-
-    constructor(oper: String, from: LocalDate, to: LocalDate) {
-        this.operation = oper
-        this.from = from
-        this.to = to
-    }
 }

@@ -21,6 +21,7 @@ import com.mycollab.module.project.domain.SimpleProjectMember
 import com.mycollab.module.project.domain.criteria.ProjectMemberSearchCriteria
 import com.mycollab.module.user.domain.SimpleUser
 import org.apache.ibatis.annotations.Param
+import java.time.LocalDate
 
 import java.util.Date
 
@@ -43,5 +44,5 @@ interface ProjectMemberMapperExt : ISearchableDAO<ProjectMemberSearchCriteria> {
                                @Param("sAccountId") sAccountId: Int?): SimpleUser
 
     fun findMembersHourlyInProject(@Param("projectId") projectId: Int?, @Param("sAccountId") sAccountId: Int?,
-                                   @Param("start") start: Date, @Param("end") end: Date): List<SimpleProjectMember>
+                                   @Param("start") start: LocalDate, @Param("end") end: LocalDate): List<SimpleProjectMember>
 }

@@ -61,7 +61,6 @@ class BugSelectionWindow extends MWindow {
             criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
             tableItem.setSearchCriteria(criteria);
         });
-//        new Restrain(gridItem).setMaxHeight((UIUtils.getBrowserHeight() - 120) + "px");
         this.setContent(new MVerticalLayout(bugSearchPanel, tableItem));
     }
 

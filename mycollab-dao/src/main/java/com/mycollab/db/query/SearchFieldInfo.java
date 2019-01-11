@@ -67,7 +67,7 @@ public class SearchFieldInfo<S extends SearchCriteria> implements Serializable {
     }
 
     public static SearchFieldInfo inDateRange(DateParam param, VariableInjector value) {
-        return new SearchFieldInfo(SearchField.AND, param, DateParam.BETWEEN, value);
+        return new SearchFieldInfo(SearchField.AND, param, BETWEEN.name(), value);
     }
 
     public String getPrefixOper() {

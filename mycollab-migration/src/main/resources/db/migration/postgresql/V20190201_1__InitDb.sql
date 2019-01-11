@@ -325,10 +325,10 @@ CREATE TABLE m_comment (
 -- Table structure for table m_customer
 --
 
-DROP TABLE IF EXISTS m_customer;
+DROP TABLE IF EXISTS m_client;
 
 
-CREATE TABLE m_customer (
+CREATE TABLE m_client (
   id serial,
   accountName varchar(255) NOT NULL,
   website varchar(255) DEFAULT NULL,
@@ -557,8 +557,8 @@ CREATE TABLE m_prj_project (
   targetBudget numeric DEFAULT NULL,
   homePage varchar(255) DEFAULT NULL,
   actualBudget numeric DEFAULT NULL,
-  projectType varchar(45) DEFAULT NULL,
-  projectStatus varchar(45) NOT NULL,
+  type varchar(45) DEFAULT NULL,
+  status varchar(45) NOT NULL,
   description text,
   defaultBillingRate numeric DEFAULT NULL,
   defaultOvertimeBillingRate numeric DEFAULT NULL,
@@ -578,7 +578,7 @@ CREATE TABLE m_prj_project (
   CONSTRAINT FK_m_prj_project_2 FOREIGN KEY (createUser) REFERENCES s_user (username) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT FK_m_prj_project_4 FOREIGN KEY (sAccountId) REFERENCES s_account (id) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT FK_m_prj_project_5 FOREIGN KEY (memLead) REFERENCES s_user (username) ON DELETE SET NULL ON UPDATE CASCADE,
-  CONSTRAINT FK_m_prj_project_6 FOREIGN KEY (`clientId`) REFERENCES `m_customer` (`id`) ON DELETE SET NULL ON UPDATE SET NULL
+  CONSTRAINT FK_m_prj_project_6 FOREIGN KEY (`clientId`) REFERENCES `m_client` (`id`) ON DELETE SET NULL ON UPDATE SET NULL
 ) ;
 
 --
@@ -650,7 +650,7 @@ CREATE TABLE m_prj_invoice (
   projectId integer NOT NULL,
   issueDate date NOT NULL,
   PRIMARY KEY (id),
-  CONSTRAINT FK_m_prj_invoice_2 FOREIGN KEY (clientId) REFERENCES m_customer (id) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT FK_m_prj_invoice_2 FOREIGN KEY (clientId) REFERENCES m_client (id) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT FK_m_prj_invoice_3 FOREIGN KEY (sAccountId) REFERENCES s_account (id) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT FK_m_prj_invoice_4 FOREIGN KEY (projectId) REFERENCES m_prj_project (id) ON DELETE CASCADE ON UPDATE CASCADE
 ) ;

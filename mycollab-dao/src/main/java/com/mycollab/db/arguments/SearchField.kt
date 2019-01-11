@@ -24,15 +24,7 @@ import java.io.Serializable
  * @author MyCollab Ltd.
  * @since 1.0
  */
-open class SearchField : Serializable {
-
-    var operation = AND
-
-    constructor()
-
-    constructor(operation: String) {
-        this.operation = operation
-    }
+open class SearchField(var operation: String = AND) : Serializable {
 
     override fun toString(): String = BeanUtility.printBeanObj(this)
 

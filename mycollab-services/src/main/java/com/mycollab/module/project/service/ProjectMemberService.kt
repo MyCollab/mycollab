@@ -23,8 +23,7 @@ import com.mycollab.module.project.domain.ProjectMember
 import com.mycollab.module.project.domain.SimpleProjectMember
 import com.mycollab.module.project.domain.criteria.ProjectMemberSearchCriteria
 import com.mycollab.module.user.domain.SimpleUser
-
-import java.util.Date
+import java.time.LocalDate
 
 /**
  * @author MyCollab Ltd.
@@ -56,5 +55,5 @@ interface ProjectMemberService : IDefaultService<Int, ProjectMember, ProjectMemb
     fun inviteProjectMembers(email: Array<String>, projectId: Int, projectRoleId: Int?,
                              inviteUser: String, inviteMessage: String, sAccountId: Int)
 
-    fun findMembersHourlyInProject(projectId: Int?, sAccountId: Int?, start: Date, end: Date): List<SimpleProjectMember>
+    fun findMembersHourlyInProject(projectId: Int?, sAccountId: Int?, start: LocalDate, end: LocalDate): List<SimpleProjectMember>
 }

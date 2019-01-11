@@ -16,6 +16,7 @@
  */
 package com.mycollab.module.project.ui;
 
+import com.mycollab.common.domain.SimpleClient;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.core.utils.StringUtils;
 import com.mycollab.module.file.PathUtils;
@@ -102,22 +103,22 @@ public class ProjectAssetsUtil {
         return wrapper;
     }
 
-//    public static Component clientLogoComp(SimpleAccount account, int size) {
-//        AbstractComponent wrapper;
-//        if (!StringUtils.isBlank(account.getAvatarid())) {
-//            wrapper = new Image(null, new ExternalResource(StorageUtils.getEntityLogoPath(AppUI.getAccountId(), account.getAvatarid(), 100)));
-//        } else {
-//            String accountName = account.getAccountname();
-//            accountName = (accountName.length() > 3) ? accountName.substring(0, 3) : accountName;
-//            ELabel projectIcon = new ELabel(accountName).withStyleName(UIConstants.TEXT_ELLIPSIS, "center");
-//            wrapper = new VerticalLayout();
-//            ((VerticalLayout) wrapper).addComponent(projectIcon);
-//            ((VerticalLayout) wrapper).setComponentAlignment(projectIcon, Alignment.MIDDLE_CENTER);
-//        }
-//        wrapper.setWidth(size, Sizeable.Unit.PIXELS);
-//        wrapper.setHeight(size, Sizeable.Unit.PIXELS);
-//        wrapper.addStyleName(UIConstants.CIRCLE_BOX);
-//        wrapper.setDescription(UserUIContext.getMessage(GenericI18Enum.OPT_CHANGE_IMAGE));
-//        return wrapper;
-//    }
+    public static Component clientLogoComp(SimpleClient client, int size) {
+        AbstractComponent wrapper;
+        if (!StringUtils.isBlank(client.getAvatarid())) {
+            wrapper = new Image(null, new ExternalResource(StorageUtils.getEntityLogoPath(AppUI.getAccountId(), client.getAvatarid(), 100)));
+        } else {
+            String clientName = client.getName();
+            clientName = (clientName.length() > 3) ? clientName.substring(0, 3) : clientName;
+            ELabel projectIcon = new ELabel(clientName).withStyleName(UIConstants.TEXT_ELLIPSIS, "center");
+            wrapper = new VerticalLayout();
+            ((VerticalLayout) wrapper).addComponent(projectIcon);
+            ((VerticalLayout) wrapper).setComponentAlignment(projectIcon, Alignment.MIDDLE_CENTER);
+        }
+        wrapper.setWidth(size, Sizeable.Unit.PIXELS);
+        wrapper.setHeight(size, Sizeable.Unit.PIXELS);
+        wrapper.addStyleName(UIConstants.CIRCLE_BOX);
+        wrapper.setDescription(UserUIContext.getMessage(GenericI18Enum.OPT_CHANGE_IMAGE));
+        return wrapper;
+    }
 }

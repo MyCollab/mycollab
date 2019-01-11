@@ -17,6 +17,7 @@
 package com.mycollab.module.project.view.bug;
 
 import com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
+import com.mycollab.common.i18n.QueryI18nEnum;
 import com.mycollab.db.arguments.SearchField;
 import com.mycollab.db.query.*;
 import com.mycollab.module.project.ProjectTypeConstants;
@@ -26,10 +27,9 @@ import com.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.web.ui.SavedFilterComboBox;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Date;
 
 import static com.mycollab.common.i18n.QueryI18nEnum.IS_NOT;
 
@@ -60,17 +60,17 @@ public class BugSavedFilterComboBox extends SavedFilterComboBox {
                         BugSearchCriteria.p_status, ConstantValueInjector.valueOf(String.class,
                                 Arrays.asList(StatusI18nEnum.Open.name(), StatusI18nEnum.ReOpen.name()))));
 
-        SearchQueryInfo overdueTaskQuery = new SearchQueryInfo(OVERDUE_BUGS, UserUIContext.getMessage(BugI18nEnum.VAL_OVERDUE_BUGS),
-                new SearchFieldInfo(SearchField.AND, BugSearchCriteria.p_duedate, DateParam.BEFORE,
+        SearchQueryInfo<BugSearchCriteria> overdueTaskQuery = new SearchQueryInfo<>(OVERDUE_BUGS, UserUIContext.getMessage(BugI18nEnum.VAL_OVERDUE_BUGS),
+                new SearchFieldInfo(SearchField.AND, BugSearchCriteria.p_duedate, QueryI18nEnum.BEFORE.name(),
                         new VariableInjector() {
                             @Override
                             public Object eval() {
-                                return LocalDateTime.now();
+                                return LocalDate.now();
                             }
 
                             @Override
                             public Class getType() {
-                                return Date.class;
+                                return LocalDate.class;
                             }
 
                             @Override

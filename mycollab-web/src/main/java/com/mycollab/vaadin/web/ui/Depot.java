@@ -18,7 +18,6 @@ package com.mycollab.vaadin.web.ui;
 
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.shared.ui.ContentMode;
-import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.ComponentContainer;
@@ -57,11 +56,11 @@ public class Depot extends DDVerticalLayout {
             if (isOpened) {
                 headerLbl.setValue(VaadinIcons.PLUS.getHtml() + title);
                 bodyContent.setVisible(true);
-                header.removeStyleName("border-bottom");
+                header.removeStyleName(WebThemes.BORDER_BOTTOM);
             } else {
                 headerLbl.setValue(VaadinIcons.MINUS.getHtml() + title);
                 bodyContent.setVisible(false);
-                header.addStyleName("border-bottom");
+                header.addStyleName(WebThemes.BORDER_BOTTOM);
             }
         });
         header.with(headerLeft, headerContent).withAlign(headerLeft, Alignment.MIDDLE_LEFT).withAlign(headerContent,

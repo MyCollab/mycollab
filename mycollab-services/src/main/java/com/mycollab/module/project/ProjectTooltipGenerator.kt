@@ -415,7 +415,7 @@ object ProjectTooltipGenerator {
             val homepageLink = if (project.homepage != null) project.homepage else ""
             val cell12 = buildCellLink(homepageLink, project.homepage)
             val cell13 = buildCellName(LocalizationHelper.getMessage(locale, GenericI18Enum.FORM_STATUS))
-            val cell14 = buildCellValue(LocalizationHelper.getMessage(locale, StatusI18nEnum::class.java, project.projectstatus))
+            val cell14 = buildCellValue(LocalizationHelper.getMessage(locale, StatusI18nEnum::class.java, project.status))
             trRow1.appendChild(cell11, cell12, cell13, cell14)
 
             val trRow2 = Tr()

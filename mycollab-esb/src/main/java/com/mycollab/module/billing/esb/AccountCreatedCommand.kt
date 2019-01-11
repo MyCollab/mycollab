@@ -83,7 +83,7 @@ class AccountCreatedCommand(private val optionValService: OptionValService,
         project.description = "Sample project"
         project.homepage = "https://www.mycollab.com"
         project.name = "Sample project"
-        project.projectstatus = StatusI18nEnum.Open.name
+        project.status = StatusI18nEnum.Open.name
         project.shortname = "SP1"
         val projectId = projectService.saveWithSession(project, initialUser)
 

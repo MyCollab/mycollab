@@ -28,6 +28,8 @@ import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Collections;
 
+import static com.mycollab.common.i18n.QueryI18nEnum.BEFORE;
+
 /**
  * @author MyCollab Ltd
  * @since 5.4.3
@@ -97,7 +99,7 @@ public class TicketQueryInfo {
 
     public static final SearchQueryInfo overdueTaskQuery = new SearchQueryInfo(OVERDUE_TICKETS,
             UserUIContext.getMessage(TicketI18nEnum.VAL_OVERDUE_TICKETS),
-            new SearchFieldInfo(SearchField.AND, ProjectTicketSearchCriteria.p_dueDate, DateParam.BEFORE, new LazyValueInjector() {
+            new SearchFieldInfo(SearchField.AND, ProjectTicketSearchCriteria.p_dueDate, BEFORE.name(), new LazyValueInjector() {
                 @Override
                 protected Object doEval() {
                     return LocalDate.now();

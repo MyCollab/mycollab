@@ -53,7 +53,7 @@ public class BugSelectionField extends CustomField<SimpleBug> implements FieldSe
 //        suggestField = new SuggestField();
 //        suggestField.setPopupWidth(600);
 //        suggestField.setWidth("400px");
-//        suggestField.setInputPrompt("Enter related bug's name");
+//        suggestField.setPlaceholder("Enter related bug's name");
 //        suggestField.setInvalidAllowed(false);
 //        suggestField.setSuggestionHandler(this::handleSearchQuery);
 //

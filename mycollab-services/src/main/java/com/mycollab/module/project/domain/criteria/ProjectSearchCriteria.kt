@@ -35,7 +35,7 @@ import java.util.Arrays
 class ProjectSearchCriteria : SearchCriteria() {
 
     var projectKeys: SetSearchField<Int>? = null
-    var projectStatuses: SetSearchField<String>? = null
+    var statuses: SetSearchField<String>? = null
     var involvedMember: StringSearchField? = null
     var projectName: StringSearchField? = null
     var clientId: NumberSearchField? = null
@@ -65,7 +65,7 @@ class ProjectSearchCriteria : SearchCriteria() {
 
         @JvmField
         val p_status = CacheParamMapper.register(ProjectTypeConstants.PROJECT, GenericI18Enum.FORM_STATUS,
-                StringListParam("status", "m_prj_project", "projectStatus", Arrays.asList(Open.name,
+                StringListParam("status", "m_prj_project", "status", Arrays.asList(Open.name,
                         Closed.name, Archived.name)))
     }
 }

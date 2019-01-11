@@ -206,7 +206,8 @@ public class BugSearchPanel extends DefaultGenericSearchPanel<BugSearchCriteria>
             } else if ("components".equals(fieldId)) {
                 return new ComponentListSelect();
             } else if ("milestones".equals(fieldId)) {
-                return new MilestoneListSelect();
+                MilestoneListSelect select = new MilestoneListSelect();
+
             }
             return null;
         }

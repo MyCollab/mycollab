@@ -27,7 +27,7 @@
                 <message>Short name must be less than 3 characters, contains only characters and numberics</message>
             </constraint>
         </field>
-        <field name="projectstatus">
+        <field name="status">
             <constraint annotation="javax.validation.constraints.NotNull">
                 <message>The project status must not be null</message>
             </constraint>

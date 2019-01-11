@@ -33,14 +33,10 @@ public class FollowingTicketPresenter extends AbstractPresenter<FollowingTicketV
     }
 
     @Override
-    protected void viewAttached() {
-        view.getSearchHandlers().addSearchHandler(criteria -> view.getPagedBeanBeanGrid().setSearchCriteria(criteria));
-    }
-
-    @Override
     protected void onGo(HasComponents container, ScreenData<?> data) {
-        ProjectModule projectModule = (ProjectModule) container;
-        projectModule.gotoSubView("FollowingTickets");
+        BoardContainer boardContainer = (BoardContainer) container;
+        boardContainer.gotoSubView("FollowingTickets");
+
         view.displayTickets();
     }
 }

@@ -97,7 +97,7 @@ class OverdueProjectTicketsNotificationJob : GenericQuartzJobBean() {
         val past = now.minusDays(10000)
         val rangeDate = RangeDateSearchField(past, now)
         searchCriteria.dateInRange = rangeDate
-        searchCriteria.isOpenned = SearchField()
+        searchCriteria.open = SearchField()
         val accounts = projectAssignmentService.getAccountsHasOverdueAssignments(searchCriteria)
         accounts.forEach { account ->
             searchCriteria.saccountid = NumberSearchField(account.id)

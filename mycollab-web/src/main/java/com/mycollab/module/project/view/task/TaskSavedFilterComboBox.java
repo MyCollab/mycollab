@@ -17,6 +17,7 @@
 package com.mycollab.module.project.view.task;
 
 import com.mycollab.common.domain.OptionVal;
+import com.mycollab.common.i18n.QueryI18nEnum;
 import com.mycollab.common.service.OptionValService;
 import com.mycollab.db.arguments.SearchField;
 import com.mycollab.db.query.*;
@@ -36,6 +37,7 @@ import java.util.Collections;
 import java.util.List;
 
 import static com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
+import static com.mycollab.common.i18n.QueryI18nEnum.BEFORE;
 import static com.mycollab.common.i18n.QueryI18nEnum.IS_NOT;
 
 /**
@@ -91,7 +93,7 @@ public class TaskSavedFilterComboBox extends SavedFilterComboBox {
                 }));
 
         SearchQueryInfo overdueTaskQuery = new SearchQueryInfo(OVERDUE_TASKS, UserUIContext.getMessage(TaskI18nEnum.VAL_OVERDUE_TASKS),
-                new SearchFieldInfo(SearchField.AND, TaskSearchCriteria.p_duedate, DateParam.BEFORE, new LazyValueInjector() {
+                new SearchFieldInfo(SearchField.AND, TaskSearchCriteria.p_duedate, BEFORE.name(), new LazyValueInjector() {
                     @Override
                     protected Object doEval() {
                         return LocalDate.now();

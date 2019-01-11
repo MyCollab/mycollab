@@ -68,8 +68,6 @@ class TaskEditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<Si
             return new RichTextArea();
         } else if (Task.Field.name.equalTo(propertyId)) {
             return new MTextField().withRequiredIndicatorVisible(true);
-//            .withRequiredError(UserUIContext
-//                    .getMessage(ErrorI18nEnum.FIELD_MUST_NOT_NULL, UserUIContext.getMessage(GenericI18Enum.FORM_NAME)));
         } else if (Task.Field.status.equalTo(propertyId)) {
             return new TaskStatusComboBox();
         } else if (Task.Field.percentagecomplete.equalTo(propertyId)) {
@@ -106,9 +104,8 @@ class TaskEditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<Si
 //            return field;
         } else if (Task.Field.originalestimate.equalTo(propertyId) || Task.Field.remainestimate.equalTo(propertyId)) {
             return new DoubleField();
-        } else if (Task.Field.startdate.equalTo(propertyId)) {
-            return new DateField();
-        } else if (Task.Field.enddate.equalTo(propertyId)) {
+        } else if (Task.Field.startdate.equalTo(propertyId) || Task.Field.enddate.equalTo(propertyId)
+                || Task.Field.duedate.equalTo(propertyId)) {
             return new DateField();
         } else if (Task.Field.id.equalTo(propertyId)) {
             Task beanItem = attachForm.getBean();
@@ -120,8 +117,6 @@ class TaskEditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<Si
                 attachmentUploadField = new AttachmentUploadField();
             }
             return attachmentUploadField;
-        } else if (Task.Field.duedate.equalTo(propertyId)) {
-            return new DateField();
         } else if (propertyId.equals("selected")) {
             return subscribersComp;
         }

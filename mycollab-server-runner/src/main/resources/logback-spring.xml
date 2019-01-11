@@ -4,7 +4,8 @@
     <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
         <Target>System.out</Target>
         <encoder>
-            <pattern>%d{"HH:mm:ss,SSS"} %5p %c{1}:%L - %m%n</pattern>
+            <pattern>%d{"HH:mm:ss,SSS"} %5p %c:%L - %m%n</pattern>
+            <!--<pattern>%d{"HH:mm:ss,SSS"} %5p %c{1}:%L - %m%n</pattern>-->
         </encoder>
     </appender>
     <!--
@@ -31,10 +32,10 @@
         </encoder>
     </appender>
     <logger name="org.springframework" level="INFO"/>
-    <logger name="com.mycollab.vaadin.ui" level="DEBUG"/>
-    <logger name="java.sql" level="INFO"/>
-    <logger name="org.apache.ibatis" level="INFO"/>
-    <logger name="org.mybatis.spring" level="INFO"/>
+    <logger name="com.mycollab" level="DEBUG"/>
+    <logger name="java.sql" level="DEBUG"/>
+    <logger name="org.apache.ibatis" level="DEBUG"/>
+    <logger name="org.mybatis.spring" level="DEBUG"/>
     <logger name="org.jgroups" level="WARN"/>
     <root level="INFO">
         <appender-ref ref="stdout"/>

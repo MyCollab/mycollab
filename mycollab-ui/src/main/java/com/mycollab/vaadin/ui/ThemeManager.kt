@@ -259,6 +259,7 @@ object ThemeManager {
             Page.getCurrent().styles.add(extraStyles.toString())
         }
 
+        Page.getCurrent().styles.add(".windowMaxHeight{max-height: ${UIUtils.getBrowserHeight()-220}px;}")
     }
 
     @JvmStatic

@@ -36,8 +36,8 @@
     WIKI_S_FSENTRY*,
     flyway_schema_history*,
     m_audit_log*,
+    m_client*,
     m_comment*,
-    m_customer*,
     m_form_custom_field_value*,
     m_form_section*,
     m_form_section_field*,
@@ -395,22 +395,10 @@
     activityLogId CDATA #IMPLIED
 >
 
-<!ELEMENT m_comment EMPTY>
-<!ATTLIST m_comment
+<!ELEMENT m_client EMPTY>
+<!ATTLIST m_client
     id CDATA #REQUIRED
-    comment CDATA #IMPLIED
-    createdUser CDATA #REQUIRED
-    createdTime CDATA #REQUIRED
-    type CDATA #IMPLIED
-    typeId CDATA #IMPLIED
-    sAccountId CDATA #IMPLIED
-    extraTypeId CDATA #IMPLIED
->
-
-<!ELEMENT m_customer EMPTY>
-<!ATTLIST m_customer
-    id CDATA #REQUIRED
-    accountName CDATA #REQUIRED
+    name CDATA #REQUIRED
     website CDATA #IMPLIED
     phoneOffice CDATA #IMPLIED
     fax CDATA #IMPLIED
@@ -438,6 +426,18 @@
     billingCountry CDATA #IMPLIED
     shippingCountry CDATA #IMPLIED
     avatarId CDATA #IMPLIED
+>
+
+<!ELEMENT m_comment EMPTY>
+<!ATTLIST m_comment
+    id CDATA #REQUIRED
+    comment CDATA #IMPLIED
+    createdUser CDATA #REQUIRED
+    createdTime CDATA #REQUIRED
+    type CDATA #IMPLIED
+    typeId CDATA #IMPLIED
+    sAccountId CDATA #IMPLIED
+    extraTypeId CDATA #IMPLIED
 >
 
 <!ELEMENT m_form_custom_field_value EMPTY>
@@ -673,8 +673,8 @@
     targetBudget CDATA #IMPLIED
     homePage CDATA #IMPLIED
     actualBudget CDATA #IMPLIED
-    projectType CDATA #IMPLIED
-    projectStatus CDATA #REQUIRED
+    type CDATA #IMPLIED
+    status CDATA #REQUIRED
     description CDATA #IMPLIED
     defaultBillingRate CDATA #IMPLIED
     defaultOvertimeBillingRate CDATA #IMPLIED

@@ -46,7 +46,7 @@ import static com.mycollab.vaadin.TooltipHelper.TOOLTIP_ID;
 public class GenericItemRowDisplayHandler implements IBeanList.RowDisplayHandler<ProjectGenericItem> {
     @Override
     public Component generateRow(IBeanList<ProjectGenericItem> host, ProjectGenericItem item, int rowIndex) {
-        MVerticalLayout layout = new MVerticalLayout().withFullWidth().withStyleName("border-bottom", WebThemes.HOVER_EFFECT_NOT_BOX);
+        MVerticalLayout layout = new MVerticalLayout().withFullWidth().withStyleName(WebThemes.BORDER_BOTTOM, WebThemes.HOVER_EFFECT_NOT_BOX);
         ELabel link = ELabel.h3("");
         if (item.isBug() || item.isTask()) {
             link.setValue(ProjectLinkBuilder.generateProjectItemHtmlLinkAndTooltip(item.getProjectShortName(),

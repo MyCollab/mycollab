@@ -50,22 +50,23 @@ import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.shared.ui.MarginInfo;
+import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.themes.ValoTheme;
-import org.vaadin.addons.CssCheckBox;
 import org.vaadin.viritin.button.MButton;
+import org.vaadin.viritin.fields.MTextField;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 /**
  * @author MyCollab Ltd
  * @since 5.2.3
  */
-public class ToggleMilestoneSummaryField extends AbstractToggleSummaryField {
+class ToggleMilestoneSummaryField extends AbstractToggleSummaryField {
     private boolean isRead = true;
     private SimpleMilestone milestone;
     private int maxLength;
-    private CssCheckBox toggleStatusSelect;
+    private CheckBox toggleStatusSelect;
 
     ToggleMilestoneSummaryField(final SimpleMilestone milestone, boolean toggleStatusSupport, boolean isDeleteSupport) {
         this(milestone, Integer.MAX_VALUE, toggleStatusSupport, isDeleteSupport);
@@ -77,8 +78,7 @@ public class ToggleMilestoneSummaryField extends AbstractToggleSummaryField {
         this.setWidth("100%");
         this.addStyleName("editable-field");
         if (toggleStatusSupport && CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.MILESTONES)) {
-            toggleStatusSelect = new CssCheckBox();
-            toggleStatusSelect.setSimpleMode(true);
+            toggleStatusSelect = new CheckBox();
             toggleStatusSelect.setValue(milestone.isCompleted());
             this.addComponent(toggleStatusSelect);
             this.addComponent(ELabel.EMPTY_SPACE());
@@ -100,7 +100,7 @@ public class ToggleMilestoneSummaryField extends AbstractToggleSummaryField {
                 searchCriteria.setTypes(new SetSearchField<>(ProjectTypeConstants.BUG, ProjectTypeConstants.RISK,
                         ProjectTypeConstants.TASK));
                 searchCriteria.setMilestoneId(NumberSearchField.equal(milestone.getId()));
-                searchCriteria.setOpenned(new SearchField());
+                searchCriteria.setOpen(new SearchField());
                 ProjectTicketService genericTaskService = AppContextUtil.getSpringBean(ProjectTicketService.class);
                 int openAssignmentsCount = genericTaskService.getTotalCount(searchCriteria);
                 if (openAssignmentsCount > 0) {
@@ -126,9 +126,7 @@ public class ToggleMilestoneSummaryField extends AbstractToggleSummaryField {
                 if (isRead) {
                     ToggleMilestoneSummaryField.this.removeComponent(titleLinkLbl);
                     ToggleMilestoneSummaryField.this.removeComponent(buttonControls);
-                    final TextField editField = new TextField();
-                    editField.setValue(milestone.getName());
-                    editField.setWidth("100%");
+                    final MTextField editField = new MTextField(milestone.getName()).withFullWidth();
                     editField.focus();
                     ToggleMilestoneSummaryField.this.addComponent(editField);
                     ToggleMilestoneSummaryField.this.removeStyleName("editable-field");
@@ -176,9 +174,7 @@ public class ToggleMilestoneSummaryField extends AbstractToggleSummaryField {
 
     private void updateFieldValue(TextField editField) {
         removeComponent(editField);
-        addComponent(titleLinkLbl);
-        addComponent(buttonControls);
-        addStyleName("editable-field");
+        withComponents(titleLinkLbl, buttonControls).withStyleName("editable-field");
         String newValue = editField.getValue();
         if (StringUtils.isNotBlank(newValue) && !newValue.equals(milestone.getName())) {
             milestone.setName(newValue);

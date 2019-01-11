@@ -40,7 +40,7 @@ public interface IPagedTable<S extends SearchCriteria, T> extends HasSelectableI
 
     int setSearchCriteria(S searchCriteria);
 
-    Collection<T> getCurrentDataList();
+    Collection<T> getItems();
 
     void addTableListener(TableClickListener listener);
 

@@ -27,11 +27,11 @@ import java.util.List;
  * @since 5.4.3
  */
 // TODO
-public class OptionValListSelect extends ListSelect {
+public class AbstractOptionValListSelect extends ListSelect {
     private Class<? extends Enum> enumCls;
     private List<OptionVal> options = new ArrayList<>();
 
-    public OptionValListSelect(Class<? extends Enum> enumCls) {
+    public AbstractOptionValListSelect(Class<? extends Enum> enumCls) {
 //        this.setRows(1);
 //        this.setEmptySelectionAllowed(false);
 //        this.setItemCaptionMode(ItemCaptionMode.EXPLICIT_DEFAULTS_ID);

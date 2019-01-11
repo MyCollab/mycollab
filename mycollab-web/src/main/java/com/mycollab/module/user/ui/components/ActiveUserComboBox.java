@@ -36,12 +36,13 @@ import com.vaadin.ui.IconGenerator;
 import com.vaadin.ui.ItemCaptionGenerator;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author MyCollab Ltd.
  * @since 2.0
  */
-public class ActiveUserComboBox extends ComboBox implements Converter<SimpleUser, String> {
+public class ActiveUserComboBox extends ComboBox<SimpleUser> implements Converter<SimpleUser, String> {
     private static final long serialVersionUID = 1L;
 
     private List<SimpleUser> users;
@@ -58,6 +59,11 @@ public class ActiveUserComboBox extends ComboBox implements Converter<SimpleUser
         setItemIconGenerator((IconGenerator<SimpleUser>) user -> UserAvatarControlFactory.createAvatarResource(user.getAvatarid(), 16));
     }
 
+    public void selectUser(String username) {
+        Optional<SimpleUser> selectedUser = users.stream().filter(user -> user.getUsername().equals(username)).findFirst();
+        setValue(selectedUser.orElse(null));
+    }
+
     @Override
     public Result<String> convertToModel(SimpleUser value, ValueContext context) {
         return (value != null) ? Result.ok(value.getUsername()) : Result.ok(null);
@@ -65,6 +71,6 @@ public class ActiveUserComboBox extends ComboBox implements Converter<SimpleUser
 
     @Override
     public SimpleUser convertToPresentation(String value, ValueContext context) {
-        return users.stream().filter(user -> user.getUsername().equals(value)).findFirst().get();
+        return users.stream().filter(user -> user.getUsername().equals(value)).findFirst().orElse(null);
     }
 }

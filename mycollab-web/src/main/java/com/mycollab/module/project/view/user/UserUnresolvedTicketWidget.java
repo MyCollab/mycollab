@@ -75,7 +75,7 @@ public class UserUnresolvedTicketWidget extends Depot {
     public void displayUnresolvedAssignmentsThisWeek(List<Integer> projectIds) {
         title = UserUIContext.getMessage(ProjectI18nEnum.OPT_UNRESOLVED_TICKET_THIS_WEEK);
         searchCriteria = new ProjectTicketSearchCriteria();
-        searchCriteria.setOpenned(new SearchField());
+        searchCriteria.setOpen(new SearchField());
         searchCriteria.setProjectIds(new SetSearchField<>(projectIds));
         LocalDate now = LocalDate.now();
         LocalDate[] bounceDateOfWeek = DateTimeUtils.getBounceDatesOfWeek(now);
@@ -92,7 +92,7 @@ public class UserUnresolvedTicketWidget extends Depot {
     public void displayUnresolvedAssignmentsNextWeek(List<Integer> projectIds) {
         title = UserUIContext.getMessage(ProjectI18nEnum.OPT_UNRESOLVED_TICKET_NEXT_WEEK);
         searchCriteria = new ProjectTicketSearchCriteria();
-        searchCriteria.setOpenned(new SearchField());
+        searchCriteria.setOpen(new SearchField());
         searchCriteria.setProjectIds(new SetSearchField<>(projectIds));
         LocalDate now = LocalDate.now();
         now = now.plusDays(7);

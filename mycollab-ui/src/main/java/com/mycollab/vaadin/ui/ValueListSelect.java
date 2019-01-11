@@ -25,10 +25,10 @@ import java.util.Arrays;
  * @since 1.0
  */
 // TODO: check multi select
-public class ValueListSelect extends ListSelect {
+public class ValueListSelect<T> extends ListSelect<T> {
     private static final long serialVersionUID = 1L;
 
-    public void loadData(String[] values) {
+    public void loadData(T[] values) {
         this.setItems(Arrays.stream(values));
         this.setRows(4);
     }

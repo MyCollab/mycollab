@@ -76,20 +76,20 @@ public class BeanList<SearchService extends ISearchableService<S>, S extends Sea
     }
 
     private int setSearchRequest(BasicSearchRequest<S> searchRequest) {
-        List currentListData = searchService.findPageableListByCriteria(searchRequest);
-        loadItems(currentListData);
-        return currentListData.size();
+        List items = searchService.findPageableListByCriteria(searchRequest);
+        loadItems(items);
+        return items.size();
     }
 
     public int getTotalCount(S searchCriteria) {
         return searchService.getTotalCount(searchCriteria);
     }
 
-    public void loadItems(List<T> currentListData) {
+    private void loadItems(List<T> items) {
         contentLayout.removeAllComponents();
 
         try {
-            if (CollectionUtils.isEmpty(currentListData) && isDisplayEmptyListText) {
+            if (CollectionUtils.isEmpty(items) && isDisplayEmptyListText) {
                 Label noItemLbl = new Label(UserUIContext.getMessage(GenericI18Enum.EXT_NO_ITEM));
                 MVerticalLayout widgetFooter = new MVerticalLayout().withFullWidth();
                 widgetFooter.addStyleName("widget-footer");
@@ -97,7 +97,7 @@ public class BeanList<SearchService extends ISearchableService<S>, S extends Sea
                 contentLayout.addComponent(widgetFooter);
             } else {
                 int i = 0;
-                for (T item : currentListData) {
+                for (T item : items) {
                     Component row = rowDisplayHandler.generateRow(this, item, i);
                     if (row != null) {
                         row.setWidth("100%");

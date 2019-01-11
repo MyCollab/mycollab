@@ -35,19 +35,21 @@ object RolePermissionCollections {
 
     const val ACCOUNT_THEME = "Theme"
 
+    const val CLIENT = "Client"
+
     const val CREATE_NEW_PROJECT = "CreateNewProject"
 
     const val GLOBAL_PROJECT_SETTINGS = "GlobalProjectSettings"
 
     @JvmField
-    val ACCOUNT_PERMISSION_ARR: List<PermissionDefItem> = ImmutableList.of(
+    val ACCOUNT_PERMISSION_ARR = ImmutableList.of(
             PermissionDefItem(ACCOUNT_USER, UserI18nEnum.SINGLE, AccessPermissionFlag::class.java),
             PermissionDefItem(ACCOUNT_ROLE, RoleI18nEnum.SINGLE, AccessPermissionFlag::class.java),
             PermissionDefItem(ACCOUNT_BILLING, RoleI18nEnum.OPT_BILLING_MANAGEMENT, BooleanPermissionFlag::class.java),
             PermissionDefItem(ACCOUNT_THEME, RoleI18nEnum.OPT_THEME, BooleanPermissionFlag::class.java))
 
     @JvmField
-    val PROJECT_PERMISSION_ARR: List<PermissionDefItem> = ImmutableList.of(PermissionDefItem(
+    val PROJECT_PERMISSION_ARR = ImmutableList.of(PermissionDefItem(
             CREATE_NEW_PROJECT, RoleI18nEnum.OPT_CREATE_NEW_PROJECT, BooleanPermissionFlag::class.java), PermissionDefItem(
             GLOBAL_PROJECT_SETTINGS, RoleI18nEnum.OPT_GLOBAL_PROJECT_SETTINGS, BooleanPermissionFlag::class.java))
 

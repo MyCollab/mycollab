@@ -43,7 +43,6 @@ import java.util.List;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-// TODO
 public class MailFormWindow extends MWindow {
     private static final long serialVersionUID = 1L;
 
@@ -183,7 +182,6 @@ public class MailFormWindow extends MWindow {
                 .withMargin(new MarginInfo(false, true, true, false));
         mainLayout.with(attachments);
         mainLayout.addStyleName(WebThemes.SCROLLABLE_CONTAINER);
-//        new Restrain(mainLayout).setMaxHeight((UIUtils.getBrowserHeight() - 180) + "px");
         this.setContent(new MVerticalLayout(mainLayout, controlsLayout).withMargin(false)
                 .withSpacing(false).withAlign(controlsLayout, Alignment.TOP_RIGHT));
     }

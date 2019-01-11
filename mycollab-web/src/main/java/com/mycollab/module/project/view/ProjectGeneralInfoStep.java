@@ -34,14 +34,14 @@ import com.mycollab.vaadin.ui.IDynaFormLayout;
 import com.mycollab.vaadin.web.ui.DefaultDynaFormLayout;
 import com.vaadin.data.HasValue;
 import com.vaadin.ui.Component;
+import com.vaadin.ui.DateField;
 import com.vaadin.ui.RichTextArea;
-import com.vaadin.ui.TextField;
+import org.vaadin.viritin.fields.MTextField;
 
 /**
  * @author MyCollab Ltd
  * @since 5.3.5
  */
-// TODO
 public class ProjectGeneralInfoStep implements AbstractProjectAddWindow.FormWizardStep {
     private Project project;
     private AdvancedEditBeanForm<Project> editForm;
@@ -71,7 +71,7 @@ public class ProjectGeneralInfoStep implements AbstractProjectAddWindow.FormWiza
         mainSection.fields(new TextDynaFieldBuilder().fieldName(Project.Field.planstartdate).displayName
                 (GenericI18Enum.FORM_START_DATE).fieldIndex(3).build());
 
-        mainSection.fields(new TextDynaFieldBuilder().fieldName(Project.Field.projectstatus).displayName
+        mainSection.fields(new TextDynaFieldBuilder().fieldName(Project.Field.status).displayName
                 (GenericI18Enum.FORM_STATUS).fieldIndex(4).build());
 
         mainSection.fields(new TextDynaFieldBuilder().fieldName(Project.Field.planenddate).displayName
@@ -123,31 +123,21 @@ public class ProjectGeneralInfoStep implements AbstractProjectAddWindow.FormWiza
         protected HasValue<?> onCreateField(final Object propertyId) {
             if (Project.Field.description.equalTo(propertyId)) {
                 return new RichTextArea();
-            } else if (Project.Field.projectstatus.equalTo(propertyId)) {
+            } else if (Project.Field.status.equalTo(propertyId)) {
                 ProjectStatusComboBox projectCombo = new ProjectStatusComboBox();
-//                projectCombo.setRequired(true);
-//                projectCombo.setRequiredError(UserUIContext.getMessage(ErrorI18nEnum.FIELD_MUST_NOT_NULL,
-//                        UserUIContext.getMessage(GenericI18Enum.FORM_STATUS)));
-                if (project.getProjectstatus() == null) {
-                    project.setProjectstatus(StatusI18nEnum.Open.name());
+                projectCombo.setRequiredIndicatorVisible(true);
+                if (project.getStatus() == null) {
+                    project.setStatus(StatusI18nEnum.Open.name());
                 }
                 return projectCombo;
             } else if (Project.Field.shortname.equalTo(propertyId)) {
-                TextField tf = new TextField();
-//                tf.setNullRepresentation("");
-//                tf.setRequired(true);
-//                tf.setRequiredError(UserUIContext.getMessage(ErrorI18nEnum.FIELD_MUST_NOT_NULL,
-//                        UserUIContext.getMessage(ProjectI18nEnum.FORM_SHORT_NAME)));
-                return tf;
+                return new MTextField().withRequiredIndicatorVisible(true);
             } else if (Project.Field.name.equalTo(propertyId)) {
-                TextField tf = new TextField();
-//                tf.setNullRepresentation("");
-//                tf.setRequired(true);
-//                tf.setRequiredError(UserUIContext.getMessage(ErrorI18nEnum.FIELD_MUST_NOT_NULL,
-//                        UserUIContext.getMessage(GenericI18Enum.FORM_NAME)));
-                return tf;
+                return new MTextField().withRequiredIndicatorVisible(true);
             } else if (Project.Field.memlead.equalTo(propertyId)) {
                 return new ActiveUserComboBox();
+            } else if (Project.Field.planstartdate.equalTo(propertyId) || Project.Field.planenddate.equalTo(propertyId)) {
+                return new DateField();
             }
 
             return null;

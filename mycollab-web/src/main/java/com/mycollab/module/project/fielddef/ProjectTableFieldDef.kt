@@ -46,7 +46,7 @@ object ProjectTableFieldDef {
     val homePage = TableViewField(ProjectI18nEnum.FORM_HOME_PAGE, Project.Field.homepage.name, WebUIConstants.TABLE_EX_LABEL_WIDTH)
 
     @JvmField
-    val status = TableViewField(GenericI18Enum.FORM_STATUS, Project.Field.projectstatus.name, WebUIConstants.TABLE_S_LABEL_WIDTH)
+    val status = TableViewField(GenericI18Enum.FORM_STATUS, Project.Field.status.name, WebUIConstants.TABLE_S_LABEL_WIDTH)
 
     @JvmField
     val startDate = TableViewField(GenericI18Enum.FORM_START_DATE, Project.Field.planstartdate.name, WebUIConstants.TABLE_DATE_WIDTH)
