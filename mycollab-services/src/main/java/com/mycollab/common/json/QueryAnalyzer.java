@@ -39,7 +39,7 @@ import java.util.List;
 public class QueryAnalyzer {
     private static final Logger LOG = LoggerFactory.getLogger(QueryAnalyzer.class);
 
-    public static <S extends SearchCriteria>String toQueryParams(List<SearchFieldInfo<S>> searchFieldInfos) {
+    public static <S extends SearchCriteria> String toQueryParams(List<SearchFieldInfo<S>> searchFieldInfos) {
         try {
             ObjectMapper mapper = new ObjectMapper();
             SimpleModule module = new SimpleModule();

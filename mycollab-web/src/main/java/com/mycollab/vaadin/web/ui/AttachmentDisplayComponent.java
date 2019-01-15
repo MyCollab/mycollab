@@ -47,13 +47,8 @@ import java.util.List;
  * @author MyCollab Ltd.
  * @since 2.0
  */
-// TODO
 public class AttachmentDisplayComponent extends CssLayout {
     private static final long serialVersionUID = 1L;
-
-    public AttachmentDisplayComponent() {
-        this.setWidth("100%");
-    }
 
     public AttachmentDisplayComponent(List<Content> attachments) {
         attachments.forEach(this::addAttachmentRow);
@@ -63,7 +58,7 @@ public class AttachmentDisplayComponent extends CssLayout {
         String docName = attachment.getPath();
         int lastIndex = docName.lastIndexOf("/");
         if (lastIndex != -1) {
-            docName = docName.substring(lastIndex + 1, docName.length());
+            docName = docName.substring(lastIndex + 1);
         }
 
         final AbsoluteLayout attachmentLayout = new AbsoluteLayout();
@@ -71,9 +66,7 @@ public class AttachmentDisplayComponent extends CssLayout {
         attachmentLayout.setHeight(WebUIConstants.DEFAULT_ATTACHMENT_THUMBNAIL_HEIGHT);
         attachmentLayout.setStyleName("attachment-block");
 
-        CssLayout thumbnailWrap = new CssLayout();
-        thumbnailWrap.setSizeFull();
-        thumbnailWrap.setStyleName("thumbnail-wrap");
+        MCssLayout thumbnailWrap = new MCssLayout().withFullSize().withStyleName("thumbnail-wrap");
 
         Link thumbnail = new Link();
         if (StringUtils.isBlank(attachment.getThumbnail())) {
@@ -122,8 +115,7 @@ public class AttachmentDisplayComponent extends CssLayout {
         attachmentLayout.addComponent(trashBtn, "top: 9px; left: 9px; z-index: 1;");
 
         MButton downloadBtn = new MButton().withIcon(VaadinIcons.DOWNLOAD).withStyleName("attachment-control");
-        FileDownloader fileDownloader = new FileDownloader(VaadinResourceFactory.getInstance()
-                .getStreamResource(attachment.getPath()));
+        FileDownloader fileDownloader = new FileDownloader(VaadinResourceFactory.getInstance().getStreamResource(attachment.getPath()));
         fileDownloader.extend(downloadBtn);
         attachmentLayout.addComponent(downloadBtn, "right: 9px; top: 9px; z-index: 1;");
         this.addComponent(attachmentLayout);

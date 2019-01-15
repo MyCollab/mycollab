@@ -40,15 +40,15 @@ import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.TooltipHelper;
 import com.mycollab.vaadin.UserUIContext;
+import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.ui.registry.AuditLogRegistry;
 import com.mycollab.vaadin.web.ui.WebThemes;
-import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.Label;
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.vaadin.viritin.layouts.MCssLayout;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -191,10 +191,8 @@ public class ActivityStreamComponent extends CssLayout {
                         }
                     }
 
-                    Label actionLbl = new Label(content.toString(), ContentMode.HTML);
-                    CssLayout streamWrapper = new CssLayout();
-                    streamWrapper.setWidth("100%");
-                    streamWrapper.addStyleName("stream-wrapper");
+                    ELabel actionLbl = ELabel.html(content.toString()).withFullWidth();
+                    MCssLayout streamWrapper = new MCssLayout(actionLbl).withFullWidth().withStyleName("stream-wrapper");
                     streamWrapper.addComponent(actionLbl);
                     currentFeedBlock.addComponent(streamWrapper);
                 }

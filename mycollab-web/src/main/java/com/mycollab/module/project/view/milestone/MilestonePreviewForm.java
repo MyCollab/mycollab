@@ -92,7 +92,7 @@ public class MilestonePreviewForm extends AdvancedPreviewBeanForm<SimpleMileston
                 return new ProjectUserFormLinkField(milestone.getProjectid(), milestone.getAssignuser(),
                         milestone.getOwnerAvatarId(), milestone.getOwnerFullName());
             } else if (Milestone.Field.description.equalTo(propertyId)) {
-                return new RichTextViewField(milestone.getDescription());
+                return new RichTextViewField();
             } else if (Milestone.Field.status.equalTo(propertyId)) {
                 String milestoneStatus = UserUIContext.getMessage(MilestoneStatus.class, milestone.getStatus());
                 VaadinIcons statusIcon = ProjectAssetsUtil.getPhaseIcon(milestone.getStatus());

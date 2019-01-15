@@ -54,6 +54,8 @@ class AppBootstrapListener : BootstrapListener {
                 .append("<script type=\"text/javascript\" src=\"${deploymentMode.getCdnUrl()}js/jquery-2.1.4.min.js\"></script>")
         response.document.head()
                 .append("<script type=\"text/javascript\" src=\"${deploymentMode.getCdnUrl()}js/stickytooltip-1.0.2.js?v=${Version.getVersion()}\"></script>")
+        response.document.head()
+                .append("<script type=\"text/javascript\" src=\"${deploymentMode.getCdnUrl()}js/common-1.0.0.js?v=${Version.getVersion()}\"></script>")
 
         val div1 = response.document.body().appendElement("div")
         div1.attr("id", "div1$TOOLTIP_ID")
@@ -69,5 +71,10 @@ class AppBootstrapListener : BootstrapListener {
 
         val div14 = div13.appendElement("div")
         div14.attr("id", "div14$TOOLTIP_ID")
+
+        val linkToTop = response.document.body().appendElement("a")
+        linkToTop.attr("href", "#")
+        linkToTop.attr("id", "linkToTop")
+        linkToTop.append("<iron-icon icon=\"vaadin:vaadin-h\"></iron-icon>")
     }
 }

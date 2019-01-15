@@ -24,18 +24,18 @@ import com.mycollab.db.arguments.SearchCriteria;
 import com.mycollab.db.arguments.SetSearchField;
 import com.mycollab.db.arguments.StringSearchField;
 import com.mycollab.html.DivLessFormatter;
-import com.mycollab.module.project.*;
+import com.mycollab.module.project.CurrentProjectVariables;
+import com.mycollab.module.project.ProjectLinkGenerator;
+import com.mycollab.module.project.ProjectMemberStatusConstants;
+import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.domain.SimpleProjectMember;
 import com.mycollab.module.project.domain.criteria.ProjectMemberSearchCriteria;
-import com.mycollab.module.project.event.ProjectMemberEvent;
 import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
-import com.mycollab.module.project.i18n.ProjectMemberI18nEnum;
 import com.mycollab.module.project.i18n.ProjectRoleI18nEnum;
 import com.mycollab.module.project.i18n.TimeTrackingI18nEnum;
 import com.mycollab.module.project.service.ProjectMemberService;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.vaadin.TooltipHelper;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
@@ -71,7 +71,7 @@ public class ProjectMembersWidget extends Depot {
 
     public ProjectMembersWidget() {
         super("", new CssLayout());
-        final MButton sortBtn = new MButton().withIcon(VaadinIcons.CARET_UP).withStyleName(WebThemes.BUTTON_ICON_ONLY);
+        MButton sortBtn = new MButton().withIcon(VaadinIcons.CARET_UP).withStyleName(WebThemes.BUTTON_ICON_ONLY);
         sortBtn.addClickListener(clickEvent -> {
             sortAsc = !sortAsc;
             if (sortAsc) {
@@ -102,12 +102,6 @@ public class ProjectMembersWidget extends Depot {
         };
         searchTextField.addStyleName(ValoTheme.TEXTFIELD_SMALL);
         addHeaderElement(searchTextField);
-
-        MButton inviteMemberBtn = new MButton(UserUIContext.getMessage(ProjectMemberI18nEnum.BUTTON_NEW_INVITEE), clickEvent ->
-                EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoInviteMembers(this, null)))
-                .withIcon(VaadinIcons.PLUS).withStyleName(WebThemes.BUTTON_ACTION)
-                .withVisible(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.USERS));
-        addHeaderElement(inviteMemberBtn);
 
         memberList = new DefaultBeanPagedList<>(AppContextUtil.getSpringBean(ProjectMemberService.class),
                 new MemberRowDisplayHandler(), 7);

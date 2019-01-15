@@ -31,6 +31,7 @@ import com.mycollab.security.PermissionFlag;
 import com.mycollab.security.PermissionMap;
 import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.vaadin.UserUIContext;
+import com.mycollab.vaadin.event.ViewEvent;
 import com.mycollab.vaadin.mvp.AbstractVerticalPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.ELabel;
@@ -71,7 +72,7 @@ public class ProjectMemberInviteViewImpl extends AbstractVerticalPageView implem
 
         roleComboBox = new ProjectRoleComboBox();
         roleComboBox.addValueChangeListener(valueChangeEvent -> {
-            SimpleProjectRole role = (SimpleProjectRole) roleComboBox.getValue();
+            SimpleProjectRole role = roleComboBox.getValue();
             displayRolePermission(role);
         });
 
@@ -97,11 +98,11 @@ public class ProjectMemberInviteViewImpl extends AbstractVerticalPageView implem
 
     private Layout createButtonControls() {
         MButton inviteBtn = new MButton(UserUIContext.getMessage(ProjectMemberI18nEnum.BUTTON_NEW_INVITEE), clickEvent -> {
-            SimpleProjectRole role = (SimpleProjectRole) roleComboBox.getValue();
-//            BeanItem<SimpleProjectRole> item = (BeanItem<SimpleProjectRole>) roleComboBox.getItem(roleId);
-//            String roleName = (item != null) ? item.getBean().getRolename() : "";
-//            ProjectMemberInviteViewImpl.this.fireEvent(new ViewEvent<>(this,
-//                    new InviteProjectMembers(inviteUserTokenField.getInviteEmails(), roleId, roleName, messageArea.getValue())));
+            SimpleProjectRole role = roleComboBox.getValue();
+            String roleName = (role != null) ? role.getRolename() : "";
+            // TODO: error in role.getId for the admin case
+            ProjectMemberInviteViewImpl.this.fireEvent(new ViewEvent<>(this,
+                    new ProjectMemberEvent.InviteProjectMembers(inviteUserTokenField.getInviteEmails(), role.getId(), roleName, messageArea.getValue())));
         }).withIcon(VaadinIcons.PAPERPLANE).withStyleName(WebThemes.BUTTON_ACTION);
 
         MButton cancelBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
@@ -115,7 +116,7 @@ public class ProjectMemberInviteViewImpl extends AbstractVerticalPageView implem
 
         projectFormHelper = GridFormLayoutHelper.defaultFormLayoutHelper(2, ProjectRolePermissionCollections.PROJECT_PERMISSIONS.length / 2 + 1, "180px");
         permissionsPanel.addSection(UserUIContext.getMessage(ProjectRoleI18nEnum.SECTION_PERMISSIONS), projectFormHelper.getLayout());
-        SimpleProjectRole role = (SimpleProjectRole) roleComboBox.getValue();
+        SimpleProjectRole role = roleComboBox.getValue();
         displayRolePermission(role);
 
         return permissionsPanel;

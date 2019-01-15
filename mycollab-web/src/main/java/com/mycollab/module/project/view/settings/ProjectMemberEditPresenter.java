@@ -17,6 +17,7 @@
 package com.mycollab.module.project.view.settings;
 
 import com.mycollab.core.MyCollabException;
+import com.mycollab.module.project.view.ProjectView;
 import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectRolePermissionCollections;
@@ -71,8 +72,8 @@ public class ProjectMemberEditPresenter extends AbstractPresenter<ProjectMemberE
     @Override
     protected void onGo(HasComponents container, ScreenData<?> data) {
         if (CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.USERS)) {
-            ProjectUserContainer userGroupContainer = (ProjectUserContainer) container;
-            userGroupContainer.setContent(view);
+            ProjectView projectView = (ProjectView) container;
+            projectView.gotoSubView(ProjectView.SETTING, view);
 
             SimpleProjectMember member = (SimpleProjectMember) data.getParams();
             view.editItem(member);

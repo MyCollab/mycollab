@@ -26,20 +26,19 @@ import java.lang.reflect.Method
  */
 object ProjectResources {
     private val LOG = LoggerFactory.getLogger(ProjectResources::class.java)
-    private var getResMethod: Method? = null
+    private var toHtmlMethod: Method? = null
 
     init {
         try {
             val resourceCls = Class.forName("com.mycollab.module.project.ui.ProjectAssetsManager")
-            getResMethod = resourceCls.getMethod("toHexString", String::class.java)
+            toHtmlMethod = resourceCls.getMethod("toHtml", String::class.java)
         } catch (e: Exception) {
             throw MyCollabException("Can not reload resource", e)
         }
     }
 
     fun getFontIconHtml(type: String): String = try {
-        val codePoint = getResMethod!!.invoke(null, type) as String
-        "<span class=\"v-icon\" style=\"font-family: FontAwesome;\">$codePoint;</span>"
+        toHtmlMethod!!.invoke(null, type) as String
     } catch (e: Exception) {
         LOG.error("Can not get resource type $type")
         ""

@@ -16,10 +16,13 @@
  */
 package com.mycollab.module.project.view.user;
 
+import com.mycollab.module.project.view.BoardContainer;
 import com.mycollab.module.project.view.ProjectBreadcrumb;
+import com.mycollab.module.project.view.ProjectModule;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.mvp.ViewManager;
 import com.mycollab.vaadin.web.ui.AbstractPresenter;
+import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.HasComponents;
 
 /**
@@ -34,12 +37,12 @@ public class ProjectSearchItemPresenter extends AbstractPresenter<ProjectSearchI
 
     @Override
     protected void onGo(HasComponents container, ScreenData<?> data) {
-        ProjectDashboardContainer projectViewContainer = (ProjectDashboardContainer) container;
-        projectViewContainer.setContent(view);
+        BoardContainer boardContainer = (BoardContainer) container;
+        CssLayout contentWrapper = boardContainer.getContentWrapper();
+        contentWrapper.removeAllComponents();
+        contentWrapper.addComponent(view);
+
         String params = (String) data.getParams();
         view.displayResults(params);
-
-        ProjectBreadcrumb breadcrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);
-        breadcrumb.gotoSearchProjectItems();
     }
 }

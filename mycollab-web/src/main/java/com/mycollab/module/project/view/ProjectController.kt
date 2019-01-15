@@ -30,15 +30,23 @@ import com.mycollab.module.project.domain.criteria.MilestoneSearchCriteria
 import com.mycollab.module.project.domain.criteria.ProjectMemberSearchCriteria
 import com.mycollab.module.project.domain.criteria.ProjectRoleSearchCriteria
 import com.mycollab.module.project.event.*
-import com.mycollab.module.project.view.bug.BugPresenter
+import com.mycollab.module.project.view.bug.BugAddPresenter
+import com.mycollab.module.project.view.bug.BugReadPresenter
+import com.mycollab.module.project.view.finance.IInvoiceListPresenter
 import com.mycollab.module.project.view.message.MessagePresenter
-import com.mycollab.module.project.view.milestone.MilestonePresenter
+import com.mycollab.module.project.view.milestone.MilestoneAddPresenter
+import com.mycollab.module.project.view.milestone.MilestoneListPresenter
+import com.mycollab.module.project.view.milestone.MilestoneReadPresenter
+import com.mycollab.module.project.view.milestone.MilestoneRoadmapPresenter
 import com.mycollab.module.project.view.page.PagePresenter
 import com.mycollab.module.project.view.parameters.*
-import com.mycollab.module.project.view.risk.IRiskPresenter
-import com.mycollab.module.project.view.settings.UserSettingPresenter
-import com.mycollab.module.project.view.ticket.TicketPresenter
-import com.mycollab.module.project.view.time.IInvoiceListPresenter
+import com.mycollab.module.project.view.risk.IRiskAddPresenter
+import com.mycollab.module.project.view.risk.IRiskReadPresenter
+import com.mycollab.module.project.view.settings.*
+import com.mycollab.module.project.view.task.TaskAddPresenter
+import com.mycollab.module.project.view.task.TaskReadPresenter
+import com.mycollab.module.project.view.ticket.ITicketKanbanPresenter
+import com.mycollab.module.project.view.ticket.TicketDashboardPresenter
 import com.mycollab.module.project.view.user.ProjectDashboardPresenter
 import com.mycollab.module.tracker.domain.Component
 import com.mycollab.module.tracker.domain.SimpleBug
@@ -110,7 +118,7 @@ class ProjectController(val projectView: ProjectView) : AbstractController() {
             @Subscribe
             override fun handle(event: TicketEvent.GotoDashboard) {
                 val data = TicketScreenData.GotoDashboard(event.data)
-                val presenter = PresenterResolver.getPresenter(TicketPresenter::class.java)
+                val presenter = PresenterResolver.getPresenter(TicketDashboardPresenter::class.java)
                 presenter.go(projectView, data)
             }
         })
@@ -121,7 +129,7 @@ class ProjectController(val projectView: ProjectView) : AbstractController() {
             @Subscribe
             override fun handle(event: TaskEvent.GotoRead) {
                 val data = TaskScreenData.Read(event.data as Int)
-                val presenter = PresenterResolver.getPresenter(TicketPresenter::class.java)
+                val presenter = PresenterResolver.getPresenter(TaskReadPresenter::class.java)
                 presenter.go(projectView, data)
             }
         })
@@ -130,7 +138,7 @@ class ProjectController(val projectView: ProjectView) : AbstractController() {
             override fun handle(event: TaskEvent.GotoAdd) {
                 val param = event.data
                 val data = if (param is SimpleTask) TaskScreenData.Add(param) else TaskScreenData.Add(SimpleTask())
-                val presenter = PresenterResolver.getPresenter(TicketPresenter::class.java)
+                val presenter = PresenterResolver.getPresenter(TaskAddPresenter::class.java)
                 presenter.go(projectView, data)
             }
         })
@@ -138,7 +146,7 @@ class ProjectController(val projectView: ProjectView) : AbstractController() {
             @Subscribe
             override fun handle(event: TaskEvent.GotoEdit) {
                 val data = TaskScreenData.Edit(event.data as SimpleTask)
-                val presenter = PresenterResolver.getPresenter(TicketPresenter::class.java)
+                val presenter = PresenterResolver.getPresenter(TaskAddPresenter::class.java)
                 presenter.go(projectView, data)
             }
         })
@@ -147,7 +155,7 @@ class ProjectController(val projectView: ProjectView) : AbstractController() {
             @Subscribe
             override fun handle(event: TaskEvent.GotoKanbanView) {
                 val data = TicketScreenData.GotoKanbanView()
-                val presenter = PresenterResolver.getPresenter(TicketPresenter::class.java)
+                val presenter = PresenterResolver.getPresenter(ITicketKanbanPresenter::class.java)
                 presenter.go(projectView, data)
             }
         })
@@ -159,7 +167,7 @@ class ProjectController(val projectView: ProjectView) : AbstractController() {
             override fun handle(event: RiskEvent.GotoAdd) {
                 val param = event.data
                 val data = if (param is SimpleRisk) RiskScreenData.Add(param) else RiskScreenData.Add(SimpleRisk())
-                val presenter = PresenterResolver.getPresenter(IRiskPresenter::class.java)
+                val presenter = PresenterResolver.getPresenter(IRiskAddPresenter::class.java)
                 presenter.go(projectView, data)
             }
         })
@@ -168,7 +176,7 @@ class ProjectController(val projectView: ProjectView) : AbstractController() {
             @Subscribe
             override fun handle(event: RiskEvent.GotoEdit) {
                 val data = RiskScreenData.Edit(event.data as Risk)
-                val presenter = PresenterResolver.getPresenter(IRiskPresenter::class.java)
+                val presenter = PresenterResolver.getPresenter(IRiskAddPresenter::class.java)
                 presenter.go(projectView, data)
             }
         })
@@ -176,7 +184,7 @@ class ProjectController(val projectView: ProjectView) : AbstractController() {
             @Subscribe
             override fun handle(event: RiskEvent.GotoRead) {
                 val data = RiskScreenData.Read(event.data as Int)
-                val presenter = PresenterResolver.getPresenter(IRiskPresenter::class.java)
+                val presenter = PresenterResolver.getPresenter(IRiskReadPresenter::class.java)
                 presenter.go(projectView, data)
             }
         })
@@ -187,7 +195,7 @@ class ProjectController(val projectView: ProjectView) : AbstractController() {
             @Subscribe
             override fun handle(event: BugEvent.GotoAdd) {
                 val data = BugScreenData.Add(SimpleBug())
-                val presenter = PresenterResolver.getPresenter(BugPresenter::class.java)
+                val presenter = PresenterResolver.getPresenter(BugAddPresenter::class.java)
                 presenter.go(projectView, data)
             }
         })
@@ -195,7 +203,7 @@ class ProjectController(val projectView: ProjectView) : AbstractController() {
             @Subscribe
             override fun handle(event: BugEvent.GotoEdit) {
                 val data = BugScreenData.Edit(event.data as SimpleBug)
-                val presenter = PresenterResolver.getPresenter(BugPresenter::class.java)
+                val presenter = PresenterResolver.getPresenter(BugAddPresenter::class.java)
                 presenter.go(projectView, data)
             }
         })
@@ -203,7 +211,7 @@ class ProjectController(val projectView: ProjectView) : AbstractController() {
             @Subscribe
             override fun handle(event: BugEvent.GotoRead) {
                 val data = BugScreenData.Read(event.data as Int)
-                val presenter = PresenterResolver.getPresenter(BugPresenter::class.java)
+                val presenter = PresenterResolver.getPresenter(BugReadPresenter::class.java)
                 presenter.go(projectView, data)
             }
         })
@@ -212,7 +220,7 @@ class ProjectController(val projectView: ProjectView) : AbstractController() {
             @Subscribe
             override fun handle(event: BugComponentEvent.GotoAdd) {
                 val data = ComponentScreenData.Add(Component())
-                val presenter = PresenterResolver.getPresenter(UserSettingPresenter::class.java)
+                val presenter = PresenterResolver.getPresenter(ComponentAddPresenter::class.java)
                 presenter.go(projectView, data)
             }
         })
@@ -220,7 +228,7 @@ class ProjectController(val projectView: ProjectView) : AbstractController() {
             @Subscribe
             override fun handle(event: BugComponentEvent.GotoEdit) {
                 val data = ComponentScreenData.Edit(event.data as Component)
-                val presenter = PresenterResolver.getPresenter(UserSettingPresenter::class.java)
+                val presenter = PresenterResolver.getPresenter(ComponentAddPresenter::class.java)
                 presenter.go(projectView, data)
             }
         })
@@ -228,7 +236,7 @@ class ProjectController(val projectView: ProjectView) : AbstractController() {
             @Subscribe
             override fun handle(event: BugComponentEvent.GotoRead) {
                 val data = ComponentScreenData.Read(event.data as Int)
-                val presenter = PresenterResolver.getPresenter(UserSettingPresenter::class.java)
+                val presenter = PresenterResolver.getPresenter(ComponentReadPresenter::class.java)
                 presenter.go(projectView, data)
             }
         })
@@ -237,7 +245,7 @@ class ProjectController(val projectView: ProjectView) : AbstractController() {
             override fun handle(event: BugComponentEvent.GotoList) {
                 val criteria = ComponentSearchCriteria()
                 criteria.projectId = NumberSearchField(CurrentProjectVariables.projectId)
-                val presenter = PresenterResolver.getPresenter(UserSettingPresenter::class.java)
+                val presenter = PresenterResolver.getPresenter(ComponentListPresenter::class.java)
                 presenter.go(projectView, ComponentScreenData.Search(criteria))
             }
         })
@@ -245,7 +253,7 @@ class ProjectController(val projectView: ProjectView) : AbstractController() {
             @Subscribe
             override fun handle(event: BugVersionEvent.GotoAdd) {
                 val data = VersionScreenData.Add(Version())
-                val presenter = PresenterResolver.getPresenter(UserSettingPresenter::class.java)
+                val presenter = PresenterResolver.getPresenter(VersionAddPresenter::class.java)
                 presenter.go(projectView, data)
             }
         })
@@ -253,7 +261,7 @@ class ProjectController(val projectView: ProjectView) : AbstractController() {
             @Subscribe
             override fun handle(event: BugVersionEvent.GotoEdit) {
                 val data = VersionScreenData.Edit(event.data as Version)
-                val presenter = PresenterResolver.getPresenter(UserSettingPresenter::class.java)
+                val presenter = PresenterResolver.getPresenter(VersionAddPresenter::class.java)
                 presenter.go(projectView, data)
             }
         })
@@ -261,7 +269,7 @@ class ProjectController(val projectView: ProjectView) : AbstractController() {
             @Subscribe
             override fun handle(event: BugVersionEvent.GotoRead) {
                 val data = VersionScreenData.Read(event.data as Int)
-                val presenter = PresenterResolver.getPresenter(UserSettingPresenter::class.java)
+                val presenter = PresenterResolver.getPresenter(VersionReadPresenter::class.java)
                 presenter.go(projectView, data)
             }
         })
@@ -270,7 +278,7 @@ class ProjectController(val projectView: ProjectView) : AbstractController() {
             override fun handle(event: BugVersionEvent.GotoList) {
                 val criteria = VersionSearchCriteria()
                 criteria.projectId = NumberSearchField(CurrentProjectVariables.projectId)
-                val presenter = PresenterResolver.getPresenter(UserSettingPresenter::class.java)
+                val presenter = PresenterResolver.getPresenter(VersionListPresenter::class.java)
                 presenter.go(projectView, VersionScreenData.Search(criteria))
             }
         })
@@ -302,7 +310,7 @@ class ProjectController(val projectView: ProjectView) : AbstractController() {
             @Subscribe
             override fun handle(event: MilestoneEvent.GotoAdd) {
                 val data = MilestoneScreenData.Add(SimpleMilestone())
-                val presenter = PresenterResolver.getPresenter(MilestonePresenter::class.java)
+                val presenter = PresenterResolver.getPresenter(MilestoneAddPresenter::class.java)
                 presenter.go(projectView, data)
             }
         })
@@ -311,7 +319,7 @@ class ProjectController(val projectView: ProjectView) : AbstractController() {
             @Subscribe
             override fun handle(event: MilestoneEvent.GotoRead) {
                 val data = MilestoneScreenData.Read(event.data as Int)
-                val presenter = PresenterResolver.getPresenter(MilestonePresenter::class.java)
+                val presenter = PresenterResolver.getPresenter(MilestoneReadPresenter::class.java)
                 presenter.go(projectView, data)
             }
         })
@@ -321,7 +329,7 @@ class ProjectController(val projectView: ProjectView) : AbstractController() {
             override fun handle(event: MilestoneEvent.GotoList) {
                 val criteria = MilestoneSearchCriteria()
                 criteria.projectIds = SetSearchField(CurrentProjectVariables.projectId)
-                val presenter = PresenterResolver.getPresenter(MilestonePresenter::class.java)
+                val presenter = PresenterResolver.getPresenter(MilestoneListPresenter::class.java)
                 presenter.go(projectView, MilestoneScreenData.Search(criteria))
             }
         })
@@ -329,7 +337,7 @@ class ProjectController(val projectView: ProjectView) : AbstractController() {
         this.register(object : ApplicationEventListener<MilestoneEvent.GotoRoadmap> {
             @Subscribe
             override fun handle(event: MilestoneEvent.GotoRoadmap) {
-                val presenter = PresenterResolver.getPresenter(MilestonePresenter::class.java)
+                val presenter = PresenterResolver.getPresenter(MilestoneRoadmapPresenter::class.java)
                 presenter.go(projectView, MilestoneScreenData.Roadmap())
             }
         })
@@ -338,7 +346,7 @@ class ProjectController(val projectView: ProjectView) : AbstractController() {
             @Subscribe
             override fun handle(event: MilestoneEvent.GotoEdit) {
                 val data = MilestoneScreenData.Edit(event.data as Milestone)
-                val presenter = PresenterResolver.getPresenter(MilestonePresenter::class.java)
+                val presenter = PresenterResolver.getPresenter(MilestoneAddPresenter::class.java)
                 presenter.go(projectView, data)
             }
         })
@@ -351,7 +359,7 @@ class ProjectController(val projectView: ProjectView) : AbstractController() {
                 val project = CurrentProjectVariables.project
                 val criteria = ProjectRoleSearchCriteria()
                 criteria.projectId = NumberSearchField(project!!.id)
-                val presenter = PresenterResolver.getPresenter(UserSettingPresenter::class.java)
+                val presenter = PresenterResolver.getPresenter(ProjectRoleListPresenter::class.java)
                 presenter.go(projectView, ProjectRoleScreenData.Search(criteria))
             }
         })
@@ -359,7 +367,7 @@ class ProjectController(val projectView: ProjectView) : AbstractController() {
             @Subscribe
             override fun handle(event: ProjectRoleEvent.GotoAdd) {
                 val data = ProjectRoleScreenData.Add(ProjectRole())
-                val presenter = PresenterResolver.getPresenter(UserSettingPresenter::class.java)
+                val presenter = PresenterResolver.getPresenter(ProjectRoleAddPresenter::class.java)
                 presenter.go(projectView, data)
             }
         })
@@ -367,7 +375,7 @@ class ProjectController(val projectView: ProjectView) : AbstractController() {
             @Subscribe
             override fun handle(event: ProjectRoleEvent.GotoEdit) {
                 val data = ProjectRoleScreenData.Add(event.data as ProjectRole)
-                val presenter = PresenterResolver.getPresenter(UserSettingPresenter::class.java)
+                val presenter = PresenterResolver.getPresenter(ProjectRoleAddPresenter::class.java)
                 presenter.go(projectView, data)
             }
         })
@@ -375,7 +383,7 @@ class ProjectController(val projectView: ProjectView) : AbstractController() {
             @Subscribe
             override fun handle(event: ProjectRoleEvent.GotoRead) {
                 val data = ProjectRoleScreenData.Read(event.data as Int)
-                val presenter = PresenterResolver.getPresenter(UserSettingPresenter::class.java)
+                val presenter = PresenterResolver.getPresenter(ProjectRoleReadPresenter::class.java)
                 presenter.go(projectView, data)
             }
         })
@@ -386,7 +394,7 @@ class ProjectController(val projectView: ProjectView) : AbstractController() {
                 criteria.projectIds = SetSearchField(event.projectId)
                 criteria.saccountid = NumberSearchField(AppUI.accountId)
                 criteria.statuses = SetSearchField(ProjectMemberStatusConstants.ACTIVE, ProjectMemberStatusConstants.NOT_ACCESS_YET)
-                val presenter = PresenterResolver.getPresenter(UserSettingPresenter::class.java)
+                val presenter = PresenterResolver.getPresenter(ProjectMemberListPresenter::class.java)
                 presenter.go(projectView, ProjectMemberScreenData.Search(criteria))
             }
         })
@@ -394,7 +402,7 @@ class ProjectController(val projectView: ProjectView) : AbstractController() {
             @Subscribe
             override fun handle(event: ProjectMemberEvent.GotoRead) {
                 val data = ProjectMemberScreenData.Read(event.data)
-                val presenter = PresenterResolver.getPresenter(UserSettingPresenter::class.java)
+                val presenter = PresenterResolver.getPresenter(ProjectMemberReadPresenter::class.java)
                 presenter.go(projectView, data)
             }
         })
@@ -402,7 +410,7 @@ class ProjectController(val projectView: ProjectView) : AbstractController() {
             @Subscribe
             override fun handle(event: ProjectMemberEvent.GotoInviteMembers) {
                 val data = ProjectMemberScreenData.InviteProjectMembers()
-                val presenter = PresenterResolver.getPresenter(UserSettingPresenter::class.java)
+                val presenter = PresenterResolver.getPresenter(ProjectMemberInvitePresenter::class.java)
                 presenter.go(projectView, data)
             }
         })
@@ -410,7 +418,7 @@ class ProjectController(val projectView: ProjectView) : AbstractController() {
             @Subscribe
             override fun handle(event: ProjectMemberEvent.GotoEdit) {
                 val data = ProjectMemberScreenData.Add(event.data as ProjectMember)
-                val presenter = PresenterResolver.getPresenter(UserSettingPresenter::class.java)
+                val presenter = PresenterResolver.getPresenter(ProjectMemberEditPresenter::class.java)
                 presenter.go(projectView, data)
             }
         })
@@ -419,7 +427,7 @@ class ProjectController(val projectView: ProjectView) : AbstractController() {
             @Subscribe
             override fun handle(event: ProjectNotificationEvent.GotoList) {
                 val data = ProjectSettingScreenData.ViewSettings()
-                val presenter = PresenterResolver.getPresenter(UserSettingPresenter::class.java)
+                val presenter = PresenterResolver.getPresenter(ProjectCustomPresenter::class.java)
                 presenter.go(projectView, data)
             }
         })

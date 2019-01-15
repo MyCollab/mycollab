@@ -30,6 +30,7 @@ import com.mycollab.module.project.event.TicketEvent;
 import com.mycollab.module.project.event.UpdateNotificationItemReadStatusEvent;
 import com.mycollab.module.project.view.ProjectBreadcrumb;
 import com.mycollab.module.project.view.ProjectGenericPresenter;
+import com.mycollab.module.project.view.ProjectView;
 import com.mycollab.module.tracker.domain.BugWithBLOBs;
 import com.mycollab.module.tracker.domain.SimpleBug;
 import com.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
@@ -155,9 +156,8 @@ public class BugReadPresenter extends ProjectGenericPresenter<BugReadView> {
                 BugService bugService = AppContextUtil.getSpringBean(BugService.class);
                 SimpleBug bug = bugService.findById((Integer) data.getParams(), AppUI.getAccountId());
                 if (bug != null) {
-                    BugContainer bugContainer = (BugContainer) container;
-                    bugContainer.removeAllComponents();
-                    bugContainer.addComponent(view);
+                    ProjectView projectView = (ProjectView) container;
+                    projectView.gotoSubView(ProjectView.TICKET_ENTRY, view);
                     view.previewItem(bug);
 
                     ProjectBreadcrumb breadcrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);

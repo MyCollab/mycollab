@@ -98,33 +98,6 @@ function overIt(uid, type, typeId, url, sAccountId, siteURL, timeZone, locale, d
   }, 2000);
 }
 
-function crmActivityOverIt(uid, type, typeId, url, sAccountId, siteURL, timeZone, locale, dateFormat) {
-  stickytooltip.isShow = true
-  var idDIVserverdata = "div14" + uid;
-  var idStickyToolTipDiv = "div1" + uid;
-  var idTagA = "tag" + uid;
-  if(type=="Task") type = "CRMTask";
-  currentIdRequest = type + typeId + sAccountId
-  setTimeout(function(){
-    var newIdRequest = type + typeId + sAccountId
-    if ((newIdRequest === currentIdRequest) && (new Date() - lastSuccessTime > 2000) && stickytooltip.isShow) {
-      $.ajax({
-             type: 'POST',
-             url: url,
-             data : { type: type, typeId: typeId , sAccountId : sAccountId, siteURL: siteURL , timeZone: timeZone, locale:locale, dateFormat: dateFormat},
-             success: function(data) {
-               if(data.trim()!= "null") {
-                 lastSuccessTime=new Date()
-                 $("#" + idTagA).attr('data-tooltip', idStickyToolTipDiv)
-                 $("#" + idDIVserverdata).html(data)
-                 stickytooltip.init("*[data-tooltip]", idStickyToolTipDiv)
-               }
-             }
-      });
-    }
-  }, 2000)
-}
-
 function showUserTooltip(uid, username, url, siteURL, timeZone, sAccountId, locale) {
   stickytooltip.isShow = true
   var idDIVserverdata = "div14" + uid;

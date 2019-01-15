@@ -1,0 +1,15 @@
+div.ckeditor {
+	cursor: pointer;
+	user-select: none;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+}
+
+span.cke_button__vaadin_save_icon:before {
+	display: inline;
+	color: black;
+	font-family: "Vaadin-Icons";
+	font-size: 18px;
+	content: "\e75f";
+}

@@ -25,6 +25,7 @@ import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.event.BugComponentEvent;
 import com.mycollab.module.project.event.UpdateNotificationItemReadStatusEvent;
 import com.mycollab.module.project.view.ProjectBreadcrumb;
+import com.mycollab.module.project.view.ProjectView;
 import com.mycollab.module.tracker.domain.Component;
 import com.mycollab.module.tracker.domain.SimpleComponent;
 import com.mycollab.module.tracker.domain.criteria.ComponentSearchCriteria;
@@ -135,9 +136,8 @@ public class ComponentReadPresenter extends AbstractPresenter<ComponentReadView>
                 ComponentService componentService = AppContextUtil.getSpringBean(ComponentService.class);
                 SimpleComponent component = componentService.findById((Integer) data.getParams(), AppUI.getAccountId());
                 if (component != null) {
-                    ProjectComponentContainer componentContainer = (ProjectComponentContainer) container;
-                    componentContainer.removeAllComponents();
-                    componentContainer.addComponent(view);
+                    ProjectView projectView = (ProjectView) container;
+                    projectView.gotoSubView(ProjectView.COMPONENT_ENTRY, view);
                     view.previewItem(component);
 
                     ProjectBreadcrumb breadcrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);

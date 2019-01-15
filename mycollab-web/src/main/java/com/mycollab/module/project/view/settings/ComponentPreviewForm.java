@@ -77,7 +77,7 @@ public class ComponentPreviewForm extends AdvancedPreviewBeanForm<SimpleComponen
                 containerField.addComponentField(new BugsComp(beanItem));
                 return containerField;
             } else if (Component.Field.description.equalTo(propertyId)) {
-                return new RichTextViewField(beanItem.getDescription());
+                return new RichTextViewField();
             }
             return null;
         }

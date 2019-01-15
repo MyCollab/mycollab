@@ -1,11 +1,9 @@
 package com.mycollab.module.project.view;
 
 import com.mycollab.module.project.view.client.IClientPresenter;
-import com.mycollab.module.project.view.parameters.ClientScreenData;
-import com.mycollab.module.project.view.parameters.ProjectScreenData;
-import com.mycollab.module.project.view.parameters.ReportScreenData;
-import com.mycollab.module.project.view.parameters.StandupScreenData;
+import com.mycollab.module.project.view.parameters.*;
 import com.mycollab.module.project.view.reports.IReportPresenter;
+import com.mycollab.module.project.view.user.ProjectSearchItemPresenter;
 import com.mycollab.vaadin.mvp.IPresenter;
 import com.mycollab.vaadin.mvp.PresenterResolver;
 import com.mycollab.vaadin.mvp.ScreenData;
@@ -33,6 +31,8 @@ public class BoardContainerPresenter extends AbstractPresenter<BoardContainer> {
             presenter = PresenterResolver.getPresenter(IReportPresenter.class);
         } else if (data instanceof ClientScreenData.Add || data instanceof ClientScreenData.Read || data instanceof ClientScreenData.Search) {
             presenter = PresenterResolver.getPresenter(IClientPresenter.class);
+        } else if (data instanceof ProjectModuleScreenData.SearchItem) {
+            presenter = PresenterResolver.getPresenter(ProjectSearchItemPresenter.class);
         } else {
             presenter = PresenterResolver.getPresenter(UserProjectDashboardPresenter.class);
         }

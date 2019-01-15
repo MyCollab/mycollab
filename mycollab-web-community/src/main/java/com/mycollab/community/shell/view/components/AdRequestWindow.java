@@ -28,7 +28,6 @@ import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.NotificationUtil;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.icons.VaadinIcons;
-import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.UI;
@@ -59,14 +58,14 @@ public class AdRequestWindow extends MWindow {
                         "accounts and it works great @mycollabdotcom&source=webclient", "_blank")
                         .appendText("Share on Twitter")).setStyle("color:#006dac").write());
 
-        Label linkedIn = ELabel.html(new Div().appendChild(new Text("&nbsp;&nbsp;" + FontAwesome.LINKEDIN_SQUARE.getHtml()),
+        Label linkedIn = ELabel.html(new Div().appendChild(new Text("&nbsp;&nbsp;" + VaadinIcons.LINK.getHtml()),
                 DivLessFormatter.EMPTY_SPACE,
                 new A("https://www.linkedin.com/cws/share?url=https%3A%2F%2Fwww.mycollab.com&original_referer=https%3A%2F%2Fwww.mycollab.com&token=&isFramed=false&lang=en_US", "_blank")
                         .appendText("Share on LinkedIn")).setStyle("color:#006dac").write());
 
         Label testimonialAd = ELabel.html("A chance to get a free license of the premium MyCollab software for 10 users" +
                 ". If you execute one of the following:");
-        Label rateSourceforge = ELabel.html(new Div().appendChild(new Text("&nbsp;&nbsp;" + FontAwesome.FLAG_CHECKERED.getHtml()),
+        Label rateSourceforge = ELabel.html(new Div().appendChild(new Text("&nbsp;&nbsp;" + VaadinIcons.FLAG_CHECKERED.getHtml()),
                 DivLessFormatter.EMPTY_SPACE, new A("https://community.mycollab.com/docs/developing-mycollab/translating/", "_blank")
                         .appendText("Localize MyCollab to your language at least 20% of the phrases")).setStyle
                 ("color:#006dac").write());
@@ -75,7 +74,7 @@ public class AdRequestWindow extends MWindow {
                     close();
                     turnOffAdd(user);
                     UI.getCurrent().addWindow(new TestimonialWindow());
-                }).withIcon(FontAwesome.KEYBOARD_O).withStyleName(WebThemes.BUTTON_LINK);
+                }).withIcon(VaadinIcons.KEYBOARD_O).withStyleName(WebThemes.BUTTON_LINK);
 
         MButton ignoreBtn = new MButton("No, thanks", clickEvent -> {
             close();

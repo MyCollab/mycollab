@@ -26,10 +26,11 @@ public class WebThemes {
     public static final String CUSTOM_FIELD_SECTION = "customFieldSection";
     public static final String POPUP_WITHOUT_INDICATOR = "nonPopupIndicator";
     public static final String TABLE_ACTION_CONTROLS = "table-actionctls";
-    public static final String BUTTON_ACTION = "greenbtn";
-    public static final String BUTTON_OPTION = "graybtn";
-    public static final String BUTTON_DANGER = "redbtn";
+    public static final String BUTTON_ACTION = "action-button";
+    public static final String BUTTON_OPTION = "option-button";
+    public static final String BUTTON_DANGER = "danger-button";
     public static final String BUTTON_LINK = "link";
+    public static final String DANGER = "danger";
     public static final String LINK_COMPLETED = "completed";
     public static final String LINK_OVERDUE = "overdue";
     public static final String LINK_PENDING = "pending";

@@ -70,7 +70,7 @@ public class PagePreviewForm extends AdvancedPreviewBeanForm<Page> {
         @Override
         protected HasValue<?> onCreateField(java.lang.Object propertyId) {
             if (propertyId.equals("content")) {
-                return new RichTextViewField(attachForm.getBean().getContent());
+                return new RichTextViewField();
             }
             return null;
         }

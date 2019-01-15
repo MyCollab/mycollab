@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -18,39 +18,44 @@ package com.mycollab.module.project.view;
 
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.configuration.SiteConfiguration;
+import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.db.arguments.SetSearchField;
+import com.mycollab.db.query.DateParam;
+import com.mycollab.db.query.VariableInjector;
 import com.mycollab.module.file.PathUtils;
-import com.mycollab.module.project.CurrentProjectVariables;
-import com.mycollab.module.project.ProjectLinkGenerator;
-import com.mycollab.module.project.ProjectMemberStatusConstants;
-import com.mycollab.module.project.ProjectTypeConstants;
+import com.mycollab.module.project.*;
 import com.mycollab.module.project.domain.SimpleProject;
+import com.mycollab.module.project.domain.criteria.ItemTimeLoggingSearchCriteria;
 import com.mycollab.module.project.domain.criteria.ProjectMemberSearchCriteria;
+import com.mycollab.module.project.domain.criteria.ProjectRoleSearchCriteria;
 import com.mycollab.module.project.event.ProjectMemberEvent;
 import com.mycollab.module.project.i18n.*;
 import com.mycollab.module.project.service.ProjectMemberService;
 import com.mycollab.module.project.service.ProjectService;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
+import com.mycollab.module.project.view.finance.IInvoiceListPresenter;
+import com.mycollab.module.project.view.finance.ITimeTrackingPresenter;
 import com.mycollab.module.project.view.message.MessagePresenter;
-import com.mycollab.module.project.view.milestone.MilestonePresenter;
+import com.mycollab.module.project.view.milestone.MilestoneRoadmapPresenter;
 import com.mycollab.module.project.view.page.PagePresenter;
 import com.mycollab.module.project.view.parameters.*;
-import com.mycollab.module.project.view.settings.UserSettingPresenter;
-import com.mycollab.module.project.view.ticket.TicketPresenter;
-import com.mycollab.module.project.view.time.IFinancePresenter;
+import com.mycollab.module.project.view.settings.*;
+import com.mycollab.module.project.view.ticket.ITicketKanbanPresenter;
+import com.mycollab.module.project.view.ticket.TicketDashboardPresenter;
 import com.mycollab.module.project.view.user.ProjectDashboardPresenter;
 import com.mycollab.module.project.view.user.ProjectInfoComponent;
+import com.mycollab.module.tracker.domain.criteria.ComponentSearchCriteria;
+import com.mycollab.module.tracker.domain.criteria.VersionSearchCriteria;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.*;
 import com.mycollab.vaadin.web.ui.VerticalTabsheet;
-import com.mycollab.vaadin.web.ui.VerticalTabsheet.TabImpl;
+import com.mycollab.vaadin.web.ui.VerticalTabsheet.ButtonTab;
 import com.mycollab.vaadin.web.ui.WebThemes;
-import com.vaadin.shared.ui.MarginInfo;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.ui.*;
-import com.vaadin.ui.TabSheet.Tab;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
@@ -67,15 +72,11 @@ public class ProjectViewImpl extends AbstractVerticalPageView implements Project
     @Override
     public void initView(SimpleProject project) {
         removeAllComponents();
+        this.withFullWidth().withId("project-view");
         viewWrap = new ProjectViewWrap(project);
         ControllerRegistry.addController(new ProjectController(this));
 
-        this.with(viewWrap).expand(viewWrap);
-    }
-
-    @Override
-    public void displaySearchResult(String value) {
-        viewWrap.displaySearchResult(value);
+        this.with(viewWrap);
     }
 
     @Override
@@ -83,9 +84,23 @@ public class ProjectViewImpl extends AbstractVerticalPageView implements Project
         viewWrap.setNavigatorVisibility(visibility);
     }
 
+    public void addComponentToRightBar(Component component) {
+        viewWrap.rightBarContainer.addViewComponent(component);
+    }
+
+    public void clearRightBar() {
+        viewWrap.rightBarContainer.clearViewComponents();
+    }
+
     @Override
     public Component gotoSubView(String viewId) {
-        return viewWrap.gotoSubView(viewId);
+        return viewWrap.gotoSubView(viewId, null);
+    }
+
+    @Override
+    public Component gotoSubView(String viewId, Component viewDisplay) {
+        viewWrap.rightBarContainer.clearViewComponents();
+        return viewWrap.gotoSubView(viewId, viewDisplay);
     }
 
     @Override
@@ -93,19 +108,12 @@ public class ProjectViewImpl extends AbstractVerticalPageView implements Project
         viewWrap.buildComponents();
     }
 
-    private class ProjectViewWrap extends AbstractCssPageView {
+    private class ProjectViewWrap extends MHorizontalLayout implements PageView {
+        private ProjectRightBarContainer rightBarContainer;
         private VerticalTabsheet myProjectTab;
 
-        private ProjectDashboardPresenter dashboardPresenter;
-        private MessagePresenter messagePresenter;
-        private MilestonePresenter milestonesPresenter;
-        private TicketPresenter ticketPresenter;
-        private PagePresenter pagePresenter;
-        private IFinancePresenter financePresenter;
-        private UserSettingPresenter userPresenter;
-
         ProjectViewWrap(SimpleProject project) {
-            this.withFullSize().withStyleName("project-view");
+            this.withSpacing(false).withFullWidth().withStyleName("project-view").withId("project-view-wrap");
 
             myProjectTab = new VerticalTabsheet();
             myProjectTab.setSizeFull();
@@ -114,37 +122,73 @@ public class ProjectViewImpl extends AbstractVerticalPageView implements Project
             myProjectTab.addToggleNavigatorControl();
 
             myProjectTab.addSelectedTabChangeListener(selectedTabChangeEvent -> {
-                Tab tab = ((VerticalTabsheet) selectedTabChangeEvent.getSource()).getSelectedTab();
-                String caption = ((TabImpl) tab).getTabId();
-                if (ProjectTypeConstants.MESSAGE.equals(caption)) {
+                ButtonTab tab = ((VerticalTabsheet) selectedTabChangeEvent.getSource()).getSelectedTab();
+                String tabId = tab.getTabId();
+                if (ProjectView.MESSAGE_ENTRY.equals(tabId)) {
+                    MessagePresenter messagePresenter = PresenterResolver.getPresenter(MessagePresenter.class);
                     messagePresenter.go(ProjectViewImpl.this, null);
-                } else if (ProjectTypeConstants.MILESTONE.equals(caption)) {
-                    milestonesPresenter.go(ProjectViewImpl.this, new MilestoneScreenData.Roadmap());
-                } else if (ProjectTypeConstants.TICKET.equals(caption)) {
+                } else if (ProjectView.MILESTONE_ENTRY.equals(tabId)) {
+                    MilestoneRoadmapPresenter milestonePresenter = PresenterResolver.getPresenter(MilestoneRoadmapPresenter.class);
+                    milestonePresenter.go(ProjectViewImpl.this, new MilestoneScreenData.Roadmap());
+                } else if (ProjectView.TICKET_ENTRY.equals(tabId)) {
+                    TicketDashboardPresenter ticketPresenter = PresenterResolver.getPresenter(TicketDashboardPresenter.class);
                     ticketPresenter.go(ProjectViewImpl.this, null);
-                } else if (ProjectTypeConstants.PAGE.equals(caption)) {
+                } else if (ProjectView.PAGE_ENTRY.equals(tabId)) {
+                    PagePresenter pagePresenter = PresenterResolver.getPresenter(PagePresenter.class);
                     pagePresenter.go(ProjectViewImpl.this,
                             new PageScreenData.Search(PathUtils.getProjectDocumentPath(AppUI.getAccountId(), project.getId())));
-                } else if (ProjectTypeConstants.DASHBOARD.equals(caption)) {
+                } else if (ProjectView.SUMMARY_ENTRY.equals(tabId)) {
+                    ProjectDashboardPresenter dashboardPresenter = PresenterResolver.getPresenter(ProjectDashboardPresenter.class);
                     dashboardPresenter.go(ProjectViewImpl.this, null);
-                } else if (ProjectTypeConstants.MEMBER.equals(caption)) {
+                } else if (ProjectView.KANBAN_ENTRY.equals(tabId)) {
+                    ITicketKanbanPresenter kanbanPresenter = PresenterResolver.getPresenter(ITicketKanbanPresenter.class);
+                    kanbanPresenter.go(ProjectViewImpl.this, null);
+                } else if (ProjectView.TIME_TRACKING_ENTRY.equals(tabId)) {
+                    ITimeTrackingPresenter timeTrackingListPresenter = PresenterResolver.getPresenter(ITimeTrackingPresenter.class);
+                    ItemTimeLoggingSearchCriteria searchCriteria = new ItemTimeLoggingSearchCriteria();
+                    searchCriteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
+                    searchCriteria.addExtraField(DateParam.inRangeDate(ItemTimeLoggingSearchCriteria.p_logDates,
+                            VariableInjector.THIS_WEEK));
+                    timeTrackingListPresenter.go(ProjectViewImpl.this, new TimeTrackingScreenData.Search(searchCriteria));
+                } else if (ProjectView.INVOICE_ENTRY.equals(tabId)) {
+                    IInvoiceListPresenter invoicePresenter = PresenterResolver.getPresenter(IInvoiceListPresenter.class);
+                    invoicePresenter.go(ProjectViewImpl.this, null);
+                } else if (ProjectView.USERS_ENTRY.equals(tabId)) {
                     ProjectMemberSearchCriteria criteria = new ProjectMemberSearchCriteria();
                     criteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
                     criteria.setStatuses(new SetSearchField<>(ProjectMemberStatusConstants.ACTIVE, ProjectMemberStatusConstants.NOT_ACCESS_YET));
-                    userPresenter.go(ProjectViewImpl.this, new ProjectMemberScreenData.Search(criteria));
-                } else if (ProjectTypeConstants.FINANCE.equals(caption)) {
-                    financePresenter.go(ProjectViewImpl.this, null);
+                    ProjectMemberListPresenter presenter = PresenterResolver.getPresenter(ProjectMemberListPresenter.class);
+                    presenter.go(ProjectViewImpl.this, new ProjectMemberScreenData.Search(criteria));
+                } else if (ProjectView.ROLE_ENTRY.equals(tabId)) {
+                    ProjectRoleSearchCriteria criteria = new ProjectRoleSearchCriteria();
+                    criteria.setProjectId(NumberSearchField.equal(CurrentProjectVariables.getProjectId()));
+                    ProjectRoleListPresenter presenter = PresenterResolver.getPresenter(ProjectRoleListPresenter.class);
+                    presenter.go(ProjectViewImpl.this, new ProjectRoleScreenData.Search(criteria));
+                } else if (ProjectView.COMPONENT_ENTRY.equals(tabId)) {
+                    ComponentSearchCriteria criteria = new ComponentSearchCriteria();
+                    criteria.setProjectId(NumberSearchField.equal(CurrentProjectVariables.getProjectId()));
+                    ComponentListPresenter presenter = PresenterResolver.getPresenter(ComponentListPresenter.class);
+                    presenter.go(ProjectViewImpl.this, new ComponentScreenData.Search(criteria));
+                } else if (ProjectView.VERSION_ENTRY.equals(tabId)) {
+                    VersionSearchCriteria criteria = new VersionSearchCriteria();
+                    criteria.setProjectId(NumberSearchField.equal(CurrentProjectVariables.getProjectId()));
+                    VersionListPresenter presenter = PresenterResolver.getPresenter(VersionListPresenter.class);
+                    presenter.go(ProjectViewImpl.this, new VersionScreenData.Search(criteria));
+                } else if (ProjectView.CUSTOM_ENTRY.equals(tabId)) {
+                    ProjectCustomPresenter presenter = PresenterResolver.getPresenter(ProjectCustomPresenter.class);
+                    presenter.go(ProjectViewImpl.this, null);
                 }
             });
 
             CssLayout contentWrapper = myProjectTab.getContentWrapper();
-            contentWrapper.addStyleName("main-content");
+            withStyleName("main-content", "content-height");
             contentWrapper.addComponentAsFirst(new ProjectInfoComponent(project));
 
-            myProjectTab.setNavigatorWidth("200px");
-
             buildComponents();
-            this.addComponent(myProjectTab);
+
+            rightBarContainer = new ProjectRightBarContainer(project);
+            rightBarContainer.setWidth("300px");
+            this.with(myProjectTab, rightBarContainer).expand(myProjectTab);
 
             if (project.getContextask() == null || project.getContextask()) {
                 ProjectMemberSearchCriteria searchCriteria = new ProjectMemberSearchCriteria();
@@ -158,111 +202,119 @@ public class ProjectViewImpl extends AbstractVerticalPageView implements Project
             }
         }
 
-        void displaySearchResult(String value) {
-            dashboardPresenter.go(ProjectViewImpl.this, new ProjectScreenData.SearchItem(value));
-        }
-
         void setNavigatorVisibility(boolean visibility) {
             myProjectTab.setNavigatorVisibility(visibility);
         }
 
-        Component gotoSubView(String viewId) {
-            return myProjectTab.selectTab(viewId);
+        Component gotoSubView(String viewId, Component viewDisplay) {
+            return myProjectTab.selectTab(viewId, viewDisplay);
         }
 
         private void buildComponents() {
             int prjId = CurrentProjectVariables.getProjectId();
 
-            myProjectTab.addTab(constructProjectDashboardComponent(), ProjectTypeConstants.DASHBOARD, 1,
+            myProjectTab.addTab(null, ProjectView.SUMMARY_ENTRY,
                     UserUIContext.getMessage(ProjectCommonI18nEnum.VIEW_DASHBOARD),
                     ProjectLinkGenerator.generateProjectLink(prjId),
                     ProjectAssetsManager.getAsset(ProjectTypeConstants.DASHBOARD));
 
             if (CurrentProjectVariables.hasMessageFeature()) {
-                myProjectTab.addTab(constructProjectMessageComponent(), ProjectTypeConstants.MESSAGE, 2,
+                myProjectTab.addTab(null, ProjectView.MESSAGE_ENTRY,
                         UserUIContext.getMessage(MessageI18nEnum.LIST),
                         ProjectLinkGenerator.generateMessagesLink(prjId),
                         ProjectAssetsManager.getAsset(ProjectTypeConstants.MESSAGE));
             } else {
-                myProjectTab.removeTab(ProjectTypeConstants.MESSAGE);
+                myProjectTab.removeTab(ProjectView.MESSAGE_ENTRY);
             }
 
             if (CurrentProjectVariables.hasPhaseFeature()) {
-                myProjectTab.addTab(constructProjectMilestoneComponent(), ProjectTypeConstants.MILESTONE, 3,
+                myProjectTab.addTab(null, ProjectView.MILESTONE_ENTRY,
                         UserUIContext.getMessage(MilestoneI18nEnum.LIST),
                         ProjectLinkGenerator.generateMilestonesLink(prjId),
                         ProjectAssetsManager.getAsset(ProjectTypeConstants.MILESTONE));
             } else {
-                myProjectTab.removeTab(ProjectTypeConstants.MILESTONE);
+                myProjectTab.removeTab(ProjectView.MILESTONE_ENTRY);
             }
 
             if (CurrentProjectVariables.hasTicketFeature()) {
-                myProjectTab.addTab(constructTaskDashboardComponent(),
-                        ProjectTypeConstants.TICKET, 4, UserUIContext.getMessage(TicketI18nEnum.LIST),
+                myProjectTab.addTab(null,
+                        ProjectView.TICKET_ENTRY, UserUIContext.getMessage(TicketI18nEnum.LIST),
                         ProjectLinkGenerator.generateTicketDashboardLink(prjId),
                         ProjectAssetsManager.getAsset(ProjectTypeConstants.TICKET));
+
+                myProjectTab.addTab(ProjectView.TICKET_ENTRY, null, ProjectView.KANBAN_ENTRY,
+                        UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_KANBAN), VaadinIcons.GRID_SMALL_O);
             } else {
-                myProjectTab.removeTab(ProjectTypeConstants.TICKET);
+                myProjectTab.removeTab(ProjectView.TICKET_ENTRY);
+                myProjectTab.removeTab(ProjectView.KANBAN_ENTRY);
             }
 
             if (CurrentProjectVariables.hasPageFeature()) {
-                myProjectTab.addTab(constructProjectPageComponent(), ProjectTypeConstants.PAGE, 6,
+                myProjectTab.addTab(null, ProjectView.PAGE_ENTRY,
                         UserUIContext.getMessage(PageI18nEnum.LIST),
                         ProjectLinkGenerator.generateProjectLink(prjId),
                         ProjectAssetsManager.getAsset(ProjectTypeConstants.PAGE));
             } else {
-                myProjectTab.removeTab(ProjectTypeConstants.PAGE);
+                myProjectTab.removeTab(ProjectView.PAGE_ENTRY);
             }
 
             if ((CurrentProjectVariables.hasTimeFeature() || CurrentProjectVariables.hasInvoiceFeature())
                     && !SiteConfiguration.isCommunityEdition()) {
-                myProjectTab.addTab(constructTimeTrackingComponent(), ProjectTypeConstants.FINANCE, 10,
+                myProjectTab.addTab(null, ProjectView.FINANCE_ENTRY,
                         UserUIContext.getMessage(ProjectCommonI18nEnum.VIEW_FINANCE),
                         ProjectLinkGenerator.generateTimeReportLink(prjId),
                         ProjectAssetsManager.getAsset(ProjectTypeConstants.FINANCE));
+
+                myProjectTab.addTab(ProjectView.FINANCE_ENTRY, null, ProjectView.TIME_TRACKING_ENTRY,
+                        UserUIContext.getMessage(ProjectCommonI18nEnum.VIEW_TIME),
+                        ProjectAssetsManager.getAsset(ProjectTypeConstants.TIME));
+
+                myProjectTab.addTab(ProjectView.FINANCE_ENTRY, null, ProjectView.INVOICE_ENTRY,
+                        UserUIContext.getMessage(InvoiceI18nEnum.LIST),
+                        ProjectAssetsManager.getAsset(ProjectTypeConstants.INVOICE));
             } else {
-                myProjectTab.removeTab(ProjectTypeConstants.FINANCE);
+                myProjectTab.removeTab(ProjectView.FINANCE_ENTRY);
+                myProjectTab.removeTab(ProjectView.TIME_TRACKING_ENTRY);
+                myProjectTab.removeTab(ProjectView.INVOICE_ENTRY);
             }
 
-            myProjectTab.addTab(constructProjectUsers(), ProjectTypeConstants.MEMBER, 13,
-                    UserUIContext.getMessage(ProjectCommonI18nEnum.VIEW_MEMBER),
-                    ProjectLinkGenerator.generateUsersLink(prjId),
+            myProjectTab.addTab(null, ProjectView.SETTING,
+                    UserUIContext.getMessage(ProjectCommonI18nEnum.VIEW_MEMBER), null,
                     ProjectAssetsManager.getAsset(ProjectTypeConstants.MEMBER));
-        }
 
-        private Component constructProjectDashboardComponent() {
-            dashboardPresenter = PresenterResolver.getPresenter(ProjectDashboardPresenter.class);
-            return dashboardPresenter.getView();
-        }
+            if (CurrentProjectVariables.canRead(ProjectRolePermissionCollections.USERS)) {
+                myProjectTab.addTab(ProjectView.SETTING, null, ProjectView.USERS_ENTRY,
+                        UserUIContext.getMessage(ProjectMemberI18nEnum.LIST),
+                        ProjectLinkGenerator.generateUsersLink(prjId),
+                        ProjectAssetsManager.getAsset(ProjectTypeConstants.MEMBER));
+            }
 
-        private Component constructProjectUsers() {
-            userPresenter = PresenterResolver.getPresenter(UserSettingPresenter.class);
-            return userPresenter.getView();
-        }
+            if (CurrentProjectVariables.canRead(ProjectRolePermissionCollections.ROLES)) {
+                myProjectTab.addTab(ProjectView.SETTING, null, ProjectView.ROLE_ENTRY,
+                        UserUIContext.getMessage(ProjectRoleI18nEnum.LIST),
+                        ProjectLinkGenerator.generateUsersLink(prjId),
+                        ProjectAssetsManager.getAsset(ProjectTypeConstants.PROJECT_ROLE));
+            }
 
-        private Component constructProjectMessageComponent() {
-            messagePresenter = PresenterResolver.getPresenter(MessagePresenter.class);
-            return messagePresenter.getView();
-        }
+            if (CurrentProjectVariables.canRead(ProjectRolePermissionCollections.COMPONENTS)) {
+                myProjectTab.addTab(ProjectView.SETTING, null, ProjectView.COMPONENT_ENTRY,
+                        UserUIContext.getMessage(ComponentI18nEnum.LIST),
+                        ProjectLinkGenerator.generateUsersLink(prjId),
+                        ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG_COMPONENT));
+            }
 
-        private Component constructProjectPageComponent() {
-            pagePresenter = PresenterResolver.getPresenter(PagePresenter.class);
-            return pagePresenter.getView();
-        }
+            if (CurrentProjectVariables.canRead(ProjectRolePermissionCollections.VERSIONS)) {
+                myProjectTab.addTab(ProjectView.SETTING, null, ProjectView.VERSION_ENTRY,
+                        UserUIContext.getMessage(VersionI18nEnum.LIST),
+                        ProjectLinkGenerator.generateUsersLink(prjId),
+                        ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG_VERSION));
+            }
 
-        private Component constructProjectMilestoneComponent() {
-            milestonesPresenter = PresenterResolver.getPresenter(MilestonePresenter.class);
-            return milestonesPresenter.getView();
-        }
+            myProjectTab.addTab(ProjectView.SETTING, null, ProjectView.CUSTOM_ENTRY,
+                    UserUIContext.getMessage(ProjectCommonI18nEnum.VIEW_SETTINGS),
+                    ProjectLinkGenerator.generateUsersLink(prjId),
+                    VaadinIcons.COG);
 
-        private Component constructTimeTrackingComponent() {
-            financePresenter = PresenterResolver.getPresenter(IFinancePresenter.class);
-            return financePresenter.getView();
-        }
-
-        private Component constructTaskDashboardComponent() {
-            ticketPresenter = PresenterResolver.getPresenter(TicketPresenter.class);
-            return ticketPresenter.getView();
         }
     }
 

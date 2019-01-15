@@ -18,6 +18,7 @@ package com.mycollab.vaadin.web.ui;
 
 import com.mycollab.vaadin.mvp.PageView;
 import com.vaadin.server.Resource;
+import com.vaadin.server.Responsive;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.TabSheet;
 

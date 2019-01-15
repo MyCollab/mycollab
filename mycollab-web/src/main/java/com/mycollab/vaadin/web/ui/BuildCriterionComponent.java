@@ -195,15 +195,15 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
             this.addComponent(indexLbl, 0, 0);
 
             if (index == 1) {
-                this.addComponent(ELabel.html("&nbsp;").withWidth("90px"), 1, 0);
+                this.addComponent(ELabel.html("&nbsp;").withWidth("80px"), 1, 0);
             } else {
                 operatorSelectionBox = new StringValueComboBox(false, SearchField.AND, SearchField.OR);
-                operatorSelectionBox.setWidth("90px");
+                operatorSelectionBox.setWidth("80px");
                 this.addComponent(operatorSelectionBox, 1, 0);
             }
             buildFieldSelectionBox();
 
-            valueBox = new MVerticalLayout().withMargin(false).withWidth("300px");
+            valueBox = new MVerticalLayout().withMargin(false).withWidth("250px");
             deleteBtn = new MButton("", event -> {
                 int compIndex = searchContainer.getComponentIndex(CriteriaSelectionLayout.this);
                 searchContainer.removeComponent(CriteriaSelectionLayout.this);
@@ -224,12 +224,12 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
             indexLbl.setValue(index + "");
             if (index == 1) {
                 removeComponent(operatorSelectionBox);
-                this.addComponent(ELabel.html("&nbsp;").withWidth("90px"), 1, 0);
+                this.addComponent(ELabel.html("&nbsp;").withWidth("80px"), 1, 0);
             }
         }
 
         private void fillSearchFieldInfo(SearchFieldInfo searchFieldInfo) {
-            String width = "300px";
+            String width = "250px";
             if (operatorSelectionBox != null) {
                 operatorSelectionBox.setValue(searchFieldInfo.getPrefixOper());
             }
@@ -317,7 +317,7 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
 
         private void buildFieldSelectionBox() {
             fieldSelectionBox = new ComboBox();
-            fieldSelectionBox.setWidth("200px");
+            fieldSelectionBox.setWidth("160px");
             fieldSelectionBox.setItems(paramFields);
             fieldSelectionBox.setItemCaptionGenerator((ItemCaptionGenerator<Param>)item -> {
                 CacheParamMapper.ValueParam valueParam = CacheParamMapper.getValueParam(searchCategory, item.getId());
@@ -354,12 +354,12 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
             });
 
             compareSelectionBox = new I18nValueComboBox(Enum.class, false);
-            compareSelectionBox.setWidth("150px");
+            compareSelectionBox.setWidth("130px");
             compareSelectionBox.addValueChangeListener(valueChangeEvent -> displayAssociateInputField((Param) fieldSelectionBox.getValue()));
         }
 
         private void displayAssociateInputField(Param field) {
-            String width = "300px";
+            String width = "250px";
             QueryI18nEnum compareItem =  compareSelectionBox.getValue();
             valueBox.removeAllComponents();
 
@@ -372,7 +372,7 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
                 tempTextField.setWidth(width);
                 valueBox.addComponent(tempTextField);
             } else if (field instanceof BooleanParam) {
-                I18nValueComboBox yesNoBox = new I18nValueComboBox(GenericI18Enum.class, GenericI18Enum.ACTION_YES, GenericI18Enum.ACTION_NO);
+                I18nValueComboBox yesNoBox = new I18nValueComboBox<>(GenericI18Enum.class, GenericI18Enum.ACTION_YES, GenericI18Enum.ACTION_NO);
                 yesNoBox.setWidth(width);
                 valueBox.addComponent(yesNoBox);
             } else if (field instanceof DateParam) {
@@ -414,22 +414,10 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
         }
 
         private SearchFieldInfo buildSearchFieldInfo() {
-            String prefixOper = (operatorSelectionBox != null) ? (String) operatorSelectionBox.getValue() : "AND";
+            String prefixOper = (operatorSelectionBox != null) ? operatorSelectionBox.getValue() : "AND";
             Param param = (Param) fieldSelectionBox.getValue();
             QueryI18nEnum compareOper = compareSelectionBox.getValue();
-            Object value;
-            int componentCount = valueBox.getComponentCount();
-            if (componentCount == 1) {
-                HasValue<?> component = (HasValue<?>) valueBox.getComponent(0);
-                value = component.getValue();
-            } else if (componentCount > 1) {
-                value = new Object[componentCount];
-                for (int i = 0; i < componentCount; i++) {
-                    Array.set(value, i, ((HasValue<?>) valueBox.getComponent(i)).getValue());
-                }
-            } else {
-                return null;
-            }
+            Object value = constructObject(valueBox);
 
             if (value != null) {
                 if (value.getClass().isArray()) {
@@ -441,14 +429,33 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
                         return null;
                     }
                 }
+                if (value instanceof Enum) {
+                    value = ((Enum)value).name();
+                }
                 return new SearchFieldInfo(prefixOper, param, compareOper.name(), ConstantValueInjector.valueOf(value));
+            } else {
+                return null;
+            }
+        }
+
+        private Object constructObject(AbstractOrderedLayout valueBox) {
+            int componentCount = valueBox.getComponentCount();
+            if (componentCount == 1) {
+                HasValue<?> component = (HasValue<?>) valueBox.getComponent(0);
+                return component.getValue();
+            } else if (componentCount > 1) {
+                Object[] value = new Object[componentCount];
+                for (int i = 0; i < componentCount; i++) {
+                    Array.set(value, i, ((HasValue<?>) valueBox.getComponent(i)).getValue());
+                }
+                return value;
             } else {
                 return null;
             }
         }
     }
 
-    private class SavedSearchResultComboBox extends ComboBox {
+    private class SavedSearchResultComboBox extends ComboBox<SaveSearchResult> {
         private static final long serialVersionUID = 1L;
 
         SavedSearchResultComboBox() {

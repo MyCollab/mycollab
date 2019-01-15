@@ -30,7 +30,7 @@ import com.mycollab.module.project.view.risk.RiskUrlResolver
 import com.mycollab.module.project.view.settings.*
 import com.mycollab.module.project.view.task.TaskUrlResolver
 import com.mycollab.module.project.view.ticket.TicketUrlResolver
-import com.mycollab.module.project.view.time.InvoiceUrlResolver
+import com.mycollab.module.project.view.finance.InvoiceUrlResolver
 import com.mycollab.shell.event.ShellEvent
 import com.mycollab.spring.AppContextUtil
 import com.mycollab.vaadin.AppUI

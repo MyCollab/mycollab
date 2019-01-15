@@ -47,6 +47,7 @@ import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.module.project.ui.ProjectAssetsUtil;
 import com.mycollab.module.project.ui.components.BlockRowRender;
 import com.mycollab.module.project.ui.components.IBlockContainer;
+import com.mycollab.module.project.view.ProjectView;
 import com.mycollab.module.project.view.service.MilestoneComponentFactory;
 import com.mycollab.module.project.view.ticket.ToggleTicketSummaryField;
 import com.mycollab.spring.AppContextUtil;
@@ -57,12 +58,14 @@ import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.UIConstants;
+import com.mycollab.vaadin.ui.UIUtils;
 import com.mycollab.vaadin.web.ui.AbstractLazyPageView;
 import com.mycollab.vaadin.web.ui.ButtonGroup;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
+import org.vaadin.addons.stackpanel.StackPanel;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
@@ -101,7 +104,7 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
             };
 
     private MVerticalLayout roadMapView;
-    private MVerticalLayout filterPanel;
+    private MVerticalLayout filterLayout;
     private ELabel headerText;
     private CheckBox closeMilestoneSelection, inProgressMilestoneSelection, futureMilestoneSelection;
     private MilestoneSearchCriteria baseCriteria;
@@ -146,7 +149,7 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
                         futureMilestoneSelection.getValue()));
         futureMilestoneSelection.setIcon(VaadinIcons.CLOCK);
 
-        filterPanel.with(closeMilestoneSelection, inProgressMilestoneSelection, futureMilestoneSelection);
+        filterLayout.with(closeMilestoneSelection, inProgressMilestoneSelection, futureMilestoneSelection);
         displayWidget();
     }
 
@@ -157,14 +160,14 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
         closeMilestoneSelection.setCaption(String.format("%s (%d)",
                 UserUIContext.getMessage(MilestoneI18nEnum.WIDGET_CLOSED_PHASE_TITLE), totalCloseCount));
         closeMilestoneSelection.setIcon(VaadinIcons.MINUS_CIRCLE);
-        filterPanel.addComponent(closeMilestoneSelection);
+        filterLayout.addComponent(closeMilestoneSelection);
 
         tmpCriteria.setStatuses(new SetSearchField<>(MilestoneStatus.InProgress.name()));
         int totalInProgressCount = milestoneService.getTotalCount(tmpCriteria);
         inProgressMilestoneSelection.setCaption(String.format("%s (%d)",
                 UserUIContext.getMessage(MilestoneI18nEnum.WIDGET_INPROGRESS_PHASE_TITLE), totalInProgressCount));
         inProgressMilestoneSelection.setIcon(VaadinIcons.SPINNER);
-        filterPanel.addComponent(inProgressMilestoneSelection);
+        filterLayout.addComponent(inProgressMilestoneSelection);
 
         tmpCriteria.setStatuses(new SetSearchField<>(MilestoneStatus.Future.name()));
         int totalFutureCount = milestoneService.getTotalCount(tmpCriteria);
@@ -215,10 +218,15 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
                 .with(headerText, createHeaderRight()).withAlign(headerText, Alignment.MIDDLE_LEFT).expand(headerText);
         this.addComponent(headerComp);
         roadMapView = new MVerticalLayout().withSpacing(false).withMargin(new MarginInfo(false, true, false, false));
-        filterPanel = new MVerticalLayout().withWidth("250px").withStyleName(WebThemes.BOX);
+        filterLayout = new MVerticalLayout().withWidth("280px").withStyleName(WebThemes.BOX);
 
-        MHorizontalLayout bodyComp = new MHorizontalLayout(roadMapView, filterPanel).withFullWidth().withMargin(true).expand(roadMapView);
+        MHorizontalLayout bodyComp = new MHorizontalLayout(roadMapView).withFullWidth().withMargin(true).expand(roadMapView);
         this.with(headerComp, bodyComp).expand(bodyComp);
+
+        ProjectView projectView = UIUtils.getRoot(this, ProjectView.class);
+        Panel filterPanel = new Panel("Filter by status", filterLayout);
+        StackPanel.extend(filterPanel);
+        projectView.addComponentToRightBar(filterPanel);
     }
 
     private HorizontalLayout createHeaderRight() {

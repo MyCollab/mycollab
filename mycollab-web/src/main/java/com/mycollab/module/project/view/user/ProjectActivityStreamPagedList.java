@@ -46,13 +46,12 @@ import com.mycollab.vaadin.ui.registry.AuditLogRegistry;
 import com.mycollab.vaadin.web.ui.AbstractBeanPagedList;
 import com.mycollab.vaadin.web.ui.ButtonGroup;
 import com.mycollab.vaadin.web.ui.WebThemes;
-import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.Label;
 import org.vaadin.viritin.button.MButton;
+import org.vaadin.viritin.layouts.MCssLayout;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 import java.time.LocalDate;
@@ -149,11 +148,8 @@ public class ProjectActivityStreamPagedList extends AbstractBeanPagedList<Projec
                     content.append(UserUIContext.getMessage(ProjectCommonI18nEnum.FEED_USER_ACTIVITY_DELETE_ACTION_TITLE,
                             assigneeParam, itemType, itemParam));
                 }
-                Label actionLbl = new Label(content.toString(), ContentMode.HTML);
-                CssLayout streamWrapper = new CssLayout();
-                streamWrapper.setWidth("100%");
-                streamWrapper.addStyleName("stream-wrapper");
-                streamWrapper.addComponent(actionLbl);
+                ELabel actionLbl = ELabel.html(content.toString()).withFullWidth();
+                MCssLayout streamWrapper = new MCssLayout(actionLbl).withFullWidth().withStyleName("stream-wrapper");
                 currentFeedBlock.addComponent(streamWrapper);
             }
         } catch (Exception e) {

@@ -33,7 +33,7 @@ import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.*;
 import com.mycollab.vaadin.web.ui.ServiceMenu;
 import com.mycollab.vaadin.web.ui.VerticalTabsheet;
-import com.mycollab.vaadin.web.ui.VerticalTabsheet.TabImpl;
+import com.mycollab.vaadin.web.ui.VerticalTabsheet.ButtonTab;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.BrowserWindowOpener;
@@ -41,7 +41,6 @@ import com.vaadin.server.ExternalResource;
 import com.vaadin.ui.*;
 import com.vaadin.ui.TabSheet.SelectedTabChangeEvent;
 import com.vaadin.ui.TabSheet.SelectedTabChangeListener;
-import com.vaadin.ui.TabSheet.Tab;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
@@ -81,8 +80,8 @@ public class AccountModuleImpl extends AbstractSingleContainerPageView implement
         tabSheet = new VerticalTabsheet();
         tabSheet.setSizeFull();
         tabSheet.setNavigatorStyleName("sidebar-menu");
+        tabSheet.addToggleNavigatorControl();
         CssLayout contentWrapper = tabSheet.getContentWrapper();
-        contentWrapper.addStyleName("main-content");
         contentWrapper.addComponentAsFirst(topPanel);
 
         this.buildComponents();
@@ -109,8 +108,8 @@ public class AccountModuleImpl extends AbstractSingleContainerPageView implement
 
             @Override
             public void selectedTabChange(SelectedTabChangeEvent event) {
-                Tab tab = ((VerticalTabsheet) event.getSource()).getSelectedTab();
-                String tabId = ((TabImpl) tab).getTabId();
+                ButtonTab tab = ((VerticalTabsheet) event.getSource()).getSelectedTab();
+                String tabId = tab.getTabId();
                 if (SettingUIConstants.PROFILE.equals(tabId)) {
                     profilePresenter.go(AccountModuleImpl.this, null);
                 } else if (SettingUIConstants.BILLING.equals(tabId)) {

@@ -22,6 +22,7 @@ import com.mycollab.module.project.ProjectRolePermissionCollections;
 import com.mycollab.module.project.i18n.ComponentI18nEnum;
 import com.mycollab.module.project.view.ProjectBreadcrumb;
 import com.mycollab.module.project.view.ProjectGenericListPresenter;
+import com.mycollab.module.project.view.ProjectView;
 import com.mycollab.module.tracker.domain.Component;
 import com.mycollab.module.tracker.domain.SimpleComponent;
 import com.mycollab.module.tracker.domain.criteria.ComponentSearchCriteria;
@@ -85,9 +86,8 @@ public class ComponentListPresenter extends ProjectGenericListPresenter<Componen
     @Override
     protected void onGo(HasComponents container, ScreenData<?> data) {
         if (CurrentProjectVariables.canRead(ProjectRolePermissionCollections.COMPONENTS)) {
-            ProjectComponentContainer trackerContainer = (ProjectComponentContainer) container;
-            trackerContainer.removeAllComponents();
-            trackerContainer.addComponent(view);
+            ProjectView projectView = (ProjectView) container;
+            projectView.gotoSubView(ProjectView.COMPONENT_ENTRY, view);
 
             searchCriteria = (ComponentSearchCriteria) data.getParams();
             int totalCount = componentService.getTotalCount(searchCriteria);

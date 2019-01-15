@@ -30,6 +30,7 @@ import com.mycollab.module.project.i18n.OptionI18nEnum.BugRelation;
 import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.module.project.ui.components.*;
+import com.mycollab.module.project.view.ProjectView;
 import com.mycollab.module.tracker.domain.SimpleBug;
 import com.mycollab.module.tracker.domain.SimpleRelatedBug;
 import com.mycollab.module.tracker.service.BugRelationService;
@@ -43,6 +44,7 @@ import com.mycollab.vaadin.event.HasPreviewFormHandlers;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.mvp.ViewManager;
 import com.mycollab.vaadin.ui.ELabel;
+import com.mycollab.vaadin.ui.UIUtils;
 import com.mycollab.vaadin.ui.VerticalRemoveInlineComponentMarker;
 import com.mycollab.vaadin.web.ui.*;
 import com.vaadin.icons.VaadinIcons;
@@ -53,6 +55,7 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.vaadin.addons.stackpanel.StackPanel;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
@@ -93,7 +96,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
 
     public BugReadViewImpl() {
         super(UserUIContext.getMessage(BugI18nEnum.DETAIL),
-                ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG), new BugPreviewFormLayout());
+                ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG), new BugPreviewFormLayout(), false);
     }
 
     @Override
@@ -191,12 +194,19 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
         peopleInfoComp = new PeopleInfoComp();
         bugFollowersList = new ProjectFollowersComp<>(ProjectTypeConstants.BUG, ProjectRolePermissionCollections.BUGS);
 
+        ProjectView projectView = UIUtils.getRoot(this, ProjectView.class);
+        MVerticalLayout detailLayout = new MVerticalLayout().withMargin(new MarginInfo(false, true, false, true));
+
         if (SiteConfiguration.isCommunityEdition()) {
-            addToSideBar(dateInfoComp, peopleInfoComp, bugFollowersList);
+            detailLayout.with(dateInfoComp, peopleInfoComp, bugFollowersList);
         } else {
             bugTimeLogList = ViewManager.getCacheComponent(BugTimeLogSheet.class);
-            addToSideBar(dateInfoComp, peopleInfoComp, bugTimeLogList, bugFollowersList);
+            detailLayout.with(dateInfoComp, peopleInfoComp, bugTimeLogList, bugFollowersList);
         }
+
+        Panel detailPanel = new Panel(UserUIContext.getMessage(GenericI18Enum.OPT_DETAILS), detailLayout);
+        StackPanel.extend(detailPanel);
+        projectView.addComponentToRightBar(detailPanel);
     }
 
     @Override
@@ -228,7 +238,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
         private ToggleBugSummaryField toggleBugSummaryField;
 
         void displayBugHeader(final SimpleBug bug) {
-            MVerticalLayout header = new VerticalRemoveInlineComponentMarker().withFullWidth().withMargin(false);
+            MVerticalLayout header = new VerticalRemoveInlineComponentMarker().withMargin(false).withFullWidth();
             toggleBugSummaryField = new ToggleBugSummaryField(bug);
             toggleBugSummaryField.addLabelStyleName(ValoTheme.LABEL_H3);
             toggleBugSummaryField.addLabelStyleName(ValoTheme.LABEL_NO_MARGIN);

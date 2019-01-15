@@ -28,20 +28,8 @@ import com.vaadin.ui.UI
 class AppUIProvider : UIProvider() {
 
     override fun getUIClass(event: UIClassSelectionEvent): Class<out UI>? {
-        val request = event.request
-        val uiClass: String
-        val userAgent: String
-
         try {
-            userAgent = request.getHeader("user-agent").toLowerCase()
-        } catch (e: Exception) {
-            return null
-        }
-
-        uiClass = if (userAgent.contains("mobile")) MOBILE_APP else DESKTOP_APP
-
-        try {
-            return Class.forName(uiClass) as Class<out UI>
+            return Class.forName(DESKTOP_APP) as Class<out UI>
         } catch (e: ClassNotFoundException) {
             throw MyCollabException(e)
         }
@@ -51,7 +39,6 @@ class AppUIProvider : UIProvider() {
     companion object {
         private const val serialVersionUID = 1L
 
-        internal const val MOBILE_APP = "com.mycollab.mobile.MobileApplication"
         internal const val DESKTOP_APP = "com.mycollab.web.DesktopApplication"
     }
 }

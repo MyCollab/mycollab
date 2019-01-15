@@ -33,13 +33,12 @@ import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.domain.ProjectTicket;
 import com.mycollab.module.project.domain.criteria.ProjectTicketSearchCriteria;
-import com.mycollab.module.project.event.TaskEvent;
 import com.mycollab.module.project.event.TicketEvent;
 import com.mycollab.module.project.i18n.MilestoneI18nEnum;
-import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.mycollab.module.project.i18n.TicketI18nEnum;
 import com.mycollab.module.project.query.TicketQueryInfo;
 import com.mycollab.module.project.service.ProjectTicketService;
+import com.mycollab.module.project.view.ProjectView;
 import com.mycollab.module.project.view.service.TicketComponentFactory;
 import com.mycollab.shell.event.ShellEvent;
 import com.mycollab.spring.AppContextUtil;
@@ -53,7 +52,7 @@ import com.mycollab.vaadin.event.HasSelectionOptionHandlers;
 import com.mycollab.vaadin.mvp.AbstractVerticalPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.ELabel;
-import com.mycollab.vaadin.web.ui.ButtonGroup;
+import com.mycollab.vaadin.ui.UIUtils;
 import com.mycollab.vaadin.web.ui.QueryParamHandler;
 import com.mycollab.vaadin.web.ui.StringValueComboBox;
 import com.mycollab.vaadin.web.ui.WebThemes;
@@ -62,9 +61,9 @@ import com.vaadin.icons.VaadinIcons;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.vaadin.addons.stackpanel.StackPanel;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
@@ -91,7 +90,6 @@ public class TicketDashboardViewImpl extends AbstractVerticalPageView implements
 
     private TicketSearchPanel ticketSearchPanel;
     private MVerticalLayout wrapBody;
-    private VerticalLayout rightColumn;
     private TicketGroupOrderComponent ticketGroupOrderComponent;
 
     private ApplicationEventListener<TicketEvent.SearchRequest> searchHandler = new
@@ -133,6 +131,7 @@ public class TicketDashboardViewImpl extends AbstractVerticalPageView implements
         groupWrapLayout.addComponent(new ELabel(UserUIContext.getMessage(GenericI18Enum.ACTION_SORT)));
         final StringValueComboBox sortCombo = new StringValueComboBox(false, UserUIContext.getMessage(GenericI18Enum.OPT_SORT_DESCENDING),
                 UserUIContext.getMessage(GenericI18Enum.OPT_SORT_ASCENDING));
+        sortCombo.setWidth("130px");
         sortCombo.addValueChangeListener(valueChangeEvent -> {
             String sortValue = sortCombo.getValue();
             if (UserUIContext.getMessage(GenericI18Enum.OPT_SORT_ASCENDING).equals(sortValue)) {
@@ -156,6 +155,7 @@ public class TicketDashboardViewImpl extends AbstractVerticalPageView implements
             groupByState = groupCombo.getValue();
             queryAndDisplayTickets();
         });
+        groupCombo.setWidth("130px");
 
         groupWrapLayout.addComponent(groupCombo);
 
@@ -178,19 +178,10 @@ public class TicketDashboardViewImpl extends AbstractVerticalPageView implements
                 .withVisible(CurrentProjectVariables.canWriteTicket());
         groupWrapLayout.addComponent(newTicketBtn);
 
-
-        MButton advanceDisplayBtn = new MButton(UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_LIST))
-                .withIcon(VaadinIcons.ALIGN_JUSTIFY).withWidth("100px");
-
-        MButton kanbanBtn = new MButton(UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_KANBAN), clickEvent ->
-                displayKanbanView()).withWidth("100px").withIcon(VaadinIcons.GRID_SMALL_O);
-
-        groupWrapLayout.addComponent(new ButtonGroup(advanceDisplayBtn, kanbanBtn).withDefaultButton(advanceDisplayBtn));
-
         MHorizontalLayout mainLayout = new MHorizontalLayout().withFullHeight().withFullWidth();
-        wrapBody = new MVerticalLayout().withMargin(new MarginInfo(false, true, true, false));
-        rightColumn = new MVerticalLayout().withWidth("370px").withMargin(new MarginInfo(true, false, false, false));
-        mainLayout.with(wrapBody, rightColumn).expand(wrapBody);
+        wrapBody = new MVerticalLayout().withMargin(new MarginInfo(false, false, true, false));
+
+        mainLayout.with(wrapBody).expand(wrapBody);
 
         this.with(ticketSearchPanel, mainLayout).expand(mainLayout);
     }
@@ -249,14 +240,16 @@ public class TicketDashboardViewImpl extends AbstractVerticalPageView implements
     }
 
     private void displayTicketsStatistic() {
-        rightColumn.removeAllComponents();
+        ProjectView rightBar = UIUtils.getRoot(this, ProjectView.class);
         UnresolvedTicketsByAssigneeWidget unresolvedTicketsByAssigneeWidget = new UnresolvedTicketsByAssigneeWidget();
         unresolvedTicketsByAssigneeWidget.setSearchCriteria(statisticSearchCriteria);
-        rightColumn.addComponent(unresolvedTicketsByAssigneeWidget);
+        StackPanel.extend(unresolvedTicketsByAssigneeWidget);
 
         UnresolvedTicketByPriorityWidget unresolvedTicketByPriorityWidget = new UnresolvedTicketByPriorityWidget();
         unresolvedTicketByPriorityWidget.setSearchCriteria(statisticSearchCriteria);
-        rightColumn.addComponent(unresolvedTicketByPriorityWidget);
+        StackPanel.extend(unresolvedTicketByPriorityWidget);
+
+        rightBar.addComponentToRightBar(new MVerticalLayout(unresolvedTicketsByAssigneeWidget, unresolvedTicketByPriorityWidget).withMargin(false));
     }
 
     @Override
@@ -314,10 +307,6 @@ public class TicketDashboardViewImpl extends AbstractVerticalPageView implements
         List<ProjectTicket> tickets = (List<ProjectTicket>) projectTicketService.findTicketsByCriteria(new BasicSearchRequest<>
                 (baseCriteria, currentPage + 1, 100));
         ticketGroupOrderComponent.insertTickets(tickets);
-    }
-
-    private void displayKanbanView() {
-        EventBusFactory.getInstance().post(new TaskEvent.GotoKanbanView(this, null));
     }
 
     @Override

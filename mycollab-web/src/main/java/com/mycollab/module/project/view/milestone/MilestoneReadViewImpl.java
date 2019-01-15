@@ -16,6 +16,7 @@
  */
 package com.mycollab.module.project.view.milestone;
 
+import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.mycollab.configuration.SiteConfiguration;
 import com.mycollab.core.arguments.ValuedBean;
@@ -28,24 +29,24 @@ import com.mycollab.module.project.i18n.MilestoneI18nEnum;
 import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.module.project.ui.components.*;
+import com.mycollab.module.project.view.ProjectView;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.event.HasPreviewFormHandlers;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.ELabel;
+import com.mycollab.vaadin.ui.UIUtils;
 import com.mycollab.vaadin.web.ui.AbstractPreviewItemComp;
 import com.mycollab.vaadin.web.ui.AdvancedPreviewBeanForm;
 import com.mycollab.vaadin.web.ui.ReadViewLayout;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.GridLayout;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
+import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.vaadin.addons.stackpanel.StackPanel;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
 /**
@@ -65,7 +66,7 @@ public class MilestoneReadViewImpl extends AbstractPreviewItemComp<SimpleMilesto
 
     public MilestoneReadViewImpl() {
         super(UserUIContext.getMessage(MilestoneI18nEnum.DETAIL), ProjectAssetsManager.getAsset
-                (ProjectTypeConstants.MILESTONE), new MilestonePreviewFormLayout());
+                (ProjectTypeConstants.MILESTONE), new MilestonePreviewFormLayout(), false);
     }
 
     @Override
@@ -100,12 +101,18 @@ public class MilestoneReadViewImpl extends AbstractPreviewItemComp<SimpleMilesto
         dateInfoComp = new DateInfoComp();
         peopleInfoComp = new PeopleInfoComp();
 
+        ProjectView projectView = UIUtils.getRoot(this, ProjectView.class);
+        MVerticalLayout detailLayout = new MVerticalLayout().withMargin(new MarginInfo(false, true, false, true));
         if (SiteConfiguration.isCommunityEdition()) {
-            addToSideBar(dateInfoComp, peopleInfoComp);
+            detailLayout.with(dateInfoComp, peopleInfoComp);
         } else {
             milestoneTimeLogComp = new MilestoneTimeLogComp();
-            addToSideBar(dateInfoComp, peopleInfoComp, milestoneTimeLogComp);
+            detailLayout.with(dateInfoComp, peopleInfoComp, milestoneTimeLogComp);
         }
+
+        Panel detailPanel = new Panel(UserUIContext.getMessage(GenericI18Enum.OPT_DETAILS), detailLayout);
+        StackPanel.extend(detailPanel);
+        projectView.addComponentToRightBar(detailPanel);
     }
 
     @Override

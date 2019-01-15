@@ -12,7 +12,6 @@ import com.mycollab.module.project.domain.Task;
 import com.mycollab.module.project.domain.criteria.ProjectTicketSearchCriteria;
 import com.mycollab.module.project.event.TicketEvent;
 import com.mycollab.module.project.i18n.BugI18nEnum;
-import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.mycollab.module.project.i18n.RiskI18nEnum;
 import com.mycollab.module.project.i18n.TaskI18nEnum;
 import com.mycollab.module.project.query.TicketQueryInfo;
@@ -43,7 +42,6 @@ import com.vaadin.event.dd.DragAndDropEvent;
 import com.vaadin.event.dd.DropHandler;
 import com.vaadin.event.dd.acceptcriteria.AcceptCriterion;
 import com.vaadin.event.dd.acceptcriteria.Not;
-import com.vaadin.icons.VaadinIcons;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.dd.HorizontalDropLocation;
 import com.vaadin.shared.ui.dd.VerticalDropLocation;
@@ -98,15 +96,6 @@ public class TicketKanbanBoardViewImpl extends AbstractVerticalPageView implemen
         MHorizontalLayout groupWrapLayout = new MHorizontalLayout();
         groupWrapLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
         searchPanel.addHeaderRight(groupWrapLayout);
-
-        MButton advanceDisplayBtn = new MButton(UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_LIST),
-                clickEvent -> EventBusFactory.getInstance().post(new TicketEvent.GotoDashboard(this, null)))
-                .withIcon(VaadinIcons.ALIGN_JUSTIFY).withWidth("100px");
-
-        MButton kanbanBtn = new MButton(UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_KANBAN)).withIcon(VaadinIcons.GRID_SMALL_O)
-                .withWidth("100px");
-
-        groupWrapLayout.addComponent(new ButtonGroup(advanceDisplayBtn, kanbanBtn).withDefaultButton(kanbanBtn));
 
         MButton allFilterBtn = new MButton("All").withStyleName(WebThemes.BUTTON_OPTION).withListener((Button.ClickListener) clickEvent -> {
             statuses = OptionI18nEnum.statuses;

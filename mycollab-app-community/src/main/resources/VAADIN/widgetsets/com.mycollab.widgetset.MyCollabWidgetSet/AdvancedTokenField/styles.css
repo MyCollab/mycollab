@@ -1,0 +1,36 @@
+.advancedtokenfield-layouttokens .v-component-group {
+	margin: 1px 2.5px;
+	background: #1E88E5;
+	color: white;
+	border-radius: 2px;
+	padding: 4px 10px;
+}
+
+.advancedtokenfield-layouttokens>:nth-last-child(-n+2) {
+	margin-right: 5px !important;
+}
+
+.advancedtokenfield-layouttokens .v-component-group .v-label {
+	font-weight: bold;
+	padding: 1px 0 3px;
+}
+
+.advancedtokenfield-layouttokens .v-component-group .v-nativebutton {
+	background: transparent;
+	border: none;
+	color: white;
+	cursor: pointer;
+	transition: background 0.3s, color 0.3s;
+	margin-left: 8px;
+	padding: 0;
+}
+
+.advancedtokenfield-layouttokens .v-component-group .v-nativebutton:hover
+	{
+	background: rgba(150, 150, 150, 0.25);
+	color: #F4511E;
+}
+
+.advancedtokenfield-layouttokens .v-nativebutton-caption {
+	display: none !important;
+}

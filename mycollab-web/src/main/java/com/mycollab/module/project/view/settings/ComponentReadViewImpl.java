@@ -28,25 +28,25 @@ import com.mycollab.module.project.i18n.ComponentI18nEnum;
 import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.module.project.ui.components.*;
+import com.mycollab.module.project.view.ProjectView;
 import com.mycollab.module.tracker.domain.SimpleComponent;
 import com.mycollab.module.tracker.service.ComponentService;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.event.HasPreviewFormHandlers;
 import com.mycollab.vaadin.mvp.ViewComponent;
+import com.mycollab.vaadin.ui.UIUtils;
 import com.mycollab.vaadin.web.ui.AbstractPreviewItemComp;
 import com.mycollab.vaadin.web.ui.AdvancedPreviewBeanForm;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.GridLayout;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
+import com.vaadin.ui.*;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.vaadin.addons.stackpanel.StackPanel;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
@@ -93,12 +93,20 @@ public class ComponentReadViewImpl extends AbstractPreviewItemComp<SimpleCompone
         activityComponent = new ProjectActivityComponent(ProjectTypeConstants.BUG_COMPONENT, CurrentProjectVariables.getProjectId());
         dateInfoComp = new DateInfoComp();
         peopleInfoComp = new PeopleInfoComp();
+
+        ProjectView projectView = UIUtils.getRoot(this, ProjectView.class);
+        MVerticalLayout detailLayout = new MVerticalLayout().withMargin(new MarginInfo(false, true, false, true));
+
         if (SiteConfiguration.isCommunityEdition()) {
-            addToSideBar(dateInfoComp, peopleInfoComp);
+            detailLayout.with(dateInfoComp, peopleInfoComp);
         } else {
             componentTimeLogComp = new ComponentTimeLogComp();
-            addToSideBar(dateInfoComp, peopleInfoComp, componentTimeLogComp);
+            detailLayout.with(dateInfoComp, peopleInfoComp, componentTimeLogComp);
         }
+
+        Panel detailPanel = new Panel(UserUIContext.getMessage(GenericI18Enum.OPT_DETAILS), detailLayout);
+        StackPanel.extend(detailPanel);
+        projectView.addComponentToRightBar(detailPanel);
     }
 
     @Override

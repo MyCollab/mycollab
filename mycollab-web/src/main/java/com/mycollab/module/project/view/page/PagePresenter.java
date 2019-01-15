@@ -1,23 +1,22 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package com.mycollab.module.project.view.page;
 
 import com.mycollab.core.MyCollabException;
-import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.view.ProjectView;
 import com.mycollab.module.project.view.parameters.PageScreenData;
 import com.mycollab.vaadin.mvp.PresenterResolver;
@@ -38,8 +37,8 @@ public class PagePresenter extends AbstractPresenter<PageContainer> {
 
     @Override
     protected void onGo(HasComponents container, ScreenData<?> data) {
-        ProjectView projectViewContainer = (ProjectView) container;
-        projectViewContainer.gotoSubView(ProjectTypeConstants.PAGE);
+        ProjectView projectView = (ProjectView) container;
+        projectView.gotoSubView(ProjectView.PAGE_ENTRY, view);
 
         AbstractPresenter presenter;
         if (data instanceof PageScreenData.Search) {

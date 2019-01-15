@@ -29,16 +29,14 @@ import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.mycollab.module.project.i18n.ProjectI18nEnum;
 import com.mycollab.module.project.i18n.TicketI18nEnum;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
+import com.mycollab.module.project.view.parameters.ProjectModuleScreenData;
 import com.mycollab.module.project.view.service.TicketComponentFactory;
 import com.mycollab.module.project.view.user.ProjectPagedList;
 import com.mycollab.security.RolePermissionCollections;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.vaadin.UserUIContext;
-import com.mycollab.vaadin.mvp.AbstractSingleContainerPageView;
-import com.mycollab.vaadin.mvp.ControllerRegistry;
-import com.mycollab.vaadin.mvp.ViewComponent;
-import com.mycollab.vaadin.mvp.ViewManager;
+import com.mycollab.vaadin.mvp.*;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.web.ui.OptionPopupContent;
 import com.mycollab.vaadin.web.ui.SearchTextField;
@@ -64,6 +62,7 @@ public class ProjectModule extends AbstractSingleContainerPageView implements ID
     private MHorizontalLayout serviceMenuContainer;
 
     public ProjectModule() {
+        setId("project-module");
         addStyleName("module");
         setSizeFull();
         ControllerRegistry.addController(new ProjectModuleController(this));
@@ -119,7 +118,8 @@ public class ProjectModule extends AbstractSingleContainerPageView implements ID
         SearchTextField searchTextField = new SearchTextField() {
             @Override
             protected void doSearch(String value) {
-
+                BoardContainerPresenter searchItemPresenter = PresenterResolver.getPresenter(BoardContainerPresenter.class);
+                searchItemPresenter.go(ProjectModule.this, new ProjectModuleScreenData.SearchItem(value));
             }
         };
         serviceMenuContainer.with(searchTextField);

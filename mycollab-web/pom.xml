@@ -176,15 +176,21 @@
         </dependency>
 
         <dependency>
-            <groupId>org.vaadin</groupId>
-            <artifactId>vaadin-suggest</artifactId>
-            <version>2.0.0</version>
+            <groupId>com.fo0.advancedtokenfield</groupId>
+            <artifactId>AdvancedTokenField</artifactId>
+            <version>0.5.1</version>
         </dependency>
 
         <dependency>
             <groupId>com.jarektoro</groupId>
             <artifactId>responsive-layout</artifactId>
             <version>2.1.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.vaadin.addons</groupId>
+            <artifactId>stackpanel</artifactId>
+            <version>2.0.1</version>
         </dependency>
 
         <dependency>

@@ -28,19 +28,25 @@ import com.mycollab.module.project.ui.components.DateInfoComp;
 import com.mycollab.module.project.ui.components.ProjectActivityComponent;
 import com.mycollab.module.project.ui.components.ProjectPreviewFormControlsGenerator;
 import com.mycollab.module.project.ui.components.TagViewComponent;
+import com.mycollab.module.project.view.ProjectView;
 import com.mycollab.module.tracker.domain.Version;
 import com.mycollab.module.tracker.service.VersionService;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.event.HasPreviewFormHandlers;
 import com.mycollab.vaadin.mvp.ViewComponent;
+import com.mycollab.vaadin.ui.UIUtils;
 import com.mycollab.vaadin.web.ui.AbstractPreviewItemComp;
 import com.mycollab.vaadin.web.ui.AdvancedPreviewBeanForm;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.icons.VaadinIcons;
+import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Panel;
+import org.vaadin.addons.stackpanel.StackPanel;
 import org.vaadin.viritin.button.MButton;
+import org.vaadin.viritin.layouts.MVerticalLayout;
 
 /**
  * @author MyCollab Ltd.
@@ -71,13 +77,20 @@ public class VersionReadViewImpl extends AbstractPreviewItemComp<Version> implem
         activityComponent = new ProjectActivityComponent(ProjectTypeConstants.BUG_VERSION,
                 CurrentProjectVariables.getProjectId());
 
+        ProjectView projectView = UIUtils.getRoot(this, ProjectView.class);
+        MVerticalLayout detailLayout = new MVerticalLayout().withMargin(new MarginInfo(false, true, false, true));
+
         dateInfoComp = new DateInfoComp();
         if (SiteConfiguration.isCommunityEdition()) {
-            addToSideBar(dateInfoComp);
+            detailLayout.with(dateInfoComp);
         } else {
             versionTimeLogComp = new VersionTimeLogComp();
-            addToSideBar(dateInfoComp, versionTimeLogComp);
+            detailLayout.with(dateInfoComp, versionTimeLogComp);
         }
+
+        Panel detailPanel = new Panel(UserUIContext.getMessage(GenericI18Enum.OPT_DETAILS), detailLayout);
+        StackPanel.extend(detailPanel);
+        projectView.addComponentToRightBar(detailPanel);
     }
 
     @Override

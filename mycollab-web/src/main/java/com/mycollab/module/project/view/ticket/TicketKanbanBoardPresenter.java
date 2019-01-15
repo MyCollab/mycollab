@@ -3,13 +3,10 @@ package com.mycollab.module.project.view.ticket;
 import com.mycollab.core.SecureAccessException;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectRolePermissionCollections;
-import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.domain.criteria.ProjectTicketSearchCriteria;
 import com.mycollab.module.project.view.ProjectBreadcrumb;
 import com.mycollab.module.project.view.ProjectGenericPresenter;
-import com.mycollab.module.project.view.ticket.ITicketKanbanPresenter;
-import com.mycollab.module.project.view.ticket.TicketContainer;
-import com.mycollab.module.project.view.ticket.TicketKanbanBoardView;
+import com.mycollab.module.project.view.ProjectView;
 import com.mycollab.vaadin.mvp.LoadPolicy;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.mvp.ViewManager;
@@ -34,10 +31,10 @@ public class TicketKanbanBoardPresenter extends ProjectGenericPresenter<TicketKa
 
     @Override
     protected void onGo(HasComponents container, ScreenData<?> data) {
-        if (CurrentProjectVariables.canRead(ProjectRolePermissionCollections.TASKS)) {
-            TicketContainer ticketContainer = (TicketContainer) container;
-            ticketContainer.navigateToContainer(ProjectTypeConstants.TASK);
-            ticketContainer.setContent(view);
+        if (CurrentProjectVariables.canRead(ProjectRolePermissionCollections.TASKS) || CurrentProjectVariables.canRead(ProjectRolePermissionCollections.RISKS)
+                || CurrentProjectVariables.canRead(ProjectRolePermissionCollections.BUGS)) {
+            ProjectView projectView = (ProjectView) container;
+            projectView.gotoSubView(ProjectView.KANBAN_ENTRY, view);
             view.display();
 
             ProjectBreadcrumb breadCrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);

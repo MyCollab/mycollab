@@ -44,14 +44,12 @@ object ProjectAssetsManager {
             ProjectTypeConstants.STANDUP to VaadinIcons.CUBES,
             ProjectTypeConstants.MEMBER to VaadinIcons.USERS,
             ProjectTypeConstants.PROJECT to VaadinIcons.CALENDAR_O,
-            ProjectTypeConstants.CLIENT to VaadinIcons.COIN_PILES
+            ProjectTypeConstants.CLIENT to VaadinIcons.COIN_PILES,
+            ProjectTypeConstants.PROJECT_ROLE to VaadinIcons.CLIPBOARD_USER
     )
 
     @JvmStatic
     fun getAsset(resId: String): VaadinIcons = resources[resId] ?: VaadinIcons.DASHBOARD
-
-    @JvmStatic
-    fun toHexString(resId: String): String = "&#x${Integer.toHexString(resources[resId]!!.codepoint)}"
 
     @JvmStatic
     fun getPriority(priority: String?): VaadinIcons =
@@ -69,12 +67,20 @@ object ProjectAssetsManager {
     }
 
     @JvmStatic
+    fun toHtml(resId: String): String {
+        val icon = resources[resId]
+        return if (icon != null) {
+            "<span class=\"v-icon v-icon-${icon.name.toLowerCase()}\" style=\"font-family: Vaadin-Icons;\">&#x${Integer.toHexString(icon.codepoint)};</span>"
+        } else ""
+    }
+
+    @JvmStatic
     fun getPriorityHtml(priority: String): String {
         var temp = priority
         if (StringUtils.isBlank(temp)) {
             temp = Priority.Medium.name
         }
         val icon = getPriority(temp)
-        return "<span class=\"priority-${temp.toLowerCase()} v-icon\" style=\"font-family: VaadinIcons;\">&#x${Integer.toHexString(icon.codepoint)};</span>"
+        return "<span class=\"priority-${temp.toLowerCase()} v-icon v-icon-${icon.name.toLowerCase()}\" style=\"font-family: Vaadin-Icons;\">&#x${Integer.toHexString(icon.codepoint)};</span>"
     }
 }

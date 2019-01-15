@@ -24,12 +24,15 @@ import java.util.Arrays;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-// TODO: check multi select
 public class ValueListSelect<T> extends ListSelect<T> {
     private static final long serialVersionUID = 1L;
 
+    public ValueListSelect(T... values) {
+        this.setRows(4);
+        loadData(values);
+    }
+
     public void loadData(T[] values) {
         this.setItems(Arrays.stream(values));
-        this.setRows(4);
     }
 }

@@ -105,21 +105,13 @@ public class ProjectPreviewFormControlsGenerator<T> implements Serializable {
                 editButtons.addComponent(editBtn);
             }
 
-            if (canAccess && (buttonEnableFlags & DELETE_BTN_PRESENTED) == DELETE_BTN_PRESENTED) {
-                MButton deleteBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_DELETE), clickEvent -> {
-                    T item = previewForm.getBean();
-                    previewForm.fireDeleteForm(item);
-                }).withIcon(VaadinIcons.TRASH).withStyleName(WebThemes.BUTTON_DANGER);
-                editButtons.addComponent(deleteBtn);
-            }
-
             if (canRead && (buttonEnableFlags & PRINT_BTN_PRESENTED) == PRINT_BTN_PRESENTED) {
-                final PrintButton printBtn = new PrintButton();
+                final PrintButton printBtn = new PrintButton(UserUIContext.getMessage(GenericI18Enum.ACTION_PRINT));
                 printBtn.withListener(clickEvent -> {
                     T item = previewForm.getBean();
                     previewForm.firePrintForm(printBtn, item);
-                }).withStyleName(WebThemes.BUTTON_OPTION).withDescription(UserUIContext.getMessage(GenericI18Enum.ACTION_PRINT));
-                editButtons.addComponent(printBtn);
+                }).withDescription(UserUIContext.getMessage(GenericI18Enum.ACTION_PRINT));
+                popupButtonsControl.addOption(printBtn);
             }
 
             if (canWrite && (buttonEnableFlags & CLONE_BTN_PRESENTED) == CLONE_BTN_PRESENTED) {
@@ -149,6 +141,14 @@ public class ProjectPreviewFormControlsGenerator<T> implements Serializable {
                         .withDescription(UserUIContext.getMessage(GenericI18Enum.TOOLTIP_SHOW_NEXT_ITEM));
                 navigationBtns.addButton(nextItemBtn);
                 wrapLayout.withComponent(navigationBtns);
+            }
+
+            if (canAccess && (buttonEnableFlags & DELETE_BTN_PRESENTED) == DELETE_BTN_PRESENTED) {
+                MButton deleteBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_DELETE), clickEvent -> {
+                    T item = previewForm.getBean();
+                    previewForm.fireDeleteForm(item);
+                }).withIcon(VaadinIcons.TRASH).withStyleName(WebThemes.BUTTON_DANGER);
+                popupButtonsControl.addDangerOption(deleteBtn);
             }
 
             if (popupButtonsControl.getComponentCount() > 0) {

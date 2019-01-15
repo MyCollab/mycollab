@@ -578,7 +578,7 @@ public class ProjectBreadcrumb extends MHorizontalLayout implements CacheableCom
         }
     }
 
-    public void gotoProjectDashboard() {
+    public void gotoProjectSummary() {
         addSummaryLink();
         AppUI.addFragment(ProjectLinkGenerator.generateProjectLink(project.getId()),
                 UserUIContext.getMessage(GenericI18Enum.VIEW_DASHBOARD));

@@ -34,7 +34,5 @@ object ProjectScreenData {
 
     class GotoFavorite : ScreenData<Any>(null)
 
-    class SearchItem(params: String) : ScreenData<String>(params)
-
     class GotoReportConsole : ScreenData<Any>(null)
 }

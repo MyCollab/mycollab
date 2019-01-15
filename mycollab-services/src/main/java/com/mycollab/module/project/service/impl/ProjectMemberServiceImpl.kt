@@ -40,7 +40,6 @@ import com.mycollab.module.user.domain.SimpleUser
 import org.apache.commons.collections.CollectionUtils
 import org.springframework.stereotype.Service
 import java.time.LocalDate
-import java.util.*
 
 /**
  * @author MyCollab Ltd.
@@ -106,9 +105,9 @@ class ProjectMemberServiceImpl(private val projectMemberMapper: ProjectMemberMap
     override fun getActiveUsersInProject(projectId: Int?, sAccountId: Int?): List<SimpleUser> =
             projectMemberMapperExt.getActiveUsersInProject(projectId!!, sAccountId!!)
 
-    override fun inviteProjectMembers(email: Array<String>, projectId: Int, projectRoleId: Int?, inviteUser: String,
+    override fun inviteProjectMembers(emails: Array<String>, projectId: Int, projectRoleId: Int?, inviteUser: String,
                                       inviteMessage: String, sAccountId: Int) {
-        val event = InviteProjectMembersEvent(email, projectId, projectRoleId, inviteUser,
+        val event = InviteProjectMembersEvent(emails, projectId, projectRoleId, inviteUser,
                 inviteMessage, sAccountId)
         asyncEventBus.post(event)
     }

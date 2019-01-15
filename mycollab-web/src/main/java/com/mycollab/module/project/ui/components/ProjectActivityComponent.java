@@ -54,6 +54,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.vaadin.viritin.button.MButton;
+import org.vaadin.viritin.layouts.MCssLayout;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MMarginInfo;
 import org.vaadin.viritin.layouts.MVerticalLayout;
@@ -268,7 +269,7 @@ public class ProjectActivityComponent extends MVerticalLayout implements Reloada
                     Div historyDiv = new Div().appendChild(fieldBlock).appendText(fieldDisplayHandler.getFormat()
                             .toString(item.getOldvalue())).appendText(" " + VaadinIcons.ARROW_RIGHT.getHtml() +
                             " ").appendText(fieldDisplayHandler.getFormat().toString(item.getNewvalue()));
-                    rowLayout.addComponent(ELabel.html(historyDiv.write()));
+                    rowLayout.addComponent(new MCssLayout(ELabel.html(historyDiv.write()).withFullWidth()).withFullWidth());
                 }
             }
 

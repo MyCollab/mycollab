@@ -25,10 +25,6 @@ import com.vaadin.ui.ComboBox;
 public class StringValueComboBox extends ComboBox<String> {
     private static final long serialVersionUID = 1L;
 
-    public StringValueComboBox() {
-        this.setPageLength(20);
-    }
-
     /**
      * @param nullIsAllowable
      * @param values

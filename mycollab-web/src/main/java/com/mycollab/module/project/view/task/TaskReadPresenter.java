@@ -31,7 +31,7 @@ import com.mycollab.module.project.event.TicketEvent;
 import com.mycollab.module.project.event.UpdateNotificationItemReadStatusEvent;
 import com.mycollab.module.project.service.ProjectTaskService;
 import com.mycollab.module.project.view.ProjectBreadcrumb;
-import com.mycollab.module.project.view.ticket.TicketContainer;
+import com.mycollab.module.project.view.ProjectView;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.spring.AppEventBus;
 import com.mycollab.vaadin.AppUI;
@@ -157,8 +157,9 @@ public class TaskReadPresenter extends AbstractPresenter<TaskReadView> {
     @Override
     protected void onGo(HasComponents container, ScreenData<?> data) {
         if (CurrentProjectVariables.canRead(ProjectRolePermissionCollections.TASKS)) {
-            TicketContainer ticketContainer = (TicketContainer) container;
-            ticketContainer.setContent(view);
+            ProjectView projectView = (ProjectView) container;
+            projectView.gotoSubView(ProjectView.TICKET_ENTRY, view);
+
             if (data.getParams() instanceof Integer) {
                 ProjectTaskService taskService = AppContextUtil.getSpringBean(ProjectTaskService.class);
                 SimpleTask task = taskService.findById((Integer) data.getParams(), AppUI.getAccountId());

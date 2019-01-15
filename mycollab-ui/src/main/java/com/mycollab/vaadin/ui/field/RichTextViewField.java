@@ -26,28 +26,27 @@ import com.vaadin.ui.CustomField;
  * @author MyCollab Ltd.
  * @since 4.5.3
  */
-// TODO
 public class RichTextViewField extends CustomField<String> {
     private static final long serialVersionUID = 1L;
 
-    private String value;
+    private ELabel label;
 
-    public RichTextViewField(String value) {
-        this.value = value;
+    public RichTextViewField() {
+        label = ELabel.html("").withStyleName(UIConstants.LABEL_WORD_WRAP);
     }
 
     @Override
     public String getValue() {
-        return value;
+        return null;
     }
 
     @Override
     protected Component initContent() {
-        return ELabel.html(StringUtils.formatRichText(value)).withStyleName(UIConstants.LABEL_WORD_WRAP);
+        return label;
     }
 
     @Override
-    protected void doSetValue(String s) {
-
+    protected void doSetValue(String value) {
+        label.setValue(StringUtils.formatRichText(value));
     }
 }

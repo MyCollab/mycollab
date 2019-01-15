@@ -22,6 +22,8 @@ import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomField;
 
+import java.util.Collection;
+
 /**
  * @author MyCollab Ltd.
  * @since 4.5.3

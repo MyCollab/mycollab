@@ -31,6 +31,11 @@ public class PrintButton<B> extends MButton {
     private FormReportStreamSource<B> formReportStreamSource;
 
     public PrintButton() {
+        this("");
+    }
+
+    public PrintButton(String caption) {
+        setCaption(caption);
         setIcon(VaadinIcons.PRINT);
         formReportStreamSource = new FormReportStreamSource<>(new FormReportTemplateExecutor<B>(""));
         BrowserWindowOpener printWindowOpener = new BrowserWindowOpener(new StreamResource(formReportStreamSource, UUID.randomUUID().toString() + ".pdf"));

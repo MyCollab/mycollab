@@ -22,26 +22,26 @@ package com.mycollab.vaadin.web.ui;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
 import org.vaadin.viritin.layouts.MCssLayout;
+import org.vaadin.viritin.layouts.MHorizontalLayout;
+import org.vaadin.viritin.layouts.MVerticalLayout;
 
 /**
  * @author MyCollab Ltd.
  * @since 4.5.4
  */
-public class RightSidebarLayout extends CssLayout {
+public class RightSidebarLayout extends MHorizontalLayout {
     private static final long serialVersionUID = 6058720774092113093L;
 
     private final CssLayout contentWrap;
     private final CssLayout sidebarWrap;
 
     public RightSidebarLayout() {
-        this.setStyleName("rightsidebar-layout");
-        this.setSizeFull();
+        this.withStyleName("rightsidebar-layout").withSpacing(false).withFullSize();
 
         contentWrap = new MCssLayout().withStyleName("content-wrap").withFullSize();
-        this.addComponent(contentWrap);
 
-        sidebarWrap = new MCssLayout().withStyleName("sidebar-wrap").withWidth("250px").withFullHeight();
-        this.addComponent(sidebarWrap);
+        sidebarWrap = new MCssLayout().withStyleName("sidebar-wrap").withWidth("280px");
+        this.with(contentWrap, sidebarWrap).expand(contentWrap);
     }
 
     public void setContent(Component c) {

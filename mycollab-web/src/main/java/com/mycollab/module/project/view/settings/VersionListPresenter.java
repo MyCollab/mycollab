@@ -22,6 +22,7 @@ import com.mycollab.module.project.ProjectRolePermissionCollections;
 import com.mycollab.module.project.i18n.VersionI18nEnum;
 import com.mycollab.module.project.view.ProjectBreadcrumb;
 import com.mycollab.module.project.view.ProjectGenericListPresenter;
+import com.mycollab.module.project.view.ProjectView;
 import com.mycollab.module.tracker.domain.SimpleVersion;
 import com.mycollab.module.tracker.domain.Version;
 import com.mycollab.module.tracker.domain.criteria.VersionSearchCriteria;
@@ -85,9 +86,8 @@ public class VersionListPresenter extends ProjectGenericListPresenter<VersionLis
     @Override
     protected void onGo(HasComponents container, ScreenData<?> data) {
         if (CurrentProjectVariables.canRead(ProjectRolePermissionCollections.VERSIONS)) {
-            VersionContainer versionContainer = (VersionContainer) container;
-            versionContainer.removeAllComponents();
-            versionContainer.addComponent(view);
+            ProjectView projectView = (ProjectView) container;
+            projectView.gotoSubView(ProjectView.VERSION_ENTRY, view);
 
             searchCriteria = (VersionSearchCriteria) data.getParams();
             int totalCount = versionService.getTotalCount(searchCriteria);

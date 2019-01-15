@@ -27,6 +27,7 @@ import com.mycollab.module.project.event.ProjectMemberEvent;
 import com.mycollab.module.project.event.ProjectMemberEvent.InviteProjectMembers;
 import com.mycollab.module.project.i18n.ProjectMemberI18nEnum;
 import com.mycollab.module.project.view.ProjectBreadcrumb;
+import com.mycollab.module.project.view.ProjectView;
 import com.mycollab.shell.view.SystemUIChecker;
 import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.vaadin.UserUIContext;
@@ -90,8 +91,8 @@ public class ProjectMemberInvitePresenter extends AbstractPresenter<ProjectMembe
     @Override
     protected void onGo(HasComponents container, ScreenData<?> data) {
         if (CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.USERS)) {
-            ProjectUserContainer userGroupContainer = (ProjectUserContainer) container;
-            userGroupContainer.setContent(view);
+            ProjectView projectView = (ProjectView) container;
+            projectView.gotoSubView(ProjectView.USERS_ENTRY, view);
 
             view.display();
 

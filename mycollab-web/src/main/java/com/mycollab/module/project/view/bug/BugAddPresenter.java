@@ -29,6 +29,7 @@ import com.mycollab.module.project.event.BugEvent;
 import com.mycollab.module.project.event.TicketEvent;
 import com.mycollab.module.project.view.ProjectBreadcrumb;
 import com.mycollab.module.project.view.ProjectGenericPresenter;
+import com.mycollab.module.project.view.ProjectView;
 import com.mycollab.module.tracker.domain.SimpleBug;
 import com.mycollab.module.tracker.service.BugRelatedItemService;
 import com.mycollab.module.tracker.service.BugService;
@@ -44,7 +45,6 @@ import com.mycollab.vaadin.mvp.ViewScope;
 import com.mycollab.vaadin.web.ui.field.AttachmentUploadField;
 import com.vaadin.ui.HasComponents;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -89,9 +89,8 @@ public class BugAddPresenter extends ProjectGenericPresenter<BugAddView> {
     @Override
     protected void onGo(HasComponents container, ScreenData<?> data) {
         if (CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.BUGS)) {
-            BugContainer bugContainer = (BugContainer) container;
-            bugContainer.removeAllComponents();
-            bugContainer.addComponent(view);
+            ProjectView projectView = (ProjectView) container;
+            projectView.gotoSubView(ProjectView.TICKET_ENTRY, view);
 
             SimpleBug bug = (SimpleBug) data.getParams();
             view.editItem(bug);

@@ -45,7 +45,6 @@ import java.util.List;
  * @since 1.0
  */
 public class CommentRowDisplayHandler implements IBeanList.RowDisplayHandler<SimpleComment> {
-    private static final long serialVersionUID = 1L;
 
     @Override
     public Component generateRow(IBeanList<SimpleComment> host, final SimpleComment comment, int rowIndex) {

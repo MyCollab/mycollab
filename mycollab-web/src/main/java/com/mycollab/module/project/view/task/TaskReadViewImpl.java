@@ -16,6 +16,7 @@
  */
 package com.mycollab.module.project.view.task;
 
+import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.configuration.SiteConfiguration;
 import com.mycollab.core.arguments.ValuedBean;
 import com.mycollab.core.utils.BeanUtility;
@@ -28,6 +29,7 @@ import com.mycollab.module.project.i18n.TaskI18nEnum;
 import com.mycollab.module.project.service.ProjectTaskService;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.module.project.ui.components.*;
+import com.mycollab.module.project.view.ProjectView;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.UserUIContext;
@@ -35,6 +37,7 @@ import com.mycollab.vaadin.event.HasPreviewFormHandlers;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.mvp.ViewManager;
 import com.mycollab.vaadin.ui.ELabel;
+import com.mycollab.vaadin.ui.UIUtils;
 import com.mycollab.vaadin.ui.VerticalRemoveInlineComponentMarker;
 import com.mycollab.vaadin.web.ui.AbstractPreviewItemComp;
 import com.mycollab.vaadin.web.ui.AdvancedPreviewBeanForm;
@@ -45,10 +48,12 @@ import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Panel;
 import com.vaadin.ui.themes.ValoTheme;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.vaadin.addons.stackpanel.StackPanel;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
@@ -70,7 +75,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
 
     public TaskReadViewImpl() {
         super(UserUIContext.getMessage(TaskI18nEnum.DETAIL),
-                ProjectAssetsManager.getAsset(ProjectTypeConstants.TASK), new TaskPreviewFormLayout());
+                ProjectAssetsManager.getAsset(ProjectTypeConstants.TASK), new TaskPreviewFormLayout(), false);
     }
 
     @Override
@@ -90,12 +95,18 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
         peopleInfoComp = new PeopleInfoComp();
         followerSheet = new ProjectFollowersComp<>(ProjectTypeConstants.TASK, ProjectRolePermissionCollections.TASKS);
 
+        ProjectView projectView = UIUtils.getRoot(this, ProjectView.class);
+        MVerticalLayout detailLayout = new MVerticalLayout().withMargin(new MarginInfo(false, true, false, true));
         if (SiteConfiguration.isCommunityEdition()) {
-            addToSideBar(dateInfoComp, peopleInfoComp, followerSheet);
+            detailLayout.with(dateInfoComp, peopleInfoComp, followerSheet);
         } else {
             timeLogComp = ViewManager.getCacheComponent(TaskTimeLogSheet.class);
-            addToSideBar(dateInfoComp, peopleInfoComp, timeLogComp, followerSheet);
+            detailLayout.with(dateInfoComp, peopleInfoComp, timeLogComp, followerSheet);
         }
+
+        Panel detailPanel = new Panel(UserUIContext.getMessage(GenericI18Enum.OPT_DETAILS), detailLayout);
+        StackPanel.extend(detailPanel);
+        projectView.addComponentToRightBar(detailPanel);
     }
 
     @Override

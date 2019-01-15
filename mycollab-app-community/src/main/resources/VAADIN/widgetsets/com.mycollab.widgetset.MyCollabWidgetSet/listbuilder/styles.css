@@ -1,0 +1,24 @@
+.v-listbuilder .v-listbuilder-buttons .v-button:first-child .v-button-wrap:before {
+	font-family: FontAwesome;
+	content: "\f054";
+}
+
+.v-listbuilder .v-listbuilder-buttons .v-button-wrap:before {
+	font-family: FontAwesome;
+	content: "\f053";
+}
+
+.v-listbuilder .v-listbuilder-updown-buttons .v-button:first-child .v-button-wrap:before
+	{
+	font-family: FontAwesome;
+	content: "\f077";
+}
+
+.v-listbuilder .v-listbuilder-updown-buttons .v-button-wrap:before {
+	font-family: FontAwesome;
+	content: "\f078";
+}
+
+.v-listbuilder .v-listbuilder-caption-right {
+	text-align: right;	
+}

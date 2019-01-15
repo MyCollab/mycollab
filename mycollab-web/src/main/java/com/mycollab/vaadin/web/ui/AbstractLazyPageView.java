@@ -23,6 +23,7 @@ import com.mycollab.vaadin.mvp.AbstractVerticalPageView;
 import com.mycollab.vaadin.mvp.LazyPageView;
 import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.UI;
 import org.vaadin.viritin.layouts.MWindow;
 
 /**
@@ -40,11 +41,12 @@ public abstract class AbstractLazyPageView extends AbstractVerticalPageView impl
         if (!isRunning) {
             this.removeAllComponents();
             isRunning = true;
-            AsyncInvoker.access(getUI(), new AsyncInvoker.PageCommand() {
+            UI ui = getUI();
+            AsyncInvoker.access(ui, new AsyncInvoker.PageCommand() {
                 @Override
                 public void run() {
                     progressIndicator = new ProgressIndicator();
-                    getUI().addWindow(progressIndicator);
+                    ui.addWindow(progressIndicator);
                 }
 
                 @Override
@@ -58,7 +60,7 @@ public abstract class AbstractLazyPageView extends AbstractVerticalPageView impl
 
                 @Override
                 public void cleanUp() {
-                    getUI().removeWindow(progressIndicator);
+                    ui.removeWindow(progressIndicator);
                     isRunning = false;
                 }
             });

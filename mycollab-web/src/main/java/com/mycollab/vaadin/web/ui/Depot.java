@@ -16,6 +16,7 @@
  */
 package com.mycollab.vaadin.web.ui;
 
+import com.mycollab.vaadin.ui.ELabel;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.ui.Alignment;
@@ -48,7 +49,7 @@ public class Depot extends DDVerticalLayout {
         headerContent = new MHorizontalLayout().withFullHeight().withUndefinedWidth().withVisible(false);
         this.addComponent(header);
 
-        headerLbl = new Label(VaadinIcons.PLUS.getHtml() + title, ContentMode.HTML);
+        headerLbl = ELabel.html(VaadinIcons.PLUS.getHtml() + title);
         final MHorizontalLayout headerLeft = new MHorizontalLayout(headerLbl).withStyleName("depot-title")
                 .withAlign(headerLbl, Alignment.MIDDLE_LEFT).withFullWidth();
         headerLeft.addLayoutClickListener(layoutClickEvent -> {

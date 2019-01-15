@@ -31,7 +31,7 @@ import com.mycollab.module.project.event.TicketEvent;
 import com.mycollab.module.project.service.ProjectTaskService;
 import com.mycollab.module.project.view.ProjectBreadcrumb;
 import com.mycollab.module.project.view.ProjectGenericPresenter;
-import com.mycollab.module.project.view.ticket.TicketContainer;
+import com.mycollab.module.project.view.ProjectView;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.EventBusFactory;
@@ -44,7 +44,6 @@ import com.mycollab.vaadin.mvp.ViewScope;
 import com.mycollab.vaadin.web.ui.field.AttachmentUploadField;
 import com.vaadin.ui.HasComponents;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -87,9 +86,8 @@ public class TaskAddPresenter extends ProjectGenericPresenter<TaskAddView> {
     @Override
     protected void onGo(HasComponents container, ScreenData<?> data) {
         if (CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS)) {
-            TicketContainer ticketContainer = (TicketContainer) container;
-            ticketContainer.navigateToContainer(ProjectTypeConstants.TASK);
-            ticketContainer.setContent(view);
+            ProjectView projectView = (ProjectView) container;
+            projectView.gotoSubView(ProjectView.TICKET_ENTRY, view);
             SimpleTask task = (SimpleTask) data.getParams();
 
             ProjectBreadcrumb breadCrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);

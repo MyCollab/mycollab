@@ -35,6 +35,7 @@ import com.mycollab.vaadin.web.ui.*;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Panel;
 import com.vaadin.ui.UI;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
@@ -47,7 +48,7 @@ import java.util.List;
  * @author MyCollab Ltd.
  * @since 4.0
  */
-public class UnresolvedTicketByPriorityWidget extends Depot {
+public class UnresolvedTicketByPriorityWidget extends Panel {
     private static final long serialVersionUID = 1L;
 
     private ProjectTicketSearchCriteria searchCriteria;
@@ -56,7 +57,6 @@ public class UnresolvedTicketByPriorityWidget extends Depot {
 
     public UnresolvedTicketByPriorityWidget() {
         super("", new MVerticalLayout());
-        setContentBorder(true);
     }
 
     private ApplicationEventListener<TicketEvent.HasTicketPropertyChanged> ticketPropertyChangedHandler = new
@@ -92,9 +92,10 @@ public class UnresolvedTicketByPriorityWidget extends Depot {
     }
 
     private void displayPlainMode() {
+        MVerticalLayout bodyContent = (MVerticalLayout) getContent();
         bodyContent.removeAllComponents();
         TicketPriorityClickListener listener = new TicketPriorityClickListener();
-        this.setTitle(String.format("%s (%d)", UserUIContext.getMessage(TaskI18nEnum.WIDGET_UNRESOLVED_BY_PRIORITY_TITLE), totalCount));
+        this.setCaption(String.format("%s (%d)", UserUIContext.getMessage(TaskI18nEnum.WIDGET_UNRESOLVED_BY_PRIORITY_TITLE), totalCount));
 
         if (!groupItems.isEmpty()) {
             for (Priority priority : OptionI18nEnum.priorities) {
@@ -129,7 +130,7 @@ public class UnresolvedTicketByPriorityWidget extends Depot {
                     ProgressBarIndicator indicator = new ProgressBarIndicator(totalCount, totalCount, false);
                     indicator.setWidth("100%");
                     priorityLayout.with(indicator).expand(indicator);
-                    this.bodyContent.addComponent(priorityLayout);
+                    bodyContent.addComponent(priorityLayout);
                 }
             }
         }

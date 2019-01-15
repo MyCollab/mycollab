@@ -17,6 +17,7 @@
 package com.mycollab.module.project.view.settings;
 
 import com.mycollab.core.SecureAccessException;
+import com.mycollab.module.project.view.ProjectView;
 import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectRolePermissionCollections;
@@ -89,9 +90,8 @@ public class ProjectRoleAddPresenter extends AbstractPresenter<ProjectRoleAddVie
     @Override
     protected void onGo(HasComponents container, ScreenData<?> data) {
         if (CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.ROLES)) {
-            ProjectRoleContainer roleContainer = (ProjectRoleContainer) container;
-            roleContainer.removeAllComponents();
-            roleContainer.addComponent(view);
+            ProjectView projectView = (ProjectView) container;
+            projectView.gotoSubView(ProjectView.ROLE_ENTRY, view);
 
             ProjectRole role = (ProjectRole) data.getParams();
 

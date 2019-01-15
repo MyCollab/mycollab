@@ -18,6 +18,9 @@ package com.mycollab.module.project.view.settings;
 
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Span;
+import com.jarektoro.responsivelayout.ResponsiveColumn;
+import com.jarektoro.responsivelayout.ResponsiveLayout;
+import com.jarektoro.responsivelayout.ResponsiveRow;
 import com.mycollab.common.GenericLinkUtils;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.core.utils.NumberUtils;
@@ -56,6 +59,7 @@ import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
 import org.vaadin.viritin.button.MButton;
+import org.vaadin.viritin.layouts.MCssLayout;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
@@ -74,8 +78,15 @@ public class ProjectMemberListViewImpl extends AbstractVerticalPageView implemen
     private boolean sortAsc = true;
     private ProjectMemberSearchCriteria searchCriteria;
 
+    private ResponsiveLayout responsiveLayout;
+
     public ProjectMemberListViewImpl() {
         this.setMargin(new MarginInfo(false, true, true, true));
+
+        responsiveLayout = new ResponsiveLayout(ResponsiveLayout.ContainerType.FIXED);
+        responsiveLayout.setWidth("100%");
+        this.add(responsiveLayout);
+
         MHorizontalLayout viewHeader = new MHorizontalLayout().withMargin(new MarginInfo(true, false, true, false)).withFullWidth();
         viewHeader.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
@@ -125,11 +136,14 @@ public class ProjectMemberListViewImpl extends AbstractVerticalPageView implemen
         createBtn.setVisible(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.USERS));
         viewHeader.addComponent(createBtn);
 
-        addComponent(viewHeader);
+        ResponsiveRow row = responsiveLayout.addRow();
 
-        contentLayout = new CssLayout();
-        contentLayout.setWidth("100%");
-        addComponent(contentLayout);
+        ResponsiveColumn column1 = new ResponsiveColumn(12, 12, 12, 12);
+        column1.setContent(viewHeader);
+        row.addColumn(column1);
+
+        contentLayout = new MCssLayout().withFullWidth();
+        row.addComponent(contentLayout);
     }
 
     @Override

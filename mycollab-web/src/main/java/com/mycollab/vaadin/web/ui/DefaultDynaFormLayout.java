@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -27,9 +27,13 @@ import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.FormContainer;
 import com.mycollab.vaadin.ui.IDynaFormLayout;
+import com.mycollab.vaadin.web.ui.grid.GridCellWrapper;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.vaadin.data.HasValue;
-import com.vaadin.ui.*;
+import com.vaadin.ui.AbstractComponent;
+import com.vaadin.ui.Component;
+import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Label;
 import org.vaadin.viritin.layouts.MCssLayout;
 
 import java.util.*;
@@ -85,15 +89,15 @@ public class DefaultDynaFormLayout implements IDynaFormLayout {
 
             if (section.getLayoutType() == LayoutType.ONE_COLUMN) {
                 gridLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 1);
-
+                int rowIndex = 0;
                 for (int j = 0; j < section.getFieldCount(); j++) {
                     AbstractDynaField dynaField = section.getField(j);
                     if (!excludeFields.contains(dynaField.getFieldName())) {
                         gridLayout.buildCell(UserUIContext.getMessage(dynaField.getDisplayName()),
                                 UserUIContext.getMessage(dynaField.getContextHelp()), 0,
-                                gridLayout.getRows() - 1, 2, "100%", Alignment.TOP_LEFT);
+                                rowIndex, 2, "100%");
                         if (j < section.getFieldCount() - 1) {
-                            gridLayout.appendRow();
+                            rowIndex++;
                         }
 
                         if (dynaField.isCustom()) {
@@ -106,28 +110,29 @@ public class DefaultDynaFormLayout implements IDynaFormLayout {
             } else if (section.getLayoutType() == LayoutType.TWO_COLUMN) {
                 gridLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 1);
                 int columnIndex = 0;
+                int rowIndex = 0;
                 for (int j = 0; j < section.getFieldCount(); j++) {
                     AbstractDynaField dynaField = section.getField(j);
                     if (!excludeFields.contains(dynaField.getFieldName())) {
                         if (dynaField.isColSpan()) {
                             if (columnIndex > 0) {
-                                gridLayout.appendRow();
+                                rowIndex++;
                             }
                             gridLayout.buildCell(UserUIContext.getMessage(dynaField.getDisplayName()),
                                     UserUIContext.getMessage(dynaField.getContextHelp()), 0,
-                                    gridLayout.getRows() - 1, 2, "100%", Alignment.TOP_LEFT);
+                                    rowIndex, 2, "100%");
                             columnIndex = 0;
                             if (j < section.getFieldCount() - 1) {
-                                gridLayout.appendRow();
+                                rowIndex++;
                             }
                         } else {
                             gridLayout.buildCell(UserUIContext.getMessage(dynaField.getDisplayName()),
-                                    UserUIContext.getMessage(dynaField.getContextHelp()), columnIndex, gridLayout.getRows() - 1);
+                                    UserUIContext.getMessage(dynaField.getContextHelp()), columnIndex, rowIndex);
                             columnIndex++;
                             if (columnIndex == 2) {
                                 columnIndex = 0;
                                 if (j < section.getFieldCount() - 1) {
-                                    gridLayout.appendRow();
+                                    rowIndex++;
                                 }
                             }
                         }
@@ -155,9 +160,9 @@ public class DefaultDynaFormLayout implements IDynaFormLayout {
         if (dynaField != null) {
             DynaSection section = dynaField.getOwnSection();
             GridFormLayoutHelper gridLayout = sectionMappings.get(section);
-            HorizontalLayout componentWrapper = gridLayout.getComponentWrapper(UserUIContext.getMessage(dynaField.getDisplayName()));
+            GridCellWrapper componentWrapper = gridLayout.getComponentWrapper(UserUIContext.getMessage(dynaField.getDisplayName()));
             if (componentWrapper != null) {
-                componentWrapper.addComponent((Component) field);
+                componentWrapper.addField((Component) field);
             }
             return field;
         }

@@ -95,6 +95,37 @@
         </dependency>
 
     </dependencies>
+
+    <profiles>
+        <profile>
+            <id>Vaadin</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>com.vaadin</groupId>
+                        <artifactId>vaadin-maven-plugin</artifactId>
+                        <version>${vaadin.version}</version>
+                        <configuration>
+                            <webappDirectory>src/main/resources/VAADIN/widgetsets/</webappDirectory>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>update-theme</goal>
+                                    <goal>update-widgetset</goal>
+                                    <goal>compile</goal>
+                                    <!-- Comment out compile-theme goal to use on-the-fly theme compilation -->
+                                    <goal>compile-theme</goal>
+                                </goals>
+                                <phase>compile</phase>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
     <build>
         <plugins>
             <plugin>
@@ -167,23 +198,6 @@
                                 </resource>
                             </resources>
                         </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>com.vaadin</groupId>
-                <artifactId>vaadin-maven-plugin</artifactId>
-                <version>${vaadin.version}</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>update-theme</goal>
-                            <goal>update-widgetset</goal>
-                            <goal>compile</goal>
-                            <!-- Comment out compile-theme goal to use on-the-fly theme compilation -->
-                            <goal>compile-theme</goal>
-                        </goals>
-                        <phase>compile</phase>
                     </execution>
                 </executions>
             </plugin>

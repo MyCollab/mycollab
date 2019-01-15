@@ -16,10 +16,16 @@
  */
 package com.mycollab.module.project.view.settings.component;
 
+import com.fo0.advancedtokenfield.main.AdvancedTokenField;
+import com.fo0.advancedtokenfield.model.Token;
 import com.hp.gagawa.java.elements.Img;
 import com.mycollab.core.utils.StringUtils;
 import com.mycollab.module.file.StorageUtils;
+import com.mycollab.module.project.CurrentProjectVariables;
+import com.mycollab.module.project.service.ProjectMemberService;
 import com.mycollab.module.user.domain.SimpleUser;
+import com.mycollab.spring.AppContextUtil;
+import com.mycollab.vaadin.AppUI;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
@@ -30,6 +36,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * @author MyCollab Ltd
@@ -40,7 +47,7 @@ public class InviteUserTokenField extends CssLayout {
     private static final long serialVersionUID = 1L;
 
     private Set<String> inviteEmails;
-//    private SuggestField suggestField;
+    private AdvancedTokenField suggestField;
     private List<SimpleUser> candidateUsers;
     private String lastQuery = "";
     private boolean isFocusing = false;
@@ -50,10 +57,11 @@ public class InviteUserTokenField extends CssLayout {
         this.setWidth("100%");
         this.addStyleName("member-token");
 //        new Restrain(this).setMinHeight("50px");
-//        suggestField = new SuggestField();
-//        suggestField.setHeight("25px");
-//        suggestField.setWidth("300px");
-//        suggestField.setNewItemsAllowed(true);
+        suggestField = new AdvancedTokenField();
+        suggestField.setHeight("25px");
+        suggestField.setWidth("300px");
+        suggestField.setAllowNewTokens(true);
+        suggestField.setQuerySuggestionInputMinLength(3);
 //        suggestField.setNewItemsHandler(this);
 //        suggestField.focus();
 ////        suggestField.setImmediate(true);
@@ -64,9 +72,11 @@ public class InviteUserTokenField extends CssLayout {
 //        suggestField.setMinimumQueryCharacters(1);
 //        suggestField.setPopupWidth(400);
 //
-//        addComponent(suggestField);
-//        ProjectMemberService prjMemberService = AppContextUtil.getSpringBean(ProjectMemberService.class);
-//        candidateUsers = prjMemberService.getUsersNotInProject(CurrentProjectVariables.getProjectId(), AppUI.getAccountId());
+        addComponent(suggestField);
+        ProjectMemberService prjMemberService = AppContextUtil.getSpringBean(ProjectMemberService.class);
+        candidateUsers = prjMemberService.getUsersNotInProject(CurrentProjectVariables.getProjectId(), AppUI.getAccountId());
+        List<Token> tokens = candidateUsers.stream().map(user -> new Token(user.getDisplayName())).collect(Collectors.toList());
+        suggestField.addTokensToInputField(tokens);
 //        suggestField.addBlurListener(blurEvent -> {
 //                    isFocusing = false;
 //                    if (!"".equals(lastQuery) && StringUtils.isValidEmail(lastQuery) && !inviteEmails.contains(lastQuery)) {

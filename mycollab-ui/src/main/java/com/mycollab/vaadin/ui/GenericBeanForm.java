@@ -19,13 +19,14 @@ package com.mycollab.vaadin.ui;
 import com.mycollab.core.MyCollabException;
 import com.vaadin.data.HasValue;
 import com.vaadin.ui.CssLayout;
+import org.vaadin.viritin.layouts.MCssLayout;
 
 /**
  * @param <B>
  * @author MyCollab Ltd.
  * @since 3.0
  */
-public class GenericBeanForm<B> extends CssLayout {
+public class GenericBeanForm<B> extends MCssLayout {
     private static final long serialVersionUID = 1L;
 
     private IFormLayoutFactory layoutFactory;
@@ -33,7 +34,7 @@ public class GenericBeanForm<B> extends CssLayout {
     protected B bean;
 
     public GenericBeanForm() {
-        this.setWidth("100%");
+        this.withFullWidth();
     }
 
     public void setFormLayoutFactory(IFormLayoutFactory layoutFactory) {

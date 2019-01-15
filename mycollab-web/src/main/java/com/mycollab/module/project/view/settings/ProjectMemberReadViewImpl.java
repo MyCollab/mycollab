@@ -80,7 +80,7 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
     private MHorizontalLayout bottomLayout;
 
     public ProjectMemberReadViewImpl() {
-        super(UserUIContext.getMessage(ProjectMemberI18nEnum.DETAIL), VaadinIcons.USER);
+        super(UserUIContext.getMessage(ProjectMemberI18nEnum.DETAIL), ProjectAssetsManager.getAsset(ProjectTypeConstants.MEMBER));
 
         previewForm = initPreviewForm();
         previewForm.setWidth("100%");
@@ -160,8 +160,7 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
 
         @Override
         public AbstractComponent getLayout() {
-            MHorizontalLayout blockContent = new MHorizontalLayout();
-            blockContent.addStyleName("member-block");
+            MHorizontalLayout blockContent = new MHorizontalLayout().withStyleName("member-block").withFullWidth();
             Image memberAvatar = UserAvatarControlFactory.createUserAvatarEmbeddedComponent(beanItem.getMemberAvatarId(), 100);
             memberAvatar.addStyleName(UIConstants.CIRCLE_BOX);
             blockContent.addComponent(memberAvatar);
@@ -212,11 +211,8 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
 
             Label memberWorkStatus = ELabel.html(memberWorksInfo).withStyleName(UIConstants.META_INFO);
             memberInfo.addComponent(memberWorkStatus);
-            memberInfo.setWidth("100%");
 
-            blockContent.addComponent(memberInfo);
-            blockContent.setExpandRatio(memberInfo, 1.0f);
-            blockContent.setWidth("100%");
+            blockContent.with(memberInfo).expand(memberInfo);
 
             return blockContent;
         }

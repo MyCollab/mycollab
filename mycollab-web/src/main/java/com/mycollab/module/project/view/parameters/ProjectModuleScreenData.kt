@@ -24,4 +24,6 @@ import com.mycollab.vaadin.mvp.ScreenData
  */
 object ProjectModuleScreenData {
     class GotoModule(params: Array<String>?) : ScreenData<Array<String>>(params)
+
+    class SearchItem(params: String) : ScreenData<String>(params)
 }

@@ -73,16 +73,14 @@ class DateParam(id: String, table: String, column: String) : ColumnParam(id, tab
         @JvmField
         val OPTIONS = arrayOf(IS, IS_NOT, BEFORE, AFTER, BETWEEN, NOT_BETWEEN)
 
-        private const val BETWEEN_EXPR = " between "
-
         @JvmStatic
         fun inRangeDate(dateParam: DateParam, variableInjector: VariableInjector<*>): SearchField? {
             val value = variableInjector.eval()
             return if (value != null) {
                 if (value.javaClass.isArray) {
-                    dateParam.buildSearchField(SearchField.AND, BETWEEN_EXPR, Array.get(value, 0) as LocalDate, Array.get(value, 1) as LocalDate)
+                    dateParam.buildSearchField(SearchField.AND, BETWEEN.name, Array.get(value, 0) as LocalDate, Array.get(value, 1) as LocalDate)
                 } else {
-                    dateParam.buildSearchField(SearchField.AND, BETWEEN_EXPR, value as LocalDate)
+                    dateParam.buildSearchField(SearchField.AND, BETWEEN.name, value as LocalDate)
                 }
             } else null
         }

@@ -64,12 +64,12 @@ public class ProjectRoleComboBox extends ComboBox<SimpleProjectRole> implements 
     }
 
     @Override
-    public Result<Integer> convertToModel(SimpleProjectRole simpleProjectRole, ValueContext valueContext) {
-        return Result.ok(simpleProjectRole.getId());
+    public Result<Integer> convertToModel(SimpleProjectRole role, ValueContext valueContext) {
+        return (role != null)? Result.ok(role.getId()) : Result.ok(null);
     }
 
     @Override
     public SimpleProjectRole convertToPresentation(Integer roleId, ValueContext valueContext) {
-        return roles.stream().filter(role -> role.getId() == roleId).findFirst().get();
+        return roles.stream().filter(role -> role.getId() == roleId).findFirst().orElse(null);
     }
 }

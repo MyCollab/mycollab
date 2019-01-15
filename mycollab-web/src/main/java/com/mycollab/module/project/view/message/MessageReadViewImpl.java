@@ -28,7 +28,6 @@ import com.mycollab.module.project.i18n.MessageI18nEnum;
 import com.mycollab.module.project.service.MessageService;
 import com.mycollab.module.project.ui.components.CommentDisplay;
 import com.mycollab.module.project.ui.components.ComponentUtils;
-import com.mycollab.module.project.ui.components.ProjectAttachmentDisplayComponentFactory;
 import com.mycollab.module.project.ui.components.ProjectMemberBlock;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppUI;
@@ -38,14 +37,15 @@ import com.mycollab.vaadin.mvp.AbstractVerticalPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.*;
 import com.mycollab.vaadin.web.ui.AdvancedPreviewBeanForm;
+import com.mycollab.vaadin.web.ui.AttachmentDisplayComponent;
 import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.data.HasValue;
 import com.vaadin.icons.VaadinIcons;
+import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import org.apache.commons.collections.CollectionUtils;
 import org.vaadin.viritin.button.MButton;
-import org.vaadin.viritin.layouts.MCssLayout;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
@@ -61,7 +61,6 @@ public class MessageReadViewImpl extends AbstractVerticalPageView implements Mes
 
     private AdvancedPreviewBeanForm<SimpleMessage> previewForm;
     private SimpleMessage message;
-    private MCssLayout contentWrapper;
     private MHorizontalLayout header;
     private CommentDisplay commentDisplay;
     private CheckBox stickyCheck;
@@ -69,11 +68,7 @@ public class MessageReadViewImpl extends AbstractVerticalPageView implements Mes
     public MessageReadViewImpl() {
         header = new MHorizontalLayout().withMargin(true).withFullWidth();
         previewForm = new AdvancedPreviewBeanForm<>();
-
-        contentWrapper = new MCssLayout();
-        contentWrapper.addComponent(previewForm);
-        contentWrapper.setWidth("900px");
-        with(header, contentWrapper).expand(contentWrapper);
+        with(header, previewForm).expand(previewForm);
     }
 
     @Override
@@ -105,8 +100,7 @@ public class MessageReadViewImpl extends AbstractVerticalPageView implements Mes
 
         @Override
         public AbstractComponent getLayout() {
-            header.removeAllComponents();
-            MVerticalLayout messageAddLayout = new MVerticalLayout().withMargin(false).withFullWidth();
+            MVerticalLayout messageAddLayout = new MVerticalLayout().withMargin(new MarginInfo(false, true, false, true)).withFullWidth();
 
             MButton deleteBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_DELETE), clickEvent -> {
                 ConfirmDialogExt.show(UI.getCurrent(),
@@ -178,8 +172,7 @@ public class MessageReadViewImpl extends AbstractVerticalPageView implements Mes
                 Label lbAttachment = new Label(UserUIContext.getMessage(GenericI18Enum.FORM_ATTACHMENTS));
                 attachmentField.addComponent(lbAttachment);
 
-                Component attachmentDisplayComp = ProjectAttachmentDisplayComponentFactory
-                        .getAttachmentDisplayComponent(message.getProjectid(), ProjectTypeConstants.MESSAGE, message.getId());
+                AttachmentDisplayComponent attachmentDisplayComp = new AttachmentDisplayComponent(attachments);
 
                 MVerticalLayout messageFooter = new MVerticalLayout().withFullWidth()
                         .with(attachmentField, attachmentDisplayComp);
@@ -188,13 +181,9 @@ public class MessageReadViewImpl extends AbstractVerticalPageView implements Mes
             }
 
             messageLayout.with(rowLayout).expand(rowLayout);
-            messageAddLayout.addComponent(messageLayout);
 
-            if (commentDisplay != null && commentDisplay.getParent() == contentWrapper) {
-                contentWrapper.removeComponent(commentDisplay);
-            }
             commentDisplay = createCommentPanel();
-            contentWrapper.addComponent(commentDisplay);
+            messageAddLayout.with(messageLayout, commentDisplay);
 
             return messageAddLayout;
         }
