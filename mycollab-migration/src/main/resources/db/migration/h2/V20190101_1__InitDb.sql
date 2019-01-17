@@ -1270,7 +1270,7 @@ CREATE TABLE `s_account_theme` (
 -- Dumping data for table `s_account_theme`
 --
 
-INSERT INTO `s_account_theme` VALUES (4,'FFFFFF','3F5166','000000','F1F1F1','3F5166','F1F1F1','F1F1F1','3F5166','46ACE8','FFFFFF','A3A3A3','FFFFFF','E3793B','FFFFFF', 1,NULL);
+INSERT INTO `s_account_theme` VALUES (4, 'FFFFFF', '3F5166', '000000', 'F1F1F1', '001529', '0190FE', 'B8BECA', 'FFFFFF', '1F9DFE', 'FFFFFF', 'CCCCCC', 'FFFFFF', 'D32F2F', 'FFFFFF', 1, NULL);
 
 
 
