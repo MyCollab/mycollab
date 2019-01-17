@@ -18,11 +18,13 @@ package com.mycollab.module.user.accountsettings.team.view;
 
 import com.mycollab.db.persistence.service.ISearchableService;
 import com.mycollab.module.user.accountsettings.localization.RoleI18nEnum;
+import com.mycollab.module.user.accountsettings.view.AccountModule;
 import com.mycollab.module.user.accountsettings.view.AccountSettingBreadcrumb;
 import com.mycollab.module.user.domain.Role;
 import com.mycollab.module.user.domain.SimpleRole;
 import com.mycollab.module.user.domain.criteria.RoleSearchCriteria;
 import com.mycollab.module.user.service.RoleService;
+import com.mycollab.module.user.ui.SettingUIConstants;
 import com.mycollab.security.AccessPermissionFlag;
 import com.mycollab.security.RolePermissionCollections;
 import com.mycollab.spring.AppContextUtil;
@@ -111,9 +113,9 @@ public class RoleListPresenter extends ListSelectionPresenter<RoleListView, Role
     @Override
     protected void onGo(HasComponents container, ScreenData<?> data) {
         if (UserUIContext.canRead(RolePermissionCollections.ACCOUNT_ROLE)) {
-            RoleContainer roleContainer = (RoleContainer) container;
-            roleContainer.removeAllComponents();
-            roleContainer.addComponent(view);
+            AccountModule accountModule = (AccountModule) container;
+            accountModule.gotoSubView(SettingUIConstants.ROLES, view);
+
             searchCriteria = (RoleSearchCriteria) data.getParams();
             doSearch(searchCriteria);
 

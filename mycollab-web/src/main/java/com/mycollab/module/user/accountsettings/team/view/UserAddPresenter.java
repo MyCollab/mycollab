@@ -19,10 +19,12 @@ package com.mycollab.module.user.accountsettings.team.view;
 import com.mycollab.core.utils.RandomPasswordGenerator;
 import com.mycollab.module.billing.RegisterStatusConstants;
 import com.mycollab.module.billing.UserStatusConstants;
+import com.mycollab.module.user.accountsettings.view.AccountModule;
 import com.mycollab.module.user.accountsettings.view.AccountSettingBreadcrumb;
 import com.mycollab.module.user.domain.SimpleUser;
 import com.mycollab.module.user.event.UserEvent;
 import com.mycollab.module.user.service.UserService;
+import com.mycollab.module.user.ui.SettingUIConstants;
 import com.mycollab.security.AccessPermissionFlag;
 import com.mycollab.security.RolePermissionCollections;
 import com.mycollab.spring.AppContextUtil;
@@ -104,9 +106,8 @@ public class UserAddPresenter extends AbstractPresenter<UserAddView> {
 
     @Override
     protected void onGo(HasComponents container, ScreenData<?> data) {
-        UserContainer userContainer = (UserContainer) container;
-        userContainer.removeAllComponents();
-        userContainer.addComponent(view);
+        AccountModule accountModule = (AccountModule) container;
+        accountModule.gotoSubView(SettingUIConstants.USERS, view);
 
         SimpleUser user = (SimpleUser) data.getParams();
         if (user.getUsername() != null) {

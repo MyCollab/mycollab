@@ -50,7 +50,6 @@ import java.util.*;
  * @author MyCollab Ltd.
  * @since 4.0
  */
-// TODO
 public class BuildCriterionComponent<S extends SearchCriteria> extends MVerticalLayout implements CriteriaBuilderComponent<S> {
     private static final long serialVersionUID = 1L;
     private static final Logger LOG = LoggerFactory.getLogger(BuildCriterionComponent.class);
@@ -283,11 +282,7 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
                 if (comp != null) {
                     comp.setWidth(width);
                     valueBox.addComponent(comp);
-//                    if (comp instanceof CustomField<?> && (((CustomField) comp).getType() == Integer.class)) {
-//                        ((Field) comp).setValue(Integer.parseInt(searchFieldInfo.eval() + ""));
-//                    } else {
-//                        ((Field) comp).setValue(searchFieldInfo.eval());
-//                    }
+                    ((HasValue) comp).setValue(searchFieldInfo.eval());
                 }
             } else if (param instanceof StringListParam) {
                 ValueListSelect listSelect = new ValueListSelect();
@@ -353,7 +348,7 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
                 }
             });
 
-            compareSelectionBox = new I18nValueComboBox(Enum.class, false);
+            compareSelectionBox = new I18nValueComboBox(QueryI18nEnum.class, false);
             compareSelectionBox.setWidth("130px");
             compareSelectionBox.addValueChangeListener(valueChangeEvent -> displayAssociateInputField((Param) fieldSelectionBox.getValue()));
         }

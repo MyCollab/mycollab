@@ -36,7 +36,7 @@ public class I18nValueComboBox<T extends Enum<T>> extends ComboBox<T> implements
     private Class<T> eClass;
 
     public I18nValueComboBox(Class<T> eClass) {
-        this.eClass = eClass;
+        this(eClass, true);
     }
 
     public I18nValueComboBox(Class<T> eClass, T... keys) {
@@ -44,7 +44,7 @@ public class I18nValueComboBox<T extends Enum<T>> extends ComboBox<T> implements
     }
 
     public I18nValueComboBox(Class<T> eClass, boolean nullIsAllowable, T... keys) {
-        this(eClass);
+        this.eClass = eClass;
         setEmptySelectionAllowed(nullIsAllowable);
         loadData(Arrays.asList(keys));
     }

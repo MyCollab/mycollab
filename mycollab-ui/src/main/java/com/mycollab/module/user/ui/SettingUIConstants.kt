@@ -21,13 +21,17 @@ package com.mycollab.module.user.ui
  * @since 5.0.0
  */
 object SettingUIConstants {
-    const val PROFILE = "Setting-Profile"
+    const val PROFILE = "Profile"
 
-    const val BILLING = "Setting-Billing"
+    const val BILLING = "Billing"
 
-    const val USERS = "Setting-Users"
+    const val SETTING = "Settings"
 
-    const val GENERAL_SETTING = "Setting-General"
+    const val USERS = "Users"
+
+    const val ROLES = "Roles"
+
+    const val GENERAL_SETTING = "General-Settings"
 
     const val THEME_CUSTOMIZE = "Theme-Customization"
 }

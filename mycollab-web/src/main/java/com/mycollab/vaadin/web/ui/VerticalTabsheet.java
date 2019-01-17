@@ -55,6 +55,7 @@ public class VerticalTabsheet extends CustomComponent {
     private static final String TABSHEET_STYLE = "vertical-tabsheet";
     private static final String TAB_STYLE = "tab";
     private static final String TAB_SELECTED_STYLE = "tab-selected";
+    private static final String GROUP_TAB_SELECTED_STYLE = "group-tab-selected";
 
     private VerticalLayout navigatorContainer;
     private MCssLayout navigatorWrapper;
@@ -63,13 +64,12 @@ public class VerticalTabsheet extends CustomComponent {
 
     private Map<String, ButtonTab> compMap = new HashMap<>();
 
-    private Component selectedButton = null;
     private ButtonTab selectedComp = null;
     private Button toggleBtn;
     private Boolean retainVisibility = true;
 
     public VerticalTabsheet() {
-        navigatorWrapper = new MCssLayout().withStyleName("navigator-wrap", "content-height");
+        navigatorWrapper = new MCssLayout().withStyleName("navigator-wrap");
 
         navigatorContainer = new MVerticalLayout().withSpacing(false).withMargin(new MarginInfo(true, false, true, false));
         navigatorWrapper.addComponent(navigatorContainer);
@@ -101,7 +101,7 @@ public class VerticalTabsheet extends CustomComponent {
     }
 
     public void addTab(Component component, String id, String caption, String link, Resource resource) {
-        addTab(null, component, id, caption, null, resource);
+        addTab(null, component, id, caption, link, resource);
     }
 
     public void addTab(String parentId, Component component, String id, String caption, String link, Resource resource) {
@@ -110,11 +110,8 @@ public class VerticalTabsheet extends CustomComponent {
 
             tab.addClickListener(clickEvent -> {
                 if (!clickEvent.isCtrlKey() && !clickEvent.isMetaKey()) {
-                    if (selectedButton != tab) {
-                        clearTabSelection();
-                        selectedButton = tab;
-                        selectedButton.addStyleName(TAB_SELECTED_STYLE);
-                        selectedComp = compMap.get(tab.getTabId());
+                    if (selectedComp != tab) {
+                        setSelectedTab(tab);
                     }
                     fireTabChangeEvent(new SelectedTabChangeEvent(VerticalTabsheet.this, true));
                 } else {
@@ -136,30 +133,11 @@ public class VerticalTabsheet extends CustomComponent {
                     tab.addStyleName("child-tab");
                     tab.addStyleName("hide");
 
-                    UI.getCurrent().getSession().lock();
                     if (parentTab.getListeners(Button.ClickEvent.class).size() < 2) {
                         parentTab.addClickListener((Button.ClickListener) event -> {
-                            LOG.debug("Count listenrs " + parentTab.getListeners(Button.ClickListener.class).size());
-                            parentTab.collapsed = !parentTab.collapsed;
-                            String newStyleName = parentTab.collapsed ? "collapsed-tab" : "un-collapsed-tab";
-                            String oldStyleName = parentTab.collapsed ? "un-collapsed-tab" : "collapsed-tab";
-                            parentTab.removeStyleName(oldStyleName);
-                            parentTab.addStyleName(newStyleName);
-
-                            if (parentTab.collapsed) {
-                                parentTab.children.forEach(childTab -> {
-                                    LOG.debug("Hide sub tab " + childTab.getTabId());
-                                    childTab.addStyleName("hide");
-                                });
-                            } else {
-                                parentTab.children.forEach(childTab -> {
-                                    LOG.debug("Show sub tab " + childTab.getTabId());
-                                    childTab.removeStyleName("hide");
-                                });
-                            }
+                            parentTab.toggleGroupTabDisplay();
                         });
                     }
-                    UI.getCurrent().getSession().unlock();
                 } else {
                     throw new MyCollabException("Not found parent tab with id " + parentId);
                 }
@@ -264,10 +242,7 @@ public class VerticalTabsheet extends CustomComponent {
     public Component selectTab(String viewId, Component viewDisplay) {
         ButtonTab tab = compMap.get(viewId);
         if (tab != null) {
-            selectedButton = tab;
-            clearTabSelection();
-            selectedButton.addStyleName(TAB_SELECTED_STYLE);
-            selectedComp = tab;
+            setSelectedTab(tab);
 
             // Hack for tab view has both header - content or content only
             if (contentWrapper.getComponentCount() > 0 && "tab-content-header".equals(contentWrapper.getComponent(0).getId())) {
@@ -289,6 +264,31 @@ public class VerticalTabsheet extends CustomComponent {
             return tabComponent;
         } else {
             return null;
+        }
+    }
+
+    private void setSelectedTab(ButtonTab tab) {
+        if (tab != selectedComp) {
+            clearTabSelection();
+            selectedComp = tab;
+            selectedComp.addStyleName(TAB_SELECTED_STYLE);
+
+            ButtonTab parentGroupTab = null;
+            if (tab.hasChildTabs()) {
+                parentGroupTab = tab;
+            }
+            if (tab.getParentTab() != null) {
+                parentGroupTab = tab.getParentTab();
+            }
+
+            if (parentGroupTab != null) {
+                parentGroupTab.addStyleName(GROUP_TAB_SELECTED_STYLE);
+                parentGroupTab.children.forEach(child -> child.addStyleName(GROUP_TAB_SELECTED_STYLE));
+
+                if (parentGroupTab.collapsed) {
+                    parentGroupTab.toggleGroupTabDisplay();
+                }
+            }
         }
     }
 
@@ -315,8 +315,13 @@ public class VerticalTabsheet extends CustomComponent {
 
     private void clearTabSelection() {
         navigatorContainer.forEach(component -> {
+            LOG.debug("Clear selected css " + ((ButtonTab) component).getTabId());
             if (component.getStyleName().contains(TAB_SELECTED_STYLE)) {
                 component.removeStyleName(TAB_SELECTED_STYLE);
+            }
+
+            if (component.getStyleName().contains(GROUP_TAB_SELECTED_STYLE)) {
+                component.removeStyleName(GROUP_TAB_SELECTED_STYLE);
             }
         });
     }
@@ -337,6 +342,7 @@ public class VerticalTabsheet extends CustomComponent {
         private String caption;
         private Component component;
 
+        private ButtonTab parentTab;
         private List<ButtonTab> children;
         private boolean collapsed = true;
 
@@ -366,11 +372,40 @@ public class VerticalTabsheet extends CustomComponent {
             return component;
         }
 
+        public void setParentTab(ButtonTab parentTab) {
+            this.parentTab = parentTab;
+        }
+
+        public ButtonTab getParentTab() {
+            return parentTab;
+        }
+
         public void addSubTab(ButtonTab child) {
             if (children == null) {
                 children = new ArrayList<>();
             }
             children.add(child);
+            child.setParentTab(this);
+        }
+
+        public boolean hasChildTabs() {
+            return (children != null) && children.size() > 0;
+        }
+
+        void toggleGroupTabDisplay() {
+            if (children != null) {
+                this.collapsed = !this.collapsed;
+                String newStyleName = this.collapsed ? "collapsed-tab" : "un-collapsed-tab";
+                String oldStyleName = this.collapsed ? "un-collapsed-tab" : "collapsed-tab";
+                this.removeStyleName(oldStyleName);
+                this.addStyleName(newStyleName);
+
+                if (this.collapsed) {
+                    this.children.forEach(childTab -> childTab.addStyleName("hide"));
+                } else {
+                    this.children.forEach(childTab -> childTab.removeStyleName("hide"));
+                }
+            }
         }
     }
 }

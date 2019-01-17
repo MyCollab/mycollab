@@ -153,14 +153,6 @@ public class ProjectBreadcrumb extends MHorizontalLayout implements CacheableCom
                 UserUIContext.getMessage(ProjectCommonI18nEnum.VIEW_ROADMAP));
     }
 
-    public void gotoMilestoneKanban() {
-        addSummaryLink();
-        addLink(new Button(UserUIContext.getMessage(MilestoneI18nEnum.LIST), new GotoMilestoneListListener()));
-        addLink(new Button(UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_KANBAN)));
-        AppUI.addFragment("project/milestone/kanban/" + UrlEncodeDecoder.encode(project.getId()),
-                UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_KANBAN));
-    }
-
     public void gotoMilestoneRead(Milestone milestone) {
         addSummaryLink();
         addEnabledLink(new Button(UserUIContext.getMessage(MilestoneI18nEnum.LIST), new GotoMilestoneListListener()));
@@ -285,7 +277,7 @@ public class ProjectBreadcrumb extends MHorizontalLayout implements CacheableCom
         addEnabledLink(new Button(UserUIContext.getMessage(TicketI18nEnum.LIST), new GotoTicketDashboard()));
         addLink(new Button(String.format("%s: %s", UserUIContext.getMessage(TicketI18nEnum.SINGLE),
                 UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_KANBAN))));
-        AppUI.addFragment("project/ticket/kanban/" + UrlEncodeDecoder.encode(project.getId()),
+        AppUI.addFragment(ProjectLinkGenerator.generateTicketKanbanLink(project.getId()),
                 UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_KANBAN));
     }
 

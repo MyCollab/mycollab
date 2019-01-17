@@ -23,4 +23,6 @@ import com.vaadin.ui.SingleComponentContainer
  * @author MyCollab Ltd.
  * @since 4.1
  */
-interface IBillingContainer : PageView, SingleComponentContainer
+interface IBillingContainer : PageView, SingleComponentContainer {
+    fun display()
+}

@@ -58,8 +58,8 @@ public class GridFormLayoutHelper implements Serializable {
         return defaultFormLayoutHelper(columns, rows, "167px");
     }
 
-    public static GridFormLayoutHelper defaultFormLayoutHelper(int columns, int rows, String controlWidth) {
-        GridFormLayoutHelper helper = new GridFormLayoutHelper(columns, rows, "100%", controlWidth);
+    public static GridFormLayoutHelper defaultFormLayoutHelper(int columns, int rows, String captionWidth) {
+        GridFormLayoutHelper helper = new GridFormLayoutHelper(columns, rows, "100%", captionWidth);
         helper.getLayout().setWidth("100%");
         helper.getLayout().addStyleName(WebThemes.GRIDFORM_STANDARD);
         return helper;

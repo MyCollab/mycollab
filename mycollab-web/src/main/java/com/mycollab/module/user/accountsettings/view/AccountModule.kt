@@ -17,13 +17,14 @@
 package com.mycollab.module.user.accountsettings.view
 
 import com.mycollab.web.IDesktopModule
+import com.vaadin.ui.Component
 
 /**
  * @author MyCollab Ltd.
  * @since 2.0
  */
 interface AccountModule : IDesktopModule {
-    fun gotoSubView(viewName: String)
+    fun gotoSubView(viewId: String, viewDisplay: Component)
 
     fun gotoUserProfilePage()
 }

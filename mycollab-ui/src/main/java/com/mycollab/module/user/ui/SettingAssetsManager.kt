@@ -27,7 +27,9 @@ object SettingAssetsManager {
     private val resources = mapOf(
             SettingUIConstants.PROFILE to VaadinIcons.BOOK,
             SettingUIConstants.BILLING to VaadinIcons.CREDIT_CARD,
+            SettingUIConstants.SETTING to VaadinIcons.COGS,
             SettingUIConstants.USERS to VaadinIcons.USERS,
+            SettingUIConstants.ROLES to VaadinIcons.COIN_PILES,
             SettingUIConstants.GENERAL_SETTING to VaadinIcons.COG,
             SettingUIConstants.THEME_CUSTOMIZE to VaadinIcons.MAGIC
     )

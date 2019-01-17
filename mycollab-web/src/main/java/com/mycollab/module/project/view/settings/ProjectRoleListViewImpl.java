@@ -66,7 +66,7 @@ public class ProjectRoleListViewImpl extends AbstractVerticalPageView implements
         searchPanel = new ProjectRoleSearchPanel();
 
         listLayout = new MVerticalLayout().withMargin(false).withSpacing(false);
-        with(searchPanel, listLayout);
+        with(searchPanel, listLayout).expand(listLayout);
 
         this.generateDisplayTable();
     }
@@ -92,7 +92,7 @@ public class ProjectRoleListViewImpl extends AbstractVerticalPageView implements
         });
 
         tableItem.setWidth("100%");
-        listLayout.with(constructTableActionControls(), tableItem);
+        listLayout.with(constructTableActionControls(), tableItem).expand(tableItem);
     }
 
     @Override

@@ -41,6 +41,9 @@ object ProjectLinkGenerator {
             "${URL_PREFIX_PARAM}project/ticket/dashboard/${UrlEncodeDecoder.encode(projectId)}"
 
     @JvmStatic
+    fun generateTicketKanbanLink(projectId: Int): String = "${URL_PREFIX_PARAM}project/ticket/kanban/${UrlEncodeDecoder.encode(projectId)}"
+
+    @JvmStatic
     fun generateTaskPreviewLink(taskKey: Int?, prjShortName: String): String =
             "${URL_PREFIX_PARAM}project/task/preview/$prjShortName-$taskKey"
 
