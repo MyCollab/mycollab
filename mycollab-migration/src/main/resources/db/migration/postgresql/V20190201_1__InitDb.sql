@@ -330,7 +330,7 @@ DROP TABLE IF EXISTS m_client;
 
 CREATE TABLE m_client (
   id serial,
-  accountName varchar(255) NOT NULL,
+  name varchar(255) NOT NULL,
   website varchar(255) DEFAULT NULL,
   phoneOffice varchar(45) DEFAULT NULL,
   fax varchar(45) DEFAULT NULL,
@@ -477,7 +477,7 @@ CREATE TABLE m_monitor_item (
   username varchar(45) NOT NULL,
   createdTime timestamp NOT NULL,
   type varchar(45) NOT NULL,
-  typeId integer NOT NULL,
+  typeId varchar(100) NOT NULL,
   extraTypeId integer DEFAULT NULL,
   sAccountId integer NOT NULL,
   PRIMARY KEY (id),
@@ -578,7 +578,7 @@ CREATE TABLE m_prj_project (
   CONSTRAINT FK_m_prj_project_2 FOREIGN KEY (createUser) REFERENCES s_user (username) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT FK_m_prj_project_4 FOREIGN KEY (sAccountId) REFERENCES s_account (id) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT FK_m_prj_project_5 FOREIGN KEY (memLead) REFERENCES s_user (username) ON DELETE SET NULL ON UPDATE CASCADE,
-  CONSTRAINT FK_m_prj_project_6 FOREIGN KEY (`clientId`) REFERENCES `m_client` (`id`) ON DELETE SET NULL ON UPDATE SET NULL
+  CONSTRAINT FK_m_prj_project_6 FOREIGN KEY (clientId) REFERENCES m_client (id) ON DELETE SET NULL ON UPDATE SET NULL
 ) ;
 
 --
@@ -1136,7 +1136,7 @@ CREATE TABLE s_account_theme (
 -- Dumping data for table s_account_theme
 --
 
-INSERT INTO s_account_theme(id, topMenuBg, topMenuBgSelected, topMenuText, topMenuTextSelected, vTabsheetBg, vTabsheetBgSelected, vTabsheetText, vTabsheetTextSelected, actionBtn, actionBtnText, optionBtn, optionBtnText, dangerBtn, dangerBtnText, isDefault, sAccountId) VALUES (INSERT INTO `s_account_theme` VALUES (4, 'FFFFFF', '3F5166', '000000', 'F1F1F1', '001529', '0190FE', 'B8BECA', 'FFFFFF', '1F9DFE', 'FFFFFF', 'CCCCCC', 'FFFFFF', 'D32F2F', 'FFFFFF', TRUE, NULL););
+INSERT INTO s_account_theme(id, topMenuBg, topMenuBgSelected, topMenuText, topMenuTextSelected, vTabsheetBg, vTabsheetBgSelected, vTabsheetText, vTabsheetTextSelected, actionBtn, actionBtnText, optionBtn, optionBtnText, dangerBtn, dangerBtnText, isDefault, sAccountId) VALUES (4, 'FFFFFF', '3F5166', '000000', 'F1F1F1', '001529', '0190FE', 'B8BECA', 'FFFFFF', '1F9DFE', 'FFFFFF', 'CCCCCC', 'FFFFFF', 'D32F2F', 'FFFFFF', TRUE, NULL);
 
 
 

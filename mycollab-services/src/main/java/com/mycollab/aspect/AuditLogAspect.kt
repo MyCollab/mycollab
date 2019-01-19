@@ -107,7 +107,7 @@ class AuditLogAspect(private var cacheService: CacheService,
                 val monitorItem = MonitorItem()
                 monitorItem.createdtime = LocalDateTime.now()
                 monitorItem.type = monitorType
-                monitorItem.typeid = typeId
+                monitorItem.typeid = "$typeId"
                 monitorItem.extratypeid = extraTypeId
                 monitorItem.username = username
                 monitorItem.saccountid = sAccountId

@@ -21,6 +21,7 @@ import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.service.CommentService;
 import com.mycollab.core.UserInvalidInputException;
 import com.mycollab.core.utils.StringUtils;
+import com.mycollab.form.view.LayoutType;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.event.BugEvent;
@@ -86,7 +87,7 @@ public class ResolvedInputForm extends AdvancedEditBeanForm<SimpleBug> {
         @Override
         public AbstractComponent getLayout() {
             final VerticalLayout layout = new VerticalLayout();
-            informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 6);
+            informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(LayoutType.TWO_COLUMN);
             layout.addComponent(informationLayout.getLayout());
 
             MButton resolveBtn = new MButton(UserUIContext.getMessage(BugI18nEnum.BUTTON_RESOLVED), clickEvent -> {

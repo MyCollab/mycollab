@@ -18,6 +18,7 @@ package com.mycollab.module.user.accountsettings.customize.view;
 
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.core.utils.BeanUtility;
+import com.mycollab.form.view.LayoutType;
 import com.mycollab.module.user.accountsettings.localization.AdminI18nEnum;
 import com.mycollab.module.user.domain.BillingAccount;
 import com.mycollab.module.user.domain.SimpleBillingAccount;
@@ -61,7 +62,7 @@ class AccountInfoChangeWindow extends MWindow {
         billingAccount = BeanUtility.deepClone(AppUI.getBillingAccount());
         editForm = new AdvancedEditBeanForm<>();
         editForm.setFormLayoutFactory(new AbstractFormLayoutFactory() {
-            private GridFormLayoutHelper gridFormLayoutHelper = GridFormLayoutHelper.defaultFormLayoutHelper(1, 9, "200px");
+            private GridFormLayoutHelper gridFormLayoutHelper = GridFormLayoutHelper.defaultFormLayoutHelper(LayoutType.ONE_COLUMN, "200px");
 
             @Override
             public AbstractComponent getLayout() {

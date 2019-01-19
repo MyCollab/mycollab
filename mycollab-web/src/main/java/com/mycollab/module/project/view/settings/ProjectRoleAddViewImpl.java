@@ -17,6 +17,7 @@
 package com.mycollab.module.project.view.settings;
 
 import com.mycollab.common.i18n.SecurityI18nEnum;
+import com.mycollab.form.view.LayoutType;
 import com.mycollab.module.project.ProjectRolePermissionCollections;
 import com.mycollab.module.project.domain.ProjectRole;
 import com.mycollab.module.project.domain.SimpleProjectRole;
@@ -38,7 +39,7 @@ import com.vaadin.data.HasValue;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.TextArea;
-import com.vaadin.ui.TextField;
+import org.vaadin.viritin.fields.MTextField;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -49,7 +50,6 @@ import static com.mycollab.vaadin.web.ui.utils.FormControlsGenerator.generateEdi
  * @author MyCollab Ltd.
  * @since 1.0
  */
-// TODO
 @ViewComponent
 public class ProjectRoleAddViewImpl extends AbstractEditItemComp<ProjectRole> implements ProjectRoleAddView {
     private static final long serialVersionUID = 1L;
@@ -96,13 +96,7 @@ public class ProjectRoleAddViewImpl extends AbstractEditItemComp<ProjectRole> im
                 if (propertyId.equals("description")) {
                     return new TextArea();
                 } else if (propertyId.equals("rolename")) {
-                    final TextField tf = new TextField();
-//                    if (isValidateForm) {
-//                        tf.setNullRepresentation("");
-//                        tf.setRequired(true);
-//                        tf.setRequiredError("Please enter a role name");
-//                    }
-                    return tf;
+                    return new MTextField().withRequiredIndicatorVisible(true);
                 }
                 return null;
             }
@@ -120,8 +114,7 @@ public class ProjectRoleAddViewImpl extends AbstractEditItemComp<ProjectRole> im
             perMap = new PermissionMap();
         }
 
-        final GridFormLayoutHelper permissionFormHelper = GridFormLayoutHelper.defaultFormLayoutHelper(
-                2, (ProjectRolePermissionCollections.PROJECT_PERMISSIONS.length + 1) / 2, "180px");
+        final GridFormLayoutHelper permissionFormHelper = GridFormLayoutHelper.defaultFormLayoutHelper(LayoutType.TWO_COLUMN, "180px");
 
         for (int i = 0; i < ProjectRolePermissionCollections.PROJECT_PERMISSIONS.length; i++) {
             final String permissionPath = ProjectRolePermissionCollections.PROJECT_PERMISSIONS[i];

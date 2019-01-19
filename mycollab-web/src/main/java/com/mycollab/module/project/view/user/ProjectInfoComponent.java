@@ -53,8 +53,7 @@ import org.vaadin.viritin.layouts.MVerticalLayout;
 public class ProjectInfoComponent extends MHorizontalLayout {
 
     public ProjectInfoComponent(SimpleProject project) {
-        this.withMargin(false).withFullWidth().withStyleName("top-panel");
-        setId("tab-content-header");
+        this.withMargin(false).withFullWidth().withStyleName("top-panel").withId("tab-content-header");
         Component projectIcon = ProjectAssetsUtil.editableProjectLogoComp(project.getShortname(), project.getId(), project.getAvatarid(), 32);
         this.with(projectIcon).withAlign(projectIcon, Alignment.TOP_LEFT);
 

@@ -537,7 +537,7 @@ CREATE TABLE `m_monitor_item` (
   `username` varchar(45) NOT NULL,
   `createdTime` datetime NOT NULL,
   `type` varchar(45) NOT NULL,
-  `typeId` int(10) unsigned NOT NULL,
+  `typeId` varchar(100) unsigned NOT NULL,
   `extraTypeId` int(10) unsigned DEFAULT NULL,
   `sAccountId` int(11) NOT NULL,
   PRIMARY KEY (`id`),

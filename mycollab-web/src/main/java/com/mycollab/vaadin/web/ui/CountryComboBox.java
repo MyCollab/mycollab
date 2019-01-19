@@ -37,5 +37,6 @@ public class CountryComboBox extends ComboBox {
             Locale obj = new Locale("", country);
             return obj.getDisplayCountry(UserUIContext.getUserLocale());
         });
+        setWidth(WebThemes.FORM_CONTROL_WIDTH);
     }
 }

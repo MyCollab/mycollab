@@ -27,6 +27,7 @@ import com.mycollab.module.project.service.ProjectRoleService;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.UserUIContext;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.data.Converter;
 import com.vaadin.data.Result;
 import com.vaadin.data.ValueContext;
@@ -45,6 +46,7 @@ public class ProjectRoleComboBox extends ComboBox<SimpleProjectRole> implements 
     private List<SimpleProjectRole> roles;
 
     public ProjectRoleComboBox() {
+        setWidth(WebThemes.FORM_CONTROL_WIDTH);
         ProjectRoleSearchCriteria criteria = new ProjectRoleSearchCriteria();
         criteria.setSaccountid(new NumberSearchField(AppUI.getAccountId()));
         criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
@@ -58,6 +60,8 @@ public class ProjectRoleComboBox extends ComboBox<SimpleProjectRole> implements 
 
         roles.add(ownerRole);
         this.setItems(roles);
+
+        this.setSelectedItem(roles.get(0));
 
         this.setEmptySelectionAllowed(false);
         this.setItemCaptionGenerator((ItemCaptionGenerator<SimpleProjectRole>) ProjectRole::getRolename);

@@ -16,6 +16,7 @@
  */
 package com.mycollab.module.project.view.settings;
 
+import com.mycollab.form.view.LayoutType;
 import com.mycollab.module.project.domain.ProjectMember;
 import com.mycollab.module.project.i18n.ProjectI18nEnum;
 import com.mycollab.module.project.i18n.ProjectMemberI18nEnum;
@@ -37,7 +38,7 @@ public class ProjectMemberFormLayoutFactory extends AbstractFormLayoutFactory {
     @Override
     public AbstractComponent getLayout() {
         final FormContainer layout = new FormContainer();
-        informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 3);
+        informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(LayoutType.TWO_COLUMN);
         layout.addSection(UserUIContext.getMessage(ProjectMemberI18nEnum.FORM_INFORMATION_SECTION), informationLayout.getLayout());
         return layout;
     }

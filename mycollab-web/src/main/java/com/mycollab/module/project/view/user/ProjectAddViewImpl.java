@@ -19,6 +19,7 @@ package com.mycollab.module.project.view.user;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.mycollab.core.MyCollabException;
+import com.mycollab.form.view.LayoutType;
 import com.mycollab.module.project.domain.Project;
 import com.mycollab.module.project.i18n.ProjectI18nEnum;
 import com.mycollab.module.project.ui.ProjectAssetsUtil;
@@ -124,13 +125,13 @@ public class ProjectAddViewImpl extends AbstractVerticalPageView implements Proj
         public AbstractComponent getLayout() {
             final FormContainer layout = new FormContainer();
 
-            informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 3);
+            informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(LayoutType.TWO_COLUMN);
             layout.addSection(UserUIContext.getMessage(ProjectI18nEnum.SECTION_PROJECT_INFO), informationLayout.getLayout());
 
-            financialLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 4);
+            financialLayout = GridFormLayoutHelper.defaultFormLayoutHelper(LayoutType.TWO_COLUMN);
             layout.addSection(UserUIContext.getMessage(ProjectI18nEnum.SECTION_FINANCE_SCHEDULE), financialLayout.getLayout());
 
-            descriptionLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 1);
+            descriptionLayout = GridFormLayoutHelper.defaultFormLayoutHelper(LayoutType.TWO_COLUMN);
             layout.addSection(UserUIContext.getMessage(ProjectI18nEnum.SECTION_DESCRIPTION), descriptionLayout.getLayout());
             return layout;
         }

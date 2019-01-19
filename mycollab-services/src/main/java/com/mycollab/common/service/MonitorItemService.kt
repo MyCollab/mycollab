@@ -29,7 +29,7 @@ import com.mycollab.module.user.domain.SimpleUser
 @IgnoreCacheClass
 interface MonitorItemService : IDefaultService<Int, MonitorItem, MonitorSearchCriteria> {
 
-    fun isUserWatchingItem(username: String, type: String, typeId: Int): Boolean
+    fun isUserWatchingItem(username: String, type: String, typeId: String): Boolean
 
     fun getWatchers(type: String, typeId: Int): List<SimpleUser>
 

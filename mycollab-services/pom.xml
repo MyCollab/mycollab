@@ -94,13 +94,30 @@
                         <version>${mysql.version}</version>
                     </dependency>
                     <dependency>
+                        <groupId>org.postgresql</groupId>
+                        <artifactId>postgresql</artifactId>
+                        <version>42.2.5</version>
+                    </dependency>
+                    <dependency>
                         <groupId>com.mycollab</groupId>
                         <artifactId>mycollab-tool</artifactId>
                         <version>1.0.4</version>
                     </dependency>
                 </dependencies>
                 <executions>
-                    <!--
+<!--
+                    <execution>
+                        <id>Project Artifacts Generator</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <configurationFile>${basedir}/src/main/resources/ProjectGeneratorConfig.xml</configurationFile>
+                            <overwrite>true</overwrite>
+                        </configuration>
+                    </execution>
+
                     <execution>
                         <id>User Artifacts Generator</id>
                         <phase>validate</phase>
@@ -131,18 +148,6 @@
                         </goals>
                         <configuration>
                             <configurationFile>${basedir}/src/main/resources/CommonGeneratorPremiumConfig.xml</configurationFile>
-                            <overwrite>true</overwrite>
-                        </configuration>
-                    </execution>
-
-                    <execution>
-                        <id>Project Artifacts Generator</id>
-                        <phase>validate</phase>
-                        <goals>
-                            <goal>generate</goal>
-                        </goals>
-                        <configuration>
-                            <configurationFile>${basedir}/src/main/resources/ProjectGeneratorConfig.xml</configurationFile>
                             <overwrite>true</overwrite>
                         </configuration>
                     </execution>

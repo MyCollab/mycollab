@@ -20,6 +20,7 @@ import com.google.common.base.MoreObjects;
 import com.mycollab.common.i18n.ErrorI18nEnum;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.i18n.ShellI18nEnum;
+import com.mycollab.form.view.LayoutType;
 import com.mycollab.module.user.accountsettings.localization.UserI18nEnum;
 import com.mycollab.module.user.domain.User;
 import com.mycollab.module.user.service.UserService;
@@ -66,7 +67,7 @@ class BasicInfoChangeWindow extends MWindow {
     private void initUI() {
         final MVerticalLayout mainLayout = new MVerticalLayout().withMargin(new MarginInfo(false, false, true, false)).withFullWidth();
 
-        final GridFormLayoutHelper passInfo = GridFormLayoutHelper.defaultFormLayoutHelper(1, 6);
+        final GridFormLayoutHelper passInfo = GridFormLayoutHelper.defaultFormLayoutHelper(LayoutType.ONE_COLUMN);
 
         passInfo.addComponent(txtFirstName, UserUIContext.getMessage(UserI18nEnum.FORM_FIRST_NAME), 0, 0);
         passInfo.addComponent(txtLastName, UserUIContext.getMessage(UserI18nEnum.FORM_LAST_NAME), 0, 1);

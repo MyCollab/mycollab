@@ -41,7 +41,7 @@ class MonitorServiceTest : IntegrationServiceTest() {
         mon1.createdtime = LocalDateTime.now()
         mon1.saccountid = 1
         mon1.type = ProjectTypeConstants.BUG
-        mon1.typeid = 1
+        mon1.typeid = "1"
         mon1.extratypeid = 1
         mon1.username = "hainguyen"
         val items = ArrayList<MonitorItem>()

@@ -18,10 +18,10 @@ package com.mycollab.vaadin.web.ui;
 
 import com.mycollab.core.MyCollabException;
 import com.mycollab.form.service.MasterFormService;
+import com.mycollab.form.view.LayoutType;
 import com.mycollab.form.view.builder.type.AbstractDynaField;
 import com.mycollab.form.view.builder.type.DynaForm;
 import com.mycollab.form.view.builder.type.DynaSection;
-import com.mycollab.form.view.builder.type.DynaSection.LayoutType;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.UserUIContext;
@@ -32,7 +32,6 @@ import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.vaadin.data.HasValue;
 import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import org.vaadin.viritin.layouts.MCssLayout;
 
@@ -88,7 +87,7 @@ public class DefaultDynaFormLayout implements IDynaFormLayout {
             }
 
             if (section.getLayoutType() == LayoutType.ONE_COLUMN) {
-                gridLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 1);
+                gridLayout = GridFormLayoutHelper.defaultFormLayoutHelper(section.getLayoutType());
                 int rowIndex = 0;
                 for (int j = 0; j < section.getFieldCount(); j++) {
                     AbstractDynaField dynaField = section.getField(j);
@@ -108,7 +107,7 @@ public class DefaultDynaFormLayout implements IDynaFormLayout {
                     }
                 }
             } else if (section.getLayoutType() == LayoutType.TWO_COLUMN) {
-                gridLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 1);
+                gridLayout = GridFormLayoutHelper.defaultFormLayoutHelper(section.getLayoutType());
                 int columnIndex = 0;
                 int rowIndex = 0;
                 for (int j = 0; j < section.getFieldCount(); j++) {

@@ -17,6 +17,7 @@
 package com.mycollab.module.user.accountsettings.team.view;
 
 import com.mycollab.common.i18n.SecurityI18nEnum;
+import com.mycollab.form.view.LayoutType;
 import com.mycollab.i18n.LocalizationHelper;
 import com.mycollab.module.user.accountsettings.localization.RoleI18nEnum;
 import com.mycollab.module.user.domain.Role;
@@ -106,7 +107,7 @@ public class RoleReadViewImpl extends AbstractVerticalPageView implements RoleRe
 
     private ComponentContainer constructPermissionSectionView(String depotTitle, PermissionMap permissionMap,
                                                               List<PermissionDefItem> defItems) {
-        GridFormLayoutHelper formHelper = GridFormLayoutHelper.defaultFormLayoutHelper(2, defItems.size() / 2 + 1);
+        GridFormLayoutHelper formHelper = GridFormLayoutHelper.defaultFormLayoutHelper(LayoutType.TWO_COLUMN);
         FormContainer permissionsPanel = new FormContainer();
 
         for (int i = 0; i < defItems.size(); i++) {

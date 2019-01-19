@@ -18,6 +18,7 @@ package com.mycollab.module.project.view.bug;
 
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.core.UserInvalidInputException;
+import com.mycollab.form.view.LayoutType;
 import com.mycollab.module.project.event.BugEvent;
 import com.mycollab.module.project.i18n.OptionI18nEnum;
 import com.mycollab.module.tracker.domain.RelatedBug;
@@ -83,7 +84,7 @@ class LinkIssueWindow extends MWindow {
             @Override
             public AbstractComponent getLayout() {
                 final VerticalLayout layout = new VerticalLayout();
-                informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(1, 3);
+                informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(LayoutType.ONE_COLUMN);
                 layout.addComponent(informationLayout.getLayout());
 
                 MButton saveBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_SAVE), clickEvent -> {

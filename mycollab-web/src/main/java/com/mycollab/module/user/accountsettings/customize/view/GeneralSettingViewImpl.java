@@ -26,6 +26,7 @@ import com.mycollab.core.UserInvalidInputException;
 import com.mycollab.core.utils.DateTimeUtils;
 import com.mycollab.core.utils.ImageUtil;
 import com.mycollab.core.utils.TimezoneVal;
+import com.mycollab.form.view.LayoutType;
 import com.mycollab.i18n.LocalizationHelper;
 import com.mycollab.module.file.StorageUtils;
 import com.mycollab.module.file.service.AccountFavIconService;
@@ -54,7 +55,6 @@ import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import org.vaadin.easyuploads.UploadField;
 import org.vaadin.viritin.button.MButton;
-import org.vaadin.viritin.layouts.MCssLayout;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
@@ -93,7 +93,7 @@ public class GeneralSettingViewImpl extends AbstractVerticalPageView implements 
 
         generalSettingHeader.with(headerLbl, editBtn).alignAll(Alignment.MIDDLE_LEFT);
 
-        GridFormLayoutHelper gridFormLayoutHelper = GridFormLayoutHelper.defaultFormLayoutHelper(2, 5, "200px");
+        GridFormLayoutHelper gridFormLayoutHelper = GridFormLayoutHelper.defaultFormLayoutHelper(LayoutType.TWO_COLUMN, "200px");
         gridFormLayoutHelper.addComponent(new Label(billingAccount.getSitename()),
                 UserUIContext.getMessage(AdminI18nEnum.FORM_SITE_NAME), 0, 0);
         gridFormLayoutHelper.addComponent(new Label(String.format("https://%s.mycollab.com", billingAccount
@@ -146,7 +146,7 @@ public class GeneralSettingViewImpl extends AbstractVerticalPageView implements 
         FormContainer formContainer = new FormContainer();
         MHorizontalLayout layout = new MHorizontalLayout().withFullWidth().withMargin(new MarginInfo(true, false, true, false));
         MVerticalLayout leftPanel = new MVerticalLayout().withMargin(false);
-        ELabel logoDesc =  ELabel.html(UserUIContext.getMessage(AdminI18nEnum.OPT_LOGO_FORMAT_DESCRIPTION)).withFullWidth();
+        ELabel logoDesc = ELabel.html(UserUIContext.getMessage(AdminI18nEnum.OPT_LOGO_FORMAT_DESCRIPTION)).withFullWidth();
         leftPanel.with(logoDesc).withWidth("250px");
 
         MVerticalLayout rightPanel = new MVerticalLayout().withMargin(false);
@@ -230,7 +230,7 @@ public class GeneralSettingViewImpl extends AbstractVerticalPageView implements 
         FormContainer formContainer = new FormContainer();
         MHorizontalLayout layout = new MHorizontalLayout().withFullWidth().withMargin(new MarginInfo(true, false, true, false));
         MVerticalLayout leftPanel = new MVerticalLayout().withMargin(false);
-        ELabel logoDesc =  ELabel.html(UserUIContext.getMessage(FileI18nEnum.OPT_FAVICON_FORMAT_DESCRIPTION)).withFullWidth();
+        ELabel logoDesc = ELabel.html(UserUIContext.getMessage(FileI18nEnum.OPT_FAVICON_FORMAT_DESCRIPTION)).withFullWidth();
         leftPanel.with(logoDesc).withWidth("250px");
         MVerticalLayout rightPanel = new MVerticalLayout().withMargin(false);
         final Image favIconRes = new Image("", new ExternalResource(StorageUtils.getFavIconPath(billingAccount.getId(),

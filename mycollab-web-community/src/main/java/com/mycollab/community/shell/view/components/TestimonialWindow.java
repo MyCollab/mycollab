@@ -19,6 +19,7 @@ package com.mycollab.community.shell.view.components;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.configuration.ServerConfiguration;
 import com.mycollab.core.MyCollabException;
+import com.mycollab.form.view.LayoutType;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.support.domain.TestimonialForm;
 import com.mycollab.vaadin.UserUIContext;
@@ -61,7 +62,7 @@ class TestimonialWindow extends MWindow {
 
             @Override
             public AbstractComponent getLayout() {
-                gridFormLayoutHelper = GridFormLayoutHelper.defaultFormLayoutHelper(2, 4);
+                gridFormLayoutHelper = GridFormLayoutHelper.defaultFormLayoutHelper(LayoutType.TWO_COLUMN);
                 return gridFormLayoutHelper.getLayout();
             }
 

@@ -211,7 +211,7 @@ public class ProjectFollowersComp<V extends ValuedBean> extends MVerticalLayout 
                 item.setExtratypeid(CurrentProjectVariables.getProjectId());
                 item.setSaccountid(AppUI.getAccountId());
                 item.setType(type);
-                item.setTypeid(typeId);
+                item.setTypeid(typeId + "");
                 item.setUsername(member.getUsername());
                 items.add(item);
             }

@@ -19,6 +19,7 @@ package com.mycollab.shell.view;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.i18n.ShellI18nEnum;
 import com.mycollab.core.utils.StringUtils;
+import com.mycollab.form.view.LayoutType;
 import com.mycollab.module.user.accountsettings.localization.AdminI18nEnum;
 import com.mycollab.module.user.dao.BillingAccountMapper;
 import com.mycollab.module.user.domain.BillingAccount;
@@ -61,7 +62,7 @@ class SetupNewInstanceView extends MVerticalLayout {
         formLayout.with(ELabel.h2("Last step, you are almost there!").withUndefinedWidth());
         formLayout.with(ELabel.h3("All fields are required *").withStyleName("overdue").withUndefinedWidth());
 
-        GridFormLayoutHelper formLayoutHelper = GridFormLayoutHelper.defaultFormLayoutHelper(2, 8, "200px");
+        GridFormLayoutHelper formLayoutHelper = GridFormLayoutHelper.defaultFormLayoutHelper(LayoutType.TWO_COLUMN, "200px");
         formLayoutHelper.getLayout().setWidth("600px");
         final TextField adminField = formLayoutHelper.addComponent(new TextField(), "Admin email", 0, 0);
         final PasswordField passwordField = formLayoutHelper.addComponent(new PasswordField(), "Admin password", 0, 1);

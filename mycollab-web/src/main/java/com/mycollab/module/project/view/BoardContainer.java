@@ -2,6 +2,7 @@ package com.mycollab.module.project.view;
 
 import com.mycollab.common.i18n.ClientI18nEnum;
 import com.mycollab.common.i18n.GenericI18Enum;
+import com.mycollab.configuration.SiteConfiguration;
 import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.mycollab.module.project.i18n.ProjectI18nEnum;
 import com.mycollab.module.project.view.client.IClientPresenter;
@@ -41,7 +42,9 @@ public class BoardContainer extends VerticalTabsheet implements PageView {
 
         this.addTab("Reports", UserUIContext.getMessage(ProjectCommonI18nEnum.VIEW_REPORTS), VaadinIcons.RETWEET);
 
-        this.addTab("Clients", UserUIContext.getMessage(ClientI18nEnum.LIST), VaadinIcons.COIN_PILES);
+        if (!SiteConfiguration.isCommunityEdition()) {
+            this.addTab("Clients", UserUIContext.getMessage(ClientI18nEnum.LIST), VaadinIcons.COIN_PILES);
+        }
 
         this.addSelectedTabChangeListener(new TabSheet.SelectedTabChangeListener() {
             private static final long serialVersionUID = 1L;

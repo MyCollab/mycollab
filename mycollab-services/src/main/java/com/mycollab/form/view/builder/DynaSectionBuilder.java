@@ -16,8 +16,8 @@
  */
 package com.mycollab.form.view.builder;
 
+import com.mycollab.form.view.LayoutType;
 import com.mycollab.form.view.builder.type.DynaSection;
-import com.mycollab.form.view.builder.type.DynaSection.LayoutType;
 
 /**
  * @author MyCollab Ltd.

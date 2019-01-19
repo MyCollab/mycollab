@@ -19,6 +19,7 @@ package com.mycollab.module.user.accountsettings.team.view;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.i18n.SecurityI18nEnum;
 import com.mycollab.common.i18n.ShellI18nEnum;
+import com.mycollab.form.view.LayoutType;
 import com.mycollab.form.view.builder.DynaSectionBuilder;
 import com.mycollab.form.view.builder.TextDynaFieldBuilder;
 import com.mycollab.form.view.builder.type.DynaForm;
@@ -155,7 +156,7 @@ public class UserAddViewImpl extends AbstractVerticalPageView implements UserAdd
             private DefaultDynaFormLayout buildFormLayout() {
                 DynaForm defaultForm = new DynaForm();
                 DynaSection mainSection = new DynaSectionBuilder().header(UserI18nEnum.SECTION_BASIC_INFORMATION)
-                        .layoutType(DynaSection.LayoutType.TWO_COLUMN).build();
+                        .layoutType(LayoutType.TWO_COLUMN).build();
                 mainSection.fields(new TextDynaFieldBuilder().fieldName(User.Field.firstname).displayName(UserI18nEnum.FORM_FIRST_NAME)
                         .fieldIndex(0).build());
                 mainSection.fields(new TextDynaFieldBuilder().fieldName(User.Field.email).displayName(GenericI18Enum.FORM_EMAIL)
@@ -207,15 +208,15 @@ public class UserAddViewImpl extends AbstractVerticalPageView implements UserAdd
                 AddViewLayout formAddLayout = new AddViewLayout(title, VaadinIcons.USER);
                 formAddLayout.addHeaderRight(generateEditFormControls(editUserForm, true, false, true));
                 FormContainer formContainer = new FormContainer();
-                basicInformationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 7);
+                basicInformationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(LayoutType.TWO_COLUMN);
                 formContainer.addSection(UserUIContext.getMessage(UserI18nEnum.SECTION_BASIC_INFORMATION),
                         basicInformationLayout.getLayout());
 
-                contactInformationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 3);
+                contactInformationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(LayoutType.TWO_COLUMN);
                 formContainer.addSection(UserUIContext.getMessage(UserI18nEnum.SECTION_CONTACT_INFORMATION),
                         contactInformationLayout.getLayout());
 
-                advancedInformationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 2);
+                advancedInformationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(LayoutType.TWO_COLUMN);
                 formContainer.addSection(UserUIContext.getMessage(UserI18nEnum.SECTION_ADVANCED_INFORMATION),
                         advancedInformationLayout.getLayout());
                 formAddLayout.addBody(formContainer);
@@ -282,8 +283,7 @@ public class UserAddViewImpl extends AbstractVerticalPageView implements UserAdd
                     return new AdminRoleSelectionField();
                 } else if (User.Field.email.equalTo(propertyId) || User.Field.firstname.equalTo(propertyId) ||
                         User.Field.lastname.equalTo(propertyId)) {
-//                    return new MTextField().withNullRepresentation("").withRequired(true)
-//                            .withRequiredError("This field must be not null");
+                    return new MTextField().withRequiredIndicatorVisible(true);
                 } else if (propertyId.equals("birthday")) {
                     return new DateField();
                 } else if (propertyId.equals("timezone")) {
@@ -356,7 +356,7 @@ public class UserAddViewImpl extends AbstractVerticalPageView implements UserAdd
 
         private ComponentContainer constructPermissionSectionView(String depotTitle, PermissionMap permissionMap,
                                                                   List<PermissionDefItem> defItems) {
-            GridFormLayoutHelper formHelper = GridFormLayoutHelper.defaultFormLayoutHelper(2, defItems.size() / 2 + 1);
+            GridFormLayoutHelper formHelper = GridFormLayoutHelper.defaultFormLayoutHelper(LayoutType.TWO_COLUMN);
             FormContainer permissionsPanel = new FormContainer();
 
             for (int i = 0; i < defItems.size(); i++) {

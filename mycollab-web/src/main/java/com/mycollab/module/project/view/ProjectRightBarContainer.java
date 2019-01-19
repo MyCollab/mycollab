@@ -3,6 +3,7 @@ package com.mycollab.module.project.view;
 import com.google.common.base.MoreObjects;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.i18n.OptionI18nEnum;
+import com.mycollab.common.i18n.ShellI18nEnum;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectRolePermissionCollections;
 import com.mycollab.module.project.domain.SimpleProject;
@@ -24,6 +25,7 @@ import com.mycollab.vaadin.mvp.PageActionChain;
 import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.icons.VaadinIcons;
+import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import org.vaadin.addons.stackpanel.StackPanel;
 import org.vaadin.viritin.button.MButton;
@@ -37,15 +39,55 @@ public class ProjectRightBarContainer extends MVerticalLayout {
 
     private SimpleProject project;
 
-    private Button toggleHideButton;
+    private Button toggleButton;
     private MVerticalLayout modulePanel;
+
+    private Boolean retainVisibility = true;
 
     public ProjectRightBarContainer(SimpleProject project) {
         this.project = project;
 
-        this.withFullHeight().withStyleName("project-right-bar");
+        this.withFullHeight().withMargin(false).withStyleName("project-right-bar");
         modulePanel = new MVerticalLayout().withMargin(false);
-        this.with(buildProjectActionPanel(), modulePanel).expand(modulePanel);
+        toggleButton = new Button();
+        toggleButton.addStyleName("toggle-button");
+        toggleButton.addStyleName(WebThemes.BUTTON_ICON_ONLY);
+        setToggleVisibility(retainVisibility);
+        toggleButton.addClickListener(clickEvent -> {
+            retainVisibility = !retainVisibility;
+            setToggleVisibility(retainVisibility);
+        });
+        this.with(toggleButton, buildProjectActionPanel(), modulePanel).withAlign(toggleButton, Alignment.TOP_LEFT).expand(modulePanel);
+    }
+
+    private void setToggleVisibility(boolean visibility) {
+        if (visibility) {
+            toggleButton.setIcon(VaadinIcons.CLOSE_SMALL);
+            toggleButton.setDescription(UserUIContext.getMessage(ShellI18nEnum.ACTION_COLLAPSE_MENU));
+            showComponents();
+        } else {
+            toggleButton.setIcon(VaadinIcons.ANGLE_DOUBLE_LEFT);
+            toggleButton.setDescription(UserUIContext.getMessage(ShellI18nEnum.ACTION_EXPAND_MENU));
+            hideComponents();
+        }
+    }
+
+    private void showComponents() {
+        this.setWidth("300px");
+        toggleButton.setWidth("300px");
+        for (int i=1; i<getComponentCount(); i++) {
+            Component component = getComponent(i);
+            component.removeStyleName(WebThemes.HIDE_ELEMENT);
+        }
+    }
+
+    private void hideComponents() {
+        this.setWidth("30px");
+        toggleButton.setWidth("30px");
+        for (int i=1; i<getComponentCount(); i++) {
+            Component component = getComponent(i);
+            component.addStyleName(WebThemes.HIDE_ELEMENT);
+        }
     }
 
     private Panel buildProjectActionPanel() {

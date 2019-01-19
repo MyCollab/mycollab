@@ -18,7 +18,6 @@ package com.mycollab.module.project.view;
 
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
-import com.mycollab.configuration.SiteConfiguration;
 import com.mycollab.db.arguments.SetSearchField;
 import com.mycollab.db.arguments.StringSearchField;
 import com.mycollab.module.project.ProjectTypeConstants;
@@ -83,12 +82,10 @@ public class ProjectModule extends AbstractSingleContainerPageView implements ID
             Button switchPrjBtn = new SwitchProjectPopupButton();
             serviceMenuContainer.with(switchPrjBtn);
 
-            if (!SiteConfiguration.isCommunityEdition()) {
-                MButton reportBtn = new MButton(UserUIContext.getMessage(ProjectCommonI18nEnum.VIEW_REPORTS), clickEvent -> {
-                    EventBusFactory.getInstance().post(new ReportEvent.GotoConsole(this));
-                });
-                serviceMenuContainer.with(reportBtn);
-            }
+            MButton reportBtn = new MButton(UserUIContext.getMessage(ProjectCommonI18nEnum.VIEW_REPORTS), clickEvent -> {
+                EventBusFactory.getInstance().post(new ReportEvent.GotoConsole(this));
+            });
+            serviceMenuContainer.with(reportBtn);
 
             PopupButton newBtn = new PopupButton(UserUIContext.getMessage(GenericI18Enum.ACTION_NEW));
             newBtn.addStyleName("add-btn-popup");

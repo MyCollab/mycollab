@@ -19,6 +19,7 @@ package com.mycollab.module.project.view.bug;
 import com.mycollab.common.domain.CommentWithBLOBs;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.service.CommentService;
+import com.mycollab.form.view.LayoutType;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.event.BugEvent;
@@ -91,7 +92,7 @@ public class ApproveInputWindow extends MWindow {
             @Override
             public AbstractComponent getLayout() {
                 final VerticalLayout layout = new VerticalLayout();
-                informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 6);
+                informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(LayoutType.TWO_COLUMN);
 
                 layout.addComponent(informationLayout.getLayout());
 
@@ -147,7 +148,7 @@ public class ApproveInputWindow extends MWindow {
         private class EditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<BugWithBLOBs> {
             private static final long serialVersionUID = 1L;
 
-            public EditFormFieldFactory(GenericBeanForm<BugWithBLOBs> form) {
+            EditFormFieldFactory(GenericBeanForm<BugWithBLOBs> form) {
                 super(form);
             }
 

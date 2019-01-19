@@ -134,7 +134,7 @@ public class BugAddPresenter extends ProjectGenericPresenter<BugAddView> {
                     MonitorItem monitorItem = new MonitorItem();
                     monitorItem.setSaccountid(AppUI.getAccountId());
                     monitorItem.setType(ProjectTypeConstants.BUG);
-                    monitorItem.setTypeid(bugId);
+                    monitorItem.setTypeid(bugId + "");
                     monitorItem.setUsername(follower);
                     monitorItem.setExtratypeid(CurrentProjectVariables.getProjectId());
                     monitorItems.add(monitorItem);

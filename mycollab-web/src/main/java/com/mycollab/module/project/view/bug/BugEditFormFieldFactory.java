@@ -30,6 +30,7 @@ import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.mycollab.vaadin.ui.GenericBeanForm;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.mycollab.vaadin.web.ui.field.AttachmentUploadField;
 import com.vaadin.data.HasValue;
 import com.vaadin.ui.DateField;
@@ -103,7 +104,7 @@ class BugEditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<Sim
             return new MilestoneComboBox();
         } else if (BugWithBLOBs.Field.originalestimate.equalTo(propertyId) ||
                 (BugWithBLOBs.Field.remainestimate.equalTo(propertyId))) {
-            return new DoubleField();
+            return new DoubleField().withWidth(WebThemes.FORM_CONTROL_WIDTH);
         } else if (propertyId.equals("selected")) {
             return subscribersComp;
         } else if (BugWithBLOBs.Field.startdate.equalTo(propertyId) || BugWithBLOBs.Field.enddate.equalTo(propertyId)

@@ -26,6 +26,7 @@ import com.mycollab.community.vaadin.web.ui.field.MetaFieldBuilder;
 import com.mycollab.core.MyCollabException;
 import com.mycollab.core.SecureAccessException;
 import com.mycollab.core.utils.NumberUtils;
+import com.mycollab.form.view.LayoutType;
 import com.mycollab.module.file.StorageUtils;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectRolePermissionCollections;
@@ -214,7 +215,7 @@ public class TicketComponentFactoryImpl implements TicketComponentFactory {
             typeSelection.setEmptySelectionAllowed(false);
             typeSelection.addValueChangeListener(valueChangeEvent -> doChange(date, prjId, milestoneId));
 
-            GridFormLayoutHelper formLayoutHelper = GridFormLayoutHelper.defaultFormLayoutHelper(1, 1);
+            GridFormLayoutHelper formLayoutHelper = GridFormLayoutHelper.defaultFormLayoutHelper(LayoutType.ONE_COLUMN);
             formLayoutHelper.addComponent(typeSelection, UserUIContext.getMessage(GenericI18Enum.FORM_TYPE), 0, 0);
             formLayout = new CssLayout();
             formLayout.setWidth("100%");

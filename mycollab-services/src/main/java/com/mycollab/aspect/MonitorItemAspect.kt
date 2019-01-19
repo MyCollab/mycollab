@@ -59,7 +59,7 @@ class MonitorItemAspect(private var monitorItemService: MonitorItemService,
                 val monitorItem = MonitorItem()
                 monitorItem.createdtime = LocalDateTime.now()
                 monitorItem.type = ClassInfoMap.getType(cls)
-                monitorItem.typeid = typeId
+                monitorItem.typeid = "$typeId"
                 monitorItem.extratypeid = extraTypeId
                 monitorItem.username = username
                 monitorItem.saccountid = sAccountId

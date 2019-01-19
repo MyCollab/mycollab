@@ -18,6 +18,7 @@ package com.mycollab.module.user.accountsettings.profile.view;
 
 import com.google.common.base.MoreObjects;
 import com.mycollab.common.i18n.GenericI18Enum;
+import com.mycollab.form.view.LayoutType;
 import com.mycollab.module.user.accountsettings.localization.UserI18nEnum;
 import com.mycollab.module.user.domain.User;
 import com.mycollab.module.user.service.UserService;
@@ -58,7 +59,7 @@ class AdvancedInfoChangeWindow extends MWindow {
     private void initUI() {
         MVerticalLayout mainLayout = new MVerticalLayout().withMargin(new MarginInfo(false, false, true, false)).withFullWidth();
 
-        GridFormLayoutHelper passInfo = GridFormLayoutHelper.defaultFormLayoutHelper(1, 4);
+        GridFormLayoutHelper passInfo = GridFormLayoutHelper.defaultFormLayoutHelper(LayoutType.ONE_COLUMN);
 
         passInfo.addComponent(txtWebsite, UserUIContext.getMessage(UserI18nEnum.FORM_WEBSITE), 0, 0);
         passInfo.addComponent(txtCompany, UserUIContext.getMessage(UserI18nEnum.FORM_COMPANY), 0, 1);

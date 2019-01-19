@@ -18,6 +18,7 @@ package com.mycollab.module.project.view;
 
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
+import com.mycollab.form.view.LayoutType;
 import com.mycollab.form.view.builder.DynaSectionBuilder;
 import com.mycollab.form.view.builder.TextAreaDynaFieldBuilder;
 import com.mycollab.form.view.builder.TextDynaFieldBuilder;
@@ -58,7 +59,7 @@ public class ProjectGeneralInfoStep implements AbstractProjectAddWindow.FormWiza
 
     private IDynaFormLayout buildFormLayout() {
         DynaForm defaultForm = new DynaForm();
-        DynaSection mainSection = new DynaSectionBuilder().layoutType(DynaSection.LayoutType.TWO_COLUMN).build();
+        DynaSection mainSection = new DynaSectionBuilder().layoutType(LayoutType.TWO_COLUMN).build();
 
         mainSection.fields(new TextDynaFieldBuilder().fieldName(Project.Field.name).displayName(GenericI18Enum.FORM_NAME)
                 .fieldIndex(0).mandatory(true).required(true).build());

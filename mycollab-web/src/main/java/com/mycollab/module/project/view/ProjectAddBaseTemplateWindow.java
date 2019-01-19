@@ -22,6 +22,7 @@ import com.mycollab.core.utils.StringUtils;
 import com.mycollab.db.arguments.BasicSearchRequest;
 import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.db.arguments.SearchField;
+import com.mycollab.form.view.LayoutType;
 import com.mycollab.module.project.domain.SimpleProject;
 import com.mycollab.module.project.domain.criteria.ProjectSearchCriteria;
 import com.mycollab.module.project.event.ProjectEvent;
@@ -61,7 +62,7 @@ public class ProjectAddBaseTemplateWindow extends MWindow {
         super(UserUIContext.getMessage(OPT_CREATE_PROJECT_FROM_TEMPLATE));
         this.withModal(true).withClosable(true).withResizable(false).withWidth("550px");
         MVerticalLayout content = new MVerticalLayout();
-        GridFormLayoutHelper gridFormLayoutHelper = GridFormLayoutHelper.defaultFormLayoutHelper(1, 3);
+        GridFormLayoutHelper gridFormLayoutHelper = GridFormLayoutHelper.defaultFormLayoutHelper(LayoutType.ONE_COLUMN);
         final TemplateProjectComboBox templateProjectComboBox = new TemplateProjectComboBox();
         gridFormLayoutHelper.addComponent(templateProjectComboBox, UserUIContext.getMessage(FORM_TEMPLATE),
                 UserUIContext.getMessage(OPT_MARK_TEMPLATE_HELP), 0, 0);

@@ -16,9 +16,12 @@
  */
 package com.mycollab.module.project.view
 
+import com.mycollab.core.utils.StringUtils
+import com.mycollab.db.arguments.DateSearchField
 import com.mycollab.module.project.domain.criteria.StandupReportSearchCriteria
 import com.mycollab.module.project.event.StandUpEvent
 import com.mycollab.vaadin.EventBusFactory
+import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 /**
@@ -31,16 +34,16 @@ class StandupUrlResolver : ProjectUrlResolver() {
     }
 
     private class ListUrlResolver : ProjectUrlResolver() {
-        private val simpleDateFormat = DateTimeFormatter.ofPattern("MM-dd-yyyy")
+        private val dateFormatter = DateTimeFormatter.ofPattern("MM-dd-yyyy")
 
         override fun handlePage(vararg params: String) {
             val searchCriteria = StandupReportSearchCriteria()
-//            if (params.isEmpty()) {
-//                searchCriteria.onDate = DateSearchField(GregorianCalendar().time)
-//            } else {
-//                val date = parseDate(params[0])
-//                searchCriteria.onDate = DateSearchField(date)
-//            }
+            if (params.isEmpty()) {
+                searchCriteria.onDate = DateSearchField(LocalDate.now(), DateSearchField.EQUAL)
+            } else {
+                val date = parseDate(params[0])
+                searchCriteria.onDate = DateSearchField(date, DateSearchField.EQUAL)
+            }
 
             EventBusFactory.getInstance().post(StandUpEvent.GotoList(this, searchCriteria))
         }
@@ -49,10 +52,9 @@ class StandupUrlResolver : ProjectUrlResolver() {
          * @param dateVal
          * @return
          */
-//        private fun parseDate(dateVal: String?): Date = if (StringUtils.isBlank(dateVal)) {
-//            GregorianCalendar().time
-//        } else {
-//            simpleDateFormat.parseDateTime(dateVal).toDate()
-//        }
+        private fun parseDate(dateVal: String?): LocalDate = when {
+            StringUtils.isBlank(dateVal) -> LocalDate.now()
+            else -> LocalDate.parse(dateVal, dateFormatter)
+        }
     }
 }

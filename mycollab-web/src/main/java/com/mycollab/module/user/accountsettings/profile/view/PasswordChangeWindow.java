@@ -21,6 +21,7 @@ import com.mycollab.common.i18n.ShellI18nEnum;
 import com.mycollab.configuration.EnDecryptHelper;
 import com.mycollab.core.InvalidPasswordException;
 import com.mycollab.core.utils.PasswordCheckerUtil;
+import com.mycollab.form.view.LayoutType;
 import com.mycollab.module.user.accountsettings.localization.UserI18nEnum;
 import com.mycollab.module.user.domain.User;
 import com.mycollab.module.user.service.UserService;
@@ -31,7 +32,6 @@ import com.mycollab.vaadin.web.ui.WebThemes;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.icons.VaadinIcons;
-import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.PasswordField;
@@ -68,7 +68,7 @@ public class PasswordChangeWindow extends MWindow {
         mainLayout.addComponent(lbInstruct2);
         mainLayout.setComponentAlignment(lbInstruct2, Alignment.MIDDLE_LEFT);
 
-        GridFormLayoutHelper passInfo = GridFormLayoutHelper.defaultFormLayoutHelper(1, 3);
+        GridFormLayoutHelper passInfo = GridFormLayoutHelper.defaultFormLayoutHelper(LayoutType.ONE_COLUMN);
 
         txtNewPassword = new PasswordField();
         passInfo.addComponent(txtNewPassword, UserUIContext.getMessage(ShellI18nEnum.OPT_NEW_PASSWORD), 0, 0);

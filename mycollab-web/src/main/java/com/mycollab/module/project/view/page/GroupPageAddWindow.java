@@ -18,6 +18,7 @@ package com.mycollab.module.project.view.page;
 
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.core.utils.StringUtils;
+import com.mycollab.form.view.LayoutType;
 import com.mycollab.module.page.domain.Folder;
 import com.mycollab.module.page.service.PageService;
 import com.mycollab.module.project.CurrentProjectVariables;
@@ -95,7 +96,7 @@ class GroupPageAddWindow extends MWindow {
             @Override
             public AbstractComponent getLayout() {
                 final VerticalLayout layout = new VerticalLayout();
-                informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 2);
+                informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(LayoutType.TWO_COLUMN);
                 layout.addComponent(informationLayout.getLayout());
 
                 final MButton cancelBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())

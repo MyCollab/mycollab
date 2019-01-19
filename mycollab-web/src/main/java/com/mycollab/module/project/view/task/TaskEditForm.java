@@ -107,7 +107,7 @@ public class TaskEditForm extends AdvancedEditBeanForm<SimpleTask> {
                             MonitorItem monitorItem = new MonitorItem();
                             monitorItem.setSaccountid(AppUI.getAccountId());
                             monitorItem.setType(ProjectTypeConstants.TASK);
-                            monitorItem.setTypeid(taskId);
+                            monitorItem.setTypeid(taskId + "");
                             monitorItem.setUsername(follower);
                             monitorItem.setExtratypeid(bean.getProjectid());
                             monitorItems.add(monitorItem);

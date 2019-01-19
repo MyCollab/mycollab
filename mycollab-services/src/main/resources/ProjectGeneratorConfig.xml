@@ -14,6 +14,7 @@
             <property name="useJSR310Types" value="true"/>
         </javaTypeResolver>
 
+
         <javaModelGenerator targetPackage="com.mycollab.module.project.domain" targetProject="src/main/java">
             <property name="rootClass" value="com.mycollab.core.arguments.ValuedBean" />
         </javaModelGenerator>
@@ -25,8 +26,11 @@
             <property name="rootInterface" value="com.mycollab.db.persistence.ICrudGenericDAO" />
         </javaClientGenerator>
 
+
         <table domainObjectName="Message" schema="mycollab" tableName="m_prj_message" />
-        <table domainObjectName="Milestone" schema="mycollab" tableName="m_prj_milestone" />
+        <table domainObjectName="Milestone" schema="mycollab" tableName="m_prj_milestone" >
+            <generatedKey column="id" sqlStatement="JDBC"/>
+        </table>
         <table domainObjectName="Project" schema="mycollab" tableName="m_prj_project" />
         <table domainObjectName="ProjectNotificationSetting" schema="mycollab" tableName="m_prj_notifications" />
         <table domainObjectName="ProjectRole" schema="mycollab" tableName="m_prj_role" />

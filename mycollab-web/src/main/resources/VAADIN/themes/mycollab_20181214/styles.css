@@ -1678,6 +1678,10 @@ a.pending {
 	color: #108e2a;
 }
 
+.hide-element {
+	display: none !important;
+}
+
 .v-window-closebox:before {
 	font-size: 35px;
 }
@@ -16359,6 +16363,10 @@ a.pending {
 	color: #108e2a;
 }
 
+.hide-element {
+	display: none !important;
+}
+
 .v-window-closebox:before {
 	font-size: 35px;
 }
@@ -17348,7 +17356,12 @@ div.v-window {
 }
 
 .project-view .project-right-bar {
-	background-color: #f9f9f9;
+	display: inline-block;
+	margin: 12px;
+}
+
+.project-view .project-right-bar .toggle-button {
+	text-align: left;
 }
 
 .project-view .addViewLayout {
@@ -17543,43 +17556,6 @@ div.v-csslayout.followers-container .v-checkbox {
 
 .v-csslayout.tagcloud .tagbutton {
 	margin: 2px;
-}
-
-div.v-csslayout.member-token {
-	cursor: text;
-	border: 1px solid #e5e5e5;
-	border-radius: 6px;
-}
-
-div.v-csslayout.member-token .v-textfield {
-	border-width: 0px;
-	box-shadow: none;
-}
-
-div.v-csslayout.member-token .v-textfield:focus {
-	-webkit-box-shadow: none;
-	box-shadow: none;
-}
-
-div.v-csslayout.member-token .v-button:focus:after {
-	border-color: inherit;
-	-webkit-box-shadow: none;
-	box-shadow: none;
-}
-
-div.v-csslayout.member-token .v-button-small {
-	margin-top: 2px;
-}
-
-div.v-button.token-field {
-	margin-bottom: 5px;
-	margin-right: 5px;
-	color: #fff;
-	background-color: #46be8a;
-}
-
-div.v-button.token-field .v-button-wrap {
-	padding: 3px 5px;
 }
 
 .standup-block {
@@ -18033,13 +18009,6 @@ html {
 	-moz-outline: 0px none;
 }
 
-@media screen and (min-width: 1024px) {
-	.member-block {
-		width: 290px;
-		margin-right: 10px;
-	}
-}
-
 button::-moz-focus-inner {
 	border: 0;
 }
@@ -18103,6 +18072,10 @@ input.v-textfield-pagedtable-pagefield {
 
 .v-textfield.noBorderRight {
 	border-right-style: none;
+}
+
+.v-has-caption.v-caption-on-right {
+	padding-right: 0px !important;
 }
 
 .topNavigation .mainLogo {

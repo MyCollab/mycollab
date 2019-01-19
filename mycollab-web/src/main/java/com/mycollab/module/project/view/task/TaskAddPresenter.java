@@ -128,7 +128,7 @@ public class TaskAddPresenter extends ProjectGenericPresenter<TaskAddView> {
                     MonitorItem monitorItem = new MonitorItem();
                     monitorItem.setSaccountid(AppUI.getAccountId());
                     monitorItem.setType(ProjectTypeConstants.TASK);
-                    monitorItem.setTypeid(taskId);
+                    monitorItem.setTypeid(taskId + "");
                     monitorItem.setUsername(follower);
                     monitorItem.setExtratypeid(CurrentProjectVariables.getProjectId());
                     monitorItems.add(monitorItem);

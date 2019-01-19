@@ -19,6 +19,7 @@ package com.mycollab.module.project.view.bug;
 import com.mycollab.module.project.i18n.OptionI18nEnum;
 import com.mycollab.module.project.i18n.OptionI18nEnum.BugSeverity;
 import com.mycollab.vaadin.web.ui.I18nValueComboBox;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.ui.IconGenerator;
 import com.vaadin.ui.StyleGenerator;
@@ -32,6 +33,7 @@ public class BugSeverityComboBox extends I18nValueComboBox<BugSeverity> {
 
     public BugSeverityComboBox() {
         super(BugSeverity.class, OptionI18nEnum.bug_severities);
+        setWidth(WebThemes.FORM_CONTROL_WIDTH);
         setItemIconGenerator((IconGenerator<BugSeverity>) severity -> VaadinIcons.STAR);
         setStyleGenerator((StyleGenerator<BugSeverity>) severity -> {
             if (severity != null) {

@@ -43,6 +43,7 @@ public class KeyCaptionComboBox extends ComboBox<KeyCaptionComboBox.Entry> imple
         this.entries = entries;
         this.setItems(entries);
         this.setItemCaptionGenerator((ItemCaptionGenerator<Entry>) entry -> UserUIContext.getMessage(entry.caption));
+        this.setWidth(WebThemes.FORM_CONTROL_WIDTH);
     }
 
     @Override

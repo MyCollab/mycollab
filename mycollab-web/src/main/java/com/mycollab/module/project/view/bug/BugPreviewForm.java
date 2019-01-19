@@ -18,6 +18,7 @@ package com.mycollab.module.project.view.bug;
 
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.core.utils.StringUtils;
+import com.mycollab.form.view.LayoutType;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.i18n.BugI18nEnum;
 import com.mycollab.module.project.i18n.MilestoneI18nEnum;
@@ -113,7 +114,7 @@ public class BugPreviewForm extends AdvancedPreviewBeanForm<SimpleBug> {
 
         @Override
         public AbstractComponent getLayout() {
-            informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 11);
+            informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(LayoutType.TWO_COLUMN);
             return informationLayout.getLayout();
         }
     }

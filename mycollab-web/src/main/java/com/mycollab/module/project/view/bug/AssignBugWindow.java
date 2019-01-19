@@ -19,6 +19,7 @@ package com.mycollab.module.project.view.bug;
 import com.mycollab.common.domain.CommentWithBLOBs;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.service.CommentService;
+import com.mycollab.form.view.LayoutType;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.event.BugEvent;
@@ -91,7 +92,7 @@ class AssignBugWindow extends MWindow {
             @Override
             public AbstractComponent getLayout() {
                 final VerticalLayout layout = new VerticalLayout();
-                this.informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 2);
+                this.informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(LayoutType.TWO_COLUMN);
 
                 layout.addComponent(this.informationLayout.getLayout());
 

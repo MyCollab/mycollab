@@ -22,6 +22,7 @@ import com.hp.gagawa.java.elements.Div;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.i18n.ShellI18nEnum;
 import com.mycollab.core.utils.TimezoneVal;
+import com.mycollab.form.view.LayoutType;
 import com.mycollab.i18n.LocalizationHelper;
 import com.mycollab.module.user.AccountLinkGenerator;
 import com.mycollab.module.user.accountsettings.localization.RoleI18nEnum;
@@ -95,9 +96,9 @@ public class UserReadViewImpl extends AbstractVerticalPageView implements UserRe
 
         GridFormLayoutHelper userFormLayout;
         if (UserUIContext.isAdmin()) {
-            userFormLayout = GridFormLayoutHelper.defaultFormLayoutHelper(1, 6).withCaptionWidth("140px");
+            userFormLayout = GridFormLayoutHelper.defaultFormLayoutHelper(LayoutType.ONE_COLUMN).withCaptionWidth("140px");
         } else {
-            userFormLayout = GridFormLayoutHelper.defaultFormLayoutHelper(1, 5).withCaptionWidth("140px");
+            userFormLayout = GridFormLayoutHelper.defaultFormLayoutHelper(LayoutType.ONE_COLUMN).withCaptionWidth("140px");
         }
         userFormLayout.getLayout().addStyleName(WebThemes.GRIDFORM_BORDERLESS);
         basicLayout.addComponent(userFormLayout.getLayout());
@@ -203,8 +204,8 @@ public class UserReadViewImpl extends AbstractVerticalPageView implements UserRe
 
         private class FormLayoutFactory extends AbstractFormLayoutFactory {
 
-            private GridFormLayoutHelper contactLayout = GridFormLayoutHelper.defaultFormLayoutHelper(1, 5);
-            private GridFormLayoutHelper advancedInfoLayout = GridFormLayoutHelper.defaultFormLayoutHelper(1, 3);
+            private GridFormLayoutHelper contactLayout = GridFormLayoutHelper.defaultFormLayoutHelper(LayoutType.ONE_COLUMN);
+            private GridFormLayoutHelper advancedInfoLayout = GridFormLayoutHelper.defaultFormLayoutHelper(LayoutType.ONE_COLUMN);
 
             @Override
             public AbstractComponent getLayout() {
