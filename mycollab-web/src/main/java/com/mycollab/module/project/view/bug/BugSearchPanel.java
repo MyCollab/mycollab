@@ -16,8 +16,8 @@
  */
 package com.mycollab.module.project.view.bug;
 
+import com.google.common.collect.Sets;
 import com.mycollab.common.i18n.GenericI18Enum;
-import com.mycollab.common.i18n.QueryI18nEnum;
 import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.db.arguments.SearchField;
 import com.mycollab.db.query.ConstantValueInjector;
@@ -45,11 +45,11 @@ import org.vaadin.viritin.fields.MTextField;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import static com.mycollab.common.i18n.QueryI18nEnum.*;
+import static com.mycollab.common.i18n.QueryI18nEnum.CONTAINS;
+import static com.mycollab.common.i18n.QueryI18nEnum.IN;
 
 /**
  * @author MyCollab Ltd.
@@ -168,7 +168,7 @@ public class BugSearchPanel extends DefaultGenericSearchPanel<BugSearchCriteria>
                     ConstantValueInjector.valueOf(nameField.getValue().trim())));
             if (myItemCheckbox.getValue()) {
                 searchFieldInfos.add(new SearchFieldInfo(SearchField.AND, BugSearchCriteria.p_assignee, IN.name(),
-                        ConstantValueInjector.valueOf(Collections.singletonList(UserUIContext.getUsername()))));
+                        ConstantValueInjector.valueOf(Sets.newHashSet(UserUIContext.getUsername()))));
             }
             EventBusFactory.getInstance().post(new ShellEvent.AddQueryParam(this, searchFieldInfos));
             searchCriteria = SearchFieldInfo.buildSearchCriteria(BugSearchCriteria.class,

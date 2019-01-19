@@ -16,6 +16,7 @@
  */
 package com.mycollab.module.project.query;
 
+import com.google.common.collect.Sets;
 import com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.mycollab.db.arguments.SearchField;
 import com.mycollab.db.query.*;
@@ -25,8 +26,6 @@ import com.mycollab.module.project.i18n.TicketI18nEnum;
 import com.mycollab.vaadin.UserUIContext;
 
 import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.Collections;
 
 import static com.mycollab.common.i18n.QueryI18nEnum.BEFORE;
 
@@ -49,7 +48,7 @@ public class TicketQueryInfo {
     private static VariableInjector ticketTypesInjector = new VariableInjector() {
         @Override
         public Object eval() {
-            return Arrays.asList(ProjectTypeConstants.BUG, ProjectTypeConstants.RISK, ProjectTypeConstants.TASK);
+            return Sets.newHashSet(ProjectTypeConstants.BUG, ProjectTypeConstants.RISK, ProjectTypeConstants.TASK);
         }
 
         @Override
@@ -78,7 +77,7 @@ public class TicketQueryInfo {
             SearchFieldInfo.notInCollection(ProjectTicketSearchCriteria.p_status, new VariableInjector() {
                 @Override
                 public Object eval() {
-                    return Arrays.asList(StatusI18nEnum.Closed, StatusI18nEnum.Verified);
+                    return Sets.newHashSet(StatusI18nEnum.Closed, StatusI18nEnum.Verified);
                 }
 
                 @Override
@@ -107,7 +106,7 @@ public class TicketQueryInfo {
             }), SearchFieldInfo.notInCollection(ProjectTicketSearchCriteria.p_status, new VariableInjector() {
         @Override
         public Object eval() {
-            return Arrays.asList(StatusI18nEnum.Closed, StatusI18nEnum.Verified);
+            return Sets.newHashSet(StatusI18nEnum.Closed, StatusI18nEnum.Verified);
         }
 
         @Override
@@ -131,7 +130,7 @@ public class TicketQueryInfo {
             SearchFieldInfo.inCollection(ProjectTicketSearchCriteria.p_status, new VariableInjector() {
                 @Override
                 public Object eval() {
-                    return Arrays.asList(StatusI18nEnum.Closed, StatusI18nEnum.Verified);
+                    return Sets.newHashSet(StatusI18nEnum.Closed, StatusI18nEnum.Verified);
                 }
 
                 @Override
@@ -153,11 +152,11 @@ public class TicketQueryInfo {
     public static final SearchQueryInfo myTasksQuery = new SearchQueryInfo(MY_TICKETS,
             UserUIContext.getMessage(TicketI18nEnum.VAL_MY_TICKETS),
             SearchFieldInfo.inCollection(ProjectTicketSearchCriteria.p_assignee,
-                    ConstantValueInjector.valueOf(Collections.singletonList(UserUIContext.getUsername()))),
+                    ConstantValueInjector.valueOf(Sets.newHashSet(UserUIContext.getUsername()))),
             SearchFieldInfo.inCollection(ProjectTicketSearchCriteria.p_types, ticketTypesInjector));
 
     public static final SearchQueryInfo tasksCreatedByMeQuery = new SearchQueryInfo(TICKETS_CREATED_BY_ME, UserUIContext.getMessage(TicketI18nEnum.VAL_TICKETS_CREATED_BY_ME),
-            SearchFieldInfo.inCollection(ProjectTicketSearchCriteria.p_createdUser, ConstantValueInjector.valueOf(Collections.singletonList(UserUIContext.getUsername()))),
+            SearchFieldInfo.inCollection(ProjectTicketSearchCriteria.p_createdUser, ConstantValueInjector.valueOf(Sets.newHashSet(UserUIContext.getUsername()))),
             SearchFieldInfo.inCollection(ProjectTicketSearchCriteria.p_types, ticketTypesInjector));
 
     public static final SearchQueryInfo newTasksThisWeekQuery = new SearchQueryInfo(NEW_TICKETS_THIS_WEEK, UserUIContext.getMessage(TicketI18nEnum.VAL_NEW_THIS_WEEK),

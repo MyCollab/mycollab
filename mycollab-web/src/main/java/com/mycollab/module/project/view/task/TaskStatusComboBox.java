@@ -24,6 +24,7 @@ import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.ui.AbstractOptionValComboBox;
+import com.mycollab.vaadin.web.ui.WebThemes;
 
 import java.util.List;
 
@@ -35,6 +36,7 @@ public class TaskStatusComboBox extends AbstractOptionValComboBox<StatusI18nEnum
 
     public TaskStatusComboBox() {
         super(StatusI18nEnum.class);
+        setWidth(WebThemes.FORM_CONTROL_WIDTH);
     }
 
     @Override

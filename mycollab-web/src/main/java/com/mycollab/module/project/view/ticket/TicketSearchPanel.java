@@ -16,6 +16,7 @@
  */
 package com.mycollab.module.project.view.ticket;
 
+import com.google.common.collect.Sets;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.db.arguments.SearchField;
 import com.mycollab.db.arguments.SetSearchField;
@@ -42,7 +43,6 @@ import org.vaadin.viritin.fields.MTextField;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -163,7 +163,7 @@ public class TicketSearchPanel extends DefaultGenericSearchPanel<ProjectTicketSe
                     CONTAINS.name(), ConstantValueInjector.valueOf(nameField.getValue().trim())));
             if (myItemCheckbox.getValue()) {
                 searchFieldInfos.add(new SearchFieldInfo(SearchField.AND, ProjectTicketSearchCriteria.p_assignee,
-                        IN.name(), ConstantValueInjector.valueOf(Collections.singletonList(UserUIContext.getUsername()))));
+                        IN.name(), ConstantValueInjector.valueOf(Sets.newHashSet(UserUIContext.getUsername()))));
             }
             EventBusFactory.getInstance().post(new ShellEvent.AddQueryParam(this, searchFieldInfos));
             searchCriteria = SearchFieldInfo.buildSearchCriteria(ProjectTicketSearchCriteria.class, searchFieldInfos);

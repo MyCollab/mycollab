@@ -76,7 +76,7 @@ public class VersionPreviewForm extends AdvancedPreviewBeanForm<Version> {
                 containerField.addComponentField(new BugsComp(beanItem));
                 return containerField;
             } else if (Version.Field.status.equalTo(propertyId)) {
-                return new I18nFormViewField(beanItem.getStatus(), StatusI18nEnum.class).withStyleName(UIConstants.FIELD_NOTE);
+                return new I18nFormViewField(StatusI18nEnum.class).withStyleName(UIConstants.FIELD_NOTE);
             } else if (Version.Field.description.equalTo(propertyId)) {
                 return new RichTextViewField();
             }

@@ -154,7 +154,7 @@ public class BugPreviewForm extends AdvancedPreviewBeanForm<SimpleBug> {
             } else if (BugWithBLOBs.Field.description.equalTo(propertyId) || BugWithBLOBs.Field.environment.equalTo(propertyId)) {
                 return new RichTextViewField();
             } else if (BugWithBLOBs.Field.status.equalTo(propertyId)) {
-                return new I18nFormViewField(beanItem.getStatus(), StatusI18nEnum.class).withStyleName(UIConstants.FIELD_NOTE);
+                return new I18nFormViewField(StatusI18nEnum.class).withStyleName(UIConstants.FIELD_NOTE);
             } else if (BugWithBLOBs.Field.priority.equalTo(propertyId)) {
                 if (StringUtils.isNotBlank(beanItem.getPriority())) {
                     String priorityLink = ProjectAssetsManager.getPriority(beanItem.getPriority()).getHtml() + " "
@@ -172,7 +172,7 @@ public class BugPreviewForm extends AdvancedPreviewBeanForm<SimpleBug> {
                     return lbPriority;
                 }
             } else if (BugWithBLOBs.Field.resolution.equalTo(propertyId)) {
-                return new I18nFormViewField(beanItem.getResolution(), BugResolution.class);
+                return new I18nFormViewField(BugResolution.class);
             }
             return null;
         }

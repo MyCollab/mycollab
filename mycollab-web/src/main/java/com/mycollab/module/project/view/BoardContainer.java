@@ -13,9 +13,9 @@ import com.mycollab.vaadin.mvp.PresenterResolver;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.web.ui.VerticalTabsheet;
 import com.vaadin.icons.VaadinIcons;
-import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.HasComponents;
+import com.vaadin.ui.Component;
 import com.vaadin.ui.TabSheet;
+import org.vaadin.viritin.layouts.MCssLayout;
 
 /**
  * @author MyCollab Ltd
@@ -24,40 +24,24 @@ import com.vaadin.ui.TabSheet;
 @ViewComponent
 public class BoardContainer extends VerticalTabsheet implements PageView {
 
-    private UserProjectDashboardPresenter userProjectDashboardPresenter;
-
-    private FollowingTicketPresenter followingTicketPresenter;
-
-    private ProjectListPresenter projectListPresenter;
-
-    private IReportPresenter reportPresenter;
-
-    private IClientPresenter clientPresenter;
-
     public BoardContainer() {
         this.setSizeFull();
-        this.setNavigatorStyleName("sidebar-menu");
-        this.setNavigatorWidth("200px");
-        CssLayout contentWrapper = this.getContentWrapper();
-
+        MCssLayout contentWrapper = this.getContentWrapper();
+        contentWrapper.withStyleName("content-height");
+        addToggleNavigatorControl();
         this.buildComponents();
     }
 
     private void buildComponents() {
-        this.addTab(constructDashboardComponent(), "Dashboard",
-                UserUIContext.getMessage(GenericI18Enum.VIEW_DASHBOARD), VaadinIcons.DASHBOARD);
+        this.addTab("Dashboard", UserUIContext.getMessage(GenericI18Enum.VIEW_DASHBOARD), VaadinIcons.DASHBOARD);
 
-        this.addTab(constructProjectsViewComponent(), "Projects",
-                UserUIContext.getMessage(ProjectI18nEnum.LIST), VaadinIcons.BUILDING_O);
+        this.addTab("Projects", UserUIContext.getMessage(ProjectI18nEnum.LIST), VaadinIcons.BUILDING_O);
 
-        this.addTab(constructFollowingTicketsComponent(), "FollowingTickets",
-                UserUIContext.getMessage(ProjectCommonI18nEnum.VIEW_FAVORITES), VaadinIcons.EYE);
+        this.addTab("FollowingTickets", UserUIContext.getMessage(ProjectCommonI18nEnum.VIEW_FAVORITES), VaadinIcons.EYE);
 
-        this.addTab(constructReportViewComponent(), "Reports",
-                UserUIContext.getMessage(ProjectCommonI18nEnum.VIEW_REPORTS), VaadinIcons.RETWEET);
+        this.addTab("Reports", UserUIContext.getMessage(ProjectCommonI18nEnum.VIEW_REPORTS), VaadinIcons.RETWEET);
 
-        this.addTab(constructClientViewComponent(), "Clients",
-                UserUIContext.getMessage(ClientI18nEnum.LIST), VaadinIcons.COIN_PILES);
+        this.addTab("Clients", UserUIContext.getMessage(ClientI18nEnum.LIST), VaadinIcons.COIN_PILES);
 
         this.addSelectedTabChangeListener(new TabSheet.SelectedTabChangeListener() {
             private static final long serialVersionUID = 1L;
@@ -67,46 +51,26 @@ public class BoardContainer extends VerticalTabsheet implements PageView {
                 ButtonTab tab = ((VerticalTabsheet) event.getSource()).getSelectedTab();
                 String tabId = tab.getTabId();
                 if ("Dashboard".equals(tabId)) {
-                    userProjectDashboardPresenter.go(BoardContainer.this, null);
+                    UserProjectDashboardPresenter presenter = PresenterResolver.getPresenter(UserProjectDashboardPresenter.class);
+                    presenter.go(BoardContainer.this, null);
                 } else if ("Projects".equals(tabId)) {
-                    projectListPresenter.go(BoardContainer.this, null);
+                    ProjectListPresenter presenter = PresenterResolver.getPresenter(ProjectListPresenter.class);
+                    presenter.go(BoardContainer.this, null);
                 } else if ("FollowingTickets".equals(tabId)) {
-                    followingTicketPresenter.go(BoardContainer.this, null);
+                    FollowingTicketPresenter presenter = PresenterResolver.getPresenter(FollowingTicketPresenter.class);
+                    presenter.go(BoardContainer.this, null);
                 } else if ("Reports".equals(tabId)) {
-                    reportPresenter.go(BoardContainer.this, null);
+                    IReportPresenter presenter = PresenterResolver.getPresenter(IReportPresenter.class);
+                    presenter.go(BoardContainer.this, null);
                 } else if ("Clients".equals(tabId)) {
-                    clientPresenter.go(BoardContainer.this, new ClientScreenData.Search(null));
+                    IClientPresenter presenter = PresenterResolver.getPresenter(IClientPresenter.class);
+                    presenter.go(BoardContainer.this, new ClientScreenData.Search(null));
                 }
             }
         });
     }
 
-    private HasComponents constructDashboardComponent() {
-        userProjectDashboardPresenter = PresenterResolver.getPresenter(UserProjectDashboardPresenter.class);
-        return userProjectDashboardPresenter.getView();
-    }
-
-    private HasComponents constructFollowingTicketsComponent() {
-        followingTicketPresenter = PresenterResolver.getPresenter(FollowingTicketPresenter.class);
-        return followingTicketPresenter.getView();
-    }
-
-    private HasComponents constructProjectsViewComponent() {
-        projectListPresenter = PresenterResolver.getPresenter(ProjectListPresenter.class);
-        return projectListPresenter.getView();
-    }
-
-    private HasComponents constructReportViewComponent() {
-        reportPresenter = PresenterResolver.getPresenter(IReportPresenter.class);
-        return reportPresenter.getView();
-    }
-
-    private HasComponents constructClientViewComponent() {
-        clientPresenter = PresenterResolver.getPresenter(IClientPresenter.class);
-        return clientPresenter.getView();
-    }
-
-    public void gotoSubView(String viewId) {
-        this.selectTab(viewId);
+    public void gotoSubView(String viewId, Component viewDisplay) {
+        this.selectTab(viewId, viewDisplay);
     }
 }

@@ -46,7 +46,6 @@ import org.vaadin.viritin.layouts.MWindow;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-// TODO
 class BasicInfoChangeWindow extends MWindow {
     private TextField txtFirstName = new TextField();
     private TextField txtLastName = new TextField();

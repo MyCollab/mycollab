@@ -33,6 +33,7 @@ import java.time.temporal.WeekFields;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
 
 /**
  * @author MyCollab Ltd
@@ -129,7 +130,7 @@ public interface VariableInjector<T> {
                 ArrayNode arrNode = (ArrayNode) valueNode;
                 JsonNode typeNode = node.get("type");
                 String type = typeNode == null ? "" : typeNode.asText();
-                Collection values = new ArrayList(arrNode.size());
+                Collection values = new HashSet(arrNode.size());
                 for (int i = 0; i < arrNode.size(); i++) {
                     values.add(convertType(type, arrNode.get(i).asText()));
                 }

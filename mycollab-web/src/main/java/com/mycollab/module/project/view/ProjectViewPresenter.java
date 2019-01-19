@@ -22,6 +22,7 @@ import com.mycollab.module.project.UserNotBelongProjectException;
 import com.mycollab.module.project.domain.SimpleProject;
 import com.mycollab.module.project.service.ProjectMemberService;
 import com.mycollab.module.project.service.ProjectService;
+import com.mycollab.module.project.view.user.ProjectDashboardPresenter;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.UserUIContext;
@@ -77,5 +78,11 @@ public class ProjectViewPresenter extends ProjectGenericPresenter<ProjectView> {
         } else {
             throw new UnsupportedOperationException("Not support page action chain " + pageAction);
         }
+    }
+
+    @Override
+    protected void onDefaultStopChain() {
+        ProjectDashboardPresenter presenter = PresenterResolver.getPresenter(ProjectDashboardPresenter.class);
+        presenter.go(view, null);
     }
 }

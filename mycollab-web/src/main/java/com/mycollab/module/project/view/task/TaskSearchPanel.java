@@ -16,6 +16,7 @@
  */
 package com.mycollab.module.project.view.task;
 
+import com.google.common.collect.Sets;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.db.arguments.SearchField;
@@ -42,7 +43,6 @@ import org.vaadin.viritin.fields.MTextField;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -68,10 +68,6 @@ public class TaskSearchPanel extends DefaultGenericSearchPanel<TaskSearchCriteri
 
     public TaskSearchPanel(boolean canSwitchToAdvanceLayout) {
         super(canSwitchToAdvanceLayout);
-    }
-
-    public TaskSearchPanel() {
-        super();
     }
 
     @Override
@@ -178,7 +174,7 @@ public class TaskSearchPanel extends DefaultGenericSearchPanel<TaskSearchCriteri
                     ConstantValueInjector.valueOf(nameField.getValue().trim())));
             if (myItemCheckbox.getValue()) {
                 searchFieldInfos.add(new SearchFieldInfo(SearchField.AND, TaskSearchCriteria.p_assignee, IN.name(),
-                        ConstantValueInjector.valueOf(Collections.singletonList(UserUIContext.getUsername()))));
+                        ConstantValueInjector.valueOf(Sets.newHashSet(UserUIContext.getUsername()))));
             }
             EventBusFactory.getInstance().post(new ShellEvent.AddQueryParam(this, searchFieldInfos));
             searchCriteria = SearchFieldInfo.buildSearchCriteria(TaskSearchCriteria.class, searchFieldInfos);

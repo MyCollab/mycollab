@@ -16,28 +16,24 @@
  */
 package com.mycollab.vaadin.ui;
 
+import com.mycollab.vaadin.UserUIContext;
+import com.vaadin.ui.ItemCaptionGenerator;
 import com.vaadin.ui.ListSelect;
 
 import java.util.Collection;
-import java.util.List;
 
 /**
  * @author MyCollab Ltd.
  * @since 4.3.0
  */
-// TODO
-public class I18nValueListSelect extends ListSelect {
+public class I18nValueListSelect<T extends Enum<T>> extends ListSelect<T> {
     private static final long serialVersionUID = 1L;
 
-    public void loadData(Collection<? extends Enum<?>> values) {
-//        this.setItemCaptionMode(ItemCaptionMode.EXPLICIT_DEFAULTS_ID);
-//
-//        for (Enum<?> entry : values) {
-//            this.addItem(entry.name());
-//            this.setItemCaption(entry.name(), UserUIContext.getMessage(entry));
-//        }
-//
-//        this.setRows(4);
-//        this.setMultiSelect(true);
+    private Class<T> enumCls;
+
+    public void loadData(Collection<T> values) {
+        this.setRows(4);
+        this.setItems(values);
+        this.setItemCaptionGenerator((ItemCaptionGenerator<T>) item -> UserUIContext.getMessage(item));
     }
 }

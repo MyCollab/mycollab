@@ -1,6 +1,6 @@
 package org.mybatis.scripting.velocity
 
-import com.mycollab.db.arguments.CollectionValueSearchField
+import com.mycollab.db.arguments.SetValueSearchField
 import org.apache.commons.collections.CollectionUtils
 import org.apache.velocity.context.InternalContextAdapter
 import org.apache.velocity.exception.MethodInvocationException
@@ -44,7 +44,7 @@ class CollectionValExpr : Directive() {
     @Throws(IOException::class, ResourceNotFoundException::class, ParseErrorException::class, MethodInvocationException::class)
     override fun render(context: InternalContextAdapter, writer: Writer, node: Node): Boolean {
         val value = node.jjtGetChild(0).value(context)
-        if (value is CollectionValueSearchField) {
+        if (value is SetValueSearchField) {
             if (CollectionUtils.isNotEmpty(value.value)) {
                 val content = node.jjtGetChild(1)
                 content.render(context, writer)

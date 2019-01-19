@@ -98,7 +98,7 @@ public abstract class DynamicQueryParamLayout<S extends SearchCriteria> extends 
     protected abstract Class<S> getType();
 
     private MHorizontalLayout constructHeader() {
-        return ((DefaultGenericSearchPanel) searchPanel).constructHeader();
+        return searchPanel.constructHeader();
     }
 
     public abstract Param[] getParamFields();

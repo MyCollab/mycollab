@@ -16,6 +16,7 @@
  */
 package com.mycollab.module.project.view.settings;
 
+import com.google.common.collect.Sets;
 import com.mycollab.common.TableViewField;
 import com.mycollab.db.query.VariableInjector;
 import com.mycollab.module.project.ProjectTypeConstants;
@@ -44,17 +45,17 @@ public class ProjectMemberCustomizeReportOutputWindow extends CustomizeReportOut
 
     @Override
     protected Set<TableViewField> getDefaultColumns() {
-        return new HashSet<>(Arrays.asList(ProjectMemberTableFieldDef.memberName, ProjectMemberTableFieldDef.roleName,
-                ProjectMemberTableFieldDef.billingRate, ProjectMemberTableFieldDef.overtimeRate));
+        return Sets.newHashSet(ProjectMemberTableFieldDef.memberName, ProjectMemberTableFieldDef.roleName,
+                ProjectMemberTableFieldDef.billingRate, ProjectMemberTableFieldDef.overtimeRate);
     }
 
     @Override
     protected Set<TableViewField> getAvailableColumns() {
-        return new HashSet<>(Arrays.asList(ProjectMemberTableFieldDef.projectName, ProjectMemberTableFieldDef.memberName,
+        return Sets.newHashSet(ProjectMemberTableFieldDef.projectName, ProjectMemberTableFieldDef.memberName,
                 ProjectMemberTableFieldDef.roleName, ProjectMemberTableFieldDef.numOpenTasks,
                 ProjectMemberTableFieldDef.numOpenBugs, ProjectMemberTableFieldDef.totalBillableLogTime,
                 ProjectMemberTableFieldDef.totalNonBillableLogTime, ProjectMemberTableFieldDef.billingRate,
-                ProjectMemberTableFieldDef.overtimeRate));
+                ProjectMemberTableFieldDef.overtimeRate);
     }
 
     @Override

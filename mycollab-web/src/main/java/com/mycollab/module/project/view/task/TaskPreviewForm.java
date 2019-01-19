@@ -123,7 +123,7 @@ public class TaskPreviewForm extends AdvancedPreviewBeanForm<SimpleTask> {
             } else if (Task.Field.parenttaskid.equalTo(propertyId)) {
                 return new SubTasksComp(beanItem);
             } else if (Task.Field.status.equalTo(propertyId)) {
-                return new I18nFormViewField(beanItem.getStatus(), StatusI18nEnum.class).withStyleName(UIConstants.FIELD_NOTE);
+                return new I18nFormViewField(StatusI18nEnum.class).withStyleName(UIConstants.FIELD_NOTE);
             }
             return null;
         }

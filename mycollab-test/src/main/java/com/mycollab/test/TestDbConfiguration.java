@@ -16,6 +16,9 @@
  */
 package com.mycollab.test;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.InputStream;
 import java.util.Properties;
 
@@ -24,11 +27,13 @@ import java.util.Properties;
  * @since 4.0
  */
 public class TestDbConfiguration {
+    private static Logger LOG = LoggerFactory.getLogger(TestDbConfiguration.class);
     private Properties props;
 
     public TestDbConfiguration() {
         InputStream stream = getClass().getClassLoader().getResourceAsStream("mycollab.properties");
         if (stream == null) {
+            LOG.info("Load the default configuration default-mycollab-test.properties");
             stream = getClass().getClassLoader().getResourceAsStream("default-mycollab-test.properties");
         }
 
@@ -36,9 +41,12 @@ public class TestDbConfiguration {
         if (stream != null) {
             try {
                 props.load(stream);
+                LOG.info("Load properties " + props);
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
+        } else {
+         LOG.info("Can not find the default properties. Use the hard-code values");
         }
     }
 

@@ -36,7 +36,6 @@ import static com.mycollab.vaadin.TooltipHelper.TOOLTIP_ID;
  * @author MyCollab Ltd.
  * @since 5.0.4
  */
-// TODO
 public class ProjectItemViewField extends CustomField<String> {
     private String type;
     private String typeId;

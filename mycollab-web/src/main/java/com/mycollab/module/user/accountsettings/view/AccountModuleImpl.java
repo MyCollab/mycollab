@@ -108,16 +108,16 @@ public class AccountModuleImpl extends AbstractSingleContainerPageView implement
         tabSheet.addTab(null, SettingUIConstants.SETTING,
                 UserUIContext.getMessage(AdminI18nEnum.VIEW_SETTING), null, SettingAssetsManager.getAsset(SettingUIConstants.SETTING));
 
-        tabSheet.addTab(SettingUIConstants.SETTING, null, SettingUIConstants.USERS,
+        tabSheet.addTab(SettingUIConstants.SETTING, SettingUIConstants.USERS,
                 UserUIContext.getMessage(UserI18nEnum.LIST), null, SettingAssetsManager.getAsset(SettingUIConstants.USERS));
 
-        tabSheet.addTab(SettingUIConstants.SETTING, null, SettingUIConstants.ROLES,
+        tabSheet.addTab(SettingUIConstants.SETTING, SettingUIConstants.ROLES,
                 UserUIContext.getMessage(RoleI18nEnum.LIST), null, SettingAssetsManager.getAsset(SettingUIConstants.ROLES));
 
-        tabSheet.addTab(SettingUIConstants.SETTING, null, SettingUIConstants.GENERAL_SETTING,
+        tabSheet.addTab(SettingUIConstants.SETTING, SettingUIConstants.GENERAL_SETTING,
                 UserUIContext.getMessage(AdminI18nEnum.VIEW_SETTING), null, SettingAssetsManager.getAsset(SettingUIConstants.GENERAL_SETTING));
 
-        tabSheet.addTab(SettingUIConstants.SETTING, null, SettingUIConstants.THEME_CUSTOMIZE,
+        tabSheet.addTab(SettingUIConstants.SETTING, SettingUIConstants.THEME_CUSTOMIZE,
                 UserUIContext.getMessage(AdminI18nEnum.VIEW_THEME), null, SettingAssetsManager.getAsset(SettingUIConstants.THEME_CUSTOMIZE));
 
         tabSheet.addSelectedTabChangeListener(new SelectedTabChangeListener() {

@@ -16,6 +16,7 @@
  */
 package com.mycollab.module.project.view.milestone;
 
+import com.google.common.collect.Sets;
 import com.mycollab.common.TableViewField;
 import com.mycollab.db.query.VariableInjector;
 import com.mycollab.module.project.ProjectTypeConstants;
@@ -46,15 +47,15 @@ public class MilestoneCustomizeReportOutputWindow extends CustomizeReportOutputW
 
     @Override
     protected Set<TableViewField> getDefaultColumns() {
-        return new HashSet<>(Arrays.asList(MilestoneTableFieldDef.milestoneName, MilestoneTableFieldDef.startDate,
-                MilestoneTableFieldDef.endDate, MilestoneTableFieldDef.status, MilestoneTableFieldDef.assignee));
+        return Sets.newHashSet(MilestoneTableFieldDef.milestoneName, MilestoneTableFieldDef.startDate,
+                MilestoneTableFieldDef.endDate, MilestoneTableFieldDef.status, MilestoneTableFieldDef.assignee);
     }
 
     @Override
     protected Set<TableViewField> getAvailableColumns() {
-        return new HashSet<>(Arrays.asList(MilestoneTableFieldDef.milestoneName, MilestoneTableFieldDef.startDate,
+        return Sets.newHashSet(MilestoneTableFieldDef.milestoneName, MilestoneTableFieldDef.startDate,
                 MilestoneTableFieldDef.endDate, MilestoneTableFieldDef.status, MilestoneTableFieldDef.assignee,
-                MilestoneTableFieldDef.billableHours, MilestoneTableFieldDef.nonBillableHours));
+                MilestoneTableFieldDef.billableHours, MilestoneTableFieldDef.nonBillableHours);
     }
 
     @Override

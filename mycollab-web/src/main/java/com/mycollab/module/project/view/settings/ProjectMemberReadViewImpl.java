@@ -307,36 +307,36 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
     private static class TaskRowDisplayHandler implements IBeanList.RowDisplayHandler<ProjectTicket> {
 
         @Override
-        public Component generateRow(IBeanList<ProjectTicket> host, ProjectTicket genericTask, int rowIndex) {
+        public Component generateRow(IBeanList<ProjectTicket> host, ProjectTicket ticket, int rowIndex) {
             MHorizontalLayout rowComp = new MHorizontalLayout().withStyleName("list-row").withFullWidth();
             rowComp.setDefaultComponentAlignment(Alignment.TOP_LEFT);
 
-            A taskLink = new A().setId("tag" + TooltipHelper.TOOLTIP_ID);
-            taskLink.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(genericTask.getType(), genericTask.getTypeId() + ""));
-            taskLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction());
-            if (ProjectTypeConstants.BUG.equals(genericTask.getType()) || ProjectTypeConstants.TASK.equals(genericTask.getType())) {
-                taskLink.appendText(String.format("[#%d] - %s", genericTask.getExtraTypeId(), genericTask.getName()));
-                taskLink.setHref(ProjectLinkGenerator.generateProjectItemLink(genericTask.getProjectShortName(),
-                        genericTask.getProjectId(), genericTask.getType(), genericTask.getExtraTypeId() + ""));
+            A ticketLink = new A().setId("tag" + TooltipHelper.TOOLTIP_ID);
+            ticketLink.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(ticket.getType(), ticket.getTypeId() + ""));
+            ticketLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction());
+            if (ProjectTypeConstants.BUG.equals(ticket.getType()) || ProjectTypeConstants.TASK.equals(ticket.getType())) {
+                ticketLink.appendText(ticket.getName());
+                ticketLink.setHref(ProjectLinkGenerator.generateProjectItemLink(ticket.getProjectShortName(),
+                        ticket.getProjectId(), ticket.getType(), ticket.getExtraTypeId() + ""));
             } else {
-                taskLink.appendText(genericTask.getName());
-                taskLink.setHref(ProjectLinkGenerator.generateProjectItemLink(genericTask.getProjectShortName(),
-                        genericTask.getProjectId(), genericTask.getType(), genericTask.getTypeId() + ""));
+                ticketLink.appendText(ticket.getName());
+                ticketLink.setHref(ProjectLinkGenerator.generateProjectItemLink(ticket.getProjectShortName(),
+                        ticket.getProjectId(), ticket.getType(), ticket.getTypeId() + ""));
             }
-            Label issueLbl = ELabel.html(taskLink.write());
-            if (genericTask.isClosed()) {
-                issueLbl.addStyleName("completed");
-            } else if (genericTask.isOverdue()) {
-                issueLbl.addStyleName("overdue");
+            Label ticketLbl = ELabel.html(ticketLink.write()).withFullWidth();
+            if (ticket.isClosed()) {
+                ticketLbl.addStyleName("completed");
+            } else if (ticket.isOverdue()) {
+                ticketLbl.addStyleName("overdue");
             }
 
-            String avatarLink = StorageUtils.getAvatarPath(genericTask.getAssignUserAvatarId(), 16);
-            Img img = new Img(genericTask.getAssignUserFullName(), avatarLink).setCSSClass(UIConstants.CIRCLE_BOX)
-                    .setTitle(genericTask.getAssignUserFullName());
+            String avatarLink = StorageUtils.getAvatarPath(ticket.getAssignUserAvatarId(), 16);
+            Img img = new Img(ticket.getAssignUserFullName(), avatarLink).setCSSClass(UIConstants.CIRCLE_BOX)
+                    .setTitle(ticket.getAssignUserFullName());
 
             MHorizontalLayout iconsLayout = new MHorizontalLayout().with(ELabel.fontIcon(ProjectAssetsManager.getAsset(
-                    genericTask.getType())), ELabel.html(img.write()));
-            MCssLayout issueWrapper = new MCssLayout(issueLbl);
+                    ticket.getType())), ELabel.html(img.write()));
+            MCssLayout issueWrapper = new MCssLayout(ticketLbl);
             rowComp.with(iconsLayout, issueWrapper).expand(issueWrapper);
             return rowComp;
         }

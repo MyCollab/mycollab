@@ -23,16 +23,11 @@ import com.vaadin.ui.themes.ValoTheme;
  * @author MyCollab Ltd.
  * @since 3.0
  */
-// TODO
 public class CheckBoxDecor extends CheckBox {
     private static final long serialVersionUID = 1L;
 
     public CheckBoxDecor(String title, boolean value) {
         super(title, value);
         this.addStyleName(ValoTheme.CHECKBOX_SMALL);
-    }
-
-    public void setValueWithoutNotifyListeners(boolean value) {
-//        this.setInternalValue(value);
     }
 }

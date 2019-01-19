@@ -18,6 +18,7 @@ package com.mycollab.module.project.ui.components;
 
 import com.mycollab.module.project.i18n.OptionI18nEnum.Priority;
 import com.mycollab.vaadin.web.ui.I18nValueComboBox;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.ui.IconGenerator;
 import com.vaadin.ui.StyleGenerator;
@@ -33,7 +34,7 @@ public class PriorityComboBox extends I18nValueComboBox<Priority> {
 
     public PriorityComboBox() {
         super(Priority.class, Urgent, High, Medium, Low, None);
-        this.setWidth("150px");
+        this.setWidth(WebThemes.FORM_CONTROL_WIDTH);
         this.setItemIconGenerator((IconGenerator<Priority>) item -> {
             if (item == Urgent || item == High || item == Medium) {
                 return VaadinIcons.ARROW_UP;

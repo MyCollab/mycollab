@@ -14,14 +14,17 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.mycollab.module.project.view.page
-
-import com.mycollab.module.project.ui.components.TransparentContainer
-import com.mycollab.vaadin.mvp.ViewComponent
+package com.mycollab.db.arguments
 
 /**
  * @author MyCollab Ltd.
- * @since 4.4.0
+ * @since 4.0
  */
-@ViewComponent
-class PageContainer : TransparentContainer()
+class SetValueSearchField(oper: String, var queryCount: String?, var value: Set<*>?) : SearchField() {
+    var querySelect: String? = null
+
+    init {
+        this.operation = oper
+        this.querySelect = queryCount
+    }
+}

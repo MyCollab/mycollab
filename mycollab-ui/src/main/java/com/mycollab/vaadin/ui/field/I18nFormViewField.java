@@ -28,22 +28,15 @@ import com.vaadin.ui.CustomField;
  * @author MyCollab Ltd.
  * @since 4.5.3
  */
-// TODO
 public class I18nFormViewField extends CustomField<String> {
     private static final long serialVersionUID = 1L;
 
+    private Class<? extends Enum> enumCls;
     private ELabel label;
 
-    public I18nFormViewField(final String key, Class<? extends Enum> enumCls) {
+    public I18nFormViewField(Class<? extends Enum> enumCls) {
+        this.enumCls = enumCls;
         label = new ELabel("", ContentMode.TEXT).withUndefinedWidth().withStyleName(UIConstants.LABEL_WORD_WRAP);
-
-        if (StringUtils.isNotBlank(key)) {
-            try {
-                String value = UserUIContext.getMessage(enumCls, key);
-                label.setValue(value);
-            } catch (Exception ignored) {
-            }
-        }
     }
 
     public I18nFormViewField withStyleName(String styleName) {
@@ -57,8 +50,13 @@ public class I18nFormViewField extends CustomField<String> {
     }
 
     @Override
-    protected void doSetValue(String s) {
-
+    protected void doSetValue(String value) {
+        if (StringUtils.isNotBlank(value)) {
+            try {
+                label.setValue(UserUIContext.getMessage(enumCls, value));
+            } catch (Exception ignored) {
+            }
+        }
     }
 
     @Override

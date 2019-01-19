@@ -288,7 +288,7 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
                 ValueListSelect listSelect = new ValueListSelect();
                 listSelect.setCaption(null);
                 listSelect.loadData(((StringListParam) param).getValues().toArray(new String[0]));
-//                listSelect.setValue(searchFieldInfo.eval());
+                listSelect.setValue((Set<?>)searchFieldInfo.eval());
                 listSelect.setWidth(width);
                 valueBox.addComponent(listSelect);
 
@@ -298,7 +298,7 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
                     I18nValueListSelect listSelect = new I18nValueListSelect();
                     listSelect.setCaption(null);
                     listSelect.loadData(((I18nStringListParam) param).getValues());
-//                    listSelect.setValue(searchFieldInfo.eval());
+                    listSelect.setValue((Set<?>)searchFieldInfo.eval());
                     listSelect.setWidth(width);
                     valueBox.addComponent(listSelect);
                 }
@@ -459,7 +459,7 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
             this.addValueChangeListener(event -> {
                 Object itemId = SavedSearchResultComboBox.this.getValue();
                 if (itemId != null) {
-                    final SaveSearchResult data = null; // TODO: beanItem.getItem(itemId).getBean();
+                    final SaveSearchResult data = getValue();
 
                     String queryText = data.getQuerytext();
                     try {

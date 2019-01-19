@@ -16,6 +16,7 @@
  */
 package com.mycollab.module.project.view.ticket;
 
+import com.google.common.collect.Sets;
 import com.mycollab.common.TableViewField;
 import com.mycollab.db.query.VariableInjector;
 import com.mycollab.module.project.ProjectTypeConstants;
@@ -53,17 +54,17 @@ public class TicketCustomizeReportOutputWindow extends CustomizeReportOutputWind
 
     @Override
     protected Set<TableViewField> getDefaultColumns() {
-        return new HashSet<>(Arrays.asList(TicketTableFieldDef.name, TicketTableFieldDef.startdate, TicketTableFieldDef.duedate,
+        return Sets.newHashSet(TicketTableFieldDef.name, TicketTableFieldDef.startdate, TicketTableFieldDef.duedate,
                 TicketTableFieldDef.priority, TicketTableFieldDef.assignee,
-                TicketTableFieldDef.billableHours, TicketTableFieldDef.nonBillableHours));
+                TicketTableFieldDef.billableHours, TicketTableFieldDef.nonBillableHours);
     }
 
     @Override
     protected Set<TableViewField> getAvailableColumns() {
-        return new HashSet<>(Arrays.asList(TicketTableFieldDef.name, TicketTableFieldDef.description, TicketTableFieldDef.startdate,
+        return Sets.newHashSet(TicketTableFieldDef.name, TicketTableFieldDef.description, TicketTableFieldDef.startdate,
                 TicketTableFieldDef.enddate, TicketTableFieldDef.duedate,
                 TicketTableFieldDef.priority, TicketTableFieldDef.logUser,
                 TicketTableFieldDef.assignee, TicketTableFieldDef.milestoneName,
-                TicketTableFieldDef.billableHours, TicketTableFieldDef.nonBillableHours));
+                TicketTableFieldDef.billableHours, TicketTableFieldDef.nonBillableHours);
     }
 }

@@ -24,10 +24,7 @@ import com.mycollab.vaadin.mvp.PageActionChain;
 import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.icons.VaadinIcons;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.Panel;
-import com.vaadin.ui.UI;
+import com.vaadin.ui.*;
 import org.vaadin.addons.stackpanel.StackPanel;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MVerticalLayout;
@@ -40,13 +37,13 @@ public class ProjectRightBarContainer extends MVerticalLayout {
 
     private SimpleProject project;
 
+    private Button toggleHideButton;
     private MVerticalLayout modulePanel;
 
     public ProjectRightBarContainer(SimpleProject project) {
         this.project = project;
 
-        this.setStyleName("project-right-bar");
-        this.setHeight("100%");
+        this.withFullHeight().withStyleName("project-right-bar");
         modulePanel = new MVerticalLayout().withMargin(false);
         this.with(buildProjectActionPanel(), modulePanel).expand(modulePanel);
     }

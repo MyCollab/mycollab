@@ -113,16 +113,18 @@ public class ProjectModule extends AbstractSingleContainerPageView implements ID
             newBtn.setContent(contentLayout);
 
             serviceMenuContainer.with(newBtn).withAlign(newBtn, Alignment.MIDDLE_LEFT);
+
+            SearchTextField searchTextField = new SearchTextField() {
+                @Override
+                protected void doSearch(String value) {
+                    BoardContainerPresenter searchItemPresenter = PresenterResolver.getPresenter(BoardContainerPresenter.class);
+                    searchItemPresenter.go(ProjectModule.this, new ProjectModuleScreenData.SearchItem(value));
+                }
+            };
+            serviceMenuContainer.with(searchTextField);
         }
 
-        SearchTextField searchTextField = new SearchTextField() {
-            @Override
-            protected void doSearch(String value) {
-                BoardContainerPresenter searchItemPresenter = PresenterResolver.getPresenter(BoardContainerPresenter.class);
-                searchItemPresenter.go(ProjectModule.this, new ProjectModuleScreenData.SearchItem(value));
-            }
-        };
-        serviceMenuContainer.with(searchTextField);
+
         return serviceMenuContainer;
     }
 

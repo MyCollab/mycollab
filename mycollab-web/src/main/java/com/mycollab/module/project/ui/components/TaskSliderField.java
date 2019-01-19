@@ -16,6 +16,7 @@
  */
 package com.mycollab.module.project.ui.components;
 
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.shared.ui.slider.SliderOrientation;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomField;
@@ -39,7 +40,7 @@ public class TaskSliderField extends CustomField<Double> {
         progressLbl.setWidthUndefined();
         slider = new Slider();
         slider.setOrientation(SliderOrientation.HORIZONTAL);
-        slider.setWidth("150px");
+        slider.setWidth(WebThemes.FORM_CONTROL_WIDTH);
         slider.addValueChangeListener(valueChangeEvent -> {
             displayValue(valueChangeEvent.getValue());
         });

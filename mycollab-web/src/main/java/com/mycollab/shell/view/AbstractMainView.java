@@ -82,7 +82,7 @@ public abstract class AbstractMainView extends AbstractVerticalPageView implemen
     @Override
     public void display() {
         this.removeAllComponents();
-        bodyLayout = new MCssLayout().withStyleName("main-view").withId("main-body")
+        bodyLayout = new MCssLayout().withStyleName("main-view")
                 .withFullHeight().withFullWidth();
         this.with(createTopMenu(), bodyLayout).expand(bodyLayout);
     }

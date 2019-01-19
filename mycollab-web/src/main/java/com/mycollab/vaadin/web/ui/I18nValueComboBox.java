@@ -64,6 +64,11 @@ public class I18nValueComboBox<T extends Enum<T>> extends ComboBox<T> implements
         return UserUIContext.getMessage(value);
     }
 
+    public I18nValueComboBox<T> withWidth(String width) {
+        setWidth(width);
+        return this;
+    }
+
     @Override
     public Result<String> convertToModel(T value, ValueContext context) {
         return (value != null) ? Result.ok(value.name()) : Result.ok(null);

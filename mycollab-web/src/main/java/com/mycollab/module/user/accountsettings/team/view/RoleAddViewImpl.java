@@ -40,6 +40,7 @@ import com.vaadin.data.HasValue;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
+import org.vaadin.viritin.fields.MTextField;
 
 import java.util.HashMap;
 import java.util.List;
@@ -181,11 +182,10 @@ public class RoleAddViewImpl extends AbstractVerticalPageView implements RoleAdd
             return permissionMap;
         }
 
-        // TODO
         private class EditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<Role> {
             private static final long serialVersionUID = 1L;
 
-            public EditFormFieldFactory(GenericBeanForm<Role> form) {
+            EditFormFieldFactory(GenericBeanForm<Role> form) {
                 super(form);
             }
 
@@ -194,10 +194,7 @@ public class RoleAddViewImpl extends AbstractVerticalPageView implements RoleAdd
                 if (propertyId.equals("description")) {
                     return new RichTextArea();
                 } else if (propertyId.equals("rolename")) {
-//                    return new MTextField().withRequired(true)
-//                            .withRequiredError(UserUIContext.getMessage(ErrorI18nEnum.FIELD_MUST_NOT_NULL,
-//                                    UserUIContext.getMessage(GenericI18Enum.FORM_NAME)));
-
+                    return new MTextField().withRequiredIndicatorVisible(true);
                 }
                 return null;
             }

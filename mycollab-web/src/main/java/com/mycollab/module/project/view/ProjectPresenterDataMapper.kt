@@ -20,12 +20,15 @@ import com.mycollab.module.project.view.bug.BugAddPresenter
 import com.mycollab.module.project.view.bug.BugReadPresenter
 import com.mycollab.module.project.view.finance.IInvoiceListPresenter
 import com.mycollab.module.project.view.finance.ITimeTrackingPresenter
-import com.mycollab.module.project.view.message.MessagePresenter
+import com.mycollab.module.project.view.message.MessageListPresenter
+import com.mycollab.module.project.view.message.MessageReadPresenter
 import com.mycollab.module.project.view.milestone.MilestoneAddPresenter
 import com.mycollab.module.project.view.milestone.MilestoneListPresenter
 import com.mycollab.module.project.view.milestone.MilestoneReadPresenter
 import com.mycollab.module.project.view.milestone.MilestoneRoadmapPresenter
-import com.mycollab.module.project.view.page.PagePresenter
+import com.mycollab.module.project.view.page.PageAddPresenter
+import com.mycollab.module.project.view.page.PageListPresenter
+import com.mycollab.module.project.view.page.PageReadPresenter
 import com.mycollab.module.project.view.parameters.*
 import com.mycollab.module.project.view.risk.IRiskAddPresenter
 import com.mycollab.module.project.view.risk.IRiskReadPresenter
@@ -52,14 +55,14 @@ object ProjectPresenterDataMapper {
     )
 
     private val messageMapper = mapOf<Class<out ScreenData<Any>>, Class<out IPresenter<*>>>(
-            MessageScreenData.Read::class.java to MessagePresenter::class.java,
-            MessageScreenData.Search::class.java to MessagePresenter::class.java)
+            MessageScreenData.Read::class.java to MessageReadPresenter::class.java,
+            MessageScreenData.Search::class.java to MessageListPresenter::class.java)
 
     private val pageMapper = mapOf<Class<out ScreenData<Any>>, Class<out IPresenter<*>>>(
-            PageScreenData.Read::class.java to PagePresenter::class.java,
-            PageScreenData.Add::class.java to PagePresenter::class.java,
-            PageScreenData.Edit::class.java to PagePresenter::class.java,
-            PageScreenData.Search::class.java to PagePresenter::class.java)
+            PageScreenData.Read::class.java to PageReadPresenter::class.java,
+            PageScreenData.Add::class.java to PageAddPresenter::class.java,
+            PageScreenData.Edit::class.java to PageAddPresenter::class.java,
+            PageScreenData.Search::class.java to PageListPresenter::class.java)
 
     private val riskMapper = mapOf<Class<out ScreenData<Any>>, Class<out IPresenter<*>>>(
             RiskScreenData.Add::class.java to IRiskAddPresenter::class.java,

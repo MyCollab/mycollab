@@ -182,7 +182,7 @@ class ProjectTaskServiceImpl(private val taskMapper: TaskMapper,
         val searchCriteria = TaskSearchCriteria()
         searchCriteria.parentTaskId = NumberSearchField(taskId)
         searchCriteria.addExtraField(TaskSearchCriteria.p_status.buildPropertyParamNotInList(SearchField.AND,
-                listOf(StatusI18nEnum.Closed.name)))
+                setOf(StatusI18nEnum.Closed.name)))
         return taskMapperExt.getTotalCount(searchCriteria)
     }
 

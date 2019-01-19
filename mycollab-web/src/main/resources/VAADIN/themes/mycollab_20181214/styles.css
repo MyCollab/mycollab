@@ -17351,15 +17351,6 @@ div.v-window {
 	background-color: #f9f9f9;
 }
 
-.project-view .sidebar-menu {
-	padding: 0px;
-	transition: width 1s;
-}
-
-.project-view .sidebar-menu .v-button-wrap .v-icon {
-	font-size: 18px;
-}
-
 .project-view .addViewLayout {
 	padding: 0px 30px 10px;
 }
@@ -17453,10 +17444,6 @@ div.v-window {
 	padding: 12px 24px;
 	border-bottom: 1px solid #e5e5e5;
 	background-color: #f9f9f9;
-}
-
-.expand-button .v-button-wrap {
-	margin: 10px;
 }
 
 div.v-csslayout.followers-container {
@@ -18047,9 +18034,6 @@ html {
 }
 
 @media screen and (min-width: 1024px) {
-	.projectDashboardView {
-		margin: 0px auto;
-	}
 	.member-block {
 		width: 290px;
 		margin-right: 10px;
@@ -18101,7 +18085,7 @@ input.noBorderRight {
 }
 
 .v-app {
-	background-color: #fff;
+	background-color: #f9f9f9;
 }
 
 .v-window-modalitycurtain {
@@ -18696,6 +18680,7 @@ input.v-textfield-errorField {
 	overflow-x: hidden;
 	position: relative;
 	border-top: 1px solid #e5e5e5;
+	background-color: #f9f9f9;
 }
 
 div.v-csslayout.main-body {
@@ -18706,18 +18691,7 @@ div.v-csslayout.main-body {
 	display: flex;
 }
 
-.footer {
-	border-top: 1px solid #e5e5e5;
-	background-color: white;
-	color: #000;
-	font-size: 13px;
-}
-
-.footer a {
-	color: #000;
-}
-
-.legendBoxContent {
+.legend-box {
 	padding: 10px;
 	background: #F5F5F5;
 	border: 1px solid #e5e5e5;
@@ -19228,6 +19202,7 @@ div.v-stylecalendar .weekdays TD {
 	-ms-flex: 1;
 	flex: 1;
 	min-width: 0;
+	background-color: #ffffff;
 }
 
 .vertical-tabsheet .v-button-tab {

@@ -86,7 +86,7 @@ public abstract class ListSelectionPresenter<V extends IListView<S, B>, S extend
                     currentDataList.forEach(item -> {
                         item.setSelected(false);
                         CheckBoxDecor checkBox = (CheckBoxDecor) item.getExtraData();
-                        checkBox.setValueWithoutNotifyListeners(false);
+                        checkBox.setValue(false);
                     });
                     checkWhetherEnableTableActionControl();
                 }
@@ -114,7 +114,7 @@ public abstract class ListSelectionPresenter<V extends IListView<S, B>, S extend
         items.forEach(item -> {
             item.setSelected(true);
             CheckBoxDecor checkBox = (CheckBoxDecor) item.getExtraData();
-            checkBox.setValueWithoutNotifyListeners(true);
+            checkBox.setValue(true);
         });
     }
 

@@ -24,6 +24,7 @@ import com.mycollab.vaadin.mvp.ScreenData
  * @since 6.0.0
  */
 object ProjectScreenData {
+
     class GotoList : ScreenData<Any>(null)
 
     class Goto(params: Int) : ScreenData<Int>(params)

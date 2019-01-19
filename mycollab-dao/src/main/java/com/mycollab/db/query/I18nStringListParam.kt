@@ -18,31 +18,31 @@ package com.mycollab.db.query
 
 import com.mycollab.common.i18n.QueryI18nEnum.IN
 import com.mycollab.common.i18n.QueryI18nEnum.NOT_IN
-import com.mycollab.db.arguments.CollectionValueSearchField
+import com.mycollab.db.arguments.SetValueSearchField
 import com.mycollab.db.arguments.SearchField
 
 /**
  * @author MyCollab Ltd.
  * @since 4.3.0
  */
-class I18nStringListParam(id: String, table: String, column: String, var values: Collection<Enum<*>>?) : ColumnParam(id, table, column) {
+class I18nStringListParam(id: String, table: String, column: String, var values: Set<Enum<*>>?) : ColumnParam(id, table, column) {
 
-    fun buildStringParamInList(oper: String, value: Collection<*>): CollectionValueSearchField =
-            CollectionValueSearchField(oper, "$table.$column in ", value)
+    fun buildStringParamInList(oper: String, value: Set<*>): SetValueSearchField =
+            SetValueSearchField(oper, "$table.$column in ", value)
 
-    fun andStringParamInList(value: Collection<*>): CollectionValueSearchField =
+    fun andStringParamInList(value: Set<*>): SetValueSearchField =
             buildStringParamInList(SearchField.AND, value)
 
-    fun orStringParamInList(value: Collection<*>): CollectionValueSearchField =
+    fun orStringParamInList(value: Set<*>): SetValueSearchField =
             buildStringParamInList(SearchField.OR, value)
 
-    fun buildStringParamNotInList(oper: String, value: Collection<*>): CollectionValueSearchField =
-            CollectionValueSearchField(oper, "$table.$column not in ", value)
+    fun buildStringParamNotInList(oper: String, value: Set<*>): SetValueSearchField =
+            SetValueSearchField(oper, "$table.$column not in ", value)
 
-    fun andStringParamNotInList(value: List<*>): CollectionValueSearchField =
+    fun andStringParamNotInList(value: Set<*>): SetValueSearchField =
             buildStringParamNotInList(SearchField.AND, value)
 
-    fun orStringParamNotInList(value: List<*>): CollectionValueSearchField =
+    fun orStringParamNotInList(value: Set<*>): SetValueSearchField =
             buildStringParamNotInList(SearchField.OR, value)
 
     companion object {

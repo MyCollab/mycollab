@@ -18,19 +18,19 @@ package com.mycollab.db.query
 
 import com.mycollab.common.i18n.QueryI18nEnum.IN
 import com.mycollab.common.i18n.QueryI18nEnum.NOT_IN
-import com.mycollab.db.arguments.CollectionValueSearchField
+import com.mycollab.db.arguments.SetValueSearchField
 
 /**
  * @author MyCollab Ltd.
  * @since 4.0
  */
-class StringListParam(id: String, table: String, column: String, var values: List<String>?) : ColumnParam(id, table, column) {
+class StringListParam(id: String, table: String, column: String, var values: Set<String>?) : ColumnParam(id, table, column) {
 
-    fun buildStringParamInList(oper: String, values: Collection<*>): CollectionValueSearchField =
-            CollectionValueSearchField(oper, "$table.$column in ", values)
+    fun buildStringParamInList(oper: String, values: Set<*>): SetValueSearchField =
+            SetValueSearchField(oper, "$table.$column in ", values)
 
-    fun buildStringParamNotInList(oper: String, values: Collection<*>): CollectionValueSearchField =
-            CollectionValueSearchField(oper, "$table.$column not in", values)
+    fun buildStringParamNotInList(oper: String, values: Set<*>): SetValueSearchField =
+            SetValueSearchField(oper, "$table.$column not in", values)
 
     companion object {
 

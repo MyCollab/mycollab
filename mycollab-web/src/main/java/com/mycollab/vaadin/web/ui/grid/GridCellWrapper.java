@@ -17,8 +17,9 @@
 package com.mycollab.vaadin.web.ui.grid;
 
 import com.mycollab.vaadin.web.ui.MultiSelectComp;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.ui.*;
-import org.vaadin.viritin.layouts.MCssLayout;
+import org.vaadin.viritin.fields.DoubleField;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 /**
@@ -39,13 +40,12 @@ public class GridCellWrapper extends MHorizontalLayout {
 
     public void addField(Component field) {
         fieldWrapper.removeAllComponents();
-        if (!(field instanceof Button)) {
-            field.setCaption(null);
-            this.setWidth(fieldWidth);
-        }
+        field.setCaption(null);
 
-        if (field instanceof MultiSelectComp || field instanceof DateField) {
-            field.setWidth("200px");
+        if (field.getWidth() != -1) {
+            // continue
+        } else if (field instanceof MultiSelectComp || field instanceof DateField) {
+            field.setWidth(WebThemes.FORM_CONTROL_WIDTH);
         } else  {
             field.setWidth("100%");
         }

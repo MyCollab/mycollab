@@ -100,8 +100,7 @@
                     </dependency>
                 </dependencies>
                 <executions>
-<!--
-
+                    <!--
                     <execution>
                         <id>User Artifacts Generator</id>
                         <phase>validate</phase>

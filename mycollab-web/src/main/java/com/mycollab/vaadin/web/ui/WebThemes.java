@@ -21,6 +21,8 @@ package com.mycollab.vaadin.web.ui;
  * @since 5.4.5
  */
 public class WebThemes {
+    public static final String FORM_CONTROL_WIDTH = "150px";
+
     public static final String BOX = "box";
     public static final String CUSTOM_FIELD_COMPONENT = "customFieldComponent";
     public static final String CUSTOM_FIELD_SECTION = "customFieldSection";
@@ -58,6 +60,4 @@ public class WebThemes {
     public static final String BORDER_BOTTOM = "border-bottom";
     public static final String BORDER_LIST = "border-list";
     public static final String BORDER_LIST_ROW = "row";
-
-    public static final String MARGIN_TOP = "margin-top";
 }

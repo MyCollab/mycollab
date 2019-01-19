@@ -18,6 +18,7 @@ package com.mycollab.module.project.view;
 
 import com.mycollab.common.i18n.ErrorI18nEnum;
 import com.mycollab.common.i18n.GenericI18Enum;
+import com.mycollab.core.utils.StringUtils;
 import com.mycollab.db.arguments.BasicSearchRequest;
 import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.db.arguments.SearchField;
@@ -39,6 +40,7 @@ import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.ComboBox;
+import com.vaadin.ui.ItemCaptionGenerator;
 import com.vaadin.ui.TextField;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
@@ -102,20 +104,16 @@ public class ProjectAddBaseTemplateWindow extends MWindow {
         this.setContent(content);
     }
 
-    // TODO
-    private static class TemplateProjectComboBox extends ComboBox {
+    private static class TemplateProjectComboBox extends ComboBox<SimpleProject> {
         TemplateProjectComboBox() {
             ProjectService projectService = AppContextUtil.getSpringBean(ProjectService.class);
             ProjectSearchCriteria searchCriteria = new ProjectSearchCriteria();
             searchCriteria.addExtraField(ProjectSearchCriteria.p_template.buildParamIsEqual(SearchField.AND, 1));
             searchCriteria.setSaccountid(new NumberSearchField(AppUI.getAccountId()));
             List<SimpleProject> projectTemplates = (List<SimpleProject>) projectService.findPageableListByCriteria(new BasicSearchRequest<>(searchCriteria));
-//            this.setItemCaptionMode(ItemCaptionMode.EXPLICIT);
-//            for (SimpleProject prjTemplate : projectTemplates) {
-//                this.addItem(prjTemplate);
-//                this.setItemCaption(prjTemplate, StringUtils.trim(String.format("[%s] %s", prjTemplate.getShortname(),
-//                        prjTemplate.getName()), 50, true));
-//            }
+            this.setItems(projectTemplates);
+            this.setItemCaptionGenerator((ItemCaptionGenerator<SimpleProject>) item -> StringUtils.trim(String.format("[%s] %s", item.getShortname(),
+                    item.getName()), 50, true));
         }
     }
 }

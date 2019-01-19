@@ -30,6 +30,7 @@ import java.lang.reflect.Array;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 import static com.mycollab.common.i18n.QueryI18nEnum.*;
 
@@ -116,18 +117,18 @@ public class SearchFieldInfo<S extends SearchCriteria> implements Serializable {
         } else if (param instanceof StringListParam) {
             StringListParam listParam = (StringListParam) param;
             if (this.getCompareOper().equals(IN.name())) {
-                return listParam.buildStringParamInList(prefixOper, (Collection<String>) this.eval());
+                return listParam.buildStringParamInList(prefixOper, (Set<String>) this.eval());
             } else {
-                return listParam.buildStringParamNotInList(prefixOper, (Collection<String>) this.eval());
+                return listParam.buildStringParamNotInList(prefixOper, (Set<String>) this.eval());
             }
         } else if (param instanceof I18nStringListParam) {
             I18nStringListParam wrapParam = (I18nStringListParam) param;
             QueryI18nEnum compareValue = valueOf(compareOper);
             switch (compareValue) {
                 case IN:
-                    return wrapParam.buildStringParamInList(prefixOper, (Collection<String>) this.eval());
+                    return wrapParam.buildStringParamInList(prefixOper, (Set<String>) this.eval());
                 case NOT_IN:
-                    return wrapParam.buildStringParamNotInList(prefixOper, (Collection<String>) this.eval());
+                    return wrapParam.buildStringParamNotInList(prefixOper, (Set<String>) this.eval());
                 default:
                     throw new MyCollabException("Not support yet");
             }
@@ -150,9 +151,9 @@ public class SearchFieldInfo<S extends SearchCriteria> implements Serializable {
             QueryI18nEnum compareValue = valueOf(compareOper);
             switch (compareValue) {
                 case IN:
-                    return wrapParam.buildPropertyParamInList(prefixOper, (Collection<?>) this.eval());
+                    return wrapParam.buildPropertyParamInList(prefixOper, (Set<?>) this.eval());
                 case NOT_IN:
-                    return wrapParam.buildPropertyParamNotInList(prefixOper, (Collection<?>) this.eval());
+                    return wrapParam.buildPropertyParamNotInList(prefixOper, (Set<?>) this.eval());
                 default:
                     throw new MyCollabException("Not support yet");
             }
@@ -172,10 +173,10 @@ public class SearchFieldInfo<S extends SearchCriteria> implements Serializable {
             QueryI18nEnum compareValue = valueOf(compareOper);
             switch (compareValue) {
                 case IN:
-                    wrapParam.injectCriteriaInList(searchCriteria, prefixOper, (Collection<?>) this.eval());
+                    wrapParam.injectCriteriaInList(searchCriteria, prefixOper, (Set<?>) this.eval());
                     return null;
                 case NOT_IN:
-                    wrapParam.injectCriteriaNotInList(searchCriteria, prefixOper, (Collection<?>) this.eval());
+                    wrapParam.injectCriteriaNotInList(searchCriteria, prefixOper, (Set<?>) this.eval());
                     return null;
                 default:
                     throw new MyCollabException("Not support yet");

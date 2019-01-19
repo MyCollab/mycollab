@@ -40,7 +40,5 @@ abstract class Param @JvmOverloads constructor(val id: String = "") : Serializab
         return EqualsBuilder().append(id, item!!.id).build()!!
     }
 
-    override fun hashCode(): Int {
-        return id.hashCode()
-    }
+    override fun hashCode(): Int = id.hashCode()
 }

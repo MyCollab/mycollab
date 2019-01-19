@@ -22,7 +22,6 @@ import com.mycollab.db.query.*
 import com.mycollab.module.project.ProjectTypeConstants
 import com.mycollab.module.project.i18n.MilestoneI18nEnum
 import com.mycollab.module.project.i18n.OptionI18nEnum.Priority
-import java.util.*
 
 /**
  * @author MyCollab Ltd.
@@ -56,12 +55,12 @@ class ProjectTicketSearchCriteria : SearchCriteria() {
         @JvmField
         val p_types = CacheParamMapper.register(ProjectTypeConstants.TICKET,
                 GenericI18Enum.FORM_TYPE, object : SearchCriteriaBridgeParam<ProjectTicketSearchCriteria>("type") {
-            override fun injectCriteriaInList(searchCriteria: ProjectTicketSearchCriteria, oper: String, value: Collection<String>): ProjectTicketSearchCriteria {
+            override fun injectCriteriaInList(searchCriteria: ProjectTicketSearchCriteria, oper: String, value: Set<String>): ProjectTicketSearchCriteria {
                 searchCriteria.types = SetSearchField(oper, value)
                 return searchCriteria
             }
 
-            override fun injectCriteriaNotInList(searchCriteria: ProjectTicketSearchCriteria, oper: String, value: Collection<String>): ProjectTicketSearchCriteria {
+            override fun injectCriteriaNotInList(searchCriteria: ProjectTicketSearchCriteria, oper: String, value: Set<String>): ProjectTicketSearchCriteria {
                 searchCriteria.types = SetSearchField(oper, value)
                 return searchCriteria
             }
@@ -74,7 +73,7 @@ class ProjectTicketSearchCriteria : SearchCriteria() {
         @JvmField
         val p_priority = CacheParamMapper.register(ProjectTypeConstants.TICKET, GenericI18Enum.FORM_PRIORITY,
                 I18nStringListParam("priority", "mainTbl", "priority",
-                        Arrays.asList(Priority.Urgent, Priority.High, Priority.Medium, Priority.Low, Priority.None)))
+                        setOf(Priority.Urgent, Priority.High, Priority.Medium, Priority.Low, Priority.None)))
 
         @JvmField
         val p_milestones = CacheParamMapper.register(ProjectTypeConstants.TICKET, MilestoneI18nEnum.SINGLE,

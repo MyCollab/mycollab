@@ -33,12 +33,15 @@ import com.mycollab.module.project.event.*
 import com.mycollab.module.project.view.bug.BugAddPresenter
 import com.mycollab.module.project.view.bug.BugReadPresenter
 import com.mycollab.module.project.view.finance.IInvoiceListPresenter
-import com.mycollab.module.project.view.message.MessagePresenter
+import com.mycollab.module.project.view.message.MessageListPresenter
+import com.mycollab.module.project.view.message.MessageReadPresenter
 import com.mycollab.module.project.view.milestone.MilestoneAddPresenter
 import com.mycollab.module.project.view.milestone.MilestoneListPresenter
 import com.mycollab.module.project.view.milestone.MilestoneReadPresenter
 import com.mycollab.module.project.view.milestone.MilestoneRoadmapPresenter
-import com.mycollab.module.project.view.page.PagePresenter
+import com.mycollab.module.project.view.page.PageAddPresenter
+import com.mycollab.module.project.view.page.PageListPresenter
+import com.mycollab.module.project.view.page.PageReadPresenter
 import com.mycollab.module.project.view.parameters.*
 import com.mycollab.module.project.view.risk.IRiskAddPresenter
 import com.mycollab.module.project.view.risk.IRiskReadPresenter
@@ -289,7 +292,7 @@ class ProjectController(val projectView: ProjectView) : AbstractController() {
             @Subscribe
             override fun handle(event: MessageEvent.GotoRead) {
                 val data = MessageScreenData.Read(event.data as Int)
-                val presenter = PresenterResolver.getPresenter(MessagePresenter::class.java)
+                val presenter = PresenterResolver.getPresenter(MessageReadPresenter::class.java)
                 presenter.go(projectView, data)
             }
         })
@@ -299,7 +302,7 @@ class ProjectController(val projectView: ProjectView) : AbstractController() {
                 val searchCriteria = MessageSearchCriteria()
                 searchCriteria.projectIds = SetSearchField(CurrentProjectVariables.projectId)
                 val data = MessageScreenData.Search(searchCriteria)
-                val presenter = PresenterResolver.getPresenter(MessagePresenter::class.java)
+                val presenter = PresenterResolver.getPresenter(MessageListPresenter::class.java)
                 presenter.go(projectView, data)
             }
         })
@@ -461,7 +464,7 @@ class ProjectController(val projectView: ProjectView) : AbstractController() {
                 val page = Page()
                 page.path = pagePath
                 val data = PageScreenData.Add(page)
-                val presenter = PresenterResolver.getPresenter(PagePresenter::class.java)
+                val presenter = PresenterResolver.getPresenter(PageAddPresenter::class.java)
                 presenter.go(projectView, data)
             }
         })
@@ -469,7 +472,7 @@ class ProjectController(val projectView: ProjectView) : AbstractController() {
             @Subscribe
             override fun handle(event: PageEvent.GotoEdit) {
                 val data = PageScreenData.Edit(event.data as Page)
-                val presenter = PresenterResolver.getPresenter(PagePresenter::class.java)
+                val presenter = PresenterResolver.getPresenter(PageAddPresenter::class.java)
                 presenter.go(projectView, data)
             }
         })
@@ -477,14 +480,14 @@ class ProjectController(val projectView: ProjectView) : AbstractController() {
             @Subscribe
             override fun handle(event: PageEvent.GotoRead) {
                 val data = PageScreenData.Read(event.data as Page)
-                val presenter = PresenterResolver.getPresenter(PagePresenter::class.java)
+                val presenter = PresenterResolver.getPresenter(PageReadPresenter::class.java)
                 presenter.go(projectView, data)
             }
         })
         this.register(object : ApplicationEventListener<PageEvent.GotoList> {
             @Subscribe
             override fun handle(event: PageEvent.GotoList) {
-                val presenter = PresenterResolver.getPresenter(PagePresenter::class.java)
+                val presenter = PresenterResolver.getPresenter(PageListPresenter::class.java)
                 presenter.go(projectView, PageScreenData.Search(event.data as String))
             }
         })

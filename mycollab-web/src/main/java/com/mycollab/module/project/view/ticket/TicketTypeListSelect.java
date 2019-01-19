@@ -16,27 +16,39 @@
  */
 package com.mycollab.module.project.view.ticket;
 
+import com.mycollab.configuration.SiteConfiguration;
+import com.mycollab.module.project.ProjectTypeConstants;
+import com.mycollab.module.project.i18n.BugI18nEnum;
+import com.mycollab.module.project.i18n.RiskI18nEnum;
+import com.mycollab.module.project.i18n.TaskI18nEnum;
+import com.mycollab.vaadin.UserUIContext;
+import com.vaadin.ui.ItemCaptionGenerator;
 import com.vaadin.ui.ListSelect;
 
 /**
  * @author MyCollab Ltd
  * @since 5.4.3
  */
-// TODO
-class TicketTypeListSelect extends ListSelect {
+class TicketTypeListSelect extends ListSelect<String> {
     TicketTypeListSelect() {
-//        this.setItemCaptionMode(ItemCaptionMode.EXPLICIT);
-//        this.setEmptySelectionAllowed(false);
-//        this.setMultiSelect(true);
-//        this.setRows(3);
-//
-//        this.addItem(ProjectTypeConstants.TASK);
-//        this.setItemCaption(ProjectTypeConstants.TASK, UserUIContext.getMessage(TaskI18nEnum.SINGLE));
-//        this.addItem(ProjectTypeConstants.BUG);
-//        this.setItemCaption(ProjectTypeConstants.BUG, UserUIContext.getMessage(BugI18nEnum.SINGLE));
-//        if (!SiteConfiguration.isCommunityEdition()) {
-//            this.addItem(ProjectTypeConstants.RISK);
-//            this.setItemCaption(ProjectTypeConstants.RISK, UserUIContext.getMessage(RiskI18nEnum.SINGLE));
-//        }
+        this.setRows(3);
+
+        if (!SiteConfiguration.isCommunityEdition()) {
+            this.setItems(ProjectTypeConstants.TASK, ProjectTypeConstants.BUG, ProjectTypeConstants.RISK);
+        } else {
+            this.setItems(ProjectTypeConstants.TASK, ProjectTypeConstants.BUG);
+        }
+
+        this.setItemCaptionGenerator((ItemCaptionGenerator<String>) item -> {
+            if (ProjectTypeConstants.TASK.equals(item)) {
+                return UserUIContext.getMessage(TaskI18nEnum.SINGLE);
+            } else if (ProjectTypeConstants.BUG.equals(item)) {
+                return UserUIContext.getMessage(BugI18nEnum.SINGLE);
+            } else if (ProjectTypeConstants.RISK.equals(item)) {
+                return UserUIContext.getMessage(RiskI18nEnum.SINGLE);
+            } else {
+                return "";
+            }
+        });
     }
 }

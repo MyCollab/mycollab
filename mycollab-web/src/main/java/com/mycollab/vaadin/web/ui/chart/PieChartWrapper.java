@@ -142,7 +142,7 @@ public abstract class PieChartWrapper<S extends SearchCriteria> extends GenericC
     @Override
     protected final ComponentContainer createLegendBox() {
         final CssLayout mainLayout = new CssLayout();
-        mainLayout.addStyleName("legendBoxContent");
+        mainLayout.addStyleName("legend-box");
         mainLayout.setSizeUndefined();
         final List keys = pieDataSet.getKeys();
 

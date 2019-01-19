@@ -27,7 +27,6 @@ import com.mycollab.module.project.i18n.OptionI18nEnum.BugSeverity
 import com.mycollab.module.project.i18n.OptionI18nEnum.Priority
 import com.mycollab.module.project.i18n.ProjectCommonI18nEnum
 import org.apache.ibatis.jdbc.SQL
-import java.util.*
 
 /**
  * @author MyCollab Ltd.
@@ -162,17 +161,17 @@ class BugSearchCriteria : SearchCriteria() {
         @JvmField
         val p_priority = CacheParamMapper.register(ProjectTypeConstants.BUG, GenericI18Enum.FORM_PRIORITY,
                 I18nStringListParam("priority", "m_tracker_bug", "priority",
-                        Arrays.asList(Priority.Urgent, Priority.High, Priority.Medium,
+                        setOf(Priority.Urgent, Priority.High, Priority.Medium,
                                 Priority.Low, Priority.None)))
 
         @JvmField
         val p_severity = CacheParamMapper.register(ProjectTypeConstants.BUG, BugI18nEnum.FORM_SEVERITY,
                 I18nStringListParam("severity", "m_tracker_bug", "severity",
-                        Arrays.asList(BugSeverity.Critical, BugSeverity.Major, BugSeverity.Minor, BugSeverity.Trivial)))
+                        setOf(BugSeverity.Critical, BugSeverity.Major, BugSeverity.Minor, BugSeverity.Trivial)))
         @JvmField
         val p_status = CacheParamMapper.register(ProjectTypeConstants.BUG, GenericI18Enum.FORM_STATUS,
                 I18nStringListParam("status", "m_tracker_bug", "status",
-                        Arrays.asList(StatusI18nEnum.Verified, StatusI18nEnum.Open, StatusI18nEnum.ReOpen, StatusI18nEnum.Resolved)))
+                        setOf(StatusI18nEnum.Verified, StatusI18nEnum.Open, StatusI18nEnum.ReOpen, StatusI18nEnum.Resolved)))
 
         @JvmField
         val p_affectedVersions = CacheParamMapper.register(ProjectTypeConstants.BUG, BugI18nEnum.FORM_AFFECTED_VERSIONS,

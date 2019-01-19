@@ -29,8 +29,10 @@ import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.mycollab.vaadin.ui.GenericBeanForm;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.mycollab.vaadin.web.ui.field.AttachmentUploadField;
 import com.vaadin.data.HasValue;
+import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.DateField;
 import com.vaadin.ui.RichTextArea;
 import org.vaadin.viritin.fields.DoubleField;
@@ -103,7 +105,7 @@ class TaskEditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<Si
 //            });
 //            return field;
         } else if (Task.Field.originalestimate.equalTo(propertyId) || Task.Field.remainestimate.equalTo(propertyId)) {
-            return new DoubleField();
+            return new DoubleField().withWidth(WebThemes.FORM_CONTROL_WIDTH);
         } else if (Task.Field.startdate.equalTo(propertyId) || Task.Field.enddate.equalTo(propertyId)
                 || Task.Field.duedate.equalTo(propertyId)) {
             return new DateField();
@@ -117,6 +119,8 @@ class TaskEditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<Si
                 attachmentUploadField = new AttachmentUploadField();
             }
             return attachmentUploadField;
+        } else if (Task.Field.isestimated.equalTo(propertyId)) {
+            return new CheckBox();
         } else if (propertyId.equals("selected")) {
             return subscribersComp;
         }

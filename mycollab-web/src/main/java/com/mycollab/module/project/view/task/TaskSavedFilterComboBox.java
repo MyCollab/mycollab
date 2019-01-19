@@ -16,6 +16,7 @@
  */
 package com.mycollab.module.project.view.task;
 
+import com.google.common.collect.Sets;
 import com.mycollab.common.domain.OptionVal;
 import com.mycollab.common.i18n.QueryI18nEnum;
 import com.mycollab.common.service.OptionValService;
@@ -102,10 +103,10 @@ public class TaskSavedFilterComboBox extends SavedFilterComboBox {
                 ConstantValueInjector.valueOf(StatusI18nEnum.Closed.name())));
 
         SearchQueryInfo myTasksQuery = new SearchQueryInfo(MY_TASKS, UserUIContext.getMessage(TaskI18nEnum.VAL_MY_TASKS),
-                SearchFieldInfo.inCollection(TaskSearchCriteria.p_assignee, ConstantValueInjector.valueOf(Collections.singletonList(UserUIContext.getUsername()))));
+                SearchFieldInfo.inCollection(TaskSearchCriteria.p_assignee, ConstantValueInjector.valueOf(Sets.newHashSet(UserUIContext.getUsername()))));
 
         SearchQueryInfo tasksCreatedByMeQuery = new SearchQueryInfo(TASKS_CREATED_BY_ME, UserUIContext.getMessage(TaskI18nEnum.VAL_TASKS_CREATED_BY_ME),
-                SearchFieldInfo.inCollection(TaskSearchCriteria.p_createdUser, ConstantValueInjector.valueOf(Collections.singletonList(UserUIContext.getUsername()))));
+                SearchFieldInfo.inCollection(TaskSearchCriteria.p_createdUser, ConstantValueInjector.valueOf(Sets.newHashSet(UserUIContext.getUsername()))));
 
         SearchQueryInfo newTasksThisWeekQuery = new SearchQueryInfo(NEW_TASKS_THIS_WEEK, UserUIContext.getMessage(TaskI18nEnum.VAL_NEW_THIS_WEEK),
                 SearchFieldInfo.inDateRange(TaskSearchCriteria.p_createtime, VariableInjector.THIS_WEEK));

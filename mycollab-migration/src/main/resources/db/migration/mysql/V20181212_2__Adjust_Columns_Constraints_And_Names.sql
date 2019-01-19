@@ -120,4 +120,3 @@ CHANGE COLUMN `accountName` `name` VARCHAR(255) CHARACTER SET 'utf8mb4' COLLATE 
 
 UPDATE `s_account_theme` SET `vTabsheetBg` = '001529', `vTabsheetBgSelected` = '0190FE', `vTabsheetText` = 'B8BECA', `vTabsheetTextSelected` = 'FFFFFF', `actionBtn` = '1F9DFE', `optionBtn` = 'CCCCCC', `dangerBtn` = 'D32F2F' WHERE (`sAccountId` IS NULL);
 
-

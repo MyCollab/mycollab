@@ -16,6 +16,7 @@
  */
 package com.mycollab.module.user.accountsettings.team.view;
 
+import com.google.common.collect.Sets;
 import com.mycollab.common.TableViewField;
 import com.mycollab.db.query.VariableInjector;
 import com.mycollab.module.user.AdminTypeConstants;
@@ -29,8 +30,6 @@ import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.reporting.CustomizeReportOutputWindow;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -45,16 +44,16 @@ public class UserCustomizeReportOutputWindow extends CustomizeReportOutputWindow
 
     @Override
     protected Set<TableViewField> getDefaultColumns() {
-        return new HashSet<>(Arrays.asList(UserTableFieldDef.displayName, UserTableFieldDef.roleName,
+        return Sets.newHashSet(UserTableFieldDef.displayName, UserTableFieldDef.roleName,
                 UserTableFieldDef.email, UserTableFieldDef.birthday,
-                UserTableFieldDef.officePhone, UserTableFieldDef.homePhone, UserTableFieldDef.company));
+                UserTableFieldDef.officePhone, UserTableFieldDef.homePhone, UserTableFieldDef.company);
     }
 
     @Override
     protected Set<TableViewField> getAvailableColumns() {
-        return new HashSet<>(Arrays.asList(UserTableFieldDef.displayName, UserTableFieldDef.roleName,
+        return Sets.newHashSet(UserTableFieldDef.displayName, UserTableFieldDef.roleName,
                 UserTableFieldDef.email, UserTableFieldDef.birthday,
-                UserTableFieldDef.officePhone, UserTableFieldDef.homePhone, UserTableFieldDef.company));
+                UserTableFieldDef.officePhone, UserTableFieldDef.homePhone, UserTableFieldDef.company);
     }
 
     @Override

@@ -38,6 +38,7 @@ import javax.jcr.SimpleCredentials
 @DependsOn("appContextUtil")
 class EcmConfiguration {
 
+    @DependsOn(value = ["dataSource"])
     @Bean
     fun repository(): RepositoryFactoryBean {
         val bean = RepositoryFactoryBean()

@@ -27,7 +27,7 @@ object TooltipHelper {
     fun userHoverJsFunction(username: String): String {
         val uidVal = "'$TOOLTIP_ID'"
         val usernameVal = "'$username'"
-        val urlVal = "'${AppUI.siteUrl}/tooltip/'"
+        val urlVal = "'${AppUI.siteUrl}tooltip/'"
         val siteUrlVal = "'${AppUI.siteUrl}'"
         val timezoneVal = "'${UserUIContext.getUser().timezone}'"
         val accountIdVal = "'${AppUI.accountId}'"
@@ -41,7 +41,7 @@ object TooltipHelper {
         val uidVal = "'$TOOLTIP_ID'"
         val typeVal = "'$type'"
         val typeIdVal = "'$typeId'"
-        val urlVal = "'${AppUI.siteUrl}/tooltip/'"
+        val urlVal = "'${AppUI.siteUrl}tooltip/'"
         val accountIdVal = "'${AppUI.accountId}'"
         val siteUrlVal = "'${AppUI.siteUrl}'"
         val timezoneVal = "'${UserUIContext.getUserTimeZone().id}'"

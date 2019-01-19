@@ -1,33 +1,33 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package com.mycollab.module.project.view.page;
 
 import com.mycollab.core.SecureAccessException;
-import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.module.page.domain.Page;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectRolePermissionCollections;
-import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.event.PageEvent;
 import com.mycollab.module.project.service.ProjectPageService;
 import com.mycollab.module.project.view.ProjectBreadcrumb;
 import com.mycollab.module.project.view.ProjectGenericPresenter;
+import com.mycollab.module.project.view.ProjectView;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppUI;
+import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.event.IEditFormHandler;
 import com.mycollab.vaadin.mvp.LoadPolicy;
@@ -75,9 +75,8 @@ public class PageAddPresenter extends ProjectGenericPresenter<PageAddView> {
     @Override
     protected void onGo(HasComponents container, ScreenData<?> data) {
         if (CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.PAGES)) {
-            PageContainer pageContainer = (PageContainer) container;
-            pageContainer.navigateToContainer(ProjectTypeConstants.PAGE);
-            pageContainer.setContent(view);
+            ProjectView projectView = (ProjectView) container;
+            projectView.gotoSubView(ProjectView.PAGE_ENTRY, view);
 
             Page page = (Page) data.getParams();
             view.editItem(page);

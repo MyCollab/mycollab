@@ -19,12 +19,12 @@ package com.mycollab.module.project.view.message;
 import com.mycollab.core.SecureAccessException;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectRolePermissionCollections;
-import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.domain.Message;
 import com.mycollab.module.project.domain.criteria.MessageSearchCriteria;
 import com.mycollab.module.project.service.MessageService;
 import com.mycollab.module.project.view.ProjectBreadcrumb;
 import com.mycollab.module.project.view.ProjectGenericPresenter;
+import com.mycollab.module.project.view.ProjectView;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.event.DefaultEditFormHandler;
@@ -62,13 +62,13 @@ public class MessageListPresenter extends ProjectGenericPresenter<MessageListVie
     @Override
     protected void onGo(HasComponents container, ScreenData<?> data) {
         if (CurrentProjectVariables.canRead(ProjectRolePermissionCollections.MESSAGES)) {
+            ProjectView projectView = (ProjectView) container;
+            projectView.gotoSubView(ProjectView.MESSAGE_ENTRY, view);
+
+            doSearch((MessageSearchCriteria) data.getParams());
+
             ProjectBreadcrumb breadCrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);
             breadCrumb.gotoMessageList();
-
-            MessageContainer messageContainer = (MessageContainer) container;
-            messageContainer.navigateToContainer(ProjectTypeConstants.MESSAGE);
-            messageContainer.setContent(view);
-            doSearch((MessageSearchCriteria) data.getParams());
         } else {
             throw new SecureAccessException();
         }

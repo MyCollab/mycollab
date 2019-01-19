@@ -125,10 +125,10 @@ public class TicketDashboardViewImpl extends AbstractVerticalPageView implements
         this.withMargin(new MarginInfo(false, true, true, true));
         ticketSearchPanel = new TicketSearchPanel();
 
-        MHorizontalLayout groupWrapLayout = new MHorizontalLayout();
-        groupWrapLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
+        MHorizontalLayout extraCompsHeaderLayout = new MHorizontalLayout();
+        extraCompsHeaderLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
-        groupWrapLayout.addComponent(new ELabel(UserUIContext.getMessage(GenericI18Enum.ACTION_SORT)));
+        extraCompsHeaderLayout.addComponent(new ELabel(UserUIContext.getMessage(GenericI18Enum.ACTION_SORT)));
         final StringValueComboBox sortCombo = new StringValueComboBox(false, UserUIContext.getMessage(GenericI18Enum.OPT_SORT_DESCENDING),
                 UserUIContext.getMessage(GenericI18Enum.OPT_SORT_ASCENDING));
         sortCombo.setWidth("130px");
@@ -142,9 +142,9 @@ public class TicketDashboardViewImpl extends AbstractVerticalPageView implements
             queryAndDisplayTickets();
         });
         sortDirection = SearchCriteria.DESC;
-        groupWrapLayout.addComponent(sortCombo);
+        extraCompsHeaderLayout.addComponent(sortCombo);
 
-        groupWrapLayout.addComponent(new ELabel(UserUIContext.getMessage(GenericI18Enum.OPT_GROUP)));
+        extraCompsHeaderLayout.addComponent(new ELabel(UserUIContext.getMessage(GenericI18Enum.OPT_GROUP)));
         final StringValueComboBox groupCombo = new StringValueComboBox(false, UserUIContext.getMessage(GenericI18Enum.FORM_DUE_DATE),
                 UserUIContext.getMessage(GenericI18Enum.FORM_START_DATE), UserUIContext.getMessage(GenericI18Enum.FORM_CREATED_TIME),
                 UserUIContext.getMessage(GenericI18Enum.OPT_PLAIN), UserUIContext.getMessage(GenericI18Enum.OPT_USER),
@@ -157,9 +157,9 @@ public class TicketDashboardViewImpl extends AbstractVerticalPageView implements
         });
         groupCombo.setWidth("130px");
 
-        groupWrapLayout.addComponent(groupCombo);
+        extraCompsHeaderLayout.addComponent(groupCombo);
 
-        ticketSearchPanel.addHeaderRight(groupWrapLayout);
+        ticketSearchPanel.addHeaderRight(extraCompsHeaderLayout);
 
         MButton printBtn = new MButton("", clickEvent -> UI.getCurrent().addWindow(
                 new TicketCustomizeReportOutputWindow(new LazyValueInjector() {
@@ -169,14 +169,14 @@ public class TicketDashboardViewImpl extends AbstractVerticalPageView implements
                     }
                 }))).withIcon(VaadinIcons.PRINT).withStyleName(WebThemes.BUTTON_OPTION)
                 .withDescription(UserUIContext.getMessage(GenericI18Enum.ACTION_EXPORT));
-        groupWrapLayout.addComponent(printBtn);
+        extraCompsHeaderLayout.addComponent(printBtn);
 
         MButton newTicketBtn = new MButton(UserUIContext.getMessage(TicketI18nEnum.NEW), clickEvent -> {
             UI.getCurrent().addWindow(AppContextUtil.getSpringBean(TicketComponentFactory.class)
                     .createNewTicketWindow(null, CurrentProjectVariables.getProjectId(), null, false));
         }).withIcon(VaadinIcons.PLUS).withStyleName(WebThemes.BUTTON_ACTION)
                 .withVisible(CurrentProjectVariables.canWriteTicket());
-        groupWrapLayout.addComponent(newTicketBtn);
+        extraCompsHeaderLayout.addComponent(newTicketBtn);
 
         MHorizontalLayout mainLayout = new MHorizontalLayout().withFullHeight().withFullWidth();
         wrapBody = new MVerticalLayout().withMargin(new MarginInfo(false, false, true, false));
