@@ -23,7 +23,6 @@ import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.field.DefaultViewField;
-import com.mycollab.validator.constraints.DateComparison;
 import com.vaadin.data.*;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.DateField;
@@ -36,7 +35,6 @@ import org.slf4j.LoggerFactory;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Path;
-import java.lang.annotation.Annotation;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -83,7 +81,8 @@ public abstract class AbstractBeanFieldGroupFieldFactory<B> implements IBeanFiel
                         formField = new TextField();
                     }
                 } else {
-                    if (formField instanceof DummyCustomField) {
+                    if (formField instanceof IgnoreBindingField) {
+                        attachForm.attachField(bindField, formField);
                         continue;
                     } else {
                         Binder.BindingBuilder<B, ?> bindingBuilder = binder.forField(formField);
@@ -95,7 +94,7 @@ public abstract class AbstractBeanFieldGroupFieldFactory<B> implements IBeanFiel
                     }
                 }
 
-                if (formField instanceof DateField && !(formField instanceof DateField)) {
+                if (formField instanceof DateField) {
                     ((DateField) formField).setZoneId(UserUIContext.getUserTimeZone());
                     ((DateField) formField).setDateFormat(AppUI.getDateFormat());
                 }
@@ -123,7 +122,7 @@ public abstract class AbstractBeanFieldGroupFieldFactory<B> implements IBeanFiel
                         }
                     }
                 } else {
-                    if (formField instanceof DummyCustomField) {
+                    if (formField instanceof IgnoreBindingField) {
                         continue;
                     } else {
                         Binder.BindingBuilder<B, ?> bindingBuilder = binder.forField(formField);
@@ -152,7 +151,7 @@ public abstract class AbstractBeanFieldGroupFieldFactory<B> implements IBeanFiel
             binder.writeBean(attachForm.getBean());
         } catch (ValidationException e) {
             List<BindingValidationStatus<?>> fieldValidationErrors = e.getFieldValidationErrors();
-            String errorMessage = fieldValidationErrors.stream().filter(it-> it.getStatus() == BindingValidationStatus.Status.ERROR || it.getStatus() == BindingValidationStatus.Status.UNRESOLVED)
+            String errorMessage = fieldValidationErrors.stream().filter(it -> it.getStatus() == BindingValidationStatus.Status.ERROR || it.getStatus() == BindingValidationStatus.Status.UNRESOLVED)
                     .map(BindingValidationStatus::getMessage)
                     // sanitize the individual error strings to avoid code injection
                     // since we are displaying the resulting string as HTML
@@ -160,20 +159,7 @@ public abstract class AbstractBeanFieldGroupFieldFactory<B> implements IBeanFiel
                     .collect(Collectors.joining("<br>"));
             throw new UserInvalidInputException(errorMessage);
         }
-        BinderValidationStatus<B> validate = binder.validate();
-        BinderValidationStatusHandler<B> validationStatusHandler = binder.getValidationStatusHandler();
-        binder.setValidationStatusHandler((BinderValidationStatusHandler<B>) status -> {
-            // create an error message on failed bean level validations
-            List<ValidationResult> errors = status.getBeanValidationErrors();
 
-            // collect all bean level error messages into a single string,
-            // separating each message with a <br> tag
-            String errorMessage = errors.stream().map(ValidationResult::getErrorMessage)
-                    // sanitize the individual error strings to avoid code injection
-                    // since we are displaying the resulting string as HTML
-                    .map(errorString -> Jsoup.clean(errorString, Whitelist.simpleText()))
-                    .collect(Collectors.joining("<br>"));
-        });
         Set<ConstraintViolation<B>> violations = validation.validate(attachForm.getBean());
         if (violations.size() > 0) {
             StringBuilder errorMsg = new StringBuilder();
@@ -183,19 +169,11 @@ public abstract class AbstractBeanFieldGroupFieldFactory<B> implements IBeanFiel
 
                 Path propertyPath = violation.getPropertyPath();
                 if (propertyPath != null && !propertyPath.toString().equals("")) {
-                    Binder.Binding<B, ?> binding = binder.getBinding(propertyPath.toString()).get();
-                    ((Component) binding.getField()).addStyleName("errorField");
-                } else {
-                    Annotation validateAnno = violation.getConstraintDescriptor().getAnnotation();
-                    if (validateAnno instanceof DateComparison) {
-                        String firstDateField = ((DateComparison) validateAnno).firstDateField();
-                        String lastDateField = ((DateComparison) validateAnno).lastDateField();
-
-//                        attachForm.getField(firstDateField).addStyleName("errorField");
-//                        fieldGroup.getField(lastDateField).addStyleName("errorField");
+                    Binder.Binding<B, ?> binding = binder.getBinding(propertyPath.toString()).orElse(null);
+                    if (binding != null) {
+                        ((Component) binding.getField()).addStyleName("errorField");
                     }
                 }
-
             }
             throw new UserInvalidInputException(errorMsg.toString());
         }

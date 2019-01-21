@@ -52,7 +52,7 @@ interface ProjectMemberService : IDefaultService<Int, ProjectMember, ProjectMemb
     @Cacheable
     fun getActiveUsersInProjects(projectIds: List<Int>, @CacheKey sAccountId: Int?): List<SimpleUser>
 
-    fun inviteProjectMembers(email: Array<String>, projectId: Int, projectRoleId: Int?,
+    fun inviteProjectMembers(email: Array<String>, projectId: Int, projectRoleId: Int,
                              inviteUser: String, inviteMessage: String, sAccountId: Int)
 
     fun findMembersHourlyInProject(projectId: Int?, sAccountId: Int?, start: LocalDate, end: LocalDate): List<SimpleProjectMember>

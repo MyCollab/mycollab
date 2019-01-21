@@ -17,6 +17,7 @@
 package com.mycollab.module.project.view.settings;
 
 import com.mycollab.common.i18n.SecurityI18nEnum;
+import com.mycollab.core.UserInvalidInputException;
 import com.mycollab.form.view.LayoutType;
 import com.mycollab.module.project.ProjectRolePermissionCollections;
 import com.mycollab.module.project.ProjectTypeConstants;
@@ -38,6 +39,7 @@ import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.*;
 import com.mycollab.vaadin.ui.field.DefaultViewField;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.vaadin.data.HasValue;
 import com.vaadin.icons.VaadinIcons;
@@ -104,13 +106,9 @@ public class ProjectMemberEditViewImpl extends AbstractEditItemComp<SimpleProjec
             if (propertyId.equals("memberFullName")) {
                 return new DefaultViewField(beanItem.getMemberFullName());
             } else if (propertyId.equals("projectroleid")) {
-                return new AdminRoleSelectionField();
-            } else if (propertyId.equals("isadmin")) {
-                return new DummyCustomField<Boolean>();
-            } else if (ProjectMember.Field.billingrate.equalTo(propertyId)) {
-                return new DoubleField();
-            } else if (ProjectMember.Field.overtimebillingrate.equalTo(propertyId)) {
-                return new DoubleField();
+                return new ProjectRoleSelectionField();
+            } else if (ProjectMember.Field.billingrate.equalTo(propertyId) || ProjectMember.Field.overtimebillingrate.equalTo(propertyId)) {
+                return new DoubleField().withWidth(WebThemes.FORM_CONTROL_WIDTH);
             }
             return null;
         }
@@ -128,7 +126,7 @@ public class ProjectMemberEditViewImpl extends AbstractEditItemComp<SimpleProjec
             layout.addComponent(wrappedLayoutFactory.getLayout());
 
             FormContainer permissionsPanel = new FormContainer();
-            projectFormHelper = GridFormLayoutHelper.defaultFormLayoutHelper(LayoutType.TWO_COLUMN, "180px");
+            projectFormHelper = GridFormLayoutHelper.defaultFormLayoutHelper(LayoutType.TWO_COLUMN);
             permissionsPanel.addSection(UserUIContext.getMessage(ProjectRoleI18nEnum.SECTION_PERMISSIONS),
                     projectFormHelper.getLayout());
             layout.addComponent(permissionsPanel);
@@ -155,57 +153,24 @@ public class ProjectMemberEditViewImpl extends AbstractEditItemComp<SimpleProjec
                 }
             }
         } else {
-            for (int i = 0; i < ProjectRolePermissionCollections.PROJECT_PERMISSIONS.length; i++) {
-                final String permissionPath = ProjectRolePermissionCollections.PROJECT_PERMISSIONS[i];
-                Enum permissionKey = RolePermissionI18nEnum.valueOf(permissionPath);
-                projectFormHelper.addComponent(new Label(UserUIContext.getMessage(SecurityI18nEnum.ACCESS)),
-                        UserUIContext.getMessage(permissionKey), i % 2, i / 2);
-            }
+            throw new UserInvalidInputException("Invalid role id " + roleId);
         }
     }
 
-    //TODO
-    private class AdminRoleSelectionField extends CustomField<Integer> {
+
+    private class ProjectRoleSelectionField extends CustomField<Integer> {
         private static final long serialVersionUID = 1L;
         private ProjectRoleComboBox roleComboBox;
 
-        AdminRoleSelectionField() {
+        ProjectRoleSelectionField() {
             roleComboBox = new ProjectRoleComboBox();
-//            roleComboBox.addValueChangeListener(valueChangeEvent -> displayRolePermission((Integer) roleComboBox.getValue()));
+            roleComboBox.addValueChangeListener(valueChangeEvent -> {
+                SimpleProjectRole selectedRole = roleComboBox.getValue();
+                if (selectedRole != null) {
+                    displayRolePermission(selectedRole.getId());
+                }
+            });
         }
-
-//        @Override
-//        public void commit() throws SourceException, InvalidValueException {
-//            Integer roleId = (Integer) roleComboBox.getValue();
-//            if (roleId == -1) {
-//                if (CurrentProjectVariables.isAdmin()) {
-//                    beanItem.setIsadmin(Boolean.TRUE);
-//                    this.setInternalValue(null);
-//                } else {
-//                    throw new UserInvalidInputException(UserUIContext.getMessage(ProjectRoleI18nEnum.ERROR_ONLY_OWNER_ASSIGN_ROLE_OWNER));
-//                }
-//            } else {
-//                beanItem.setIsadmin(Boolean.FALSE);
-//                this.setInternalValue((Integer) this.roleComboBox.getValue());
-//            }
-//
-//            super.commit();
-//        }
-//
-//        @Override
-//        public void setPropertyDataSource(Property newDataSource) {
-//            Object value = newDataSource.getValue();
-//            if (value instanceof Integer) {
-//                roleComboBox.setValue(value);
-//                displayRolePermission((Integer) roleComboBox.getValue());
-//            } else if (value == null) {
-//                if (Boolean.TRUE.equals(beanItem.getIsadmin())) {
-//                    roleComboBox.setValue(-1);
-//                    displayRolePermission(null);
-//                }
-//            }
-//            super.setPropertyDataSource(newDataSource);
-//        }
 
 
         @Override
@@ -214,13 +179,15 @@ public class ProjectMemberEditViewImpl extends AbstractEditItemComp<SimpleProjec
         }
 
         @Override
-        protected void doSetValue(Integer integer) {
-
+        protected void doSetValue(Integer value) {
+            roleComboBox.selectRoleById(value);
+            displayRolePermission(value);
         }
 
         @Override
         public Integer getValue() {
-            return null;
+            SimpleProjectRole role = roleComboBox.getSelectedItem().orElse(null);
+            return (role != null) ? role.getId() : null;
         }
     }
 }

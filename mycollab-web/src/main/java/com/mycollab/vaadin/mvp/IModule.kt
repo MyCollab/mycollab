@@ -14,16 +14,14 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.mycollab.web
+package com.mycollab.vaadin.mvp
 
-import com.mycollab.vaadin.mvp.IModule
-import com.vaadin.ui.SingleComponentContainer
 import org.vaadin.viritin.layouts.MHorizontalLayout
 
 /**
- * @author MyCollab Ltd
- * @since 5.1.2
+ * @author MyCollab Ltd.
+ * @since 2.0
  */
-interface IDesktopModule : IModule, SingleComponentContainer {
+interface IModule : PageView {
     fun buildMenu(): MHorizontalLayout?
 }

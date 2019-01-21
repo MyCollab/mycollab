@@ -48,9 +48,9 @@ public class PageFormLayoutFactory extends AbstractFormLayoutFactory {
     @Override
     protected HasValue<?> onAttachField(Object propertyId, HasValue<?> field) {
         if (propertyId.equals("subject")) {
-            return informationLayout.addComponent(field, UserUIContext.getMessage(PageI18nEnum.FORM_SUBJECT), 0, 0, 2, "100%");
+            return informationLayout.addComponent(field, UserUIContext.getMessage(PageI18nEnum.FORM_SUBJECT), 0, 0, 2);
         } else if (propertyId.equals("content")) {
-            return informationLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.FORM_DESCRIPTION), 0, 1, 2, "100%");
+            return informationLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.FORM_DESCRIPTION), 0, 1, 2);
         } else if (propertyId.equals("status")) {
             return informationLayout.addComponent(field, UserUIContext.getMessage(PageI18nEnum.FORM_VISIBILITY), 0, 2);
         }

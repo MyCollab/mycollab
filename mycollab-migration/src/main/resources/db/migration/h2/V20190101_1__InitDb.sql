@@ -775,7 +775,6 @@ CREATE TABLE `m_prj_member` (
   `projectId` int(10) unsigned NOT NULL,
   `createdTime` datetime DEFAULT NULL,
   `projectRoleId` int(11) unsigned DEFAULT NULL,
-  `isAdmin` bit(1) NOT NULL,
   `status` varchar(45) NOT NULL,
   `sAccountId` int(11) NOT NULL,
   `billingRate` double DEFAULT NULL,

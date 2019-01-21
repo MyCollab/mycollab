@@ -57,7 +57,7 @@ class AdvancedInfoChangeWindow extends MWindow {
     }
 
     private void initUI() {
-        MVerticalLayout mainLayout = new MVerticalLayout().withMargin(new MarginInfo(false, false, true, false)).withFullWidth();
+        MVerticalLayout mainLayout = new MVerticalLayout().withMargin(true).withFullWidth();
 
         GridFormLayoutHelper passInfo = GridFormLayoutHelper.defaultFormLayoutHelper(LayoutType.ONE_COLUMN);
 
@@ -77,7 +77,7 @@ class AdvancedInfoChangeWindow extends MWindow {
         MButton saveBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_SAVE), clickEvent -> changeInfo())
                 .withStyleName(WebThemes.BUTTON_ACTION).withIcon(VaadinIcons.CLIPBOARD).withClickShortcut(ShortcutAction.KeyCode.ENTER);
 
-        MHorizontalLayout buttonControls = new MHorizontalLayout(cancelBtn, saveBtn).withMargin(new MarginInfo(false, true, false, true));
+        MHorizontalLayout buttonControls = new MHorizontalLayout(cancelBtn, saveBtn);
         mainLayout.with(buttonControls).withAlign(buttonControls, Alignment.MIDDLE_RIGHT);
         this.setModal(true);
         this.setContent(mainLayout);

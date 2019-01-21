@@ -16,8 +16,20 @@
  */
 package com.mycollab.vaadin.mvp
 
+import com.mycollab.vaadin.event.ViewEvent
+import org.vaadin.viritin.layouts.MVerticalLayout
+
 /**
  * @author MyCollab Ltd.
- * @since 2.0
+ * @since 1.0
  */
-interface IModule : PageView
+abstract class AbstractVerticalPageView : MVerticalLayout(), PageView {
+
+    init {
+        this.withSpacing(false).withMargin(false).withFullSize()
+    }
+
+    override fun <E> addViewListener(listener: PageView.ViewListener<E>) {
+        addListener(ViewEvent.VIEW_IDENTIFIER, ViewEvent::class.java, listener, PageView.ViewListener.viewInitMethod)
+    }
+}

@@ -69,7 +69,7 @@ class TestimonialWindow extends MWindow {
             @Override
             public HasValue<?> onAttachField(Object propertyId, HasValue<?> field) {
                 if ("displayname".equals(propertyId)) {
-                    return gridFormLayoutHelper.addComponent(field, "Name", 0, 0, 2, "100%");
+                    return gridFormLayoutHelper.addComponent(field, "Name", 0, 0, 2);
                 } else if ("company".equals(propertyId)) {
                     return gridFormLayoutHelper.addComponent(field, "Company", 0, 1);
                 } else if ("jobrole".equals(propertyId)) {
@@ -79,7 +79,7 @@ class TestimonialWindow extends MWindow {
                 } else if ("email".equals(propertyId)) {
                     return gridFormLayoutHelper.addComponent(field, "Email", 1, 2);
                 } else if ("testimonial".equals(propertyId)) {
-                    return gridFormLayoutHelper.addComponent(field, "Testimonial", 0, 3, 2, "100%");
+                    return gridFormLayoutHelper.addComponent(field, "Testimonial", 0, 3, 2);
                 }
                 return null;
             }

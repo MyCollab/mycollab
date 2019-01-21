@@ -1623,6 +1623,16 @@ div.v-layout.v-horizontal.v-widget {
 	vertical-align: top;
 }
 
+.required-field-indicator::after {
+	content: " (*Required)";
+	color: #999;
+	font-size: small;
+}
+
+.v-required-field-indicator {
+	display: none !important;
+}
+
 @font-face {
 	font-family: "Vaadin-Icons";
 	src: url('fonts/Vaadin-Icons.eot');
@@ -1796,6 +1806,14 @@ a.pending {
 
 .margin-left {
 	margin-left: 24px;
+}
+
+.margin-right {
+	margin-right: 24px;
+}
+
+.margin {
+	margin: 12px 24px 12px 24px;
 }
 
 .border-bottom {
@@ -2459,11 +2477,11 @@ div.v-window {
 	overflow-y: auto;
 }
 
-.noscrollable-container {
+.no-scrollable-container {
 	overflow-y: hidden;
 }
 
-.noscrollable-container .v-window-contents > div {
+.no-scrollable-container .v-window-contents > div {
 	overflow-y: hidden;
 }
 
@@ -16483,6 +16501,14 @@ a.pending {
 	margin-left: 24px;
 }
 
+.margin-right {
+	margin-right: 24px;
+}
+
+.margin {
+	margin: 12px 24px 12px 24px;
+}
+
 .border-bottom {
 	border-bottom: 1px solid #e5e5e5 !important;
 }
@@ -17144,11 +17170,11 @@ div.v-window {
 	overflow-y: auto;
 }
 
-.noscrollable-container {
+.no-scrollable-container {
 	overflow-y: hidden;
 }
 
-.noscrollable-container .v-window-contents > div {
+.no-scrollable-container .v-window-contents > div {
 	overflow-y: hidden;
 }
 
@@ -17282,32 +17308,24 @@ div.v-window {
 	font-size: 1.2em;
 }
 
-.colored-gridlayout .rl-row {
-	border-bottom: 1px solid #e5e5e5;
-}
-
 .colored-gridlayout .gridform-caption.v-margin-top, .colored-gridlayout .gridform-field.v-margin-top {
 	padding-top: 8px;
 }
 
 .colored-gridlayout .gridform-caption.v-margin-right, .colored-gridlayout .gridform-field.v-margin-right {
-	padding-right: 8px;
+	padding-right: 4px;
 }
 
 .colored-gridlayout .gridform-caption.v-margin-bottom, .colored-gridlayout .gridform-field.v-margin-bottom {
-	padding-bottom: 4px;
+	padding-bottom: 8px;
 }
 
 .colored-gridlayout .gridform-caption.v-margin-left, .colored-gridlayout .gridform-field.v-margin-left {
-	padding-left: 0px;
-}
-
-.colored-gridlayout .gridform-caption {
-	min-height: 39px;
+	padding-left: 4px;
 }
 
 .colored-gridlayout .gridform-caption .v-label {
-	text-align: right;
+	text-align: left;
 	color: #999;
 }
 
@@ -18682,13 +18700,10 @@ div.v-csslayout.main-body {
 .member-block {
 	display: inline-block;
 	background-color: #ffffff;
-	margin-bottom: 15px;
-	font-size: 14px;
 	vertical-align: top;
 	width: 350px;
 	margin-right: 10px;
 	border: 1px solid #e5e5e5;
-	border-radius: 3px;
 	padding: 5px 5px 10px 10px;
 }
 

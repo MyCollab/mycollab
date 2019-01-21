@@ -120,7 +120,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
                     clickEvent -> {
                         BugService bugService = AppContextUtil.getSpringBean(BugService.class);
                         beanItem.setStatus(ReOpen.name());
-                        bugService.saveWithSession(beanItem, UserUIContext.getUsername());
+                        bugService.updateSelectiveWithSession(beanItem, UserUIContext.getUsername());
                         EventBusFactory.getInstance().post(new BugEvent.BugChanged(this, beanItem.getId()));
                     })
                     .withStyleName(WebThemes.BUTTON_ACTION);
@@ -140,7 +140,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
                     clickEvent -> {
                         BugService bugService = AppContextUtil.getSpringBean(BugService.class);
                         beanItem.setStatus(InProgress.name());
-                        bugService.saveWithSession(beanItem, UserUIContext.getUsername());
+                        bugService.updateSelectiveWithSession(beanItem, UserUIContext.getUsername());
                         EventBusFactory.getInstance().post(new BugEvent.BugChanged(this, beanItem.getId()));
                     })
                     .withStyleName(WebThemes.BUTTON_ACTION);
@@ -240,15 +240,15 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
         void displayBugHeader(final SimpleBug bug) {
             MVerticalLayout header = new VerticalRemoveInlineComponentMarker().withMargin(false).withFullWidth();
             toggleBugSummaryField = new ToggleBugSummaryField(bug);
-            toggleBugSummaryField.addLabelStyleName(ValoTheme.LABEL_H3);
-            toggleBugSummaryField.addLabelStyleName(ValoTheme.LABEL_NO_MARGIN);
+            toggleBugSummaryField.addLabelStyleNames(ValoTheme.LABEL_H3);
+            toggleBugSummaryField.addLabelStyleNames(ValoTheme.LABEL_NO_MARGIN);
             header.with(toggleBugSummaryField).expand(toggleBugSummaryField);
             this.addHeader(header);
 
             if (bug.isCompleted()) {
-                toggleBugSummaryField.addLabelStyleName(WebThemes.LINK_COMPLETED);
+                toggleBugSummaryField.addLabelStyleNames(WebThemes.LINK_COMPLETED);
             } else if (bug.isOverdue()) {
-                toggleBugSummaryField.addLabelStyleName(WebThemes.LABEL_OVERDUE);
+                toggleBugSummaryField.addLabelStyleNames(WebThemes.LABEL_OVERDUE);
             }
 
             BugRelationService bugRelationService = AppContextUtil.getSpringBean(BugRelationService.class);
@@ -277,7 +277,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
 
         @Override
         public void addTitleStyleName(String styleName) {
-            toggleBugSummaryField.addLabelStyleName(styleName);
+            toggleBugSummaryField.addLabelStyleNames(styleName);
         }
 
         @Override

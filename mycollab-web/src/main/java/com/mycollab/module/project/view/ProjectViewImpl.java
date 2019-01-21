@@ -51,7 +51,10 @@ import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.vaadin.UserUIContext;
-import com.mycollab.vaadin.mvp.*;
+import com.mycollab.vaadin.mvp.AbstractVerticalPageView;
+import com.mycollab.vaadin.mvp.ControllerRegistry;
+import com.mycollab.vaadin.mvp.PresenterResolver;
+import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.web.ui.VerticalTabsheet;
 import com.mycollab.vaadin.web.ui.VerticalTabsheet.ButtonTab;
 import com.mycollab.vaadin.web.ui.WebThemes;
@@ -108,7 +111,7 @@ public class ProjectViewImpl extends AbstractVerticalPageView implements Project
         viewWrap.buildComponents();
     }
 
-    private class ProjectViewWrap extends MHorizontalLayout implements PageView {
+    private class ProjectViewWrap extends MHorizontalLayout {
         private ProjectRightBarContainer rightBarContainer;
         private VerticalTabsheet myProjectTab;
 
@@ -283,7 +286,7 @@ public class ProjectViewImpl extends AbstractVerticalPageView implements Project
 
             myProjectTab.addTab(null, ProjectView.SETTING,
                     UserUIContext.getMessage(ProjectCommonI18nEnum.VIEW_MEMBER), null,
-                    ProjectAssetsManager.getAsset(ProjectTypeConstants.MEMBER));
+                    VaadinIcons.OPTIONS);
 
             if (CurrentProjectVariables.canRead(ProjectRolePermissionCollections.USERS)) {
                 myProjectTab.addTab(ProjectView.SETTING, ProjectView.USERS_ENTRY,

@@ -24,6 +24,7 @@ import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Label;
+import org.vaadin.viritin.layouts.MCssLayout;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 /**
@@ -81,9 +82,8 @@ public class AddViewLayout extends CustomLayoutExt {
 
     public void setTitle(final String title) {
         if (title != null) {
-            CssLayout titleWrap = new CssLayout();
-            titleWrap.setWidth("100%");
-            titleWrap.addComponent(ELabel.h3(title));
+            MCssLayout titleWrap = new MCssLayout().withFullWidth();
+            titleWrap.addComponent(ELabel.h3(title).withFullWidth());
             addComponent(titleWrap, "addViewTitle");
         } else {
             removeComponent("addViewTitle");

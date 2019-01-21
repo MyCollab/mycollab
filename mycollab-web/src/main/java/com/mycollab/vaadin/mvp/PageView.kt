@@ -14,14 +14,28 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.mycollab.vaadin.event
+package com.mycollab.vaadin.mvp
+
+import com.mycollab.vaadin.event.ViewEvent
+import com.vaadin.navigator.View
+import com.vaadin.ui.HasComponents
+import com.vaadin.util.ReflectTools
+import java.util.*
 
 /**
- * @author MyCollab Ltd
- * @since 6.0.0
+ * @author MyCollab Ltd.
+ * @since 1.0
  */
-class ViewEvent<B>(source: Any, val data: Any) : ApplicationEvent(source) {
-    companion object {
-        const val VIEW_IDENTIFIER = "viewEvent"
+interface PageView : HasComponents, CacheableComponent, View {
+    fun <E> addViewListener(listener: ViewListener<E>)
+
+    @FunctionalInterface
+    interface ViewListener<E> : EventListener {
+
+        fun receiveEvent(event: ViewEvent<E>)
+
+        companion object {
+            val viewInitMethod = ReflectTools.findMethod(ViewListener::class.java, "receiveEvent", ViewEvent::class.java)
+        }
     }
 }

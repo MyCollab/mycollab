@@ -23,8 +23,6 @@ import com.mycollab.vaadin.event.ApplicationEvent
  * @since 6.0.0
  */
 object ProjectMemberEvent {
-    class InviteProjectMembers(val emails: Collection<String>, val roleId: Int,
-                               val roleName: String, val inviteMessage: String)
 
     class Search(source: Any, val data: Any?) : ApplicationEvent(source)
 

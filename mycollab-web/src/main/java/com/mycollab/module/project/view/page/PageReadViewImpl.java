@@ -32,7 +32,7 @@ import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.domain.SimpleProjectMember;
 import com.mycollab.module.project.i18n.PageI18nEnum;
 import com.mycollab.module.project.service.ProjectMemberService;
-import com.mycollab.module.project.ui.components.ComponentUtils;
+import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.module.project.ui.components.ProjectActivityComponent;
 import com.mycollab.module.project.ui.components.ProjectPreviewFormControlsGenerator;
 import com.mycollab.spring.AppContextUtil;
@@ -44,7 +44,6 @@ import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.resources.LazyStreamSource;
 import com.mycollab.vaadin.resources.OnDemandFileDownloader;
 import com.mycollab.vaadin.ui.ELabel;
-import com.mycollab.vaadin.ui.HeaderWithIcon;
 import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.web.ui.AbstractPreviewItemComp;
 import com.mycollab.vaadin.web.ui.AdvancedPreviewBeanForm;
@@ -52,10 +51,8 @@ import com.mycollab.vaadin.web.ui.ReadViewLayout;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.StreamResource;
-import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import org.vaadin.viritin.button.MButton;
-import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
 import java.util.Calendar;
@@ -77,20 +74,14 @@ public class PageReadViewImpl extends AbstractPreviewItemComp<Page> implements P
     private PageService pageService;
 
     public PageReadViewImpl() {
-        super(new MHorizontalLayout().withMargin(new MarginInfo(true, false, true, false)), new PagePreviewFormLayout());
+        super(UserUIContext.getMessage(PageI18nEnum.DETAIL), ProjectAssetsManager.getAsset(ProjectTypeConstants.PAGE), new PagePreviewFormLayout(), false);
         pageService = AppContextUtil.getSpringBean(PageService.class);
         constructHeader();
     }
 
     private void constructHeader() {
         pageVersionsSelection = new PageVersionSelectionBox();
-
-        HeaderWithIcon headerLbl = ComponentUtils.headerH2(ProjectTypeConstants.PAGE, UserUIContext.getMessage(PageI18nEnum.DETAIL));
-        headerLbl.setWidthUndefined();
-
-        header.addComponent(headerLbl, 0);
-        header.addComponent(pageVersionsSelection, 1);
-        header.withFullWidth().expand(pageVersionsSelection).alignAll(Alignment.MIDDLE_LEFT);
+        header.with(pageVersionsSelection).expand(pageVersionsSelection).withAlign(pageVersionsSelection, Alignment.MIDDLE_LEFT);
     }
 
     @Override

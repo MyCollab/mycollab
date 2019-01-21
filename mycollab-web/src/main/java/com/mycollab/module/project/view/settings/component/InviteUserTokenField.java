@@ -19,6 +19,9 @@ package com.mycollab.module.project.view.settings.component;
 
 import com.explicatis.ext_token_field.ExtTokenField;
 import com.explicatis.ext_token_field.SimpleTokenizable;
+import com.explicatis.ext_token_field.Tokenizable;
+import com.explicatis.ext_token_field.events.TokenRemovedEvent;
+import com.explicatis.ext_token_field.events.TokenRemovedListener;
 import com.mycollab.core.utils.StringUtils;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.service.ProjectMemberService;
@@ -65,6 +68,11 @@ public class InviteUserTokenField extends CssLayout {
             }
         });
         comboBox.addValueChangeListener(getComboBoxValueChange(tokenField));
+
+        tokenField.addTokenRemovedListener(event -> {
+            Tokenizable token = event.getTokenizable();
+            inviteEmails.remove(token.getStringValue());
+        });
 
         tokenField.setInputField(comboBox);
         tokenField.setEnableDefaultDeleteTokenAction(true);

@@ -607,7 +607,6 @@
     projectId CDATA #REQUIRED
     createdTime CDATA #IMPLIED
     projectRoleId CDATA #IMPLIED
-    isAdmin CDATA #REQUIRED
     status CDATA #REQUIRED
     sAccountId CDATA #REQUIRED
     billingRate CDATA #IMPLIED

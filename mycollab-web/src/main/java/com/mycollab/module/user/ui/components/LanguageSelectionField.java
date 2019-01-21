@@ -62,7 +62,7 @@ public class LanguageSelectionField extends CustomField<String> {
 
     @Override
     protected void doSetValue(String value) {
-        Locale locale = Locale.forLanguageTag(value);
+        Locale locale = (value != null) ? Locale.forLanguageTag(value) : Locale.US;
         languageBox.setValue(locale);
     }
 }

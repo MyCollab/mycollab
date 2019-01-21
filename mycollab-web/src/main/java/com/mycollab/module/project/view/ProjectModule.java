@@ -40,7 +40,6 @@ import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.web.ui.OptionPopupContent;
 import com.mycollab.vaadin.web.ui.SearchTextField;
 import com.mycollab.vaadin.web.ui.WebThemes;
-import com.mycollab.web.IDesktopModule;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
@@ -55,13 +54,12 @@ import org.vaadin.viritin.layouts.MHorizontalLayout;
  * @since 1.0
  */
 @ViewComponent
-public class ProjectModule extends AbstractSingleContainerPageView implements IDesktopModule {
+public class ProjectModule extends AbstractModule {
     private static final long serialVersionUID = 1L;
 
     private MHorizontalLayout serviceMenuContainer;
 
     public ProjectModule() {
-        setId("project-module");
         addStyleName("module");
         setSizeFull();
         ControllerRegistry.addController(new ProjectModuleController(this));

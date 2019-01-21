@@ -93,8 +93,7 @@ class NewProjectMemberJoinCommand(private val billingAccountService: BillingAcco
                     A(ProjectLinkGenerator.generateProjectMemberFullLink(siteUrl, newMember.projectid, newMember.username)).appendText(newMember.displayName).write()
 
             fun formatRoleName(siteUrl: String, newMember: SimpleProjectMember): String =
-                    if (newMember.isProjectOwner) "Project Owner"
-                    else A(ProjectLinkGenerator.generateRolePreviewFullLink(siteUrl, newMember.projectid,
+                    A(ProjectLinkGenerator.generateRolePreviewFullLink(siteUrl, newMember.projectid,
                             newMember.projectid)).appendText(newMember.roleName).write()
         }
     }

@@ -94,7 +94,7 @@ public class DefaultDynaFormLayout implements IDynaFormLayout {
                     if (!excludeFields.contains(dynaField.getFieldName())) {
                         gridLayout.buildCell(UserUIContext.getMessage(dynaField.getDisplayName()),
                                 UserUIContext.getMessage(dynaField.getContextHelp()), 0,
-                                rowIndex, 2, "100%");
+                                rowIndex, 2);
                         if (j < section.getFieldCount() - 1) {
                             rowIndex++;
                         }
@@ -119,7 +119,7 @@ public class DefaultDynaFormLayout implements IDynaFormLayout {
                             }
                             gridLayout.buildCell(UserUIContext.getMessage(dynaField.getDisplayName()),
                                     UserUIContext.getMessage(dynaField.getContextHelp()), 0,
-                                    rowIndex, 2, "100%");
+                                    rowIndex, 2);
                             columnIndex = 0;
                             if (j < section.getFieldCount() - 1) {
                                 rowIndex++;

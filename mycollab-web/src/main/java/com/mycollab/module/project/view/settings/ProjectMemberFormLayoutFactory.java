@@ -46,9 +46,9 @@ public class ProjectMemberFormLayoutFactory extends AbstractFormLayoutFactory {
     @Override
     protected HasValue<?> onAttachField(Object propertyId, final HasValue<?> field) {
         if (propertyId.equals("memberFullName")) {
-            return informationLayout.addComponent(field, UserUIContext.getMessage(ProjectMemberI18nEnum.FORM_USER), 0, 0, 2, "100%");
+            return informationLayout.addComponent(field, UserUIContext.getMessage(ProjectMemberI18nEnum.FORM_USER), 0, 0, 2);
         } else if (propertyId.equals("projectroleid")) {
-            return informationLayout.addComponent(field, UserUIContext.getMessage(ProjectMemberI18nEnum.FORM_ROLE), 0, 1, 2, "100%");
+            return informationLayout.addComponent(field, UserUIContext.getMessage(ProjectMemberI18nEnum.FORM_ROLE), 0, 1, 2);
         } else if (ProjectMember.Field.billingrate.equalTo(propertyId)) {
             return informationLayout.addComponent(field, UserUIContext.getMessage(ProjectI18nEnum.FORM_BILLING_RATE), 0, 2);
         } else if (ProjectMember.Field.overtimebillingrate.equalTo(propertyId)) {

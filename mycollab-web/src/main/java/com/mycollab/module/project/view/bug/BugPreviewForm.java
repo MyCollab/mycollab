@@ -69,9 +69,9 @@ public class BugPreviewForm extends AdvancedPreviewBeanForm<SimpleBug> {
         @Override
         protected HasValue<?> onAttachField(Object propertyId, final HasValue<?> field) {
             if (BugWithBLOBs.Field.description.equalTo(propertyId)) {
-                return informationLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.FORM_DESCRIPTION), 0, 0, 2, "100%");
+                return informationLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.FORM_DESCRIPTION), 0, 0, 2);
             } else if (BugWithBLOBs.Field.environment.equalTo(propertyId)) {
-                return informationLayout.addComponent(field, UserUIContext.getMessage(BugI18nEnum.FORM_ENVIRONMENT), 0, 1, 2, "100%");
+                return informationLayout.addComponent(field, UserUIContext.getMessage(BugI18nEnum.FORM_ENVIRONMENT), 0, 1, 2);
             } else if (BugWithBLOBs.Field.status.equalTo(propertyId)) {
                 return informationLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.FORM_STATUS),
                         UserUIContext.getMessage(BugI18nEnum.FORM_STATUS_HELP), 0, 2);
@@ -93,13 +93,13 @@ public class BugPreviewForm extends AdvancedPreviewBeanForm<SimpleBug> {
                 informationLayout.addComponent(field, UserUIContext.getMessage(MilestoneI18nEnum.SINGLE), 1, 5);
             } else if (SimpleBug.Field.components.equalTo(propertyId)) {
                 return informationLayout.addComponent(field, UserUIContext.getMessage(BugI18nEnum.FORM_COMPONENTS), UserUIContext
-                        .getMessage(BugI18nEnum.FORM_COMPONENTS_HELP), 0, 6, 2, "100%");
+                        .getMessage(BugI18nEnum.FORM_COMPONENTS_HELP), 0, 6, 2);
             } else if (SimpleBug.Field.affectedVersions.equalTo(propertyId)) {
                 return informationLayout.addComponent(field, UserUIContext.getMessage(BugI18nEnum.FORM_AFFECTED_VERSIONS),
-                        UserUIContext.getMessage(BugI18nEnum.FORM_AFFECTED_VERSIONS_HELP), 0, 7, 2, "100%");
+                        UserUIContext.getMessage(BugI18nEnum.FORM_AFFECTED_VERSIONS_HELP), 0, 7, 2);
             } else if (SimpleBug.Field.fixedVersions.equalTo(propertyId)) {
                 return informationLayout.addComponent(field, UserUIContext.getMessage(BugI18nEnum.FORM_FIXED_VERSIONS),
-                        UserUIContext.getMessage(BugI18nEnum.FORM_FIXED_VERSIONS_HELP), 0, 8, 2, "100%");
+                        UserUIContext.getMessage(BugI18nEnum.FORM_FIXED_VERSIONS_HELP), 0, 8, 2);
             } else if (BugWithBLOBs.Field.originalestimate.equalTo(propertyId)) {
                 return informationLayout.addComponent(field, UserUIContext.getMessage(BugI18nEnum.FORM_ORIGINAL_ESTIMATE),
                         UserUIContext.getMessage(BugI18nEnum.FORM_ORIGINAL_ESTIMATE_HELP), 0, 9);
@@ -107,7 +107,7 @@ public class BugPreviewForm extends AdvancedPreviewBeanForm<SimpleBug> {
                 informationLayout.addComponent(field, UserUIContext.getMessage(BugI18nEnum.FORM_REMAIN_ESTIMATE),
                         UserUIContext.getMessage(BugI18nEnum.FORM_REMAIN_ESTIMATE_HELP), 1, 9);
             } else if (BugWithBLOBs.Field.id.equalTo(propertyId)) {
-                return informationLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.FORM_ATTACHMENTS), 0, 10, 2, "100%");
+                return informationLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.FORM_ATTACHMENTS), 0, 10, 2);
             }
             return null;
         }

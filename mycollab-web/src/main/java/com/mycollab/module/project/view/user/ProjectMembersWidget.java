@@ -137,12 +137,7 @@ public class ProjectMembersWidget extends Depot {
 
             CssLayout footer = new CssLayout();
 
-            String roleVal;
-            if (member.isProjectOwner()) {
-                roleVal = UserUIContext.getMessage(ProjectRoleI18nEnum.OPT_ADMIN_ROLE_DISPLAY);
-            } else {
-                roleVal = member.getRoleName();
-            }
+            String roleVal = member.getRoleName();
             ELabel memberRole = ELabel.html(roleVal).withDescription(UserUIContext.getMessage(ProjectRoleI18nEnum.SINGLE))
                     .withStyleName(UIConstants.META_INFO);
             footer.addComponent(memberRole);

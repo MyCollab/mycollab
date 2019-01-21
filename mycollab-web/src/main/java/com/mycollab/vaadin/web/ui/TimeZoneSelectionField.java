@@ -24,6 +24,7 @@ import com.vaadin.ui.ItemCaptionGenerator;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
+import java.time.ZoneId;
 import java.util.Collection;
 
 /**
@@ -33,15 +34,15 @@ import java.util.Collection;
 public class TimeZoneSelectionField extends CustomField<String> {
     private boolean isVerticalDisplay;
     private StringValueComboBox areaSelection;
-    private ComboBox timezoneSelection;
+    private ComboBox<TimezoneVal> timezoneSelection;
 
     public TimeZoneSelectionField(boolean isVerticalDisplay) {
         this.isVerticalDisplay = isVerticalDisplay;
         areaSelection = new StringValueComboBox(false, TimezoneVal.getAreas());
-        areaSelection.addValueChangeListener((ValueChangeListener) event -> setCboTimeZone((String) areaSelection.getValue()));
-        timezoneSelection = new ComboBox();
-        String area = (String) areaSelection.getSelectedItem().get();
-//        areaSelection.setValue(area);
+        areaSelection.addValueChangeListener((ValueChangeListener) event -> setCboTimeZone(areaSelection.getValue()));
+        timezoneSelection = new ComboBox<>();
+        String area = areaSelection.getSelectedItem().orElse(null);
+        areaSelection.setValue(area);
         setCboTimeZone(area);
     }
 
@@ -66,11 +67,15 @@ public class TimeZoneSelectionField extends CustomField<String> {
 
     @Override
     public String getValue() {
-        return (timezoneSelection != null) ? (String) timezoneSelection.getValue() : null;
+        TimezoneVal value = timezoneSelection.getValue();
+        return (value != null) ? value.getId() : null;
     }
 
     @Override
-    protected void doSetValue(String s) {
+    protected void doSetValue(String zoneId) {
+        TimezoneVal tzVal = new TimezoneVal(zoneId);
 
+        areaSelection.setValue(tzVal.getArea());
+        timezoneSelection.setValue(tzVal);
     }
 }

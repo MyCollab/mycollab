@@ -23,10 +23,13 @@ import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.UserUIContext;
-import com.mycollab.vaadin.mvp.PageView;
+import com.mycollab.vaadin.mvp.AbstractVerticalPageView;
 import com.mycollab.vaadin.ui.ELabel;
 import com.vaadin.icons.VaadinIcons;
-import com.vaadin.ui.*;
+import com.vaadin.ui.Alignment;
+import com.vaadin.ui.Component;
+import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.HorizontalLayout;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,7 +44,7 @@ import java.util.Arrays;
  * @author MyCollab Ltd.
  * @since 4.3.3
  */
-public abstract class AbstractPreviewItemComp<B> extends VerticalLayout implements PageView {
+public abstract class AbstractPreviewItemComp<B> extends AbstractVerticalPageView {
     private static final long serialVersionUID = 1L;
     private static Logger LOG = LoggerFactory.getLogger(AbstractPreviewItemComp.class);
 
@@ -59,19 +62,8 @@ public abstract class AbstractPreviewItemComp<B> extends VerticalLayout implemen
         this(headerText, iconResource, null, false);
     }
 
-    public AbstractPreviewItemComp(MHorizontalLayout customHeader, ReadViewLayout layout) {
-        this.header = customHeader;
-        this.addComponent(header);
-        isDisplaySideBar = false;
-        this.previewLayout = layout;
-        initContent();
-    }
-
-    public AbstractPreviewItemComp(String headerText, VaadinIcons iconResource, ReadViewLayout layout) {
-        this(headerText, iconResource, layout, true);
-    }
-
     public AbstractPreviewItemComp(String headerText, VaadinIcons iconResource, ReadViewLayout layout, boolean isDisplaySideBar) {
+        this.setMargin(true);
         ELabel headerLbl = ELabel.h2("").withUndefinedWidth();
         this.previewLayout = layout;
         this.isDisplaySideBar = isDisplaySideBar;

@@ -44,7 +44,7 @@ public class ProjectModulePresenter extends AbstractPresenter<ProjectModule> {
         String[] params = (String[]) data.getParams();
         if (params == null || params.length == 0) {
             BoardContainerPresenter dashboardPresenter = PresenterResolver.getPresenter(BoardContainerPresenter.class);
-            dashboardPresenter.onGo(view, null);
+            dashboardPresenter.go(view, null);
         } else {
             ShellUrlResolver.ROOT.getSubResolver("project").handle(params);
         }

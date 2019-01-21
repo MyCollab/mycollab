@@ -26,6 +26,7 @@ import com.mycollab.module.tracker.domain.criteria.ComponentSearchCriteria;
 import com.mycollab.module.tracker.service.ComponentService;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.web.ui.MultiSelectComp;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.ui.UI;
 
 import java.util.List;
@@ -34,12 +35,12 @@ import java.util.List;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-// TODO:
 public class ComponentMultiSelectField extends MultiSelectComp {
     private static final long serialVersionUID = 1L;
 
     public ComponentMultiSelectField() {
         super("name", true);
+        this.setWidth(WebThemes.FORM_CONTROL_WIDTH);
     }
 
     @Override
@@ -56,15 +57,6 @@ public class ComponentMultiSelectField extends MultiSelectComp {
     protected void requestAddNewComp() {
         UI.getCurrent().addWindow(new ComponentAddWindow());
     }
-
-//    @Override
-//    public void setPropertyDataSource(Property newDataSource) {
-//        List<Component> components = (List<Component>) newDataSource.getValue();
-//        if (components != null) {
-//            this.setSelectedItems(components);
-//        }
-//        super.setPropertyDataSource(newDataSource);
-//    }
 
 
     @Override

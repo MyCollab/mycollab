@@ -154,10 +154,9 @@ public class MilestoneReadViewImpl extends AbstractPreviewItemComp<SimpleMilesto
 
         void displayHeader(SimpleMilestone milestone) {
             toggleMilestoneSummaryField = new ToggleMilestoneSummaryField(milestone, true, false);
-            toggleMilestoneSummaryField.addLabelStyleName(ValoTheme.LABEL_H3);
-            toggleMilestoneSummaryField.addLabelStyleName(ValoTheme.LABEL_NO_MARGIN);
+            toggleMilestoneSummaryField.addLabelStyleNames(ValoTheme.LABEL_H3, ValoTheme.LABEL_NO_MARGIN);
             if (StatusI18nEnum.Closed.name().equals(milestone.getStatus())) {
-                toggleMilestoneSummaryField.addLabelStyleName(WebThemes.LINK_COMPLETED);
+                toggleMilestoneSummaryField.addLabelStyleNames(WebThemes.LINK_COMPLETED);
             } else {
                 toggleMilestoneSummaryField.removeLabelStyleName(WebThemes.LINK_COMPLETED);
             }
@@ -171,7 +170,7 @@ public class MilestoneReadViewImpl extends AbstractPreviewItemComp<SimpleMilesto
 
         @Override
         public void addTitleStyleName(String styleName) {
-            toggleMilestoneSummaryField.addLabelStyleName(styleName);
+            toggleMilestoneSummaryField.addLabelStyleNames(styleName);
         }
     }
 

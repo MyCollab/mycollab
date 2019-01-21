@@ -28,6 +28,7 @@ import com.mycollab.module.project.i18n.OptionI18nEnum.MilestoneStatus;
 import com.mycollab.module.project.service.MilestoneService;
 import com.mycollab.module.project.ui.ProjectAssetsUtil;
 import com.mycollab.spring.AppContextUtil;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.data.Converter;
 import com.vaadin.data.Result;
 import com.vaadin.data.ValueContext;
@@ -50,6 +51,7 @@ public class MilestoneComboBox extends ComboBox<SimpleMilestone> implements Conv
     private List<SimpleMilestone> milestones;
 
     public MilestoneComboBox() {
+        this.setWidth(WebThemes.FORM_CONTROL_WIDTH);
         MilestoneSearchCriteria criteria = new MilestoneSearchCriteria();
         SimpleProject project = CurrentProjectVariables.getProject();
         if (project != null) {

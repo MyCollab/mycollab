@@ -21,7 +21,6 @@ import com.hp.gagawa.java.elements.Span;
 import com.jarektoro.responsivelayout.ResponsiveColumn;
 import com.jarektoro.responsivelayout.ResponsiveLayout;
 import com.jarektoro.responsivelayout.ResponsiveRow;
-import com.mycollab.common.GenericLinkUtils;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.core.utils.NumberUtils;
 import com.mycollab.db.arguments.BasicSearchRequest;
@@ -34,7 +33,6 @@ import com.mycollab.module.project.domain.criteria.ProjectMemberSearchCriteria;
 import com.mycollab.module.project.event.ProjectMemberEvent;
 import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.mycollab.module.project.i18n.ProjectMemberI18nEnum;
-import com.mycollab.module.project.i18n.ProjectRoleI18nEnum;
 import com.mycollab.module.project.i18n.TimeTrackingI18nEnum;
 import com.mycollab.module.project.service.ProjectMemberService;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
@@ -54,7 +52,6 @@ import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.mycollab.vaadin.web.ui.SearchTextField;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.icons.VaadinIcons;
-import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
@@ -157,8 +154,7 @@ public class ProjectMemberListViewImpl extends AbstractVerticalPageView implemen
         if (sortAsc) {
             searchCriteria.setOrderFields(Collections.singletonList(new SearchCriteria.OrderField("memberFullName", SearchCriteria.ASC)));
         } else {
-            searchCriteria.setOrderFields(Collections.singletonList(new SearchCriteria.OrderField("memberFullName",
-                    SearchCriteria.DESC)));
+            searchCriteria.setOrderFields(Collections.singletonList(new SearchCriteria.OrderField("memberFullName", SearchCriteria.DESC)));
         }
         ProjectMemberService prjMemberService = AppContextUtil.getSpringBean(ProjectMemberService.class);
         List<SimpleProjectMember> memberLists = (List<SimpleProjectMember>) prjMemberService.findPageableListByCriteria(new BasicSearchRequest<>(searchCriteria));
@@ -168,9 +164,7 @@ public class ProjectMemberListViewImpl extends AbstractVerticalPageView implemen
     }
 
     private Component generateMemberBlock(final SimpleProjectMember member) {
-        MHorizontalLayout blockContent = new MHorizontalLayout().withSpacing(false)
-                .withStyleName("member-block").withWidth("350px");
-        blockContent.setStyleName("member-block");
+        MHorizontalLayout blockContent = new MHorizontalLayout().withSpacing(false).withStyleName("member-block").withWidth("350px");
         if (ProjectMemberStatusConstants.NOT_ACCESS_YET.equals(member.getStatus())) {
             blockContent.addStyleName("inactive");
         }
@@ -214,16 +208,9 @@ public class ProjectMemberListViewImpl extends AbstractVerticalPageView implemen
 
         blockTop.with(memberNameLbl, ELabel.hr());
 
-        String roleLink = String.format("<a href=\"%s%s%s\"", AppUI.getSiteUrl(), GenericLinkUtils.URL_PREFIX_PARAM,
-                ProjectLinkGenerator.generateRolePreviewLink(member.getProjectid(), member.getProjectroleid()));
-        ELabel memberRole = new ELabel("", ContentMode.HTML).withFullWidth().withStyleName(UIConstants.TEXT_ELLIPSIS);
-        if (member.isProjectOwner()) {
-            memberRole.setValue(String.format("%sstyle=\"color: #B00000;\">%s</a>", roleLink, UserUIContext.getMessage
-                    (ProjectRoleI18nEnum.OPT_ADMIN_ROLE_DISPLAY)));
-        } else {
-            memberRole.setValue(String.format("%sstyle=\"color:gray;font-size:12px;\">%s</a>", roleLink, member.getRoleName()));
-        }
-        blockTop.addComponent(memberRole);
+        A roleLink = new A(ProjectLinkGenerator.generateRolePreviewLink(member.getProjectid(), member.getProjectroleid()))
+                .appendText(member.getRoleName());
+        blockTop.addComponent(ELabel.html(roleLink.write()).withFullWidth().withStyleName(UIConstants.TEXT_ELLIPSIS));
 
         if (Boolean.TRUE.equals(AppUI.showEmailPublicly())) {
             Label memberEmailLabel = ELabel.html(String.format("<a href='mailto:%s'>%s</a>", member.getUsername(), member.getUsername()))

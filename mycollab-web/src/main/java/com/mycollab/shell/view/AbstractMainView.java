@@ -17,29 +17,21 @@
 package com.mycollab.shell.view;
 
 import com.google.common.eventbus.Subscribe;
-import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.shell.event.ShellEvent;
 import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.ApplicationEventListener;
 import com.mycollab.vaadin.EventBusFactory;
-import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.AbstractVerticalPageView;
 import com.mycollab.vaadin.mvp.ControllerRegistry;
+import com.mycollab.vaadin.mvp.IModule;
 import com.mycollab.vaadin.ui.AccountAssetsResolver;
-import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.web.ui.ModuleHelper;
-import com.mycollab.vaadin.web.ui.OptionPopupContent;
 import com.mycollab.web.CustomLayoutExt;
-import com.mycollab.web.IDesktopModule;
-import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.Resource;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.CustomLayout;
 import com.vaadin.ui.Image;
-import com.vaadin.ui.Panel;
-import org.vaadin.hene.popupbutton.PopupButton;
-import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MCssLayout;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
@@ -52,6 +44,7 @@ public abstract class AbstractMainView extends AbstractVerticalPageView implemen
 
     private CustomLayout headerLayout;
     private MCssLayout bodyLayout;
+    private IModule attachedModule;
     protected MHorizontalLayout accountLayout;
 
     private ApplicationEventListener<ShellEvent.RefreshPage> pageRefreshHandler = new ApplicationEventListener<ShellEvent.RefreshPage>() {
@@ -88,15 +81,18 @@ public abstract class AbstractMainView extends AbstractVerticalPageView implemen
     }
 
     @Override
-    public void addModule(IDesktopModule module) {
-        headerLayout.removeComponent("serviceMenu");
-        ModuleHelper.setCurrentModule(module);
-        bodyLayout.removeAllComponents();
-        bodyLayout.addComponent(module);
+    public void addModule(IModule module) {
+        if (module != attachedModule) {
+            attachedModule = module;
+            headerLayout.removeComponent("serviceMenu");
+            ModuleHelper.setCurrentModule(module);
+            bodyLayout.removeAllComponents();
+            bodyLayout.addComponent(module);
 
-        MHorizontalLayout serviceMenu = module.buildMenu();
-        if (serviceMenu != null) {
-            headerLayout.addComponent(serviceMenu, "serviceMenu");
+            MHorizontalLayout serviceMenu = module.buildMenu();
+            if (serviceMenu != null) {
+                headerLayout.addComponent(serviceMenu, "serviceMenu");
+            }
         }
     }
 

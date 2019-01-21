@@ -54,8 +54,7 @@ public class TicketRowDisplayHandler implements IBeanList.RowDisplayHandler<Proj
     public Component generateRow(IBeanList<ProjectTicket> host, ProjectTicket ticket, int rowIndex) {
         MHorizontalLayout rowComp = new MHorizontalLayout().withStyleName("list-row").withFullWidth();
         rowComp.setDefaultComponentAlignment(Alignment.TOP_LEFT);
-        Div issueDiv = new Div();
-        issueDiv.appendText(ProjectAssetsManager.getAsset(ticket.getType()).getHtml());
+        Div issueDiv = new Div().appendText(ProjectAssetsManager.getAsset(ticket.getType()).getHtml());
 
         String status = "";
         if (ticket.isBug()) {
@@ -105,7 +104,7 @@ public class TicketRowDisplayHandler implements IBeanList.RowDisplayHandler<Proj
                     UserUIContext.formatDuration(ticket.getDueDate()))).setCSSClass(UIConstants.META_INFO));
         }
 
-        rowComp.with(ELabel.html(issueDiv.write()));
+        rowComp.with(ELabel.html(issueDiv.write()).withFullWidth());
         return rowComp;
     }
 }

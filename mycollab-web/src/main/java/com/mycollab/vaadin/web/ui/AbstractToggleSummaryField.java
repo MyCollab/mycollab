@@ -29,8 +29,8 @@ public class AbstractToggleSummaryField extends MCssLayout {
     protected Label titleLinkLbl;
     protected MHorizontalLayout buttonControls;
 
-    public void addLabelStyleName(String styleName) {
-        titleLinkLbl.addStyleName(styleName);
+    public void addLabelStyleNames(String... styleNames) {
+        titleLinkLbl.addStyleNames(styleNames);
     }
 
     public void removeLabelStyleName(String styleName) {

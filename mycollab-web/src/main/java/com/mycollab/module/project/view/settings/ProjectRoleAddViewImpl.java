@@ -114,7 +114,7 @@ public class ProjectRoleAddViewImpl extends AbstractEditItemComp<ProjectRole> im
             perMap = new PermissionMap();
         }
 
-        final GridFormLayoutHelper permissionFormHelper = GridFormLayoutHelper.defaultFormLayoutHelper(LayoutType.TWO_COLUMN, "180px");
+        final GridFormLayoutHelper permissionFormHelper = GridFormLayoutHelper.defaultFormLayoutHelper(LayoutType.TWO_COLUMN);
 
         for (int i = 0; i < ProjectRolePermissionCollections.PROJECT_PERMISSIONS.length; i++) {
             final String permissionPath = ProjectRolePermissionCollections.PROJECT_PERMISSIONS[i];

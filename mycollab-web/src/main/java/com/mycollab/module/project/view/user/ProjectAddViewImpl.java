@@ -172,7 +172,7 @@ public class ProjectAddViewImpl extends AbstractVerticalPageView implements Proj
                 return financialLayout.addComponent(field, UserUIContext.getMessage(ProjectI18nEnum.FORM_ACTUAL_BUDGET),
                         UserUIContext.getMessage(ProjectI18nEnum.FORM_ACTUAL_BUDGET_HELP), 1, 3);
             } else if (propertyId.equals("description")) {
-                return descriptionLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.FORM_DESCRIPTION), 0, 0, 2, "100%");
+                return descriptionLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.FORM_DESCRIPTION), 0, 0, 2);
             }
             return null;
         }

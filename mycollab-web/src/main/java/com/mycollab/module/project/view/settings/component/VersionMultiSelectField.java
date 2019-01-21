@@ -26,6 +26,7 @@ import com.mycollab.module.tracker.domain.criteria.VersionSearchCriteria;
 import com.mycollab.module.tracker.service.VersionService;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.web.ui.MultiSelectComp;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.ui.UI;
 
 import java.util.List;
@@ -34,12 +35,12 @@ import java.util.List;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-// TODO
 public class VersionMultiSelectField extends MultiSelectComp {
     private static final long serialVersionUID = 1L;
 
     public VersionMultiSelectField() {
         super("name", true);
+        this.setWidth(WebThemes.FORM_CONTROL_WIDTH);
     }
 
     @Override

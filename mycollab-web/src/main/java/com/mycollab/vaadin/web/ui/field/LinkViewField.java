@@ -27,7 +27,7 @@ import org.apache.commons.lang3.StringUtils;
  * @author MyCollab Ltd.
  * @since 4.5.3
  */
-public class LinkViewField extends CustomField<String> {
+public class LinkViewField extends CustomField<Object> {
     private static final long serialVersionUID = 1L;
 
     private String value;
@@ -61,7 +61,7 @@ public class LinkViewField extends CustomField<String> {
     }
 
     @Override
-    protected void doSetValue(String s) {
+    protected void doSetValue(Object s) {
 
     }
 

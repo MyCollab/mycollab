@@ -18,27 +18,34 @@ package com.mycollab.vaadin.web.ui.grid;
 
 import com.mycollab.vaadin.web.ui.MultiSelectComp;
 import com.mycollab.vaadin.web.ui.WebThemes;
-import com.vaadin.ui.*;
-import org.vaadin.viritin.fields.DoubleField;
+import com.vaadin.data.HasValue;
+import com.vaadin.ui.Alignment;
+import com.vaadin.ui.Component;
+import com.vaadin.ui.DateField;
+import org.vaadin.viritin.layouts.MCssLayout;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
+import org.vaadin.viritin.layouts.MVerticalLayout;
 
 /**
  * @author MyCollab Ltd
  * @since 5.0.8
  */
-public class GridCellWrapper extends MHorizontalLayout {
+public class GridCellWrapper extends MVerticalLayout {
     private static final long serialVersionUID = 1L;
 
-    private String fieldWidth;
+    private Component captionComp;
     private MHorizontalLayout fieldWrapper;
 
-    GridCellWrapper(Component caption, String fieldWidth) {
-        fieldWrapper = new MHorizontalLayout();
-        this.withSpacing(true).with(caption, fieldWrapper).expand(fieldWrapper).withAlign(caption, Alignment.TOP_RIGHT).withMargin(true).withFullWidth().withStyleName("gridform-field");
-        this.fieldWidth = fieldWidth;
+    GridCellWrapper(Component captionComp) {
+        this.captionComp = captionComp;
+        fieldWrapper = new MHorizontalLayout().withFullWidth();
+        this.withSpacing(true).with(captionComp, fieldWrapper).withAlign(captionComp, Alignment.TOP_LEFT).withMargin(true).withFullWidth().withStyleName("gridform-field");
     }
 
     public void addField(Component field) {
+        if (field instanceof HasValue && ((HasValue)field).isRequiredIndicatorVisible()) {
+            captionComp.addStyleName(WebThemes.REQUIRED_FIELD_INDICATOR);
+        }
         fieldWrapper.removeAllComponents();
         field.setCaption(null);
 
@@ -46,9 +53,9 @@ public class GridCellWrapper extends MHorizontalLayout {
             // continue
         } else if (field instanceof MultiSelectComp || field instanceof DateField) {
             field.setWidth(WebThemes.FORM_CONTROL_WIDTH);
-        } else  {
+        } else {
             field.setWidth("100%");
         }
-        fieldWrapper.with(field);
+        fieldWrapper.withComponent(field);
     }
 }

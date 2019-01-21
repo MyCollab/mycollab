@@ -47,6 +47,7 @@ public class ProjectRoleComboBox extends ComboBox<SimpleProjectRole> implements 
 
     public ProjectRoleComboBox() {
         setWidth(WebThemes.FORM_CONTROL_WIDTH);
+        setEmptySelectionAllowed(false);
         ProjectRoleSearchCriteria criteria = new ProjectRoleSearchCriteria();
         criteria.setSaccountid(new NumberSearchField(AppUI.getAccountId()));
         criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
@@ -54,17 +55,17 @@ public class ProjectRoleComboBox extends ComboBox<SimpleProjectRole> implements 
         ProjectRoleService roleService = AppContextUtil.getSpringBean(ProjectRoleService.class);
         roles = (List<SimpleProjectRole>) roleService.findPageableListByCriteria(new BasicSearchRequest<>(criteria));
 
-        SimpleProjectRole ownerRole = new SimpleProjectRole();
-        ownerRole.setId(-1);
-        ownerRole.setRolename(UserUIContext.getMessage(ProjectRoleI18nEnum.OPT_ADMIN_ROLE_DISPLAY));
-
-        roles.add(ownerRole);
         this.setItems(roles);
 
         this.setSelectedItem(roles.get(0));
 
         this.setEmptySelectionAllowed(false);
         this.setItemCaptionGenerator((ItemCaptionGenerator<SimpleProjectRole>) ProjectRole::getRolename);
+    }
+
+    public void selectRoleById(Integer roleId) {
+        SimpleProjectRole selectedRole = roles.stream().filter(role-> role.getId() == roleId).findFirst().orElse(null);
+        this.setSelectedItem(selectedRole);
     }
 
     @Override

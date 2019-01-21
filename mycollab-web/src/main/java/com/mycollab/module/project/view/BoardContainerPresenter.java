@@ -19,7 +19,7 @@ public class BoardContainerPresenter extends AbstractPresenter<BoardContainer> {
     @Override
     protected void onGo(HasComponents container, ScreenData<?> data) {
         ProjectModule module = (ProjectModule) container;
-        module.setContent(getView());
+        module.setContent(view);
 
         IPresenter<?> presenter;
         if (data instanceof ProjectScreenData.GotoList) {

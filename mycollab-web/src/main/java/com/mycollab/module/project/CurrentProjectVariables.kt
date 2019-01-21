@@ -55,19 +55,18 @@ object CurrentProjectVariables {
                 if (ProjectMemberStatusConstants.INACTIVE == prjMember.status) {
                     throw UserNotBelongProjectException("You are not belong to this project")
                 }
-                if (!prjMember.isProjectOwner) {
-                    if (prjMember.projectroleid == null) {
-                        throw UserNotBelongProjectException("You are not belong to this project")
-                    }
-                    val ex = ProjectRolePermissionExample()
-                    ex.createCriteria().andRoleidEqualTo(prjMember.projectroleid).andProjectidEqualTo(CurrentProjectVariables.projectId)
-                    val rolePermissionMapper = AppContextUtil.getSpringBean(ProjectRolePermissionMapper::class.java)
-                    val rolePermissions = rolePermissionMapper.selectByExampleWithBLOBs(ex)
-                    if (!rolePermissions.isEmpty()) {
-                        val rolePer = rolePermissions[0]
-                        val permissionMap = PermissionMap.fromJsonString(rolePer.roleval)
-                        prjMember.permissionMaps = permissionMap
-                    }
+
+                if (prjMember.projectroleid == null) {
+                    throw UserNotBelongProjectException("You are not belong to this project")
+                }
+                val ex = ProjectRolePermissionExample()
+                ex.createCriteria().andRoleidEqualTo(prjMember.projectroleid).andProjectidEqualTo(CurrentProjectVariables.projectId)
+                val rolePermissionMapper = AppContextUtil.getSpringBean(ProjectRolePermissionMapper::class.java)
+                val rolePermissions = rolePermissionMapper.selectByExampleWithBLOBs(ex)
+                if (!rolePermissions.isEmpty()) {
+                    val rolePer = rolePermissions[0]
+                    val permissionMap = PermissionMap.fromJsonString(rolePer.roleval)
+                    prjMember.permissionMaps = permissionMap
                 }
 
                 if (ProjectMemberStatusConstants.NOT_ACCESS_YET == prjMember.status) {
@@ -87,12 +86,12 @@ object CurrentProjectVariables {
         set(prjMember) = MyCollabSession.putCurrentUIVariable(PROJECT_MEMBER, prjMember)
 
     @JvmStatic
-    val isAdmin: Boolean
+    val isSuperUser: Boolean
         get() {
             if (UserUIContext.isAdmin()) {
                 return true
             }
-            return projectMember != null && projectMember!!.isProjectOwner
+            return false
         }
 
     @JvmStatic
@@ -101,7 +100,7 @@ object CurrentProjectVariables {
 
     @JvmStatic
     fun canRead(permissionItem: String): Boolean {
-        if (isAdmin) {
+        if (isSuperUser) {
             return true
         }
 
@@ -125,7 +124,7 @@ object CurrentProjectVariables {
             return false
         }
 
-        if (isAdmin) {
+        if (isSuperUser) {
             return true
         }
 
@@ -144,7 +143,7 @@ object CurrentProjectVariables {
             return false
         }
 
-        if (isAdmin) {
+        if (isSuperUser) {
             return true
         }
 

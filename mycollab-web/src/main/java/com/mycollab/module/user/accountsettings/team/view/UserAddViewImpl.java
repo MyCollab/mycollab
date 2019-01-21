@@ -252,7 +252,7 @@ public class UserAddViewImpl extends AbstractVerticalPageView implements UserAdd
                     return advancedInformationLayout.addComponent(field, UserUIContext.getMessage(UserI18nEnum.FORM_COMPANY), 0, 0);
                 } else if (propertyId.equals("country")) {
                     return advancedInformationLayout.addComponent(field, UserUIContext.getMessage(UserI18nEnum.FORM_COUNTRY),
-                            0, 1, 2, "100%");
+                            0, 1, 2);
                 } else if (propertyId.equals("website")) {
                     return advancedInformationLayout.addComponent(field, UserUIContext.getMessage(UserI18nEnum.FORM_WEBSITE), 1, 0);
                 } else if (propertyId.equals("workphone")) {
@@ -264,7 +264,7 @@ public class UserAddViewImpl extends AbstractVerticalPageView implements UserAdd
                 } else if (propertyId.equals("twitteraccount")) {
                     return contactInformationLayout.addComponent(field, "Twitter", 1, 1);
                 } else if (propertyId.equals("skypecontact")) {
-                    return contactInformationLayout.addComponent(field, "Skype", 0, 2, 2, "262px");
+                    return contactInformationLayout.addComponent(field, "Skype", 0, 2, 2);
                 }
                 return null;
             }

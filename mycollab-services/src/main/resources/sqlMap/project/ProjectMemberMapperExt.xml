@@ -111,7 +111,7 @@
     <sql id="selectMember">
         <![CDATA[
           SELECT m_prj_member.id, m_prj_member.username, m_prj_member.projectId, m_prj_member.createdTime,
-                 m_prj_member.lastUpdatedTime, m_prj_member.isAdmin, m_prj_member.status, m_prj_member.sAccountId,
+                 m_prj_member.lastUpdatedTime, m_prj_member.status, m_prj_member.sAccountId,
                  m_prj_member.billingRate, m_prj_member.overtimeBillingRate, m_prj_project.name AS projectName,
                  concat(s_user.firstname, ' ', s_user.lastname) AS memberFullName,
                  m_prj_role.rolename, s_user.email as email, s_user.avatarId AS memberAvatarId, m_prj_role.id as projectRoleId,
@@ -168,7 +168,7 @@
         <![CDATA[
         SELECT m_prj_member.id, m_prj_member.username, m_prj_member.projectId,
             m_prj_member.createdTime, m_prj_member.lastUpdatedTime, m_prj_member.projectRoleId,
-            m_prj_member.isAdmin, m_prj_member.status, s_user.email as email,
+            m_prj_member.status, s_user.email as email,
             m_prj_member.billingRate, m_prj_member.overtimeBillingRate,
             m_prj_role.rolename, m_prj_member.sAccountId,
             concat(s_user.firstname, ' ', s_user.lastname) AS  memberFullName , s_user.avatarId AS memberAvatarId,
@@ -270,7 +270,7 @@
         <![CDATA[
         SELECT m_prj_member.id, m_prj_member.username, m_prj_member.projectId,
             m_prj_member.createdTime, m_prj_member.lastUpdatedTime, m_prj_member.projectRoleId,
-            m_prj_member.isAdmin, m_prj_member.status, s_user.email as email,
+            m_prj_member.status, s_user.email as email,
             m_prj_member.billingRate, m_prj_member.overtimeBillingRate,
             m_prj_role.rolename, m_prj_member.sAccountId,
             concat(s_user.firstname, ' ', s_user.lastname) AS  memberFullName , s_user.avatarId AS memberAvatarId,

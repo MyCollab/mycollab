@@ -21,7 +21,8 @@ package com.mycollab.vaadin.web.ui;
  * @since 5.4.5
  */
 public class WebThemes {
-    public static final String FORM_CONTROL_WIDTH = "150px";
+    public static final String FORM_CONTROL_WIDTH = "200px";
+    public static final String WINDOW_FORM_WIDTH = "800px";
 
     public static final String BOX = "box";
     public static final String CUSTOM_FIELD_COMPONENT = "customFieldComponent";
@@ -42,6 +43,12 @@ public class WebThemes {
     public static final String BTN_ACTIVE = "btn-group-default";
     public static final String OPTION_POPUP_CONTENT = "optionPopupContent";
     public static final String MESSAGE_CONTAINER = "message-container";
+    public static final String MARGIN_TOP = "margin-top";
+    public static final String MARGIN_RIGHT = "margin-right";
+    public static final String MARGIN_LEFT = "margin-left";
+    public static final String MARGIN_BOTTOM = "margin-bottom";
+    public static final String MARGIN = "margin";
+
     public static final String BUTTON_SMALL_PADDING = "small-padding";
     public static final String BUTTON_ICON_ONLY = "button-icon-only";
     public static final String INLINE_HELP = "inline-help";
@@ -57,8 +64,11 @@ public class WebThemes {
     public static final String FLEX_DISPLAY = "flex";
     public static final String PANEL_HEADER = "panel-header";
     public static final String SCROLLABLE_CONTAINER = "scrollable-container";
+    public static final String NO_SCROLLABLE_CONTAINER = "no-scrollable-container";
+    public static final String BORDER_TOP = "border-top";
     public static final String BORDER_BOTTOM = "border-bottom";
     public static final String BORDER_LIST = "border-list";
     public static final String BORDER_LIST_ROW = "row";
     public static final String HIDE_ELEMENT = "hide-element";
+    public static final String REQUIRED_FIELD_INDICATOR = "required-field-indicator";
 }

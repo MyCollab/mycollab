@@ -20,10 +20,10 @@ import com.mycollab.core.utils.StringUtils;
 import com.mycollab.module.ecm.domain.Content;
 import com.mycollab.module.ecm.service.ResourceService;
 import com.mycollab.spring.AppContextUtil;
+import com.mycollab.vaadin.ui.IgnoreBindingField;
 import com.mycollab.vaadin.web.ui.AttachmentDisplayComponent;
 import com.mycollab.vaadin.web.ui.AttachmentPanel;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.CustomField;
 import org.apache.commons.collections.CollectionUtils;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
@@ -33,7 +33,7 @@ import java.util.List;
  * @author MyCollab Ltd.
  * @since 4.5.3
  */
-public class AttachmentUploadField extends CustomField {
+public class AttachmentUploadField extends IgnoreBindingField {
     private static final long serialVersionUID = 1L;
 
     private ResourceService resourceService;

@@ -38,10 +38,8 @@ public class AbstractProjectPageView extends AbstractVerticalPageView {
 
     public AbstractProjectPageView(String headerText, VaadinIcons icon) {
         this.headerText = ELabel.h2(String.format("%s %s", icon.getHtml(), headerText));
-        super.addComponent(constructHeader());
-
         contentWrapper = new MCssLayout();
-        super.addComponent(contentWrapper);
+        super.with(constructHeader(), contentWrapper).expand(contentWrapper);
     }
 
     private ComponentContainer constructHeader() {
@@ -52,16 +50,6 @@ public class AbstractProjectPageView extends AbstractVerticalPageView {
 
     public void addHeaderRightContent(Component c) {
         header.with(c).withAlign(c, Alignment.MIDDLE_RIGHT);
-    }
-
-    @Override
-    public void addComponent(Component c) {
-        contentWrapper.addComponent(c);
-    }
-
-    @Override
-    public void replaceComponent(Component oldComponent, Component newComponent) {
-        contentWrapper.replaceComponent(oldComponent, newComponent);
     }
 
     public ComponentContainer getBody() {

@@ -62,7 +62,7 @@ class SetupNewInstanceView extends MVerticalLayout {
         formLayout.with(ELabel.h2("Last step, you are almost there!").withUndefinedWidth());
         formLayout.with(ELabel.h3("All fields are required *").withStyleName("overdue").withUndefinedWidth());
 
-        GridFormLayoutHelper formLayoutHelper = GridFormLayoutHelper.defaultFormLayoutHelper(LayoutType.TWO_COLUMN, "200px");
+        GridFormLayoutHelper formLayoutHelper = GridFormLayoutHelper.defaultFormLayoutHelper(LayoutType.TWO_COLUMN);
         formLayoutHelper.getLayout().setWidth("600px");
         final TextField adminField = formLayoutHelper.addComponent(new TextField(), "Admin email", 0, 0);
         final PasswordField passwordField = formLayoutHelper.addComponent(new PasswordField(), "Admin password", 0, 1);

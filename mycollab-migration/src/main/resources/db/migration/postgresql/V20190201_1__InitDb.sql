@@ -693,7 +693,6 @@ CREATE TABLE m_prj_member (
   projectId integer NOT NULL,
   createdTime timestamp DEFAULT NULL,
   projectRoleId integer DEFAULT NULL,
-  isAdmin boolean NOT NULL,
   status varchar(45) NOT NULL,
   sAccountId integer NOT NULL,
   billingRate numeric DEFAULT NULL,

@@ -26,6 +26,7 @@ import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.mycollab.vaadin.ui.GenericBeanForm;
 import com.mycollab.vaadin.web.ui.I18nValueComboBox;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.mycollab.vaadin.web.ui.field.AttachmentUploadField;
 import com.vaadin.data.HasValue;
 import com.vaadin.icons.VaadinIcons;
@@ -61,7 +62,7 @@ public class MilestoneEditFormFieldFactory extends AbstractBeanFieldGroupEditFie
             return new MTextField().withRequiredIndicatorVisible(true);
         } else if (propertyId.equals("description")) {
             return new RichTextArea();
-        } else if (Milestone.Field.saccountid.equalTo(propertyId)) {
+        } else if ("attachments".equals(propertyId)) {
             Milestone beanItem = attachForm.getBean();
             if (beanItem.getId() != null) {
                 String attachmentPath = AttachmentUtils.getProjectEntityAttachmentPath(AppUI.getAccountId(),
@@ -87,6 +88,7 @@ public class MilestoneEditFormFieldFactory extends AbstractBeanFieldGroupEditFie
 
         ProgressStatusComboBox() {
             super(MilestoneStatus.class, InProgress, Future, Closed);
+            this.setWidth(WebThemes.FORM_CONTROL_WIDTH);
             this.setItemIconGenerator((IconGenerator<MilestoneStatus>) it -> {
                 switch (it) {
                     case InProgress:

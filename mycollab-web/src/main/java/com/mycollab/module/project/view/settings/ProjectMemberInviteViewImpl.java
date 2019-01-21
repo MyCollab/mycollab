@@ -42,12 +42,12 @@ import com.mycollab.vaadin.web.ui.AddViewLayout;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.vaadin.icons.VaadinIcons;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.Layout;
-import com.vaadin.ui.TextArea;
+import com.vaadin.ui.*;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
+
+import java.util.Collection;
 
 /**
  * @author MyCollab Ltd.
@@ -102,8 +102,8 @@ public class ProjectMemberInviteViewImpl extends AbstractVerticalPageView implem
             SimpleProjectRole role = roleComboBox.getValue();
             String roleName = (role != null) ? role.getRolename() : "";
             // TODO: error in role.getId for the admin case
-            ProjectMemberInviteViewImpl.this.fireEvent(new ViewEvent<>(this,
-                    new ProjectMemberEvent.InviteProjectMembers(inviteUserTokenField.getInviteEmails(), role.getId(), roleName, messageArea.getValue())));
+            ProjectMemberInviteViewImpl.this.fireEvent(new ViewEvent<InviteMembers>(ProjectMemberInviteViewImpl.this,
+                    new InviteMembers(inviteUserTokenField.getInviteEmails(), role.getId(), roleName, messageArea.getValue())));
         }).withIcon(VaadinIcons.PAPERPLANE).withStyleName(WebThemes.BUTTON_ACTION);
 
         MButton cancelBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
@@ -115,7 +115,7 @@ public class ProjectMemberInviteViewImpl extends AbstractVerticalPageView implem
     private Layout createBottomPanel() {
         FormContainer permissionsPanel = new FormContainer();
 
-        projectFormHelper = GridFormLayoutHelper.defaultFormLayoutHelper(LayoutType.TWO_COLUMN, "180px");
+        projectFormHelper = GridFormLayoutHelper.defaultFormLayoutHelper(LayoutType.TWO_COLUMN);
         permissionsPanel.addSection(UserUIContext.getMessage(ProjectRoleI18nEnum.SECTION_PERMISSIONS), projectFormHelper.getLayout());
         SimpleProjectRole role = roleComboBox.getValue();
         displayRolePermission(role);

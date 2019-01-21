@@ -122,3 +122,10 @@ UPDATE `s_account_theme` SET `vTabsheetBg` = '001529', `vTabsheetBgSelected` = '
 
 ALTER TABLE `m_monitor_item`
 CHANGE COLUMN `typeId` `typeId` VARCHAR(100) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' NOT NULL ;
+
+UPDATE m_prj_role SET isSystemRole=1 WHERE roleName = 'Admin' AND id > 0;
+
+UPDATE m_prj_member SET projectRoleId = (SELECT m_prj_role.id FROM m_prj_role WHERE m_prj_role.roleName='Admin'
+  AND m_prj_role.projectId=m_prj_member.projectId LIMIT 1) WHERE m_prj_member.isAdmin =1 AND m_prj_member.id > 0
+
+ALTER TABLE `m_prj_member` DROP COLUMN `isAdmin`;

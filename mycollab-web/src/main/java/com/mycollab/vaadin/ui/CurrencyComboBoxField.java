@@ -17,6 +17,7 @@
 package com.mycollab.vaadin.ui;
 
 import com.mycollab.vaadin.UserUIContext;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.data.Converter;
 import com.vaadin.data.Result;
 import com.vaadin.data.ValueContext;
@@ -34,6 +35,7 @@ public class CurrencyComboBoxField extends ComboBox<Currency> implements Convert
     private static final long serialVersionUID = 1L;
 
     public CurrencyComboBoxField() {
+        this.setWidth(WebThemes.FORM_CONTROL_WIDTH);
         Set<Currency> availableCurrencies = Currency.getAvailableCurrencies();
         this.setItems(availableCurrencies);
         this.setItemCaptionGenerator((ItemCaptionGenerator<Currency>) currency -> String.format("%s (%s)", currency.getDisplayName

@@ -102,13 +102,7 @@ class InviteProjectMembersCommand(private val userService: UserService,
                     } else {
                         return
                     }
-                    if (event.projectRoleId == null || event.projectRoleId!! < 0) {
-                        projectMember.isadmin = true
-                        projectMember.projectroleid = null
-                    } else {
-                        projectMember.isadmin = false
-                        projectMember.projectroleid = event.projectRoleId
-                    }
+                    projectMember.projectroleid = event.projectRoleId
                     projectMemberService.updateWithSession(projectMember, "")
                 } else {
                     val member = ProjectMember()
@@ -119,13 +113,7 @@ class InviteProjectMembersCommand(private val userService: UserService,
                     member.billingrate = project.defaultbillingrate
                     member.overtimebillingrate = project.defaultovertimebillingrate
                     member.status = ProjectMemberStatusConstants.NOT_ACCESS_YET
-                    if (event.projectRoleId == null || event.projectRoleId!! < 0) {
-                        member.isadmin = true
-                        member.projectroleid = null
-                    } else {
-                        member.isadmin = false
-                        member.projectroleid = event.projectRoleId
-                    }
+                    member.projectroleid = event.projectRoleId
                     projectMemberService.saveWithSession(member, "")
                 }
                 contentGenerator.putVariable("copyRight", LocalizationHelper.getMessage(Locale.US, MailI18nEnum.Copyright,
