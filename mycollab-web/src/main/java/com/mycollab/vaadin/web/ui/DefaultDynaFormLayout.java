@@ -92,7 +92,7 @@ public class DefaultDynaFormLayout implements IDynaFormLayout {
                 for (int j = 0; j < section.getFieldCount(); j++) {
                     AbstractDynaField dynaField = section.getField(j);
                     if (!excludeFields.contains(dynaField.getFieldName())) {
-                        gridLayout.buildCell(UserUIContext.getMessage(dynaField.getDisplayName()),
+                        gridLayout.buildCell(dynaField.getFieldName(), UserUIContext.getMessage(dynaField.getDisplayName()),
                                 UserUIContext.getMessage(dynaField.getContextHelp()), 0,
                                 rowIndex, 2);
                         if (j < section.getFieldCount() - 1) {
@@ -117,7 +117,7 @@ public class DefaultDynaFormLayout implements IDynaFormLayout {
                             if (columnIndex > 0) {
                                 rowIndex++;
                             }
-                            gridLayout.buildCell(UserUIContext.getMessage(dynaField.getDisplayName()),
+                            gridLayout.buildCell(dynaField.getFieldName(), UserUIContext.getMessage(dynaField.getDisplayName()),
                                     UserUIContext.getMessage(dynaField.getContextHelp()), 0,
                                     rowIndex, 2);
                             columnIndex = 0;
@@ -125,7 +125,7 @@ public class DefaultDynaFormLayout implements IDynaFormLayout {
                                 rowIndex++;
                             }
                         } else {
-                            gridLayout.buildCell(UserUIContext.getMessage(dynaField.getDisplayName()),
+                            gridLayout.buildCell(dynaField.getFieldName(), UserUIContext.getMessage(dynaField.getDisplayName()),
                                     UserUIContext.getMessage(dynaField.getContextHelp()), columnIndex, rowIndex);
                             columnIndex++;
                             if (columnIndex == 2) {
@@ -159,7 +159,7 @@ public class DefaultDynaFormLayout implements IDynaFormLayout {
         if (dynaField != null) {
             DynaSection section = dynaField.getOwnSection();
             GridFormLayoutHelper gridLayout = sectionMappings.get(section);
-            GridCellWrapper componentWrapper = gridLayout.getComponentWrapper(UserUIContext.getMessage(dynaField.getDisplayName()));
+            GridCellWrapper componentWrapper = gridLayout.getComponentWrapper(dynaField.getFieldName());
             if (componentWrapper != null) {
                 componentWrapper.addField((Component) field);
             }

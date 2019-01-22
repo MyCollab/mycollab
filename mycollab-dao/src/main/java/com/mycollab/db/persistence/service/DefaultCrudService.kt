@@ -55,7 +55,6 @@ abstract class DefaultCrudService<K : Serializable, T> : ICrudService<K, T> {
             PropertyUtils.setProperty(record, "createdtime", LocalDateTime.now())
             PropertyUtils.setProperty(record, "lastupdatedtime", LocalDateTime.now())
         } catch (e: Exception) {
-            e.printStackTrace()
         }
 
         crudMapper.insertAndReturnKey(record)

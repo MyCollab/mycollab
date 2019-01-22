@@ -109,7 +109,7 @@ class TaskEditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<Si
         } else if (Task.Field.startdate.equalTo(propertyId) || Task.Field.enddate.equalTo(propertyId)
                 || Task.Field.duedate.equalTo(propertyId)) {
             return new DateField();
-        } else if (Task.Field.id.equalTo(propertyId)) {
+        } else if ("section-attachments".equals(propertyId)) {
             Task beanItem = attachForm.getBean();
             if (beanItem.getId() != null) {
                 String attachmentPath = AttachmentUtils.getProjectEntityAttachmentPath(AppUI.getAccountId(),
@@ -121,7 +121,7 @@ class TaskEditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<Si
             return attachmentUploadField;
         } else if (Task.Field.isestimated.equalTo(propertyId)) {
             return new CheckBox();
-        } else if (propertyId.equals("selected")) {
+        } else if ("section-followers".equals(propertyId)) {
             return subscribersComp;
         }
         return null;

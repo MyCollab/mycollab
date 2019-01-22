@@ -54,6 +54,7 @@ import com.mycollab.vaadin.web.ui.field.ContainerViewField;
 import com.vaadin.data.HasValue;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.shared.ui.ContentMode;
+import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.Component;
@@ -68,7 +69,7 @@ import org.vaadin.viritin.layouts.MVerticalLayout;
 public class MilestonePreviewForm extends AdvancedPreviewBeanForm<SimpleMilestone> {
     @Override
     public void setBean(SimpleMilestone bean) {
-        this.setFormLayoutFactory(new DefaultDynaFormLayout(ProjectTypeConstants.MILESTONE, MilestoneDefaultFormLayoutFactory.getForm(),
+        this.setFormLayoutFactory(new DefaultDynaFormLayout(ProjectTypeConstants.MILESTONE, MilestoneDefaultFormLayoutFactory.getReadForm(),
                 Milestone.Field.name.name()));
         this.setBeanFormFieldFactory(new MilestoneFormFieldFactory(this));
         super.setBean(bean);
@@ -98,11 +99,11 @@ public class MilestonePreviewForm extends AdvancedPreviewBeanForm<SimpleMileston
                 VaadinIcons statusIcon = ProjectAssetsUtil.getPhaseIcon(milestone.getStatus());
                 return new DefaultViewField(statusIcon.getHtml() + " " + milestoneStatus, ContentMode.HTML)
                         .withStyleName(UIConstants.FIELD_NOTE);
-            } else if (Milestone.Field.id.equalTo(propertyId)) {
+            } else if ("section-assignments".equals(propertyId)) {
                 ContainerViewField containerField = new ContainerViewField();
                 containerField.addComponentField(new AssignmentsComp(milestone));
                 return containerField;
-            } else if (Milestone.Field.saccountid.equalTo(propertyId)) {
+            } else if ("section-attachments".equals(propertyId)) {
                 return new ProjectFormAttachmentDisplayField(milestone.getProjectid(), ProjectTypeConstants.MILESTONE,
                         milestone.getId());
             }
@@ -118,7 +119,7 @@ public class MilestonePreviewForm extends AdvancedPreviewBeanForm<SimpleMileston
         AssignmentsComp(SimpleMilestone milestone) {
             this.beanItem = milestone;
             withMargin(false).withFullWidth();
-            MHorizontalLayout header = new MHorizontalLayout().withFullWidth();
+            MHorizontalLayout header = new MHorizontalLayout().withMargin(new MarginInfo(false, false, true, false)).withFullWidth();
 
             final CheckBox openSelection = new CheckBox(UserUIContext.getMessage(StatusI18nEnum.Open), true);
             openSelection.addValueChangeListener(valueChangeEvent -> {
@@ -142,7 +143,6 @@ public class MilestonePreviewForm extends AdvancedPreviewBeanForm<SimpleMileston
             });
 
             Label spacingLbl1 = new Label("");
-            Label spacingLbl2 = new Label("");
 
             final CheckBox taskSelection = new CheckBox(UserUIContext.getMessage(TaskI18nEnum.LIST), true);
             taskSelection.addValueChangeListener(valueChangeEvent -> updateTypeSearchStatus(taskSelection.getValue(),
@@ -156,10 +156,10 @@ public class MilestonePreviewForm extends AdvancedPreviewBeanForm<SimpleMileston
             riskSelection.addValueChangeListener(valueChangeEvent -> updateTypeSearchStatus(riskSelection.getValue(),
                     ProjectTypeConstants.RISK));
 
-            header.with(openSelection, overdueSelection, spacingLbl1, taskSelection, bugSelection, riskSelection, spacingLbl2)
+            header.with(openSelection, overdueSelection, spacingLbl1, taskSelection, bugSelection, riskSelection)
                     .withAlign(openSelection, Alignment.MIDDLE_LEFT).withAlign(overdueSelection, Alignment.MIDDLE_LEFT)
                     .withAlign(taskSelection, Alignment.MIDDLE_LEFT).withAlign(bugSelection, Alignment.MIDDLE_LEFT)
-                    .withAlign(riskSelection, Alignment.MIDDLE_LEFT).expand(spacingLbl1, spacingLbl2);
+                    .withAlign(riskSelection, Alignment.MIDDLE_LEFT).expand(spacingLbl1);
 
             assignmentsLayout = new DefaultBeanPagedList<>(AppContextUtil.getSpringBean(ProjectTicketService.class), new GenericTaskRowRenderer());
             this.with(header, assignmentsLayout);

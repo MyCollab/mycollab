@@ -25,6 +25,7 @@ import java.util.*
  */
 class DynaSection : Comparable<DynaSection> {
     var header: Enum<*>? = null
+    var contextHelp: Enum<*>? = null
     var orderIndex: Int = 0
     var isDeletedSection = false
     lateinit var layoutType: LayoutType

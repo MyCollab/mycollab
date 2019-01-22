@@ -37,6 +37,7 @@ import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.FileDownloader;
+import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.ui.*;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MCssLayout;
@@ -50,11 +51,21 @@ import java.util.List;
 public class AttachmentDisplayComponent extends CssLayout {
     private static final long serialVersionUID = 1L;
 
+    private ResourceService resourceService = AppContextUtil.getSpringBean(ResourceService.class);
+
+    public AttachmentDisplayComponent() {
+
+    }
+
     public AttachmentDisplayComponent(List<Content> attachments) {
         attachments.forEach(this::addAttachmentRow);
     }
 
-    private void addAttachmentRow(final Content attachment) {
+    public void loadAttachments(String attachmentPath) {
+
+    }
+
+    private void addAttachmentRow(Content attachment) {
         String docName = attachment.getPath();
         int lastIndex = docName.lastIndexOf("/");
         if (lastIndex != -1) {
@@ -69,6 +80,7 @@ public class AttachmentDisplayComponent extends CssLayout {
         MCssLayout thumbnailWrap = new MCssLayout().withFullSize().withStyleName("thumbnail-wrap");
 
         Link thumbnail = new Link();
+        thumbnail.setTargetName("_blank");
         if (StringUtils.isBlank(attachment.getThumbnail())) {
             thumbnail.setIcon(FileAssetsUtil.getFileIconResource(attachment.getName()));
         } else {
@@ -77,7 +89,6 @@ public class AttachmentDisplayComponent extends CssLayout {
 
         if (MimeTypesUtil.isImageType(docName)) {
             thumbnail.setResource(VaadinResourceFactory.getResource(attachment.getPath()));
-//            new Fancybox(thumbnail).setPadding(0).setVersion("2.1.5").setEnabled(true).setDebug(true);
         }
 
         Div contentTooltip = new Div().appendChild(new Span().appendText(docName).setStyle("font-weight:bold"));
@@ -86,7 +97,7 @@ public class AttachmentDisplayComponent extends CssLayout {
         ul.appendChild(new Li().appendText(UserUIContext.getMessage(GenericI18Enum.OPT_LAST_MODIFIED,
                 UserUIContext.formatPrettyTime(DateTimeUtils.toLocalDateTime(attachment.getLastModified())))));
         contentTooltip.appendChild(ul);
-        thumbnail.setDescription(contentTooltip.write());
+        thumbnail.setDescription(contentTooltip.write(), ContentMode.HTML);
         thumbnail.setWidth(WebUIConstants.DEFAULT_ATTACHMENT_THUMBNAIL_WIDTH);
         thumbnailWrap.addComponent(thumbnail);
 
@@ -106,8 +117,7 @@ public class AttachmentDisplayComponent extends CssLayout {
                     UserUIContext.getMessage(GenericI18Enum.ACTION_NO),
                     confirmDialog -> {
                         if (confirmDialog.isConfirmed()) {
-                            ResourceService attachmentService = AppContextUtil.getSpringBean(ResourceService.class);
-                            attachmentService.removeResource(attachment.getPath(), UserUIContext.getUsername(), true, AppUI.getAccountId());
+                            resourceService.removeResource(attachment.getPath(), UserUIContext.getUsername(), true, AppUI.getAccountId());
                             ((ComponentContainer) attachmentLayout.getParent()).removeComponent(attachmentLayout);
                         }
                     });

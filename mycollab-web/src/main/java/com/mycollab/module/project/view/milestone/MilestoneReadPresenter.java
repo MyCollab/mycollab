@@ -97,7 +97,7 @@ public class MilestoneReadPresenter extends ProjectGenericPresenter<MilestoneRea
             public void onPrint(Object source, SimpleMilestone data) {
                 PrintButton btn = (PrintButton) source;
                 btn.doPrint(data, new FormReportLayout(ProjectTypeConstants.MILESTONE, Milestone.Field.name.name(),
-                        MilestoneDefaultFormLayoutFactory.getForm(), Milestone.Field.id.name(),
+                        MilestoneDefaultFormLayoutFactory.getAddForm(), Milestone.Field.id.name(),
                         Milestone.Field.saccountid.name()));
             }
 

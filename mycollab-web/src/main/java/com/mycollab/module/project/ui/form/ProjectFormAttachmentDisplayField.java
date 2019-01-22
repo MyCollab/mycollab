@@ -16,12 +16,15 @@
  */
 package com.mycollab.module.project.ui.form;
 
+import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.module.ecm.domain.Content;
 import com.mycollab.module.ecm.service.ResourceService;
 import com.mycollab.module.file.AttachmentUtils;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
+import com.mycollab.vaadin.ui.IgnoreBindingField;
 import com.mycollab.vaadin.web.ui.AttachmentDisplayComponent;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomField;
@@ -33,7 +36,7 @@ import java.util.List;
  * @author MyCollab Ltd.
  * @since 4.5.3
  */
-public class ProjectFormAttachmentDisplayField extends CustomField {
+public class ProjectFormAttachmentDisplayField extends IgnoreBindingField {
     private static final long serialVersionUID = 1L;
 
     private int projectId;
@@ -53,7 +56,7 @@ public class ProjectFormAttachmentDisplayField extends CustomField {
                 getProjectEntityAttachmentPath(AppUI.getAccountId(), projectId, type, "" + typeId));
 
         if (CollectionUtils.isEmpty(attachments)) {
-            return ELabel.html("&nbsp;");
+            return new ELabel(UserUIContext.getMessage(GenericI18Enum.EXT_NO_ITEM));
         } else {
             return new AttachmentDisplayComponent(attachments);
         }

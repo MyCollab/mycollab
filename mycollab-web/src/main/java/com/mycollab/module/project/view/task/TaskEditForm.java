@@ -75,8 +75,7 @@ public class TaskEditForm extends AdvancedEditBeanForm<SimpleTask> {
         @Override
         public AbstractComponent getLayout() {
             MVerticalLayout layout = new MVerticalLayout();
-            formLayoutFactory = new DefaultDynaFormLayout(ProjectTypeConstants.TASK, TaskDefaultFormLayoutFactory.getForm(),
-                    Task.Field.parenttaskid.name());
+            formLayoutFactory = new DefaultDynaFormLayout(ProjectTypeConstants.TASK, TaskDefaultFormLayoutFactory.getAddForm());
             AbstractComponent gridLayout = formLayoutFactory.getLayout();
             gridLayout.addStyleName(WebThemes.SCROLLABLE_CONTAINER);
             gridLayout.addStyleName("window-max-height");

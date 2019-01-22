@@ -39,11 +39,15 @@ public class GridCellWrapper extends MVerticalLayout {
     GridCellWrapper(Component captionComp) {
         this.captionComp = captionComp;
         fieldWrapper = new MHorizontalLayout().withFullWidth();
-        this.withSpacing(true).with(captionComp, fieldWrapper).withAlign(captionComp, Alignment.TOP_LEFT).withMargin(true).withFullWidth().withStyleName("gridform-field");
+        if (captionComp != null) {
+            this.withSpacing(true).with(captionComp, fieldWrapper).withAlign(captionComp, Alignment.TOP_LEFT).withMargin(true).withFullWidth().withStyleName("gridform-field");
+        } else {
+            this.withSpacing(true).with(fieldWrapper).withMargin(true).withFullWidth().withStyleName("gridform-field");
+        }
     }
 
     public void addField(Component field) {
-        if (field instanceof HasValue && ((HasValue)field).isRequiredIndicatorVisible()) {
+        if (field instanceof HasValue && ((HasValue)field).isRequiredIndicatorVisible() && captionComp!= null) {
             captionComp.addStyleName(WebThemes.REQUIRED_FIELD_INDICATOR);
         }
         fieldWrapper.removeAllComponents();

@@ -31,11 +31,8 @@ import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
  * @since 4.6.0
  */
 public class MilestoneDefaultFormLayoutFactory {
-    private static final DynaForm defaultForm;
 
-    static {
-        defaultForm = new DynaForm();
-
+    private static DynaSection mainSection() {
         DynaSection mainSection = new DynaSectionBuilder().layoutType(LayoutType.TWO_COLUMN).build();
 
         mainSection.fields(new TextDynaFieldBuilder().fieldName(Milestone.Field.name).displayName(GenericI18Enum.FORM_NAME)
@@ -55,17 +52,28 @@ public class MilestoneDefaultFormLayoutFactory {
 
         mainSection.fields(new TextDynaFieldBuilder().fieldName(Milestone.Field.description).displayName(GenericI18Enum.FORM_DESCRIPTION)
                 .fieldIndex(5).colSpan(true).build());
-
-        mainSection.fields(new TextDynaFieldBuilder().fieldName(Milestone.Field.id).displayName(ProjectCommonI18nEnum.OPT_ASSIGNMENT_LIST)
-                .fieldIndex(6).colSpan(true).build());
-
-        mainSection.fields(new TextDynaFieldBuilder().fieldName("attachments").displayName(GenericI18Enum.FORM_ATTACHMENTS)
-                .fieldIndex(7).colSpan(true).build());
-
-        defaultForm.sections(mainSection);
+        return mainSection;
     }
 
-    public static DynaForm getForm() {
-        return defaultForm;
+    private static DynaSection assignmentSection() {
+        DynaSection assignmentSection = new DynaSectionBuilder().layoutType(LayoutType.ONE_COLUMN).header(ProjectCommonI18nEnum.OPT_ASSIGNMENT_LIST).build();
+        assignmentSection.fields(new TextDynaFieldBuilder().fieldName("section-assignments")
+                .fieldIndex(6).colSpan(true).build());
+        return assignmentSection;
+    }
+
+    private static DynaSection attachmentSection() {
+        DynaSection attachmentSection = new DynaSectionBuilder().layoutType(LayoutType.ONE_COLUMN).header(GenericI18Enum.FORM_ATTACHMENTS).build();
+        attachmentSection.fields(new TextDynaFieldBuilder().fieldName("section-attachments")
+                .fieldIndex(7).colSpan(true).build());
+        return attachmentSection;
+    }
+
+    public static DynaForm getAddForm() {
+        return new DynaForm(mainSection(), attachmentSection());
+    }
+
+    public static DynaForm getReadForm() {
+        return new DynaForm(mainSection(), assignmentSection(), attachmentSection());
     }
 }

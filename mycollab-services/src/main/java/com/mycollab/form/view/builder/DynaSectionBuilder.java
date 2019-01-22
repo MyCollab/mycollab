@@ -36,6 +36,11 @@ public class DynaSectionBuilder {
         return this;
     }
 
+    public DynaSectionBuilder contextHelp(Enum help) {
+        section.setContextHelp(help);
+        return this;
+    }
+
     public DynaSectionBuilder layoutType(LayoutType layoutType) {
         section.setLayoutType(layoutType);
         return this;

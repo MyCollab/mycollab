@@ -23,7 +23,6 @@ import com.mycollab.form.view.builder.DynaSectionBuilder;
 import com.mycollab.form.view.builder.TextDynaFieldBuilder;
 import com.mycollab.form.view.builder.type.DynaForm;
 import com.mycollab.form.view.builder.type.DynaSection;
-import com.mycollab.module.project.domain.SimpleTask;
 import com.mycollab.module.project.domain.Task;
 import com.mycollab.module.project.i18n.MilestoneI18nEnum;
 import com.mycollab.module.project.i18n.TaskI18nEnum;
@@ -34,9 +33,8 @@ import com.mycollab.module.project.i18n.TaskI18nEnum;
  */
 public class TaskDefaultFormLayoutFactory {
 
-    public static DynaForm getForm() {
-        DynaForm defaultForm = new DynaForm();
 
+    private static DynaSection mainSection() {
         DynaSection mainSection = new DynaSectionBuilder().layoutType(LayoutType.TWO_COLUMN).build();
 
         mainSection.fields(new TextDynaFieldBuilder().fieldName(Task.Field.name)
@@ -97,21 +95,35 @@ public class TaskDefaultFormLayoutFactory {
         mainSection.fields(new TextDynaFieldBuilder().fieldName(Task.Field.description)
                 .displayName(GenericI18Enum.FORM_DESCRIPTION)
                 .colSpan(true).fieldIndex(13).build());
+        return mainSection;
+    }
 
-        mainSection.fields(new TextDynaFieldBuilder().fieldName(Task.Field.id)
-                .displayName(GenericI18Enum.FORM_ATTACHMENTS)
-                .colSpan(true).fieldIndex(14).build());
+    private static DynaSection attachmentSection() {
+        DynaSection attachmentSection = new DynaSectionBuilder().layoutType(LayoutType.ONE_COLUMN).header(GenericI18Enum.FORM_ATTACHMENTS).build();
+        attachmentSection.fields(new TextDynaFieldBuilder().fieldName("section-attachments")
+                .fieldIndex(0).build());
+        return attachmentSection;
+    }
 
-        mainSection.fields(new TextDynaFieldBuilder().fieldName(Task.Field.parenttaskid)
-                .displayName(TaskI18nEnum.FORM_SUB_TASKS)
-                .contextHelp(TaskI18nEnum.FORM_SUB_TASKS_HELP)
-                .colSpan(true).fieldIndex(15).build());
+    private static DynaSection subTasksSection() {
+        DynaSection subTasksSection = new DynaSectionBuilder().layoutType(LayoutType.ONE_COLUMN).header(TaskI18nEnum.FORM_SUB_TASKS)
+                .contextHelp(TaskI18nEnum.FORM_SUB_TASKS_HELP).build();
+        subTasksSection.fields(new TextDynaFieldBuilder().fieldName("section-subTasks").fieldIndex(0).build());
+        return subTasksSection;
+    }
 
-        mainSection.fields(new TextDynaFieldBuilder().fieldName(SimpleTask.Field.selected)
-                .displayName(FollowerI18nEnum.OPT_SUB_INFO_WATCHERS)
-                .contextHelp(FollowerI18nEnum.FOLLOWER_EXPLAIN_HELP).fieldIndex(16).colSpan(true).build());
+    private static DynaSection followersSection() {
+        DynaSection followersSection = new DynaSectionBuilder().layoutType(LayoutType.ONE_COLUMN).header(FollowerI18nEnum.OPT_SUB_INFO_WATCHERS)
+                .contextHelp(FollowerI18nEnum.FOLLOWER_EXPLAIN_HELP).build();
+        followersSection.fields(new TextDynaFieldBuilder().fieldName("section-followers").fieldIndex(0).build());
+        return followersSection;
+    }
 
-        defaultForm.sections(mainSection);
-        return defaultForm;
+    public static DynaForm getAddForm() {
+        return new DynaForm(mainSection(), attachmentSection(), followersSection());
+    }
+
+    public static DynaForm getReadForm() {
+        return new DynaForm(mainSection(), subTasksSection(), attachmentSection());
     }
 }

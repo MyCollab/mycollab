@@ -213,6 +213,7 @@ public class ProjectFollowersComp<V extends ValuedBean> extends MVerticalLayout 
                 item.setType(type);
                 item.setTypeid(typeId + "");
                 item.setUsername(member.getUsername());
+                item.setCreatedtime(LocalDateTime.now());
                 items.add(item);
             }
             return items;

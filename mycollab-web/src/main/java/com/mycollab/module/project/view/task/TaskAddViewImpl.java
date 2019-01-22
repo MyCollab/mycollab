@@ -86,10 +86,10 @@ public class TaskAddViewImpl extends AbstractEditItemComp<SimpleTask> implements
     @Override
     protected IFormLayoutFactory initFormLayoutFactory() {
         if (beanItem.getId() == null) {
-            return new DefaultDynaFormLayout(ProjectTypeConstants.TASK, TaskDefaultFormLayoutFactory.getForm(),
+            return new DefaultDynaFormLayout(ProjectTypeConstants.TASK, TaskDefaultFormLayoutFactory.getAddForm(),
                     Task.Field.parenttaskid.name());
         } else {
-            return new DefaultDynaFormLayout(ProjectTypeConstants.TASK, TaskDefaultFormLayoutFactory.getForm(),
+            return new DefaultDynaFormLayout(ProjectTypeConstants.TASK, TaskDefaultFormLayoutFactory.getAddForm(),
                     Task.Field.parenttaskid.name(), "selected");
         }
     }

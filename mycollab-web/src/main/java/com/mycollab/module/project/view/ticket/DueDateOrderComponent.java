@@ -22,6 +22,7 @@ import com.mycollab.core.utils.SortedArrayMap;
 import com.mycollab.module.project.domain.ProjectTicket;
 import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.UserUIContext;
+import com.vaadin.icons.VaadinIcons;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -50,7 +51,7 @@ public class DueDateOrderComponent extends TicketGroupOrderComponent {
                 } else {
                     LocalDate maxValue = DateTimeUtils.getLastDayOfWeek(dueDate);
                     String sundayStr = formatter.format(maxValue);
-                    String titleValue = String.format("%s - %s", monDayStr, sundayStr);
+                    String titleValue = VaadinIcons.CALENDAR.getHtml() + " " + String.format("%s - %s", monDayStr, sundayStr);
 
                     DefaultTicketGroupComponent groupComponent = new DefaultTicketGroupComponent(titleValue);
                     dueDateAvailables.put(time, groupComponent);
@@ -59,7 +60,7 @@ public class DueDateOrderComponent extends TicketGroupOrderComponent {
                 }
             } else {
                 if (unspecifiedTasks == null) {
-                    unspecifiedTasks = new DefaultTicketGroupComponent(UserUIContext.getMessage(GenericI18Enum.OPT_UNDEFINED));
+                    unspecifiedTasks = new DefaultTicketGroupComponent(VaadinIcons.CALENDAR.getHtml() + " " + UserUIContext.getMessage(GenericI18Enum.OPT_UNDEFINED));
                     addComponent(unspecifiedTasks);
                 }
                 unspecifiedTasks.insertTicket(ticket);

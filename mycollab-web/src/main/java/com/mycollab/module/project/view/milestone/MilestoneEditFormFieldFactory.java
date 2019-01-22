@@ -62,7 +62,7 @@ public class MilestoneEditFormFieldFactory extends AbstractBeanFieldGroupEditFie
             return new MTextField().withRequiredIndicatorVisible(true);
         } else if (propertyId.equals("description")) {
             return new RichTextArea();
-        } else if ("attachments".equals(propertyId)) {
+        } else if ("section-attachments".equals(propertyId)) {
             Milestone beanItem = attachForm.getBean();
             if (beanItem.getId() != null) {
                 String attachmentPath = AttachmentUtils.getProjectEntityAttachmentPath(AppUI.getAccountId(),

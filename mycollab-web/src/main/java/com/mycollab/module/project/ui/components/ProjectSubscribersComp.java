@@ -22,6 +22,7 @@ import com.mycollab.module.project.service.ProjectMemberService;
 import com.mycollab.module.user.domain.SimpleUser;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppUI;
+import com.mycollab.vaadin.ui.IgnoreBindingField;
 import com.mycollab.vaadin.ui.UserAvatarControlFactory;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.Component;
@@ -37,7 +38,7 @@ import java.util.Set;
  * @author MyCollab Ltd.
  * @since 5.0.1
  */
-public class ProjectSubscribersComp extends CustomField {
+public class ProjectSubscribersComp extends IgnoreBindingField {
     private int projectId;
     private boolean defaultSelectAll;
     private Set<String> selectedUsers;

@@ -112,8 +112,8 @@ public class ProjectActivityComponent extends MVerticalLayout implements Reloada
             displayActivities();
         });
 
-        MHorizontalLayout headerPanel = new MHorizontalLayout().withMargin(true).withStyleName(WebThemes.FORM_SECTION)
-                .withFullWidth().with(headerLbl, sortDirection).withAlign(headerLbl, Alignment.MIDDLE_LEFT)
+        MHorizontalLayout headerPanel = new MHorizontalLayout(headerLbl, sortDirection).withMargin(true).withStyleName(WebThemes.FORM_SECTION)
+                .withFullWidth().withAlign(headerLbl, Alignment.MIDDLE_LEFT)
                 .withAlign(sortDirection, Alignment.MIDDLE_RIGHT);
 
         commentBox = new ProjectCommentInput(this, type, extraTypeId);

@@ -73,7 +73,7 @@ import java.util.List;
 public class TaskPreviewForm extends AdvancedPreviewBeanForm<SimpleTask> {
     @Override
     public void setBean(SimpleTask bean) {
-        this.setFormLayoutFactory(new DefaultDynaFormLayout(ProjectTypeConstants.TASK, TaskDefaultFormLayoutFactory.getForm(),
+        this.setFormLayoutFactory(new DefaultDynaFormLayout(ProjectTypeConstants.TASK, TaskDefaultFormLayoutFactory.getReadForm(),
                 Task.Field.name.name(), SimpleTask.Field.selected.name()));
         this.setBeanFormFieldFactory(new PreviewFormFieldFactory(this));
         super.setBean(bean);
@@ -100,7 +100,7 @@ public class TaskPreviewForm extends AdvancedPreviewBeanForm<SimpleTask> {
                 return new DateViewField();
             } else if (Task.Field.milestoneid.equalTo(propertyId)) {
                 return new ProjectItemViewField(ProjectTypeConstants.MILESTONE, beanItem.getMilestoneid() + "", beanItem.getMilestoneName());
-            } else if (Task.Field.id.equalTo(propertyId)) {
+            } else if ("section-attachments".equals(propertyId)) {
                 return new ProjectFormAttachmentDisplayField(beanItem.getProjectid(), ProjectTypeConstants.TASK, beanItem.getId());
             } else if (Task.Field.priority.equalTo(propertyId)) {
                 if (StringUtils.isNotBlank(beanItem.getPriority())) {
@@ -120,7 +120,7 @@ public class TaskPreviewForm extends AdvancedPreviewBeanForm<SimpleTask> {
                 }
             } else if (Task.Field.description.equalTo(propertyId)) {
                 return new RichTextViewField();
-            } else if (Task.Field.parenttaskid.equalTo(propertyId)) {
+            } else if ("section-subTasks".equals(propertyId)) {
                 return new SubTasksComp(beanItem);
             } else if (Task.Field.status.equalTo(propertyId)) {
                 return new I18nFormViewField(StatusI18nEnum.class).withStyleName(UIConstants.FIELD_NOTE);
@@ -129,7 +129,7 @@ public class TaskPreviewForm extends AdvancedPreviewBeanForm<SimpleTask> {
         }
     }
 
-    private static class SubTasksComp extends CustomField {
+    private static class SubTasksComp extends IgnoreBindingField {
         private static final long serialVersionUID = 1L;
 
         private ApplicationEventListener<TaskEvent.NewTaskAdded> newTaskAddedHandler = new

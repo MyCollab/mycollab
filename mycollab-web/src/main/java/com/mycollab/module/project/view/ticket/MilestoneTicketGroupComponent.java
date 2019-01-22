@@ -20,10 +20,12 @@ import com.hp.gagawa.java.elements.A;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.html.DivLessFormatter;
 import com.mycollab.module.project.ProjectLinkGenerator;
+import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.domain.ProjectTicket;
 import com.mycollab.module.project.domain.SimpleMilestone;
 import com.mycollab.module.project.service.MilestoneService;
 import com.mycollab.module.project.service.ProjectTicketService;
+import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.module.project.ui.components.IBlockContainer;
 import com.mycollab.module.project.ui.components.IGroupComponent;
 import com.mycollab.spring.AppContextUtil;
@@ -63,7 +65,7 @@ class MilestoneTicketGroupComponent extends MVerticalLayout implements IGroupCom
         wrapBody.setWidth("100%");
         wrapBody.setSpacing(false);
         wrapBody.addStyleName(WebThemes.BORDER_LIST);
-        headerLbl = ELabel.h3("");
+        headerLbl = ELabel.h3("").withFullWidth();
 
         MilestoneService milestoneService = AppContextUtil.getSpringBean(MilestoneService.class);
         MVerticalLayout headerGroup;
@@ -144,6 +146,6 @@ class MilestoneTicketGroupComponent extends MVerticalLayout implements IGroupCom
             titleValue = new DivLessFormatter().appendChild(new A(ProjectLinkGenerator.generateMilestonePreviewLink(milestone.getProjectid(), milestone.getId())).
                     appendText(String.format("%s (%d)", milestone.getName(), wrapBody.getComponentCount()))).write();
         }
-        headerLbl.setValue(titleValue);
+        headerLbl.setValue(ProjectAssetsManager.getAsset(ProjectTypeConstants.MILESTONE).getHtml() + " " + titleValue);
     }
 }

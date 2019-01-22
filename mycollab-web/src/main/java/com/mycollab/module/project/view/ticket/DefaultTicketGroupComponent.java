@@ -45,7 +45,7 @@ class DefaultTicketGroupComponent extends MVerticalLayout implements IGroupCompo
         wrapBody.setSpacing(false);
         wrapBody.setWidth("100%");
         wrapBody.addStyleName(WebThemes.BORDER_LIST);
-        headerLbl = ELabel.h3("");
+        headerLbl = ELabel.h3("").withFullWidth();
         this.with(headerLbl, wrapBody);
         refresh();
     }

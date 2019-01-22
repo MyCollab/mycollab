@@ -27,14 +27,13 @@ import com.mycollab.vaadin.resources.file.FileAssetsUtil;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.NotificationUtil;
 import com.mycollab.vaadin.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.utils.MultiFileUpload;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.HorizontalLayout;
 import org.apache.commons.collections4.MapUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.vaadin.easyuploads.MultiFileUpload;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MCssLayout;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
@@ -104,6 +103,9 @@ public class AttachmentPanel extends MCssLayout {
                     File file = entry.getValue();
                     resourceService.saveContent(constructContent(fileName, attachmentPath),
                             UserUIContext.getUsername(), new FileInputStream(file), AppUI.getAccountId());
+                    if (file.exists()) {
+                        file.delete();
+                    }
                 } catch (FileNotFoundException e) {
                     LOG.error("Error when attach content in UI", e);
                 }
