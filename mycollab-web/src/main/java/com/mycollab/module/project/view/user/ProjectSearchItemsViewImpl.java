@@ -56,8 +56,6 @@ public class ProjectSearchItemsViewImpl extends AbstractVerticalPageView impleme
 
         ELabel headerLbl = ELabel.h2("");
 
-
-
         ProjectService projectService = AppContextUtil.getSpringBean(ProjectService.class);
         List<Integer> projectKeys = projectService.getProjectKeysUserInvolved(UserUIContext.getUsername(), AppUI.getAccountId());
         if (projectKeys.size() > 0) {
@@ -67,7 +65,6 @@ public class ProjectSearchItemsViewImpl extends AbstractVerticalPageView impleme
             DefaultBeanPagedList<ProjectGenericItemService, ProjectGenericItemSearchCriteria, ProjectGenericItem>
                     searchItemsTable = new DefaultBeanPagedList<>(AppContextUtil.getSpringBean(ProjectGenericItemService.class),
                     new GenericItemRowDisplayHandler());
-            searchItemsTable.setControlStyle("borderlessControl");
             int foundNum = searchItemsTable.setSearchCriteria(criteria);
             headerLbl.setValue(String.format(VaadinIcons.SEARCH.getHtml() + " " + UserUIContext.getMessage(ProjectI18nEnum.OPT_SEARCH_TERM)
                     , value, foundNum));

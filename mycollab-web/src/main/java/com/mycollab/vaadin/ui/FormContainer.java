@@ -16,6 +16,7 @@
  */
 package com.mycollab.vaadin.ui;
 
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.ui.*;
 import org.vaadin.viritin.layouts.MCssLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
@@ -35,7 +36,7 @@ public class FormContainer extends MVerticalLayout {
     }
 
     public void addSection(Component sectionHeader, ComponentContainer container) {
-        sectionHeader.addStyleName("section");
+        sectionHeader.addStyleName(WebThemes.FORM_SECTION);
         sectionHeader.setWidth("100%");
         container.setWidth("100%");
         this.addComponent(sectionHeader);

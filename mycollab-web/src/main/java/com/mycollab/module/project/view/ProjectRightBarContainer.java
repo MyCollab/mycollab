@@ -22,12 +22,11 @@ import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.PageActionChain;
+import com.mycollab.vaadin.ui.UIUtils;
 import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.icons.VaadinIcons;
-import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
-import org.vaadin.addons.stackpanel.StackPanel;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
@@ -75,7 +74,7 @@ public class ProjectRightBarContainer extends MVerticalLayout {
     private void showComponents() {
         this.setWidth("300px");
         toggleButton.setWidth("300px");
-        for (int i=1; i<getComponentCount(); i++) {
+        for (int i = 1; i < getComponentCount(); i++) {
             Component component = getComponent(i);
             component.removeStyleName(WebThemes.HIDE_ELEMENT);
         }
@@ -84,7 +83,7 @@ public class ProjectRightBarContainer extends MVerticalLayout {
     private void hideComponents() {
         this.setWidth("30px");
         toggleButton.setWidth("30px");
-        for (int i=1; i<getComponentCount(); i++) {
+        for (int i = 1; i < getComponentCount(); i++) {
             Component component = getComponent(i);
             component.addStyleName(WebThemes.HIDE_ELEMENT);
         }
@@ -189,7 +188,7 @@ public class ProjectRightBarContainer extends MVerticalLayout {
         }
 
         projectActionPanel.setContent(projectActionLayout);
-        StackPanel.extend(projectActionPanel);
+        UIUtils.makeStackPanel(projectActionPanel);
         return projectActionPanel;
     }
 

@@ -45,13 +45,12 @@ public abstract class StandupReportFormLayoutFactory extends AbstractFormLayoutF
         layoutField.addComponent(whatYesterdayField);
 
         final ELabel whatTodayLbl = ELabel.h3(UserUIContext.getMessage(StandupI18nEnum.STANDUP_TODAY));
-        layoutField.with(new Label(""), whatTodayLbl);
+        layoutField.with(whatTodayLbl);
         whatTodayField = new StandupCustomField();
         layoutField.addComponent(whatTodayField);
 
-        final ELabel roadblockLbl = ELabel.h3(UserUIContext.getMessage(StandupI18nEnum.STANDUP_ISSUE));
-        roadblockLbl.addStyleName(UIConstants.LABEL_WORD_WRAP);
-        layoutField.with(new Label(""), roadblockLbl);
+        final ELabel roadblockLbl = ELabel.h3(UserUIContext.getMessage(StandupI18nEnum.STANDUP_ISSUE)).withStyleName(UIConstants.LABEL_WORD_WRAP);
+        layoutField.with(roadblockLbl);
         whatProblemField = new StandupCustomField();
         layoutField.addComponent(whatProblemField);
 

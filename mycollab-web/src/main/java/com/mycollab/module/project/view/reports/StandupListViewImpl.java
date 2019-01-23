@@ -26,7 +26,6 @@ import com.mycollab.vaadin.ui.*;
 import com.mycollab.vaadin.web.ui.AbstractBeanPagedList;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.icons.VaadinIcons;
-import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import org.apache.commons.collections.CollectionUtils;
@@ -93,16 +92,17 @@ public class StandupListViewImpl extends AbstractVerticalPageView implements Sta
     private void showReports() {
         removeAllComponents();
         if (CollectionUtils.isNotEmpty(projectIds)) {
-            constructHeader();
-
+            MHorizontalLayout headerLayout = constructHeader();
             ELabel listLnl = ELabel.h3("Projects (" + projectIds.size() + ")");
             MHorizontalLayout favoriteListHeaderPanel = new MHorizontalLayout(listLnl).expand(listLnl).withMargin(new
-                    MarginInfo(false, true, false, true)).withStyleName(WebThemes.PANEL_HEADER).withFullWidth().alignAll(Alignment.MIDDLE_LEFT);
+                    MarginInfo(false, false, false, true)).withStyleName(WebThemes.PANEL_HEADER).withFullWidth().alignAll(Alignment.MIDDLE_LEFT);
             projectListComp = new ProjectListComp();
             MVerticalLayout projectListPanel = new MVerticalLayout(favoriteListHeaderPanel, projectListComp).withMargin(false).withSpacing(false).withWidth("300px");
 
             standupPerProjectView = new StandupPerProjectView();
-            with(new MHorizontalLayout(projectListPanel, standupPerProjectView).expand(standupPerProjectView));
+            standupPerProjectView.setMargin(new MarginInfo(false, false, false, true));
+            MHorizontalLayout bodyLayout = new MHorizontalLayout(projectListPanel, standupPerProjectView).expand(standupPerProjectView);
+            with(headerLayout, bodyLayout).expand(bodyLayout);
 
             int totalCount = projectListComp.display(projectIds, onDate);
             if (totalCount > 0) {
@@ -131,7 +131,6 @@ public class StandupListViewImpl extends AbstractVerticalPageView implements Sta
         ProjectListComp() {
             super(new ProjectRowHandler(), 10);
             addStyleName(WebThemes.BORDER_LIST);
-            setControlStyle("borderlessControl");
             standupReportService = AppContextUtil.getSpringBean(StandupReportService.class);
         }
 
@@ -176,8 +175,8 @@ public class StandupListViewImpl extends AbstractVerticalPageView implements Sta
         }
     }
 
-    private void constructHeader() {
-        MHorizontalLayout header = new MHorizontalLayout().withMargin((new MarginInfo(true, false, true, false))).withFullWidth();
+    private MHorizontalLayout constructHeader() {
+        MHorizontalLayout header = new MHorizontalLayout().withSpacing(false).withMargin((new MarginInfo(true, false, true, false))).withFullWidth();
         header.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
         MHorizontalLayout headerLeft = new MHorizontalLayout();
@@ -197,10 +196,10 @@ public class StandupListViewImpl extends AbstractVerticalPageView implements Sta
         }).withIcon(VaadinIcons.PLUS).withStyleName(WebThemes.BUTTON_ACTION);
 
         header.with(newReportBtn).withAlign(newReportBtn, Alignment.TOP_RIGHT);
-        this.addComponent(header);
+        return header;
     }
 
-    private static class StandupPerProjectView extends MHorizontalLayout {
+    private static class StandupPerProjectView extends MVerticalLayout {
         private BeanList<StandupReportService, StandupReportSearchCriteria, SimpleStandupReport> reportInDay;
         private StandupMissingComp standupMissingComp;
 
@@ -208,10 +207,8 @@ public class StandupListViewImpl extends AbstractVerticalPageView implements Sta
             removeAllComponents();
             reportInDay = new BeanList<>(AppContextUtil.getSpringBean(StandupReportService.class),
                     new StandupReportRowDisplay());
-            standupMissingComp = new StandupMissingComp();
-            standupMissingComp.setWidth("300px");
-            this.with(reportInDay, standupMissingComp).expand(reportInDay);
-            standupMissingComp.search(projectId, onDate);
+            standupMissingComp = new StandupMissingComp(projectId, onDate);
+            this.with(standupMissingComp, reportInDay).expand(reportInDay);
 
             StandupReportSearchCriteria baseCriteria = new StandupReportSearchCriteria();
             baseCriteria.setOnDate(new DateSearchField(onDate, DateSearchField.EQUAL));
@@ -224,8 +221,7 @@ public class StandupListViewImpl extends AbstractVerticalPageView implements Sta
 
         @Override
         public Component generateRow(IBeanList<SimpleStandupReport> host, SimpleStandupReport report, int rowIndex) {
-            HorizontalLayout rowLayout = new HorizontalLayout();
-            rowLayout.setStyleName("standup-block");
+            MHorizontalLayout rowLayout = new MHorizontalLayout().withStyleName(WebThemes.BORDER);
 
             MVerticalLayout userInfo = new MVerticalLayout().withWidth("200px").withFullHeight().withStyleName(WebThemes
                     .HOVER_EFFECT_NOT_BOX);
@@ -234,35 +230,28 @@ public class StandupListViewImpl extends AbstractVerticalPageView implements Sta
             Image userAvatar = UserAvatarControlFactory.createUserAvatarEmbeddedComponent(report.getLogByAvatarId(), 100);
             userAvatar.addStyleName(UIConstants.CIRCLE_BOX);
             userInfo.addComponent(userAvatar);
-            Label memberLink = new Label(buildMemberLink(report), ContentMode.HTML);
+            Label memberLink = ELabel.html(buildMemberLink(report));
             userInfo.with(memberLink).expand(memberLink).withAlign(memberLink, Alignment.TOP_CENTER);
             rowLayout.addComponent(userInfo);
 
-            MVerticalLayout reportContent = new MVerticalLayout().withStyleName("report-content", WebThemes.HOVER_EFFECT_NOT_BOX);
+            MVerticalLayout reportContent = new MVerticalLayout().withStyleName(WebThemes.BORDER_LEFT, WebThemes.HOVER_EFFECT_NOT_BOX);
 
-            ELabel whatYesterdayLbl = ELabel.h3(UserUIContext.getMessage(StandupI18nEnum.STANDUP_LASTDAY));
-            reportContent.addComponent(whatYesterdayLbl);
+            reportContent.addComponent(ELabel.h3(UserUIContext.getMessage(StandupI18nEnum.STANDUP_LASTDAY)).withStyleName(UIConstants.LABEL_WORD_WRAP).withFullWidth());
             Label whatYesterdayField = new SafeHtmlLabel(report.getWhatlastday());
-            whatYesterdayField.setSizeUndefined();
-            whatYesterdayField.addStyleName(WebThemes.STANDUP_ROW_CONTENT);
+            whatYesterdayField.setWidth("100%");
             reportContent.addComponent(whatYesterdayField);
 
-            ELabel whatTodayLbl = ELabel.h3(UserUIContext.getMessage(StandupI18nEnum.STANDUP_TODAY));
-            reportContent.addComponent(whatTodayLbl);
+            reportContent.addComponent(ELabel.h3(UserUIContext.getMessage(StandupI18nEnum.STANDUP_TODAY)).withStyleName(UIConstants.LABEL_WORD_WRAP).withFullWidth());
             Label whatTodayField = new SafeHtmlLabel(report.getWhattoday());
-            whatTodayField.setSizeUndefined();
-            whatTodayField.addStyleName(WebThemes.STANDUP_ROW_CONTENT);
+            whatTodayField.setWidth("100%");
             reportContent.addComponent(whatTodayField);
 
-            ELabel roadblockLbl = ELabel.h3(UserUIContext.getMessage(StandupI18nEnum.STANDUP_ISSUE));
-            reportContent.addComponent(roadblockLbl);
+            reportContent.addComponent(ELabel.h3(UserUIContext.getMessage(StandupI18nEnum.STANDUP_ISSUE)).withStyleName(UIConstants.LABEL_WORD_WRAP).withFullWidth());
             Label whatProblemField = new SafeHtmlLabel(report.getWhatproblem());
-            whatProblemField.setSizeUndefined();
-            whatProblemField.addStyleName(WebThemes.STANDUP_ROW_CONTENT);
+            whatProblemField.setWidth("100%");
             reportContent.addComponent(whatProblemField);
 
-            rowLayout.addComponent(reportContent);
-            rowLayout.setExpandRatio(reportContent, 1.0f);
+            rowLayout.with(reportContent).expand(reportContent);
             return rowLayout;
         }
 

@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -33,8 +33,8 @@ import com.mycollab.module.tracker.domain.SimpleBug;
  * @since 5.0.1
  */
 public class BugDefaultFormLayoutFactory {
-    public static DynaForm getForm() {
-        DynaForm defaultForm = new DynaForm();
+
+    private static DynaSection mainSection() {
         DynaSection mainSection = new DynaSectionBuilder().layoutType(LayoutType.TWO_COLUMN).build();
 
         //Row 1
@@ -109,15 +109,29 @@ public class BugDefaultFormLayoutFactory {
                 .displayName(GenericI18Enum.FORM_DESCRIPTION)
                 .fieldIndex(14).colSpan(true).build());
 
-        mainSection.fields(new TextDynaFieldBuilder().fieldName(BugWithBLOBs.Field.id)
-                .displayName(GenericI18Enum.FORM_ATTACHMENTS)
-                .fieldIndex(15).colSpan(true).build());
+        return mainSection;
+    }
 
-        mainSection.fields(new TextDynaFieldBuilder().fieldName(SimpleBug.Field.selected)
-                .displayName(FollowerI18nEnum.OPT_SUB_INFO_WATCHERS)
-                .contextHelp(FollowerI18nEnum.FOLLOWER_EXPLAIN_HELP).fieldIndex(16).colSpan(true).build());
+    private static DynaSection attachmentSection() {
+        DynaSection attachmentSection = new DynaSectionBuilder().layoutType(LayoutType.ONE_COLUMN).header(GenericI18Enum.FORM_ATTACHMENTS).build();
+        attachmentSection.fields(new TextDynaFieldBuilder().fieldName("section-attachments")
+                .fieldIndex(0).colSpan(true).build());
+        return attachmentSection;
+    }
 
-        defaultForm.sections(mainSection);
-        return defaultForm;
+    private static DynaSection followersSection() {
+        DynaSection followersSection = new DynaSectionBuilder().layoutType(LayoutType.ONE_COLUMN).header(FollowerI18nEnum.OPT_SUB_INFO_WATCHERS)
+                .contextHelp(FollowerI18nEnum.FOLLOWER_EXPLAIN_HELP).build();
+        followersSection.fields(new TextDynaFieldBuilder().fieldName("section-followers")
+                .fieldIndex(0).colSpan(true).build());
+        return followersSection;
+    }
+
+    public static DynaForm getReadForm() {
+        return new DynaForm(mainSection(), attachmentSection());
+    }
+
+    public static DynaForm getAddForm() {
+        return new DynaForm(mainSection(), followersSection(), attachmentSection());
     }
 }

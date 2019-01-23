@@ -1824,6 +1824,14 @@ a.pending {
 	border-top: 1px solid #e5e5e5;
 }
 
+.border-left {
+	border-left: 1px solid #e5e5e5;
+}
+
+.border {
+	border: 1px solid #e5e5e5;
+}
+
 .panel-body {
 	border: 1px solid #e5e5e5;
 	border-top: 0;
@@ -1934,15 +1942,6 @@ a.pending {
 .listControl {
 	padding: 2px;
 	border-width: 0px 1px 1px 1px;
-	border-style: solid;
-	border-color: #e5e5e5;
-	border-radius: 0px;
-	background: none no-repeat 0 0 #ffffff;
-}
-
-.borderlessControl {
-	padding: 4px;
-	border-width: 1px 0px 0px 0px;
 	border-style: solid;
 	border-color: #e5e5e5;
 	border-radius: 0px;
@@ -16517,6 +16516,14 @@ a.pending {
 	border-top: 1px solid #e5e5e5;
 }
 
+.border-left {
+	border-left: 1px solid #e5e5e5;
+}
+
+.border {
+	border: 1px solid #e5e5e5;
+}
+
 .panel-body {
 	border: 1px solid #e5e5e5;
 	border-top: 0;
@@ -16627,15 +16634,6 @@ a.pending {
 .listControl {
 	padding: 2px;
 	border-width: 0px 1px 1px 1px;
-	border-style: solid;
-	border-color: #e5e5e5;
-	border-radius: 0px;
-	background: none no-repeat 0 0 #ffffff;
-}
-
-.borderlessControl {
-	padding: 4px;
-	border-width: 1px 0px 0px 0px;
 	border-style: solid;
 	border-color: #e5e5e5;
 	border-radius: 0px;
@@ -17298,14 +17296,19 @@ div.v-window {
 	box-shadow: inset 5px 0px 0px 0px #0083ce;
 }
 
-.form .section {
-	padding: 12px 0px;
-	color: #0083ce;
-	border-bottom: 1px solid #e5e5e5;
+.form .v-stackpanel.section {
+	border-style: none;
+	box-shadow: none;
 }
 
-.form .section .v-label {
+.form .v-stackpanel.section .v-panel-caption {
+	border-style: none;
+	padding: 0px;
 	font-size: 1.2em;
+}
+
+.form .v-stackpanel.section .v-panel-caption  > span {
+	color: #0083ce;
 }
 
 .colored-gridlayout .gridform-caption.v-margin-top, .colored-gridlayout .gridform-field.v-margin-top {
@@ -17334,13 +17337,13 @@ div.v-window {
 }
 
 .section {
-	padding: 12px 0px;
+	padding: 0px;
 	color: #0083ce;
 	border-bottom: 1px solid #e5e5e5;
 }
 
-.section .v-label {
-	font-size: 1.2em;
+.section .v-label-h3 {
+	color: #0083ce;
 }
 
 .floatControl {
@@ -17574,25 +17577,6 @@ div.v-csslayout.followers-container .v-checkbox {
 
 .v-csslayout.tagcloud .tagbutton {
 	margin: 2px;
-}
-
-.standup-block {
-	background-color: #ffffff;
-	border: 1px solid #e5e5e5;
-}
-
-.standup-block .report-content {
-	border-left: 1px solid #e5e5e5;
-}
-
-.v-label.standup-row-content {
-	padding: 0px 10px 10px 20px;
-	width: 100%;
-}
-
-.v-label.standup-row-content ul, .v-label.standup-row-content ol {
-	padding-left: 14px;
-	margin: 0px;
 }
 
 .milestone-view {
@@ -18056,7 +18040,7 @@ input.noBorderRight {
 	font-size: 15px;
 }
 
-.v-label.wordWrap {
+.v-label.word-wrap {
 	word-wrap: break-word;
 	white-space: normal;
 }
@@ -18285,10 +18269,6 @@ input.v-textfield-pagedtable-pagefield {
 	padding-left: 15px;
 }
 
-.basicSearch .basicSearchBody .v-horizontallayout-search-comp .v-horizontallayout-margin {
-	padding: 0px;
-}
-
 input.v-textfield-errorField {
 	border-color: red;
 }
@@ -18299,13 +18279,6 @@ input.v-textfield-errorField {
 
 .loginView  > .v-csslayout {
 	overflow-y: auto !important;
-}
-
-.formView {
-	background: white;
-	width: 600px;
-	-moz-border-radius: 16px;
-	-webkit-border-radius: 16px;
 }
 
 #login-header {
@@ -18556,15 +18529,8 @@ input.v-textfield-errorField {
 }
 
 .addViewLayout .addViewBody {
-	background-color: #FFF;
+	background-color: #ffffff;
 	margin-top: 10px;
-}
-
-.addViewLayout .addViewTopControls {
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
-	-webkit-box-sizing: border-box;
-	border-bottom: 1px solid #e5e5e5;
 }
 
 .depotComp .depotHeader {
@@ -18653,10 +18619,6 @@ input.v-textfield-errorField {
 	color: #222;
 }
 
-.activity-related-content .v-table-header-wrap {
-	border-top-width: 1px;
-}
-
 .v-form-errormessage .gwt-HTML {
 	text-align: center;
 	color: red;
@@ -18727,68 +18689,6 @@ div.v-csslayout.main-body {
 .v-label.completed a {
 	color: black;
 	text-decoration: line-through;
-}
-
-div.v-stylecalendar {
-	-moz-border-radius-topleft: 5px;
-	-moz-border-radius-topright: 5px;
-	-webkit-border-top-left-radius: 5px;
-	-webkit-border-top-right-radius: 5px;
-	border-top-left-radius: 5px;
-	border-top-right-radius: 5px;
-	border: 0px solid #e5e5e5;
-	background-color: white;
-}
-
-.v-stylecalendar .weekdays TD {
-	width: 211px;
-	background-color: #F4F4F4;
-}
-
-.v-stylecalendar .week {
-	background-color: white;
-}
-
-.v-stylecalendar tr.weekdays {
-	background-color: #F5F5F5;
-}
-
-.v-stylecalendar .weeknumber, .v-stylecalendar .day {
-	width: 211px;
-	border: 1px solid #CCCCCC;
-	background-color: #E1E1E1;
-	background-image: url('icons/grad-light-top.png');
-	background-repeat: repeat-x;
-	cursor: default;
-}
-
-div.v-stylecalendar .weekdays TD {
-	width: 131px;
-}
-
-.v-stylecalendar .weeknumber, .v-stylecalendar .day {
-	width: 131px;
-}
-
-.v-stylecalendar .weeknumber {
-	background-color: #d9d8cb;
-}
-
-.v-stylecalendar .week .othermonth {
-	color: #e4e3da;
-	cursor: default;
-	background-color: #F5F5F5;
-	border: 1px solid #CCCCCC;
-}
-
-.v-stylecalendar .week .today.red {
-	background-color: red;
-}
-
-.v-stylecalendar .red {
-	background-color: #0C7AD3;
-	background-repeat: repeat-x;
-	color: #ffffff;
 }
 
 .v-richtextarea .gwt-RichTextToolbar {

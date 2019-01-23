@@ -44,7 +44,6 @@ import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Panel;
-import org.vaadin.addons.stackpanel.StackPanel;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
@@ -89,7 +88,7 @@ public class VersionReadViewImpl extends AbstractPreviewItemComp<Version> implem
         }
 
         Panel detailPanel = new Panel(UserUIContext.getMessage(GenericI18Enum.OPT_DETAILS), detailLayout);
-        StackPanel.extend(detailPanel);
+        UIUtils.makeStackPanel(detailPanel);
         projectView.addComponentToRightBar(detailPanel);
     }
 

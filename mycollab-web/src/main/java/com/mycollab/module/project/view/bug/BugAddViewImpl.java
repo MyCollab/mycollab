@@ -102,9 +102,9 @@ public class BugAddViewImpl extends AbstractEditItemComp<SimpleBug> implements B
     @Override
     protected IFormLayoutFactory initFormLayoutFactory() {
         if (beanItem.getId() == null) {
-            return new DefaultDynaFormLayout(ProjectTypeConstants.BUG, BugDefaultFormLayoutFactory.getForm());
+            return new DefaultDynaFormLayout(ProjectTypeConstants.BUG, BugDefaultFormLayoutFactory.getAddForm());
         } else {
-            return new DefaultDynaFormLayout(ProjectTypeConstants.BUG, BugDefaultFormLayoutFactory.getForm(), "selected");
+            return new DefaultDynaFormLayout(ProjectTypeConstants.BUG, BugDefaultFormLayoutFactory.getAddForm(), "selected");
         }
     }
 

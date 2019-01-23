@@ -120,7 +120,7 @@ public class TaskDefaultFormLayoutFactory {
     }
 
     public static DynaForm getAddForm() {
-        return new DynaForm(mainSection(), attachmentSection(), followersSection());
+        return new DynaForm(mainSection(), followersSection(), attachmentSection());
     }
 
     public static DynaForm getReadForm() {

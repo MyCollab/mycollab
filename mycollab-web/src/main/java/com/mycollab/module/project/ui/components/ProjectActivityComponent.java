@@ -97,7 +97,7 @@ public class ProjectActivityComponent extends MVerticalLayout implements Reloada
         withMargin(false).withStyleName("activity-comp").withFullWidth();
         this.type = type;
         this.groupFormatter = AuditLogRegistry.getFieldGroupFormatterOfType(type);
-        headerLbl = new ELabel(UserUIContext.getMessage(GenericI18Enum.OPT_CHANGE_HISTORY, 0));
+        headerLbl = new ELabel(UserUIContext.getMessage(GenericI18Enum.OPT_CHANGE_HISTORY, 0)).withStyleName(ValoTheme.LABEL_H3);
 
         final RadioButtonGroup<String> sortDirection = new RadioButtonGroup<>();
         sortDirection.addStyleName(ValoTheme.OPTIONGROUP_HORIZONTAL);
@@ -112,7 +112,7 @@ public class ProjectActivityComponent extends MVerticalLayout implements Reloada
             displayActivities();
         });
 
-        MHorizontalLayout headerPanel = new MHorizontalLayout(headerLbl, sortDirection).withMargin(true).withStyleName(WebThemes.FORM_SECTION)
+        MHorizontalLayout headerPanel = new MHorizontalLayout(headerLbl, sortDirection).withMargin(false).withStyleName(WebThemes.FORM_SECTION)
                 .withFullWidth().withAlign(headerLbl, Alignment.MIDDLE_LEFT)
                 .withAlign(sortDirection, Alignment.MIDDLE_RIGHT);
 

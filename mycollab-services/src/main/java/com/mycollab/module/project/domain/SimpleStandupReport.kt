@@ -24,4 +24,5 @@ class SimpleStandupReport : StandupReportWithBLOBs() {
 
     var logByAvatarId: String? = null
     var logByFullName: String? = null
+    lateinit var projectShortName: String
 }

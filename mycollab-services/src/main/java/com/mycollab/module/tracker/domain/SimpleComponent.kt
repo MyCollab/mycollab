@@ -36,6 +36,8 @@ class SimpleComponent : Component() {
 
     lateinit var projectName: String
 
+    lateinit var projectShortName: String
+
     enum class Field {
         numOpenBugs, numBugs;
 

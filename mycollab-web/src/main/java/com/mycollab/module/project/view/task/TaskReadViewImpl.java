@@ -53,7 +53,6 @@ import com.vaadin.ui.themes.ValoTheme;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.vaadin.addons.stackpanel.StackPanel;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
@@ -105,7 +104,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
         }
 
         Panel detailPanel = new Panel(UserUIContext.getMessage(GenericI18Enum.OPT_DETAILS), detailLayout);
-        StackPanel.extend(detailPanel);
+        UIUtils.makeStackPanel(detailPanel);
         projectView.addComponentToRightBar(detailPanel);
     }
 

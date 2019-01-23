@@ -63,7 +63,6 @@ import com.vaadin.ui.Alignment;
 import com.vaadin.ui.UI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.vaadin.addons.stackpanel.StackPanel;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
@@ -243,11 +242,11 @@ public class TicketDashboardViewImpl extends AbstractVerticalPageView implements
         ProjectView rightBar = UIUtils.getRoot(this, ProjectView.class);
         UnresolvedTicketsByAssigneeWidget unresolvedTicketsByAssigneeWidget = new UnresolvedTicketsByAssigneeWidget();
         unresolvedTicketsByAssigneeWidget.setSearchCriteria(statisticSearchCriteria);
-        StackPanel.extend(unresolvedTicketsByAssigneeWidget);
+        UIUtils.makeStackPanel(unresolvedTicketsByAssigneeWidget);
 
         UnresolvedTicketByPriorityWidget unresolvedTicketByPriorityWidget = new UnresolvedTicketByPriorityWidget();
         unresolvedTicketByPriorityWidget.setSearchCriteria(statisticSearchCriteria);
-        StackPanel.extend(unresolvedTicketByPriorityWidget);
+        UIUtils.makeStackPanel(unresolvedTicketByPriorityWidget);
 
         rightBar.addComponentToRightBar(new MVerticalLayout(unresolvedTicketsByAssigneeWidget, unresolvedTicketByPriorityWidget).withMargin(false));
     }

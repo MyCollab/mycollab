@@ -100,7 +100,7 @@ public class BugReadPresenter extends ProjectGenericPresenter<BugReadView> {
             public void onPrint(Object source, SimpleBug data) {
                 PrintButton btn = (PrintButton) source;
                 btn.doPrint(data, new FormReportLayout(ProjectTypeConstants.BUG, BugWithBLOBs.Field.name.name(),
-                        BugDefaultFormLayoutFactory.getForm(), SimpleBug.Field.components.name(), SimpleBug.Field
+                        BugDefaultFormLayoutFactory.getReadForm(), SimpleBug.Field.components.name(), SimpleBug.Field
                         .affectedVersions.name(), SimpleBug.Field.fixedVersions.name(), BugWithBLOBs.Field.id.name(),
                         SimpleBug.Field.selected.name()));
             }

@@ -47,7 +47,6 @@ import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -73,7 +72,7 @@ public class BugEditForm extends AdvancedEditBeanForm<SimpleBug> {
         @Override
         public AbstractComponent getLayout() {
             MVerticalLayout layout = new MVerticalLayout();
-            formLayoutFactory = new DefaultDynaFormLayout(ProjectTypeConstants.BUG, BugDefaultFormLayoutFactory.getForm());
+            formLayoutFactory = new DefaultDynaFormLayout(ProjectTypeConstants.BUG, BugDefaultFormLayoutFactory.getAddForm());
             AbstractComponent gridLayout = formLayoutFactory.getLayout();
             gridLayout.addStyleName(WebThemes.SCROLLABLE_CONTAINER);
             gridLayout.addStyleName("window-max-height");

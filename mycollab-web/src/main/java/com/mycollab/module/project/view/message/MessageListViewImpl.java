@@ -82,7 +82,6 @@ public class MessageListViewImpl extends AbstractVerticalPageView implements Mes
         topMessagePanel = new TopMessagePanel();
         topMessagePanel.getSearchHandlers().addSearchHandler(criteria -> messageList.setSearchCriteria(criteria));
         messageList = new DefaultBeanPagedList<>(AppContextUtil.getSpringBean(MessageService.class), new MessageRowDisplayHandler());
-        messageList.setControlStyle("borderlessControl");
     }
 
     @Override

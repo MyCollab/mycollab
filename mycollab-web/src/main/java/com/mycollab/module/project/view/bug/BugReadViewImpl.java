@@ -55,7 +55,6 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.vaadin.addons.stackpanel.StackPanel;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
@@ -205,7 +204,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
         }
 
         Panel detailPanel = new Panel(UserUIContext.getMessage(GenericI18Enum.OPT_DETAILS), detailLayout);
-        StackPanel.extend(detailPanel);
+        UIUtils.makeStackPanel(detailPanel);
         projectView.addComponentToRightBar(detailPanel);
     }
 

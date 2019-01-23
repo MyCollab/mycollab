@@ -37,7 +37,6 @@ public class WebThemes {
     public static final String LINK_COMPLETED = "completed";
     public static final String LINK_OVERDUE = "overdue";
     public static final String LINK_PENDING = "pending";
-    public static final String STANDUP_ROW_CONTENT = "standup-row-content";
     public static final String MILESTONE_BOX = "milestone-box";
     public static final String MULTI_SELECT_BG = "multiselect";
     public static final String BTN_ACTIVE = "btn-group-default";
@@ -67,6 +66,8 @@ public class WebThemes {
     public static final String NO_SCROLLABLE_CONTAINER = "no-scrollable-container";
     public static final String BORDER_TOP = "border-top";
     public static final String BORDER_BOTTOM = "border-bottom";
+    public static final String BORDER_LEFT = "border-left";
+    public static final String BORDER = "border";
     public static final String BORDER_LIST = "border-list";
     public static final String BORDER_LIST_ROW = "row";
     public static final String HIDE_ELEMENT = "hide-element";

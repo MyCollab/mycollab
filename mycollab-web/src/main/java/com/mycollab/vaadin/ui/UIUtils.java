@@ -16,7 +16,9 @@
  */
 package com.mycollab.vaadin.ui;
 
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.ui.*;
+import org.vaadin.addons.stackpanel.StackPanel;
 
 import java.util.Collection;
 
@@ -58,10 +60,9 @@ public class UIUtils {
         return UI.getCurrent().getPage().getBrowserWindowHeight();
     }
 
-    public static void removeAllWindows() {
-        Collection<Window> windows = UI.getCurrent().getWindows();
-        for (Window window : windows) {
-            window.close();
-        }
+    public static void makeStackPanel(Panel panel) {
+        StackPanel stackPanel = StackPanel.extend(panel);
+        stackPanel.setToggleDownIcon(VaadinIcons.ANGLE_DOWN);
+        stackPanel.setToggleUpIcon(VaadinIcons.ANGLE_RIGHT);
     }
 }

@@ -63,9 +63,7 @@ class BugEditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<Sim
     @Override
     protected HasValue<?> onCreateField(final Object propertyId) {
         final SimpleBug beanItem = attachForm.getBean();
-        if (propertyId.equals("environment")) {
-            return new RichTextArea();
-        } else if (propertyId.equals("description")) {
+        if (BugWithBLOBs.Field.environment.equalTo(propertyId) || BugWithBLOBs.Field.description.equalTo(propertyId)) {
             return new RichTextArea();
         } else if (propertyId.equals("priority")) {
             return new PriorityComboBox();
@@ -78,7 +76,7 @@ class BugEditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<Sim
                 }
             });
             return field;
-        } else if (propertyId.equals("id")) {
+        } else if ("section-attachments".equals(propertyId)) {
             if (beanItem.getId() != null) {
                 String attachmentPath = AttachmentUtils.getProjectEntityAttachmentPath(AppUI.getAccountId(),
                         beanItem.getProjectid(), ProjectTypeConstants.BUG, "" + beanItem.getId());
@@ -105,7 +103,7 @@ class BugEditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<Sim
         } else if (BugWithBLOBs.Field.originalestimate.equalTo(propertyId) ||
                 (BugWithBLOBs.Field.remainestimate.equalTo(propertyId))) {
             return new DoubleField().withWidth(WebThemes.FORM_CONTROL_WIDTH);
-        } else if (propertyId.equals("selected")) {
+        } else if ("section-followers".equals(propertyId)) {
             return subscribersComp;
         } else if (BugWithBLOBs.Field.startdate.equalTo(propertyId) || BugWithBLOBs.Field.enddate.equalTo(propertyId)
                 || BugWithBLOBs.Field.duedate.equalTo(propertyId)) {

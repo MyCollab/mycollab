@@ -17,47 +17,30 @@ import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.web.ui.WebThemes;
-import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.VerticalLayout;
-import org.vaadin.viritin.layouts.MHorizontalLayout;
+import com.vaadin.ui.themes.ValoTheme;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 /**
  * @author MyCollab Ltd.
  * @since 4.0
  */
-public class StandupMissingComp extends MVerticalLayout {
+class StandupMissingComp extends MVerticalLayout {
     private static final long serialVersionUID = 5332956503787026253L;
 
-    private VerticalLayout bodyWrap;
-
-    StandupMissingComp() {
+    StandupMissingComp(Integer projectId, LocalDate date) {
         this.withSpacing(false).withMargin(false);
-        Label headerLbl = new Label(UserUIContext.getMessage(StandupI18nEnum.STANDUP_MEMBER_NOT_REPORT));
-        MHorizontalLayout header = new MHorizontalLayout().withMargin(new MarginInfo(false, true, false, true)).
-                withHeight("34px").withFullWidth().with(headerLbl).
-                withAlign(headerLbl, Alignment.MIDDLE_LEFT).withStyleName(WebThemes.PANEL_HEADER);
 
-        bodyWrap = new MVerticalLayout().withStyleName("panel-body");
-        this.with(header, bodyWrap).withFullWidth();
-    }
-
-    public void search(Integer projectId, LocalDate date) {
-        bodyWrap.removeAllComponents();
         StandupReportService standupReportService = AppContextUtil.getSpringBean(StandupReportService.class);
         List<SimpleUser> someGuys = standupReportService.findUsersNotDoReportYet(projectId, date, AppUI.getAccountId());
         if (someGuys.size() == 0) {
-            bodyWrap.addComponent(new Label(UserUIContext.getMessage(GenericI18Enum.EXT_NO_ITEM)));
+            //this.addComponent(new Label(UserUIContext.getMessage(GenericI18Enum.EXT_NO_ITEM)));
         } else {
-            for (SimpleUser user : someGuys) {
-                bodyWrap.addComponent(ELabel.html(buildMemberLink(projectId, user)));
-            }
+            with(new ELabel(UserUIContext.getMessage(StandupI18nEnum.STANDUP_MEMBER_NOT_REPORT)).withStyleName(ValoTheme.LABEL_H3));
+            someGuys.forEach(user -> this.with(ELabel.html(buildMemberLink(projectId, user))));
         }
     }
 
@@ -74,5 +57,4 @@ public class StandupMissingComp extends MVerticalLayout {
         div.appendChild(userAvatar, DivLessFormatter.EMPTY_SPACE, userLink);
         return div.write();
     }
-
 }

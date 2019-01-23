@@ -50,23 +50,21 @@ public class AboutWindow extends AbstractAboutWindow {
         this.setContent(content);
 
         Image about = new Image("", new ExternalResource(StorageUtils.generateAssetRelativeLink(WebResourceIds._about)));
+
         MVerticalLayout rightPanel = new MVerticalLayout();
-        ELabel versionLbl = ELabel.h2(String.format("MyCollab Community Edition %s", Version.getVersion()));
-        Label javaNameLbl = new Label(String.format("%s, %s", System.getProperty("java.vm.name"),
-                System.getProperty("java.runtime.version")));
+        ELabel versionLbl = ELabel.h2(String.format("MyCollab Community Edition %s", Version.getVersion())).withFullWidth();
+        ELabel javaNameLbl = new ELabel(String.format("%s, %s", System.getProperty("java.vm.name"),
+                System.getProperty("java.runtime.version"))).withFullWidth();
         Label homeFolderLbl = new Label("Home folder: " + FileUtils.getHomeFolder().getAbsolutePath());
         WebBrowser browser = Page.getCurrent().getWebBrowser();
-        Label osLbl = new Label(String.format("%s, %s", System.getProperty("os.name"),
-                browser.getBrowserApplication()));
-        osLbl.addStyleName(UIConstants.LABEL_WORD_WRAP);
+        ELabel osLbl = new ELabel(String.format("%s, %s", System.getProperty("os.name"), browser.getBrowserApplication())).withFullWidth();
         Div licenseDiv = new Div().appendChild(new Text("Powered by: "))
                 .appendChild(new A("https://www.mycollab.com")
                         .appendText("MyCollab")).appendChild(new Text(". Open source under GPL license"));
-        Label licenseLbl = ELabel.html(licenseDiv.write());
+        ELabel licenseLbl = ELabel.html(licenseDiv.write()).withFullWidth();
         Label copyRightLbl = ELabel.html(String.format("&copy; %s - %s MyCollab Ltd. All rights reserved", "2011",
-                LocalDate.now().getYear() + ""));
-        rightPanel.with(versionLbl, javaNameLbl, osLbl, homeFolderLbl, licenseLbl, copyRightLbl)
-                .withAlign(copyRightLbl, Alignment.BOTTOM_LEFT);
+                LocalDate.now().getYear() + "")).withFullWidth();
+        rightPanel.with(versionLbl, javaNameLbl, osLbl, homeFolderLbl, licenseLbl, copyRightLbl).withAlign(copyRightLbl, Alignment.BOTTOM_LEFT);
         content.with(about, rightPanel).expand(rightPanel);
     }
 }
