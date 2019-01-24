@@ -19,15 +19,13 @@ package com.mycollab.module.project.view.page;
 import com.google.common.collect.Ordering;
 import com.hp.gagawa.java.elements.A;
 import com.mycollab.common.i18n.GenericI18Enum;
+import com.mycollab.core.utils.DateTimeUtils;
 import com.mycollab.core.utils.StringUtils;
 import com.mycollab.module.page.domain.Folder;
 import com.mycollab.module.page.domain.Page;
 import com.mycollab.module.page.domain.PageResource;
 import com.mycollab.module.page.service.PageService;
-import com.mycollab.module.project.CurrentProjectVariables;
-import com.mycollab.module.project.ProjectLinkGenerator;
-import com.mycollab.module.project.ProjectRolePermissionCollections;
-import com.mycollab.module.project.ProjectTypeConstants;
+import com.mycollab.module.project.*;
 import com.mycollab.module.project.event.PageEvent;
 import com.mycollab.module.project.i18n.PageI18nEnum;
 import com.mycollab.module.project.ui.components.ComponentUtils;
@@ -40,6 +38,7 @@ import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.HeaderWithIcon;
 import com.mycollab.vaadin.ui.SafeHtmlLabel;
+import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.web.ui.ButtonGroup;
 import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.mycollab.vaadin.web.ui.SortButton;
@@ -61,7 +60,6 @@ import java.util.List;
  * @author MyCollab Ltd.
  * @since 4.4.0
  */
-// TODO
 @ViewComponent
 public class PageListViewImpl extends AbstractVerticalPageView implements PageListView {
     private static final long serialVersionUID = 1L;
@@ -198,17 +196,17 @@ public class PageListViewImpl extends AbstractVerticalPageView implements PageLi
             container.addComponent(new Label(StringUtils.trimHtmlTags(resource.getDescription())));
         }
 
-//        Label lastUpdateInfo = new ELabel(UserUIContext.getMessage(PageI18nEnum.LABEL_LAST_UPDATE,
-//                ProjectLinkBuilder.generateProjectMemberHtmlLink(CurrentProjectVariables.getProjectId(), resource.getCreatedUser(), true),
-//                UserUIContext.formatPrettyTime(resource.getCreatedTime()
-//                        .getTime())), ContentMode.HTML).withDescription(UserUIContext.formatDateTime(resource.getCreatedTime().getTime()));
-//        lastUpdateInfo.addStyleName(UIConstants.META_INFO);
-//        container.addComponent(lastUpdateInfo);
+        Label lastUpdateInfo = ELabel.html(UserUIContext.getMessage(PageI18nEnum.LABEL_LAST_UPDATE,
+                ProjectLinkBuilder.generateProjectMemberHtmlLink(CurrentProjectVariables.getProjectId(), resource.getCreatedUser(), true),
+                UserUIContext.formatPrettyTime(DateTimeUtils.toLocalDateTime(resource.getCreatedTime()))))
+                .withDescription(UserUIContext.formatDateTime(DateTimeUtils.toLocalDateTime(resource.getCreatedTime())))
+                .withStyleName(UIConstants.META_INFO);
+        container.addComponent(lastUpdateInfo);
 
         MButton editBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_EDIT),
                 clickEvent -> UI.getCurrent().addWindow(new GroupPageAddWindow(resource)))
-                .withStyleName(WebThemes.BUTTON_LINK, WebThemes.BUTTON_SMALL_PADDING).withIcon(VaadinIcons.EDIT);
-        editBtn.setVisible(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.PAGES));
+                .withStyleName(WebThemes.BUTTON_LINK, WebThemes.BUTTON_SMALL_PADDING).withIcon(VaadinIcons.EDIT)
+                .withVisible(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.PAGES));
 
         MButton deleteBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_DELETE), clickEvent -> ConfirmDialogExt.show(UI.getCurrent(),
                 UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppUI.getSiteName()),
@@ -222,8 +220,8 @@ public class PageListViewImpl extends AbstractVerticalPageView implements PageLi
                         resources.remove(resource);
                         displayPages(resources);
                     }
-                })).withIcon(VaadinIcons.TRASH).withStyleName(WebThemes.BUTTON_LINK, WebThemes.BUTTON_SMALL_PADDING);
-        deleteBtn.setVisible(CurrentProjectVariables.canAccess(ProjectRolePermissionCollections.PAGES));
+                })).withIcon(VaadinIcons.TRASH).withStyleName(WebThemes.BUTTON_LINK, WebThemes.BUTTON_SMALL_PADDING)
+                .withVisible(CurrentProjectVariables.canAccess(ProjectRolePermissionCollections.PAGES));
 
         container.addComponent(new MHorizontalLayout(editBtn, deleteBtn));
         return container;
@@ -237,18 +235,18 @@ public class PageListViewImpl extends AbstractVerticalPageView implements PageLi
 
         container.with(pageLink, new SafeHtmlLabel(resource.getContent(), 400));
 
-//        Label lastUpdateInfo = new ELabel(UserUIContext.getMessage(
-//                PageI18nEnum.LABEL_LAST_UPDATE, ProjectLinkBuilder.generateProjectMemberHtmlLink(
-//                        CurrentProjectVariables.getProjectId(), resource.getLastUpdatedUser(), true),
-//                UserUIContext.formatPrettyTime(resource.getLastUpdatedTime())), ContentMode.HTML)
-//                .withDescription(UserUIContext.formatDateTime(resource.getLastUpdatedTime()));
-//        lastUpdateInfo.addStyleName(UIConstants.META_INFO);
-//        container.addComponent(lastUpdateInfo);
+        Label lastUpdateInfo = ELabel.html(UserUIContext.getMessage(
+                PageI18nEnum.LABEL_LAST_UPDATE, ProjectLinkBuilder.generateProjectMemberHtmlLink(
+                        CurrentProjectVariables.getProjectId(), resource.getLastUpdatedUser(), true),
+                UserUIContext.formatPrettyTime(DateTimeUtils.toLocalDateTime(resource.getLastUpdatedTime()))))
+                .withDescription(UserUIContext.formatDateTime(DateTimeUtils.toLocalDateTime(resource.getLastUpdatedTime())))
+                .withStyleName(UIConstants.META_INFO);
+        container.addComponent(lastUpdateInfo);
 
         MButton editBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_EDIT),
                 clickEvent -> EventBusFactory.getInstance().post(new PageEvent.GotoEdit(PageListViewImpl.this, resource)))
-                .withIcon(VaadinIcons.EDIT).withStyleName(WebThemes.BUTTON_LINK, WebThemes.BUTTON_SMALL_PADDING);
-        editBtn.setVisible(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.PAGES));
+                .withIcon(VaadinIcons.EDIT).withStyleName(WebThemes.BUTTON_LINK, WebThemes.BUTTON_SMALL_PADDING)
+                .withVisible(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.PAGES));
 
         MButton deleteBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_DELETE), clickEvent -> {
             ConfirmDialogExt.show(UI.getCurrent(),
@@ -264,8 +262,8 @@ public class PageListViewImpl extends AbstractVerticalPageView implements PageLi
                             displayPages(resources);
                         }
                     });
-        }).withIcon(VaadinIcons.TRASH).withStyleName(WebThemes.BUTTON_LINK, WebThemes.BUTTON_SMALL_PADDING);
-        deleteBtn.setVisible(CurrentProjectVariables.canAccess(ProjectRolePermissionCollections.PAGES));
+        }).withIcon(VaadinIcons.TRASH).withStyleName(WebThemes.BUTTON_LINK, WebThemes.BUTTON_SMALL_PADDING)
+                .withVisible(CurrentProjectVariables.canAccess(ProjectRolePermissionCollections.PAGES));
 
         container.addComponent(new MHorizontalLayout(editBtn, deleteBtn));
         return container;

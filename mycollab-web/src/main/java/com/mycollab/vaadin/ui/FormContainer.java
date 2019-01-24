@@ -31,8 +31,10 @@ public class FormContainer extends MVerticalLayout {
         this.setDefaultComponentAlignment(Alignment.TOP_CENTER);
     }
 
-    public void addSection(String sectionName, ComponentContainer container) {
-        this.addSection(new MCssLayout(new Label(sectionName)), container);
+    public FormSection addSection(String sectionName, ComponentContainer container) {
+        FormSection formSection = new FormSection(sectionName, container);
+        this.addComponent(formSection);
+        return formSection;
     }
 
     public void addSection(Component sectionHeader, ComponentContainer container) {

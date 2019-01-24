@@ -14,17 +14,17 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http:></http:>//www.gnu.org/licenses/>.
  */
-package com.mycollab.module.ecm.service.impl
+package com.mycollab.common.service.impl
 
+import com.mycollab.common.dao.DriveInfoMapper
+import com.mycollab.common.domain.DriveInfo
+import com.mycollab.common.domain.DriveInfoExample
+import com.mycollab.common.service.DriveInfoService
+import com.mycollab.concurrent.DistributionLockUtil
 import com.mycollab.core.cache.CacheKey
 import com.mycollab.core.utils.BeanUtility
 import com.mycollab.db.persistence.ICrudGenericDAO
 import com.mycollab.db.persistence.service.DefaultCrudService
-import com.mycollab.concurrent.DistributionLockUtil
-import com.mycollab.module.ecm.dao.DriveInfoMapper
-import com.mycollab.module.ecm.domain.DriveInfo
-import com.mycollab.module.ecm.domain.DriveInfoExample
-import com.mycollab.module.ecm.service.DriveInfoService
 import org.apache.commons.collections.CollectionUtils
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service

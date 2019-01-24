@@ -75,9 +75,7 @@ public class VersionAddPresenter extends AbstractPresenter<VersionAddView> {
 
     private void save(Version item) {
         VersionService versionService = AppContextUtil.getSpringBean(VersionService.class);
-        item.setSaccountid(AppUI.getAccountId());
-        item.setProjectid(CurrentProjectVariables.getProjectId());
-        item.setStatus(StatusI18nEnum.Open.name());
+
         if (item.getId() == null) {
             versionService.saveWithSession(item, UserUIContext.getUsername());
         } else {
@@ -91,14 +89,17 @@ public class VersionAddPresenter extends AbstractPresenter<VersionAddView> {
             ProjectView projectView = (ProjectView) container;
             projectView.gotoSubView(ProjectView.VERSION_ENTRY, view);
             Version version = (Version) data.getParams();
-            view.editItem(version);
 
             ProjectBreadcrumb breadcrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);
             if (version.getId() == null) {
+                version.setSaccountid(AppUI.getAccountId());
+                version.setProjectid(CurrentProjectVariables.getProjectId());
+                version.setStatus(StatusI18nEnum.Open.name());
                 breadcrumb.gotoVersionAdd();
             } else {
                 breadcrumb.gotoVersionEdit(version);
             }
+            view.editItem(version);
         } else {
             NotificationUtil.showMessagePermissionAlert();
         }

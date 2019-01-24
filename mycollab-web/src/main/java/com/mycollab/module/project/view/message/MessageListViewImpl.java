@@ -20,9 +20,9 @@ import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Text;
 import com.mycollab.common.i18n.ErrorI18nEnum;
 import com.mycollab.common.i18n.GenericI18Enum;
-import com.mycollab.db.arguments.SearchCriteria;
 import com.mycollab.db.arguments.SetSearchField;
 import com.mycollab.db.arguments.StringSearchField;
+import com.mycollab.form.view.LayoutType;
 import com.mycollab.module.ecm.domain.Content;
 import com.mycollab.module.ecm.service.ResourceService;
 import com.mycollab.module.file.AttachmentUtils;
@@ -36,18 +36,18 @@ import com.mycollab.module.project.domain.criteria.MessageSearchCriteria;
 import com.mycollab.module.project.i18n.MessageI18nEnum;
 import com.mycollab.module.project.service.MessageService;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
+import com.mycollab.module.project.ui.components.ComponentUtils;
 import com.mycollab.module.project.ui.components.ProjectListNoItemView;
 import com.mycollab.module.project.ui.components.ProjectMemberBlock;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.UserUIContext;
-import com.mycollab.vaadin.event.HasEditFormHandlers;
 import com.mycollab.vaadin.event.HasSearchHandlers;
-import com.mycollab.vaadin.event.IEditFormHandler;
 import com.mycollab.vaadin.mvp.AbstractVerticalPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.*;
 import com.mycollab.vaadin.web.ui.*;
+import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.shared.ui.MarginInfo;
@@ -58,51 +58,27 @@ import org.vaadin.viritin.fields.MTextField;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * @author MyCollab Ltd.
  * @since 1.0
  */
 @ViewComponent
-public class MessageListViewImpl extends AbstractVerticalPageView implements MessageListView, HasEditFormHandlers<Message> {
+public class MessageListViewImpl extends AbstractVerticalPageView implements MessageListView {
     private static final long serialVersionUID = 8433776359091397422L;
 
+    private MVerticalLayout bodyLayout;
     private DefaultBeanPagedList<MessageService, MessageSearchCriteria, SimpleMessage> messageList;
-    private Set<IEditFormHandler<Message>> editFormHandlers;
+    private MessageSearchPanel searchPanel;
     private MessageSearchCriteria searchCriteria;
-    private TopMessagePanel topMessagePanel;
-    private boolean isEmpty;
+    private boolean isAddingMessage = false;
 
     public MessageListViewImpl() {
         this.withSpacing(true).withMargin(true).withFullWidth();
-
-        topMessagePanel = new TopMessagePanel();
-        topMessagePanel.getSearchHandlers().addSearchHandler(criteria -> messageList.setSearchCriteria(criteria));
+        searchPanel = new MessageSearchPanel();
         messageList = new DefaultBeanPagedList<>(AppContextUtil.getSpringBean(MessageService.class), new MessageRowDisplayHandler());
-    }
-
-    @Override
-    public void addFormHandler(final IEditFormHandler<Message> handler) {
-        if (editFormHandlers == null) {
-            editFormHandlers = new HashSet<>();
-        }
-        editFormHandlers.add(handler);
-    }
-
-    private void fireSaveItem(final Message message) {
-        if (editFormHandlers != null) {
-            for (IEditFormHandler<Message> handler : editFormHandlers) {
-                handler.onSave(message);
-            }
-        }
-    }
-
-    @Override
-    public HasEditFormHandlers<Message> getEditFormHandlers() {
-        return this;
+        bodyLayout = new MVerticalLayout(messageList).withSpacing(false).withMargin(false);
     }
 
     @Override
@@ -112,16 +88,12 @@ public class MessageListViewImpl extends AbstractVerticalPageView implements Mes
         MessageService messageService = AppContextUtil.getSpringBean(MessageService.class);
         int totalCount = messageService.getTotalCount(searchCriteria);
 
-        this.isEmpty = !(totalCount > 0);
-        topMessagePanel.createBasicLayout();
-        this.with(topMessagePanel);
-
-        if (this.isEmpty) {
+        if (totalCount == 0) {
             MessageListNoItemView messageListNoItemView = new MessageListNoItemView();
             with(messageListNoItemView).expand(messageListNoItemView);
         } else {
             messageList.setSearchCriteria(searchCriteria);
-            with(messageList).expand(messageList);
+            with(searchPanel, bodyLayout).expand(bodyLayout);
         }
     }
 
@@ -145,10 +117,10 @@ public class MessageListViewImpl extends AbstractVerticalPageView implements Mes
 
             MHorizontalLayout messageHeader = new MHorizontalLayout().withMargin(false);
             messageHeader.setDefaultComponentAlignment(Alignment.TOP_LEFT);
+
             CssLayout leftHeader = new CssLayout();
             leftHeader.addComponent(ELabel.h3(labelLink.write()));
-            ELabel timePostLbl = new ELabel().prettyDateTime(message.getCreatedtime());
-            timePostLbl.setStyleName(UIConstants.META_INFO);
+            ELabel timePostLbl = new ELabel().prettyDateTime(message.getCreatedtime()).withStyleName(UIConstants.META_INFO);
 
             MButton deleteBtn = new MButton("", clickEvent -> ConfirmDialogExt.show(UI.getCurrent(),
                     UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppUI.getSiteName()),
@@ -164,9 +136,7 @@ public class MessageListViewImpl extends AbstractVerticalPageView implements Mes
                     })).withIcon(VaadinIcons.TRASH).withStyleName(WebThemes.BUTTON_ICON_ONLY);
             deleteBtn.setVisible(CurrentProjectVariables.canAccess(ProjectRolePermissionCollections.MESSAGES));
 
-            MHorizontalLayout rightHeader = new MHorizontalLayout();
-            rightHeader.setDefaultComponentAlignment(Alignment.MIDDLE_RIGHT);
-            rightHeader.with(timePostLbl, deleteBtn);
+            MHorizontalLayout rightHeader = new MHorizontalLayout(timePostLbl, deleteBtn).alignAll(Alignment.MIDDLE_RIGHT);
 
             messageHeader.with(leftHeader, rightHeader).expand(leftHeader);
 
@@ -200,8 +170,7 @@ public class MessageListViewImpl extends AbstractVerticalPageView implements Mes
             }
 
             if (notification.getComponentCount() > 0) {
-                MVerticalLayout messageFooter = new MVerticalLayout().withSpacing(false).withFullWidth()
-                        .with(notification).withAlign(notification, Alignment.MIDDLE_RIGHT);
+                MVerticalLayout messageFooter = new MVerticalLayout(notification).withSpacing(false).withFullWidth().withAlign(notification, Alignment.MIDDLE_RIGHT);
                 rowLayout.addComponent(messageFooter);
             }
 
@@ -210,11 +179,22 @@ public class MessageListViewImpl extends AbstractVerticalPageView implements Mes
         }
     }
 
-    private static class MessageSearchPanel extends DefaultGenericSearchPanel<MessageSearchCriteria> {
+    private class MessageSearchPanel extends DefaultGenericSearchPanel<MessageSearchCriteria> {
         private TextField nameField;
 
-        MessageSearchPanel() {
-            createBasicSearchLayout();
+        @Override
+        protected HeaderWithIcon buildSearchTitle() {
+            return ComponentUtils.headerH2(ProjectTypeConstants.MESSAGE, UserUIContext.getMessage(MessageI18nEnum.LIST));
+        }
+
+        @Override
+        protected Component buildExtraControls() {
+            return new MButton(UserUIContext.getMessage(MessageI18nEnum.NEW),
+                    clickEvent -> {
+                        if (!isAddingMessage) createAddMessageLayout();
+                    })
+                    .withIcon(VaadinIcons.PLUS).withStyleName(WebThemes.BUTTON_ACTION)
+                    .withVisible(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.MESSAGES));
         }
 
         @Override
@@ -228,8 +208,7 @@ public class MessageListViewImpl extends AbstractVerticalPageView implements Mes
                     MButton searchBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_SEARCH), clickEvent -> callSearchAction())
                             .withStyleName(WebThemes.BUTTON_ACTION).withIcon(VaadinIcons.SEARCH)
                             .withClickShortcut(ShortcutAction.KeyCode.ENTER);
-                    return new MHorizontalLayout(nameField, searchBtn).withMargin(true)
-                            .withAlign(nameField, Alignment.MIDDLE_LEFT);
+                    return new MHorizontalLayout(nameField, searchBtn).withMargin(true).withAlign(nameField, Alignment.MIDDLE_LEFT);
                 }
 
                 @Override
@@ -243,97 +222,67 @@ public class MessageListViewImpl extends AbstractVerticalPageView implements Mes
         }
     }
 
-    private final class TopMessagePanel extends MVerticalLayout {
-        private static final long serialVersionUID = 1L;
-        private MessageSearchPanel messageSearchPanel;
-        private MHorizontalLayout messagePanelBody;
+    private void createAddMessageLayout() {
+        isAddingMessage = true;
+        MVerticalLayout newMessageLayout = new MVerticalLayout().withWidth("800px");
 
-        TopMessagePanel() {
-            this.withFullWidth().withStyleName(WebThemes.BOX);
-            messagePanelBody = new MHorizontalLayout().withSpacing(false).withFullWidth();
-            messagePanelBody.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
+        GridFormLayoutHelper gridFormLayoutHelper = GridFormLayoutHelper.defaultFormLayoutHelper(LayoutType.ONE_COLUMN);
+        TextField titleField = new MTextField().withFullWidth().withRequiredIndicatorVisible(true);
+        gridFormLayoutHelper.addComponent(titleField, UserUIContext.getMessage(MessageI18nEnum.FORM_TITLE), 0, 0);
 
-            messageSearchPanel = new MessageSearchPanel();
-            messageSearchPanel.setWidth("400px");
-            this.addComponent(messagePanelBody);
+        final RichTextArea descField = new RichTextArea();
+        descField.setWidth("100%");
+        descField.setHeight("200px");
+        gridFormLayoutHelper.addComponent(descField, UserUIContext.getMessage(GenericI18Enum.FORM_DESCRIPTION), 0, 1);
+        newMessageLayout.with(gridFormLayoutHelper.getLayout());
 
-            this.createBasicLayout();
-        }
+        final AttachmentPanel attachmentPanel = new AttachmentPanel();
+        final CheckBox chkIsStick = new CheckBox(UserUIContext.getMessage(MessageI18nEnum.FORM_IS_STICK));
 
-        private void createAddMessageLayout() {
-            messagePanelBody.removeAllComponents();
-            MVerticalLayout newMessageLayout = new MVerticalLayout().withWidth("800px");
+        MButton cancelBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
+                clickEvent -> {
+                    bodyLayout.removeComponent(newMessageLayout);
+                    isAddingMessage = false;
+                })
+                .withStyleName(WebThemes.BUTTON_OPTION);
 
-            Label titleLbl = new Label(UserUIContext.getMessage(MessageI18nEnum.FORM_TITLE));
-            final TextField titleField = new MTextField().withFullWidth().withRequiredIndicatorVisible(true);
+        MButton saveBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_POST), clickEvent -> {
+            Message message = new Message();
+            message.setProjectid(CurrentProjectVariables.getProjectId());
+            if (!titleField.getValue().trim().equals("")) {
+                message.setTitle(titleField.getValue());
+                message.setMessage(descField.getValue());
+                message.setCreateduser(UserUIContext.getUsername());
+                message.setSaccountid(AppUI.getAccountId());
+                message.setIsstick(chkIsStick.getValue());
+                MessageService messageService = AppContextUtil.getSpringBean(MessageService.class);
+                messageService.saveWithSession(message, UserUIContext.getUsername());
+                bodyLayout.removeComponent(newMessageLayout);
+                isAddingMessage = false;
 
-            MHorizontalLayout titleLayout = new MHorizontalLayout(titleLbl, titleField).expand(titleField).withFullWidth();
+                searchPanel.notifySearchHandler(searchCriteria);
 
-            final RichTextArea descField = new RichTextArea();
-            descField.setWidth("100%");
-            descField.setHeight("200px");
 
-            newMessageLayout.with(titleLayout, descField).withAlign(titleLayout, Alignment.MIDDLE_LEFT)
-                    .withAlign(descField, Alignment.MIDDLE_CENTER).expand(descField);
-
-            final AttachmentPanel attachments = new AttachmentPanel();
-            final CheckBox chkIsStick = new CheckBox(UserUIContext.getMessage(MessageI18nEnum.FORM_IS_STICK));
-
-            MButton cancelBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
-                    clickEvent -> MessageListViewImpl.this.setCriteria(searchCriteria))
-                    .withStyleName(WebThemes.BUTTON_OPTION);
-
-            MButton saveBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_POST), clickEvent -> {
-                Message message = new Message();
-                message.setProjectid(CurrentProjectVariables.getProjectId());
-                if (!titleField.getValue().trim().equals("")) {
-                    message.setTitle(titleField.getValue());
-                    message.setMessage(descField.getValue());
-                    message.setCreateduser(UserUIContext.getUsername());
-                    message.setSaccountid(AppUI.getAccountId());
-                    message.setIsstick(chkIsStick.getValue());
-                    MessageListViewImpl.this.fireSaveItem(message);
-
-                    String attachmentPath = AttachmentUtils.getProjectEntityAttachmentPath(
-                            AppUI.getAccountId(), message.getProjectid(),
-                            ProjectTypeConstants.MESSAGE, "" + message.getId());
-                    attachments.saveContentsToRepo(attachmentPath);
-                } else {
-                    titleField.addStyleName("errorField");
-                    NotificationUtil.showErrorNotification(UserUIContext.getMessage(ErrorI18nEnum.FIELD_MUST_NOT_NULL,
-                            UserUIContext.getMessage(MessageI18nEnum.FORM_TITLE)));
-                }
-            }).withIcon(VaadinIcons.CLIPBOARD).withStyleName(WebThemes.BUTTON_ACTION);
-
-            MHorizontalLayout controls = new MHorizontalLayout(chkIsStick, cancelBtn, saveBtn).alignAll(Alignment.MIDDLE_CENTER);
-            newMessageLayout.with(attachments, controls).withAlign(controls, Alignment.MIDDLE_RIGHT);
-            messagePanelBody.addComponent(newMessageLayout);
-        }
-
-        void createBasicLayout() {
-            messagePanelBody.removeAllComponents();
-            messagePanelBody.addComponent(messageSearchPanel);
-
-            if (!isEmpty) {
-                MButton createMessageBtn = new MButton(UserUIContext.getMessage(MessageI18nEnum.NEW),
-                        clickEvent -> createAddMessageLayout())
-                        .withIcon(VaadinIcons.PLUS).withStyleName(WebThemes.BUTTON_ACTION)
-                        .withVisible(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.MESSAGES));
-
-                messagePanelBody.addComponent(createMessageBtn);
-                messagePanelBody.setComponentAlignment(createMessageBtn, Alignment.MIDDLE_RIGHT);
+                String attachmentPath = AttachmentUtils.getProjectEntityAttachmentPath(
+                        AppUI.getAccountId(), message.getProjectid(),
+                        ProjectTypeConstants.MESSAGE, "" + message.getId());
+                attachmentPanel.saveContentsToRepo(attachmentPath);
+            } else {
+                titleField.addStyleName("errorField");
+                NotificationUtil.showErrorNotification(UserUIContext.getMessage(ErrorI18nEnum.FIELD_MUST_NOT_NULL,
+                        UserUIContext.getMessage(MessageI18nEnum.FORM_TITLE)));
             }
-        }
+        }).withIcon(VaadinIcons.CLIPBOARD).withStyleName(WebThemes.BUTTON_ACTION);
 
-        public HasSearchHandlers<MessageSearchCriteria> getSearchHandlers() {
-            return messageSearchPanel;
-        }
+        MHorizontalLayout controlLayout = new MHorizontalLayout(chkIsStick, cancelBtn, saveBtn).alignAll(Alignment.MIDDLE_CENTER);
+        newMessageLayout.with(attachmentPanel, controlLayout).withAlign(controlLayout, Alignment.MIDDLE_RIGHT);
+
+        bodyLayout.addComponent(newMessageLayout, 0);
     }
 
-    private void createAddMessageLayout() {
-        removeAllComponents();
-        topMessagePanel.createAddMessageLayout();
-        addComponent(topMessagePanel);
+    @Override
+    public HasSearchHandlers<MessageSearchCriteria> getSearchHandlers() {
+        return this.searchPanel;
     }
 
     private class MessageListNoItemView extends ProjectListNoItemView {

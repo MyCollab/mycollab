@@ -59,7 +59,11 @@ public abstract class AbstractPreviewItemComp<B> extends AbstractVerticalPageVie
     private MButton favoriteBtn;
 
     public AbstractPreviewItemComp(String headerText, VaadinIcons iconResource) {
-        this(headerText, iconResource, null, false);
+        this(headerText, iconResource, false);
+    }
+
+    public AbstractPreviewItemComp(String headerText, VaadinIcons iconResource, boolean isDisplaySideBar) {
+        this(headerText, iconResource, null, isDisplaySideBar);
     }
 
     public AbstractPreviewItemComp(String headerText, VaadinIcons iconResource, ReadViewLayout layout, boolean isDisplaySideBar) {
@@ -112,7 +116,7 @@ public abstract class AbstractPreviewItemComp<B> extends AbstractVerticalPageVie
 
             bodyContent = new MVerticalLayout(previewForm).withSpacing(false).withMargin(false).withFullSize().withId("bodyContent");
             bodyContainer.setContent(bodyContent);
-            sidebarContent = new MVerticalLayout().withWidth("250px").withStyleName("readview-sidebar");
+            sidebarContent = new MVerticalLayout().withWidth("250px").withFullHeight().withStyleName("readview-sidebar");
             bodyContainer.setSidebar(sidebarContent);
             previewLayout.addBody(bodyContainer);
         } else {

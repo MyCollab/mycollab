@@ -16,6 +16,8 @@
  */
 package com.mycollab.module.project.view.settings;
 
+import com.mycollab.common.i18n.OptionI18nEnum;
+import com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectRolePermissionCollections;
 import com.mycollab.module.project.domain.SimpleProject;
@@ -76,11 +78,6 @@ public class ComponentAddPresenter extends AbstractPresenter<ComponentAddView> {
     private void save(Component item) {
         ComponentService componentService = AppContextUtil.getSpringBean(ComponentService.class);
 
-        SimpleProject project = CurrentProjectVariables.getProject();
-        item.setSaccountid(AppUI.getAccountId());
-        item.setProjectid(project.getId());
-        item.setStatus("Open");
-
         if (item.getId() == null) {
             item.setCreateduser(UserUIContext.getUsername());
             componentService.saveWithSession(item, UserUIContext.getUsername());
@@ -96,15 +93,17 @@ public class ComponentAddPresenter extends AbstractPresenter<ComponentAddView> {
             projectView.gotoSubView(ProjectView.COMPONENT_ENTRY, view);
 
             Component component = (Component) data.getParams();
-            view.editItem(component);
-
             ProjectBreadcrumb breadcrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);
 
             if (component.getId() == null) {
+                component.setSaccountid(AppUI.getAccountId());
+                component.setProjectid(CurrentProjectVariables.getProject().getId());
+                component.setStatus(StatusI18nEnum.Open.name());
                 breadcrumb.gotoComponentAdd();
             } else {
                 breadcrumb.gotoComponentEdit(component);
             }
+            view.editItem(component);
         } else {
             NotificationUtil.showMessagePermissionAlert();
         }

@@ -19,7 +19,9 @@ package com.mycollab.module.user.dao
 import com.mycollab.db.persistence.ISearchableDAO
 import com.mycollab.module.user.domain.SimpleRole
 import com.mycollab.module.user.domain.criteria.RoleSearchCriteria
+import org.apache.ibatis.annotations.Mapper
 
+@Mapper
 interface RoleMapperExt : ISearchableDAO<RoleSearchCriteria> {
     fun findById(roleId: Int): SimpleRole?
 }

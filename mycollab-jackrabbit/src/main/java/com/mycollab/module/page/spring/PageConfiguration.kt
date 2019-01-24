@@ -43,7 +43,7 @@ class PageConfiguration {
     fun pageRepository(): RepositoryFactoryBean {
         val bean = RepositoryFactoryBean()
         bean.configuration = ClassPathResource("wiki-repo.xml")
-        bean.homeDir = FileSystemResource("repo2/wiki-workspace")
+        bean.homeDir = FileSystemResource("repo2/wiki-workspaces")
         return bean
     }
 

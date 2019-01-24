@@ -40,7 +40,7 @@ public class RightSidebarLayout extends MHorizontalLayout {
 
         contentWrap = new MCssLayout().withStyleName("content-wrap").withFullSize();
 
-        sidebarWrap = new MCssLayout().withStyleName("sidebar-wrap").withWidth("280px");
+        sidebarWrap = new MCssLayout().withStyleName("sidebar-wrap").withWidth("280px").withFullHeight();
         this.with(contentWrap, sidebarWrap).expand(contentWrap);
     }
 

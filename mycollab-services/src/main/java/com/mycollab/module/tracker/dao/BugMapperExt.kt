@@ -20,12 +20,14 @@ import com.mycollab.common.domain.GroupItem
 import com.mycollab.db.persistence.ISearchableDAO
 import com.mycollab.module.tracker.domain.SimpleBug
 import com.mycollab.module.tracker.domain.criteria.BugSearchCriteria
+import org.apache.ibatis.annotations.Mapper
 import org.apache.ibatis.annotations.Param
 
 /**
  * @author MyCollab Ltd.
  * @since 1.0
  */
+@Mapper
 interface BugMapperExt : ISearchableDAO<BugSearchCriteria> {
 
     fun getBugById(bugId: Int): SimpleBug?

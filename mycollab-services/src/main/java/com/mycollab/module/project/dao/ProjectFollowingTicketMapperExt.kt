@@ -18,9 +18,11 @@ package com.mycollab.module.project.dao
 
 import com.mycollab.db.persistence.ISearchableDAO
 import com.mycollab.module.project.domain.criteria.FollowingTicketSearchCriteria
+import org.apache.ibatis.annotations.Mapper
 
 /**
  * @author MyCollab Ltd
  * @since 1.0.0
  */
+@Mapper
 interface ProjectFollowingTicketMapperExt : ISearchableDAO<FollowingTicketSearchCriteria>

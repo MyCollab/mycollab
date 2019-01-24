@@ -28,7 +28,7 @@ internal class PageReportStreamSource(private val page: Page?) : ReportStreamSou
 
     override fun initReportParameters(parameters: MutableMap<String, Any>) {
         if (page != null) {
-            parameters.put("bean", page)
+            parameters["bean"] = page
         } else {
             throw MyCollabException("Bean must be not null")
         }

@@ -20,6 +20,7 @@ import com.mycollab.db.persistence.ISearchableDAO
 import com.mycollab.module.project.domain.SimpleProjectMember
 import com.mycollab.module.project.domain.criteria.ProjectMemberSearchCriteria
 import com.mycollab.module.user.domain.SimpleUser
+import org.apache.ibatis.annotations.Mapper
 import org.apache.ibatis.annotations.Param
 import java.time.LocalDate
 
@@ -29,6 +30,7 @@ import java.util.Date
  * @author MyCollab Ltd.
  * @since 1.0
  */
+@Mapper
 interface ProjectMemberMapperExt : ISearchableDAO<ProjectMemberSearchCriteria> {
     fun findMemberById(memberId: Int): SimpleProjectMember
 

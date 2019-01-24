@@ -180,6 +180,15 @@ public class DateTimeUtils {
         return String.valueOf(LocalDate.now().getYear());
     }
 
+    /**
+     * Return miliseconds from UTC timezone, 1970
+     *
+     * @return
+     */
+    public static long toMilliseconds(LocalDate date) {
+        return date.atStartOfDay(ZoneId.of("UTC")).toEpochSecond() * 1000;
+    }
+
     public static LocalDateTime toLocalDateTime(Calendar calendar) {
         if (calendar == null) {
             return null;

@@ -37,20 +37,16 @@ public class PageFormLayoutFactory extends AbstractFormLayoutFactory {
 
     @Override
     public AbstractComponent getLayout() {
-        final VerticalLayout layout = new VerticalLayout();
-
-        informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(LayoutType.TWO_COLUMN);
-        layout.addComponent(informationLayout.getLayout());
-        layout.setComponentAlignment(informationLayout.getLayout(), Alignment.BOTTOM_CENTER);
-        return layout;
+        informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(LayoutType.ONE_COLUMN);
+        return informationLayout.getLayout();
     }
 
     @Override
     protected HasValue<?> onAttachField(Object propertyId, HasValue<?> field) {
         if (propertyId.equals("subject")) {
-            return informationLayout.addComponent(field, UserUIContext.getMessage(PageI18nEnum.FORM_SUBJECT), 0, 0, 2);
+            return informationLayout.addComponent(field, UserUIContext.getMessage(PageI18nEnum.FORM_SUBJECT), 0, 0);
         } else if (propertyId.equals("content")) {
-            return informationLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.FORM_DESCRIPTION), 0, 1, 2);
+            return informationLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.FORM_DESCRIPTION), 0, 1);
         } else if (propertyId.equals("status")) {
             return informationLayout.addComponent(field, UserUIContext.getMessage(PageI18nEnum.FORM_VISIBILITY), 0, 2);
         }

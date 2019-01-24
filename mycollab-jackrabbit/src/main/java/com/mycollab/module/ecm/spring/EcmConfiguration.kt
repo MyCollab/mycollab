@@ -43,7 +43,7 @@ class EcmConfiguration {
     fun repository(): RepositoryFactoryBean {
         val bean = RepositoryFactoryBean()
         bean.configuration = ClassPathResource("jackrabbit-repo.xml")
-        bean.homeDir = FileSystemResource("repo2/content-workspace")
+        bean.homeDir = FileSystemResource("repo2/workspaces")
         return bean
     }
 

@@ -11,15 +11,12 @@
 
     <!-- security configuration -->
     <Security appName="Jackrabbit">
-        <SecurityManager
-            class="org.apache.jackrabbit.core.security.simple.SimpleSecurityManager"
+        <SecurityManager class="org.apache.jackrabbit.core.security.simple.SimpleSecurityManager"
             workspaceName="default2">
         </SecurityManager>
-        <AccessManager
-            class="org.apache.jackrabbit.core.security.simple.SimpleAccessManager">
+        <AccessManager class="org.apache.jackrabbit.core.security.simple.SimpleAccessManager">
         </AccessManager>
-        <LoginModule
-            class="org.apache.jackrabbit.core.security.simple.SimpleLoginModule">
+        <LoginModule class="org.apache.jackrabbit.core.security.simple.SimpleLoginModule">
             <param name="adminId" value="admin" />
         </LoginModule>
     </Security>
@@ -30,8 +27,7 @@
             <param name="schemaObjectPrefix" value="ecm_s_" />
         </FileSystem>
 
-        <PersistenceManager
-            class="com.mycollab.module.ecm.BundleDbPersistenceManagerExt">
+        <PersistenceManager class="com.mycollab.module.ecm.BundleDbPersistenceManagerExt">
             <param name="schemaObjectPrefix" value="ecm_p_workspace" />
         </PersistenceManager>
 
@@ -42,8 +38,7 @@
         <FileSystem class='com.mycollab.module.ecm.DbFileSystemExt'>
             <param name="schemaObjectPrefix" value="ecm_s_" />
         </FileSystem>
-        <PersistenceManager
-            class="com.mycollab.module.ecm.BundleDbPersistenceManagerExt">
+        <PersistenceManager class="com.mycollab.module.ecm.BundleDbPersistenceManagerExt">
             <param name="schemaObjectPrefix" value="ecm_p_version" />
         </PersistenceManager>
 
@@ -51,8 +46,7 @@
 
     <!-- Cluster configuration with system variables. -->
     <Cluster>
-        <Journal
-            class="com.mycollab.module.ecm.DatabaseJournalExt">
+        <Journal class="com.mycollab.module.ecm.DatabaseJournalExt">
             <param name="schemaObjectPrefix" value="ecm_journal" />
         </Journal>
     </Cluster>

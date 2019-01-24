@@ -14,14 +14,26 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.mycollab.module.project.view
+package com.mycollab.common.service
 
-import com.mycollab.vaadin.mvp.PageView
+import com.mycollab.common.domain.DriveInfo
+import com.mycollab.core.cache.CacheEvict
+import com.mycollab.core.cache.CacheKey
+import com.mycollab.core.cache.Cacheable
+import com.mycollab.db.persistence.service.ICrudService
 
 /**
  * @author MyCollab Ltd
- * @since 5.2.4
+ * @since 1.0.0
  */
-interface SettingView : PageView {
-    fun display()
+interface DriveInfoService : ICrudService<Int, DriveInfo> {
+
+    @CacheEvict
+    fun saveOrUpdateDriveInfo(@CacheKey driveInfo: DriveInfo)
+
+    @Cacheable
+    fun getDriveInfo(@CacheKey sAccountId: Int?): DriveInfo
+
+    @Cacheable
+    fun getUsedStorageVolume(@CacheKey sAccountId: Int?): Long?
 }

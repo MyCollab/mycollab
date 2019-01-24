@@ -72,10 +72,7 @@ public class ProjectRoleAddPresenter extends AbstractPresenter<ProjectRoleAddVie
 
     public void save(ProjectRole item) {
         ProjectRoleService roleService = AppContextUtil.getSpringBean(ProjectRoleService.class);
-        item.setSaccountid(AppUI.getAccountId());
-
         SimpleProject project = CurrentProjectVariables.getProject();
-        item.setProjectid(project.getId());
 
         if (item.getId() == null) {
             roleService.saveWithSession(item, UserUIContext.getUsername());
@@ -94,14 +91,15 @@ public class ProjectRoleAddPresenter extends AbstractPresenter<ProjectRoleAddVie
             projectView.gotoSubView(ProjectView.ROLE_ENTRY, view);
 
             ProjectRole role = (ProjectRole) data.getParams();
-
-            view.editItem(role);
             ProjectBreadcrumb breadcrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);
             if (role.getId() == null) {
+                role.setSaccountid(AppUI.getAccountId());
+                role.setProjectid(CurrentProjectVariables.getProject().getId());
                 breadcrumb.gotoRoleAdd();
             } else {
                 breadcrumb.gotoRoleEdit(role);
             }
+            view.editItem(role);
         } else {
             throw new SecureAccessException();
         }

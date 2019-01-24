@@ -17,12 +17,14 @@
 package com.mycollab.module.tracker.dao
 
 import com.mycollab.module.tracker.domain.SimpleRelatedBug
+import org.apache.ibatis.annotations.Mapper
 import org.apache.ibatis.annotations.Param
 
 /**
  * @author MyCollab Ltd
  * @since 1.0.0
  */
+@Mapper
 interface RelatedBugMapperExt {
 
     fun findRelatedBugs(@Param("bugId") bugId: Int?): List<SimpleRelatedBug>

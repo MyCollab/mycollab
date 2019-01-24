@@ -24,6 +24,7 @@ import com.mycollab.vaadin.ui.ELabel;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.themes.ValoTheme;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,8 +45,7 @@ public class DateInfoComp extends MVerticalLayout {
         this.removeAllComponents();
         this.withMargin(false);
         Label dateInfoHeader = ELabel.html(VaadinIcons.CALENDAR.getHtml() + " " +
-                UserUIContext.getMessage(ProjectCommonI18nEnum.SUB_INFO_DATES));
-        dateInfoHeader.setStyleName("info-hdr");
+                UserUIContext.getMessage(ProjectCommonI18nEnum.SUB_INFO_DATES)).withStyleName("info-hdr");
         this.addComponent(dateInfoHeader);
 
         MVerticalLayout layout = new MVerticalLayout().withMargin(new MarginInfo(false, false, false, true))

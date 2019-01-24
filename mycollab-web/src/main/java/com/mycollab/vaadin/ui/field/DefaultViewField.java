@@ -22,8 +22,6 @@ import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomField;
 
-import java.util.Collection;
-
 /**
  * @author MyCollab Ltd.
  * @since 4.5.3
@@ -65,10 +63,6 @@ public final class DefaultViewField extends CustomField<Object> {
 
     @Override
     protected void doSetValue(Object value) {
-        if (value != null) {
-            label.setValue(value.toString());
-        } else {
-            label.setValue("");
-        }
+        label.setValue((value != null) ? value.toString() : "");
     }
 }

@@ -135,11 +135,6 @@ public class ComponentListViewImpl extends AbstractVerticalPageView implements C
         componentListLayout.addComponent(tableItem);
     }
 
-    @Override
-    public HasSearchHandlers<ComponentSearchCriteria> getSearchHandlers() {
-        return this.componentSearchPanel;
-    }
-
     private ComponentContainer constructTableActionControls() {
         MCssLayout layout = new MCssLayout().withStyleName(WebThemes.TABLE_ACTION_CONTROLS).withFullWidth();
 
@@ -177,6 +172,11 @@ public class ComponentListViewImpl extends AbstractVerticalPageView implements C
         tableActionControls.setVisible(false);
         this.selectOptionButton.setSelectedCheckbox(false);
         this.selectedItemsNumberLabel.setValue("");
+    }
+
+    @Override
+    public HasSearchHandlers<ComponentSearchCriteria> getSearchHandlers() {
+        return this.componentSearchPanel;
     }
 
     @Override

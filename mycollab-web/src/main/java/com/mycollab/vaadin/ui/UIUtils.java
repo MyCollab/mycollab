@@ -62,7 +62,7 @@ public class UIUtils {
 
     public static void makeStackPanel(Panel panel) {
         StackPanel stackPanel = StackPanel.extend(panel);
-        stackPanel.setToggleDownIcon(VaadinIcons.ANGLE_DOWN);
-        stackPanel.setToggleUpIcon(VaadinIcons.ANGLE_RIGHT);
+        stackPanel.setToggleDownIcon(VaadinIcons.ANGLE_RIGHT);
+        stackPanel.setToggleUpIcon(VaadinIcons.ANGLE_DOWN);
     }
 }

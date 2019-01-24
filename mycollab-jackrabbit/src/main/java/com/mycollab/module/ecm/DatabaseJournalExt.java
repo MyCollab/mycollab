@@ -16,7 +16,6 @@
  */
 package com.mycollab.module.ecm;
 
-import com.mycollab.module.ecm.DbUtil;
 import com.mycollab.spring.AppContextUtil;
 import com.zaxxer.hikari.HikariDataSource;
 import org.apache.jackrabbit.core.journal.DatabaseJournal;

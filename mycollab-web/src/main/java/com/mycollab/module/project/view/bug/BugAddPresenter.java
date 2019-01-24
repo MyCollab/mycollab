@@ -110,6 +110,7 @@ public class BugAddPresenter extends ProjectGenericPresenter<BugAddView> {
         BugService bugService = AppContextUtil.getSpringBean(BugService.class);
         bug.setProjectid(CurrentProjectVariables.getProjectId());
         bug.setSaccountid(AppUI.getAccountId());
+
         AsyncEventBus asyncEventBus = AppContextUtil.getSpringBean(AsyncEventBus.class);
         if (bug.getId() == null) {
             bug.setStatus(StatusI18nEnum.Open.name());

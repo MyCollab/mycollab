@@ -18,6 +18,7 @@ package com.mycollab.module.user.view.component;
 
 import com.mycollab.db.arguments.BasicSearchRequest;
 import com.mycollab.module.user.accountsettings.localization.RoleI18nEnum;
+import com.mycollab.module.user.domain.Role;
 import com.mycollab.module.user.domain.SimpleRole;
 import com.mycollab.module.user.domain.criteria.RoleSearchCriteria;
 import com.mycollab.module.user.service.RoleService;
@@ -42,6 +43,7 @@ public class RoleComboBox extends ComboBox implements Converter<SimpleRole, Inte
     private List<SimpleRole> roles;
 
     public RoleComboBox() {
+        this.setEmptySelectionAllowed(false);
         RoleSearchCriteria criteria = new RoleSearchCriteria();
 
         RoleService roleService = AppContextUtil.getSpringBean(RoleService.class);
@@ -53,7 +55,8 @@ public class RoleComboBox extends ComboBox implements Converter<SimpleRole, Inte
         roles.add(ownerRole);
 
         setItems(roles);
-        setItemCaptionGenerator((ItemCaptionGenerator<SimpleRole>) role -> role.getRolename());
+        setItemCaptionGenerator((ItemCaptionGenerator<SimpleRole>) Role::getRolename);
+        setValue(roles.get(0));
 
         roles.forEach(role -> {
             if (Boolean.TRUE.equals(role.getIsdefault())) {
@@ -71,6 +74,6 @@ public class RoleComboBox extends ComboBox implements Converter<SimpleRole, Inte
     @Override
     public SimpleRole convertToPresentation(Integer id, ValueContext valueContext) {
         Optional<SimpleRole> result = roles.stream().filter(role -> role.getId() == id).findFirst();
-        return result.get();
+        return result.orElse(null);
     }
 }

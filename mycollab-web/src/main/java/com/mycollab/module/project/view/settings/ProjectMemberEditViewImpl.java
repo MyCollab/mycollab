@@ -45,6 +45,7 @@ import com.vaadin.data.HasValue;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.ui.*;
 import org.vaadin.viritin.fields.DoubleField;
+import org.vaadin.viritin.layouts.MVerticalLayout;
 
 import static com.mycollab.vaadin.web.ui.utils.FormControlsGenerator.generateEditFormControls;
 
@@ -122,7 +123,7 @@ public class ProjectMemberEditViewImpl extends AbstractEditItemComp<SimpleProjec
 
         @Override
         public AbstractComponent getLayout() {
-            VerticalLayout layout = new VerticalLayout();
+            MVerticalLayout layout = new MVerticalLayout().withMargin(false).withSpacing(false);
             layout.addComponent(wrappedLayoutFactory.getLayout());
 
             FormContainer permissionsPanel = new FormContainer();

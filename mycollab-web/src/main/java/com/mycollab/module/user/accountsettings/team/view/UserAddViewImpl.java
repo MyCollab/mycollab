@@ -184,12 +184,14 @@ public class UserAddViewImpl extends AbstractVerticalPageView implements UserAdd
             @Override
             protected HasValue<?> onCreateField(Object propertyId) {
                 if (SimpleUser.Field.roleId.equalTo(propertyId)) {
-                    return new AdminRoleSelectionField();
+                    return new RoleSelectionField();
                 } else if (User.Field.email.equalTo(propertyId) || User.Field.firstname.equalTo(propertyId) ||
                         User.Field.lastname.equalTo(propertyId)) {
-                    return new MTextField();
+                    return new MTextField().withWidth(WebThemes.FORM_CONTROL_WIDTH).withRequiredIndicatorVisible(true);
                 } else if (User.Field.password.equalTo(propertyId)) {
-                    return new PasswordField();
+                    PasswordField field = new PasswordField();
+                    field.setWidth(WebThemes.FORM_CONTROL_WIDTH);
+                    return field;
                 }
 
                 return null;
@@ -280,10 +282,10 @@ public class UserAddViewImpl extends AbstractVerticalPageView implements UserAdd
             @Override
             protected HasValue<?> onCreateField(Object propertyId) {
                 if (SimpleUser.Field.roleId.equalTo(propertyId)) {
-                    return new AdminRoleSelectionField();
+                    return new RoleSelectionField();
                 } else if (User.Field.email.equalTo(propertyId) || User.Field.firstname.equalTo(propertyId) ||
                         User.Field.lastname.equalTo(propertyId)) {
-                    return new MTextField().withRequiredIndicatorVisible(true);
+                    return new MTextField().withWidth(WebThemes.FORM_CONTROL_WIDTH).withRequiredIndicatorVisible(true);
                 } else if (propertyId.equals("birthday")) {
                     return new DateField();
                 } else if (propertyId.equals("timezone")) {
@@ -293,19 +295,21 @@ public class UserAddViewImpl extends AbstractVerticalPageView implements UserAdd
                     cboCountry.addValueChangeListener(valueChangeEvent -> user.setCountry((String) cboCountry.getValue()));
                     return cboCountry;
                 } else if (User.Field.password.equalTo(propertyId)) {
-//                    return new MPasswordField();
+                    PasswordField field = new PasswordField();
+                    field.setWidth(WebThemes.FORM_CONTROL_WIDTH);
+                    return field;
                 }
                 return null;
             }
         }
     }
 
-    private class AdminRoleSelectionField extends CustomField<Integer> {
+    private class RoleSelectionField extends CustomField<Integer> {
         private static final long serialVersionUID = 1L;
 
         private RoleComboBox roleBox;
 
-        AdminRoleSelectionField() {
+        RoleSelectionField() {
             roleBox = new RoleComboBox();
             roleBox.addValueChangeListener(valueChangeEvent -> {
                 SimpleRole role = (SimpleRole) roleBox.getValue();

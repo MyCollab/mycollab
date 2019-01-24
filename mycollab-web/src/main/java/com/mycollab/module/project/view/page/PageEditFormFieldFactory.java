@@ -23,16 +23,16 @@ import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.mycollab.vaadin.ui.GenericBeanForm;
 import com.mycollab.vaadin.web.ui.I18nValueComboBox;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.data.HasValue;
-import com.vaadin.ui.TextField;
 import org.vaadin.alump.ckeditor.CKEditorConfig;
 import org.vaadin.alump.ckeditor.CKEditorTextField;
+import org.vaadin.viritin.fields.MTextField;
 
 /**
  * @author MyCollab Ltd.
  * @since 4.4.0
  */
-// TODO
 class PageEditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<Page> {
     private static final long serialVersionUID = 1L;
 
@@ -65,18 +65,13 @@ class PageEditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<Pa
             CKEditorTextField ckEditorTextField = new CKEditorTextField(config);
             ckEditorTextField.setHeight("450px");
             ckEditorTextField.setRequiredIndicatorVisible(true);
-//            ckEditorTextField.setRequiredError("Content must be not null");
             return ckEditorTextField;
         } else if (propertyId.equals("status")) {
             page.setStatus(WikiI18nEnum.status_public.name());
-            return new I18nValueComboBox(WikiI18nEnum.class, WikiI18nEnum.status_public,
-                    WikiI18nEnum.status_private, WikiI18nEnum.status_archieved);
+            return new I18nValueComboBox<>(WikiI18nEnum.class, WikiI18nEnum.status_public,
+                    WikiI18nEnum.status_private, WikiI18nEnum.status_archieved).withWidth(WebThemes.FORM_CONTROL_WIDTH);
         } else if (propertyId.equals("subject")) {
-            TextField subjectField = new TextField();
-            subjectField.setRequiredIndicatorVisible(true);
-//            subjectField.setRequiredError(UserUIContext.getMessage(ErrorI18nEnum.FIELD_MUST_NOT_NULL,
-//                    UserUIContext.getMessage(PageI18nEnum.FORM_SUBJECT)));
-            return subjectField;
+            return new MTextField().withRequiredIndicatorVisible(true);
         }
 
         return null;

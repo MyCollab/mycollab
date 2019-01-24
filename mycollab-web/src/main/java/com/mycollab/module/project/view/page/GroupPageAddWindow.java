@@ -41,6 +41,7 @@ import com.vaadin.ui.Alignment;
 import com.vaadin.ui.RichTextArea;
 import com.vaadin.ui.VerticalLayout;
 import org.vaadin.viritin.button.MButton;
+import org.vaadin.viritin.fields.MTextField;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 import org.vaadin.viritin.layouts.MWindow;
@@ -57,8 +58,8 @@ class GroupPageAddWindow extends MWindow {
     private Folder folder;
 
     GroupPageAddWindow(Folder editFolder) {
-        MVerticalLayout content = new MVerticalLayout().withMargin(new MarginInfo(false, false, true, false));
-        this.withModal(true).withResizable(false).withWidth("700px").withCenter().withContent(content);
+        MVerticalLayout content = new MVerticalLayout().withMargin(true);
+        this.withModal(true).withResizable(false).withWidth("600px").withCenter().withContent(content);
         EditForm editForm = new EditForm();
 
         if (editFolder == null) {
@@ -95,8 +96,8 @@ class GroupPageAddWindow extends MWindow {
 
             @Override
             public AbstractComponent getLayout() {
-                final VerticalLayout layout = new VerticalLayout();
-                informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(LayoutType.TWO_COLUMN);
+                final MVerticalLayout layout = new MVerticalLayout().withMargin(false);
+                informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(LayoutType.ONE_COLUMN);
                 layout.addComponent(informationLayout.getLayout());
 
                 final MButton cancelBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
@@ -113,9 +114,8 @@ class GroupPageAddWindow extends MWindow {
                     }
                 }).withIcon(VaadinIcons.CLIPBOARD).withStyleName(WebThemes.BUTTON_ACTION);
 
-                final MHorizontalLayout controlsBtn = new MHorizontalLayout(cancelBtn, saveBtn).withMargin(new MarginInfo(true, true, true, false));
-                layout.addComponent(controlsBtn);
-                layout.setComponentAlignment(controlsBtn, Alignment.MIDDLE_RIGHT);
+                final MHorizontalLayout controlsBtn = new MHorizontalLayout(cancelBtn, saveBtn).withMargin(new MarginInfo(true, false, true, false));
+                layout.with(controlsBtn).withAlign(controlsBtn, Alignment.MIDDLE_RIGHT);
                 return layout;
             }
 
@@ -124,7 +124,7 @@ class GroupPageAddWindow extends MWindow {
                 if (propertyId.equals("name")) {
                     return informationLayout.addComponent(field, UserUIContext.getMessage(PageI18nEnum.FORM_GROUP), 0, 0);
                 } else if (propertyId.equals("description")) {
-                    return informationLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.FORM_DESCRIPTION), 0, 1, 2);
+                    return informationLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.FORM_DESCRIPTION), 0, 1);
                 }
                 return null;
             }
@@ -142,6 +142,8 @@ class GroupPageAddWindow extends MWindow {
         protected HasValue<?> onCreateField(final Object propertyId) {
             if (propertyId.equals("description")) {
                 return new RichTextArea();
+            } else if (propertyId.equals("name")) {
+                return new MTextField().withRequiredIndicatorVisible(true);
             }
 
             return null;

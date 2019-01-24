@@ -55,19 +55,19 @@ public class ProjectRoleReadViewImpl extends AbstractVerticalPageView implements
     private AdvancedPreviewBeanForm<SimpleProjectRole> previewForm;
     private DefaultReadViewLayout previewLayout;
     private HeaderWithIcon headerText;
-    private MHorizontalLayout header;
+    private MHorizontalLayout headerLayout;
 
     private GridFormLayoutHelper projectFormHelper;
 
     public ProjectRoleReadViewImpl() {
         withMargin(true);
         headerText = HeaderWithIcon.h2(VaadinIcons.CLIPBOARD_USER, UserUIContext.getMessage(ProjectRoleI18nEnum.DETAIL));
-        header = constructHeader();
-        this.addComponent(header);
+        headerLayout = constructHeader();
+        this.addComponent(headerLayout);
 
         previewForm = initPreviewForm();
         ComponentContainer actionControls = createButtonControls();
-        header.with(actionControls).expand(actionControls);
+        headerLayout.with(actionControls).expand(actionControls);
 
         previewLayout = new DefaultReadViewLayout("");
         previewLayout.addBody(previewForm);

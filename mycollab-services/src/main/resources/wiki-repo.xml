@@ -11,39 +11,34 @@
 
     <!-- security configuration -->
     <Security appName="Jackrabbit">
-        <SecurityManager
-            class="org.apache.jackrabbit.core.security.simple.SimpleSecurityManager"
+        <SecurityManager class="org.apache.jackrabbit.core.security.simple.SimpleSecurityManager"
             workspaceName="wiki">
         </SecurityManager>
-        <AccessManager
-            class="org.apache.jackrabbit.core.security.simple.SimpleAccessManager">
+        <AccessManager class="org.apache.jackrabbit.core.security.simple.SimpleAccessManager">
         </AccessManager>
-        <LoginModule
-            class="org.apache.jackrabbit.core.security.simple.SimpleLoginModule">
+        <LoginModule class="org.apache.jackrabbit.core.security.simple.SimpleLoginModule">
             <param name="adminId" value="admin" />
         </LoginModule>
     </Security>
 
-    <Workspaces rootPath='repo2/wiki_workspaces' defaultWorkspace='wiki' />
+    <Workspaces rootPath='repo2/wiki-workspaces' defaultWorkspace='wiki' />
     <Workspace name="mycollab_live">
         <FileSystem class="com.mycollab.module.ecm.DbFileSystemExt">
             <param name="schemaObjectPrefix" value="wiki_s_" />
         </FileSystem>
 
-        <PersistenceManager
-            class="com.mycollab.module.ecm.BundleDbPersistenceManagerExt">
+        <PersistenceManager class="com.mycollab.module.ecm.BundleDbPersistenceManagerExt">
             <param name="schemaObjectPrefix" value="wiki_p_workspace" />
         </PersistenceManager>
 
     </Workspace>
     <!-- Configures the versioning -->
 
-    <Versioning rootPath='repo2/version'>
+    <Versioning rootPath='repo2/wiki-workspaces/version'>
         <FileSystem class='com.mycollab.module.ecm.DbFileSystemExt'>
             <param name="schemaObjectPrefix" value="wiki_s_" />
         </FileSystem>
-        <PersistenceManager
-            class="com.mycollab.module.ecm.BundleDbPersistenceManagerExt">
+        <PersistenceManager class="com.mycollab.module.ecm.BundleDbPersistenceManagerExt">
             <param name="schemaObjectPrefix" value="wiki_p_version" />
         </PersistenceManager>
 
@@ -51,8 +46,7 @@
 
     <!-- Cluster configuration with system variables. -->
     <Cluster>
-        <Journal
-            class="com.mycollab.module.ecm.DatabaseJournalExt">
+        <Journal class="com.mycollab.module.ecm.DatabaseJournalExt">
             <param name="schemaObjectPrefix" value="wiki_journal" />
         </Journal>
     </Cluster>

@@ -54,7 +54,7 @@ public class RoleAddPresenter extends AbstractPresenter<RoleAddView> {
             private static final long serialVersionUID = 1L;
 
             @Override
-            public void onSave(final Role item) {
+            public void onSave(Role item) {
                 save(item);
                 EventBusFactory.getInstance().post(new RoleEvent.GotoList(this, null));
             }
@@ -83,10 +83,6 @@ public class RoleAddPresenter extends AbstractPresenter<RoleAddView> {
         }
 
         roleService.savePermission(item.getId(), view.getPermissionMap(), item.getSaccountid());
-    }
-
-    public RoleAddPresenter(Class<RoleAddView> viewClass) {
-        super(viewClass);
     }
 
     @Override
