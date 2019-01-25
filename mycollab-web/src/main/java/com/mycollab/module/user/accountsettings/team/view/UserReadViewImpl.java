@@ -80,7 +80,7 @@ public class UserReadViewImpl extends AbstractVerticalPageView implements UserRe
         header.removeAllComponents();
         MHorizontalLayout avatarAndPass = new MHorizontalLayout().withFullWidth();
         Image cropField = UserAvatarControlFactory.createUserAvatarEmbeddedComponent(user.getAvatarid(), 100);
-        cropField.addStyleName(UIConstants.CIRCLE_BOX);
+        cropField.addStyleName(WebThemes.CIRCLE_BOX);
         CssLayout userAvatar = new CssLayout();
         userAvatar.addComponent(cropField);
         avatarAndPass.addComponent(userAvatar);

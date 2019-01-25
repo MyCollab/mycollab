@@ -4,7 +4,7 @@ import com.mycollab.core.utils.StringUtils;
 import com.mycollab.module.project.event.BugComponentEvent;
 import com.mycollab.module.tracker.domain.Component;
 import com.mycollab.vaadin.EventBusFactory;
-import com.mycollab.vaadin.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.ui.CustomField;
 import com.vaadin.ui.themes.ValoTheme;
 import org.apache.commons.collections4.CollectionUtils;
@@ -40,7 +40,7 @@ public class ComponentsViewField extends CustomField<Collection<Component>> {
     private MButton buildComponentLink(Component component) {
         return new MButton(StringUtils.trim(component.getName(), 25, true),
                 clickEvent -> EventBusFactory.getInstance().post(new BugComponentEvent.GotoRead(this, component.getId())))
-                .withDescription(component.getName()).withStyleName(UIConstants.BLOCK, ValoTheme.BUTTON_SMALL);
+                .withDescription(component.getName()).withStyleName(WebThemes.BLOCK, ValoTheme.BUTTON_SMALL);
     }
 
     @Override

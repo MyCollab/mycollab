@@ -40,7 +40,6 @@ import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.vaadin.TooltipHelper;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
-import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.ui.UIUtils;
 import com.mycollab.vaadin.web.ui.AbstractToggleSummaryField;
 import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
@@ -72,7 +71,7 @@ class ToggleTaskSummaryField extends AbstractToggleSummaryField {
         this.setWidth("100%");
         this.maxLength = maxLength;
         this.task = task;
-        titleLinkLbl = ELabel.html(buildTaskLink()).withUndefinedWidth().withStyleName(UIConstants.LABEL_WORD_WRAP);
+        titleLinkLbl = ELabel.html(buildTaskLink()).withUndefinedWidth().withStyleName(WebThemes.LABEL_WORD_WRAP);
 
         if (toggleStatusSupport && CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS)) {
             toggleStatusSelect = new CheckBox();
@@ -191,7 +190,7 @@ class ToggleTaskSummaryField extends AbstractToggleSummaryField {
         Div resultDiv = new DivLessFormatter().appendChild(taskLink);
         if (task.isOverdue()) {
             taskLink.setCSSClass("overdue");
-            resultDiv.appendChild(new Span().setCSSClass(UIConstants.META_INFO).appendText(" - " + UserUIContext
+            resultDiv.appendChild(new Span().setCSSClass(WebThemes.META_INFO).appendText(" - " + UserUIContext
                     .getMessage(ProjectCommonI18nEnum.OPT_DUE_IN, UserUIContext.formatDuration(task.getDuedate()))));
         } else if (task.isCompleted()) {
             taskLink.setCSSClass("completed");

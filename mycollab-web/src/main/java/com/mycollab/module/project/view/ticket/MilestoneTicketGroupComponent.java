@@ -32,7 +32,6 @@ import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
-import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.ui.UIUtils;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.event.dd.DragAndDropEvent;
@@ -76,7 +75,7 @@ class MilestoneTicketGroupComponent extends MVerticalLayout implements IGroupCom
             if (milestone != null) {
                 ELabel milestoneDateLbl = new ELabel(UserUIContext.getMessage(GenericI18Enum.OPT_FROM_TO,
                         UserUIContext.formatDate(milestone.getStartdate()), UserUIContext.formatDate(milestone.getEnddate())))
-                        .withStyleName(UIConstants.META_INFO);
+                        .withStyleName(WebThemes.META_INFO);
                 headerGroup = new MVerticalLayout(headerLbl, milestoneDateLbl).withMargin(false).withSpacing(false);
             } else {
                 headerGroup = new MVerticalLayout(headerLbl).withMargin(false).withSpacing(false);

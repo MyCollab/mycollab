@@ -31,13 +31,10 @@ import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.IBeanList;
 import com.mycollab.vaadin.ui.SafeHtmlLabel;
-import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.ui.Component;
 import org.apache.commons.lang3.StringUtils;
 import org.vaadin.viritin.layouts.MVerticalLayout;
-
-import static com.mycollab.vaadin.TooltipHelper.TOOLTIP_ID;
 
 /**
  * @author MyCollab Ltd
@@ -71,7 +68,7 @@ public class GenericItemRowDisplayHandler implements IBeanList.RowDisplayHandler
                     lastUpdatedOn);
         } else {
             Img userAvatar = new Img("", StorageUtils.getAvatarPath(item.getCreatedUserAvatarId(), 16))
-                    .setCSSClass(UIConstants.CIRCLE_BOX);
+                    .setCSSClass(WebThemes.CIRCLE_BOX);
             A userLink = new A().setId("tag" + TooltipHelper.TOOLTIP_ID).setHref(ProjectLinkGenerator.generateProjectMemberLink(item.getProjectId(), item
                     .getCreatedUser())).appendText(item.getCreatedUserDisplayName());
             userLink.setAttribute("onmouseover", TooltipHelper.userHoverJsFunction(item.getCreatedUser()));
@@ -81,7 +78,7 @@ public class GenericItemRowDisplayHandler implements IBeanList.RowDisplayHandler
                     userLink, lastUpdatedOn);
         }
 
-        ELabel footer = ELabel.html(div.write()).withStyleName(UIConstants.META_INFO).withFullWidth();
+        ELabel footer = ELabel.html(div.write()).withStyleName(WebThemes.META_INFO).withFullWidth();
         layout.with(link, descLbl, footer);
         return layout;
     }

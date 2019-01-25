@@ -38,9 +38,9 @@ class TaskFieldFormatter private constructor() : FieldGroupFormatter() {
 
     init {
         generateFieldDisplayHandler(Task.Field.name.name, GenericI18Enum.FORM_NAME)
-        generateFieldDisplayHandler(Task.Field.startdate.name, GenericI18Enum.FORM_START_DATE, FieldGroupFormatter.DATETIME_FIELD)
-        generateFieldDisplayHandler(Task.Field.enddate.name, GenericI18Enum.FORM_END_DATE, FieldGroupFormatter.DATETIME_FIELD)
-        generateFieldDisplayHandler(Task.Field.duedate.name, GenericI18Enum.FORM_DUE_DATE, FieldGroupFormatter.DATETIME_FIELD)
+        generateFieldDisplayHandler(Task.Field.startdate.name, GenericI18Enum.FORM_START_DATE, FieldGroupFormatter.DATE_FIELD)
+        generateFieldDisplayHandler(Task.Field.enddate.name, GenericI18Enum.FORM_END_DATE, FieldGroupFormatter.DATE_FIELD)
+        generateFieldDisplayHandler(Task.Field.duedate.name, GenericI18Enum.FORM_DUE_DATE, FieldGroupFormatter.DATE_FIELD)
         generateFieldDisplayHandler(Task.Field.priority.name, GenericI18Enum.FORM_PRIORITY,
                 I18nHistoryFieldFormat(Priority::class.java))
         generateFieldDisplayHandler(Task.Field.status.name, GenericI18Enum.FORM_STATUS,

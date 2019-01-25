@@ -33,7 +33,7 @@ import com.mycollab.vaadin.TooltipHelper;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.IBeanList;
-import com.mycollab.vaadin.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Component;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
@@ -70,10 +70,10 @@ public class TicketRowDisplayHandler implements IBeanList.RowDisplayHandler<Proj
             status = UserUIContext.getMessage(StatusI18nEnum.class, ticket.getStatus());
             rowComp.addStyleName("task");
         }
-        issueDiv.appendChild(new Span().appendText(status).setCSSClass(UIConstants.BLOCK));
+        issueDiv.appendChild(new Span().appendText(status).setCSSClass(WebThemes.BLOCK));
 
         String avatarLink = StorageUtils.getAvatarPath(ticket.getAssignUserAvatarId(), 16);
-        Img img = new Img(ticket.getAssignUserFullName(), avatarLink).setCSSClass(UIConstants.CIRCLE_BOX)
+        Img img = new Img(ticket.getAssignUserFullName(), avatarLink).setCSSClass(WebThemes.CIRCLE_BOX)
                 .setTitle(ticket.getAssignUserFullName());
         issueDiv.appendChild(img, DivLessFormatter.EMPTY_SPACE);
 
@@ -101,7 +101,7 @@ public class TicketRowDisplayHandler implements IBeanList.RowDisplayHandler<Proj
         } else if (ticket.isOverdue()) {
             ticketLink.setCSSClass("overdue");
             issueDiv.appendChild(new Span().appendText(" - " + UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_DUE_IN,
-                    UserUIContext.formatDuration(ticket.getDueDate()))).setCSSClass(UIConstants.META_INFO));
+                    UserUIContext.formatDuration(ticket.getDueDate()))).setCSSClass(WebThemes.META_INFO));
         }
 
         rowComp.with(ELabel.html(issueDiv.write()).withFullWidth());

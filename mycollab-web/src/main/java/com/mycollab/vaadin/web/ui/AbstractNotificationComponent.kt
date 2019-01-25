@@ -31,7 +31,6 @@ import com.mycollab.vaadin.AsyncInvoker
 import com.mycollab.vaadin.EventBusFactory
 import com.mycollab.vaadin.UserUIContext
 import com.mycollab.vaadin.ui.ELabel
-import com.mycollab.vaadin.ui.UIConstants
 import com.vaadin.icons.VaadinIcons
 import com.vaadin.ui.*
 import org.vaadin.hene.popupbutton.PopupButton
@@ -153,7 +152,7 @@ abstract class AbstractNotificationComponent : PopupButton(), PopupButton.PopupV
                         val upgradeBtn = MButton(UserUIContext.getMessage(ShellI18nEnum.ACTION_UPGRADE)) { _ ->
                             UI.getCurrent().addWindow(UpgradeConfirmWindow(item.version, item.manualDownloadLink, item.installerFile))
                             this@AbstractNotificationComponent.isPopupVisible = false
-                        }.withStyleName(UIConstants.BLOCK)
+                        }.withStyleName(WebThemes.BLOCK)
                         MHorizontalLayout(lblWrapper, upgradeBtn).expand(lblWrapper).withDefaultComponentAlignment(Alignment.TOP_LEFT)
                     }
                     else -> lblWrapper
@@ -164,14 +163,14 @@ abstract class AbstractNotificationComponent : PopupButton(), PopupButton.PopupV
                 val uploadAvatarBtn = MButton(UserUIContext.getMessage(ShellI18nEnum.ACTION_UPLOAD_AVATAR)) { _ ->
                     EventBusFactory.getInstance().post(ShellEvent.GotoUserAccountModule(this, arrayOf("preview")))
                     this@AbstractNotificationComponent.isPopupVisible = false
-                }.withStyleName(UIConstants.BLOCK)
+                }.withStyleName(WebThemes.BLOCK)
                 return MHorizontalLayout(avatarUploadLbl, uploadAvatarBtn).expand(avatarUploadLbl).withDefaultComponentAlignment(Alignment.TOP_LEFT)
             }
             is SmtpSetupNotification -> {
                 val smtpBtn = MButton(UserUIContext.getMessage(GenericI18Enum.ACTION_SETUP)) { _ ->
                     EventBusFactory.getInstance().post(ShellEvent.GotoUserAccountModule(this, arrayOf("setup")))
                     this@AbstractNotificationComponent.isPopupVisible = false
-                }.withStyleName(UIConstants.BLOCK)
+                }.withStyleName(WebThemes.BLOCK)
                 val lbl = ELabel.html("${VaadinIcons.EXCLAMATION_CIRCLE.html} ${UserUIContext.getMessage(ShellI18nEnum.ERROR_NO_SMTP_SETTING)}")
                 val lblWrapper = MCssLayout(lbl)
                 return MHorizontalLayout(lblWrapper, smtpBtn).expand(lblWrapper).withDefaultComponentAlignment(Alignment.TOP_LEFT)

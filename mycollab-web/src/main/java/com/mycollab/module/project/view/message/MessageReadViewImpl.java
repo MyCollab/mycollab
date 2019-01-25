@@ -151,7 +151,7 @@ public class MessageReadViewImpl extends AbstractVerticalPageView implements Mes
                     UserUIContext.formatPrettyTime(message.getCreatedtime())))
                     .withDescription(UserUIContext.formatDateTime(message.getCreatedtime()));
             timePostLbl.setSizeUndefined();
-            timePostLbl.setStyleName(UIConstants.META_INFO);
+            timePostLbl.setStyleName(WebThemes.META_INFO);
 
             messageHeader.with(timePostLbl).expand(timePostLbl);
 

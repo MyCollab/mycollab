@@ -123,7 +123,7 @@ public class TaskPreviewForm extends AdvancedPreviewBeanForm<SimpleTask> {
             } else if ("section-subTasks".equals(propertyId)) {
                 return new SubTasksComp(beanItem);
             } else if (Task.Field.status.equalTo(propertyId)) {
-                return new I18nFormViewField(StatusI18nEnum.class).withStyleName(UIConstants.FIELD_NOTE);
+                return new I18nFormViewField(StatusI18nEnum.class).withStyleName(WebThemes.FIELD_NOTE);
             }
             return null;
         }
@@ -229,11 +229,11 @@ public class TaskPreviewForm extends AdvancedPreviewBeanForm<SimpleTask> {
             layout.with(ELabel.html(priorityLink.write()).withUndefinedWidth());
 
             String taskStatus = UserUIContext.getMessage(StatusI18nEnum.class, subTask.getStatus());
-            final ELabel statusLbl = new ELabel(taskStatus).withStyleName(UIConstants.FIELD_NOTE).withUndefinedWidth();
+            final ELabel statusLbl = new ELabel(taskStatus).withStyleName(WebThemes.FIELD_NOTE).withUndefinedWidth();
             layout.with(statusLbl);
 
             String avatarLink = StorageUtils.getAvatarPath(subTask.getAssignUserAvatarId(), 16);
-            Img avatarImg = new Img(subTask.getAssignUserFullName(), avatarLink).setCSSClass(UIConstants.CIRCLE_BOX)
+            Img avatarImg = new Img(subTask.getAssignUserFullName(), avatarLink).setCSSClass(WebThemes.CIRCLE_BOX)
                     .setTitle(subTask.getAssignUserFullName());
             layout.with(ELabel.html(avatarImg.write()).withUndefinedWidth());
 
@@ -306,7 +306,7 @@ public class TaskPreviewForm extends AdvancedPreviewBeanForm<SimpleTask> {
                     }
 
                     close();
-                }).withStyleName(WebThemes.BUTTON_LINK, UIConstants.TEXT_ELLIPSIS).withFullWidth();
+                }).withStyleName(WebThemes.BUTTON_LINK, WebThemes.TEXT_ELLIPSIS).withFullWidth();
                 return new MCssLayout(taskLink).withStyleName("list-row").withFullWidth();
             }
         }

@@ -33,7 +33,7 @@ class DateTimeHistoryFieldFormat : HistoryFieldFormat {
     override fun toString(value: String, displayAsHtml: Boolean, msgIfBlank: String) =
             when {
                 StringUtils.isNotBlank(value) -> {
-                    val date = DateTimeUtils.parseDateByW3C(value)
+                    val date = DateTimeUtils.parseDateTimeWithMilisByW3C(value)
                     UserUIContext.formatDateTime(date)
                 }
                 else -> msgIfBlank

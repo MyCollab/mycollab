@@ -72,4 +72,10 @@ public class WebThemes {
     public static final String BORDER_LIST_ROW = "row";
     public static final String HIDE_ELEMENT = "hide-element";
     public static final String REQUIRED_FIELD_INDICATOR = "required-field-indicator";
+    public static final String CIRCLE_BOX = "circle-box";
+    public static final String TEXT_ELLIPSIS = "text-ellipsis";
+    public static final String LABEL_WORD_WRAP = "word-wrap";
+    public static final String META_INFO = "meta-info";
+    public static final String FIELD_NOTE = "field-note";
+    public static final String BLOCK = "block";
 }

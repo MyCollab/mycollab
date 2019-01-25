@@ -20,6 +20,7 @@ import com.google.common.base.MoreObjects;
 import com.hp.gagawa.java.elements.A;
 import com.mycollab.core.utils.StringUtils;
 import com.mycollab.vaadin.UserUIContext;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.ui.Label;
@@ -27,7 +28,6 @@ import com.vaadin.ui.themes.ValoTheme;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 /**
  * @author MyCollab Ltd.
@@ -111,7 +111,7 @@ public class ELabel extends Label {
     }
 
     public static ELabel richText(String value) {
-        return ELabel.html(StringUtils.formatRichText(value)).withStyleName(UIConstants.LABEL_WORD_WRAP).withFullWidth();
+        return ELabel.html(StringUtils.formatRichText(value)).withStyleName(WebThemes.LABEL_WORD_WRAP).withFullWidth();
     }
 
     public static ELabel h1(String value) {

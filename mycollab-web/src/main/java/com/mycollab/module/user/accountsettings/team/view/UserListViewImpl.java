@@ -157,7 +157,7 @@ public class UserListViewImpl extends AbstractVerticalPageView implements UserLi
         }
         MHorizontalLayout blockTop = new MHorizontalLayout().withFullWidth();
         Image memberAvatar = UserAvatarControlFactory.createUserAvatarEmbeddedComponent(member.getAvatarid(), 100);
-        memberAvatar.addStyleName(UIConstants.CIRCLE_BOX);
+        memberAvatar.addStyleName(WebThemes.CIRCLE_BOX);
         blockTop.addComponent(memberAvatar);
 
         MVerticalLayout memberInfo = new MVerticalLayout().withMargin(false);
@@ -168,7 +168,7 @@ public class UserListViewImpl extends AbstractVerticalPageView implements UserLi
 
         if (RegisterStatusConstants.NOT_LOG_IN_YET.equals(member.getRegisterstatus())) {
             MButton resendBtn = new MButton(UserUIContext.getMessage(UserI18nEnum.ACTION_RESEND_INVITATION), clickEvent -> {
-                SendUserInvitationEvent invitationEvent = new SendUserInvitationEvent(member.getUsername(), null,
+                SendUserInvitationEvent invitationEvent = new SendUserInvitationEvent(member.getUsername(), member.getPassword(),
                         member.getInviteUser(), AppUI.getSubDomain(), AppUI.getAccountId());
                 AsyncEventBus asyncEventBus = AppContextUtil.getSpringBean(AsyncEventBus.class);
                 asyncEventBus.post(invitationEvent);
@@ -203,13 +203,13 @@ public class UserListViewImpl extends AbstractVerticalPageView implements UserLi
 
         A memberLink = new A(AccountLinkGenerator.generateUserLink(
                 member.getUsername())).appendText(member.getDisplayName());
-        ELabel memberLinkLbl = ELabel.h3(memberLink.write()).withStyleName(UIConstants.TEXT_ELLIPSIS);
+        ELabel memberLinkLbl = ELabel.h3(memberLink.write()).withStyleName(WebThemes.TEXT_ELLIPSIS);
         memberInfo.addComponent(memberLinkLbl);
         memberInfo.addComponent(ELabel.hr());
 
         if (member.getRoleId() != null) {
             String memberRoleLinkPrefix = String.format("<a href=\"%s\"", AccountLinkGenerator.generateRoleLink(member.getRoleId()));
-            ELabel memberRole = new ELabel(ContentMode.HTML).withStyleName(UIConstants.TEXT_ELLIPSIS);
+            ELabel memberRole = new ELabel(ContentMode.HTML).withStyleName(WebThemes.TEXT_ELLIPSIS);
             if (Boolean.TRUE.equals(member.isAccountOwner())) {
                 memberRole.setValue(String.format("%sstyle=\"color: #B00000;\">%s</a>", memberRoleLinkPrefix,
                         UserUIContext.getMessage(RoleI18nEnum.OPT_ACCOUNT_OWNER)));
@@ -230,7 +230,7 @@ public class UserListViewImpl extends AbstractVerticalPageView implements UserLi
 
         if (Boolean.TRUE.equals(AppUI.showEmailPublicly())) {
             Label memberEmailLabel = ELabel.html(String.format("<a href='mailto:%s'>%s</a>", member.getUsername(), member.getUsername()))
-                    .withStyleName(UIConstants.TEXT_ELLIPSIS, UIConstants.META_INFO).withFullWidth();
+                    .withStyleName(WebThemes.TEXT_ELLIPSIS, WebThemes.META_INFO).withFullWidth();
             memberInfo.addComponent(memberEmailLabel);
         }
 

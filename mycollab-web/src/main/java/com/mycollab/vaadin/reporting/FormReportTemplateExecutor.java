@@ -143,7 +143,7 @@ public class FormReportTemplateExecutor<B> extends ReportTemplateExecutor {
             if (section.getLayoutType() == LayoutType.ONE_COLUMN) {
                 for (int j = 0; j < section.getFieldCount(); j++) {
                     AbstractDynaField dynaField = section.getField(j);
-                    if (!formReportLayout.getExcludeFields().contains(dynaField.getFieldName())) {
+                    if (!formReportLayout.getExcludeFields().contains(dynaField.getFieldName()) && !dynaField.getFieldName().startsWith("section-")) {
                         String value = "";
                         try {
                             Object tmpVal = PropertyUtils.getProperty(bean, dynaField.getFieldName());

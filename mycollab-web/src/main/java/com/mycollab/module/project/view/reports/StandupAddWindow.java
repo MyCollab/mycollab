@@ -14,6 +14,7 @@ import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.event.IEditFormHandler;
 import com.mycollab.vaadin.ui.*;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.data.HasValue;
@@ -57,7 +58,7 @@ class StandupAddWindow extends MWindow implements IEditFormHandler<StandupReport
         editForm.setBean(report);
         Component projectLogo = ProjectAssetsUtil.projectLogoComp(standupReportStatistic.getProjectKey(), standupReportStatistic.getProjectId(),
                 standupReportStatistic.getProjectAvatarId(), 32);
-        ELabel projectLbl = ELabel.h2(standupReportStatistic.getProjectName()).withStyleName(UIConstants.TEXT_ELLIPSIS);
+        ELabel projectLbl = ELabel.h2(standupReportStatistic.getProjectName()).withStyleName(WebThemes.TEXT_ELLIPSIS);
         setContent(new MVerticalLayout(new MHorizontalLayout(projectLogo, projectLbl).expand(projectLbl), editForm));
         editForm.addFormHandler(this);
     }

@@ -42,7 +42,6 @@ import com.mycollab.vaadin.mvp.AbstractVerticalPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.DefaultMassItemActionHandlerContainer;
 import com.mycollab.vaadin.ui.ELabel;
-import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.web.ui.CheckBoxDecor;
 import com.mycollab.vaadin.web.ui.LabelLink;
 import com.mycollab.vaadin.web.ui.SelectionOptionButton;
@@ -113,7 +112,7 @@ public class ProjectListViewImpl extends AbstractVerticalPageView implements Pro
             projectLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction());
             A url;
             if (StringUtils.isNotBlank(project.getHomepage())) {
-                url = new A(project.getHomepage(), "_blank").appendText(project.getHomepage()).setCSSClass(UIConstants.META_INFO);
+                url = new A(project.getHomepage(), "_blank").appendText(project.getHomepage()).setCSSClass(WebThemes.META_INFO);
             } else {
                 url = new A("").appendText(UserUIContext.getMessage(GenericI18Enum.OPT_UNDEFINED));
             }

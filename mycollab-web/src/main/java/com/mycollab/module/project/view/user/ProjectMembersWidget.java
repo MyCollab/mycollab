@@ -40,7 +40,6 @@ import com.mycollab.vaadin.TooltipHelper;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.IBeanList;
-import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.ui.UserAvatarControlFactory;
 import com.mycollab.vaadin.web.ui.DefaultBeanPagedList;
 import com.mycollab.vaadin.web.ui.Depot;
@@ -128,18 +127,18 @@ public class ProjectMembersWidget extends Depot {
         public Component generateRow(IBeanList<SimpleProjectMember> host, SimpleProjectMember member, int rowIndex) {
             MHorizontalLayout layout = new MHorizontalLayout().withFullWidth().withStyleName("list-row");
             Image userAvatar = UserAvatarControlFactory.createUserAvatarEmbeddedComponent(member.getMemberAvatarId(), 48);
-            userAvatar.addStyleName(UIConstants.CIRCLE_BOX);
+            userAvatar.addStyleName(WebThemes.CIRCLE_BOX);
             layout.addComponent(userAvatar);
 
             VerticalLayout content = new VerticalLayout();
-            content.addComponent(new ELabel(buildAssigneeValue(member), ContentMode.HTML).withStyleName(UIConstants.TEXT_ELLIPSIS));
+            content.addComponent(new ELabel(buildAssigneeValue(member), ContentMode.HTML).withStyleName(WebThemes.TEXT_ELLIPSIS));
             layout.with(content).expand(content);
 
             CssLayout footer = new CssLayout();
 
             String roleVal = member.getRoleName();
             ELabel memberRole = ELabel.html(roleVal).withDescription(UserUIContext.getMessage(ProjectRoleI18nEnum.SINGLE))
-                    .withStyleName(UIConstants.META_INFO);
+                    .withStyleName(WebThemes.META_INFO);
             footer.addComponent(memberRole);
 
             String memberWorksInfo = ProjectAssetsManager.getAsset(ProjectTypeConstants.TASK).getHtml() + "&nbsp;" +
@@ -153,7 +152,7 @@ public class ProjectMembersWidget extends Depot {
                     "&nbsp;" + new Span().appendText("" + NumberUtils.roundDouble(2, member.getTotalNonBillableLogTime()))
                     .setTitle(UserUIContext.getMessage(TimeTrackingI18nEnum.OPT_NON_BILLABLE_HOURS));
 
-            ELabel memberWorkStatus = ELabel.html(memberWorksInfo).withStyleName(UIConstants.META_INFO);
+            ELabel memberWorkStatus = ELabel.html(memberWorksInfo).withStyleName(WebThemes.META_INFO);
             footer.addComponent(memberWorkStatus);
 
             content.addComponent(footer);

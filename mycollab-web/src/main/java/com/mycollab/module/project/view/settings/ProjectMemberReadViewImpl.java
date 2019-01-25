@@ -168,7 +168,7 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
             row.setMargin(true);
 
             Image memberAvatar = UserAvatarControlFactory.createUserAvatarEmbeddedComponent(beanItem.getMemberAvatarId(), 100);
-            memberAvatar.addStyleName(UIConstants.CIRCLE_BOX);
+            memberAvatar.addStyleName(WebThemes.CIRCLE_BOX);
             row.addColumn().withDisplayRules(12, 12, 3, 2).withComponent(memberAvatar);
 
             MVerticalLayout memberInfo = new MVerticalLayout().withMargin(new MarginInfo(false, false, false, true));
@@ -181,11 +181,11 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
             memberInfo.addComponent(new MHorizontalLayout(memberLink, editNotificationBtn).alignAll(Alignment.MIDDLE_LEFT));
 
             A roleLink = new A(ProjectLinkGenerator.generateRolePreviewLink(beanItem.getProjectid(), beanItem.getProjectroleid())).appendText(beanItem.getRoleName());
-            memberInfo.addComponent(ELabel.html(roleLink.write()).withStyleName(UIConstants.META_INFO).withFullWidth());
+            memberInfo.addComponent(ELabel.html(roleLink.write()).withStyleName(WebThemes.META_INFO).withFullWidth());
 
             if (Boolean.TRUE.equals(AppUI.showEmailPublicly())) {
                 Label memberEmailLabel = ELabel.html(String.format("<a href='mailto:%s'>%s</a>", beanItem.getUsername(),
-                        beanItem.getUsername())).withStyleName(UIConstants.META_INFO).withFullWidth();
+                        beanItem.getUsername())).withStyleName(WebThemes.META_INFO).withFullWidth();
                 memberInfo.addComponent(memberEmailLabel);
             }
 
@@ -207,7 +207,7 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
                             beanItem.getTotalBillableLogTime())).setTitle(UserUIContext.getMessage(TimeTrackingI18nEnum.OPT_BILLABLE_HOURS)), VaadinIcons.GIFT.getHtml(), new Span().appendText("" + NumberUtils.roundDouble(2, beanItem.getTotalNonBillableLogTime()
                     )).setTitle(UserUIContext.getMessage(TimeTrackingI18nEnum.OPT_NON_BILLABLE_HOURS)));
 
-            Label memberWorkStatus = ELabel.html(memberWorksInfo).withStyleName(UIConstants.META_INFO);
+            Label memberWorkStatus = ELabel.html(memberWorksInfo).withStyleName(WebThemes.META_INFO);
             memberInfo.addComponent(memberWorkStatus);
 
             row.addColumn().withDisplayRules(12, 12, 9, 10).withComponent(memberInfo);
@@ -324,7 +324,7 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
             }
 
             String avatarLink = StorageUtils.getAvatarPath(ticket.getAssignUserAvatarId(), 16);
-            Img img = new Img(ticket.getAssignUserFullName(), avatarLink).setCSSClass(UIConstants.CIRCLE_BOX)
+            Img img = new Img(ticket.getAssignUserFullName(), avatarLink).setCSSClass(WebThemes.CIRCLE_BOX)
                     .setTitle(ticket.getAssignUserFullName());
 
             MHorizontalLayout iconsLayout = new MHorizontalLayout().with(ELabel.fontIcon(ProjectAssetsManager.getAsset(

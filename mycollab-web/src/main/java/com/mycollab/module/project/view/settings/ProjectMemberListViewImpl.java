@@ -46,7 +46,6 @@ import com.mycollab.vaadin.mvp.AbstractVerticalPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.HeaderWithIcon;
-import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.ui.UserAvatarControlFactory;
 import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.mycollab.vaadin.web.ui.SearchTextField;
@@ -170,7 +169,7 @@ public class ProjectMemberListViewImpl extends AbstractVerticalPageView implemen
         }
 
         Image memberAvatar = UserAvatarControlFactory.createUserAvatarEmbeddedComponent(member.getMemberAvatarId(), 100);
-        memberAvatar.addStyleName(UIConstants.CIRCLE_BOX);
+        memberAvatar.addStyleName(WebThemes.CIRCLE_BOX);
         memberAvatar.setWidthUndefined();
         blockContent.addComponent(memberAvatar);
 
@@ -204,17 +203,17 @@ public class ProjectMemberListViewImpl extends AbstractVerticalPageView implemen
 
         A memberLink = new A(ProjectLinkGenerator.generateProjectMemberLink(member.getProjectid(), member
                 .getUsername())).appendText(member.getMemberFullName()).setTitle(member.getMemberFullName());
-        ELabel memberNameLbl = ELabel.h3(memberLink.write()).withStyleName(UIConstants.TEXT_ELLIPSIS).withFullWidth();
+        ELabel memberNameLbl = ELabel.h3(memberLink.write()).withStyleName(WebThemes.TEXT_ELLIPSIS).withFullWidth();
 
         blockTop.with(memberNameLbl, ELabel.hr());
 
         A roleLink = new A(ProjectLinkGenerator.generateRolePreviewLink(member.getProjectid(), member.getProjectroleid()))
                 .appendText(member.getRoleName());
-        blockTop.addComponent(ELabel.html(roleLink.write()).withFullWidth().withStyleName(UIConstants.TEXT_ELLIPSIS));
+        blockTop.addComponent(ELabel.html(roleLink.write()).withFullWidth().withStyleName(WebThemes.TEXT_ELLIPSIS));
 
         if (Boolean.TRUE.equals(AppUI.showEmailPublicly())) {
             Label memberEmailLabel = ELabel.html(String.format("<a href='mailto:%s'>%s</a>", member.getUsername(), member.getUsername()))
-                    .withStyleName(UIConstants.META_INFO).withFullWidth();
+                    .withStyleName(WebThemes.META_INFO).withFullWidth();
             blockTop.addComponent(memberEmailLabel);
         }
 
@@ -240,7 +239,7 @@ public class ProjectMemberListViewImpl extends AbstractVerticalPageView implemen
                 " " + new Span().appendText("" + NumberUtils.roundDouble(2, member.getTotalNonBillableLogTime()))
                 .setTitle(UserUIContext.getMessage(TimeTrackingI18nEnum.OPT_NON_BILLABLE_HOURS));
 
-        blockTop.addComponent(ELabel.html(memberWorksInfo).withStyleName(UIConstants.META_INFO));
+        blockTop.addComponent(ELabel.html(memberWorksInfo).withStyleName(WebThemes.META_INFO));
 
         blockContent.with(blockTop);
         blockContent.setExpandRatio(blockTop, 1.0f);

@@ -55,7 +55,7 @@ public class DateTimeUtils {
     }
 
     public static String convertToStringWithUserTimeZone(String dateVal, String dateFormat, Locale locale, ZoneId userTimeZone) {
-        LocalDateTime date = parseDateByW3C(dateVal);
+        LocalDateTime date = parseDateTimeWithMilisByW3C(dateVal);
         return convertToStringWithUserTimeZone(date, dateFormat, locale, userTimeZone);
     }
 
@@ -63,11 +63,23 @@ public class DateTimeUtils {
      * @param strDate
      * @return
      */
-    public static LocalDateTime parseDateByW3C(String strDate) {
-        if (!StringUtils.isNotBlank(strDate)) {
+    public static LocalDateTime parseDateTimeWithMilisByW3C(String strDate) {
+        if (StringUtils.isNotBlank(strDate)) {
             try {
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
                 return LocalDateTime.parse(strDate, formatter);
+            } catch (DateTimeParseException e) {
+                LOG.error("Error while parse date", e);
+            }
+        }
+        return null;
+    }
+
+    public static LocalDate parseDate(String strDate) {
+        if (StringUtils.isNotBlank(strDate)) {
+            try {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                return LocalDate.parse(strDate, formatter);
             } catch (DateTimeParseException e) {
                 LOG.error("Error while parse date", e);
             }

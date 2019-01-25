@@ -57,7 +57,6 @@ import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.ELabel;
-import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.ui.UIUtils;
 import com.mycollab.vaadin.web.ui.AbstractLazyPageView;
 import com.mycollab.vaadin.web.ui.ButtonGroup;
@@ -266,7 +265,7 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
 
             VaadinIcons statusIcon = ProjectAssetsUtil.getPhaseIcon(milestone.getStatus());
             ELabel statusLbl = ELabel.html(statusIcon.getHtml() + " " + UserUIContext.getMessage(MilestoneStatus.class,
-                    milestone.getStatus())).withStyleName(UIConstants.BLOCK).withUndefinedWidth();
+                    milestone.getStatus())).withStyleName(WebThemes.BLOCK).withUndefinedWidth();
             ToggleMilestoneSummaryField toggleMilestoneSummaryField = new ToggleMilestoneSummaryField(milestone, false, true);
             MHorizontalLayout headerLayout = new MHorizontalLayout(statusLbl, toggleMilestoneSummaryField).expand
                     (toggleMilestoneSummaryField).withFullWidth();
@@ -296,10 +295,10 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
             if (totalAssignments > 0) {
                 progressInfoLbl = new ELabel(UserUIContext.getMessage(ProjectI18nEnum.OPT_PROJECT_TICKET,
                         (totalAssignments - openAssignments), totalAssignments, (totalAssignments - openAssignments)
-                                * 100 / totalAssignments)).withStyleName(UIConstants.META_INFO);
+                                * 100 / totalAssignments)).withStyleName(WebThemes.META_INFO);
             } else {
                 progressInfoLbl = new ELabel(UserUIContext.getMessage(ProjectI18nEnum.OPT_NO_TICKET))
-                        .withStyleName(UIConstants.META_INFO);
+                        .withStyleName(WebThemes.META_INFO);
             }
 
             final MVerticalLayout issueLayout = new MVerticalLayout().withMargin(new MarginInfo(false, true, false, true));
@@ -332,9 +331,9 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
                             } else {
                                 status = UserUIContext.getMessage(StatusI18nEnum.class, ticket.getStatus());
                             }
-                            rowComp.with(new ELabel(status).withStyleName(UIConstants.BLOCK).withUndefinedWidth());
+                            rowComp.with(new ELabel(status).withStyleName(WebThemes.BLOCK).withUndefinedWidth());
                             String avatarLink = StorageUtils.getAvatarPath(ticket.getAssignUserAvatarId(), 16);
-                            Img img = new Img(ticket.getAssignUserFullName(), avatarLink).setCSSClass(UIConstants.CIRCLE_BOX)
+                            Img img = new Img(ticket.getAssignUserFullName(), avatarLink).setCSSClass(WebThemes.CIRCLE_BOX)
                                     .setTitle(ticket.getAssignUserFullName());
                             rowComp.with(ELabel.html(img.write()).withUndefinedWidth());
 

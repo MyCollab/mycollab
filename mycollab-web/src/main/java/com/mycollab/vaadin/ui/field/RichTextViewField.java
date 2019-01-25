@@ -18,7 +18,7 @@ package com.mycollab.vaadin.ui.field;
 
 import com.mycollab.core.utils.StringUtils;
 import com.mycollab.vaadin.ui.ELabel;
-import com.mycollab.vaadin.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomField;
 
@@ -32,7 +32,7 @@ public class RichTextViewField extends CustomField<String> {
     private ELabel label;
 
     public RichTextViewField() {
-        label = ELabel.html("").withStyleName(UIConstants.LABEL_WORD_WRAP);
+        label = ELabel.html("").withStyleName(WebThemes.LABEL_WORD_WRAP);
     }
 
     @Override

@@ -2,7 +2,6 @@ package com.mycollab.module.project.view.reports;
 
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Img;
-import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.core.utils.StringUtils;
 import com.mycollab.html.DivLessFormatter;
 import com.mycollab.module.file.StorageUtils;
@@ -15,9 +14,7 @@ import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.TooltipHelper;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
-import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.web.ui.WebThemes;
-import com.vaadin.ui.Label;
 import com.vaadin.ui.themes.ValoTheme;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
@@ -46,7 +43,7 @@ class StandupMissingComp extends MVerticalLayout {
 
     private String buildMemberLink(Integer projectId, SimpleUser user) {
         DivLessFormatter div = new DivLessFormatter();
-        Img userAvatar = new Img("", StorageUtils.getAvatarPath(user.getAvatarid(), 16)).setCSSClass(UIConstants.CIRCLE_BOX);
+        Img userAvatar = new Img("", StorageUtils.getAvatarPath(user.getAvatarid(), 16)).setCSSClass(WebThemes.CIRCLE_BOX);
         A userLink = new A().setId("tag" + TooltipHelper.TOOLTIP_ID).
                 setHref(ProjectLinkGenerator.generateProjectMemberLink(projectId, user.getUsername()));
 

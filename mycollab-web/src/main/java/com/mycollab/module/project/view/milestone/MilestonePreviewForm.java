@@ -98,7 +98,7 @@ public class MilestonePreviewForm extends AdvancedPreviewBeanForm<SimpleMileston
                 String milestoneStatus = UserUIContext.getMessage(MilestoneStatus.class, milestone.getStatus());
                 VaadinIcons statusIcon = ProjectAssetsUtil.getPhaseIcon(milestone.getStatus());
                 return new DefaultViewField(statusIcon.getHtml() + " " + milestoneStatus, ContentMode.HTML)
-                        .withStyleName(UIConstants.FIELD_NOTE);
+                        .withStyleName(WebThemes.FIELD_NOTE);
             } else if ("section-assignments".equals(propertyId)) {
                 ContainerViewField containerField = new ContainerViewField();
                 containerField.addComponentField(new AssignmentsComp(milestone));
@@ -202,9 +202,9 @@ public class MilestonePreviewForm extends AdvancedPreviewBeanForm<SimpleMileston
             } else {
                 status = UserUIContext.getMessage(StatusI18nEnum.class, genericTask.getStatus());
             }
-            rowComp.with(new ELabel(status).withStyleName(UIConstants.BLOCK).withUndefinedWidth());
+            rowComp.with(new ELabel(status).withStyleName(WebThemes.BLOCK).withUndefinedWidth());
             String avatarLink = StorageUtils.getAvatarPath(genericTask.getAssignUserAvatarId(), 16);
-            Img img = new Img(genericTask.getAssignUserFullName(), avatarLink).setCSSClass(UIConstants.CIRCLE_BOX)
+            Img img = new Img(genericTask.getAssignUserFullName(), avatarLink).setCSSClass(WebThemes.CIRCLE_BOX)
                     .setTitle(genericTask.getAssignUserFullName());
 
             ToggleTicketSummaryField toggleTicketSummaryField = new ToggleTicketSummaryField(genericTask);

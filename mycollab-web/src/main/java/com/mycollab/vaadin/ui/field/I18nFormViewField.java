@@ -19,7 +19,7 @@ package com.mycollab.vaadin.ui.field;
 import com.mycollab.core.utils.StringUtils;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
-import com.mycollab.vaadin.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomField;
@@ -36,7 +36,7 @@ public class I18nFormViewField extends CustomField<String> {
 
     public I18nFormViewField(Class<? extends Enum> enumCls) {
         this.enumCls = enumCls;
-        label = new ELabel("", ContentMode.TEXT).withUndefinedWidth().withStyleName(UIConstants.LABEL_WORD_WRAP);
+        label = new ELabel("", ContentMode.TEXT).withUndefinedWidth().withStyleName(WebThemes.LABEL_WORD_WRAP);
     }
 
     public I18nFormViewField withStyleName(String styleName) {

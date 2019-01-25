@@ -17,7 +17,7 @@
 package com.mycollab.vaadin.ui.field;
 
 import com.mycollab.vaadin.ui.ELabel;
-import com.mycollab.vaadin.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomField;
@@ -42,7 +42,7 @@ public final class DefaultViewField extends CustomField<Object> {
 
     public DefaultViewField(String value, ContentMode contentMode) {
         this.value = value;
-        label = new ELabel(value, contentMode).withFullWidth().withStyleName(UIConstants.LABEL_WORD_WRAP)
+        label = new ELabel(value, contentMode).withFullWidth().withStyleName(WebThemes.LABEL_WORD_WRAP)
                 .withUndefinedWidth().withDescription(value);
     }
 

@@ -35,8 +35,8 @@ import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.TooltipHelper;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
-import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.web.ui.AbstractToggleSummaryField;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.themes.ValoTheme;
@@ -59,7 +59,7 @@ class ToggleBugSummaryField extends AbstractToggleSummaryField {
     ToggleBugSummaryField(final BugWithBLOBs bug, int trimCharacters) {
         this.bug = bug;
         this.maxLength = trimCharacters;
-        titleLinkLbl = ELabel.html(buildBugLink()).withStyleName(UIConstants.LABEL_WORD_WRAP).withUndefinedWidth();
+        titleLinkLbl = ELabel.html(buildBugLink()).withStyleName(WebThemes.LABEL_WORD_WRAP).withUndefinedWidth();
         this.addComponent(titleLinkLbl);
         buttonControls = new MHorizontalLayout().withStyleName("toggle").withSpacing(false);
         if (CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.BUGS)) {
@@ -109,7 +109,7 @@ class ToggleBugSummaryField extends AbstractToggleSummaryField {
         Div resultDiv = new DivLessFormatter().appendChild(bugLink);
         if (SimpleBug.isOverdue(bug)) {
             bugLink.setCSSClass("overdue");
-            resultDiv.appendChild(new Span().setCSSClass(UIConstants.META_INFO)
+            resultDiv.appendChild(new Span().setCSSClass(WebThemes.META_INFO)
                     .appendText(" - " + UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_DUE_IN, UserUIContext.formatDuration(bug.getDuedate()))));
         } else if (SimpleBug.isCompleted(bug)) {
             bugLink.setCSSClass("completed");

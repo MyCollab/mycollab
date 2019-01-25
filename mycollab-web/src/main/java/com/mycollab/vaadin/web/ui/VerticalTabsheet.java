@@ -19,7 +19,6 @@ package com.mycollab.vaadin.web.ui;
 import com.mycollab.common.i18n.ShellI18nEnum;
 import com.mycollab.core.MyCollabException;
 import com.mycollab.vaadin.UserUIContext;
-import com.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.Page;
 import com.vaadin.server.Resource;
@@ -110,7 +109,7 @@ public class VerticalTabsheet extends CustomComponent {
             });
 
             tab.setIcon(resource);
-            tab.withStyleName(TAB_STYLE, UIConstants.TEXT_ELLIPSIS).withFullWidth();
+            tab.withStyleName(TAB_STYLE, WebThemes.TEXT_ELLIPSIS).withFullWidth();
 
             if (parentId == null) {
                 navigatorContainer.addComponent(tab);

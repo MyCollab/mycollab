@@ -120,7 +120,7 @@ public class MessageListViewImpl extends AbstractVerticalPageView implements Mes
 
             CssLayout leftHeader = new CssLayout();
             leftHeader.addComponent(ELabel.h3(labelLink.write()));
-            ELabel timePostLbl = new ELabel().prettyDateTime(message.getCreatedtime()).withStyleName(UIConstants.META_INFO);
+            ELabel timePostLbl = new ELabel().prettyDateTime(message.getCreatedtime()).withStyleName(WebThemes.META_INFO);
 
             MButton deleteBtn = new MButton("", clickEvent -> ConfirmDialogExt.show(UI.getCurrent(),
                     UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppUI.getSiteName()),

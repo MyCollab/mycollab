@@ -38,7 +38,6 @@ import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.ReloadableComponent;
 import com.mycollab.vaadin.ui.SafeHtmlLabel;
-import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.ui.formatter.DefaultFieldDisplayHandler;
 import com.mycollab.vaadin.ui.formatter.FieldGroupFormatter;
 import com.mycollab.vaadin.ui.registry.AuditLogRegistry;
@@ -192,7 +191,7 @@ public class ProjectActivityComponent extends MVerticalLayout implements Reloada
         ELabel timePostLbl = ELabel.html(UserUIContext.getMessage(GenericI18Enum.EXT_ADDED_COMMENT, comment.getOwnerFullName(),
                 UserUIContext.formatPrettyTime(comment.getCreatedtime())))
                 .withDescription(UserUIContext.formatDateTime(comment.getCreatedtime()))
-                .withStyleName(UIConstants.META_INFO);
+                .withStyleName(WebThemes.META_INFO);
 
         if (hasDeletePermission(comment)) {
             MButton msgDeleteBtn = new MButton(VaadinIcons.TRASH).withListener(clickEvent -> {
@@ -254,7 +253,7 @@ public class ProjectActivityComponent extends MVerticalLayout implements Reloada
             ELabel timePostLbl = ELabel.html(UserUIContext.getMessage(GenericI18Enum.EXT_MODIFIED_ITEM, auditLog.getPostedUserFullName(),
                     UserUIContext.formatPrettyTime(auditLog.getCreatedtime())))
                     .withDescription(UserUIContext.formatDateTime(auditLog.getCreatedtime()));
-            timePostLbl.setStyleName(UIConstants.META_INFO);
+            timePostLbl.setStyleName(WebThemes.META_INFO);
             messageHeader.with(timePostLbl).expand(timePostLbl);
 
             rowLayout.addComponent(messageHeader);
@@ -265,7 +264,7 @@ public class ProjectActivityComponent extends MVerticalLayout implements Reloada
                 DefaultFieldDisplayHandler fieldDisplayHandler = groupFormatter.getFieldDisplayHandler(fieldName);
                 if (fieldDisplayHandler != null) {
                     Span fieldBlock = new Span().appendText(UserUIContext.getMessage(fieldDisplayHandler.getDisplayName()))
-                            .setCSSClass(UIConstants.BLOCK);
+                            .setCSSClass(WebThemes.BLOCK);
                     Div historyDiv = new Div().appendChild(fieldBlock).appendText(fieldDisplayHandler.getFormat()
                             .toString(item.getOldvalue())).appendText(" " + VaadinIcons.ARROW_RIGHT.getHtml() +
                             " ").appendText(fieldDisplayHandler.getFormat().toString(item.getNewvalue()));

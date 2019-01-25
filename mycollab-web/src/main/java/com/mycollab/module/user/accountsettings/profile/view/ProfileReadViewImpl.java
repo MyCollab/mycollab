@@ -71,7 +71,7 @@ public class ProfileReadViewImpl extends AbstractVerticalPageView implements Pro
     private void displayUserAvatar() {
         avatarAndPass.removeAllComponents();
         Image cropField = UserAvatarControlFactory.createUserAvatarEmbeddedComponent(UserUIContext.getUserAvatarId(), 100);
-        cropField.addStyleName(UIConstants.CIRCLE_BOX);
+        cropField.addStyleName(WebThemes.CIRCLE_BOX);
         CssLayout avatarWrapper = new CssLayout();
         avatarWrapper.addComponent(cropField);
         MVerticalLayout userAvatar = new MVerticalLayout().withMargin(false).with(avatarWrapper);

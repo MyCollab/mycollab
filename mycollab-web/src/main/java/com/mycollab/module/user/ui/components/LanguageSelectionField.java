@@ -18,7 +18,7 @@ package com.mycollab.module.user.ui.components;
 
 import com.mycollab.i18n.LocalizationHelper;
 import com.mycollab.vaadin.ui.ELabel;
-import com.mycollab.vaadin.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.ui.*;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
@@ -38,7 +38,7 @@ public class LanguageSelectionField extends CustomField<String> {
         languageBox.setEmptySelectionAllowed(false);
         languageBox.setWidth("200px");
 
-        languageCode = new ELabel().withStyleName(UIConstants.META_INFO);
+        languageCode = new ELabel().withStyleName(WebThemes.META_INFO);
 
         Locale[] supportedLanguages = LocalizationHelper.getAvailableLocales();
         languageBox.setItems(supportedLanguages);

@@ -44,7 +44,6 @@ import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.resources.LazyStreamSource;
 import com.mycollab.vaadin.resources.OnDemandFileDownloader;
 import com.mycollab.vaadin.ui.ELabel;
-import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.web.ui.AbstractPreviewItemComp;
 import com.mycollab.vaadin.web.ui.AdvancedPreviewBeanForm;
 import com.mycollab.vaadin.web.ui.ReadViewLayout;
@@ -160,7 +159,7 @@ public class PageReadViewImpl extends AbstractPreviewItemComp<Page> implements P
             MVerticalLayout header = new MVerticalLayout().withMargin(false);
             ELabel titleLbl = ELabel.h3(beanItem.getSubject());
             header.with(titleLbl);
-            Div footer = new Div().setStyle("width:100%").setCSSClass(UIConstants.META_INFO);
+            Div footer = new Div().setStyle("width:100%").setCSSClass(WebThemes.META_INFO);
 //            Span lastUpdatedTimeTxt = new Span().appendText(UserUIContext.getMessage(DayI18nEnum.LAST_UPDATED_ON,
 //                    UserUIContext.formatPrettyTime(beanItem.getLastUpdatedTime().getTime())))
 //                    .setTitle(UserUIContext.formatDateTime(beanItem.getLastUpdatedTime().getTime()));
@@ -170,7 +169,7 @@ public class PageReadViewImpl extends AbstractPreviewItemComp<Page> implements P
                     CurrentProjectVariables.getProjectId(), AppUI.getAccountId());
             if (member != null) {
                 Img userAvatar = new Img("", StorageUtils.getAvatarPath(member.getMemberAvatarId(), 16))
-                        .setCSSClass(UIConstants.CIRCLE_BOX);
+                        .setCSSClass(WebThemes.CIRCLE_BOX);
                 A userLink = new A().setId("tag" + TooltipHelper.TOOLTIP_ID).
                         setHref(ProjectLinkGenerator.generateProjectMemberLink(member.getProjectid(),
                                 member.getUsername())).

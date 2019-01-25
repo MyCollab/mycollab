@@ -41,7 +41,6 @@ import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.TooltipHelper;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
-import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.ui.registry.AuditLogRegistry;
 import com.mycollab.vaadin.web.ui.AbstractBeanPagedList;
 import com.mycollab.vaadin.web.ui.ButtonGroup;
@@ -160,7 +159,7 @@ public class ProjectActivityStreamPagedList extends AbstractBeanPagedList<Projec
     private String buildAssigneeValue(SimpleActivityStream activityStream) {
         DivLessFormatter div = new DivLessFormatter();
         Img userAvatar = new Img("", StorageUtils.getAvatarPath(activityStream.getCreatedUserAvatarId(), 16))
-                .setCSSClass(UIConstants.CIRCLE_BOX);
+                .setCSSClass(WebThemes.CIRCLE_BOX);
         A userLink = new A().setId("tag" + TooltipHelper.TOOLTIP_ID).setHref(ProjectLinkGenerator.generateProjectMemberLink(
                 activityStream.getExtratypeid(), activityStream.getCreateduser()));
 

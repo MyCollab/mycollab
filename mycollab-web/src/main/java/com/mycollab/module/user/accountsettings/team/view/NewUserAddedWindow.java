@@ -25,7 +25,6 @@ import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
-import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.shared.ui.ContentMode;
@@ -52,13 +51,13 @@ public class NewUserAddedWindow extends MWindow {
 
         String signinInstruction = UserUIContext.getMessage(UserI18nEnum.OPT_SIGN_IN_MSG, AppUI.getSiteUrl(), AppUI.getSiteUrl());
         content.with(new MVerticalLayout(new Label(signinInstruction, ContentMode.HTML),
-                new ELabel(UserUIContext.getMessage(GenericI18Enum.FORM_EMAIL)).withStyleName(UIConstants.META_INFO),
+                new ELabel(UserUIContext.getMessage(GenericI18Enum.FORM_EMAIL)).withStyleName(WebThemes.META_INFO),
                 new Label("    " + user.getUsername()),
-                new ELabel(UserUIContext.getMessage(ShellI18nEnum.FORM_PASSWORD)).withStyleName(UIConstants.META_INFO),
+                new ELabel(UserUIContext.getMessage(ShellI18nEnum.FORM_PASSWORD)).withStyleName(WebThemes.META_INFO),
                 new Label("    " + (uncryptPassword != null ? uncryptPassword : UserUIContext.getMessage(UserI18nEnum.OPT_USER_SET_OWN_PASSWORD)))));
 
         content.with(new ELabel(UserUIContext.getMessage(GenericI18Enum.HELP_SPAM_FILTER_PREVENT_MESSAGE)).withStyleName
-                (UIConstants.META_INFO));
+                (WebThemes.META_INFO));
 
         Button createMoreUserBtn = new Button(UserUIContext.getMessage(UserI18nEnum.OPT_CREATE_ANOTHER_USER), clickEvent -> {
             EventBusFactory.getInstance().post(new UserEvent.GotoAdd(this, null));

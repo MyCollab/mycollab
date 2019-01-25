@@ -21,12 +21,11 @@ import com.hp.gagawa.java.elements.Img
 import com.mycollab.core.utils.StringUtils
 import com.mycollab.html.DivLessFormatter
 import com.mycollab.module.file.service.AbstractStorageService
-import com.mycollab.module.project.ProjectLinkBuilder
 import com.mycollab.module.project.ProjectLinkGenerator
 import com.mycollab.spring.AppContextUtil
 import com.mycollab.vaadin.TooltipHelper
 import com.mycollab.vaadin.TooltipHelper.TOOLTIP_ID
-import com.mycollab.vaadin.ui.UIConstants
+import com.mycollab.vaadin.web.ui.WebThemes
 import com.vaadin.shared.ui.ContentMode
 import com.vaadin.ui.Label
 
@@ -42,7 +41,7 @@ class ProjectUserLink(projectId: Int, username: String?, userAvatarId: String?, 
             val div = DivLessFormatter()
             val avatarLink = Img("", AppContextUtil.getSpringBean(AbstractStorageService::class.java)
                     .getAvatarPath(userAvatarId, 16))
-            avatarLink.cssClass = UIConstants.CIRCLE_BOX
+            avatarLink.cssClass = WebThemes.CIRCLE_BOX
             val memberLink = A().setId("tag$TOOLTIP_ID").setHref(ProjectLinkGenerator.generateProjectMemberLink(
                     projectId, username)).appendText(StringUtils.trim(displayName, 30, true))
             memberLink.setAttribute("onmouseover", TooltipHelper.userHoverJsFunction(username))

@@ -42,7 +42,6 @@ import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.vaadin.TooltipHelper;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
-import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.ui.UIUtils;
 import com.mycollab.vaadin.web.ui.AbstractToggleSummaryField;
 import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
@@ -68,7 +67,7 @@ public class ToggleTicketSummaryField extends AbstractToggleSummaryField {
         this.ticket = ticket;
         this.setWidth("100%");
         titleLinkLbl = ELabel.html(buildTicketLink()).withStyleName(ValoTheme.LABEL_NO_MARGIN,
-                UIConstants.LABEL_WORD_WRAP).withUndefinedWidth();
+                WebThemes.LABEL_WORD_WRAP).withUndefinedWidth();
         if (ticket.isClosed()) {
             titleLinkLbl.addStyleName(WebThemes.LINK_COMPLETED);
         } else if (ticket.isOverdue()) {
@@ -173,7 +172,7 @@ public class ToggleTicketSummaryField extends AbstractToggleSummaryField {
         issueDiv.appendChild(ticketLink);
 
         if (ticket.isOverdue()) {
-            issueDiv.appendChild(new Span().setCSSClass(UIConstants.META_INFO).appendText(" - " + UserUIContext
+            issueDiv.appendChild(new Span().setCSSClass(WebThemes.META_INFO).appendText(" - " + UserUIContext
                     .getMessage(ProjectCommonI18nEnum.OPT_DUE_IN, UserUIContext.formatDuration(ticket.getDueDate()))));
         }
         return issueDiv.write();

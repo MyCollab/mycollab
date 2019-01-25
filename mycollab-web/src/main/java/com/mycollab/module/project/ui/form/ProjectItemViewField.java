@@ -24,13 +24,11 @@ import com.mycollab.module.project.domain.SimpleProject;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.vaadin.TooltipHelper;
 import com.mycollab.vaadin.ui.ELabel;
-import com.mycollab.vaadin.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomField;
 import com.vaadin.ui.Label;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
-
-import static com.mycollab.vaadin.TooltipHelper.TOOLTIP_ID;
 
 /**
  * @author MyCollab Ltd.
@@ -61,7 +59,7 @@ public class ProjectItemViewField extends CustomField<String> {
         milestoneLink.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(type, typeId + ""));
         milestoneLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction());
         div.appendChild(milestoneLink);
-        ELabel label = ELabel.html(div.write()).withStyleName(UIConstants.TEXT_ELLIPSIS);
+        ELabel label = ELabel.html(div.write()).withStyleName(WebThemes.TEXT_ELLIPSIS);
         return new MHorizontalLayout(ELabel.fontIcon(ProjectAssetsManager.getAsset(type)).withUndefinedWidth(), label).expand(label);
     }
 

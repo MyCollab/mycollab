@@ -34,7 +34,6 @@ import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.resources.VaadinResourceFactory;
 import com.mycollab.vaadin.resources.file.FileAssetsUtil;
 import com.mycollab.vaadin.ui.ELabel;
-import com.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.FileDownloader;
 import com.vaadin.shared.ui.ContentMode;
@@ -106,7 +105,7 @@ public class AttachmentDisplayComponent extends CssLayout {
         MCssLayout attachmentNameWrap = new MCssLayout().withWidth(WebUIConstants.DEFAULT_ATTACHMENT_THUMBNAIL_WIDTH)
                 .withStyleName("attachment-name-wrap");
 
-        Label attachmentName = new ELabel(docName).withStyleName(UIConstants.TEXT_ELLIPSIS);
+        Label attachmentName = new ELabel(docName).withStyleName(WebThemes.TEXT_ELLIPSIS);
         attachmentNameWrap.addComponent(attachmentName);
         attachmentLayout.addComponent(attachmentNameWrap, "bottom: 0px; left: 0px; right: 0px; z-index: 1;");
 

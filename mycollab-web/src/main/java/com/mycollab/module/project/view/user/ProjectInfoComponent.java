@@ -35,7 +35,6 @@ import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ViewManager;
 import com.mycollab.vaadin.ui.ELabel;
-import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.shared.ui.MarginInfo;
@@ -61,13 +60,13 @@ public class ProjectInfoComponent extends MHorizontalLayout {
         breadCrumb.setProject(project);
         MVerticalLayout headerLayout = new MVerticalLayout().withSpacing(false).withMargin(new MarginInfo(false, true, false, true));
 
-        MHorizontalLayout footer = new MHorizontalLayout().withStyleName(UIConstants.META_INFO, WebThemes.FLEX_DISPLAY);
+        MHorizontalLayout footer = new MHorizontalLayout().withStyleName(WebThemes.META_INFO, WebThemes.FLEX_DISPLAY);
         footer.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
         headerLayout.with(breadCrumb, footer);
 
         if (project.getMemlead() != null) {
             Div leadAvatar = new DivLessFormatter().appendChild(new Img("", StorageUtils.getAvatarPath
-                            (project.getLeadAvatarId(), 16)).setCSSClass(UIConstants.CIRCLE_BOX), DivLessFormatter.EMPTY_SPACE,
+                            (project.getLeadAvatarId(), 16)).setCSSClass(WebThemes.CIRCLE_BOX), DivLessFormatter.EMPTY_SPACE,
                     new A(ProjectLinkGenerator.generateProjectMemberLink(project.getId(), project.getMemlead()))
                             .appendText(StringUtils.trim(project.getLeadFullName(), 30, true)))
                     .setTitle(project.getLeadFullName());
@@ -87,7 +86,7 @@ public class ProjectInfoComponent extends MHorizontalLayout {
                 clientDiv.appendText(VaadinIcons.INSTITUTION.getHtml() + " ");
             } else {
                 Img clientImg = new Img("", StorageUtils.getEntityLogoPath(AppUI.getAccountId(), project.getClientAvatarId(), 16))
-                        .setCSSClass(UIConstants.CIRCLE_BOX);
+                        .setCSSClass(WebThemes.CIRCLE_BOX);
                 clientDiv.appendChild(clientImg).appendChild(DivLessFormatter.EMPTY_SPACE);
             }
             clientDiv.appendChild(new A(ProjectLinkGenerator.generateClientPreviewLink(project.getClientid()))

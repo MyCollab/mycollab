@@ -37,7 +37,6 @@ import com.mycollab.vaadin.mvp.AbstractVerticalPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.FormContainer;
-import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.web.ui.AddViewLayout;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
@@ -46,8 +45,6 @@ import com.vaadin.ui.*;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
-
-import java.util.Collection;
 
 /**
  * @author MyCollab Ltd.
@@ -84,7 +81,7 @@ public class ProjectMemberInviteViewImpl extends AbstractVerticalPageView implem
 
         inviteUserTokenField = new InviteUserTokenField();
         informationLayout.addComponent(new MVerticalLayout(inviteUserTokenField, new ELabel(UserUIContext.getMessage
-                        (ProjectMemberI18nEnum.USER_TOKEN_INVITE_HINT)).withFullWidth().withStyleName(UIConstants.META_INFO)).withMargin(false),
+                        (ProjectMemberI18nEnum.USER_TOKEN_INVITE_HINT)).withFullWidth().withStyleName(WebThemes.META_INFO)).withMargin(false),
                 UserUIContext.getMessage(ProjectMemberI18nEnum.FORM_INVITEES_EMAIL), 0, 0);
         informationLayout.addComponent(roleComboBox, UserUIContext.getMessage(ProjectMemberI18nEnum.FORM_ROLE), 0, 1);
 

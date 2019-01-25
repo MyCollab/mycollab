@@ -4,7 +4,7 @@ import com.mycollab.core.utils.StringUtils;
 import com.mycollab.module.project.event.BugVersionEvent;
 import com.mycollab.module.tracker.domain.Version;
 import com.mycollab.vaadin.EventBusFactory;
-import com.mycollab.vaadin.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomField;
 import com.vaadin.ui.themes.ValoTheme;
@@ -41,7 +41,7 @@ public class VersionsViewField extends CustomField<Collection<Version>> {
     private MButton buildVersionLink(Version version) {
         return new MButton(StringUtils.trim(version.getName(), 25, true),
                 clickEvent -> EventBusFactory.getInstance().post(new BugVersionEvent.GotoRead(this, version.getId())))
-                .withDescription(version.getName()).withStyleName(UIConstants.BLOCK, ValoTheme.BUTTON_SMALL);
+                .withDescription(version.getName()).withStyleName(WebThemes.BLOCK, ValoTheme.BUTTON_SMALL);
     }
 
     @Override

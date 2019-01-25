@@ -23,7 +23,6 @@ import com.mycollab.core.MyCollabException;
 import com.mycollab.core.utils.StringUtils;
 import com.mycollab.form.view.LayoutType;
 import com.mycollab.vaadin.ui.ELabel;
-import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.shared.ui.MarginInfo;
@@ -83,7 +82,7 @@ public class GridFormLayoutHelper implements Serializable {
     public GridCellWrapper buildCell(String fieldId, String caption, String contextHelp, int columns, int rows, int colSpan) {
         MHorizontalLayout captionWrapper = null;
         if (!caption.equals("")) {
-            ELabel captionLbl = new ELabel(caption).withStyleName(UIConstants.LABEL_WORD_WRAP).withDescription(caption);
+            ELabel captionLbl = new ELabel(caption).withStyleName(WebThemes.LABEL_WORD_WRAP).withDescription(caption);
             captionWrapper = new MHorizontalLayout(captionLbl).withSpacing(false).withMargin(new MarginInfo(false, true, false, false))
                     .withStyleName("gridform-caption");
             if (StringUtils.isNotBlank(contextHelp)) {

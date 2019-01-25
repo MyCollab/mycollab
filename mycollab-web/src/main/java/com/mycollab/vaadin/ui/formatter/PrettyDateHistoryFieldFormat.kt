@@ -34,7 +34,7 @@ class PrettyDateHistoryFieldFormat : HistoryFieldFormat {
     override fun toString(value: String, displayAsHtml: Boolean, msgIfBlank: String): String =
             when {
                 StringUtils.isNotBlank(value) -> {
-                    val formatDate = DateTimeUtils.parseDateByW3C(value)
+                    val formatDate = DateTimeUtils.parseDateTimeWithMilisByW3C(value)
                     if (displayAsHtml) {
                         val lbl = Span().appendText(UserUIContext.formatPrettyTime(formatDate))
                         lbl.title = UserUIContext.formatDate(formatDate)

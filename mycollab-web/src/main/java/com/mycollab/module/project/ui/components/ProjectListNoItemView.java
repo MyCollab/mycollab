@@ -17,7 +17,6 @@
 package com.mycollab.module.project.ui.components;
 
 import com.mycollab.vaadin.ui.ELabel;
-import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.ui.Alignment;
@@ -37,7 +36,7 @@ public abstract class ProjectListNoItemView extends VerticalLayout {
         ELabel image = ELabel.h2(viewIcon().getHtml()).withUndefinedWidth();
 
         ELabel title = ELabel.h2(viewTitle()).withUndefinedWidth();
-        ELabel body = ELabel.html(viewHint()).withStyleName(UIConstants.LABEL_WORD_WRAP).withUndefinedWidth();
+        ELabel body = ELabel.html(viewHint()).withStyleName(WebThemes.LABEL_WORD_WRAP).withUndefinedWidth();
         MHorizontalLayout links = createControlButtons();
         content.with(image, title, body, links).alignAll(Alignment.TOP_CENTER);
         this.addComponent(content);
