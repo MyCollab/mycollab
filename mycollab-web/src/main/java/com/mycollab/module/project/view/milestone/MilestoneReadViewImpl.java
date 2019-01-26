@@ -65,7 +65,7 @@ public class MilestoneReadViewImpl extends AbstractPreviewItemComp<SimpleMilesto
 
     public MilestoneReadViewImpl() {
         super(UserUIContext.getMessage(MilestoneI18nEnum.DETAIL), ProjectAssetsManager.getAsset
-                (ProjectTypeConstants.MILESTONE), new MilestonePreviewFormLayout(), false);
+                (ProjectTypeConstants.MILESTONE), new MilestonePreviewFormLayout());
     }
 
     @Override

@@ -37,7 +37,7 @@ public abstract class AbstractProjectAddWindow extends MWindow implements Cachea
 
     public AbstractProjectAddWindow(Project valuePrj) {
         super(UserUIContext.getMessage(ProjectI18nEnum.NEW));
-        this.withWidth("900px").withModal(true).withResizable(false).withCenter();
+        this.withWidth("800px").withModal(true).withResizable(false).withCenter();
         this.project = valuePrj;
         if (project.getStatus() == null) {
             project.setStatus(StatusI18nEnum.Open.name());

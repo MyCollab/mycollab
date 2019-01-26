@@ -73,7 +73,7 @@ public class PageReadViewImpl extends AbstractPreviewItemComp<Page> implements P
     private PageService pageService;
 
     public PageReadViewImpl() {
-        super(UserUIContext.getMessage(PageI18nEnum.DETAIL), ProjectAssetsManager.getAsset(ProjectTypeConstants.PAGE), new PagePreviewFormLayout(), false);
+        super(UserUIContext.getMessage(PageI18nEnum.DETAIL), ProjectAssetsManager.getAsset(ProjectTypeConstants.PAGE), new PagePreviewFormLayout());
         pageService = AppContextUtil.getSpringBean(PageService.class);
         constructHeader();
     }

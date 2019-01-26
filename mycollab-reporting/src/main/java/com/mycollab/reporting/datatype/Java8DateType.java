@@ -4,6 +4,7 @@ import net.sf.dynamicreports.report.base.datatype.AbstractDataType;
 import net.sf.dynamicreports.report.defaults.Defaults;
 import net.sf.dynamicreports.report.exception.DRException;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
@@ -12,7 +13,7 @@ import java.util.Locale;
  * @author MyCollab Ltd
  * @since 7.0.0
  */
-public class Java8DateTimeType extends AbstractDataType<LocalDateTime, LocalDateTime> {
+public class Java8DateType  extends AbstractDataType<LocalDate, LocalDate> {
     /**
      * {@inheritDoc}
      */
@@ -25,7 +26,7 @@ public class Java8DateTimeType extends AbstractDataType<LocalDateTime, LocalDate
      * {@inheritDoc}
      */
     @Override
-    public String valueToString(LocalDateTime value, Locale locale) {
+    public String valueToString(LocalDate value, Locale locale) {
         if (value != null) {
             return DateTimeFormatter.ofPattern(getPattern()).withLocale(locale).format(value);
         }
@@ -36,9 +37,9 @@ public class Java8DateTimeType extends AbstractDataType<LocalDateTime, LocalDate
      * {@inheritDoc}
      */
     @Override
-    public LocalDateTime stringToValue(String value, Locale locale) throws DRException {
+    public LocalDate stringToValue(String value, Locale locale) throws DRException {
         if (value != null) {
-            return LocalDateTime.parse(value, DateTimeFormatter.ofPattern(getPattern()).withLocale(locale));
+            return LocalDate.parse(value, DateTimeFormatter.ofPattern(getPattern()).withLocale(locale));
         }
         return null;
     }

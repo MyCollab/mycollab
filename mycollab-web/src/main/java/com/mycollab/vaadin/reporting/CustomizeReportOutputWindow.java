@@ -44,11 +44,12 @@ import com.vaadin.server.Sizeable;
 import com.vaadin.server.StreamResource;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.ItemCaptionGenerator;
+import com.vaadin.ui.RadioButtonGroup;
 import com.vaadin.ui.UI;
-import com.vaadin.v7.ui.OptionGroup;
 import com.vaadin.v7.ui.Table;
 import org.tepi.listbuilder.ListBuilder;
 import org.vaadin.viritin.button.MButton;
+import org.vaadin.viritin.layouts.MCssLayout;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 import org.vaadin.viritin.layouts.MWindow;
@@ -64,7 +65,7 @@ public abstract class CustomizeReportOutputWindow<S extends SearchCriteria, B ex
 
     private ListBuilder listBuilder;
     private String viewId;
-    private OptionGroup optionGroup;
+    private RadioButtonGroup<String> optionGroup;
     private Table sampleTableDisplay;
 
     public CustomizeReportOutputWindow(String viewId, String reportTitle, Class<B> beanCls,
@@ -74,9 +75,8 @@ public abstract class CustomizeReportOutputWindow<S extends SearchCriteria, B ex
         this.withModal(true).withResizable(false).withWidth("1000px").withCenter().withContent(contentLayout);
         this.viewId = viewId;
 
-        optionGroup = new OptionGroup();
-        optionGroup.addStyleName("sortDirection");
-        optionGroup.addItems(UserUIContext.getMessage(FileI18nEnum.CSV), UserUIContext.getMessage(FileI18nEnum.PDF),
+        optionGroup = new RadioButtonGroup<>();
+        optionGroup.setItems(UserUIContext.getMessage(FileI18nEnum.CSV), UserUIContext.getMessage(FileI18nEnum.PDF),
                 UserUIContext.getMessage(FileI18nEnum.EXCEL));
         optionGroup.setValue(UserUIContext.getMessage(FileI18nEnum.CSV));
         contentLayout.with(new MHorizontalLayout(ELabel.h3(UserUIContext.getMessage(GenericI18Enum.ACTION_EXPORT)),
@@ -100,10 +100,10 @@ public abstract class CustomizeReportOutputWindow<S extends SearchCriteria, B ex
                     UserUIContext.getMessage(field.getDescKey()), null, Table.Align.LEFT);
             sampleTableDisplay.setColumnWidth(field.getField(), field.getDefaultWidth());
         }
-        sampleTableDisplay.setWidth("100%");
+
         sampleTableDisplay.addItem(buildSampleData(), 1);
         sampleTableDisplay.setPageLength(1);
-        contentLayout.with(sampleTableDisplay);
+        contentLayout.with(new MCssLayout(sampleTableDisplay).withStyleName(WebThemes.SCROLLABLE_CONTAINER).withFullWidth());
         filterColumns();
 
         listBuilder.addValueChangeListener(valueChangeEvent -> filterColumns());
@@ -188,9 +188,7 @@ public abstract class CustomizeReportOutputWindow<S extends SearchCriteria, B ex
     private void filterColumns() {
         Collection<TableViewField> columns = (Collection<TableViewField>) listBuilder.getValue();
         Collection<String> visibleColumns = new ArrayList<>();
-        for (TableViewField column : columns) {
-            visibleColumns.add(column.getField());
-        }
+        columns.forEach(column -> visibleColumns.add(column.getField()));
         sampleTableDisplay.setVisibleColumns(visibleColumns.toArray(new String[visibleColumns.size()]));
     }
 
@@ -213,5 +211,17 @@ public abstract class CustomizeReportOutputWindow<S extends SearchCriteria, B ex
 
     abstract protected Set<TableViewField> getAvailableColumns();
 
-    abstract protected Object[] buildSampleData();
+    abstract protected Map<String, String> getSampleMap();
+
+    private Object[] buildSampleData() {
+        Map<String, String> sampleMap = getSampleMap();
+        Object[] visibleColumns = sampleTableDisplay.getVisibleColumns();
+        if (visibleColumns != null && visibleColumns.length > 0) {
+            String[] sampleData = new String[visibleColumns.length];
+            for (int i = 0; i < visibleColumns.length; i++) {
+                sampleData[i] = sampleMap.get(visibleColumns[i].toString());
+            }
+            return sampleData;
+        } else return null;
+    }
 }

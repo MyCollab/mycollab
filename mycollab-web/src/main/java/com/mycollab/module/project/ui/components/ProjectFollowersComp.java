@@ -59,7 +59,6 @@ import java.util.List;
  * @author MyCollab Ltd.
  * @since 4.3.3
  */
-// TODO
 public class ProjectFollowersComp<V extends ValuedBean> extends MVerticalLayout {
     private static final long serialVersionUID = 1L;
     private static final Logger LOG = LoggerFactory.getLogger(ProjectFollowersComp.class);
@@ -133,9 +132,7 @@ public class ProjectFollowersComp<V extends ValuedBean> extends MVerticalLayout 
             public void run() {
                 watcherLayout.removeAllComponents();
                 followers = monitorItemService.getWatchers(type, typeId);
-                for (SimpleUser follower : followers) {
-                    watcherLayout.addComponent(new FollowerComp(follower));
-                }
+                followers.forEach(follower -> watcherLayout.addComponent(new FollowerComp(follower)));
             }
         });
     }
@@ -188,7 +185,6 @@ public class ProjectFollowersComp<V extends ValuedBean> extends MVerticalLayout 
         private List<SimpleProjectMember> unsavedMembers = new ArrayList<>();
 
         ModifyWatcherPopup() {
-//            new Restrain(this).setMaxHeight("600px");
             this.addStyleName(WebThemes.SCROLLABLE_CONTAINER);
             ProjectMemberSearchCriteria criteria = new ProjectMemberSearchCriteria();
             criteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));

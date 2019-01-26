@@ -70,7 +70,7 @@ public class ProjectAddWindow extends AbstractProjectAddWindow {
         MButton cancelBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
                 .withStyleName(WebThemes.BUTTON_OPTION);
         MHorizontalLayout buttonControls = new MHorizontalLayout(cancelBtn, saveBtn).withMargin(new MarginInfo(true,
-                true, false, false));
+                false, false, false));
         contentLayout.with(buttonControls).withAlign(buttonControls, Alignment.MIDDLE_RIGHT);
     }
 }

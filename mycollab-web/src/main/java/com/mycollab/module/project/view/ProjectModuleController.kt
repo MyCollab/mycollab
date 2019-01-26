@@ -18,16 +18,18 @@ package com.mycollab.module.project.view
 
 import com.google.common.eventbus.Subscribe
 import com.mycollab.common.domain.SimpleClient
+import com.mycollab.common.service.ClientService
 import com.mycollab.module.project.event.*
 import com.mycollab.module.project.view.parameters.ClientScreenData
 import com.mycollab.module.project.view.parameters.ProjectScreenData
 import com.mycollab.module.project.view.parameters.ReportScreenData
 import com.mycollab.module.project.view.parameters.StandupScreenData
+import com.mycollab.spring.AppContextUtil
+import com.mycollab.vaadin.AppUI
 import com.mycollab.vaadin.ApplicationEventListener
 import com.mycollab.vaadin.mvp.AbstractController
 import com.mycollab.vaadin.mvp.PageActionChain
 import com.mycollab.vaadin.mvp.PresenterResolver
-import com.mycollab.vaadin.mvp.ScreenData
 import java.time.LocalDate
 
 /**
@@ -89,7 +91,15 @@ class ProjectModuleController(val container: ProjectModule) : AbstractController
             @Subscribe
             override fun handle(event: ClientEvent.GotoEdit) {
                 val presenter = PresenterResolver.getPresenter(BoardContainerPresenter::class.java)
-                presenter.go(container, ScreenData.Edit(event.data))
+                if (event.data is Int) {
+                    val clientService = AppContextUtil.getSpringBean(ClientService::class.java)
+                    val client = clientService.findById(event.data, AppUI.accountId)
+                    if (client != null) {
+                        presenter.go(container, ClientScreenData.Edit(client))
+                    }
+                } else if (event.data is SimpleClient) {
+                    presenter.go(container, ClientScreenData.Edit(event.data))
+                }
             }
         })
 

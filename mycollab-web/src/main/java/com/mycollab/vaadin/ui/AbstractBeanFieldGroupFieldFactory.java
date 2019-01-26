@@ -123,6 +123,7 @@ public abstract class AbstractBeanFieldGroupFieldFactory<B> implements IBeanFiel
                     }
                 } else {
                     if (formField instanceof IgnoreBindingField) {
+                        attachForm.attachField(field.getName(), formField);
                         continue;
                     } else {
                         Binder.BindingBuilder<B, ?> bindingBuilder = binder.forField(formField);

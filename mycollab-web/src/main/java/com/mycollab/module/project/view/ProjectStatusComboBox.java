@@ -18,6 +18,7 @@ package com.mycollab.module.project.view;
 
 import com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.mycollab.vaadin.web.ui.I18nValueComboBox;
+import com.mycollab.vaadin.web.ui.WebThemes;
 
 /**
  * @author MyCollab Ltd
@@ -28,5 +29,6 @@ public class ProjectStatusComboBox extends I18nValueComboBox<StatusI18nEnum> {
 
     public ProjectStatusComboBox() {
         super(StatusI18nEnum.class, StatusI18nEnum.Open, StatusI18nEnum.Closed);
+        setWidth(WebThemes.FORM_CONTROL_WIDTH);
     }
 }

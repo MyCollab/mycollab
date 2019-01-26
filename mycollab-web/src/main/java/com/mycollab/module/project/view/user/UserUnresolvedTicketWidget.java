@@ -84,11 +84,6 @@ public class UserUnresolvedTicketWidget extends Depot {
         updateSearchResult();
     }
 
-    public void displayNoUnresolvedAssignmentsThisWeek() {
-        title = UserUIContext.getMessage(ProjectI18nEnum.OPT_UNRESOLVED_TICKET_THIS_WEEK);
-        this.setTitle(String.format(title, 0));
-    }
-
     public void displayUnresolvedAssignmentsNextWeek(List<Integer> projectIds) {
         title = UserUIContext.getMessage(ProjectI18nEnum.OPT_UNRESOLVED_TICKET_NEXT_WEEK);
         searchCriteria = new ProjectTicketSearchCriteria();
@@ -100,11 +95,6 @@ public class UserUnresolvedTicketWidget extends Depot {
         RangeDateSearchField range = new RangeDateSearchField(bounceDateOfWeek[0], bounceDateOfWeek[1]);
         searchCriteria.setDateInRange(range);
         updateSearchResult();
-    }
-
-    public void displayNoUnresolvedAssignmentsNextWeek() {
-        title = UserUIContext.getMessage(ProjectI18nEnum.OPT_UNRESOLVED_TICKET_NEXT_WEEK);
-        this.setTitle(String.format(title, 0));
     }
 
     private void updateSearchResult() {

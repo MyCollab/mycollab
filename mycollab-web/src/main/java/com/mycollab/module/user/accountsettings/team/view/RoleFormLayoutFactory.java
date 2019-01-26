@@ -61,7 +61,6 @@ public abstract class RoleFormLayoutFactory extends WrappedFormLayoutFactory {
 
     protected abstract Layout createBottomPanel();
 
-
     static class RoleInformationLayout extends AbstractFormLayoutFactory {
         private GridFormLayoutHelper informationLayout;
 
@@ -76,12 +75,12 @@ public abstract class RoleFormLayoutFactory extends WrappedFormLayoutFactory {
 
         @Override
         protected HasValue<?> onAttachField(Object propertyId, final HasValue<?> field) {
-            if (propertyId.equals("rolename")) {
+            if (Role.Field.rolename.equalTo(propertyId)) {
                 return informationLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.FORM_NAME), 0, 0);
             } else if (Role.Field.isdefault.equalTo(propertyId)) {
                 return informationLayout.addComponent(field, UserUIContext.getMessage(RoleI18nEnum.FORM_IS_DEFAULT),
                         UserUIContext.getMessage(RoleI18nEnum.FORM_IS_DEFAULT_HELP), 0, 1);
-            } else if (propertyId.equals("description")) {
+            } else if (Role.Field.description.equalTo(propertyId)) {
                 return informationLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.FORM_DESCRIPTION), 0, 2);
             }
             return null;

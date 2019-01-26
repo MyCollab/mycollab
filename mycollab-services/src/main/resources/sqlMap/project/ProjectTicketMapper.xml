@@ -23,7 +23,7 @@
         <result column="numComments" jdbcType="INTEGER" property="numComments" />
         <result column="numFollowers" jdbcType="INTEGER" property="numFollowers" />
         <result column="priority" jdbcType="VARCHAR" property="priority" />
-        <result column="sAccountId" jdbcType="INTEGER" property="sAccountId" />
+        <result column="sAccountId" jdbcType="INTEGER" property="saccountid" />
         <result column="billableHours" property="billableHours" jdbcType="DOUBLE"/>
         <result column="nonBillableHours" property="nonBillableHours" jdbcType="DOUBLE"/>
         <result column="startDate" jdbcType="TIMESTAMP" property="startDate" />

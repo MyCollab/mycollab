@@ -19,6 +19,7 @@ package com.mycollab.module.project.view.settings;
 import com.mycollab.common.i18n.SecurityI18nEnum;
 import com.mycollab.core.UserInvalidInputException;
 import com.mycollab.form.view.LayoutType;
+import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectRolePermissionCollections;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.domain.ProjectMember;
@@ -77,7 +78,8 @@ public class ProjectMemberEditViewImpl extends AbstractEditItemComp<SimpleProjec
 
     @Override
     protected ComponentContainer createButtonControls() {
-        return generateEditFormControls(editForm, true, false, true);
+        return generateEditFormControls(editForm,
+                CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.USERS), false, true);
     }
 
     @Override

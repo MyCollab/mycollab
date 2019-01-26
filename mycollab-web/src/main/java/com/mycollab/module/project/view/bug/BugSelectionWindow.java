@@ -30,6 +30,7 @@ import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.FieldSelection;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.mycollab.vaadin.web.ui.table.DefaultPagedBeanTable;
+import com.vaadin.shared.ui.ContentMode;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 import org.vaadin.viritin.layouts.MWindow;
@@ -72,20 +73,21 @@ class BugSelectionWindow extends MWindow {
         tableItem.addGeneratedColumn("name", (source, itemId, columnId) -> {
             final SimpleBug bug = tableItem.getBeanByIndex(itemId);
 
-            MButton b = new MButton(bug.getName(), clickEvent -> {
+            MButton bugLink = new MButton(bug.getName(), clickEvent -> {
                 fieldSelection.fireValueChange(bug);
                 close();
-            }).withStyleName(WebThemes.BUTTON_LINK);
+            }).withStyleName(WebThemes.BUTTON_LINK).withFullWidth();
 
             if (bug.isCompleted()) {
-                b.addStyleName(WebThemes.LINK_COMPLETED);
+                bugLink.addStyleName(WebThemes.LINK_COMPLETED);
             } else if (bug.isOverdue()) {
-                b.addStyleName(WebThemes.LINK_OVERDUE);
+                bugLink.addStyleName(WebThemes.LINK_OVERDUE);
             }
 
-            b.setDescription(ProjectTooltipGenerator.generateToolTipBug(UserUIContext.getUserLocale(), AppUI.getDateFormat(),
-                    bug, AppUI.getSiteUrl(), UserUIContext.getUserTimeZone(), false));
-            return b;
+            bugLink.setDescription(ProjectTooltipGenerator.generateToolTipBug(UserUIContext.getUserLocale(), AppUI.getDateFormat(),
+                    bug, AppUI.getSiteUrl(), UserUIContext.getUserTimeZone(), false), ContentMode.HTML);
+            bugLink.addStyleName(WebThemes.TEXT_ELLIPSIS);
+            return bugLink;
         });
         return tableItem;
     }

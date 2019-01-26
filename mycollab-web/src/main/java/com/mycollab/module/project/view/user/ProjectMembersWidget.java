@@ -46,7 +46,6 @@ import com.mycollab.vaadin.web.ui.Depot;
 import com.mycollab.vaadin.web.ui.SearchTextField;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.icons.VaadinIcons;
-import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Image;
@@ -131,25 +130,24 @@ public class ProjectMembersWidget extends Depot {
             layout.addComponent(userAvatar);
 
             VerticalLayout content = new VerticalLayout();
-            content.addComponent(new ELabel(buildAssigneeValue(member), ContentMode.HTML).withStyleName(WebThemes.TEXT_ELLIPSIS));
+            content.addComponent(ELabel.html(buildAssigneeValue(member)).withStyleName(WebThemes.TEXT_ELLIPSIS));
             layout.with(content).expand(content);
 
             CssLayout footer = new CssLayout();
 
-            String roleVal = member.getRoleName();
+            String roleVal = member.getRoleName() + "&nbsp;&nbsp;";
             ELabel memberRole = ELabel.html(roleVal).withDescription(UserUIContext.getMessage(ProjectRoleI18nEnum.SINGLE))
                     .withStyleName(WebThemes.META_INFO);
             footer.addComponent(memberRole);
 
-            String memberWorksInfo = ProjectAssetsManager.getAsset(ProjectTypeConstants.TASK).getHtml() + "&nbsp;" +
+            String memberWorksInfo = ProjectAssetsManager.getAsset(ProjectTypeConstants.TASK).getHtml() +
                     new Span().appendText("" + member.getNumOpenTasks()).setTitle(UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_OPEN_TASKS)) +
                     "&nbsp;&nbsp;" +
-                    ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG).getHtml() + "&nbsp;" +
+                    ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG).getHtml() +
                     new Span().appendText("" + member.getNumOpenBugs()).setTitle(UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_OPEN_BUGS)) + "&nbsp;&nbsp;"
                     + VaadinIcons.MONEY.getHtml() + "&nbsp;" + new Span().appendText("" + NumberUtils.roundDouble(2,
                     member.getTotalBillableLogTime())).setTitle(UserUIContext.getMessage(TimeTrackingI18nEnum.OPT_BILLABLE_HOURS)) + "&nbsp;&nbsp;" +
-                    VaadinIcons.GIFT.getHtml() +
-                    "&nbsp;" + new Span().appendText("" + NumberUtils.roundDouble(2, member.getTotalNonBillableLogTime()))
+                    VaadinIcons.GIFT.getHtml() + new Span().appendText("" + NumberUtils.roundDouble(2, member.getTotalNonBillableLogTime()))
                     .setTitle(UserUIContext.getMessage(TimeTrackingI18nEnum.OPT_NON_BILLABLE_HOURS));
 
             ELabel memberWorkStatus = ELabel.html(memberWorksInfo).withStyleName(WebThemes.META_INFO);

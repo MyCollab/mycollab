@@ -17,6 +17,7 @@
 package com.mycollab.vaadin;
 
 import ch.qos.cal10n.IMessageConveyor;
+import com.mycollab.common.i18n.DayI18nEnum;
 import com.mycollab.configuration.SiteConfiguration;
 import com.mycollab.core.SessionExpireException;
 import com.mycollab.core.utils.DateTimeUtils;
@@ -39,6 +40,7 @@ import org.slf4j.LoggerFactory;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Period;
 import java.time.ZoneId;
 import java.time.temporal.TemporalAccessor;
 import java.util.Date;
@@ -353,8 +355,9 @@ public class UserUIContext implements Serializable {
                 UserUIContext.getUserTimeZone());
     }
 
-    public static String formatDuration(TemporalAccessor date) {
-        return DateTimeUtils.getPrettyDurationValue(date, getUserLocale());
+    public static String formatDuration(LocalDate date) {
+        Period period = Period.between(date, LocalDate.now());
+        return UserUIContext.getMessage(DayI18nEnum.DURATION, period.getDays());
     }
 
 }

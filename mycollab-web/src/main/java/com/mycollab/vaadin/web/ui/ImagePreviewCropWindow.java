@@ -78,7 +78,7 @@ public class ImagePreviewCropWindow extends MWindow {
 
         VerticalLayout previewBoxTitle = new VerticalLayout();
         previewBoxTitle.setMargin(new MarginInfo(false, true, false, true));
-        previewBoxTitle.addComponent(ELabel.html(UserUIContext.getMessage(ShellI18nEnum.OPT_IMAGE_EDIT_INSTRUCTION)));
+        previewBoxTitle.addComponent(ELabel.html(UserUIContext.getMessage(ShellI18nEnum.OPT_IMAGE_EDIT_INSTRUCTION)).withFullWidth());
 
         MButton cancelBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
                 .withStyleName(WebThemes.BUTTON_OPTION);
@@ -114,16 +114,14 @@ public class ImagePreviewCropWindow extends MWindow {
             int y1 = newSelection.getY();
             int x2 = newSelection.getWidth();
             int y2 = newSelection.getHeight();
-            if (x2 > x1 && y2 > y1) {
-                BufferedImage subImage = originalImage.getSubimage(x1, y1, x2, y2);
-                ByteArrayOutputStream outStream = new ByteArrayOutputStream();
-                try {
-                    ImageIO.write(subImage, "png", outStream);
-                    scaleImageData = outStream.toByteArray();
-                    displayPreviewImage();
-                } catch (IOException e) {
-                    LOG.error("Error while scale image: ", e);
-                }
+            BufferedImage subImage = originalImage.getSubimage(x1, y1, x2, y2);
+            ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+            try {
+                ImageIO.write(subImage, "png", outStream);
+                scaleImageData = outStream.toByteArray();
+                displayPreviewImage();
+            } catch (IOException e) {
+                LOG.error("Error while scale image: ", e);
             }
         });
         cropBox.setWidth("470px");

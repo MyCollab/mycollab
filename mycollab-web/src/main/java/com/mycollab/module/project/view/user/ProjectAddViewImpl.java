@@ -16,22 +16,20 @@
  */
 package com.mycollab.module.project.view.user;
 
-import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
-import com.mycollab.core.MyCollabException;
-import com.mycollab.form.view.LayoutType;
+import com.mycollab.configuration.SiteConfiguration;
+import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.domain.Project;
-import com.mycollab.module.project.i18n.ProjectI18nEnum;
 import com.mycollab.module.project.ui.ProjectAssetsUtil;
 import com.mycollab.module.project.view.settings.component.ProjectMemberSelectionField;
-import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.event.HasEditFormHandlers;
 import com.mycollab.vaadin.mvp.AbstractVerticalPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.*;
 import com.mycollab.vaadin.web.ui.AddViewLayout;
+import com.mycollab.vaadin.web.ui.DefaultDynaFormLayout;
 import com.mycollab.vaadin.web.ui.I18nValueComboBox;
-import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.data.HasValue;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
@@ -96,6 +94,7 @@ public class ProjectAddViewImpl extends AbstractVerticalPageView implements Proj
             projectInformationLayout = new ProjectInformationLayout();
             projectAddLayout.addHeaderTitle(buildHeaderTitle());
             projectAddLayout.addHeaderRight(createButtonControls());
+
             projectAddLayout.addBody(projectInformationLayout.getLayout());
 
             return projectAddLayout;
@@ -117,68 +116,23 @@ public class ProjectAddViewImpl extends AbstractVerticalPageView implements Proj
     }
 
     private static class ProjectInformationLayout extends AbstractFormLayoutFactory {
-        private GridFormLayoutHelper informationLayout;
-        private GridFormLayoutHelper financialLayout;
-        private GridFormLayoutHelper descriptionLayout;
+        private IFormLayoutFactory formLayoutFactory;
 
         @Override
         public AbstractComponent getLayout() {
-            final FormContainer layout = new FormContainer();
-
-            informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(LayoutType.TWO_COLUMN);
-            layout.addSection(UserUIContext.getMessage(ProjectI18nEnum.SECTION_PROJECT_INFO), informationLayout.getLayout());
-
-            financialLayout = GridFormLayoutHelper.defaultFormLayoutHelper(LayoutType.TWO_COLUMN);
-            layout.addSection(UserUIContext.getMessage(ProjectI18nEnum.SECTION_FINANCE_SCHEDULE), financialLayout.getLayout());
-
-            descriptionLayout = GridFormLayoutHelper.defaultFormLayoutHelper(LayoutType.TWO_COLUMN);
-            layout.addSection(UserUIContext.getMessage(ProjectI18nEnum.SECTION_DESCRIPTION), descriptionLayout.getLayout());
-            return layout;
+            if (SiteConfiguration.isCommunityEdition())
+                formLayoutFactory = new DefaultDynaFormLayout(ProjectTypeConstants.PROJECT, ProjectDefaultFormLayoutFactory.getAddForm(), Project.Field.clientid.name());
+            else
+                formLayoutFactory = new DefaultDynaFormLayout(ProjectTypeConstants.PROJECT, ProjectDefaultFormLayoutFactory.getAddForm());
+            return formLayoutFactory.getLayout();
         }
 
         @Override
-        public HasValue<?> onAttachField(Object propertyId, final HasValue<?> field) {
-            if (propertyId.equals("name")) {
-                return informationLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.FORM_NAME), 0, 0);
-            } else if (propertyId.equals("homepage")) {
-                return informationLayout.addComponent(field, UserUIContext.getMessage(ProjectI18nEnum.FORM_HOME_PAGE), 1, 0);
-            } else if (propertyId.equals("shortname")) {
-                return informationLayout.addComponent(field, UserUIContext.getMessage(ProjectI18nEnum.FORM_SHORT_NAME),
-                        UserUIContext.getMessage(ProjectI18nEnum.FORM_SHORT_NAME_HELP), 0, 1);
-            } else if (propertyId.equals("projectstatus")) {
-                return informationLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.FORM_STATUS), 1, 1);
-            } else if (Project.Field.memlead.equalTo(propertyId)) {
-                return informationLayout.addComponent(field, UserUIContext.getMessage(ProjectI18nEnum.FORM_LEADER), 0, 2);
-            } else if (propertyId.equals("planstartdate")) {
-                return financialLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.FORM_START_DATE), 0, 0);
-            } else if (Project.Field.clientid.equalTo(propertyId)) {
-                return financialLayout.addComponent(field, UserUIContext.getMessage(ProjectI18nEnum.FORM_ACCOUNT_NAME),
-                        UserUIContext.getMessage(ProjectI18nEnum.FORM_ACCOUNT_NAME_HELP), 1, 0);
-            } else if (propertyId.equals("planenddate")) {
-                return financialLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.FORM_END_DATE), 0, 1);
-            } else if (Project.Field.currencyid.equalTo(propertyId)) {
-                return financialLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.FORM_CURRENCY),
-                        UserUIContext.getMessage(ProjectI18nEnum.FORM_CURRENCY_HELP), 1, 1);
-            } else if (propertyId.equals("defaultbillingrate")) {
-                return financialLayout.addComponent(field, UserUIContext.getMessage(ProjectI18nEnum.FORM_BILLING_RATE),
-                        UserUIContext.getMessage(ProjectI18nEnum.FORM_BILLING_RATE_HELP), 0, 2);
-            } else if (Project.Field.defaultovertimebillingrate.equalTo(propertyId)) {
-                return financialLayout.addComponent(field, UserUIContext.getMessage(ProjectI18nEnum.FORM_OVERTIME_BILLING_RATE),
-                        UserUIContext.getMessage(ProjectI18nEnum.FORM_OVERTIME_BILLING_RATE_HELP), 1, 2);
-            } else if (Project.Field.targetbudget.equalTo(propertyId)) {
-                return financialLayout.addComponent(field, UserUIContext.getMessage(ProjectI18nEnum.FORM_TARGET_BUDGET),
-                        UserUIContext.getMessage(ProjectI18nEnum.FORM_TARGET_BUDGET_HELP), 0, 3);
-            } else if (Project.Field.actualbudget.equalTo(propertyId)) {
-                return financialLayout.addComponent(field, UserUIContext.getMessage(ProjectI18nEnum.FORM_ACTUAL_BUDGET),
-                        UserUIContext.getMessage(ProjectI18nEnum.FORM_ACTUAL_BUDGET_HELP), 1, 3);
-            } else if (propertyId.equals("description")) {
-                return descriptionLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.FORM_DESCRIPTION), 0, 0, 2);
-            }
-            return null;
+        protected HasValue<?> onAttachField(Object propertyId, HasValue<?> field) {
+            return formLayoutFactory.attachField(propertyId, field);
         }
     }
 
-    // TODO
     private static class EditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<Project> {
         private static final long serialVersionUID = 1L;
 
@@ -196,26 +150,28 @@ public class ProjectAddViewImpl extends AbstractVerticalPageView implements Proj
             } else if (Project.Field.status.equalTo(propertyId)) {
                 final ProjectStatusComboBox statusSelection = new ProjectStatusComboBox();
                 statusSelection.setRequiredIndicatorVisible(true);
+                statusSelection.setWidth(WebThemes.FORM_CONTROL_WIDTH);
                 if (project.getStatus() == null) {
                     project.setStatus(StatusI18nEnum.Open.name());
                 }
                 return statusSelection;
             } else if (Project.Field.shortname.equalTo(propertyId)) {
-                return new MTextField().withRequiredIndicatorVisible(true);
+                return new MTextField().withWidth(WebThemes.FORM_CONTROL_WIDTH).withRequiredIndicatorVisible(true);
             } else if (Project.Field.currencyid.equalTo(propertyId)) {
                 return new CurrencyComboBoxField();
             } else if (Project.Field.name.equalTo(propertyId)) {
                 return new MTextField().withRequiredIndicatorVisible(true);
             } else if (Project.Field.clientid.equalTo(propertyId)) {
-                throw new MyCollabException("Need implement");
-//                return new ClientSelectionField();
+                return UIUtils.getComponent("com.mycollab.pro.module.project.view.client.ClientSelectionField");
             } else if (Project.Field.memlead.equalTo(propertyId)) {
                 return new ProjectMemberSelectionField();
             } else if (Project.Field.defaultbillingrate.equalTo(propertyId)
                     || Project.Field.defaultovertimebillingrate.equalTo(propertyId)
                     || Project.Field.targetbudget.equalTo(propertyId)
                     || Project.Field.actualbudget.equalTo(propertyId)) {
-                return new DoubleField();
+                return new DoubleField().withWidth(WebThemes.FORM_CONTROL_WIDTH);
+            } else if (Project.Field.planstartdate.equalTo(propertyId) || Project.Field.planenddate.equalTo(propertyId)) {
+                return new DateField();
             }
 
             return null;

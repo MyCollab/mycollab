@@ -80,12 +80,8 @@ public class UserProjectDashboardViewImpl extends AbstractVerticalPageView imple
                     .withMargin(new MarginInfo(true, true, false, false)).withFullWidth();
             column1.setComponent(leftPanel);
 
-            MVerticalLayout rightPanel = new MVerticalLayout().withMargin(false);
-
-            rightPanel.with(activityStreamComponent);
-
             ResponsiveColumn column2 = new ResponsiveColumn(12, 12, 6, 6);
-            column2.setComponent(rightPanel);
+            column2.setComponent(activityStreamComponent);
 
             row.addColumn(column1);
             row.addColumn(column2);

@@ -69,7 +69,7 @@ public class ProjectPreviewFormControlsGenerator<T> implements Serializable {
         editButtons = new MHorizontalLayout();
     }
 
-    public HorizontalLayout createButtonControls(int buttonEnableFlags, String permissionItem) {
+    public MHorizontalLayout createButtonControls(int buttonEnableFlags, String permissionItem) {
         optionBtn = new PopupButton();
         optionBtn.addStyleName(WebThemes.BUTTON_OPTION);
         optionBtn.setIcon(VaadinIcons.ELLIPSIS_H);
@@ -172,7 +172,7 @@ public class ProjectPreviewFormControlsGenerator<T> implements Serializable {
         popupButtonsControl.addOption(button);
     }
 
-    public HorizontalLayout createButtonControls(String permissionItem) {
+    public MHorizontalLayout createButtonControls(String permissionItem) {
         return createButtonControls(ADD_BTN_PRESENTED | EDIT_BTN_PRESENTED
                 | DELETE_BTN_PRESENTED | PRINT_BTN_PRESENTED | CLONE_BTN_PRESENTED
                 | NAVIGATOR_BTN_PRESENTED, permissionItem);

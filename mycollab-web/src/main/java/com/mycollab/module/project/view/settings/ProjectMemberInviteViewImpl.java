@@ -99,7 +99,7 @@ public class ProjectMemberInviteViewImpl extends AbstractVerticalPageView implem
             SimpleProjectRole role = roleComboBox.getValue();
             String roleName = (role != null) ? role.getRolename() : "";
             // TODO: error in role.getId for the admin case
-            ProjectMemberInviteViewImpl.this.fireEvent(new ViewEvent<InviteMembers>(ProjectMemberInviteViewImpl.this,
+            ProjectMemberInviteViewImpl.this.fireEvent(new ViewEvent<>(ProjectMemberInviteViewImpl.this,
                     new InviteMembers(inviteUserTokenField.getInviteEmails(), role.getId(), roleName, messageArea.getValue())));
         }).withIcon(VaadinIcons.PAPERPLANE).withStyleName(WebThemes.BUTTON_ACTION);
 

@@ -77,7 +77,7 @@ public class ReOpenWindow extends MWindow {
         editForm.setBean(bug);
         contentLayout.addComponent(editForm);
 
-        withWidth("800px").withModal(true).withResizable(false).withContent(contentLayout).withCenter();
+        withWidth("600px").withModal(true).withResizable(false).withContent(contentLayout).withCenter();
     }
 
     private class EditForm extends AdvancedEditBeanForm<SimpleBug> {
@@ -96,7 +96,7 @@ public class ReOpenWindow extends MWindow {
 
             @Override
             public AbstractComponent getLayout() {
-                VerticalLayout layout = new VerticalLayout();
+                MVerticalLayout layout = new MVerticalLayout();
                 informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(LayoutType.TWO_COLUMN);
                 layout.addComponent(informationLayout.getLayout());
 
@@ -142,8 +142,7 @@ public class ReOpenWindow extends MWindow {
 
                 MHorizontalLayout controlsBtn = new MHorizontalLayout(cancelBtn, reOpenBtn);
 
-                layout.addComponent(controlsBtn);
-                layout.setComponentAlignment(controlsBtn, Alignment.MIDDLE_RIGHT);
+                layout.with(controlsBtn).withAlign(controlsBtn, Alignment.MIDDLE_RIGHT);
                 return layout;
             }
 

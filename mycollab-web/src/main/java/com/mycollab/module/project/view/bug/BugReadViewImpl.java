@@ -95,7 +95,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
 
     public BugReadViewImpl() {
         super(UserUIContext.getMessage(BugI18nEnum.DETAIL),
-                ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG), new BugPreviewFormLayout(), false);
+                ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG), new BugPreviewFormLayout());
     }
 
     @Override
@@ -236,11 +236,10 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
     private static class BugPreviewFormLayout extends ReadViewLayout {
         private ToggleBugSummaryField toggleBugSummaryField;
 
-        void displayBugHeader(final SimpleBug bug) {
+        void displayBugHeader(SimpleBug bug) {
             MVerticalLayout header = new VerticalRemoveInlineComponentMarker().withMargin(false).withFullWidth();
             toggleBugSummaryField = new ToggleBugSummaryField(bug);
-            toggleBugSummaryField.addLabelStyleNames(ValoTheme.LABEL_H3);
-            toggleBugSummaryField.addLabelStyleNames(ValoTheme.LABEL_NO_MARGIN);
+            toggleBugSummaryField.addLabelStyleNames(ValoTheme.LABEL_H3, ValoTheme.LABEL_NO_MARGIN);
             header.with(toggleBugSummaryField).expand(toggleBugSummaryField);
             this.addHeader(header);
 
@@ -254,7 +253,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
             List<SimpleRelatedBug> relatedBugs = bugRelationService.findRelatedBugs(bug.getId());
             if (CollectionUtils.isNotEmpty(relatedBugs)) {
                 for (SimpleRelatedBug relatedBug : relatedBugs) {
-                    if (relatedBug.getRelated() != null) {
+                    if (Boolean.TRUE.equals(relatedBug.getRelated())) {
                         ELabel relatedLink = new ELabel(UserUIContext.getMessage(BugRelation.class,
                                 relatedBug.getRelatedType())).withStyleName(WebThemes.ARROW_BTN).withUndefinedWidth();
                         ToggleBugSummaryWithDependentField toggleRelatedBugField = new ToggleBugSummaryWithDependentField(bug, relatedBug.getRelatedBug());
@@ -340,7 +339,6 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
     public HasPreviewFormHandlers<SimpleBug> getPreviewFormHandlers() {
         return this.previewForm;
     }
-
 
     private static class PeopleInfoComp extends MVerticalLayout {
         private static final long serialVersionUID = 1L;

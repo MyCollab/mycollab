@@ -20,10 +20,7 @@ import org.ocpsoft.prettytime.PrettyTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.temporal.TemporalAccessor;
@@ -109,14 +106,6 @@ public class DateTimeUtils {
         }
         PrettyTime p = new PrettyTime(locale);
         return p.format(convertLocalDateTimeToDate(dateTime, zoneId));
-    }
-
-    public static String getPrettyDurationValue(TemporalAccessor date, Locale locale) {
-//        Period period = Period.between(date, LocalDate.now());
-        // TODO
-//        PeriodFormatter formatter = PeriodFormat.wordBased(locale);
-//        return formatter.print(period);
-        return "Implemented";
     }
 
     private static Date convertLocalDateTimeToDate(LocalDateTime localDT, ZoneId zoneId) {

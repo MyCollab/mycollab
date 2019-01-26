@@ -78,10 +78,10 @@ public class ProjectPagedList extends DefaultBeanPagedList<ProjectService, Proje
 
         @Override
         public Component generateRow(IBeanList<SimpleProject> host, final SimpleProject project, final int rowIndex) {
-            final MHorizontalLayout layout = new MHorizontalLayout().withFullWidth().withStyleName("projectblock");
+            final MHorizontalLayout layout = new MHorizontalLayout().withFullWidth().withStyleName(WebThemes.BORDER_LIST_ROW);
             layout.addComponent(ProjectAssetsUtil.projectLogoComp(project.getShortname(), project.getId(), project.getAvatarid(), 64));
             if (project.isArchived()) {
-                layout.addStyleName("projectlink-wrapper-archived");
+                layout.addStyleName("project-archived");
             }
             final VerticalLayout linkIconFix = new VerticalLayout();
             linkIconFix.setSpacing(true);

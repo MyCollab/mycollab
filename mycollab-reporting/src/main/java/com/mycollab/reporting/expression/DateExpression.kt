@@ -19,10 +19,8 @@ package com.mycollab.reporting.expression
 import com.mycollab.core.utils.DateTimeUtils
 import com.mycollab.module.user.domain.SimpleUser
 import net.sf.dynamicreports.report.definition.ReportParameters
-import java.time.LocalDateTime
-
-import java.util.Date
-import java.util.Locale
+import java.time.LocalDate
+import java.util.*
 
 /**
  * @author MyCollab Ltd.
@@ -31,7 +29,7 @@ import java.util.Locale
 class DateExpression(field: String) : SimpleFieldExpression<String>(field) {
 
     override fun evaluate(reportParameters: ReportParameters): String {
-        val date = reportParameters.getFieldValue<LocalDateTime>(field)
+        val date = reportParameters.getFieldValue<LocalDate>(field)
         val user = reportParameters.getParameterValue<SimpleUser>("user")
         return DateTimeUtils.formatDate(date, user.dateFormat, Locale.US)
     }

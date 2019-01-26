@@ -49,7 +49,6 @@ public abstract class AbstractPreviewItemComp<B> extends AbstractVerticalPageVie
     private static Logger LOG = LoggerFactory.getLogger(AbstractPreviewItemComp.class);
 
     protected B beanItem;
-    private boolean isDisplaySideBar = true;
 
     protected AdvancedPreviewBeanForm<B> previewForm;
     protected ReadViewLayout previewLayout;
@@ -59,18 +58,13 @@ public abstract class AbstractPreviewItemComp<B> extends AbstractVerticalPageVie
     private MButton favoriteBtn;
 
     public AbstractPreviewItemComp(String headerText, VaadinIcons iconResource) {
-        this(headerText, iconResource, false);
+        this(headerText, iconResource, null);
     }
 
-    public AbstractPreviewItemComp(String headerText, VaadinIcons iconResource, boolean isDisplaySideBar) {
-        this(headerText, iconResource, null, isDisplaySideBar);
-    }
-
-    public AbstractPreviewItemComp(String headerText, VaadinIcons iconResource, ReadViewLayout layout, boolean isDisplaySideBar) {
+    public AbstractPreviewItemComp(String headerText, VaadinIcons iconResource, ReadViewLayout layout) {
         this.setMargin(true);
         ELabel headerLbl = ELabel.h2("").withUndefinedWidth();
         this.previewLayout = layout;
-        this.isDisplaySideBar = isDisplaySideBar;
 
         header = new MHorizontalLayout().withFullWidth();
         header.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
@@ -111,18 +105,8 @@ public abstract class AbstractPreviewItemComp<B> extends AbstractVerticalPageVie
 
         contentWrapper.addComponent(previewLayout);
 
-        if (isDisplaySideBar) {
-            RightSidebarLayout bodyContainer = new RightSidebarLayout();
-
-            bodyContent = new MVerticalLayout(previewForm).withSpacing(false).withMargin(false).withFullSize().withId("bodyContent");
-            bodyContainer.setContent(bodyContent);
-            sidebarContent = new MVerticalLayout().withWidth("250px").withFullHeight().withStyleName("readview-sidebar");
-            bodyContainer.setSidebar(sidebarContent);
-            previewLayout.addBody(bodyContainer);
-        } else {
-            bodyContent = new MVerticalLayout(previewForm).withSpacing(false).withMargin(false).withFullSize();
-            previewLayout.addBody(bodyContent);
-        }
+        bodyContent = new MVerticalLayout(previewForm).withSpacing(false).withMargin(false).withFullSize();
+        previewLayout.addBody(bodyContent);
 
         this.addComponent(contentWrapper);
     }

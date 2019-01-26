@@ -20,6 +20,7 @@ import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.core.UserInvalidInputException;
 import com.mycollab.form.view.LayoutType;
 import com.mycollab.module.project.event.BugEvent;
+import com.mycollab.module.project.i18n.BugI18nEnum;
 import com.mycollab.module.project.i18n.OptionI18nEnum;
 import com.mycollab.module.tracker.domain.RelatedBug;
 import com.mycollab.module.tracker.domain.SimpleBug;
@@ -31,11 +32,11 @@ import com.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.mycollab.vaadin.ui.AbstractFormLayoutFactory;
 import com.mycollab.vaadin.ui.AdvancedEditBeanForm;
 import com.mycollab.vaadin.ui.GenericBeanForm;
+import com.mycollab.vaadin.web.ui.I18nValueComboBox;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.vaadin.data.HasValue;
 import com.vaadin.icons.VaadinIcons;
-import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.RichTextArea;
@@ -110,7 +111,7 @@ class LinkIssueWindow extends MWindow {
                 MButton cancelBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
                         .withStyleName(WebThemes.BUTTON_OPTION);
 
-                final MHorizontalLayout controlsBtn = new MHorizontalLayout(cancelBtn, saveBtn).withMargin(new MarginInfo(true, true, true, false));
+                final MHorizontalLayout controlsBtn = new MHorizontalLayout(cancelBtn, saveBtn).withMargin(false);
                 layout.addComponent(controlsBtn);
                 layout.setComponentAlignment(controlsBtn, Alignment.MIDDLE_RIGHT);
                 return layout;
@@ -121,9 +122,9 @@ class LinkIssueWindow extends MWindow {
                 if (RelatedBug.Field.relatetype.equalTo(propertyId)) {
                     return informationLayout.addComponent(field, "This bug", 0, 0);
                 } else if (RelatedBug.Field.relatedid.equalTo(propertyId)) {
-                    return informationLayout.addComponent(field, "Bug", 0, 1);
+                    return informationLayout.addComponent(field, UserUIContext.getMessage(BugI18nEnum.SINGLE), 0, 1);
                 } else if (RelatedBug.Field.comment.equalTo(propertyId)) {
-                    return informationLayout.addComponent(field, "Comment", 0, 2);
+                    return informationLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.OPT_COMMENT), 0, 2);
                 }
                 return null;
             }
@@ -137,7 +138,10 @@ class LinkIssueWindow extends MWindow {
             @Override
             protected HasValue<?> onCreateField(Object propertyId) {
                 if (RelatedBug.Field.relatetype.equalTo(propertyId)) {
-                    return new BugRelationComboBox();
+                    I18nValueComboBox<OptionI18nEnum.BugRelation> relationSelection = new I18nValueComboBox<>(OptionI18nEnum.BugRelation.class,
+                            OptionI18nEnum.BugRelation.Block, OptionI18nEnum.BugRelation.Duplicated, OptionI18nEnum.BugRelation.Related);
+                    relationSelection.setWidth(WebThemes.FORM_CONTROL_WIDTH);
+                    return relationSelection;
                 } else if (RelatedBug.Field.relatedid.equalTo(propertyId)) {
                     bugSelectionField = new BugSelectionField();
                     return bugSelectionField;
