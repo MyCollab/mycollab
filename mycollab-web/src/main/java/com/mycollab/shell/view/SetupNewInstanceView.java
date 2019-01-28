@@ -39,9 +39,12 @@ import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.mycollab.web.DesktopApplication;
 import com.vaadin.ui.*;
 import org.vaadin.viritin.button.MButton;
+import org.vaadin.viritin.layouts.MCssLayout;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
@@ -50,15 +53,14 @@ import java.util.TimeZone;
  * @author MyCollab Ltd
  * @since 5.3.0
  */
-class SetupNewInstanceView extends MVerticalLayout {
+class SetupNewInstanceView extends MHorizontalLayout {
     SetupNewInstanceView() {
+        this.withFullSize().withStyleName(WebThemes.SCROLLABLE_CONTAINER);
         this.setDefaultComponentAlignment(Alignment.TOP_CENTER);
-        MHorizontalLayout content = new MHorizontalLayout().withFullHeight();
-        this.with(content);
-        content.with(new MHorizontalLayout(ELabel.html(UserUIContext.getMessage(ShellI18nEnum.OPT_SUPPORTED_LANGUAGES_INTRO))
-                .withStyleName(WebThemes.META_COLOR)).withMargin(true).withWidth("400px").withStyleName("separator"));
+        this.with(new MHorizontalLayout(ELabel.html(UserUIContext.getMessage(ShellI18nEnum.OPT_SUPPORTED_LANGUAGES_INTRO))
+                .withStyleName(WebThemes.META_COLOR).withFullWidth()).withMargin(true).withWidth("400px").withStyleName(WebThemes.ALIGN_RIGHT, "separator"));
         MVerticalLayout formLayout = new MVerticalLayout().withWidth("600px");
-        content.with(formLayout).withAlign(formLayout, Alignment.TOP_LEFT);
+        this.with(formLayout).withAlign(formLayout, Alignment.TOP_LEFT);
         formLayout.with(ELabel.h2("Last step, you are almost there!").withUndefinedWidth());
         formLayout.with(ELabel.h3("All fields are required *").withStyleName("overdue").withUndefinedWidth());
 
@@ -135,15 +137,13 @@ class SetupNewInstanceView extends MVerticalLayout {
         formLayout.with(buttonControls).withAlign(buttonControls, Alignment.MIDDLE_RIGHT);
     }
 
-    // TODO
     private boolean isValidDayPattern(String dateFormat) {
-//        try {
-//            DateTimeFormatter formatter = DateTimeFormat.forPattern(dateFormat);
-//            formatter.print(new DateTime());
-//            return true;
-//        } catch (Exception e) {
-//            return false;
-//        }
-        return true;
+        try {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern(dateFormat);
+            formatter.format(LocalDateTime.now());
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 }

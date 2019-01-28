@@ -22,6 +22,7 @@ import com.mycollab.module.project.ProjectLinkBuilder
 import com.mycollab.module.project.ProjectTypeConstants
 import com.mycollab.module.project.domain.SimpleTask
 import com.mycollab.module.project.service.ProjectTaskService
+import com.mycollab.module.user.domain.SimpleUser
 import com.mycollab.spring.AppContextUtil
 import com.mycollab.vaadin.AppUI
 import com.mycollab.vaadin.UserUIContext
@@ -37,9 +38,9 @@ import org.slf4j.LoggerFactory
 class TaskHistoryFieldFormat : HistoryFieldFormat {
 
     override fun toString(value: String): String =
-            toString(value, true, UserUIContext.getMessage(GenericI18Enum.FORM_EMPTY))
+            toString(UserUIContext.getUser(), value, true, UserUIContext.getMessage(GenericI18Enum.FORM_EMPTY))
 
-    override fun toString(value: String, displayAsHtml: Boolean, msgIfBlank: String): String {
+    override fun toString(currentViewUser:SimpleUser, value: String, displayAsHtml: Boolean, msgIfBlank: String): String {
         if (StringUtils.isBlank(value)) {
             return msgIfBlank
         }
@@ -51,7 +52,7 @@ class TaskHistoryFieldFormat : HistoryFieldFormat {
 
             return if (task != null) {
                 if (displayAsHtml) {
-                    ProjectLinkBuilder.generateProjectItemHtmlLinkAndTooltip(CurrentProjectVariables.shortName,
+                    ProjectLinkBuilder.generateProjectItemHtmlLinkAndTooltip(task.projectShortname!!,
                             task.projectid!!, task.name, ProjectTypeConstants.TASK, task.id!!.toString() + "")
                 } else {
                     task.name

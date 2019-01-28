@@ -53,6 +53,7 @@ import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
+import org.vaadin.viritin.layouts.MVerticalLayout;
 
 import java.util.Collections;
 
@@ -60,14 +61,14 @@ import java.util.Collections;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class ProjectMembersWidget extends Depot {
+class ProjectMembersWidget extends Depot {
     private static final long serialVersionUID = 1L;
 
     private DefaultBeanPagedList<ProjectMemberService, ProjectMemberSearchCriteria, SimpleProjectMember> memberList;
     private boolean sortAsc = true;
     private ProjectMemberSearchCriteria searchCriteria;
 
-    public ProjectMembersWidget() {
+    ProjectMembersWidget() {
         super("", new CssLayout());
         MButton sortBtn = new MButton().withIcon(VaadinIcons.CARET_UP).withStyleName(WebThemes.BUTTON_ICON_ONLY);
         sortBtn.addClickListener(clickEvent -> {
@@ -129,7 +130,7 @@ public class ProjectMembersWidget extends Depot {
             userAvatar.addStyleName(WebThemes.CIRCLE_BOX);
             layout.addComponent(userAvatar);
 
-            VerticalLayout content = new VerticalLayout();
+            MVerticalLayout content = new MVerticalLayout().withMargin(false);
             content.addComponent(ELabel.html(buildAssigneeValue(member)).withStyleName(WebThemes.TEXT_ELLIPSIS));
             layout.with(content).expand(content);
 

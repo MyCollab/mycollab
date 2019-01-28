@@ -21,8 +21,8 @@
         </LoginModule>
     </Security>
 
-    <Workspaces rootPath='repo2/workspaces' defaultWorkspace='default2' />
-    <Workspace name="mycollab_live">
+    <Workspaces rootPath='repo2/workspaces' defaultWorkspace='ecm' />
+    <Workspace name="ecm">
         <FileSystem class="com.mycollab.module.ecm.DbFileSystemExt">
             <param name="schemaObjectPrefix" value="ecm_s_" />
         </FileSystem>
@@ -30,11 +30,10 @@
         <PersistenceManager class="com.mycollab.module.ecm.BundleDbPersistenceManagerExt">
             <param name="schemaObjectPrefix" value="ecm_p_workspace" />
         </PersistenceManager>
-
     </Workspace>
     <!-- Configures the versioning -->
 
-    <Versioning rootPath='repo/version'>
+    <Versioning rootPath='repo2/version'>
         <FileSystem class='com.mycollab.module.ecm.DbFileSystemExt'>
             <param name="schemaObjectPrefix" value="ecm_s_" />
         </FileSystem>

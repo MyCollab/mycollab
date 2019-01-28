@@ -144,7 +144,7 @@ public class ProjectAddViewImpl extends AbstractVerticalPageView implements Proj
         protected HasValue<?> onCreateField(final Object propertyId) {
             Project project = attachForm.getBean();
             if (Project.Field.description.equalTo(propertyId)) {
-                final RichTextArea field = new RichTextArea();
+                RichTextArea field = new RichTextArea();
                 field.setHeight("350px");
                 return field;
             } else if (Project.Field.status.equalTo(propertyId)) {

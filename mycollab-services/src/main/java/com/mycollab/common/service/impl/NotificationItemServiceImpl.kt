@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service
 import java.sql.Date
 import java.sql.PreparedStatement
 import java.time.LocalDateTime
-import java.time.ZoneId
 import java.time.ZoneOffset
 import javax.sql.DataSource
 
@@ -28,10 +27,10 @@ class NotificationItemServiceImpl(private val notificationItemMapper: Notificati
     override val crudMapper: ICrudGenericDAO<Int, NotificationItem>
         get() = notificationItemMapper as ICrudGenericDAO<Int, NotificationItem>
 
+    // TODO: write unit tests for this method
     override fun batchInsertItems(notificationUsers: List<String>, module: String, type: String, typeId: String, messages: List<String>, sAccountId: Int) {
         val jdbcTemplate = JdbcTemplate(dataSource)
         val now = DateTimeUtils.convertDateTimeToUTC(LocalDateTime.now())
-        // TODO: convert datetime to miliseconds need to check carefully
         jdbcTemplate.batchUpdate("INSERT INTO `m_notification_item`(`notificationUser`, `module`, `type`, `typeId`, `message`, `createdTime`, `isRead`, `sAccountId`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
                 object : BatchPreparedStatementSetter {
                     override fun setValues(preparedStatement: PreparedStatement, i: Int) {

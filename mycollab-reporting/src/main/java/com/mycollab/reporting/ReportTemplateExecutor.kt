@@ -34,7 +34,7 @@ import java.util.concurrent.CountDownLatch
  * @author MyCollab Ltd
  * @since 5.1.4
  */
-abstract class ReportTemplateExecutor(private var timeZone: ZoneId, protected var locale: Locale,
+abstract class ReportTemplateExecutor(protected var timeZone: ZoneId, protected var locale: Locale,
                                       protected var reportTitle: String,
                                       protected var outputForm: ReportExportType) {
 

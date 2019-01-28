@@ -132,7 +132,7 @@ class MilestoneTicketGroupComponent extends MVerticalLayout implements IGroupCom
 
     void insertTicket(ProjectTicket ticket) {
         TicketRowRenderer ticketRowRenderer = new TicketRowRenderer(ticket);
-        ticketRowRenderer.addStyleName("cursor_move");
+        ticketRowRenderer.addStyleName("cursor-move");
         wrapBody.addComponent(ticketRowRenderer);
         updateTitle();
     }

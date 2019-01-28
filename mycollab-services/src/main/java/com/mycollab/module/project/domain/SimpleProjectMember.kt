@@ -17,11 +17,11 @@
 package com.mycollab.module.project.domain
 
 import com.mycollab.core.arguments.NotBindable
+import com.mycollab.core.reporting.NotInReport
 import com.mycollab.core.utils.StringUtils
 import com.mycollab.security.PermissionMap
+import org.slf4j.LoggerFactory
 import java.time.LocalDateTime
-
-import java.util.Date
 
 /**
  * @author MyCollab Ltd.
@@ -36,7 +36,24 @@ class SimpleProjectMember : ProjectMember() {
     var roleName: String? = null
 
     @NotBindable
-    var permissionMaps: PermissionMap? = null
+    @NotInReport
+    var permissionVal: String? = null
+
+    @NotBindable
+    @NotInReport
+    var permissionMap: PermissionMap? = null
+        get() = if (field == null) {
+            if (StringUtils.isBlank(permissionVal)) {
+                PermissionMap()
+            } else {
+                try {
+                    PermissionMap.fromJsonString(permissionVal!!)
+                } catch (e: Exception) {
+                    LOG.error("Error while get permission", e)
+                    PermissionMap()
+                }
+            }
+        } else field
 
     var numOpenTasks: Int? = null
 
@@ -57,16 +74,20 @@ class SimpleProjectMember : ProjectMember() {
             StringUtils.extractNameFromEmail(username)
         } else memberFullName
 
-    fun canRead(permissionItem: String): Boolean = permissionMaps != null && permissionMaps!!.canRead(permissionItem)
+    fun canRead(permissionItem: String): Boolean = permissionMap != null && permissionMap!!.canRead(permissionItem)
 
-    fun canWrite(permissionItem: String): Boolean = permissionMaps != null && permissionMaps!!.canWrite(permissionItem)
+    fun canWrite(permissionItem: String): Boolean = permissionMap != null && permissionMap!!.canWrite(permissionItem)
 
     fun canAccess(permissionItem: String): Boolean =
-            permissionMaps != null && permissionMaps!!.canAccess(permissionItem)
+            permissionMap != null && permissionMap!!.canAccess(permissionItem)
 
     enum class Field {
         roleName, memberFullName, totalBillableLogTime, totalNonBillableLogTime, projectName, numOpenTasks, numOpenBugs;
 
         fun equalTo(value: Any): Boolean = name == value
+    }
+
+    companion object {
+        private val LOG = LoggerFactory.getLogger(SimpleProjectMember::class.java)
     }
 }

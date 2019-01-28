@@ -50,21 +50,20 @@ public class PageSessionFactory extends JcrSessionFactory {
         }
         if (createNamespace) {
             session.getWorkspace().getNamespaceRegistry().registerNamespace("wiki", "http://www.esofthead.com/wiki");
-            LOG.debug("Successfully created Mycollab content namespace.");
+            LOG.debug("Successfully created MyCollab content namespace.");
         }
         if (session.getRootNode() == null) {
             throw new ContentException("Jcr session setup not successful.");
         }
 
-        NodeTypeManager manager = session.getWorkspace()
-                .getNodeTypeManager();
+        NodeTypeManager manager = session.getWorkspace().getNodeTypeManager();
         manager.registerNodeType(createWikiPageType(manager), true);
         manager.registerNodeType(createWikiFolderType(manager), true);
         session.logout();
     }
 
     private NodeTypeTemplate createWikiPageType(NodeTypeManager manager) throws RepositoryException {
-        LOG.info("Register mycollab content type");
+        LOG.info("Register MyCollab content type");
         NodeType hierachyNode = manager.getNodeType(NodeType.NT_HIERARCHY_NODE);
         // Create content node type
         NodeTypeTemplate pageTypeTemplate = manager.createNodeTypeTemplate(hierachyNode);
@@ -125,7 +124,6 @@ public class PageSessionFactory extends JcrSessionFactory {
         return pageTypeTemplate;
     }
 
-    @SuppressWarnings("unchecked")
     private NodeTypeTemplate createWikiFolderType(NodeTypeManager manager) throws RepositoryException {
         // Create content node type
         NodeTypeTemplate folderTypeTemplate = manager.createNodeTypeTemplate();

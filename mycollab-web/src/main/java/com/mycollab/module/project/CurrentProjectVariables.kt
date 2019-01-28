@@ -66,7 +66,7 @@ object CurrentProjectVariables {
                 if (!rolePermissions.isEmpty()) {
                     val rolePer = rolePermissions[0]
                     val permissionMap = PermissionMap.fromJsonString(rolePer.roleval)
-                    prjMember.permissionMaps = permissionMap
+                    prjMember.permissionMap = permissionMap
                 }
 
                 if (ProjectMemberStatusConstants.NOT_ACCESS_YET == prjMember.status) {

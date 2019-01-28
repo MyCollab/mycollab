@@ -18,6 +18,8 @@ package com.mycollab.vaadin.ui.formatter
 
 import com.mycollab.common.i18n.GenericI18Enum
 import com.mycollab.core.utils.StringUtils
+import com.mycollab.i18n.LocalizationHelper
+import com.mycollab.module.user.domain.SimpleUser
 import com.mycollab.vaadin.UserUIContext
 
 /**
@@ -27,12 +29,12 @@ import com.mycollab.vaadin.UserUIContext
 class LocalizationHistoryFieldFormat(private val enumCls: Class<out Enum<*>>) : HistoryFieldFormat {
 
     override fun toString(value: String) =
-            toString(value, true, UserUIContext.getMessage(GenericI18Enum.FORM_EMPTY))
+            toString(UserUIContext.getUser(), value, true, UserUIContext.getMessage(GenericI18Enum.FORM_EMPTY))
 
-    override fun toString(value: String, displayAsHtml: Boolean, msgIfBlank: String) =
+    override fun toString(currentViewUser: SimpleUser, value: String, displayAsHtml: Boolean, msgIfBlank: String) =
             when {
                 StringUtils.isNotBlank(value) -> {
-                    val content = UserUIContext.getMessage(enumCls, value)
+                    val content = LocalizationHelper.getMessage(currentViewUser.locale, enumCls, value)
                     if (content.length > 150) content.substring(0, 150) + "..." else content
                 }
                 else -> msgIfBlank

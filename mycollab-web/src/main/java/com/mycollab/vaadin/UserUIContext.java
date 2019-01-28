@@ -169,8 +169,6 @@ public class UserUIContext implements Serializable {
 
     public static String getMessage(Class<? extends Enum> enumCls, String option, Object... objects) {
         try {
-            if (option == null)
-                return "";
             Enum key = Enum.valueOf(enumCls, option);
             return getMessage(key, objects);
         } catch (Exception e) {
@@ -323,7 +321,7 @@ public class UserUIContext implements Serializable {
      * @return
      */
     public static String formatDate(TemporalAccessor date) {
-        return date == null ? "" : DateTimeUtils.formatDate(date, AppUI.getDateFormat(), UserUIContext.getUserLocale(),
+        return date == null ? "" : DateTimeUtils.formatDate(date, getInstance().session.getDateFormat(), UserUIContext.getUserLocale(),
                 UserUIContext.getUserTimeZone());
     }
 
@@ -351,8 +349,8 @@ public class UserUIContext implements Serializable {
     }
 
     public static String formatShortDate(LocalDate date) {
-        return date == null ? "" : DateTimeUtils.formatDate(date, AppUI.getShortDateFormat(), UserUIContext.getUserLocale(),
-                UserUIContext.getUserTimeZone());
+        return date == null ? "" : DateTimeUtils.formatDate(date, getInstance().session.getShortDateFormat(),
+                UserUIContext.getUserLocale(), UserUIContext.getUserTimeZone());
     }
 
     public static String formatDuration(LocalDate date) {

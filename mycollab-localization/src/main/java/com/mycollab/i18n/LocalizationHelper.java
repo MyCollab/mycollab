@@ -58,6 +58,9 @@ public class LocalizationHelper {
     }
 
     public static String getMessage(Locale locale, Enum<?> key, Object... objects) {
+        if (key == null) {
+            return "";
+        }
         try {
             IMessageConveyor messageConveyor = getMessageConveyor(locale);
             return messageConveyor.getMessage(key, objects);
@@ -66,7 +69,7 @@ public class LocalizationHelper {
         }
     }
 
-    public static String getMessage(Locale locale, Class cls, String option, Object... objects) {
+    public static String getMessage(Locale locale, Class<? extends Enum> cls, String option, Object... objects) {
         if (StringUtils.isBlank(option)) {
             return "";
         }

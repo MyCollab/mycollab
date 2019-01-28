@@ -7,6 +7,7 @@
         <result column="memberAvatarId" jdbcType="VARCHAR" property="memberAvatarId" />
         <result column="memberFullName" jdbcType="VARCHAR" property="memberFullName" />
         <result column="roleName" jdbcType="VARCHAR" property="roleName" />
+        <result column="permissionVal" jdbcType="VARCHAR" property="permissionVal" />
         <result column="numOpenTasks" jdbcType="INTEGER" property="numOpenTasks" />
         <result column="numOpenBugs" jdbcType="INTEGER" property="numOpenBugs" />
         <result column="projectName" jdbcType="VARCHAR" property="projectName" />
@@ -114,17 +115,18 @@
                  m_prj_member.lastUpdatedTime, m_prj_member.status, m_prj_member.sAccountId,
                  m_prj_member.billingRate, m_prj_member.overtimeBillingRate, m_prj_project.name AS projectName,
                  concat(s_user.firstname, ' ', s_user.lastname) AS memberFullName,
-                 m_prj_role.rolename, s_user.email as email, s_user.avatarId AS memberAvatarId, m_prj_role.id as projectRoleId,
+                 m_prj_role.rolename, m_prj_role_permission.roleVal as permissionVal, s_user.email as email, s_user.avatarId AS memberAvatarId, m_prj_role.id as projectRoleId,
                  (SELECT COUNT(*) FROM m_tracker_bug WHERE m_tracker_bug.assignUser=m_prj_member.username AND  m_tracker_bug.projectId=m_prj_member.projectId AND m_tracker_bug.status IN ('Open', 'InProgress', 'Reopenned')) AS numOpenBugs,
                  (SELECT COUNT(*) FROM m_prj_task WHERE m_prj_task.assignUser=m_prj_member.username AND m_prj_task.projectId=m_prj_member.projectId AND m_prj_task.status='Open') AS numOpenTasks,
                  s_user_account.lastAccessedTime AS lastAccessTime,
                   (SELECT COALESCE(SUM(m_prj_time_logging.logValue), 0) FROM m_prj_time_logging WHERE m_prj_time_logging.projectId = m_prj_member.projectId AND m_prj_time_logging.logUser = m_prj_member.username AND m_prj_time_logging.isBillable=1) AS totalBillableLogTime,
             (SELECT COALESCE(SUM(m_prj_time_logging.logValue), 0) FROM m_prj_time_logging WHERE m_prj_time_logging.projectId = m_prj_member.projectId AND m_prj_time_logging.logUser = m_prj_member.username AND m_prj_time_logging.isBillable=0) AS totalNonBillableLogTime
             FROM m_prj_member
-              LEFT OUTER JOIN m_prj_project ON (m_prj_member.projectId = m_prj_project.id)
-              LEFT OUTER JOIN s_user ON (m_prj_member.username=s_user.username)
-              LEFT OUTER JOIN m_prj_role ON (m_prj_role.id=m_prj_member.projectRoleId)
-              LEFT OUTER JOIN s_user_account ON (s_user_account.accountId=m_prj_project.sAccountId AND s_user_account.username=s_user.username AND s_user_account.registerStatus <> 'Delete')
+              INNER JOIN m_prj_project ON (m_prj_member.projectId = m_prj_project.id)
+              INNER JOIN s_user ON (m_prj_member.username=s_user.username)
+              INNER JOIN m_prj_role ON (m_prj_role.id=m_prj_member.projectRoleId)
+              INNER JOIN m_prj_role_permission ON (m_prj_role.id=m_prj_role_permission.roleId)
+              INNER JOIN s_user_account ON (s_user_account.accountId=m_prj_project.sAccountId AND s_user_account.username=s_user.username AND s_user_account.registerStatus <> 'Delete')
         ]]>
     </sql>
     
@@ -170,7 +172,7 @@
             m_prj_member.createdTime, m_prj_member.lastUpdatedTime, m_prj_member.projectRoleId,
             m_prj_member.status, s_user.email as email,
             m_prj_member.billingRate, m_prj_member.overtimeBillingRate,
-            m_prj_role.rolename, m_prj_member.sAccountId,
+            m_prj_role.rolename, m_prj_role_permission.roleVal as permissionVal, m_prj_member.sAccountId,
             concat(s_user.firstname, ' ', s_user.lastname) AS  memberFullName , s_user.avatarId AS memberAvatarId,
             (SELECT COUNT(*) FROM m_tracker_bug WHERE m_tracker_bug.assignUser=m_prj_member.username AND  m_tracker_bug.projectId=m_prj_member.projectId AND m_tracker_bug.status IN ('Open', 'InProgress', 'Reopenned')) AS numOpenBugs,
             (SELECT COUNT(*) FROM m_prj_task WHERE m_prj_task.assignUser=m_prj_member.username AND m_prj_task.projectId=m_prj_member.projectId AND m_prj_task.status='Open') AS numOpenTasks,
@@ -179,7 +181,8 @@
             (SELECT COALESCE(SUM(m_prj_time_logging.logValue), 0) FROM m_prj_time_logging WHERE m_prj_time_logging.projectId = m_prj_member.projectId AND m_prj_time_logging.logUser = m_prj_member.username AND m_prj_time_logging.isBillable=0) AS totalNonBillableLogTime
         FROM m_prj_member
         	INNER JOIN m_prj_project ON (m_prj_member.projectId = m_prj_project.id)
-	        LEFT OUTER JOIN m_prj_role ON (m_prj_role.id=m_prj_member.projectRoleId)
+	        INNER JOIN m_prj_role ON (m_prj_role.id=m_prj_member.projectRoleId)
+	        INNER JOIN m_prj_role_permission ON (m_prj_role.id=m_prj_role_permission.roleId)
 	        INNER JOIN s_user ON (m_prj_member.username=s_user.username AND s_user.username=@{username})
 	        INNER JOIN s_user_account ON (s_user_account.accountId=m_prj_project.sAccountId AND s_user_account.username=s_user.username)
         WHERE m_prj_member.projectId=@{projectId, jdbcType=NUMERIC}

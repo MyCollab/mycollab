@@ -147,7 +147,7 @@ class BillingAccountServiceImpl(private val billingAccountMapper: BillingAccount
         userAccount.username = username
 
         userAccountMapper.insert(userAccount)
-        asyncEventBus.post(AccountCreatedEvent(sAccountId, username, isCreatedDefaultData!!))
+        asyncEventBus.post(AccountCreatedEvent(sAccountId, username, isCreatedDefaultData))
     }
 
     override fun getTotalActiveUsersInAccount(accountId: Int): Int {

@@ -16,6 +16,7 @@
  */
 package com.mycollab.vaadin.reporting;
 
+import com.mycollab.vaadin.UserUIContext;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.BrowserWindowOpener;
 import com.vaadin.server.StreamResource;
@@ -37,7 +38,7 @@ public class PrintButton<B> extends MButton {
     public PrintButton(String caption) {
         setCaption(caption);
         setIcon(VaadinIcons.PRINT);
-        formReportStreamSource = new FormReportStreamSource<>(new FormReportTemplateExecutor<B>(""));
+        formReportStreamSource = new FormReportStreamSource<>(new FormReportTemplateExecutor<>("", UserUIContext.getUserTimeZone(), UserUIContext.getUserLocale()));
         BrowserWindowOpener printWindowOpener = new BrowserWindowOpener(new StreamResource(formReportStreamSource, UUID.randomUUID().toString() + ".pdf"));
         printWindowOpener.extend(this);
     }

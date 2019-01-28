@@ -16,6 +16,9 @@
  */
 package com.mycollab.vaadin.ui.field;
 
+import com.mycollab.common.i18n.ErrorI18nEnum;
+import com.mycollab.vaadin.UserUIContext;
+import com.mycollab.vaadin.ui.NotificationUtil;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomField;
 import com.vaadin.ui.Label;
@@ -28,7 +31,6 @@ import java.time.format.DateTimeFormatter;
  * @author MyCollab Ltd
  * @since 5.3.1
  */
-// TODO
 public class DateFormatField extends CustomField<String> {
     private TextField dateInput;
     private Label dateExample;
@@ -36,26 +38,25 @@ public class DateFormatField extends CustomField<String> {
     private DateTimeFormatter dateFormatInstance;
 
     public DateFormatField(final String initialFormat) {
-//        dateInput = new TextField(null, initialFormat);
-//        dateInput.setImmediate(true);
-//        dateInput.setTextChangeEventMode(AbstractTextField.TextChangeEventMode.EAGER);
-//        now = new DateTime();
-//        dateExample = new Label();
-//        dateFormatInstance = DateTimeFormat.forPattern(initialFormat);
-//        dateExample.setValue(String.format("(%s)", dateFormatInstance.print(now)));
-//        dateExample.setWidthUndefined();
-//        dateInput.addTextChangeListener(textChangeEvent -> {
-//            try {
-//                String newFormat = textChangeEvent.getText();
-//                dateFormatInstance = DateTimeFormat.forPattern(newFormat);
-//                dateExample.setValue(String.format("(%s)", dateFormatInstance.print(now)));
-//            } catch (Exception e) {
-//                NotificationUtil.showErrorNotification(UserUIContext.getMessage(ErrorI18nEnum.INVALID_FORMAT));
-//                dateInput.setValue(initialFormat);
-//                dateFormatInstance = DateTimeFormat.forPattern(initialFormat);
-//                dateExample.setValue(String.format("(%s)", dateFormatInstance.print(now)));
-//            }
-//        });
+        dateInput = new TextField(null, initialFormat);
+        now = LocalDateTime.now();
+        dateExample = new Label();
+        dateFormatInstance = DateTimeFormatter.ofPattern(initialFormat);
+        dateExample.setValue(String.format("(%s)", dateFormatInstance.format(now)));
+        dateExample.setWidthUndefined();
+
+        dateInput.addValueChangeListener((ValueChangeListener<String>) event -> {
+            try {
+                String newFormat = event.getValue();
+                dateFormatInstance = DateTimeFormatter.ofPattern(newFormat);
+                dateExample.setValue(String.format("(%s)", dateFormatInstance.format(now)));
+            } catch (Exception e) {
+                NotificationUtil.showErrorNotification(UserUIContext.getMessage(ErrorI18nEnum.INVALID_FORMAT));
+                dateInput.setValue(initialFormat);
+                dateFormatInstance = DateTimeFormatter.ofPattern(initialFormat);
+                dateExample.setValue(String.format("(%s)", dateFormatInstance.format(now)));
+            }
+        });
     }
 
     @Override
@@ -63,26 +64,10 @@ public class DateFormatField extends CustomField<String> {
         return dateInput.getValue();
     }
 
-//    @Override
-//    public void commit() throws SourceException, Validator.InvalidValueException {
-//        setInternalValue(dateInput.getValue());
-//        super.commit();
-//    }
-//
-//    @Override
-//    protected Component initContent() {
-//        return new MHorizontalLayout(dateInput, dateExample);
-//    }
-//
-//    @Override
-//    public Class<? extends String> getType() {
-//        return String.class;
-//    }
-
 
     @Override
     protected Component initContent() {
-        return null;
+        return dateInput;
     }
 
     @Override

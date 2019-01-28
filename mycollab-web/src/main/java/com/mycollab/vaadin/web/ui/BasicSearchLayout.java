@@ -45,7 +45,7 @@ abstract public class BasicSearchLayout<S extends SearchCriteria> extends Search
     }
 
     private MHorizontalLayout constructHeader() {
-        return searchPanel.constructHeader();
+        return searchPanel.getHeader();
     }
 
     abstract public ComponentContainer constructBody();

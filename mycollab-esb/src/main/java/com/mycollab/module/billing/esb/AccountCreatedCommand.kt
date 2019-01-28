@@ -65,7 +65,7 @@ class AccountCreatedCommand(private val optionValService: OptionValService,
     @Subscribe
     fun execute(event: AccountCreatedEvent) {
         createDefaultOptionVals(event.accountId)
-        if (event.createSampleData) {
+        if (event.createSampleData != null && event.createSampleData == true) {
             createSampleProjectData(event.initialUser, event.accountId)
         }
     }

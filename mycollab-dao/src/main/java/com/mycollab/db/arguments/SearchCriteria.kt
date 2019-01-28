@@ -17,7 +17,6 @@
 package com.mycollab.db.arguments
 
 import java.io.Serializable
-import java.util.*
 
 /**
  * @author MyCollab Ltd.
@@ -54,7 +53,7 @@ abstract class SearchCriteria : Serializable {
 
     fun addOrderField(orderField: OrderField) {
         if (orderFields == null) {
-            orderFields = ArrayList()
+            orderFields = mutableListOf()
         }
         orderFields!!.add(orderField)
     }

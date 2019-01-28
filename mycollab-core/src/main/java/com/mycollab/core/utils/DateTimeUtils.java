@@ -108,7 +108,7 @@ public class DateTimeUtils {
         return p.format(convertLocalDateTimeToDate(dateTime, zoneId));
     }
 
-    private static Date convertLocalDateTimeToDate(LocalDateTime localDT, ZoneId zoneId) {
+    public static Date convertLocalDateTimeToDate(LocalDateTime localDT, ZoneId zoneId) {
         return Date.from(localDT.atZone(zoneId).toInstant());
     }
 

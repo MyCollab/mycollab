@@ -33,7 +33,7 @@ object ProjectPermissionChecker {
     fun canWrite(prjId: Int, permissionItem: String): Boolean {
         val member = memberService.findMemberByUsername(UserUIContext.getUsername(), prjId, AppUI.accountId)
         return if (member != null) {
-            val permissionMap = member.permissionMaps
+            val permissionMap = member.permissionMap
             permissionMap != null && permissionMap.canWrite(permissionItem)
         } else false
     }

@@ -80,18 +80,18 @@ public abstract class AbstractBeanFieldGroupFieldFactory<B> implements IBeanFiel
                     } else {
                         formField = new TextField();
                     }
-                } else {
-                    if (formField instanceof IgnoreBindingField) {
-                        attachForm.attachField(bindField, formField);
-                        continue;
-                    } else {
-                        Binder.BindingBuilder<B, ?> bindingBuilder = binder.forField(formField);
+                }
 
-                        if (formField instanceof Converter) {
-                            bindingBuilder.withConverter((Converter) formField);
-                        }
-                        bindingBuilder.bind(bindField);
+                if (formField instanceof IgnoreBindingField) {
+                    attachForm.attachField(bindField, formField);
+                    continue;
+                } else {
+                    Binder.BindingBuilder<B, ?> bindingBuilder = binder.forField(formField);
+
+                    if (formField instanceof Converter) {
+                        bindingBuilder.withConverter((Converter) formField);
                     }
+                    bindingBuilder.bind(bindField);
                 }
 
                 if (formField instanceof DateField) {
@@ -121,18 +121,17 @@ public abstract class AbstractBeanFieldGroupFieldFactory<B> implements IBeanFiel
                             formField = new TextField();
                         }
                     }
+                }
+                if (formField instanceof IgnoreBindingField) {
+                    attachForm.attachField(field.getName(), formField);
+                    continue;
                 } else {
-                    if (formField instanceof IgnoreBindingField) {
-                        attachForm.attachField(field.getName(), formField);
-                        continue;
-                    } else {
-                        Binder.BindingBuilder<B, ?> bindingBuilder = binder.forField(formField);
+                    Binder.BindingBuilder<B, ?> bindingBuilder = binder.forField(formField);
 
-                        if (formField instanceof Converter) {
-                            bindingBuilder.withConverter((Converter) formField);
-                        }
-                        bindingBuilder.bind(field.getName());
+                    if (formField instanceof Converter) {
+                        bindingBuilder.withConverter((Converter) formField);
                     }
+                    bindingBuilder.bind(field.getName());
                 }
 
                 if (formField instanceof DateField) {

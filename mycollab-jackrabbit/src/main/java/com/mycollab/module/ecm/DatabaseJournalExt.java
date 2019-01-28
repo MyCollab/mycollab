@@ -19,6 +19,9 @@ package com.mycollab.module.ecm;
 import com.mycollab.spring.AppContextUtil;
 import com.zaxxer.hikari.HikariDataSource;
 import org.apache.jackrabbit.core.journal.DatabaseJournal;
+import org.apache.jackrabbit.core.util.db.ConnectionHelper;
+
+import javax.sql.DataSource;
 
 /**
  * @author MyCollab Ltd.
@@ -33,5 +36,10 @@ public class DatabaseJournalExt extends DatabaseJournal {
         setPassword(ds.getPassword());
         setUrl(ds.getJdbcUrl());
         setDatabaseType(DbUtil.getSchemaType(ds.getDriverClassName()));
+    }
+
+    @Override
+    protected ConnectionHelper createConnectionHelper(DataSource dataSrc) throws Exception {
+        return new MySqlConnectionHelper(dataSrc);
     }
 }

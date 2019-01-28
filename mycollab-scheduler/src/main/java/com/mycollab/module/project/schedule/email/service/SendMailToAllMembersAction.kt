@@ -205,7 +205,7 @@ abstract class SendMailToAllMembersAction<B> : SendingRelayEmailNotificationActi
                     val context = MailContext<B>(notification, it, siteUrl)
                     buildExtraTemplateVariables(context)
                     contentGenerator.putVariable("comment", context.emailNotification)
-                    contentGenerator.putVariable("lastCommentsValue", LocalizationHelper.getMessage(context.locale, MailI18nEnum.Last_Comments_Value, "$comments.size"))
+                    contentGenerator.putVariable("lastCommentsValue", LocalizationHelper.getMessage(context.locale, MailI18nEnum.Last_Comments_Value, "${comments.size}"))
                     contentGenerator.putVariable("copyRight", LocalizationHelper.getMessage(context.locale, MailI18nEnum.Copyright,
                             DateTimeUtils.getCurrentYear()))
                     contentGenerator.putVariable("Project_Footer", getProjectFooter(context))

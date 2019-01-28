@@ -17,6 +17,7 @@
 package com.mycollab.vaadin.ui.formatter
 
 import com.mycollab.core.utils.StringUtils
+import com.mycollab.module.user.domain.SimpleUser
 import com.mycollab.vaadin.UserUIContext
 import java.util.*
 
@@ -34,5 +35,5 @@ class CountryHistoryFieldFormat : HistoryFieldFormat {
                 else -> ""
             }
 
-    override fun toString(value: String, displayAsHtml: Boolean, msgIfBlank: String): String = toString(value)
+    override fun toString(currentViewUser: SimpleUser, value: String, displayAsHtml: Boolean, msgIfBlank: String): String = toString(value)
 }

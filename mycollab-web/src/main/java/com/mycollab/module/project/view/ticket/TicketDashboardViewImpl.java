@@ -158,8 +158,6 @@ public class TicketDashboardViewImpl extends AbstractVerticalPageView implements
 
         extraCompsHeaderLayout.addComponent(groupCombo);
 
-        ticketSearchPanel.addHeaderRight(extraCompsHeaderLayout);
-
         MButton printBtn = new MButton("", clickEvent -> UI.getCurrent().addWindow(
                 new TicketCustomizeReportOutputWindow(new LazyValueInjector() {
                     @Override
@@ -176,6 +174,8 @@ public class TicketDashboardViewImpl extends AbstractVerticalPageView implements
         }).withIcon(VaadinIcons.PLUS).withStyleName(WebThemes.BUTTON_ACTION)
                 .withVisible(CurrentProjectVariables.canWriteTicket());
         extraCompsHeaderLayout.addComponent(newTicketBtn);
+
+        ticketSearchPanel.addHeaderRight(extraCompsHeaderLayout);
 
         MHorizontalLayout mainLayout = new MHorizontalLayout().withFullHeight().withFullWidth();
         wrapBody = new MVerticalLayout().withMargin(new MarginInfo(false, false, true, false));

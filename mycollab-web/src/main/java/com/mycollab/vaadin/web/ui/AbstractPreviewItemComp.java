@@ -27,7 +27,6 @@ import com.mycollab.vaadin.mvp.AbstractVerticalPageView;
 import com.mycollab.vaadin.ui.ELabel;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Component;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.HorizontalLayout;
 import org.apache.commons.beanutils.PropertyUtils;
@@ -37,8 +36,6 @@ import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MCssLayout;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
-
-import java.util.Arrays;
 
 /**
  * @author MyCollab Ltd.
@@ -52,8 +49,7 @@ public abstract class AbstractPreviewItemComp<B> extends AbstractVerticalPageVie
 
     protected AdvancedPreviewBeanForm<B> previewForm;
     protected ReadViewLayout previewLayout;
-    protected MHorizontalLayout header;
-    private MVerticalLayout sidebarContent;
+    protected MHorizontalLayout headerLayout;
     private MVerticalLayout bodyContent;
     private MButton favoriteBtn;
 
@@ -66,8 +62,8 @@ public abstract class AbstractPreviewItemComp<B> extends AbstractVerticalPageVie
         ELabel headerLbl = ELabel.h2("").withUndefinedWidth();
         this.previewLayout = layout;
 
-        header = new MHorizontalLayout().withFullWidth();
-        header.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
+        headerLayout = new MHorizontalLayout().withFullWidth();
+        headerLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
         if (iconResource != null) {
             String title = iconResource.getHtml() + " " + headerText;
@@ -77,13 +73,13 @@ public abstract class AbstractPreviewItemComp<B> extends AbstractVerticalPageVie
         }
 
         if (SiteConfiguration.isCommunityEdition()) {
-            header.with(headerLbl);
+            headerLayout.with(headerLbl);
         } else {
             favoriteBtn = new MButton("", clickEvent -> toggleFavorite()).withIcon(VaadinIcons.HEART);
-            header.with(new MCssLayout(headerLbl, favoriteBtn));
+            headerLayout.with(new MCssLayout(headerLbl, favoriteBtn));
         }
 
-        this.addComponent(header);
+        this.addComponent(headerLayout);
         ComponentContainer extraComp;
         if ((extraComp = createExtraControls()) != null) {
             this.addComponent(extraComp);
@@ -95,7 +91,7 @@ public abstract class AbstractPreviewItemComp<B> extends AbstractVerticalPageVie
         previewForm = initPreviewForm();
         HorizontalLayout actionControls = createButtonControls();
         if (actionControls != null) {
-            header.with(actionControls).expand(actionControls).withAlign(actionControls, Alignment.TOP_RIGHT);
+            headerLayout.with(actionControls).expand(actionControls).withAlign(actionControls, Alignment.TOP_RIGHT);
         }
 
         MCssLayout contentWrapper = new MCssLayout().withFullSize();
@@ -167,10 +163,6 @@ public abstract class AbstractPreviewItemComp<B> extends AbstractVerticalPageVie
     }
 
     private void initLayout() {
-        if (sidebarContent != null) {
-            sidebarContent.removeAllComponents();
-        }
-
         initRelatedComponents();
         ComponentContainer bottomPanel = createBottomPanel();
         if (bottomPanel != null) {
@@ -180,10 +172,6 @@ public abstract class AbstractPreviewItemComp<B> extends AbstractVerticalPageVie
                 bodyContent.addComponent(bottomPanel);
             }
         }
-    }
-
-    public void addToSideBar(Component... components) {
-        Arrays.stream(components).forEach(sidebarContent::addComponent);
     }
 
     public B getBeanItem() {

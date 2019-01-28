@@ -166,6 +166,7 @@ class ProjectServiceImpl(private val projectMapper: ProjectMapper,
         projectMember.projectid = projectId
         projectMember.username = username
         projectMember.saccountid = record.saccountid
+        projectMember.projectroleid = adminRoleId
         projectMemberMapper.insert(projectMember)
 
         //Do async task to create some post data after project is created

@@ -77,7 +77,7 @@ public class ProjectAssetsUtil {
         VerticalLayout wrapper = new VerticalLayout();
 
         if (CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.PROJECT)) {
-            wrapper.addStyleName("cursor_pointer");
+            wrapper.addStyleName(WebThemes.CURSOR_POINTER);
             wrapper.setDescription(UserUIContext.getMessage(GenericI18Enum.OPT_CHANGE_IMAGE));
             wrapper.addLayoutClickListener((LayoutEvents.LayoutClickListener) layoutClickEvent ->
                     UI.getCurrent().addWindow(new ProjectLogoUploadWindow(projectShortname, projectId, projectAvatarId))
@@ -91,8 +91,7 @@ public class ProjectAssetsUtil {
             image.addStyleName(WebThemes.CIRCLE_BOX);
             wrapper.addComponent(image);
         } else {
-            ELabel projectIcon = new ELabel(projectShortname).withStyleName(WebThemes.TEXT_ELLIPSIS, ValoTheme.LABEL_LARGE, "center");
-            projectIcon.addStyleName(WebThemes.CIRCLE_BOX);
+            ELabel projectIcon = new ELabel(projectShortname.substring(0,1)).withStyleName(WebThemes.TEXT_ELLIPSIS, ValoTheme.LABEL_LARGE, "center", WebThemes.CIRCLE_BOX).withDescription(projectShortname);
             projectIcon.setWidth(size, Sizeable.Unit.PIXELS);
             projectIcon.setHeight(size, Sizeable.Unit.PIXELS);
             wrapper.addComponent(projectIcon);

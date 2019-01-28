@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -37,13 +37,9 @@ import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.TooltipHelper;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
-import com.mycollab.vaadin.web.ui.WebThemes;
-import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.ui.Alignment;
+import com.mycollab.vaadin.web.ui.Depot;
 import com.vaadin.ui.CheckBox;
-import com.vaadin.ui.CssLayout;
-import fi.jasoft.dragdroplayouts.DDVerticalLayout;
-import org.vaadin.viritin.layouts.MHorizontalLayout;
+import org.vaadin.viritin.layouts.MCssLayout;
 
 import java.util.Collections;
 import java.util.List;
@@ -52,20 +48,16 @@ import java.util.List;
  * @author MyCollab Ltd
  * @since 5.2.4
  */
-public class MilestoneTimelineWidget extends DDVerticalLayout {
-    private CssLayout timelineContainer;
+public class MilestoneTimelineWidget extends Depot {
     private List<SimpleMilestone> milestones;
 
-    public void display() {
+    public MilestoneTimelineWidget() {
+        super(UserUIContext.getMessage(MilestoneI18nEnum.OPT_TIMELINE), new MCssLayout());
         this.setWidth("100%");
         this.addStyleName("tm-container");
-        this.setSpacing(true);
-        this.setMargin(new MarginInfo(false, false, true, false));
+    }
 
-        MHorizontalLayout headerLayout = new MHorizontalLayout().withStyleName(WebThemes.PANEL_HEADER, "wrapped");
-        headerLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
-        ELabel titleLbl = ELabel.h3(UserUIContext.getMessage(MilestoneI18nEnum.OPT_TIMELINE));
-
+    public void display() {
         final CheckBox noDateSetMilestone = new CheckBox(UserUIContext.getMessage(DayI18nEnum.OPT_NO_DATE_SET));
         noDateSetMilestone.setValue(false);
 
@@ -74,8 +66,9 @@ public class MilestoneTimelineWidget extends DDVerticalLayout {
 
         noDateSetMilestone.addValueChangeListener(valueChangeEvent -> displayTimelines(noDateSetMilestone.getValue(), includeClosedMilestone.getValue()));
         includeClosedMilestone.addValueChangeListener(valueChangeEvent -> displayTimelines(noDateSetMilestone.getValue(), includeClosedMilestone.getValue()));
-        headerLayout.with(titleLbl, noDateSetMilestone, includeClosedMilestone).expand(titleLbl).withAlign
-                (noDateSetMilestone, Alignment.MIDDLE_RIGHT).withAlign(includeClosedMilestone, Alignment.MIDDLE_RIGHT);
+
+        addHeaderElement(noDateSetMilestone);
+        addHeaderElement(includeClosedMilestone);
 
         MilestoneSearchCriteria searchCriteria = new MilestoneSearchCriteria();
         searchCriteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
@@ -83,16 +76,12 @@ public class MilestoneTimelineWidget extends DDVerticalLayout {
         MilestoneService milestoneService = AppContextUtil.getSpringBean(MilestoneService.class);
         milestones = (List<SimpleMilestone>) milestoneService.findPageableListByCriteria(new BasicSearchRequest<>(searchCriteria));
 
-        this.addComponent(headerLayout);
-        timelineContainer = new CssLayout();
-        timelineContainer.setWidth("100%");
-        this.addComponent(timelineContainer);
-        timelineContainer.addStyleName("tm-wrapper");
+        bodyContent.addStyleName("tm-wrapper");
         displayTimelines(false, false);
     }
 
     private void displayTimelines(boolean includeNoDateSet, boolean includeClosedMilestone) {
-        timelineContainer.removeAllComponents();
+        bodyContent.removeAllComponents();
         Ul ul = new Ul().setCSSClass("timeline");
 
         for (SimpleMilestone milestone : milestones) {
@@ -153,6 +142,6 @@ public class MilestoneTimelineWidget extends DDVerticalLayout {
             ul.appendChild(li);
         }
 
-        timelineContainer.addComponent(ELabel.html(ul.write()).withUndefinedWidth());
+        bodyContent.addComponent(ELabel.html(ul.write()).withUndefinedWidth());
     }
 }

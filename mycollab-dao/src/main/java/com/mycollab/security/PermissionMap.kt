@@ -37,7 +37,7 @@ class PermissionMap : ValuedBean() {
      * @param value
      */
     fun addPath(permissionItem: String, value: Int) {
-        perMap.put(permissionItem, value)
+        perMap[permissionItem] = value
     }
 
     /**

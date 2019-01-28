@@ -69,6 +69,7 @@ class GroupIteratorDataSource<SearchService : ISearchableService<S>, S : SearchC
         val fieldName = jrField.name
         PropertyUtils.getProperty(currentItem, fieldName)
     } catch (e: Exception) {
+        LOG.error("Error will getting field ${jrField.name}", e)
         throw JRException(e)
     }
 

@@ -77,7 +77,6 @@ import java.util.List;
  * @author MyCollab Ltd
  * @since 5.2.0
  */
-// TODO
 @ViewComponent
 public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements MilestoneRoadmapView, IBlockContainer {
 
@@ -216,8 +215,8 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
         MHorizontalLayout headerComp = new MHorizontalLayout().withFullWidth().withMargin(true)
                 .with(headerText, createHeaderRight()).withAlign(headerText, Alignment.MIDDLE_LEFT).expand(headerText);
         this.addComponent(headerComp);
-        roadMapView = new MVerticalLayout().withSpacing(false).withMargin(new MarginInfo(false, true, false, false));
-        filterLayout = new MVerticalLayout().withWidth("280px").withStyleName(WebThemes.BOX);
+        roadMapView = new MVerticalLayout().withSpacing(false).withMargin(false);
+        filterLayout = new MVerticalLayout();
 
         MHorizontalLayout bodyComp = new MHorizontalLayout(roadMapView).withFullWidth().withMargin(true).expand(roadMapView);
         this.with(headerComp, bodyComp).expand(bodyComp);

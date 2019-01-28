@@ -19,10 +19,10 @@ class CacheServiceImpl : CacheService {
     }
 
     override fun removeCacheItem(group: String, prefixKey: String) {
-        throw MyCollabException("Not supported in the community edition");
+
     }
 
     override fun removeCacheItems(group: String, vararg classes: Class<*>) {
-        throw MyCollabException("Not supported in the community edition");
+
     }
 }

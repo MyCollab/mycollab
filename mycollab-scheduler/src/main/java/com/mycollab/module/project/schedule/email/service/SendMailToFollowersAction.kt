@@ -56,18 +56,25 @@ import org.springframework.beans.factory.annotation.Autowired
 abstract class SendMailToFollowersAction<B> : SendingRelayEmailNotificationAction {
     @Autowired
     private lateinit var applicationConfiguration: ApplicationConfiguration
+
     @Autowired
     private lateinit var extMailService: ExtMailService
+
     @Autowired
     private lateinit var projectService: ProjectService
+
     @Autowired
     protected lateinit var projectMemberService: ProjectMemberService
+
     @Autowired
     private lateinit var commentService: CommentService
+
     @Autowired
     protected lateinit var contentGenerator: IContentGenerator
+
     @Autowired
     private lateinit var auditLogService: AuditLogService
+
     @Autowired
     private lateinit var eventBus: AsyncEventBus
 
@@ -138,7 +145,7 @@ abstract class SendMailToFollowersAction<B> : SendingRelayEmailNotificationActio
                     buildExtraTemplateVariables(context)
                     contentGenerator.putVariable("context", context)
                     if (comments.isNotEmpty()) {
-                        contentGenerator.putVariable("lastCommentsValue", LocalizationHelper.getMessage(context.locale, MailI18nEnum.Last_Comments_Value, "" + comments.size))
+                        contentGenerator.putVariable("lastCommentsValue", LocalizationHelper.getMessage(context.locale, MailI18nEnum.Last_Comments_Value, "${comments.size}"))
                     }
                     contentGenerator.putVariable("Changes", LocalizationHelper.getMessage(context.locale, MailI18nEnum.Changes))
                     contentGenerator.putVariable("Field", LocalizationHelper.getMessage(context.locale, MailI18nEnum.Field))
@@ -185,7 +192,7 @@ abstract class SendMailToFollowersAction<B> : SendingRelayEmailNotificationActio
                     context.wrappedBean = bean
                     buildExtraTemplateVariables(context)
                     val userLocale = LocalizationHelper.getLocaleInstance(it.language)
-                    contentGenerator.putVariable("lastCommentsValue", LocalizationHelper.getMessage(userLocale, MailI18nEnum.Last_Comments_Value, "" + comments.size))
+                    contentGenerator.putVariable("lastCommentsValue", LocalizationHelper.getMessage(userLocale, MailI18nEnum.Last_Comments_Value, "${comments.size}"))
                     contentGenerator.putVariable("comment", context.emailNotification)
                     contentGenerator.putVariable("copyRight", LocalizationHelper.getMessage(context.locale, MailI18nEnum.Copyright,
                             DateTimeUtils.getCurrentYear()))

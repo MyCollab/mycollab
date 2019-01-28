@@ -16,6 +16,8 @@
  */
 package com.mycollab.vaadin.ui.formatter
 
+import com.mycollab.module.user.domain.SimpleUser
+
 /**
  * @author MyCollab Ltd.
  * @since 4.0
@@ -34,5 +36,5 @@ interface HistoryFieldFormat {
      * @param msgIfBlank
      * @return
      */
-    fun toString(value: String, displayAsHtml: Boolean, msgIfBlank: String): String
+    fun toString(currentViewUser: SimpleUser, value: String, displayAsHtml: Boolean, msgIfBlank: String): String
 }

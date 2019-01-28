@@ -44,13 +44,13 @@ public abstract class DynamicQueryParamLayout<S extends SearchCriteria> extends 
 
     protected String type;
     private BuildCriterionComponent<S> buildCriterionComp;
-    private MHorizontalLayout header;
+    private MHorizontalLayout headerLayout;
 
     public DynamicQueryParamLayout(DefaultGenericSearchPanel<S> parent, String type) {
         super(parent);
         CustomLayout layout = CustomLayoutExt.createLayout("advancedSearch");
         this.type = type;
-        header = constructHeader();
+        headerLayout = constructHeader();
         buildCriterionComp = new BuildCriterionComponent<S>(this, getParamFields(), type) {
             private static final long serialVersionUID = 1L;
 
@@ -60,7 +60,7 @@ public abstract class DynamicQueryParamLayout<S extends SearchCriteria> extends 
             }
         };
 
-        layout.addComponent(header, "advSearchHeader");
+        layout.addComponent(headerLayout, "advSearchHeader");
         layout.addComponent(buildCriterionComp, "advSearchBody");
         layout.addComponent(createButtonControls(), "advSearchFooter");
         setCompositionRoot(layout);
@@ -98,7 +98,7 @@ public abstract class DynamicQueryParamLayout<S extends SearchCriteria> extends 
     protected abstract Class<S> getType();
 
     private MHorizontalLayout constructHeader() {
-        return searchPanel.constructHeader();
+        return searchPanel.getHeader();
     }
 
     public abstract Param[] getParamFields();

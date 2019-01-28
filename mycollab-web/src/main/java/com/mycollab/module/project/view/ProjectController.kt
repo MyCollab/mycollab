@@ -488,7 +488,7 @@ class ProjectController(val projectView: ProjectView) : AbstractController() {
             @Subscribe
             override fun handle(event: PageEvent.GotoList) {
                 val presenter = PresenterResolver.getPresenter(PageListPresenter::class.java)
-                presenter.go(projectView, PageScreenData.Search(event.data as String))
+                presenter.go(projectView, PageScreenData.Search(event.data))
             }
         })
     }
