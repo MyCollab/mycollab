@@ -50,7 +50,7 @@ public class UserOrderComponent extends TicketGroupOrderComponent {
                 } else {
                     Img img = new Img("", StorageUtils.getAvatarPath(ticket.getAssignUserAvatarId(), 32))
                             .setCSSClass((WebThemes.CIRCLE_BOX));
-                    Div userDiv = new DivLessFormatter().appendChild(img, new Text(" " + ticket.getAssignUserFullName()));
+                    Div userDiv = new DivLessFormatter().appendChild(img, new Text(ticket.getAssignUserFullName()));
 
                     DefaultTicketGroupComponent groupComponent = new DefaultTicketGroupComponent(userDiv.write());
                     userAvailables.put(assignUser, groupComponent);

@@ -160,8 +160,7 @@ class ProjectMembersWidget extends Depot {
 
         private String buildAssigneeValue(SimpleProjectMember member) {
             Div div = new DivLessFormatter();
-            A userLink = new A().setId("tag" + TooltipHelper.TOOLTIP_ID).
-                    setHref(ProjectLinkGenerator.generateProjectMemberLink(member.getProjectid(), member.getUsername()));
+            A userLink = new A(ProjectLinkGenerator.generateProjectMemberLink(member.getProjectid(), member.getUsername())).setId("tag" + TooltipHelper.TOOLTIP_ID);
 
             userLink.setAttribute("onmouseover", TooltipHelper.userHoverJsFunction(member.getUsername()));
             userLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction());

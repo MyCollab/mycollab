@@ -65,13 +65,13 @@
         <dependency>
             <groupId>net.objectlab.kit</groupId>
             <artifactId>datecalc-common</artifactId>
-            <version>1.4.0</version>
+            <version>1.4.1</version>
         </dependency>
 
         <dependency>
             <groupId>net.objectlab.kit</groupId>
             <artifactId>datecalc-jdk8</artifactId>
-            <version>1.4.0</version>
+            <version>1.4.1</version>
         </dependency>
 
 

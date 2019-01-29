@@ -37,6 +37,7 @@ import com.mycollab.module.project.i18n.OptionI18nEnum.Priority;
 import com.mycollab.module.project.i18n.TaskI18nEnum;
 import com.mycollab.module.project.service.ProjectTaskService;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
+import com.mycollab.module.project.ui.components.DurationReadField;
 import com.mycollab.module.project.ui.form.ProjectFormAttachmentDisplayField;
 import com.mycollab.module.project.ui.form.ProjectItemViewField;
 import com.mycollab.module.project.view.settings.component.ProjectUserFormLinkField;
@@ -114,10 +115,7 @@ public class TaskPreviewForm extends AdvancedPreviewBeanForm<SimpleTask> {
                 return new DefaultViewField(Boolean.TRUE.equals(beanItem.getIsestimated()) ?
                         UserUIContext.getMessage(GenericI18Enum.ACTION_YES) : UserUIContext.getMessage(GenericI18Enum.ACTION_NO));
             } else if (Task.Field.duration.equalTo(propertyId)) {
-                if (beanItem.getDuration() != null) {
-                    HumanTime humanTime = new HumanTime(beanItem.getDuration());
-                    return new DefaultViewField(humanTime.getExactly());
-                }
+                return new DurationReadField();
             } else if (Task.Field.description.equalTo(propertyId)) {
                 return new RichTextViewField();
             } else if ("section-subTasks".equals(propertyId)) {

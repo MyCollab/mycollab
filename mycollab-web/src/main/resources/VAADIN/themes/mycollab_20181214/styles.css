@@ -2100,8 +2100,15 @@ div.v-window .v-panel {
 	position: relative;
 }
 
+.kanban-layout .v-gridlayout-slot {
+	padding-bottom: 10px;
+}
+
+.kanban-layout .assignee-block {
+	background-color: #ffffff;
+}
+
 .kanban-layout .kanban-block {
-	cursor: move;
 	background-color: #fdde86;
 	padding: 10px;
 }
@@ -16811,8 +16818,15 @@ div.v-window .v-panel {
 	position: relative;
 }
 
+.kanban-layout .v-gridlayout-slot {
+	padding-bottom: 10px;
+}
+
+.kanban-layout .assignee-block {
+	background-color: #ffffff;
+}
+
 .kanban-layout .kanban-block {
-	cursor: move;
 	background-color: #fdde86;
 	padding: 10px;
 }

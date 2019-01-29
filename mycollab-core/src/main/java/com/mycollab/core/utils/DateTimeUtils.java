@@ -36,6 +36,8 @@ import java.util.*;
 public class DateTimeUtils {
     private static final Logger LOG = LoggerFactory.getLogger(DateTimeUtils.class);
 
+    public static Integer MILLISECONDS_IN_A_DAY = 1000*60*60*24;
+
     private static ZoneId utcZone = ZoneId.of("UTC");
 
     public static LocalDateTime getCurrentDateWithoutMS() {

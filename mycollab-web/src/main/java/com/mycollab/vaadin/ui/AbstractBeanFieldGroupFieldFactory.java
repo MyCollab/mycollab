@@ -118,7 +118,10 @@ public abstract class AbstractBeanFieldGroupFieldFactory<B> implements IBeanFiel
                                 formField = new DefaultViewField("Error");
                             }
                         } else {
-                            formField = new TextField();
+                            // Set default field type for String only. Other types, need to create a specific field
+                            if (field.getType() == String.class) {
+                                formField = new TextField();
+                            } else continue;
                         }
                     }
                 }

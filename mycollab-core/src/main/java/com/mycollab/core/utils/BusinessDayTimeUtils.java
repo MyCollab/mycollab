@@ -48,7 +48,7 @@ public class BusinessDayTimeUtils {
                 refDate = refDate.minusDays(1);
             }
         } else {
-            refDate.plusDays(1);
+            refDate = refDate.plusDays(1);
             while (calc1.isNonWorkingDay(refDate)) {
                 refDate = refDate.plusDays(1);
             }

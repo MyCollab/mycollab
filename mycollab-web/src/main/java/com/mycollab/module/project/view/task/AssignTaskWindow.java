@@ -87,7 +87,7 @@ class AssignTaskWindow extends MWindow {
             @Override
             public AbstractComponent getLayout() {
                 VerticalLayout layout = new VerticalLayout();
-                this.informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(LayoutType.TWO_COLUMN);
+                this.informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(LayoutType.ONE_COLUMN);
                 layout.addComponent(informationLayout.getLayout());
 
                 MButton cancelBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
@@ -120,7 +120,7 @@ class AssignTaskWindow extends MWindow {
                     }
                 }).withIcon(VaadinIcons.SHARE).withStyleName(WebThemes.BUTTON_ACTION);
 
-                MHorizontalLayout controlsBtn = new MHorizontalLayout(cancelBtn, approveBtn).withMargin(true);
+                MHorizontalLayout controlsBtn = new MHorizontalLayout(cancelBtn, approveBtn).withMargin(false);
                 layout.addComponent(controlsBtn);
                 layout.setComponentAlignment(controlsBtn, Alignment.MIDDLE_RIGHT);
                 return layout;
@@ -131,7 +131,7 @@ class AssignTaskWindow extends MWindow {
                 if (Task.Field.assignuser.equalTo(propertyId)) {
                     return informationLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.FORM_ASSIGNEE), 0, 0);
                 } else if (propertyId.equals("comment")) {
-                    return informationLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.OPT_COMMENT), 0, 1, 2);
+                    return informationLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.OPT_COMMENT), 0, 1);
                 }
                 return null;
             }
