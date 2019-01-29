@@ -118,12 +118,6 @@ public class MainViewImpl extends AbstractMainView {
         }).withIcon(SettingAssetsManager.getAsset(SettingUIConstants.GENERAL_SETTING));
         accountPopupContent.addOption(generalSettingBtn);
 
-        MButton setupBtn = new MButton(UserUIContext.getMessage(AdminI18nEnum.VIEW_SETUP), clickEvent -> {
-            accountMenu.setPopupVisible(false);
-            EventBusFactory.getInstance().post(new ShellEvent.GotoUserAccountModule(this, new String[]{"setup"}));
-        }).withIcon(VaadinIcons.WRENCH);
-        accountPopupContent.addOption(setupBtn);
-
         accountPopupContent.addSeparator();
 
         MButton helpBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.ACTION_HELP)).withIcon(VaadinIcons.ACADEMY_CAP);

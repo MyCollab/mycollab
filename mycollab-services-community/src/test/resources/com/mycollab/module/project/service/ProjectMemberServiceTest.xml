@@ -29,14 +29,14 @@
     <m_prj_role projectId="1" roleName="test" sAccountId="1" id="1"/>
 
     <m_prj_member status="Active" projectId="1" sAccountId="1" createdTime="2013-04-10 13:29:23"
-                  username="user1" id="1"/>
+                  username="user1" id="1" projectRoleId="1"/>
 
     <m_prj_member status="InActive" projectId="1" sAccountId="1" createdTime="2013-04-10 13:29:23"
-                  username="user2" id="2"/>
+                  username="user2" id="2" projectRoleId="1"/>
 
     <m_prj_member status="Active" projectId="2" sAccountId="1" createdTime="2013-04-10 13:29:23"
-                  username="user2" id="3"/>
+                  username="user2" id="3" projectRoleId="1"/>
 
     <m_prj_member status="Active" projectId="2" sAccountId="1" createdTime="2013-04-10 13:29:23"
-                  username="user3" id="4"/>
+                  username="user3" id="4" projectRoleId="1"/>
 </dataset>
