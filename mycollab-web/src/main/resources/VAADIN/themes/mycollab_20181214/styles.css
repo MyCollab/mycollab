@@ -17619,14 +17619,14 @@ div.v-csslayout.followers-container .v-checkbox {
 	background-color: #f5f5f5;
 }
 
-.v-csslayout.tagcloud {
+.v-csslayout.tag-cloud {
 	border-style: solid;
 	border-top-style: none;
 	border-width: 1px;
 	border-color: #e5e5e5;
 }
 
-.v-csslayout.tagcloud .tagbutton {
+.v-csslayout.tag-cloud .tag-button {
 	margin: 2px;
 }
 

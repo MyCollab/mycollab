@@ -44,7 +44,7 @@ public class GenericItemRowDisplayHandler implements IBeanList.RowDisplayHandler
     @Override
     public Component generateRow(IBeanList<ProjectGenericItem> host, ProjectGenericItem item, int rowIndex) {
         MVerticalLayout layout = new MVerticalLayout().withFullWidth().withStyleName(WebThemes.BORDER_BOTTOM, WebThemes.HOVER_EFFECT_NOT_BOX);
-        ELabel link = ELabel.h3("");
+        ELabel link = ELabel.h3("").withFullWidth();
         if (item.isBug() || item.isTask()) {
             link.setValue(ProjectLinkBuilder.generateProjectItemHtmlLinkAndTooltip(item.getProjectShortName(),
                     item.getProjectId(), item.getName(), item.getType(), item.getExtraTypeId() + ""));
