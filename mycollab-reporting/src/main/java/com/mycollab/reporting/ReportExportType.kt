@@ -16,8 +16,6 @@
  */
 package com.mycollab.reporting
 
-import com.mycollab.core.MyCollabException
-
 /**
  * @author MyCollab Ltd.
  * @since 1.0

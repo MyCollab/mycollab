@@ -19,12 +19,10 @@ package com.mycollab.module.project.view.task;
 import com.mycollab.common.domain.MonitorItem;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.service.MonitorItemService;
-import com.mycollab.core.MyCollabException;
 import com.mycollab.module.file.AttachmentUtils;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.domain.SimpleTask;
-import com.mycollab.module.project.domain.Task;
 import com.mycollab.module.project.event.TaskEvent;
 import com.mycollab.module.project.event.TicketEvent;
 import com.mycollab.module.project.service.ProjectTaskService;
@@ -33,17 +31,14 @@ import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.vaadin.UserUIContext;
-import com.mycollab.vaadin.ui.AbstractFormLayoutFactory;
 import com.mycollab.vaadin.ui.AdvancedEditBeanForm;
-import com.mycollab.vaadin.ui.IFormLayoutFactory;
+import com.mycollab.vaadin.ui.WrappedFormLayoutFactory;
 import com.mycollab.vaadin.web.ui.DefaultDynaFormLayout;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.mycollab.vaadin.web.ui.field.AttachmentUploadField;
-import com.vaadin.data.HasValue;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.AbstractComponent;
-import com.vaadin.ui.Alignment;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MCssLayout;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
@@ -70,14 +65,14 @@ public class TaskEditForm extends AdvancedEditBeanForm<SimpleTask> {
 
     }
 
-    class FormLayoutFactory extends AbstractFormLayoutFactory {
-        private IFormLayoutFactory formLayoutFactory;
+    class FormLayoutFactory extends WrappedFormLayoutFactory {
 
         @Override
         public AbstractComponent getLayout() {
             MVerticalLayout layout = new MVerticalLayout().withMargin(false);
-            formLayoutFactory = new DefaultDynaFormLayout(ProjectTypeConstants.TASK, TaskDefaultFormLayoutFactory.getAddForm());
-            AbstractComponent gridLayout = formLayoutFactory.getLayout();
+            wrappedLayoutFactory = new DefaultDynaFormLayout(ProjectTypeConstants.TASK, TaskDefaultFormLayoutFactory.getAddForm());
+            AbstractComponent gridLayout = wrappedLayoutFactory.getLayout();
+
             gridLayout.addStyleName(WebThemes.SCROLLABLE_CONTAINER);
             gridLayout.addStyleName("window-max-height");
 
@@ -110,6 +105,7 @@ public class TaskEditForm extends AdvancedEditBeanForm<SimpleTask> {
                             monitorItem.setTypeid(taskId + "");
                             monitorItem.setUsername(follower);
                             monitorItem.setExtratypeid(bean.getProjectid());
+                            monitorItem.setCreatedtime(LocalDateTime.now());
                             monitorItems.add(monitorItem);
                         }
                         MonitorItemService monitorItemService = AppContextUtil.getSpringBean(MonitorItemService.class);
@@ -131,15 +127,6 @@ public class TaskEditForm extends AdvancedEditBeanForm<SimpleTask> {
 
             layout.with(gridLayout, buttonControls).expand(gridLayout);
             return layout;
-        }
-
-        @Override
-        protected HasValue<?> onAttachField(Object propertyId, HasValue<?> field) {
-            try {
-                return formLayoutFactory.attachField(propertyId, field);
-            } catch (Exception e) {
-                throw new MyCollabException("Exception " + propertyId);
-            }
         }
     }
 }

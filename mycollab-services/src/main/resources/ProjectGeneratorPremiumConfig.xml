@@ -28,7 +28,6 @@
 
         <table domainObjectName="Invoice" schema="mycollab" tableName="m_prj_invoice" />
         <table domainObjectName="Risk" schema="mycollab" tableName="m_prj_risk" />
-        <table domainObjectName="StandupReport" schema="mycollab" tableName="m_prj_standup" />
         <table domainObjectName="ItemTimeLogging" schema="mycollab" tableName="m_prj_time_logging" />
     </context>
 

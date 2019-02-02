@@ -19,10 +19,8 @@ package com.mycollab.vaadin.ui.field;
 import com.mycollab.common.i18n.ErrorI18nEnum;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.NotificationUtil;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.CustomField;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.TextField;
+import com.vaadin.ui.*;
+import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -32,18 +30,21 @@ import java.time.format.DateTimeFormatter;
  * @since 5.3.1
  */
 public class DateFormatField extends CustomField<String> {
+    private MHorizontalLayout layout;
     private TextField dateInput;
     private Label dateExample;
-    private LocalDateTime now;
+
+    private LocalDateTime now = LocalDateTime.now();
     private DateTimeFormatter dateFormatInstance;
 
     public DateFormatField(final String initialFormat) {
         dateInput = new TextField(null, initialFormat);
-        now = LocalDateTime.now();
         dateExample = new Label();
         dateFormatInstance = DateTimeFormatter.ofPattern(initialFormat);
         dateExample.setValue(String.format("(%s)", dateFormatInstance.format(now)));
         dateExample.setWidthUndefined();
+
+        layout = new MHorizontalLayout(dateInput, dateExample).alignAll(Alignment.MIDDLE_LEFT);
 
         dateInput.addValueChangeListener((ValueChangeListener<String>) event -> {
             try {
@@ -64,10 +65,9 @@ public class DateFormatField extends CustomField<String> {
         return dateInput.getValue();
     }
 
-
     @Override
     protected Component initContent() {
-        return dateInput;
+        return layout;
     }
 
     @Override

@@ -32,17 +32,14 @@ import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.vaadin.UserUIContext;
-import com.mycollab.vaadin.ui.AbstractFormLayoutFactory;
 import com.mycollab.vaadin.ui.AdvancedEditBeanForm;
-import com.mycollab.vaadin.ui.IFormLayoutFactory;
+import com.mycollab.vaadin.ui.WrappedFormLayoutFactory;
 import com.mycollab.vaadin.web.ui.DefaultDynaFormLayout;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.mycollab.vaadin.web.ui.field.AttachmentUploadField;
-import com.vaadin.data.HasValue;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.AbstractComponent;
-import com.vaadin.ui.Alignment;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MCssLayout;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
@@ -67,14 +64,13 @@ public class BugEditForm extends AdvancedEditBeanForm<SimpleBug> {
 
     }
 
-    class FormLayoutFactory extends AbstractFormLayoutFactory {
-        private IFormLayoutFactory formLayoutFactory;
+    class FormLayoutFactory extends WrappedFormLayoutFactory {
 
         @Override
         public AbstractComponent getLayout() {
             MVerticalLayout layout = new MVerticalLayout().withMargin(false);
-            formLayoutFactory = new DefaultDynaFormLayout(ProjectTypeConstants.BUG, BugDefaultFormLayoutFactory.getAddForm());
-            AbstractComponent gridLayout = formLayoutFactory.getLayout();
+            wrappedLayoutFactory = new DefaultDynaFormLayout(ProjectTypeConstants.BUG, BugDefaultFormLayoutFactory.getAddForm());
+            AbstractComponent gridLayout = wrappedLayoutFactory.getLayout();
             gridLayout.addStyleName(WebThemes.SCROLLABLE_CONTAINER);
             gridLayout.addStyleName("window-max-height");
 
@@ -131,11 +127,6 @@ public class BugEditForm extends AdvancedEditBeanForm<SimpleBug> {
 
             layout.with(gridLayout, buttonControls).expand(gridLayout);
             return layout;
-        }
-
-        @Override
-        protected HasValue<?> onAttachField(Object propertyId, HasValue<?> field) {
-            return formLayoutFactory.attachField(propertyId, field);
         }
     }
 }

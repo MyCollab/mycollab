@@ -30,7 +30,7 @@ object SettingAssetsManager {
             SettingUIConstants.SETTING to VaadinIcons.COGS,
             SettingUIConstants.USERS to VaadinIcons.USERS,
             SettingUIConstants.ROLES to VaadinIcons.COIN_PILES,
-            SettingUIConstants.GENERAL_SETTING to VaadinIcons.COG,
+            SettingUIConstants.GENERAL_SETTING to VaadinIcons.ADJUST,
             SettingUIConstants.THEME_CUSTOMIZE to VaadinIcons.MAGIC
     )
 

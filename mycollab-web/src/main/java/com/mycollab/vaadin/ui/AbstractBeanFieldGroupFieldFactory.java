@@ -169,14 +169,15 @@ public abstract class AbstractBeanFieldGroupFieldFactory<B> implements IBeanFiel
             StringBuilder errorMsg = new StringBuilder();
 
             for (ConstraintViolation violation : violations) {
-                errorMsg.append(violation.getMessage()).append("<br/>");
-
                 Path propertyPath = violation.getPropertyPath();
                 if (propertyPath != null && !propertyPath.toString().equals("")) {
+                    errorMsg.append(propertyPath + " " + violation.getMessage()).append("<br/>");
                     Binder.Binding<B, ?> binding = binder.getBinding(propertyPath.toString()).orElse(null);
                     if (binding != null) {
                         ((Component) binding.getField()).addStyleName("errorField");
                     }
+                } else {
+                    errorMsg.append(violation.getMessage()).append("<br/>");
                 }
             }
             throw new UserInvalidInputException(errorMsg.toString());

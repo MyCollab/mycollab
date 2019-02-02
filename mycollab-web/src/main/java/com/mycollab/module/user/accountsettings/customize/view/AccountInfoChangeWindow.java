@@ -57,7 +57,7 @@ class AccountInfoChangeWindow extends MWindow {
     AccountInfoChangeWindow() {
         super(UserUIContext.getMessage(AdminI18nEnum.OPT_CHANGE_ACCOUNT_INFO));
         MVerticalLayout content = new MVerticalLayout();
-        this.withModal(true).withResizable(false).withWidth("700px").withContent(content).withCenter();
+        this.withModal(true).withResizable(false).withWidth("600px").withContent(content).withCenter();
 
         billingAccount = BeanUtility.deepClone(AppUI.getBillingAccount());
         editForm = new AdvancedEditBeanForm<>();
@@ -123,7 +123,7 @@ class AccountInfoChangeWindow extends MWindow {
 
         editForm.setBean(billingAccount);
 
-        MHorizontalLayout buttonControls = new MHorizontalLayout().withMargin(true);
+        MHorizontalLayout buttonControls = new MHorizontalLayout().withMargin(false);
         MButton saveBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_SAVE), clickEvent -> {
             if (editForm.validateForm()) {
                 BillingAccountService billingAccountService = AppContextUtil.getSpringBean(BillingAccountService.class);

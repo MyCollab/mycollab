@@ -153,7 +153,7 @@
         m_prj_customize_view.displayMessage AS view_displayMessage, m_prj_customize_view.displayMilestone AS view_displayMilestone,
         m_prj_customize_view.displayTicket AS view_displayTicket, m_prj_customize_view.displayStandup AS view_displayStandup,
         m_prj_customize_view.displayTimeLogging AS view_displayTimeLogging,
-        m_prj_customize_view.displayPage AS view_displayPage, m_prj_customize_view.displayFile AS view_displayFile,
+        m_prj_customize_view.displayPage AS view_displayPage,
         m_prj_customize_view.displayInvoice AS view_displayInvoice
         FROM m_prj_project 
             LEFT OUTER JOIN m_client ON (m_client.id=m_prj_project.clientId)

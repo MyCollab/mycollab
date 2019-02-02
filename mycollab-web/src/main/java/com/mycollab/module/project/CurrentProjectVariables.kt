@@ -169,7 +169,6 @@ object CurrentProjectVariables {
                 customizeView.displaypage = true
                 customizeView.displaystandup = true
                 customizeView.displaytimelogging = true
-                customizeView.displayfile = true
                 customizeView.displayinvoice = true
             }
             return customizeView

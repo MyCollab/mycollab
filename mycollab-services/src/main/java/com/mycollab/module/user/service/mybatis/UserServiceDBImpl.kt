@@ -77,10 +77,10 @@ class UserServiceDBImpl(private val userMapper: UserMapper,
         var userAccountEx = UserAccountExample()
 
         if (deploymentMode.isDemandEdition) {
-            userAccountEx.createCriteria().andUsernameEqualTo(record.email).andAccountidEqualTo(sAccountId)
+            userAccountEx.createCriteria().andUsernameEqualTo(record.username).andAccountidEqualTo(sAccountId)
                     .andRegisterstatusEqualTo(RegisterStatusConstants.ACTIVE)
         } else {
-            userAccountEx.createCriteria().andUsernameEqualTo(record.email).andRegisterstatusEqualTo(RegisterStatusConstants.ACTIVE)
+            userAccountEx.createCriteria().andUsernameEqualTo(record.username).andRegisterstatusEqualTo(RegisterStatusConstants.ACTIVE)
         }
 
         if (userAccountMapper.countByExample(userAccountEx) > 0) {
@@ -92,8 +92,8 @@ class UserServiceDBImpl(private val userMapper: UserMapper,
             record.password = EnDecryptHelper.encryptSaltPassword(password)
         }
 
-        if (record.username == null) {
-            record.username = record.email
+        if (record.email == null) {
+            record.email = record.username
         }
 
         if (record.lastname == null) {
@@ -138,9 +138,9 @@ class UserServiceDBImpl(private val userMapper: UserMapper,
 
         userAccountEx = UserAccountExample()
         if (deploymentMode.isDemandEdition) {
-            userAccountEx.createCriteria().andUsernameEqualTo(record.email).andAccountidEqualTo(sAccountId)
+            userAccountEx.createCriteria().andUsernameEqualTo(record.username).andAccountidEqualTo(sAccountId)
         } else {
-            userAccountEx.createCriteria().andUsernameEqualTo(record.email)
+            userAccountEx.createCriteria().andUsernameEqualTo(record.username)
         }
 
         when {
@@ -149,8 +149,7 @@ class UserServiceDBImpl(private val userMapper: UserMapper,
         }
 
         if (isSendInvitationEmail) {
-            val invitationEvent = SendUserInvitationEvent(record.username, password,
-                    inviteUser, subDomain, sAccountId)
+            val invitationEvent = SendUserInvitationEvent(record.username, password, inviteUser, subDomain, sAccountId)
             asyncEventBus.post(invitationEvent)
         }
     }

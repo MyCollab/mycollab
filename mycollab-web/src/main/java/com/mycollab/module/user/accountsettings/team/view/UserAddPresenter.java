@@ -17,11 +17,13 @@
 package com.mycollab.module.user.accountsettings.team.view;
 
 import com.mycollab.core.utils.RandomPasswordGenerator;
+import com.mycollab.core.utils.StringUtils;
 import com.mycollab.module.billing.RegisterStatusConstants;
 import com.mycollab.module.billing.UserStatusConstants;
 import com.mycollab.module.user.accountsettings.view.AccountModule;
 import com.mycollab.module.user.accountsettings.view.AccountSettingBreadcrumb;
 import com.mycollab.module.user.domain.SimpleUser;
+import com.mycollab.module.user.domain.User;
 import com.mycollab.module.user.event.UserEvent;
 import com.mycollab.module.user.service.UserService;
 import com.mycollab.module.user.ui.SettingUIConstants;
@@ -87,8 +89,9 @@ public class UserAddPresenter extends AbstractPresenter<UserAddView> {
             user.setRegisterstatus(RegisterStatusConstants.NOT_LOG_IN_YET);
         }
 
-        if (user.getUsername() == null) {
-            if (user.getPassword() == null) {
+        User existingUser = userService.findUserByUserName(user.getUsername());
+        if (existingUser == null) {
+            if (StringUtils.isBlank(user.getPassword())) {
                 user.setPassword(RandomPasswordGenerator.generateRandomPassword());
             }
             String userPassword = user.getPassword();

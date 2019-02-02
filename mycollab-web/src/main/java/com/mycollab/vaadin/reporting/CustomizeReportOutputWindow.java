@@ -175,7 +175,7 @@ public abstract class CustomizeReportOutputWindow<S extends SearchCriteria, B ex
     }
 
     private ReportExportType getExportType() {
-        String exportTypeVal = (String) optionGroup.getValue();
+        String exportTypeVal = optionGroup.getValue();
         if (UserUIContext.getMessage(FileI18nEnum.CSV).equals(exportTypeVal)) {
             return ReportExportType.CSV;
         } else if (UserUIContext.getMessage(FileI18nEnum.EXCEL).equals(exportTypeVal)) {

@@ -54,7 +54,7 @@ public class FormControlsGenerator {
         }
 
         if (isSaveBtnVisible) {
-            final MButton saveBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_SAVE), clickEvent -> {
+            MButton saveBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_SAVE), clickEvent -> {
                 if (editForm.validateForm()) {
                     editForm.fireSaveForm();
                 }

@@ -47,7 +47,7 @@ public class ProjectAddWindow extends AbstractProjectAddWindow {
     private ProjectGeneralInfoStep projectInfo;
 
     public ProjectAddWindow() {
-        super(new Project());
+        super(new Project().withSaccountid(AppUI.getAccountId()));
 
         MVerticalLayout contentLayout = new MVerticalLayout().withSpacing(false).withMargin(new MarginInfo(false, false, true, false));
         setContent(contentLayout);
