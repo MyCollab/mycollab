@@ -32,6 +32,7 @@ import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.NotificationUtil;
 import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.mycollab.vaadin.web.ui.WebThemes;
+import com.vaadin.event.FieldEvents;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.ui.*;
 import org.vaadin.viritin.button.MButton;
@@ -77,7 +78,7 @@ public class TagViewComponent extends CssLayout {
     }
 
     private Button createAddTagBtn() {
-        final MButton addTagBtn = new MButton(UserUIContext.getMessage(TagI18nEnum.ACTION_ADD))
+        MButton addTagBtn = new MButton(UserUIContext.getMessage(TagI18nEnum.ACTION_ADD))
                 .withIcon(VaadinIcons.PLUS_CIRCLE).withStyleName(WebThemes.BUTTON_LINK);
         addTagBtn.addClickListener(clickEvent -> {
             removeComponent(addTagBtn);
@@ -87,7 +88,7 @@ public class TagViewComponent extends CssLayout {
     }
 
     private HorizontalLayout createSaveTagComp() {
-        final MHorizontalLayout layout = new MHorizontalLayout();
+        MHorizontalLayout layout = new MHorizontalLayout();
         ExtTokenField tokenField = new ExtTokenField();
 
         TagService tagService = AppContextUtil.getSpringBean(TagService.class);
@@ -96,6 +97,12 @@ public class TagViewComponent extends CssLayout {
         ComboBox<SimpleTokenizable> comboBox = new ComboBox<>("", tokens);
         comboBox.setItemCaptionGenerator(SimpleTokenizable::getStringValue);
         comboBox.setPlaceholder("Type here to add");
+        tokenField.focus();
+        comboBox.addBlurListener((FieldEvents.BlurListener) event -> {
+            TagViewComponent.this.removeComponent(layout);
+            TagViewComponent.this.addComponent(createAddTagBtn());
+        });
+
         comboBox.setNewItemProvider((ComboBox.NewItemProvider<SimpleTokenizable>) value -> {
             if (!value.equals("")) {
                 Tag tag = new Tag();
@@ -124,16 +131,6 @@ public class TagViewComponent extends CssLayout {
 
         layout.with(tokenField);
         return layout;
-    }
-
-    private List<Object> handleSearchQuery(String query) {
-        if ("".equals(query) || query == null) {
-            return Collections.emptyList();
-        }
-        List<Tag> suggestedTags = tagService.findTagsInAccount(query, new String[]{ProjectTypeConstants.BUG,
-                        ProjectTypeConstants.TASK, ProjectTypeConstants.MILESTONE, ProjectTypeConstants.RISK},
-                AppUI.getAccountId());
-        return new ArrayList<>(suggestedTags);
     }
 
     private class TagBlock extends CssLayout {

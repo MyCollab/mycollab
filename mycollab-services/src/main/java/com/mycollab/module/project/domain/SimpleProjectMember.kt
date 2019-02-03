@@ -20,7 +20,6 @@ import com.mycollab.core.arguments.NotBindable
 import com.mycollab.core.reporting.NotInReport
 import com.mycollab.core.utils.StringUtils
 import com.mycollab.security.PermissionMap
-import org.slf4j.LoggerFactory
 import java.time.LocalDateTime
 
 /**
@@ -42,18 +41,7 @@ class SimpleProjectMember : ProjectMember() {
     @NotBindable
     @NotInReport
     var permissionMap: PermissionMap? = null
-        get() = if (field == null) {
-            if (StringUtils.isBlank(permissionVal)) {
-                PermissionMap()
-            } else {
-                try {
-                    PermissionMap.fromJsonString(permissionVal!!)
-                } catch (e: Exception) {
-                    LOG.error("Error while get permission", e)
-                    PermissionMap()
-                }
-            }
-        } else field
+        get() = if (field == null) PermissionMap.fromJsonString(permissionVal) else field
 
     var numOpenTasks: Int? = null
 
@@ -70,9 +58,7 @@ class SimpleProjectMember : ProjectMember() {
     var totalNonBillableLogTime: Double? = null
 
     val displayName: String?
-        get() = if (StringUtils.isBlank(memberFullName)) {
-            StringUtils.extractNameFromEmail(username)
-        } else memberFullName
+        get() = if (StringUtils.isBlank(memberFullName)) StringUtils.extractNameFromEmail(username) else memberFullName
 
     fun canRead(permissionItem: String): Boolean = permissionMap != null && permissionMap!!.canRead(permissionItem)
 
@@ -85,9 +71,5 @@ class SimpleProjectMember : ProjectMember() {
         roleName, memberFullName, totalBillableLogTime, totalNonBillableLogTime, projectName, numOpenTasks, numOpenBugs;
 
         fun equalTo(value: Any): Boolean = name == value
-    }
-
-    companion object {
-        private val LOG = LoggerFactory.getLogger(SimpleProjectMember::class.java)
     }
 }

@@ -103,7 +103,7 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
     private void buildSaveFilterBox() {
         filterBox.removeAllComponents();
 
-        final TextField queryTextField = new TextField();
+        TextField queryTextField = new TextField();
         filterBox.addComponent(queryTextField);
 
         MButton saveBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_SAVE), clickEvent -> {
@@ -313,6 +313,7 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
         private void buildFieldSelectionBox() {
             fieldSelectionBox = new ComboBox();
             fieldSelectionBox.setWidth("160px");
+            fieldSelectionBox.setEmptySelectionAllowed(false);
             fieldSelectionBox.setItems(paramFields);
             fieldSelectionBox.setItemCaptionGenerator((ItemCaptionGenerator<Param>)item -> {
                 CacheParamMapper.ValueParam valueParam = CacheParamMapper.getValueParam(searchCategory, item.getId());

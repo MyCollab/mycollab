@@ -19,6 +19,8 @@ package com.mycollab.security
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.mycollab.core.arguments.ValuedBean
 import com.mycollab.core.utils.JsonDeSerializer
+import com.mycollab.core.utils.StringUtils
+import org.slf4j.LoggerFactory
 
 /**
  * Map contains all permissions in MyCollab, it is used to all permissions if
@@ -108,12 +110,22 @@ class PermissionMap : ValuedBean() {
     companion object {
         private val serialVersionUID = 1L
 
+        private val LOG = LoggerFactory.getLogger(PermissionMap::class.java)
+
         /**
          * @param json
          * @return
          */
         @JvmStatic
-        fun fromJsonString(json: String): PermissionMap = JsonDeSerializer.fromJson(json, PermissionMap::class.java)
+        fun fromJsonString(json: String?): PermissionMap {
+            return if (StringUtils.isBlank(json)) PermissionMap()
+            else try {
+                JsonDeSerializer.fromJson(json, PermissionMap::class.java)
+            } catch (e: Exception) {
+                LOG.error("Error to get permission", e)
+                PermissionMap()
+            }
+        }
 
         /**
          * @return

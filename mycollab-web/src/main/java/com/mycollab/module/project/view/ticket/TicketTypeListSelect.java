@@ -29,8 +29,8 @@ import com.vaadin.ui.ListSelect;
  * @author MyCollab Ltd
  * @since 5.4.3
  */
-class TicketTypeListSelect extends ListSelect<String> {
-    TicketTypeListSelect() {
+public class TicketTypeListSelect extends ListSelect<String> {
+    public TicketTypeListSelect() {
         this.setRows(3);
 
         if (!SiteConfiguration.isCommunityEdition()) {

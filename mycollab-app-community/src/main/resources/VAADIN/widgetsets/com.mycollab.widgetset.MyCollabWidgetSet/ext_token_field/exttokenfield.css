@@ -1,0 +1,82 @@
+.v-widget.exttokenfield {
+	display: block;
+	background-color: white;
+	border: 1px solid #c5c5c5; 
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+	-webkit-border-radius: 4px;
+	min-height: 38.4px;
+}
+
+.v-widget.exttokenfield.focused {
+	box-shadow: 0 0 0 2px rgba(25, 125, 225, 0.5);
+}
+
+.v-widget.exttokenfield	.token {
+	display: inline-block;
+	color: white;
+	background-color: #f0ad4e;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+	padding-left: 6px;
+	padding-right: 6px;
+	margin: 3px;
+	height: 28px;
+	vertical-align: inherit;
+}
+
+.v-widget.exttokenfield	.token-drop-target {
+	display: inline-block;
+	position: absolute;
+	width: 2px;
+	height: 38.4px;
+	margin-left: -3px;
+	padding-right: 4px;
+}
+
+.v-widget.exttokenfield	.token-drop-target.highlighted {
+	box-shadow: 0 0 1px 0 rgba(25, 125, 225, 0.75);
+	background-color: rgba(25, 125, 225, 0.75);
+}
+
+.v-widget.exttokenfield	.token {
+	outline: 0;
+	border: 1px solid gray;
+}
+
+.v-widget.exttokenfield	.token .token-content {
+	padding-top: 2px;
+}
+
+.v-widget.exttokenfield	.token.focused {
+	box-shadow: 0 0 0 2px rgba(25, 125, 225, 0.5);
+}
+
+.v-widget.exttokenfield	.token .token-action {
+	padding-left: 6px;
+	text-decoration: none;
+}
+
+.v-widget.exttokenfield	.token .token-label {
+	display: inline-block;
+}
+
+.v-widget.exttokenfield .v-filterselect {
+	margin-left: 3px;
+}
+
+.v-widget.exttokenfield .v-button {
+	margin-left: 3px;
+}
+
+.v-widget.exttokenfield .v-filterselect .v-filterselect-input {
+	border: 0;
+	background-color: inherit;
+	box-shadow: inherit;
+	padding-right: 9px;
+}
+
+.v-widget.exttokenfield .v-filterselect .v-filterselect-button {
+	display: none;
+}

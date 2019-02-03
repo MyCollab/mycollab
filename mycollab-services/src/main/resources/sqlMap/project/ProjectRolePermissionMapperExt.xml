@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mycollab.module.project.dao.ProjectRolePermissionMapperExt">
+    <resultMap id="BaseResultMap" type="com.mycollab.core.Tuple2">
+        <result column="item1" jdbcType="INTEGER" property="item1" />
+        <result column="item2" jdbcType="LONGVARCHAR" property="item2" />
+    </resultMap>
+    <sql id="querySearchCriteria">
+        <![CDATA[
+        #set($searchCriteria = $_parameter.searchCriteria)
+
+        #ifnotnull($searchCriteria.saccountid)
+            ${searchCriteria.saccountid.operation} m_prj_project.sAccountId = @{searchCriteria.saccountid.value,jdbcType=NUMERIC}
+        #end
+
+        #ifnotnull($searchCriteria.projectIds)
+            ${searchCriteria.projectIds.operation} m_prj_project.id IN
+            #repeat(${searchCriteria.projectIds.values} $projectId "," "(" ")")
+                @{projectId}
+            #end
+        #end
+        ]]>
+    </sql>
+
+    <select id="findProjectsPermissions" parameterType="map"
+            resultMap="com.mycollab.module.project.dao.ProjectRolePermissionMapperExt.BaseResultMap" lang="velocity">
+        SELECT DISTINCT m_prj_project.id AS item1, m_prj_role_permission.roleVal AS item2
+        FROM m_prj_project
+          INNER JOIN m_prj_role_permission ON (m_prj_role_permission.projectId=m_prj_project.id)
+        WHERE
+          m_prj_project.sAccountId = @{_parameter.sAccountId,jdbcType=NUMERIC}
+          #ifnotnull($_parameter.projectIds)
+            AND m_prj_project.id IN
+              #repeat(${_parameter.projectIds} $projectId "," "(" ")")
+                @{projectId}
+              #end
+          #end
+          #ifnotnull($_parameter.username)
+            AND EXISTS (SELECT 1 FROM m_prj_member WHERE m_prj_member.projectId = m_prj_project.id AND m_prj_member.username = @{_parameter.username} LIMIT 1)
+          #end
+    </select>
+</mapper>

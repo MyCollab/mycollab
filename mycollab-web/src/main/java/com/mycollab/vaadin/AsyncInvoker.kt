@@ -52,7 +52,6 @@ object AsyncInvoker {
                 }
             }.start()
         } else {
-            ui.session.lockInstance.lock()
             try {
                 ui.pollInterval = 1000
                 pageCommand.run()
@@ -60,7 +59,6 @@ object AsyncInvoker {
             } finally {
                 pageCommand.cleanUp()
                 ui.pollInterval = -1
-                ui.session.lockInstance.unlock()
             }
         }
     }

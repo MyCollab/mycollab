@@ -49,7 +49,6 @@ abstract class AbstractNotificationComponent : PopupButton(), PopupButton.PopupV
     private val notificationContainer = MVerticalLayout().withSpacing(false).withMargin(false).withStyleName(WebThemes.SCROLLABLE_CONTAINER)
 
     init {
-//        Restrain(notificationContainer).setMaxWidth("500px").setMaxHeight("500px")
         this.content = notificationContainer
         this.icon = VaadinIcons.BELL
         this.styleName = "notification-button"
@@ -71,7 +70,8 @@ abstract class AbstractNotificationComponent : PopupButton(), PopupButton.PopupV
         notificationContainer.removeAllComponents()
 
         if (notificationItems.isNotEmpty()) {
-            notificationItems.forEach { addNotificationEntry(it) }
+            val displayNum = Math.min(notificationItems.size, 7)
+            for (i in 0 until displayNum) addNotification(notificationItems.elementAt(i))
         } else {
             val noItemLbl = Label(UserUIContext.getMessage(ShellI18nEnum.OPT_NO_NOTIFICATION))
             notificationContainer.with(noItemLbl).withAlign(noItemLbl, Alignment.MIDDLE_CENTER)

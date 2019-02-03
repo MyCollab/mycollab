@@ -22,6 +22,7 @@ import com.mycollab.db.query.*
 import com.mycollab.module.project.ProjectTypeConstants
 import com.mycollab.module.project.i18n.MilestoneI18nEnum
 import com.mycollab.module.project.i18n.OptionI18nEnum.Priority
+import com.mycollab.module.project.i18n.ProjectI18nEnum
 
 /**
  * @author MyCollab Ltd.
@@ -112,7 +113,7 @@ class ProjectTicketSearchCriteria : SearchCriteria() {
                 GenericI18Enum.FORM_STATUS, I18nStringListParam("status", "mainTbl", "status", null))
 
         @JvmField
-        val p_projectIds = CacheParamMapper.register(ProjectTypeConstants.TICKET, null,
+        val p_projectIds = CacheParamMapper.register(ProjectTypeConstants.TICKET, ProjectI18nEnum.LIST,
                 PropertyListParam<Int>("projectid", "mainTbl", "projectId"))
     }
 }

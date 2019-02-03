@@ -32,10 +32,10 @@ import com.mycollab.module.user.domain.BillingAccount
 interface ProjectService : IDefaultService<Int, Project, ProjectSearchCriteria> {
 
     @Cacheable
-    fun getProjectKeysUserInvolved(username: String, @CacheKey sAccountId: Int): List<Int>
+    fun getProjectKeysUserInvolved(username: String?, @CacheKey sAccountId: Int): List<Int>
 
     @Cacheable
-    fun getProjectsUserInvolved(username: String, @CacheKey sAccountId: Int): List<SimpleProject>
+    fun getProjectsUserInvolved(username: String?, @CacheKey sAccountId: Int): List<SimpleProject>
 
     @Cacheable
     fun findById(projectId: Int, @CacheKey sAccountId: Int): SimpleProject?

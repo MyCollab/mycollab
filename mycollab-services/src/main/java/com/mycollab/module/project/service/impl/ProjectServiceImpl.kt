@@ -201,15 +201,14 @@ class ProjectServiceImpl(private val projectMapper: ProjectMapper,
     override fun findById(projectId: Int, sAccountId: Int): SimpleProject =
             projectMapperExt.findProjectById(projectId)
 
-    override fun getProjectKeysUserInvolved(username: String, sAccountId: Int): List<Int> {
+    override fun getProjectKeysUserInvolved(username: String?, sAccountId: Int): List<Int> {
         val searchCriteria = ProjectSearchCriteria()
-        searchCriteria.involvedMember = StringSearchField.and(username)
+        if (username != null) searchCriteria.involvedMember = StringSearchField.and(username)
         searchCriteria.statuses = SetSearchField(StatusI18nEnum.Open.name)
         return projectMapperExt.getUserProjectKeys(searchCriteria)
     }
 
-    override fun getAccountInfoOfProject(projectId: Int): BillingAccount =
-            projectMapperExt.getAccountInfoOfProject(projectId)
+    override fun getAccountInfoOfProject(projectId: Int): BillingAccount = projectMapperExt.getAccountInfoOfProject(projectId)
 
     override fun massRemoveWithSession(projects: List<Project>, username: String?, sAccountId: Int) {
         super.massRemoveWithSession(projects, username, sAccountId)
@@ -227,7 +226,7 @@ class ProjectServiceImpl(private val projectMapper: ProjectMapper,
     override fun findProjectRelayEmailNotifications(): List<ProjectRelayEmailNotification> =
             projectMapperExt.findProjectRelayEmailNotifications()
 
-    override fun getProjectsUserInvolved(username: String, sAccountId: Int): List<SimpleProject> =
+    override fun getProjectsUserInvolved(username: String?, sAccountId: Int): List<SimpleProject> =
             projectMapperExt.getProjectsUserInvolved(username, sAccountId)
 
     override fun getTotalActiveProjectsOfInvolvedUsers(username: String, @CacheKey sAccountId: Int?): Int? {
