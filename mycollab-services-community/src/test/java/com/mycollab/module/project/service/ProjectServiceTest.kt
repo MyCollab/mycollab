@@ -97,9 +97,20 @@ class ProjectServiceTest : IntegrationServiceTest() {
     @Test
     fun testGetProjectsUserInvolved() {
         val projects = projectService.getProjectsUserInvolved("admin", 1)
-        Assertions.assertEquals(2, projects.size.toLong())
         assertThat(projects.size).isEqualTo(2)
         assertThat(projects).extracting("id", "name").contains(tuple(1, "A"), tuple(2, "B"))
+    }
+
+    @DataSet
+    @Test
+    fun testGetProjectKeysUserInvolved() {
+        val keys = projectService.getProjectKeysUserInvolved("admin", 1)
+        assertThat(keys.size).isEqualTo(2)
+        assertThat(keys).contains(1, 2)
+
+        val allPrjKeys = projectService.getProjectKeysUserInvolved(null, 1)
+        assertThat(allPrjKeys.size).isEqualTo(4)
+        assertThat(allPrjKeys).contains(1, 2, 3, 4)
     }
 
     @DataSet

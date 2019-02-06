@@ -25,7 +25,7 @@ class NotificationComponent : AbstractNotificationComponent() {
         AsyncInvoker.access(UI.getCurrent(), object : AsyncInvoker.PageCommand() {
             override fun run() {
                 val notificationItemService = AppContextUtil.getSpringBean(NotificationItemService::class.java)
-                val notifications = notificationItemService.findUnreadNotificationItemsByUser(UserUIContext.getUsername(), AppUI.accountId)
+                val notifications = notificationItemService.findTopUnreadNotificationItemsByUser(UserUIContext.getUsername(), AppUI.accountId, 7)
                 notifications.forEach {
                     val notification = EntryUpdateNotification(it.notificationuser, it.module, it.type, it.typeid, it.message)
                     addNotification(notification)

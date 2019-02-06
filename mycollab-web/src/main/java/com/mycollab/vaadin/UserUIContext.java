@@ -247,19 +247,6 @@ public class UserUIContext implements Serializable {
      * @param permissionItem
      * @return
      */
-    public static boolean canBeFalse(String permissionItem) {
-        if (isAdmin()) {
-            return true;
-        }
-
-        PermissionMap permissionMap = getInstance().session.getPermissionMaps();
-        return permissionMap != null && permissionMap.canBeFalse(permissionItem);
-    }
-
-    /**
-     * @param permissionItem
-     * @return
-     */
     public static boolean canRead(String permissionItem) {
         if (isAdmin()) {
             return true;

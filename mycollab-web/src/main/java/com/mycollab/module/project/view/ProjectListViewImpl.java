@@ -168,8 +168,7 @@ public class ProjectListViewImpl extends AbstractVerticalPageView implements Pro
     }
 
     private ComponentContainer constructTableActionControls() {
-        MHorizontalLayout layout = new MHorizontalLayout().withFullWidth();
-        layout.addStyleName(WebThemes.TABLE_ACTION_CONTROLS);
+        MHorizontalLayout layout = new MHorizontalLayout().withFullWidth().withStyleName(WebThemes.TABLE_ACTION_CONTROLS);
 
         selectOptionButton = new SelectionOptionButton(tableItem);
         selectOptionButton.setWidthUndefined();

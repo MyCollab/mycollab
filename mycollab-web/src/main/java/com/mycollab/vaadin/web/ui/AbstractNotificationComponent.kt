@@ -21,6 +21,7 @@ import com.hp.gagawa.java.elements.A
 import com.hp.gagawa.java.elements.Span
 import com.mycollab.common.i18n.GenericI18Enum
 import com.mycollab.common.i18n.ShellI18nEnum
+import com.mycollab.common.service.NotificationItemService
 import com.mycollab.common.ui.components.notification.RequestUploadAvatarNotification
 import com.mycollab.common.ui.components.notification.SmtpSetupNotification
 import com.mycollab.core.AbstractNotification
@@ -31,7 +32,9 @@ import com.mycollab.vaadin.AsyncInvoker
 import com.mycollab.vaadin.EventBusFactory
 import com.mycollab.vaadin.UserUIContext
 import com.mycollab.vaadin.ui.ELabel
+import com.sun.javaws.security.AppContextUtil
 import com.vaadin.icons.VaadinIcons
+import com.vaadin.shared.ui.MarginInfo
 import com.vaadin.ui.*
 import org.vaadin.hene.popupbutton.PopupButton
 import org.vaadin.viritin.button.MButton
@@ -46,7 +49,8 @@ import org.vaadin.viritin.layouts.MVerticalLayout
 abstract class AbstractNotificationComponent : PopupButton(), PopupButton.PopupVisibilityListener, ApplicationEventListener<ShellEvent.NewNotification> {
 
     private val notificationItems = mutableSetOf<AbstractNotification>()
-    private val notificationContainer = MVerticalLayout().withSpacing(false).withMargin(false).withStyleName(WebThemes.SCROLLABLE_CONTAINER)
+    protected var notificationCount = 0L
+    protected val notificationContainer = MVerticalLayout().withSpacing(false).withMargin(false).withStyleName(WebThemes.SCROLLABLE_CONTAINER)
 
     init {
         this.content = notificationContainer
@@ -70,8 +74,13 @@ abstract class AbstractNotificationComponent : PopupButton(), PopupButton.PopupV
         notificationContainer.removeAllComponents()
 
         if (notificationItems.isNotEmpty()) {
-            val displayNum = Math.min(notificationItems.size, 7)
-            for (i in 0 until displayNum) addNotification(notificationItems.elementAt(i))
+            val markReadButton = MButton("Mark all read").withListener {
+                val notificationService = com.mycollab.spring.AppContextUtil.getSpringBean(NotificationItemService::class.java)
+            }.withStyleName(WebThemes.BUTTON_LINK)
+            val markReadLayout = MHorizontalLayout(markReadButton).withAlign(markReadButton, Alignment.MIDDLE_RIGHT).withFullWidth()
+                    .withStyleName(WebThemes.BORDER_BOTTOM).withMargin(MarginInfo(false, true, false, false))
+            notificationContainer.add(markReadLayout)
+            notificationItems.forEach { addNotificationEntry(it) }
         } else {
             val noItemLbl = Label(UserUIContext.getMessage(ShellI18nEnum.OPT_NO_NOTIFICATION))
             notificationContainer.with(noItemLbl).withAlign(noItemLbl, Alignment.MIDDLE_CENTER)
@@ -88,21 +97,23 @@ abstract class AbstractNotificationComponent : PopupButton(), PopupButton.PopupV
     }
 
     protected fun addNotification(notification: AbstractNotification) {
+        notificationCount++
         notificationItems.add(notification)
         updateCaption()
         displayTrayNotification(notification)
     }
 
     fun removeNotification(notification: AbstractNotification) {
+        notificationCount--;
         notificationItems.remove(notification)
         updateCaption()
     }
 
     private fun updateCaption() {
-        if (ui != null && notificationItems.isNotEmpty()) {
+        if (ui != null && notificationCount > 0) {
             AsyncInvoker.access(ui, object : AsyncInvoker.PageCommand() {
                 override fun run() {
-                    this@AbstractNotificationComponent.caption = "${notificationItems.size}"
+                    this@AbstractNotificationComponent.caption = "$notificationCount"
                 }
             })
         } else {
@@ -142,8 +153,7 @@ abstract class AbstractNotificationComponent : PopupButton(), PopupButton.PopupV
     private fun buildComponentFromNotification(item: AbstractNotification): Component? {
         when (item) {
             is NewUpdateAvailableNotification -> {
-                val spanEl = Span()
-                spanEl.appendText(UserUIContext.getMessage(ShellI18nEnum.OPT_HAVING_NEW_VERSION, item.version))
+                val spanEl = Span().appendText(UserUIContext.getMessage(ShellI18nEnum.OPT_HAVING_NEW_VERSION, item.version))
                 val lbl = ELabel.html("${VaadinIcons.INFO_CIRCLE.html} ${spanEl.write()}").withFullWidth()
                 val lblWrapper = CssLayout()
                 lblWrapper.addComponent(lbl)

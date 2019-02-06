@@ -79,7 +79,13 @@ public class ProjectListPresenter extends ListSelectionPresenter<ProjectListView
 
     @Override
     public void doSearch(ProjectSearchCriteria searchCriteria) {
-        Collection<Integer> prjKeys = projectService.getProjectKeysUserInvolved(UserUIContext.getUsername(), AppUI.getAccountId());
+        Collection<Integer> prjKeys;
+        if (UserUIContext.isAdmin()) {
+            prjKeys = projectService.getProjectKeysUserInvolved(null, AppUI.getAccountId());
+        } else {
+            prjKeys = projectService.getProjectKeysUserInvolved(UserUIContext.getUsername(), AppUI.getAccountId());
+        }
+
         if (CollectionUtils.isNotEmpty(prjKeys)) {
             searchCriteria.setProjectKeys(new SetSearchField<>(prjKeys));
             super.doSearch(searchCriteria);

@@ -205,6 +205,7 @@ class ProjectServiceImpl(private val projectMapper: ProjectMapper,
         val searchCriteria = ProjectSearchCriteria()
         if (username != null) searchCriteria.involvedMember = StringSearchField.and(username)
         searchCriteria.statuses = SetSearchField(StatusI18nEnum.Open.name)
+        searchCriteria.saccountid = NumberSearchField.equal(sAccountId)
         return projectMapperExt.getUserProjectKeys(searchCriteria)
     }
 

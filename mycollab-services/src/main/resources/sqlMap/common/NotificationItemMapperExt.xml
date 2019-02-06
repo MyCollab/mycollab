@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mycollab.common.dao.NotificationItemMapperExt">
+    <select id="findTopUnreadNotificationItemsByUser" parameterType="map"
+            resultMap="com.mycollab.common.dao.NotificationItemMapper.BaseResultMap" lang="velocity">
+        SELECT DISTINCT id, module, type, typeId, notificationUser, createdTime, message, isRead, sAccountId
+        FROM m_notification_item
+        WHERE m_notification_item.notificationUser=@{_parameter.targetUser} AND
+            m_notification_item.sAccountId=@{_parameter.sAccountId}
+        LIMIT @{_parameter.top}
+    </select>
+</mapper>

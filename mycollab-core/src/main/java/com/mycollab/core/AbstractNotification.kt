@@ -26,6 +26,8 @@ abstract class AbstractNotification(val kind: String) {
 
         const val WARNING = "warning"
 
+        const val SYSTEM = "systems"
+
         const val NEWS = "news"
     }
 }

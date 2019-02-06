@@ -20,11 +20,10 @@
     <properties>
         <java.version>1.8</java.version>
         <slf4j.version>1.7.25</slf4j.version>
-        <vaadin.version>8.6.4</vaadin.version>
-        <mysql.version>8.0.13</mysql.version>
+        <vaadin.version>8.7.0</vaadin.version>
+        <mysql.version>8.0.15</mysql.version>
         <jackson.version>2.9.8</jackson.version>
-
-        <kotlin.version>1.3.20</kotlin.version>
+        <kotlin.version>1.3.21</kotlin.version>
         <kotlin.compiler.incremental>false</kotlin.compiler.incremental>
 
         <!--Override Spring boot version-->

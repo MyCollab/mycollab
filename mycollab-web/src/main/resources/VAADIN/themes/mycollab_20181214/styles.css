@@ -18230,6 +18230,9 @@ input.v-textfield-pagedtable-pagefield {
 
 .v-popupbutton-popup-notification-button .popupContent {
 	box-shadow: 0 0 14px rgba(0, 0, 0, 0.4);
+	max-width: 500px;
+	max-height: 500px;
+	overflow-y: auto;
 }
 
 .v-slot-notification-type {
@@ -18243,12 +18246,10 @@ input.v-textfield-pagedtable-pagefield {
 
 .v-slot-notification-type .notification-type-warning .v-icon {
 	color: #c31616;
-	font-size: 15px;
 }
 
 .v-slot-notification-type .notification-type-news .v-icon {
 	color: #12ca07;
-	font-size: 15px;
 }
 
 .v-slot-notification-type .v-label span {
