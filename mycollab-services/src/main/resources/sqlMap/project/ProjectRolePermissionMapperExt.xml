@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mycollab.module.project.dao.ProjectRolePermissionMapperExt">
-    <resultMap id="BaseResultMap" type="com.mycollab.core.Tuple2">
+    <resultMap id="Tuple2" type="com.mycollab.core.Tuple2">
         <result column="item1" jdbcType="INTEGER" property="item1" />
         <result column="item2" jdbcType="LONGVARCHAR" property="item2" />
     </resultMap>
 
     <select id="findProjectsPermissions" parameterType="map"
-            resultMap="com.mycollab.module.project.dao.ProjectRolePermissionMapperExt.BaseResultMap" lang="velocity">
+            resultMap="com.mycollab.module.project.dao.ProjectRolePermissionMapperExt.Tuple2" lang="velocity">
         SELECT DISTINCT m_prj_project.id AS item1, m_prj_role_permission.roleVal AS item2
-        FROM m_prj_project, m_prj_member
-          INNER JOIN m_prj_role_permission ON (m_prj_role_permission.projectId=m_prj_project.id)
+        FROM m_prj_project, m_prj_member, m_prj_role_permission
         WHERE
           m_prj_project.sAccountId = @{_parameter.sAccountId,jdbcType=NUMERIC}
+          AND m_prj_role_permission.projectId=m_prj_project.id
           AND (m_prj_member.projectId = m_prj_project.id AND m_prj_member.username = @{_parameter.username})
           #ifnotnull($_parameter.projectIds)
             AND m_prj_project.id IN

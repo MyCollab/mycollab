@@ -19,7 +19,6 @@ package com.mycollab.module.project.view.user;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.db.arguments.SetSearchField;
 import com.mycollab.db.arguments.StringSearchField;
-import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.domain.ProjectGenericItem;
 import com.mycollab.module.project.domain.criteria.ProjectGenericItemSearchCriteria;
 import com.mycollab.module.project.i18n.ProjectI18nEnum;
@@ -57,10 +56,10 @@ public class ProjectSearchItemsViewImpl extends AbstractVerticalPageView impleme
         ELabel headerLbl = ELabel.h2("");
 
         ProjectService projectService = AppContextUtil.getSpringBean(ProjectService.class);
-        List<Integer> projectKeys = projectService.getProjectKeysUserInvolved(UserUIContext.getUsername(), AppUI.getAccountId());
+        List<Integer> projectKeys = projectService.getOpenProjectKeysUserInvolved(UserUIContext.getUsername(), AppUI.getAccountId());
         if (projectKeys.size() > 0) {
             ProjectGenericItemSearchCriteria criteria = new ProjectGenericItemSearchCriteria();
-        criteria.setPrjKeys(new SetSearchField<>(projectKeys));
+            criteria.setPrjKeys(new SetSearchField<>(projectKeys));
             criteria.setTxtValue(StringSearchField.and(value));
             DefaultBeanPagedList<ProjectGenericItemService, ProjectGenericItemSearchCriteria, ProjectGenericItem>
                     searchItemsTable = new DefaultBeanPagedList<>(AppContextUtil.getSpringBean(ProjectGenericItemService.class),
@@ -71,7 +70,7 @@ public class ProjectSearchItemsViewImpl extends AbstractVerticalPageView impleme
 
             this.with(headerLbl, searchItemsTable).expand(searchItemsTable);
         } else {
-         this.with(new MCssLayout(new Label(UserUIContext.getMessage(GenericI18Enum.VIEW_NO_ITEM_TITLE))).withFullWidth());
+            this.with(new MCssLayout(new Label(UserUIContext.getMessage(GenericI18Enum.VIEW_NO_ITEM_TITLE))).withFullWidth());
         }
     }
 }

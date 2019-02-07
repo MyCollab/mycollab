@@ -29,6 +29,7 @@ import org.springframework.stereotype.Component
 class ProjectAuditLogRegistry(private val auditLogRegistry: AuditLogRegistry) : InitializingBean {
 
     override fun afterPropertiesSet() {
+        auditLogRegistry.registerAuditLogHandler(ProjectTypeConstants.PROJECT, ProjectFieldFormatter.instance())
         auditLogRegistry.registerAuditLogHandler(ProjectTypeConstants.BUG, BugFieldFormatter.instance())
         auditLogRegistry.registerAuditLogHandler(ProjectTypeConstants.TASK, TaskFieldFormatter.instance())
         auditLogRegistry.registerAuditLogHandler(ProjectTypeConstants.MILESTONE, MilestoneFieldFormatter.instance())

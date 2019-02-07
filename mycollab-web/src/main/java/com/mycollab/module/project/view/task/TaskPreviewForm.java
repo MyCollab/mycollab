@@ -179,7 +179,7 @@ public class TaskPreviewForm extends AdvancedPreviewBeanForm<SimpleTask> {
                     UI.getCurrent().addWindow(new TaskAddWindow(task));
                 }).withStyleName(WebThemes.BUTTON_ACTION).withIcon(VaadinIcons.PLUS);
 
-                final SplitButton splitButton = new SplitButton(addNewTaskBtn);
+                SplitButton splitButton = new SplitButton(addNewTaskBtn);
                 splitButton.setWidthUndefined();
                 splitButton.addStyleName(WebThemes.BUTTON_ACTION);
 
@@ -269,7 +269,7 @@ public class TaskPreviewForm extends AdvancedPreviewBeanForm<SimpleTask> {
 
         SelectChildTaskWindow(SimpleTask parentTask) {
             super(UserUIContext.getMessage(TaskI18nEnum.ACTION_SELECT_TASK));
-            this.withModal(true).withResizable(false).withWidth("800px");
+            this.withModal(true).withResizable(false).withWidth(WebThemes.WINDOW_FORM_WIDTH);
             this.parentTask = parentTask;
 
             TaskSearchCriteria baseSearchCriteria = new TaskSearchCriteria();
@@ -277,9 +277,8 @@ public class TaskPreviewForm extends AdvancedPreviewBeanForm<SimpleTask> {
             baseSearchCriteria.setHasParentTask(new BooleanSearchField(false));
 
             taskSearchPanel = new TaskSearchPanel(false);
-            final DefaultBeanPagedList<ProjectTaskService, TaskSearchCriteria, SimpleTask> taskList = new DefaultBeanPagedList<>(
+            DefaultBeanPagedList<ProjectTaskService, TaskSearchCriteria, SimpleTask> taskList = new DefaultBeanPagedList<>(
                     AppContextUtil.getSpringBean(ProjectTaskService.class), new TaskRowRenderer(), 10);
-//            new Restrain(taskList).setMaxHeight((UIUtils.getBrowserHeight() - 120) + "px");
             taskSearchPanel.addSearchHandler(criteria -> {
                 criteria.setProjectId(NumberSearchField.equal(CurrentProjectVariables.getProjectId()));
                 criteria.setHasParentTask(new BooleanSearchField(false));
@@ -292,7 +291,7 @@ public class TaskPreviewForm extends AdvancedPreviewBeanForm<SimpleTask> {
 
         private class TaskRowRenderer implements IBeanList.RowDisplayHandler<SimpleTask> {
             @Override
-            public Component generateRow(IBeanList<SimpleTask> host, final SimpleTask item, int rowIndex) {
+            public Component generateRow(IBeanList<SimpleTask> host, SimpleTask item, int rowIndex) {
                 MButton taskLink = new MButton(item.getName(), clickEvent -> {
                     if (item.getId().equals(parentTask.getId())) {
                         NotificationUtil.showErrorNotification(UserUIContext.getMessage(TaskI18nEnum.ERROR_CAN_NOT_ASSIGN_PARENT_TASK_TO_ITSELF));

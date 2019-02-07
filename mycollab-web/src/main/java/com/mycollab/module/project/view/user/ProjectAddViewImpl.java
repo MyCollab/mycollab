@@ -68,9 +68,7 @@ public class ProjectAddViewImpl extends AbstractVerticalPageView implements Proj
         editForm.setBean(project);
     }
 
-    class FormLayoutFactory extends AbstractFormLayoutFactory {
-
-        private ProjectInformationLayout projectInformationLayout;
+    class FormLayoutFactory extends WrappedFormLayoutFactory {
 
         private Layout createButtonControls() {
             final HorizontalLayout controlPanel = new HorizontalLayout();
@@ -91,11 +89,15 @@ public class ProjectAddViewImpl extends AbstractVerticalPageView implements Proj
             MHorizontalLayout header = new MHorizontalLayout().withFullWidth().withMargin(new MarginInfo(true, false, true, false));
             header.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
             final AddViewLayout projectAddLayout = new AddViewLayout(header);
-            projectInformationLayout = new ProjectInformationLayout();
+
+            if (SiteConfiguration.isCommunityEdition())
+                wrappedLayoutFactory = new DefaultDynaFormLayout(ProjectTypeConstants.PROJECT, ProjectDefaultFormLayoutFactory.getAddForm(), Project.Field.clientid.name());
+            else
+                wrappedLayoutFactory = new DefaultDynaFormLayout(ProjectTypeConstants.PROJECT, ProjectDefaultFormLayoutFactory.getAddForm());
             projectAddLayout.addHeaderTitle(buildHeaderTitle());
             projectAddLayout.addHeaderRight(createButtonControls());
 
-            projectAddLayout.addBody(projectInformationLayout.getLayout());
+            projectAddLayout.addBody(wrappedLayoutFactory.getLayout());
 
             return projectAddLayout;
         }
@@ -107,29 +109,6 @@ public class ProjectAddViewImpl extends AbstractVerticalPageView implements Proj
                     project.getId(), project.getAvatarid(), 32))
                     .withMargin(false).withWidth("-1px").alignAll(Alignment.TOP_CENTER);
             return new MHorizontalLayout(logoLayout, titleLbl).expand(titleLbl);
-        }
-
-        @Override
-        public HasValue<?> onAttachField(Object propertyId, final HasValue<?> field) {
-            return projectInformationLayout.onAttachField(propertyId, field);
-        }
-    }
-
-    private static class ProjectInformationLayout extends AbstractFormLayoutFactory {
-        private IFormLayoutFactory formLayoutFactory;
-
-        @Override
-        public AbstractComponent getLayout() {
-            if (SiteConfiguration.isCommunityEdition())
-                formLayoutFactory = new DefaultDynaFormLayout(ProjectTypeConstants.PROJECT, ProjectDefaultFormLayoutFactory.getAddForm(), Project.Field.clientid.name());
-            else
-                formLayoutFactory = new DefaultDynaFormLayout(ProjectTypeConstants.PROJECT, ProjectDefaultFormLayoutFactory.getAddForm());
-            return formLayoutFactory.getLayout();
-        }
-
-        @Override
-        protected HasValue<?> onAttachField(Object propertyId, HasValue<?> field) {
-            return formLayoutFactory.attachField(propertyId, field);
         }
     }
 

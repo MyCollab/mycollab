@@ -98,11 +98,11 @@ public class ProjectActivityComponent extends MVerticalLayout implements Reloada
         this.groupFormatter = AuditLogRegistry.getFieldGroupFormatterOfType(type);
         headerLbl = new ELabel(UserUIContext.getMessage(GenericI18Enum.OPT_CHANGE_HISTORY, 0)).withStyleName(ValoTheme.LABEL_H3);
 
-        final RadioButtonGroup<String> sortDirection = new RadioButtonGroup<>();
+        RadioButtonGroup<String> sortDirection = new RadioButtonGroup<>();
         sortDirection.addStyleName(ValoTheme.OPTIONGROUP_HORIZONTAL);
 
         String oldestFirstDirection = UserUIContext.getMessage(GenericI18Enum.OPT_OLDEST_FIRST);
-        final String newestFirstDirection = UserUIContext.getMessage(GenericI18Enum.OPT_NEWEST_FIRST);
+        String newestFirstDirection = UserUIContext.getMessage(GenericI18Enum.OPT_NEWEST_FIRST);
         sortDirection.setItems(newestFirstDirection, oldestFirstDirection);
         sortDirection.setValue(newestFirstDirection);
         sortDirection.addValueChangeListener(valueChangeEvent -> {

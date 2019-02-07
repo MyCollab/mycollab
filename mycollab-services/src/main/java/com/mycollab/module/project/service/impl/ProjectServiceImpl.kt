@@ -204,6 +204,13 @@ class ProjectServiceImpl(private val projectMapper: ProjectMapper,
     override fun getProjectKeysUserInvolved(username: String?, sAccountId: Int): List<Int> {
         val searchCriteria = ProjectSearchCriteria()
         if (username != null) searchCriteria.involvedMember = StringSearchField.and(username)
+        searchCriteria.saccountid = NumberSearchField.equal(sAccountId)
+        return projectMapperExt.getUserProjectKeys(searchCriteria)
+    }
+
+    override fun getOpenProjectKeysUserInvolved(username: String?, sAccountId: Int): List<Int> {
+        val searchCriteria = ProjectSearchCriteria()
+        if (username != null) searchCriteria.involvedMember = StringSearchField.and(username)
         searchCriteria.statuses = SetSearchField(StatusI18nEnum.Open.name)
         searchCriteria.saccountid = NumberSearchField.equal(sAccountId)
         return projectMapperExt.getUserProjectKeys(searchCriteria)

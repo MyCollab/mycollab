@@ -39,7 +39,12 @@ public class UserProjectComboBox extends ComboBox<SimpleProject> {
 
     public UserProjectComboBox() {
         ProjectService projectService = AppContextUtil.getSpringBean(ProjectService.class);
-        projects = projectService.getProjectsUserInvolved(UserUIContext.getUsername(), AppUI.getAccountId());
+        if (UserUIContext.isAdmin()) {
+            projects = projectService.getProjectsUserInvolved(null, AppUI.getAccountId());
+        } else {
+            projects = projectService.getProjectsUserInvolved(UserUIContext.getUsername(), AppUI.getAccountId());
+        }
+
         setItems(projects);
         setItemCaptionGenerator((ItemCaptionGenerator<SimpleProject>) Project::getName);
         this.setWidth(WebThemes.FORM_CONTROL_WIDTH);

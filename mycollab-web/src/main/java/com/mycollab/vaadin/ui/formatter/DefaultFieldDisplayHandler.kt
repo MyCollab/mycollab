@@ -27,5 +27,5 @@ import com.mycollab.vaadin.UserUIContext
 class DefaultFieldDisplayHandler @JvmOverloads constructor(val displayName: Enum<*>, val format: HistoryFieldFormat = DefaultHistoryFieldFormat()) {
 
     fun generateLogItem(item: AuditChangeItem): String =
-            Li().appendText("${UserUIContext.getMessage(displayName)}:${format.toString(item.oldvalue)} &nbsp; &rarr; &nbsp; ${format.toString(item.newvalue)}").write()
+            Li().appendText("${UserUIContext.getMessage(displayName)}: ${format.toString(item.oldvalue)} &nbsp; &rarr; &nbsp; ${format.toString(item.newvalue)}").write()
 }

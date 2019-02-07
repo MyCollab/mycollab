@@ -35,6 +35,9 @@ interface ProjectService : IDefaultService<Int, Project, ProjectSearchCriteria> 
     fun getProjectKeysUserInvolved(username: String?, @CacheKey sAccountId: Int): List<Int>
 
     @Cacheable
+    fun getOpenProjectKeysUserInvolved(username: String?, @CacheKey sAccountId: Int): List<Int>
+
+    @Cacheable
     fun getProjectsUserInvolved(username: String?, @CacheKey sAccountId: Int): List<SimpleProject>
 
     @Cacheable

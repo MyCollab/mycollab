@@ -72,7 +72,7 @@ public abstract class AbstractEditItemComp<B> extends AbstractVerticalPageView i
             wrappedLayoutFactory = initFormLayoutFactory();
             formAddLayout.addBody(wrappedLayoutFactory.getLayout());
 
-            final ComponentContainer bottomPanel = createBottomPanel();
+            ComponentContainer bottomPanel = createBottomPanel();
             if (bottomPanel != null) {
                 formAddLayout.addBottom(bottomPanel);
             }

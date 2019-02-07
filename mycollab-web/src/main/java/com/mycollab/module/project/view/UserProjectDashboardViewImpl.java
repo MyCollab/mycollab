@@ -60,7 +60,7 @@ public class UserProjectDashboardViewImpl extends AbstractVerticalPageView imple
     public void lazyLoadView() {
         removeAllComponents();
         ProjectService projectService = AppContextUtil.getSpringBean(ProjectService.class);
-        List<Integer> prjKeys = projectService.getProjectKeysUserInvolved(UserUIContext.getUsername(), AppUI.getAccountId());
+        List<Integer> prjKeys = projectService.getOpenProjectKeysUserInvolved(UserUIContext.getUsername(), AppUI.getAccountId());
         if (CollectionUtils.isNotEmpty(prjKeys)) {
             ResponsiveLayout contentWrapper = new ResponsiveLayout(ResponsiveLayout.ContainerType.FIXED);
             contentWrapper.setSizeFull();

@@ -16,6 +16,8 @@
  */
 package com.mycollab.module.project.view;
 
+import com.mycollab.common.i18n.OptionI18nEnum;
+import com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.mycollab.db.arguments.SetSearchField;
 import com.mycollab.db.persistence.service.ISearchableService;
 import com.mycollab.module.project.domain.SimpleProject;
@@ -72,6 +74,7 @@ public class ProjectListPresenter extends ListSelectionPresenter<ProjectListView
         boardContainer.gotoSubView("Projects", view);
 
         ProjectSearchCriteria searchCriteria = new ProjectSearchCriteria();
+        searchCriteria.setStatuses(new SetSearchField<>(StatusI18nEnum.Open.name()));
         doSearch(searchCriteria);
 
         AppUI.addFragment("project/list", UserUIContext.getMessage(ProjectI18nEnum.LIST));

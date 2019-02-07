@@ -176,17 +176,12 @@ public class ProjectActivityStreamPagedList extends AbstractBeanPagedList<Projec
         DivLessFormatter div = new DivLessFormatter();
         Text image = new Text(ProjectAssetsManager.getAsset(activityStream.getType()).getHtml());
         A itemLink = new A().setId("tag" + TooltipHelper.TOOLTIP_ID);
-        if (ProjectTypeConstants.TASK.equals(activityStream.getType())
-                || ProjectTypeConstants.BUG.equals(activityStream.getType())) {
-            itemLink.setHref(ProjectLinkGenerator.generateProjectItemLink(
-                    activityStream.getProjectShortName(),
-                    activityStream.getExtratypeid(), activityStream.getType(),
-                    activityStream.getItemKey() + ""));
+        if (ProjectTypeConstants.TASK.equals(activityStream.getType()) || ProjectTypeConstants.BUG.equals(activityStream.getType())) {
+            itemLink.setHref(ProjectLinkGenerator.generateProjectItemLink(activityStream.getProjectShortName(),
+                    activityStream.getExtratypeid(), activityStream.getType(), activityStream.getItemKey() + ""));
         } else {
-            itemLink.setHref(ProjectLinkGenerator.generateProjectItemLink(
-                    activityStream.getProjectShortName(),
-                    activityStream.getExtratypeid(), activityStream.getType(),
-                    activityStream.getTypeid()));
+            itemLink.setHref(ProjectLinkGenerator.generateProjectItemLink(activityStream.getProjectShortName(),
+                    activityStream.getExtratypeid(), activityStream.getType(), activityStream.getTypeid()));
         }
 
         itemLink.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(activityStream.getType(),

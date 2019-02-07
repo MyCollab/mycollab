@@ -101,7 +101,7 @@ public class ProjectRightBarContainer extends MVerticalLayout {
 
                 PageActionChain chain = new PageActionChain(new ProjectScreenData.Goto(CurrentProjectVariables.getProjectId()));
                 EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain));
-            }).withStyleName(WebThemes.BUTTON_LINK);
+            }).withIcon(VaadinIcons.ASTERISK).withStyleName(WebThemes.BUTTON_LINK);
             projectActionLayout.with(activeProjectBtn);
         }
 

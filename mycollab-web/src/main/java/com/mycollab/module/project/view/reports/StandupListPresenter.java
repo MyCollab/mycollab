@@ -32,7 +32,7 @@ public class StandupListPresenter extends AbstractPresenter<StandupListView> {
         IReportContainer projectModule = (IReportContainer) container;
         projectModule.addView(view);
         ProjectService projectService = AppContextUtil.getSpringBean(ProjectService.class);
-        List<Integer> projectKeys = projectService.getProjectKeysUserInvolved(UserUIContext.getUsername(), AppUI.getAccountId());
+        List<Integer> projectKeys = projectService.getOpenProjectKeysUserInvolved(UserUIContext.getUsername(), AppUI.getAccountId());
         if (CollectionUtils.isNotEmpty(projectKeys)) {
             LocalDate date = (LocalDate) data.getParams();
             view.display(projectKeys, date);

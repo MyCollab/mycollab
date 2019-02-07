@@ -106,7 +106,7 @@ public class ProjectSearchPanel extends DefaultGenericSearchPanel<ProjectSearchC
         @Override
         protected ProjectSearchCriteria fillUpSearchCriteria() {
             ProjectSearchCriteria searchCriteria = new ProjectSearchCriteria();
-            searchCriteria.setProjectName(StringSearchField.and(this.nameField.getValue().trim()));
+            searchCriteria.setProjectName(StringSearchField.and(nameField.getValue().trim()));
             return searchCriteria;
         }
     }

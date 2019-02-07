@@ -175,8 +175,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
 
         void displayTaskHeader(SimpleTask task) {
             toggleTaskSummaryField = new ToggleTaskSummaryField(task, true);
-            toggleTaskSummaryField.addLabelStyleNames(ValoTheme.LABEL_H3);
-            toggleTaskSummaryField.addLabelStyleNames(ValoTheme.LABEL_NO_MARGIN);
+            toggleTaskSummaryField.addLabelStyleNames(ValoTheme.LABEL_H3, ValoTheme.LABEL_NO_MARGIN);
             if (task.getParenttaskid() == null) {
                 MHorizontalLayout header = new MHorizontalLayout().withFullWidth();
                 header.with(toggleTaskSummaryField);
