@@ -43,5 +43,6 @@ public class PriorityComboBox extends I18nValueComboBox<Priority> {
             }
         });
         this.setStyleGenerator((StyleGenerator<Priority>) itemId -> String.format("task-%s", itemId.name().toLowerCase()));
+        this.setValue(Medium);
     }
 }

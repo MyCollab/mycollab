@@ -1073,7 +1073,7 @@
  */
 
 .v-vaadin-version:after {
-	content: "8.6.4";
+	content: "8.7.0";
 }
 
 .v-widget {
@@ -10933,6 +10933,70 @@ td.v-inline-datefield-calendarpanel-time .v-label {
 	padding-left: 15em;
 }
 
+.v-tree8-node.depth-16 {
+	padding-left: 16em;
+}
+
+.v-tree8-node.depth-17 {
+	padding-left: 17em;
+}
+
+.v-tree8-node.depth-18 {
+	padding-left: 18em;
+}
+
+.v-tree8-node.depth-19 {
+	padding-left: 19em;
+}
+
+.v-tree8-node.depth-20 {
+	padding-left: 20em;
+}
+
+.v-tree8-node.depth-21 {
+	padding-left: 21em;
+}
+
+.v-tree8-node.depth-22 {
+	padding-left: 22em;
+}
+
+.v-tree8-node.depth-23 {
+	padding-left: 23em;
+}
+
+.v-tree8-node.depth-24 {
+	padding-left: 24em;
+}
+
+.v-tree8-node.depth-25 {
+	padding-left: 25em;
+}
+
+.v-tree8-node.depth-26 {
+	padding-left: 26em;
+}
+
+.v-tree8-node.depth-27 {
+	padding-left: 27em;
+}
+
+.v-tree8-node.depth-28 {
+	padding-left: 28em;
+}
+
+.v-tree8-node.depth-29 {
+	padding-left: 29em;
+}
+
+.v-tree8-node.depth-30 {
+	padding-left: 30em;
+}
+
+.v-tree8-node.depth-31 {
+	padding-left: 31em;
+}
+
 .v-tree8-cell-content {
 	display: inline-block;
 	vertical-align: middle;
@@ -12013,6 +12077,70 @@ td.v-inline-datefield-calendarpanel-time .v-label {
 
 .v-treegrid-node.depth-15 {
 	padding-left: 15em;
+}
+
+.v-treegrid-node.depth-16 {
+	padding-left: 16em;
+}
+
+.v-treegrid-node.depth-17 {
+	padding-left: 17em;
+}
+
+.v-treegrid-node.depth-18 {
+	padding-left: 18em;
+}
+
+.v-treegrid-node.depth-19 {
+	padding-left: 19em;
+}
+
+.v-treegrid-node.depth-20 {
+	padding-left: 20em;
+}
+
+.v-treegrid-node.depth-21 {
+	padding-left: 21em;
+}
+
+.v-treegrid-node.depth-22 {
+	padding-left: 22em;
+}
+
+.v-treegrid-node.depth-23 {
+	padding-left: 23em;
+}
+
+.v-treegrid-node.depth-24 {
+	padding-left: 24em;
+}
+
+.v-treegrid-node.depth-25 {
+	padding-left: 25em;
+}
+
+.v-treegrid-node.depth-26 {
+	padding-left: 26em;
+}
+
+.v-treegrid-node.depth-27 {
+	padding-left: 27em;
+}
+
+.v-treegrid-node.depth-28 {
+	padding-left: 28em;
+}
+
+.v-treegrid-node.depth-29 {
+	padding-left: 29em;
+}
+
+.v-treegrid-node.depth-30 {
+	padding-left: 30em;
+}
+
+.v-treegrid-node.depth-31 {
+	padding-left: 31em;
 }
 
 .v-treegrid-cell-content {
@@ -17424,7 +17552,7 @@ div.v-window .v-panel {
 
 .project-view .main-content .top-panel {
 	border-bottom: 1px solid #e5e5e5;
-	padding: 12px 0px;
+	padding: 12px 0px 12px 24px;
 }
 
 .project-view .project-right-bar {
@@ -17827,25 +17955,6 @@ div.v-csslayout.followers-container .v-checkbox {
 
 .bug-severity-trivial.v-icon {
 	color: #f7c7c1;
-}
-
-.v-calendar.ticket-calendar .v-calendar-header-day {
-	font-weight: 600;
-}
-
-.v-calendar.ticket-calendar .v-calendar-event.owner, .v-calendar.ticket-calendar .v-calendar-event-owner-all-day {
-	background-color: green;
-	color: #ffffff;
-}
-
-.v-calendar.ticket-calendar .v-calendar-event.otheruser, .v-calendar.ticket-calendar .v-calendar-event-otheruser-all-day {
-	background-color: cadetblue;
-	color: #ffffff;
-}
-
-.v-calendar.ticket-calendar .v-calendar-event.nonowner, .v-calendar.ticket-calendar .v-calendar-event-nonowner-all-day {
-	background-color: brown;
-	color: #ffffff;
 }
 
 .v-label.owner {

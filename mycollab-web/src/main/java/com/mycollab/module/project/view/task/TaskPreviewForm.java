@@ -21,7 +21,6 @@ import com.hp.gagawa.java.elements.Img;
 import com.hp.gagawa.java.elements.Span;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
-import com.mycollab.core.utils.HumanTime;
 import com.mycollab.db.arguments.BooleanSearchField;
 import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.db.arguments.SearchCriteria;
@@ -37,7 +36,6 @@ import com.mycollab.module.project.i18n.OptionI18nEnum.Priority;
 import com.mycollab.module.project.i18n.TaskI18nEnum;
 import com.mycollab.module.project.service.ProjectTaskService;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
-import com.mycollab.module.project.ui.components.DurationReadField;
 import com.mycollab.module.project.ui.form.ProjectFormAttachmentDisplayField;
 import com.mycollab.module.project.ui.form.ProjectItemViewField;
 import com.mycollab.module.project.view.settings.component.ProjectUserFormLinkField;
@@ -47,14 +45,13 @@ import com.mycollab.vaadin.ApplicationEventListener;
 import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.*;
-import com.mycollab.vaadin.ui.field.DateViewField;
 import com.mycollab.vaadin.ui.field.DefaultViewField;
 import com.mycollab.vaadin.ui.field.I18nFormViewField;
 import com.mycollab.vaadin.ui.field.RichTextViewField;
+import com.mycollab.vaadin.ui.field.StyleViewField;
 import com.mycollab.vaadin.web.ui.*;
 import com.vaadin.data.HasValue;
 import com.vaadin.icons.VaadinIcons;
-import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import org.apache.commons.collections.CollectionUtils;
@@ -93,29 +90,21 @@ public class TaskPreviewForm extends AdvancedPreviewBeanForm<SimpleTask> {
             if (Task.Field.assignuser.equalTo(propertyId)) {
                 return new ProjectUserFormLinkField(beanItem.getProjectid(), beanItem.getAssignuser(),
                         beanItem.getAssignUserAvatarId(), beanItem.getAssignUserFullName());
-            } else if (Task.Field.startdate.equalTo(propertyId)) {
-                return new DateViewField();
-            } else if (Task.Field.enddate.equalTo(propertyId)) {
-                return new DateViewField();
-            } else if (Task.Field.duedate.equalTo(propertyId)) {
-                return new DateViewField();
             } else if (Task.Field.milestoneid.equalTo(propertyId)) {
-                return new ProjectItemViewField(ProjectTypeConstants.MILESTONE, beanItem.getMilestoneid() + "", beanItem.getMilestoneName());
+                return new ProjectItemViewField(ProjectTypeConstants.MILESTONE, beanItem.getMilestoneid(), beanItem.getMilestoneName());
             } else if ("section-attachments".equals(propertyId)) {
                 return new ProjectFormAttachmentDisplayField(beanItem.getProjectid(), ProjectTypeConstants.TASK, beanItem.getId());
             } else if (Task.Field.priority.equalTo(propertyId)) {
                 if (StringUtils.isNotBlank(beanItem.getPriority())) {
                     VaadinIcons fontPriority = ProjectAssetsManager.getPriority(beanItem.getPriority());
                     String priorityLbl = fontPriority.getHtml() + " " + UserUIContext.getMessage(Priority.class, beanItem.getPriority());
-                    DefaultViewField field = new DefaultViewField(priorityLbl, ContentMode.HTML);
+                    StyleViewField field = new StyleViewField(priorityLbl);
                     field.addStyleName("priority-" + beanItem.getPriority().toLowerCase());
                     return field;
                 }
             } else if (Task.Field.isestimated.equalTo(propertyId)) {
                 return new DefaultViewField(Boolean.TRUE.equals(beanItem.getIsestimated()) ?
                         UserUIContext.getMessage(GenericI18Enum.ACTION_YES) : UserUIContext.getMessage(GenericI18Enum.ACTION_NO));
-            } else if (Task.Field.duration.equalTo(propertyId)) {
-                return new DurationReadField();
             } else if (Task.Field.description.equalTo(propertyId)) {
                 return new RichTextViewField();
             } else if ("section-subTasks".equals(propertyId)) {

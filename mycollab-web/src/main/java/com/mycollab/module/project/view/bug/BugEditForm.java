@@ -20,6 +20,8 @@ import com.google.common.eventbus.AsyncEventBus;
 import com.mycollab.cache.CleanCacheEvent;
 import com.mycollab.common.domain.MonitorItem;
 import com.mycollab.common.i18n.GenericI18Enum;
+import com.mycollab.common.i18n.OptionI18nEnum;
+import com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.mycollab.common.service.MonitorItemService;
 import com.mycollab.module.file.AttachmentUtils;
 import com.mycollab.module.project.ProjectTypeConstants;
@@ -75,6 +77,9 @@ public class BugEditForm extends AdvancedEditBeanForm<SimpleBug> {
             gridLayout.addStyleName("window-max-height");
 
             MButton saveBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_SAVE), clickEvent -> {
+                if (bean.getStatus() == null) {
+                    bean.setStatus(StatusI18nEnum.Open.name());
+                }
                 if (validateForm()) {
                     BugService bugService = AppContextUtil.getSpringBean(BugService.class);
                     Integer bugId;

@@ -21,8 +21,10 @@ import com.mycollab.core.utils.BeanUtility;
 import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.shared.ui.MarginInfo;
+import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.themes.ValoTheme;
 import org.apache.commons.beanutils.PropertyUtils;
@@ -48,20 +50,21 @@ public class DateInfoComp extends MVerticalLayout {
                 UserUIContext.getMessage(ProjectCommonI18nEnum.SUB_INFO_DATES)).withStyleName("info-hdr");
         this.addComponent(dateInfoHeader);
 
-        MVerticalLayout layout = new MVerticalLayout().withMargin(new MarginInfo(false, false, false, true))
-                .withFullWidth();
+        GridLayout layout = new GridLayout(2, 2);
+        layout.setSpacing(true);
+        layout.setWidth("100%");
+        layout.setMargin(new MarginInfo(false, false, false, true));
+        layout.setColumnExpandRatio(1, 1.0f);
+
         try {
             LocalDateTime createdDate = (LocalDateTime) PropertyUtils.getProperty(bean, "createdtime");
-            ELabel createdDateLbl = new ELabel(UserUIContext.getMessage(ProjectCommonI18nEnum.ITEM_CREATED_DATE,
-                    UserUIContext.formatPrettyTime(createdDate))).withDescription(
-                    UserUIContext.formatDateTime(createdDate));
+            layout.addComponent(new ELabel(UserUIContext.getMessage(ProjectCommonI18nEnum.ITEM_CREATED_DATE)).withStyleName(WebThemes.META_COLOR).withUndefinedWidth(), 0, 0);
+            layout.addComponent(new ELabel(UserUIContext.formatPrettyTime(createdDate)).withDescription(UserUIContext.formatDateTime(createdDate)), 1, 0);
 
-            layout.addComponent(createdDateLbl);
 
             LocalDateTime updatedDate = (LocalDateTime) PropertyUtils.getProperty(bean, "lastupdatedtime");
-            ELabel updatedDateLbl = new ELabel(UserUIContext.getMessage(ProjectCommonI18nEnum.ITEM_UPDATED_DATE,
-                    UserUIContext.formatPrettyTime(updatedDate))).withDescription(UserUIContext.formatDateTime(updatedDate));
-            layout.addComponent(updatedDateLbl);
+            layout.addComponent(new ELabel(UserUIContext.getMessage(ProjectCommonI18nEnum.ITEM_UPDATED_DATE)).withStyleName(WebThemes.META_COLOR).withUndefinedWidth(), 0, 1);
+            layout.addComponent(new ELabel(UserUIContext.formatPrettyTime(updatedDate)).withDescription(UserUIContext.formatDateTime(updatedDate)), 1, 1);
 
             this.addComponent(layout);
         } catch (Exception e) {

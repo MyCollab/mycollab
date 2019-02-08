@@ -49,6 +49,7 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.VerticalLayout;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
+import org.vaadin.viritin.layouts.MVerticalLayout;
 
 /**
  * @author MyCollab Ltd.
@@ -77,21 +78,20 @@ public class ProjectPagedList extends DefaultBeanPagedList<ProjectService, Proje
     private static class ProjectRowDisplayHandler implements IBeanList.RowDisplayHandler<SimpleProject> {
 
         @Override
-        public Component generateRow(IBeanList<SimpleProject> host, final SimpleProject project, final int rowIndex) {
-            final MHorizontalLayout layout = new MHorizontalLayout().withFullWidth().withStyleName(WebThemes.BORDER_LIST_ROW);
+        public Component generateRow(IBeanList<SimpleProject> host, SimpleProject project, int rowIndex) {
+            MHorizontalLayout layout = new MHorizontalLayout().withMargin(false).withFullWidth().withStyleName(WebThemes.BORDER_LIST_ROW);
             layout.addComponent(ProjectAssetsUtil.projectLogoComp(project.getShortname(), project.getId(), project.getAvatarid(), 64));
             if (project.isArchived()) {
                 layout.addStyleName("project-archived");
             }
-            final VerticalLayout linkIconFix = new VerticalLayout();
-            linkIconFix.setSpacing(true);
+            MVerticalLayout mainLayout = new MVerticalLayout().withMargin(false);
 
             A projectDiv = new A(ProjectLinkGenerator.generateProjectLink(project.getId())).appendText(project.getName());
             ELabel projectLbl = ELabel.h3(projectDiv.write()).withStyleName(WebThemes.TEXT_ELLIPSIS).withFullWidth();
             projectLbl.setDescription(ProjectTooltipGenerator.generateToolTipProject(UserUIContext.getUserLocale(),
                     AppUI.getDateFormat(), project, AppUI.getSiteUrl(), UserUIContext.getUserTimeZone()), ContentMode.HTML);
 
-            linkIconFix.addComponent(projectLbl);
+            mainLayout.addComponent(projectLbl);
 
             MHorizontalLayout metaInfo = new MHorizontalLayout().withFullWidth();
             metaInfo.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
@@ -136,7 +136,7 @@ public class ProjectPagedList extends DefaultBeanPagedList<ProjectService, Proje
             metaDiv.setCSSClass(WebThemes.FLEX_DISPLAY);
             metaInfo.addComponent(ELabel.html(metaDiv.write()).withStyleName(WebThemes.META_INFO).withUndefinedWidth());
 
-            linkIconFix.addComponent(metaInfo);
+            mainLayout.addComponent(metaInfo);
 
             int openAssignments = project.getNumOpenBugs() + project.getNumOpenTasks() + project.getNumOpenRisks();
             int totalAssignments = project.getNumBugs() + project.getNumTasks() + project.getNumRisks();
@@ -149,8 +149,8 @@ public class ProjectPagedList extends DefaultBeanPagedList<ProjectService, Proje
                 progressInfoLbl = new ELabel(UserUIContext.getMessage(ProjectI18nEnum.OPT_NO_TICKET))
                         .withStyleName(WebThemes.META_INFO);
             }
-            linkIconFix.addComponent(progressInfoLbl);
-            layout.with(linkIconFix).expand(linkIconFix);
+            mainLayout.addComponent(progressInfoLbl);
+            layout.with(mainLayout).expand(mainLayout);
             return layout;
         }
     }

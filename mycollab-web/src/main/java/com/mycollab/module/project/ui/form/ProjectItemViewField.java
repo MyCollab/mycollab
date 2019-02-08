@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -34,12 +34,12 @@ import org.vaadin.viritin.layouts.MHorizontalLayout;
  * @author MyCollab Ltd.
  * @since 5.0.4
  */
-public class ProjectItemViewField extends CustomField<String> {
+public class ProjectItemViewField extends CustomField<Integer> {
     private String type;
-    private String typeId;
+    private Integer typeId;
     private String typeDisplayName;
 
-    public ProjectItemViewField(String type, String typeId, String typeDisplayName) {
+    public ProjectItemViewField(String type, Integer typeId, String typeDisplayName) {
         this.type = type;
         this.typeId = typeId;
         this.typeDisplayName = typeDisplayName;
@@ -47,7 +47,7 @@ public class ProjectItemViewField extends CustomField<String> {
 
     @Override
     protected Component initContent() {
-        if (typeId.equals("null")) {
+        if (typeId == null || typeId.equals("null")) {
             return new Label();
         }
 
@@ -55,7 +55,7 @@ public class ProjectItemViewField extends CustomField<String> {
         DivLessFormatter div = new DivLessFormatter();
 
         A milestoneLink = new A().setId("tag" + TooltipHelper.TOOLTIP_ID).setHref(ProjectLinkGenerator.generateProjectItemLink(project.getShortname(),
-                project.getId(), type, typeId)).appendText(typeDisplayName);
+                project.getId(), type, typeId + "")).appendText(typeDisplayName);
         milestoneLink.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(type, typeId + ""));
         milestoneLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction());
         div.appendChild(milestoneLink);
@@ -64,12 +64,12 @@ public class ProjectItemViewField extends CustomField<String> {
     }
 
     @Override
-    protected void doSetValue(String s) {
+    protected void doSetValue(Integer integer) {
 
     }
 
     @Override
-    public String getValue() {
+    public Integer getValue() {
         return null;
     }
 }

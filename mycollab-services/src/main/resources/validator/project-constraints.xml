@@ -68,11 +68,6 @@
                 <message>Name must not be null</message>
             </constraint>
         </field>
-        <field name="assignuser">
-            <constraint annotation="javax.validation.constraints.NotNull">
-                <message>Responsible user must not be null</message>
-            </constraint>
-        </field>
     </bean>
 
     <bean class="Task" ignore-annotations="false">

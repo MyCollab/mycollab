@@ -158,8 +158,8 @@ class BugServiceImpl(private val bugMapper: BugMapper,
         jdbcTemplate.batchUpdate("UPDATE `m_tracker_bug` SET `bugIndex`=? WHERE `id`=?", object : BatchPreparedStatementSetter {
             @Throws(SQLException::class)
             override fun setValues(preparedStatement: PreparedStatement, i: Int) {
-                preparedStatement.setInt(1, mapIndexes[i]["index"]!!)
-                preparedStatement.setInt(2, mapIndexes[i]["id"]!!)
+                preparedStatement.setInt(1, mapIndexes[i].getValue("index"))
+                preparedStatement.setInt(2, mapIndexes[i].getValue("id"))
             }
 
             override fun getBatchSize(): Int = mapIndexes.size

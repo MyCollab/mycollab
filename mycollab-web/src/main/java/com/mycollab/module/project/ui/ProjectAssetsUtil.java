@@ -35,6 +35,8 @@ import com.vaadin.server.ExternalResource;
 import com.vaadin.server.Sizeable;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
+import org.vaadin.viritin.layouts.MCssLayout;
+import org.vaadin.viritin.layouts.MVerticalLayout;
 
 /**
  * @author MyCollab Ltd.
@@ -59,12 +61,10 @@ public class ProjectAssetsUtil {
                     (String.format("%s/%s_%d.png", PathUtils.getProjectLogoPath(AppUI.getAccountId(), projectId),
                             projectAvatarId, size))));
         } else {
-            ELabel projectIcon = new ELabel(projectShortname).withStyleName(WebThemes.TEXT_ELLIPSIS, ValoTheme.LABEL_LARGE, "center");
+            ELabel projectIcon = new ELabel(projectShortname.substring(0, 1)).withStyleName(WebThemes.TEXT_ELLIPSIS, ValoTheme.LABEL_LARGE, "center");
             projectIcon.setWidth(size, Sizeable.Unit.PIXELS);
             projectIcon.setHeight(size, Sizeable.Unit.PIXELS);
-            wrapper = new VerticalLayout();
-            ((VerticalLayout) wrapper).addComponent(projectIcon);
-            ((VerticalLayout) wrapper).setComponentAlignment(projectIcon, Alignment.MIDDLE_CENTER);
+            wrapper = new MVerticalLayout(projectIcon).withAlign(projectIcon, Alignment.MIDDLE_CENTER).withMargin(false);
         }
         wrapper.setWidth(size, Sizeable.Unit.PIXELS);
         wrapper.setHeight(size, Sizeable.Unit.PIXELS);
@@ -74,7 +74,7 @@ public class ProjectAssetsUtil {
     }
 
     public static Component editableProjectLogoComp(String projectShortname, Integer projectId, String projectAvatarId, int size) {
-        VerticalLayout wrapper = new VerticalLayout();
+        MCssLayout wrapper = new MCssLayout();
 
         if (CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.PROJECT)) {
             wrapper.addStyleName(WebThemes.CURSOR_POINTER);
@@ -95,7 +95,6 @@ public class ProjectAssetsUtil {
             projectIcon.setWidth(size, Sizeable.Unit.PIXELS);
             projectIcon.setHeight(size, Sizeable.Unit.PIXELS);
             wrapper.addComponent(projectIcon);
-            wrapper.setComponentAlignment(projectIcon, Alignment.MIDDLE_CENTER);
         }
         wrapper.setWidth(size, Sizeable.Unit.PIXELS);
         wrapper.setHeight(size, Sizeable.Unit.PIXELS);

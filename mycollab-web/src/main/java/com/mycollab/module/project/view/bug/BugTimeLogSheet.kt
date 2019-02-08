@@ -12,17 +12,16 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <http:></http:>//www.gnu.org/licenses/>.
  */
-package com.mycollab.module.project.view.bug;
+package com.mycollab.module.project.view.bug
 
-import com.mycollab.module.project.ui.components.TimeLogComp;
-import com.mycollab.module.tracker.domain.SimpleBug;
-import com.mycollab.vaadin.mvp.CacheableComponent;
+import com.mycollab.module.project.ui.components.TimeLogComp
+import com.mycollab.module.tracker.domain.SimpleBug
+import com.mycollab.vaadin.mvp.CacheableComponent
 
 /**
  * @author MyCollab Ltd
  * @since 5.1.4
  */
-public abstract class BugTimeLogSheet extends TimeLogComp<SimpleBug> implements CacheableComponent {
-}
+abstract class BugTimeLogSheet : TimeLogComp<SimpleBug>(), CacheableComponent

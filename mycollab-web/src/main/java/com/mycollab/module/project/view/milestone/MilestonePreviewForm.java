@@ -38,14 +38,15 @@ import com.mycollab.module.project.service.ProjectTicketService;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.module.project.ui.ProjectAssetsUtil;
 import com.mycollab.module.project.ui.form.ProjectFormAttachmentDisplayField;
-import com.mycollab.module.project.view.settings.component.ProjectUserFormLinkField;
 import com.mycollab.module.project.view.ticket.ToggleTicketSummaryField;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.UserUIContext;
-import com.mycollab.vaadin.ui.*;
-import com.mycollab.vaadin.ui.field.DateViewField;
-import com.mycollab.vaadin.ui.field.DefaultViewField;
+import com.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
+import com.mycollab.vaadin.ui.ELabel;
+import com.mycollab.vaadin.ui.GenericBeanForm;
+import com.mycollab.vaadin.ui.IBeanList;
 import com.mycollab.vaadin.ui.field.RichTextViewField;
+import com.mycollab.vaadin.ui.field.StyleViewField;
 import com.mycollab.vaadin.web.ui.AdvancedPreviewBeanForm;
 import com.mycollab.vaadin.web.ui.DefaultBeanPagedList;
 import com.mycollab.vaadin.web.ui.DefaultDynaFormLayout;
@@ -53,7 +54,6 @@ import com.mycollab.vaadin.web.ui.WebThemes;
 import com.mycollab.vaadin.web.ui.field.ContainerViewField;
 import com.vaadin.data.HasValue;
 import com.vaadin.icons.VaadinIcons;
-import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.CheckBox;
@@ -85,19 +85,12 @@ public class MilestonePreviewForm extends AdvancedPreviewBeanForm<SimpleMileston
         @Override
         protected HasValue<?> onCreateField(final Object propertyId) {
             SimpleMilestone milestone = attachForm.getBean();
-            if (Milestone.Field.startdate.equalTo(propertyId)) {
-                return new DateViewField();
-            } else if (Milestone.Field.enddate.equalTo(propertyId)) {
-                return new DateViewField();
-            } else if (Milestone.Field.assignuser.equalTo(propertyId)) {
-                return new ProjectUserFormLinkField(milestone.getProjectid(), milestone.getAssignuser(),
-                        milestone.getOwnerAvatarId(), milestone.getOwnerFullName());
-            } else if (Milestone.Field.description.equalTo(propertyId)) {
+            if (Milestone.Field.description.equalTo(propertyId)) {
                 return new RichTextViewField();
             } else if (Milestone.Field.status.equalTo(propertyId)) {
                 String milestoneStatus = UserUIContext.getMessage(MilestoneStatus.class, milestone.getStatus());
                 VaadinIcons statusIcon = ProjectAssetsUtil.getPhaseIcon(milestone.getStatus());
-                return new DefaultViewField(statusIcon.getHtml() + " " + milestoneStatus, ContentMode.HTML)
+                return new StyleViewField(statusIcon.getHtml() + " " + milestoneStatus)
                         .withStyleName(WebThemes.FIELD_NOTE);
             } else if ("section-assignments".equals(propertyId)) {
                 ContainerViewField containerField = new ContainerViewField();
