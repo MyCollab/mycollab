@@ -93,6 +93,7 @@ public class TaskAddPresenter extends ProjectGenericPresenter<TaskAddView> {
             ProjectBreadcrumb breadCrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);
             if (task.getId() == null) {
                 breadCrumb.gotoTaskAdd();
+                task.setSaccountid(AppUI.getAccountId());
             } else {
                 breadCrumb.gotoTaskEdit(task);
             }

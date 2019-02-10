@@ -82,7 +82,7 @@ class ProjectModuleController(val container: ProjectModule) : AbstractController
             @Subscribe
             override fun handle(event: ClientEvent.GotoAdd) {
                 val presenter = PresenterResolver.getPresenter(BoardContainerPresenter::class.java)
-                val client = SimpleClient()
+                val client = SimpleClient().withSaccountid(AppUI.accountId)
                 presenter.go(container, ClientScreenData.Add(client))
             }
         })

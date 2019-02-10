@@ -16,7 +16,7 @@
  */
 package com.mycollab.module.project.ui;
 
-import com.mycollab.common.domain.SimpleClient;
+import com.mycollab.common.domain.Client;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.core.utils.StringUtils;
 import com.mycollab.module.file.PathUtils;
@@ -91,7 +91,7 @@ public class ProjectAssetsUtil {
             image.addStyleName(WebThemes.CIRCLE_BOX);
             wrapper.addComponent(image);
         } else {
-            ELabel projectIcon = new ELabel(projectShortname.substring(0,1)).withStyleName(WebThemes.TEXT_ELLIPSIS, ValoTheme.LABEL_LARGE, "center", WebThemes.CIRCLE_BOX).withDescription(projectShortname);
+            ELabel projectIcon = new ELabel(projectShortname.substring(0, 1)).withStyleName(WebThemes.TEXT_ELLIPSIS, ValoTheme.LABEL_LARGE, "center", WebThemes.CIRCLE_BOX).withDescription(projectShortname);
             projectIcon.setWidth(size, Sizeable.Unit.PIXELS);
             projectIcon.setHeight(size, Sizeable.Unit.PIXELS);
             wrapper.addComponent(projectIcon);
@@ -101,7 +101,7 @@ public class ProjectAssetsUtil {
         return wrapper;
     }
 
-    public static Component clientLogoComp(SimpleClient client, int size) {
+    public static Component clientLogoComp(Client client, int size) {
         AbstractComponent wrapper;
         if (!StringUtils.isBlank(client.getAvatarid())) {
             wrapper = new Image(null, new ExternalResource(StorageUtils.getEntityLogoPath(AppUI.getAccountId(), client.getAvatarid(), 100)));

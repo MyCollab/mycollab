@@ -47,6 +47,7 @@ import org.vaadin.viritin.layouts.MCssLayout;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -116,6 +117,7 @@ public class BugEditForm extends AdvancedEditBeanForm<SimpleBug> {
                             monitorItem.setUsername(follower);
                             monitorItem.setExtratypeid(bean.getProjectid());
                             monitorItems.add(monitorItem);
+                            monitorItem.setCreatedtime(LocalDateTime.now());
                         }
                         MonitorItemService monitorItemService = AppContextUtil.getSpringBean(MonitorItemService.class);
                         monitorItemService.saveMonitorItems(monitorItems);

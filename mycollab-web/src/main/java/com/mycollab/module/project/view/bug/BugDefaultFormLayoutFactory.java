@@ -146,6 +146,16 @@ public class BugDefaultFormLayoutFactory {
                 .contextHelp(BugI18nEnum.FORM_COMPONENTS_HELP)
                 .fieldIndex(5).build());
 
+        mainSection.fields(new TextDynaFieldBuilder().fieldName(SimpleBug.Field.affectedVersions)
+                .displayName(BugI18nEnum.FORM_AFFECTED_VERSIONS)
+                .contextHelp(BugI18nEnum.FORM_AFFECTED_VERSIONS_HELP)
+                .fieldIndex(6).build());
+
+        mainSection.fields(new TextDynaFieldBuilder().fieldName(SimpleBug.Field.fixedVersions)
+                .displayName(BugI18nEnum.FORM_FIXED_VERSIONS)
+                .contextHelp(BugI18nEnum.FORM_FIXED_VERSIONS_HELP)
+                .fieldIndex(8).build());
+
         mainSection.fields(new TextDynaFieldBuilder().fieldName(BugWithBLOBs.Field.milestoneid)
                 .displayName(MilestoneI18nEnum.SINGLE)
                 .fieldIndex(10).build());

@@ -94,14 +94,15 @@ public class MilestoneAddPresenter extends AbstractPresenter<MilestoneAddView> {
             projectView.gotoSubView(ProjectView.MILESTONE_ENTRY, view);
 
             SimpleMilestone milestone = (SimpleMilestone) data.getParams();
-            view.editItem(milestone);
 
             ProjectBreadcrumb breadcrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);
             if (milestone.getId() == null) {
+                milestone.setSaccountid(AppUI.getAccountId());
                 breadcrumb.gotoMilestoneAdd();
             } else {
                 breadcrumb.gotoMilestoneEdit(milestone);
             }
+            view.editItem(milestone);
         } else {
             NotificationUtil.showMessagePermissionAlert();
         }

@@ -86,7 +86,7 @@ public class ProjectAddPresenter extends AbstractPresenter<ProjectAddView> {
         projectViewContainer.setContent(view);
 
         Project project = (Project) data.getParams();
-        view.editItem(project);
+
 
         if (project.getId() == null) {
             AppUI.addFragment("project/add", UserUIContext.getMessage(GenericI18Enum.BROWSER_ADD_ITEM_TITLE,
@@ -95,6 +95,7 @@ public class ProjectAddPresenter extends AbstractPresenter<ProjectAddView> {
             ProjectBreadcrumb breadcrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);
             breadcrumb.gotoProjectEdit();
         }
+
     }
 
     private void saveProject(Project project) {

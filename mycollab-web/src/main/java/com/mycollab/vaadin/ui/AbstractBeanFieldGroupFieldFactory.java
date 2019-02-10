@@ -35,6 +35,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Path;
+import java.lang.annotation.Annotation;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -46,9 +47,9 @@ import java.util.stream.Collectors;
 public abstract class AbstractBeanFieldGroupFieldFactory<B> implements IBeanFieldGroupFieldFactory<B> {
     private static final Logger LOG = LoggerFactory.getLogger(AbstractBeanFieldGroupFieldFactory.class);
 
-    private BeanValidationBinder<B> binder;
+    private Binder<B> binder;
     private boolean isReadOnlyGroup;
-    private javax.validation.Validator validation;
+    private javax.validation.Validator validator;
 
     protected GenericBeanForm<B> attachForm;
 
@@ -57,13 +58,13 @@ public abstract class AbstractBeanFieldGroupFieldFactory<B> implements IBeanFiel
         this.isReadOnlyGroup = isReadOnlyGroup;
 
         if (isValidateForm) {
-            validation = AppContextUtil.getValidator();
+            validator = AppContextUtil.getValidator();
         }
     }
 
     @Override
     public void setBean(B bean) {
-        binder = new BeanValidationBinder<>((Class<B>) bean.getClass());
+        binder = new Binder<>((Class<B>) bean.getClass());
 
         IFormLayoutFactory layoutFactory = attachForm.getLayoutFactory();
         if (layoutFactory instanceof WrappedFormLayoutFactory) {
@@ -164,7 +165,7 @@ public abstract class AbstractBeanFieldGroupFieldFactory<B> implements IBeanFiel
             throw new UserInvalidInputException(errorMessage);
         }
 
-        Set<ConstraintViolation<B>> violations = validation.validate(attachForm.getBean());
+        Set<ConstraintViolation<B>> violations = validator.validate(attachForm.getBean());
         if (violations.size() > 0) {
             StringBuilder errorMsg = new StringBuilder();
 

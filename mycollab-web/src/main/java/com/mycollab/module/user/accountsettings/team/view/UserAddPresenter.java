@@ -113,18 +113,16 @@ public class UserAddPresenter extends AbstractPresenter<UserAddView> {
         accountModule.gotoSubView(SettingUIConstants.USERS, view);
 
         SimpleUser user = (SimpleUser) data.getParams();
-        if (user.getUsername() != null) {
-            view.editItem(user, false);
-        } else {
-            view.editItem(user);
-        }
 
         AccountSettingBreadcrumb breadcrumb = ViewManager.getCacheComponent(AccountSettingBreadcrumb.class);
 
         if (user.getUsername() == null) {
+            user.setAccountId(AppUI.getAccountId());
+            view.editItem(user, false);
             breadcrumb.gotoUserAdd();
         } else {
             breadcrumb.gotoUserEdit(user);
+            view.editItem(user);
         }
     }
 }

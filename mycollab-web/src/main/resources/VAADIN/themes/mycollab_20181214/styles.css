@@ -1853,6 +1853,10 @@ a.pending {
 	background-color: #3dae7d;
 }
 
+.field-note a:visited, .field-note a:link {
+	color: #ffffff;
+}
+
 .arrow-btn {
 	vertical-align: middle;
 	text-align: center;
@@ -16697,6 +16701,10 @@ a.pending {
 
 .field-note:hover {
 	background-color: #3dae7d;
+}
+
+.field-note a:visited, .field-note a:link {
+	color: #ffffff;
 }
 
 .arrow-btn {
