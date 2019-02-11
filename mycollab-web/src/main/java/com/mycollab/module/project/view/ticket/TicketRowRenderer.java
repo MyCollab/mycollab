@@ -45,13 +45,13 @@ import org.vaadin.viritin.layouts.MHorizontalLayout;
  * @author MyCollab Ltd
  * @since 5.1.1
  */
-class TicketRowRenderer extends BlockRowRender implements PropertyChangedListener {
+public class TicketRowRenderer extends BlockRowRender implements PropertyChangedListener {
     private static Logger LOG = LoggerFactory.getLogger(TicketRowRenderer.class);
 
     private ToggleTicketSummaryField toggleTicketField;
     private ProjectTicket ticket;
 
-    TicketRowRenderer(final ProjectTicket ticket) {
+    public TicketRowRenderer(ProjectTicket ticket) {
         this.ticket = ticket;
         withMargin(false).withFullWidth().addStyleName(WebThemes.BORDER_LIST_ROW);
 
@@ -70,6 +70,7 @@ class TicketRowRenderer extends BlockRowRender implements PropertyChangedListene
 
         TicketComponentFactory popupFieldFactory = AppContextUtil.getSpringBean(TicketComponentFactory.class);
         AbstractComponent assigneeField = wrapListenerComponent(popupFieldFactory.createAssigneePopupField(ticket));
+        assigneeField.removeStyleName(WebThemes.BLOCK_POPUP_EDIT);
         headerLayout.with(assigneeField, toggleTicketField).expand(toggleTicketField);
 
         CssLayout footer = new CssLayout();

@@ -63,7 +63,7 @@ public class ToggleTicketSummaryField extends AbstractToggleSummaryField {
     private ProjectTicket ticket;
     private boolean isRead = true;
 
-    public ToggleTicketSummaryField(final ProjectTicket ticket) {
+    public ToggleTicketSummaryField(ProjectTicket ticket) {
         this.ticket = ticket;
         this.setWidth("100%");
         titleLinkLbl = ELabel.html(buildTicketLink()).withStyleName(ValoTheme.LABEL_NO_MARGIN,
@@ -76,7 +76,7 @@ public class ToggleTicketSummaryField extends AbstractToggleSummaryField {
         this.addComponent(titleLinkLbl);
         if (CurrentProjectVariables.canWriteTicket(ticket)) {
             this.addStyleName("editable-field");
-            buttonControls = new MHorizontalLayout().withMargin(new MarginInfo(false, false, false, true)).withStyleName("toggle");
+            buttonControls = new MHorizontalLayout().withMargin(false).withStyleName("toggle");
             buttonControls.setDefaultComponentAlignment(Alignment.TOP_LEFT);
             MButton instantEditBtn = new MButton("", clickEvent -> {
                 if (isRead) {

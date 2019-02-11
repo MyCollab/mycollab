@@ -3,21 +3,22 @@ package com.mycollab.module.project.view.reports;
 import com.google.common.collect.Sets;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.db.arguments.SearchField;
-import com.mycollab.db.arguments.SetSearchField;
 import com.mycollab.db.query.ConstantValueInjector;
 import com.mycollab.db.query.Param;
 import com.mycollab.db.query.SearchFieldInfo;
-import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.domain.criteria.ProjectTicketSearchCriteria;
+import com.mycollab.module.project.i18n.ProjectReportI18nEnum;
 import com.mycollab.module.project.ui.components.UserProjectListSelect;
 import com.mycollab.shell.event.ShellEvent;
 import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.vaadin.UserUIContext;
+import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.web.ui.*;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.ui.*;
+import com.vaadin.ui.themes.ValoTheme;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.fields.MTextField;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
@@ -39,6 +40,11 @@ public class TicketCrossProjectsSearchPanel extends DefaultGenericSearchPanel<Pr
             ProjectTicketSearchCriteria.p_projectIds,
             ProjectTicketSearchCriteria.p_name, ProjectTicketSearchCriteria.p_startDate,
             ProjectTicketSearchCriteria.p_endDate, ProjectTicketSearchCriteria.p_dueDate};
+
+    protected ComponentContainer buildSearchTitle() {
+        return new MHorizontalLayout(ELabel.html(VaadinIcons.CALENDAR_CLOCK.getHtml() + " " + UserUIContext.getMessage(ProjectReportI18nEnum.REPORT_USERS_WORKLOAD))
+                .withStyleName(ValoTheme.LABEL_H2, ValoTheme.LABEL_NO_MARGIN));
+    }
 
     @Override
     protected SearchLayout<ProjectTicketSearchCriteria> createBasicSearchLayout() {

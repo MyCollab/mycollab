@@ -41,7 +41,7 @@ import org.slf4j.LoggerFactory
 object CurrentProjectVariables {
     private val LOG = LoggerFactory.getLogger(CurrentProjectVariables::class.java)
 
-    private val CURRENT_PAGE_VAR = "project_page"
+    private const val CURRENT_PAGE_VAR = "project_page"
 
     // get member permission
     @JvmStatic

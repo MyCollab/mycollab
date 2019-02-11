@@ -53,7 +53,6 @@ import com.mycollab.schedule.email.format.FieldFormat
 import com.mycollab.schedule.email.format.I18nFieldFormat
 import com.mycollab.schedule.email.project.BugRelayEmailNotificationAction
 import com.mycollab.spring.AppContextUtil
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.config.BeanDefinition
 import org.springframework.context.annotation.Scope
 import org.springframework.stereotype.Component
@@ -64,10 +63,8 @@ import org.springframework.stereotype.Component
  */
 @Component
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
-class BugRelayEmailNotificationActionImpl : SendMailToFollowersAction<SimpleBug>(), BugRelayEmailNotificationAction {
-
-    @Autowired private lateinit var bugService: BugService
-    @Autowired private lateinit var projectNotificationService: ProjectNotificationSettingService
+class BugRelayEmailNotificationActionImpl(private val bugService: BugService,
+                                          private val projectNotificationService: ProjectNotificationSettingService) : SendMailToFollowersAction<SimpleBug>(), BugRelayEmailNotificationAction {
 
     private val mapper = BugFieldNameMapper()
 
@@ -143,13 +140,13 @@ class BugRelayEmailNotificationActionImpl : SendMailToFollowersAction<SimpleBug>
                         val prjMember = projectMemberService.getActiveUserOfProject(it.username,
                                 it.projectid, it.saccountid)
                         if (prjMember != null) {
-                            notifyUsers += prjMember
+                            notifyUsers = notifyUsers + prjMember
                         }
                     }
                 }
             } else if (NotificationType.Full.name == it.level) {
                 val prjMember = projectMemberService.getActiveUserOfProject(it.username, it.projectid, it.saccountid)
-                if (prjMember != null) notifyUsers += prjMember
+                if (prjMember != null) notifyUsers = notifyUsers + prjMember
             }
         }
         return notifyUsers

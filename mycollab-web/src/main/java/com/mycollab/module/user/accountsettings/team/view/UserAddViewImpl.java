@@ -353,7 +353,7 @@ public class UserAddViewImpl extends AbstractVerticalPageView implements UserAdd
 
         private void displayRolePermission(SimpleRole role) {
             permissionLayout.removeAllComponents();
-            PermissionMap permissionMap = (role != null) ? role.getPermissionMap() : PermissionMap.buildAdminPermissionCollection();
+            PermissionMap permissionMap = (role != null) ? role.getPermissionMap() : PermissionMap.ADMIN_ROLE_MAP;
 
             if (permissionMap != null) {
                 permissionLayout.addComponent(constructPermissionSectionView(UserUIContext.getMessage(RoleI18nEnum.SECTION_PROJECT_MANAGEMENT_TITLE),

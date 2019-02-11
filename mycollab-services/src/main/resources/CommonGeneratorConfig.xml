@@ -40,7 +40,6 @@
         <table schema="mycollab" tableName="s_table_customize_view" domainObjectName="CustomViewStore"/>
         <table schema="mycollab" tableName="s_timeline_tracking" domainObjectName="TimelineTracking"/>
         <table schema="mycollab" tableName="s_timeline_tracking_cache" domainObjectName="TimelineTrackingCaching"/>
-        <table schema="mycollab" tableName="m_notification_item" domainObjectName="NotificationItem"/>
         <table schema="mycollab" tableName="m_driveinfo" domainObjectName="DriveInfo"/>
     </context>
 

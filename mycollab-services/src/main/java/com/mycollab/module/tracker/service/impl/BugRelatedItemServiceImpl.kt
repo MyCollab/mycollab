@@ -28,12 +28,12 @@ import org.springframework.stereotype.Service
 @Service
 class BugRelatedItemServiceImpl(private val bugRelatedItemMapper: BugRelatedItemMapper) : BugRelatedItemService {
 
-    override fun saveAffectedVersionsOfBug(bugId: Int, versions: List<Version>) {
+    override fun saveAffectedVersionsOfBug(bugId: Int, versions: List<Version>?) {
         insertAffectedVersionsOfBug(bugId, versions)
     }
 
-    private fun insertAffectedVersionsOfBug(bugId: Int, versions: List<Version>) {
-        versions.forEach {
+    private fun insertAffectedVersionsOfBug(bugId: Int, versions: List<Version>?) {
+        versions?.forEach {
             val relatedItem = BugRelatedItem()
             relatedItem.bugid = bugId
             relatedItem.typeid = it.id
@@ -42,12 +42,12 @@ class BugRelatedItemServiceImpl(private val bugRelatedItemMapper: BugRelatedItem
         }
     }
 
-    override fun saveFixedVersionsOfBug(bugId: Int, versions: List<Version>) {
+    override fun saveFixedVersionsOfBug(bugId: Int, versions: List<Version>?) {
         insertFixedVersionsOfBug(bugId, versions)
     }
 
-    private fun insertFixedVersionsOfBug(bugId: Int, versions: List<Version>) {
-        versions.forEach {
+    private fun insertFixedVersionsOfBug(bugId: Int, versions: List<Version>?) {
+        versions?.forEach {
             val relatedItem = BugRelatedItem()
             relatedItem.bugid = bugId
             relatedItem.typeid = it.id
@@ -56,12 +56,12 @@ class BugRelatedItemServiceImpl(private val bugRelatedItemMapper: BugRelatedItem
         }
     }
 
-    override fun saveComponentsOfBug(bugId: Int, components: List<Component>) {
+    override fun saveComponentsOfBug(bugId: Int, components: List<Component>?) {
         insertComponentsOfBug(bugId, components)
     }
 
-    private fun insertComponentsOfBug(bugId: Int, components: List<Component>) {
-        components.forEach {
+    private fun insertComponentsOfBug(bugId: Int, components: List<Component>?) {
+        components?.forEach {
             val relatedItem = BugRelatedItem()
             relatedItem.bugid = bugId
             relatedItem.typeid = it.id

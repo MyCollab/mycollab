@@ -21,7 +21,6 @@ import com.hp.gagawa.java.elements.A
 import com.hp.gagawa.java.elements.Span
 import com.mycollab.common.i18n.GenericI18Enum
 import com.mycollab.common.i18n.ShellI18nEnum
-import com.mycollab.common.service.NotificationItemService
 import com.mycollab.common.ui.components.notification.RequestUploadAvatarNotification
 import com.mycollab.common.ui.components.notification.SmtpSetupNotification
 import com.mycollab.core.AbstractNotification
@@ -75,7 +74,7 @@ abstract class AbstractNotificationComponent : PopupButton(), PopupButton.PopupV
 
         if (notificationItems.isNotEmpty()) {
             val markReadButton = MButton("Mark all read").withListener {
-                val notificationService = com.mycollab.spring.AppContextUtil.getSpringBean(NotificationItemService::class.java)
+
             }.withStyleName(WebThemes.BUTTON_LINK)
             val markReadLayout = MHorizontalLayout(markReadButton).withAlign(markReadButton, Alignment.MIDDLE_RIGHT).withFullWidth()
                     .withStyleName(WebThemes.BORDER_BOTTOM).withMargin(MarginInfo(false, true, false, false))

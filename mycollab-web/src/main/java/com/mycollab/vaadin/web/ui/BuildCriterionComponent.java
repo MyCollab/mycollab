@@ -23,16 +23,23 @@ import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.i18n.QueryI18nEnum;
 import com.mycollab.common.json.QueryAnalyzer;
 import com.mycollab.common.service.SaveSearchResultService;
+import com.mycollab.core.MyCollabException;
 import com.mycollab.core.UserInvalidInputException;
 import com.mycollab.db.arguments.*;
 import com.mycollab.db.query.*;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.UserUIContext;
-import com.mycollab.vaadin.ui.*;
+import com.mycollab.vaadin.ui.ELabel;
+import com.mycollab.vaadin.ui.I18nValueListSelect;
+import com.mycollab.vaadin.ui.NotificationUtil;
+import com.mycollab.vaadin.ui.ValueListSelect;
+import com.vaadin.data.Converter;
 import com.vaadin.data.HasValue;
+import com.vaadin.data.Result;
 import com.vaadin.data.provider.ListDataProvider;
 import com.vaadin.icons.VaadinIcons;
+import com.vaadin.server.SerializableFunction;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import org.apache.commons.collections.CollectionUtils;
@@ -288,7 +295,7 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
                 ValueListSelect listSelect = new ValueListSelect();
                 listSelect.setCaption(null);
                 listSelect.loadData(((StringListParam) param).getValues().toArray(new String[0]));
-                listSelect.setValue((Set<?>)searchFieldInfo.eval());
+                listSelect.setValue((Set<?>) searchFieldInfo.eval());
                 listSelect.setWidth(width);
                 valueBox.addComponent(listSelect);
 
@@ -298,7 +305,7 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
                     I18nValueListSelect listSelect = new I18nValueListSelect();
                     listSelect.setCaption(null);
                     listSelect.loadData(((I18nStringListParam) param).getValues());
-                    listSelect.setValue((Set<?>)searchFieldInfo.eval());
+                    listSelect.setValue((Set<?>) searchFieldInfo.eval());
                     listSelect.setWidth(width);
                     valueBox.addComponent(listSelect);
                 }
@@ -315,7 +322,7 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
             fieldSelectionBox.setWidth("160px");
             fieldSelectionBox.setEmptySelectionAllowed(false);
             fieldSelectionBox.setItems(paramFields);
-            fieldSelectionBox.setItemCaptionGenerator((ItemCaptionGenerator<Param>)item -> {
+            fieldSelectionBox.setItemCaptionGenerator((ItemCaptionGenerator<Param>) item -> {
                 CacheParamMapper.ValueParam valueParam = CacheParamMapper.getValueParam(searchCategory, item.getId());
                 return UserUIContext.getMessage(valueParam.getDisplayName());
             });
@@ -356,7 +363,7 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
 
         private void displayAssociateInputField(Param field) {
             String width = "250px";
-            QueryI18nEnum compareItem =  compareSelectionBox.getValue();
+            QueryI18nEnum compareItem = compareSelectionBox.getValue();
             valueBox.removeAllComponents();
 
             if (field instanceof StringParam || field instanceof ConcatStringParam) {
@@ -426,7 +433,7 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
                     }
                 }
                 if (value instanceof Enum) {
-                    value = ((Enum)value).name();
+                    value = ((Enum) value).name();
                 }
                 return new SearchFieldInfo(prefixOper, param, compareOper.name(), ConstantValueInjector.valueOf(value));
             } else {
@@ -438,16 +445,29 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
             int componentCount = valueBox.getComponentCount();
             if (componentCount == 1) {
                 HasValue<?> component = (HasValue<?>) valueBox.getComponent(0);
-                return component.getValue();
+                return getConvertedValue(component);
             } else if (componentCount > 1) {
                 Object[] value = new Object[componentCount];
                 for (int i = 0; i < componentCount; i++) {
-                    Array.set(value, i, ((HasValue<?>) valueBox.getComponent(i)).getValue());
+                    Array.set(value, i, getConvertedValue(((HasValue<?>) valueBox.getComponent(i))));
                 }
                 return value;
             } else {
                 return null;
             }
+        }
+
+        private Object getConvertedValue(HasValue<?> component) {
+            if (component instanceof Converter) {
+                Converter converter = (Converter) component;
+                Result result = converter.convertToModel(component.getValue(), null);
+                try {
+                    return result.getOrThrow(SerializableFunction.identity());
+                } catch (Throwable throwable) {
+                    throw new MyCollabException(throwable);
+                }
+            }
+            return component.getValue();
         }
     }
 

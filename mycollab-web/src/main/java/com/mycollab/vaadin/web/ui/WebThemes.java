@@ -47,7 +47,7 @@ public class WebThemes {
 
     public static final String MARGIN_TOP = "margin-top";
     public static final String MARGIN_RIGHT = "margin-right";
-    public static final String MARGIN_LEFT = "margin-left";
+    public static final String MARGIN_LEFT_HALF = "margin-left-half";
     public static final String MARGIN_BOTTOM = "margin-bottom";
     public static final String MARGIN = "margin";
 
@@ -83,5 +83,6 @@ public class WebThemes {
     public static final String META_INFO = "meta-info";
     public static final String FIELD_NOTE = "field-note";
     public static final String BLOCK = "block";
+    public static final String BLOCK_POPUP_EDIT = "block-popupedit";
     public static final String ALIGN_RIGHT = "align-right";
 }

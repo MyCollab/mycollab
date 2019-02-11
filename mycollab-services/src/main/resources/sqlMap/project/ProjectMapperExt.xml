@@ -179,17 +179,14 @@
     </select>
     
     <select id="getProjectsUserInvolved" parameterType="map" resultMap="SimpleProjectResult" lang="velocity">
-        <![CDATA[
-        SELECT m_prj_project.id, m_prj_project.name, m_prj_project.shortname, m_prj_project.avatarId
-        FROM m_prj_project
-        WHERE m_prj_project.sAccountId = @{_parameter.sAccountId} AND m_prj_project.status='Open'
+        <include refid="selectSimpleProject" />
+        WHERE m_prj_project.sAccountId = @{_parameter.sAccountId}
         #ifnotnull($_parameter.username)
             AND EXISTS (SELECT 1
                         FROM m_prj_member WHERE m_prj_member.projectId = m_prj_project.id
                             AND m_prj_member.username=@{_parameter.username}
                             LIMIT 1)
         #end
-        ]]>
     </select>
 
     <select id="getUserProjectKeys" resultType="java.lang.Integer" lang="velocity">
@@ -494,11 +491,13 @@
         notifier.username AS notifiers_username, notifier.timezone AS notifiers_timezone,
         notifier.email AS notifiers_email, notifier.language AS notifiers_language, s_relay_email_notification.sAccountId AS notifiers_accountId
         FROM s_relay_email_notification
+            INNER JOIN m_tracker_bug ON  (s_relay_email_notification.type='Project-Bug' AND m_tracker_bug.id=s_relay_email_notification.typeId)
             INNER JOIN s_user AS changeUser ON (changeUser.username=s_relay_email_notification.changeby)
             INNER JOIN m_monitor_item ON (m_monitor_item.typeId=s_relay_email_notification.typeId AND s_relay_email_notification.type=m_monitor_item.type)
-            INNER JOIN s_user AS notifier ON (m_monitor_item.username=notifier.username AND notifier.status='EmailVerified')
-            INNER JOIN m_tracker_bug ON  (s_relay_email_notification.type='Project-Bug' AND m_tracker_bug.id=s_relay_email_notification.typeId)
-            INNER JOIN s_account ON (s_relay_email_notification.sAccountId=s_account.id))
+            INNER JOIN s_user AS notifier ON (m_monitor_item.username=notifier.username)
+            INNER JOIN s_account ON (s_relay_email_notification.sAccountId=s_account.id)
+            INNER JOIN s_user_account ON (s_user_account.username=notifier.username AND s_user_account.registerStatus='Active')
+            )
         UNION
         (SELECT s_relay_email_notification.id,
         s_relay_email_notification.sAccountId,
@@ -515,11 +514,13 @@
         notifier.username AS notifiers_username, notifier.timezone AS notifiers_timezone,
         notifier.email AS notifiers_email, notifier.language AS notifiers_language, s_relay_email_notification.sAccountId AS notifiers_accountId
         FROM s_relay_email_notification
-            LEFT OUTER JOIN s_user AS changeUser ON (changeUser.username=s_relay_email_notification.changeby)
-            INNER JOIN m_monitor_item ON (m_monitor_item.typeId=s_relay_email_notification.typeId AND s_relay_email_notification.type=m_monitor_item.type)
-            INNER JOIN s_user AS notifier ON (m_monitor_item.username=notifier.username AND notifier.status='EmailVerified')
             INNER JOIN m_prj_task ON (s_relay_email_notification.type='Project-Task' AND m_prj_task.id=s_relay_email_notification.typeId)
-            INNER JOIN s_account ON (s_relay_email_notification.sAccountId=s_account.id))
+            INNER JOIN s_user AS changeUser ON (changeUser.username=s_relay_email_notification.changeby)
+            INNER JOIN m_monitor_item ON (m_monitor_item.typeId=s_relay_email_notification.typeId AND s_relay_email_notification.type=m_monitor_item.type)
+            INNER JOIN s_user AS notifier ON (m_monitor_item.username=notifier.username)
+            INNER JOIN s_account ON (s_relay_email_notification.sAccountId=s_account.id)
+            INNER JOIN s_user_account ON (s_user_account.username=notifier.username AND s_user_account.registerStatus='Active')
+            )
         UNION
         (SELECT s_relay_email_notification.id,
         s_relay_email_notification.sAccountId,
@@ -536,8 +537,8 @@
         NULL AS notifiers_timezone, NULL AS notifiers_email,  NULL AS notifiers_language,
         NULL AS notifiers_accountId
         FROM s_relay_email_notification
-            INNER JOIN s_user AS changeUser ON (changeUser.username=s_relay_email_notification.changeby AND changeUser.status='EmailVerified')
             INNER JOIN m_prj_message ON (s_relay_email_notification.type='Project-Message' AND m_prj_message.id=s_relay_email_notification.typeId)
+            INNER JOIN s_user AS changeUser ON (changeUser.username=s_relay_email_notification.changeby)
             INNER JOIN s_account ON (s_relay_email_notification.sAccountId=s_account.id))
         UNION
         (SELECT s_relay_email_notification.id,
@@ -555,8 +556,8 @@
         NULL AS notifiers_username, NULL AS notifiers_timezone,
         NULL AS notifiers_email, NULL AS notifiers_language, NULL AS notifiers_accountId
         FROM s_relay_email_notification
-            INNER JOIN s_user AS changeUser ON (changeUser.username=s_relay_email_notification.changeby AND changeUser.status='EmailVerified')
             INNER JOIN m_prj_milestone ON (s_relay_email_notification.type='Project-Milestone' AND m_prj_milestone.id=s_relay_email_notification.typeId)
+            INNER JOIN s_user AS changeUser ON (changeUser.username=s_relay_email_notification.changeby)
             INNER JOIN s_account ON (s_relay_email_notification.sAccountId=s_account.id))
         UNION
         (SELECT s_relay_email_notification.id,
@@ -574,8 +575,8 @@
         NULL AS notifiers_username, NULL AS notifiers_timezone,
         NULL AS notifiers_email, NULL AS notifiers_language, NULL AS notifiers_accountId
         FROM s_relay_email_notification
-            INNER JOIN s_user AS changeUser ON (changeUser.username=s_relay_email_notification.changeby AND changeUser.status='EmailVerified')
             INNER JOIN m_prj_risk ON (s_relay_email_notification.type='Project-Risk' AND m_prj_risk.id=s_relay_email_notification.typeId)
+            INNER JOIN s_user AS changeUser ON (changeUser.username=s_relay_email_notification.changeby)
             INNER JOIN s_account ON (s_relay_email_notification.sAccountId=s_account.id))
         UNION
         (SELECT s_relay_email_notification.id,
@@ -593,8 +594,8 @@
         NULL AS notifiers_timezone, NULL AS notifiers_email, NULL AS notifiers_language,
         NULL AS notifiers_accountId
         FROM s_relay_email_notification
-            INNER JOIN s_user AS changeUser ON (changeUser.username=s_relay_email_notification.changeby AND changeUser.status='EmailVerified')
             INNER JOIN m_tracker_component ON (s_relay_email_notification.type='Project-Component' AND m_tracker_component.id=s_relay_email_notification.typeId)
+            INNER JOIN s_user AS changeUser ON (changeUser.username=s_relay_email_notification.changeby)
             INNER JOIN s_account ON (s_relay_email_notification.sAccountId=s_account.id))
         UNION
         (SELECT s_relay_email_notification.id,
@@ -612,8 +613,8 @@
         NULL AS notifiers_timezone, NULL AS notifiers_email, NULL AS notifiers_language,
         NULL AS notifiers_accountId
         FROM s_relay_email_notification
-            INNER JOIN s_user AS changeUser ON (changeUser.username=s_relay_email_notification.changeby AND changeUser.status='EmailVerified')
             INNER JOIN m_tracker_version ON (s_relay_email_notification.type='Project-Version' AND m_tracker_version.id=s_relay_email_notification.typeId)
+            INNER JOIN s_user AS changeUser ON (changeUser.username=s_relay_email_notification.changeby)
             INNER JOIN s_account ON (s_relay_email_notification.sAccountId=s_account.id))
         ]]>
     </select>

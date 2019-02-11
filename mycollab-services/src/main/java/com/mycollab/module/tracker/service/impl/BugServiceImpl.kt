@@ -62,7 +62,7 @@ import javax.sql.DataSource
 @Service
 @Transactional
 @Traceable(nameField = "name", extraFieldName = "projectid")
-@Watchable(userFieldName = "assignuser")
+@Watchable(userFieldName = "assignuser", extraTypeId = "projectid")
 class BugServiceImpl(private val bugMapper: BugMapper,
                      private val bugMapperExt: BugMapperExt,
                      private val asyncEventBus: AsyncEventBus,

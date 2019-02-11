@@ -77,9 +77,9 @@ class ProjectRoleServiceImpl(private val roleMapper: ProjectRoleMapper,
     override fun findProjectsPermissions(username: String?, projectIds: List<Int>?, sAccountId: Int): List<Tuple2<Int, PermissionMap>> {
         val permissions = rolePermissionMapperExt.findProjectsPermissions(username, projectIds, sAccountId)
         return permissions.map {
-            val permissionVal = it.item2
+            val permissionVal = it.permissionVal
             val permissionMap = PermissionMap.fromJsonString(permissionVal)
-            Tuple2(it.item1, permissionMap)
+            Tuple2(it.roleId, permissionMap)
         }.toCollection(mutableListOf())
     }
 

@@ -70,15 +70,6 @@ class PermissionMap : ValuedBean() {
      * @param permissionItem
      * @return
      */
-    fun canBeFalse(permissionItem: String): Boolean {
-        val value = perMap[permissionItem]
-        return value != null && BooleanPermissionFlag.beFalse(value as Int?)
-    }
-
-    /**
-     * @param permissionItem
-     * @return
-     */
     fun canRead(permissionItem: String): Boolean {
         val value = perMap[permissionItem]
         return value != null && AccessPermissionFlag.canRead((value as Int?)!!)
@@ -112,6 +103,16 @@ class PermissionMap : ValuedBean() {
 
         private val LOG = LoggerFactory.getLogger(PermissionMap::class.java)
 
+        @JvmField
+        val ADMIN_ROLE_MAP = buildAdminPermissionCollection()
+
+        @JvmField
+        val EMPLOYEE_ROLE_MAP = buildEmployeePermissionCollection()
+
+        @JvmField
+        val GUESS_ROLE_MAP = buildGuestPermissionCollection()
+
+
         /**
          * @param json
          * @return
@@ -130,8 +131,7 @@ class PermissionMap : ValuedBean() {
         /**
          * @return
          */
-        @JvmStatic
-        fun buildAdminPermissionCollection(): PermissionMap {
+        private fun buildAdminPermissionCollection(): PermissionMap {
             val permissionMap = PermissionMap()
 
             RolePermissionCollections.ACCOUNT_PERMISSION_ARR.forEach { (key) ->
@@ -148,8 +148,7 @@ class PermissionMap : ValuedBean() {
         /**
          * @return
          */
-        @JvmStatic
-        fun buildEmployeePermissionCollection(): PermissionMap {
+        private fun buildEmployeePermissionCollection(): PermissionMap {
             val permissionMap = PermissionMap()
 
             RolePermissionCollections.ACCOUNT_PERMISSION_ARR.forEach {
@@ -171,8 +170,7 @@ class PermissionMap : ValuedBean() {
         /**
          * @return
          */
-        @JvmStatic
-        fun buildGuestPermissionCollection(): PermissionMap {
+        private fun buildGuestPermissionCollection(): PermissionMap {
             val permissionMap = PermissionMap()
 
             RolePermissionCollections.ACCOUNT_PERMISSION_ARR.forEach {

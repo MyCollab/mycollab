@@ -39,7 +39,7 @@ public class LazyPopupView extends PopupView {
             }
         });
         ((PopupContent) getContent()).setDimensionConstraint(getConstraintWidth(), getConstraintHeight());
-        this.setStyleName("block-popupedit");
+        this.setStyleName(WebThemes.BLOCK_POPUP_EDIT);
         this.setHideOnMouseOut(false);
     }
 

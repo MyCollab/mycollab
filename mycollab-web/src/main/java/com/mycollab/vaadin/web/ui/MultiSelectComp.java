@@ -23,6 +23,7 @@ import com.mycollab.core.utils.StringUtils;
 import com.mycollab.vaadin.UserUIContext;
 import com.vaadin.ui.*;
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.vaadin.hene.popupbutton.PopupButton;
@@ -148,19 +149,23 @@ public abstract class MultiSelectComp<T> extends CustomField<List<T>> {
     }
 
     private void displaySelectedItems() {
-        componentsText.setReadOnly(false);
-        componentsText.setValue(selectedItems.size() + " selected");
-        componentsText.setReadOnly(true);
-        Ul ul = new Ul();
-        try {
-            for (T item : selectedItems) {
-                String objDisplayName = (String) PropertyUtils.getProperty(item, propertyDisplayField);
-                ul.appendChild(new Li().appendText(objDisplayName));
+        if (CollectionUtils.isNotEmpty(selectedItems)) {
+            componentsText.setReadOnly(false);
+            componentsText.setValue(selectedItems.size() + " selected");
+            componentsText.setReadOnly(true);
+            Ul ul = new Ul();
+            try {
+                for (T item : selectedItems) {
+                    String objDisplayName = (String) PropertyUtils.getProperty(item, propertyDisplayField);
+                    ul.appendChild(new Li().appendText(objDisplayName));
+                }
+            } catch (Exception e) {
+                LOG.error("Error when build tooltip", e);
             }
-        } catch (Exception e) {
-            LOG.error("Error when build tooltip", e);
+            componentsText.setDescription(ul.write());
+        } else {
+            componentsText.setValue("");
         }
-        componentsText.setDescription(ul.write());
     }
 
     public void setSelectedItems(List<T> selectedValues) {

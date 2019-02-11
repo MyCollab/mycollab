@@ -28,11 +28,11 @@ import com.mycollab.module.tracker.domain.Version
 @IgnoreCacheClass
 interface BugRelatedItemService : IService {
 
-    fun saveAffectedVersionsOfBug(bugId: Int, versions: List<Version>)
+    fun saveAffectedVersionsOfBug(bugId: Int, versions: List<Version>?)
 
-    fun saveFixedVersionsOfBug(bugId: Int, versions: List<Version>)
+    fun saveFixedVersionsOfBug(bugId: Int, versions: List<Version>?)
 
-    fun saveComponentsOfBug(bugId: Int, components: List<Component>)
+    fun saveComponentsOfBug(bugId: Int, components: List<Component>?)
 
     fun updateAffectedVersionsOfBug(bugId: Int, versions: List<Version>?)
 

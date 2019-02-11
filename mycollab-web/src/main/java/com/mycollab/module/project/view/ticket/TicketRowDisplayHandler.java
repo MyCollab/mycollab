@@ -24,7 +24,6 @@ import com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.mycollab.html.DivLessFormatter;
 import com.mycollab.module.file.StorageUtils;
 import com.mycollab.module.project.ProjectLinkGenerator;
-import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.domain.ProjectTicket;
 import com.mycollab.module.project.i18n.OptionI18nEnum.MilestoneStatus;
 import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
@@ -80,20 +79,14 @@ public class TicketRowDisplayHandler implements IBeanList.RowDisplayHandler<Proj
         A ticketLink = new A().setId("tag" + TooltipHelper.TOOLTIP_ID);
         ticketLink.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(ticket.getType(), ticket.getTypeId() + ""));
         ticketLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction());
-        if (ProjectTypeConstants.BUG.equals(ticket.getType()) || ProjectTypeConstants.TASK.equals(ticket.getType())) {
-            if (displayPrjShortname) {
-                ticketLink.appendText(String.format("[%s-%d] - %s", ticket.getProjectShortName(), ticket.getExtraTypeId(),
-                        ticket.getName()));
-            } else {
-                ticketLink.appendText(ticket.getName());
-            }
-            ticketLink.setHref(ProjectLinkGenerator.generateProjectItemLink(ticket.getProjectShortName(),
-                    ticket.getProjectId(), ticket.getType(), ticket.getExtraTypeId() + ""));
+
+        if (displayPrjShortname) {
+            ticketLink.appendText(String.format("[%s] - %s", ticket.getProjectShortName(), ticket.getName()));
         } else {
             ticketLink.appendText(ticket.getName());
-            ticketLink.setHref(ProjectLinkGenerator.generateProjectItemLink(ticket.getProjectShortName(),
-                    ticket.getProjectId(), ticket.getType(), ticket.getTypeId() + ""));
         }
+        ticketLink.setHref(ProjectLinkGenerator.generateProjectItemLink(ticket.getProjectShortName(),
+                ticket.getProjectId(), ticket.getType(), ticket.getExtraTypeId() + ""));
 
         issueDiv.appendChild(ticketLink);
         if (ticket.isClosed()) {

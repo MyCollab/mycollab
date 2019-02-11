@@ -40,6 +40,7 @@ class ProjectRoleServiceTest(@Autowired val projectRoleService: ProjectRoleServi
     @DataSet
     fun testFindProjectPermissions() {
         val permissions = projectRoleService.findProjectsPermissions("haiphucnguyen@gmail.com", Arrays.asList(1), 1)
-
+        assertThat(permissions.size).isEqualTo(1)
+        assertThat(permissions[0].item1).isEqualTo(1)
     }
 }

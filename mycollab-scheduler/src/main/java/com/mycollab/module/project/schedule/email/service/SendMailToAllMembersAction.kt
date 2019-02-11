@@ -18,7 +18,6 @@ package com.mycollab.module.project.schedule.email.service
 
 import com.google.common.eventbus.AsyncEventBus
 import com.hp.gagawa.java.elements.A
-import com.mycollab.common.ModuleNameConstants
 import com.mycollab.common.NotificationType
 import com.mycollab.common.domain.MailRecipientField
 import com.mycollab.common.domain.SimpleAuditLog
@@ -40,7 +39,6 @@ import com.mycollab.module.mail.service.IContentGenerator
 import com.mycollab.module.project.ProjectLinkGenerator
 import com.mycollab.module.project.domain.ProjectRelayEmailNotification
 import com.mycollab.module.project.domain.SimpleProjectMember
-import com.mycollab.module.project.event.BatchInsertNotificationItemsEvent
 import com.mycollab.module.project.service.ProjectMemberService
 import com.mycollab.module.project.service.ProjectNotificationSettingService
 import com.mycollab.module.project.service.ProjectService
@@ -102,8 +100,6 @@ abstract class SendMailToAllMembersAction<B> : SendingRelayEmailNotificationActi
         if (notifiers.isNotEmpty()) {
             onInitAction(projectRelayEmailNotification)
             bean = getBeanInContext(projectRelayEmailNotification)
-            val notifyUsersForCreateAction = mutableListOf<String>()
-            val notificationMessages = mutableListOf<String>()
             if (bean != null) {
                 contentGenerator.putVariable("logoPath", LinkUtils.accountLogoPath(notification.saccountid, notification.accountLogo))
                 notifiers.forEach {
@@ -120,13 +116,7 @@ abstract class SendMailToAllMembersAction<B> : SendingRelayEmailNotificationActi
                     val recipients = listOf(userMail)
                     extMailService.sendHTMLMail(applicationConfiguration.notifyEmail, applicationConfiguration.siteName, recipients,
                             getCreateSubject(context), contentGenerator.parseFile("mailProjectItemCreatedNotifier.ftl", context.locale))
-                    if (it.username != notification.changeby) {
-                        notifyUsersForCreateAction.add(it.username)
-                        notificationMessages.add(getCreateSubjectNotification(context))
-                    }
                 }
-                eventBus.post(BatchInsertNotificationItemsEvent(notifyUsersForCreateAction, ModuleNameConstants.PRJ,
-                        getType(), getTypeId(), notificationMessages, notification.saccountid))
             }
         }
     }
@@ -149,8 +139,6 @@ abstract class SendMailToAllMembersAction<B> : SendingRelayEmailNotificationActi
                 searchCriteria.saccountid = null
                 val comments = commentService.findPageableListByCriteria(BasicSearchRequest(searchCriteria, 0, 5))
                 contentGenerator.putVariable("lastComments", comments)
-                val notifyUsersForUpdateAction = mutableListOf<String>()
-                val notificationMessages = mutableListOf<String>()
 
                 notifiers.forEach {
                     val context = MailContext<B>(notification, it, siteUrl)
@@ -171,14 +159,7 @@ abstract class SendMailToAllMembersAction<B> : SendingRelayEmailNotificationActi
                     val recipients = listOf(userMail)
                     extMailService.sendHTMLMail(applicationConfiguration.notifyEmail, applicationConfiguration.siteName, recipients,
                             getUpdateSubject(context), contentGenerator.parseFile("mailProjectItemUpdatedNotifier.ftl", context.locale))
-                    if (it.username != notification.changeby) {
-                        notifyUsersForUpdateAction.add(it.username)
-                        notificationMessages.add(getUpdateSubjectNotification(context))
-                    }
                 }
-
-                eventBus.post(BatchInsertNotificationItemsEvent(notifyUsersForUpdateAction, ModuleNameConstants.PRJ,
-                        getType(), getTypeId(), notificationMessages, notification.saccountid))
             }
         }
     }
@@ -198,9 +179,6 @@ abstract class SendMailToAllMembersAction<B> : SendingRelayEmailNotificationActi
                 contentGenerator.putVariable("lastComments", comments)
                 contentGenerator.putVariable("logoPath", LinkUtils.accountLogoPath(notification.saccountid, notification.accountLogo))
 
-                val notifyUsersForCommentAction = mutableListOf<String>()
-                val notificationMessages = mutableListOf<String>()
-
                 notifiers.forEach {
                     val context = MailContext<B>(notification, it, siteUrl)
                     buildExtraTemplateVariables(context)
@@ -213,13 +191,7 @@ abstract class SendMailToAllMembersAction<B> : SendingRelayEmailNotificationActi
                     val recipients = listOf(userMail)
                     extMailService.sendHTMLMail(applicationConfiguration.notifyEmail, applicationConfiguration.siteName, recipients,
                             getCommentSubject(context), contentGenerator.parseFile("mailProjectItemCommentNotifier.ftl", context.locale))
-                    if (it.username != notification.changeby) {
-                        notifyUsersForCommentAction.add(it.username)
-                        notificationMessages.add(getCommentSubjectNotification(context))
-                    }
                 }
-                eventBus.post(BatchInsertNotificationItemsEvent(notifyUsersForCommentAction, ModuleNameConstants.PRJ,
-                        getType(), getTypeId(), notificationMessages, notification.saccountid))
             }
         }
     }

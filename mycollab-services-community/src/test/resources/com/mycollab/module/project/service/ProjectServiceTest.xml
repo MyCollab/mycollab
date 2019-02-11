@@ -55,4 +55,8 @@
 
     <s_activitystream typeId="1" id="3" type="Project-Risk" module="Project"
                       sAccountId="1" extraTypeId="4" createdUser="admin" action="create"/>
+
+    <s_relay_email_notification id="1" sAccountId="1" type="Project-Bug" typeId="1" action="AddComment" changeBy="admin"/>
+    <m_monitor_item id="1" username="admin" createdTime="2013-04-10 13:29:23" type="Project-Bug" typeId="1" sAccountId="1"/>
+    <m_monitor_item id="2" username="user2" createdTime="2013-04-10 13:29:23" type="Project-Bug" typeId="1" sAccountId="1"/>
 </dataset>

@@ -1804,8 +1804,8 @@ a.pending {
 	margin-bottom: 12px;
 }
 
-.margin-left {
-	margin-left: 24px;
+.margin-left-half {
+	margin-left: 12px;
 }
 
 .margin-right {
@@ -2031,6 +2031,13 @@ a.pending {
 	text-align: center;
 }
 
+.v-label.middle {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translateX(-50%) translateY(-50%);
+}
+
 .circle-box, img .circle-box {
 	border-radius: 50%;
 	background-color: #b9ecfb;
@@ -2140,11 +2147,8 @@ div.v-window .v-panel {
 
 .block-popupedit {
 	text-decoration: none;
-	-webkit-border-radius: 5px;
-	-moz-border-radius: 5px;
-	border-radius: 5px;
-	padding: 0px 5px 0px 0px;
-	margin: 0px 3px 0px 0px;
+	border-radius: 6px;
+	margin: 0px 0px 0px 12px;
 	color: #8c8c8c !important;
 	font-size: 13px;
 }
@@ -2426,7 +2430,6 @@ div.v-window .v-panel {
 
 .editable-field {
 	display: flex;
-	min-height: 21px;
 }
 
 .editable-field:hover .toggle {
@@ -2434,7 +2437,7 @@ div.v-window .v-panel {
 }
 
 .editable-field:hover .toggle .v-button-wrap {
-	padding: 0px;
+	padding: 0px 0px 0px 12px;
 	color: #999;
 }
 
@@ -16654,8 +16657,8 @@ a.pending {
 	margin-bottom: 12px;
 }
 
-.margin-left {
-	margin-left: 24px;
+.margin-left-half {
+	margin-left: 12px;
 }
 
 .margin-right {
@@ -16881,6 +16884,13 @@ a.pending {
 	text-align: center;
 }
 
+.v-label.middle {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translateX(-50%) translateY(-50%);
+}
+
 .circle-box, img .circle-box {
 	border-radius: 50%;
 	background-color: #b9ecfb;
@@ -16990,11 +17000,8 @@ div.v-window .v-panel {
 
 .block-popupedit {
 	text-decoration: none;
-	-webkit-border-radius: 5px;
-	-moz-border-radius: 5px;
-	border-radius: 5px;
-	padding: 0px 5px 0px 0px;
-	margin: 0px 3px 0px 0px;
+	border-radius: 6px;
+	margin: 0px 0px 0px 12px;
 	color: #8c8c8c !important;
 	font-size: 13px;
 }
@@ -17276,7 +17283,6 @@ div.v-window .v-panel {
 
 .editable-field {
 	display: flex;
-	min-height: 21px;
 }
 
 .editable-field:hover .toggle {
@@ -17284,7 +17290,7 @@ div.v-window .v-panel {
 }
 
 .editable-field:hover .toggle .v-button-wrap {
-	padding: 0px;
+	padding: 0px 0px 0px 12px;
 	color: #999;
 }
 
