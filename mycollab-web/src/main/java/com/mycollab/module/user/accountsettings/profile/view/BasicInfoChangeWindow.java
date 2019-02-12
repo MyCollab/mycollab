@@ -65,9 +65,9 @@ class BasicInfoChangeWindow extends MWindow {
     }
 
     private void initUI() {
-        final MVerticalLayout mainLayout = new MVerticalLayout().withMargin(true).withFullWidth();
+        MVerticalLayout mainLayout = new MVerticalLayout().withMargin(true).withFullWidth();
 
-        final GridFormLayoutHelper passInfo = GridFormLayoutHelper.defaultFormLayoutHelper(LayoutType.ONE_COLUMN);
+        GridFormLayoutHelper passInfo = GridFormLayoutHelper.defaultFormLayoutHelper(LayoutType.ONE_COLUMN);
 
         passInfo.addComponent(txtFirstName, UserUIContext.getMessage(UserI18nEnum.FORM_FIRST_NAME), 0, 0);
         passInfo.addComponent(txtLastName, UserUIContext.getMessage(UserI18nEnum.FORM_LAST_NAME), 0, 1);
@@ -128,7 +128,7 @@ class BasicInfoChangeWindow extends MWindow {
         user.setLanguage(languageBox.getValue());
         user.setTimezone(timeZoneField.getValue());
 
-        final UserService userService = AppContextUtil.getSpringBean(UserService.class);
+        UserService userService = AppContextUtil.getSpringBean(UserService.class);
         userService.updateWithSession(user, UserUIContext.getUsername());
         close();
         Utils.reloadPage();
