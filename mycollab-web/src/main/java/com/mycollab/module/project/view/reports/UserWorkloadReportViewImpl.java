@@ -30,6 +30,7 @@ import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.AsyncInvoker;
 import com.mycollab.vaadin.TooltipHelper;
 import com.mycollab.vaadin.UserUIContext;
+import com.mycollab.vaadin.event.HasSearchHandlers;
 import com.mycollab.vaadin.mvp.AbstractVerticalPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.ELabel;
@@ -68,9 +69,8 @@ public class UserWorkloadReportViewImpl extends AbstractVerticalPageView impleme
     }
 
     @Override
-    public void display() {
-        ProjectTicketSearchCriteria searchCriteria = new ProjectTicketSearchCriteria();
-        queryTickets(searchCriteria);
+    public HasSearchHandlers<ProjectTicketSearchCriteria> getSearchHandlers() {
+        return this.searchPanel;
     }
 
     @Override
@@ -94,10 +94,9 @@ public class UserWorkloadReportViewImpl extends AbstractVerticalPageView impleme
                     projects.forEach(project -> {
                         wrapBody.addComponent(buildProjectLink(project));
 
-                        ProjectTicketSearchCriteria ticketSearchCriteria = new ProjectTicketSearchCriteria();
-                        ticketSearchCriteria.setProjectIds(new SetSearchField<>(project.getId()));
-                        ticketSearchCriteria.setOrderFields(Arrays.asList(new OrderField("assignUser", SearchCriteria.ASC)));
-                        List<ProjectTicket> ticketsByCriteria = (List<ProjectTicket>) projectTicketService.findTicketsByCriteria(new BasicSearchRequest<>(ticketSearchCriteria));
+                        baseCriteria.setProjectIds(new SetSearchField<>(project.getId()));
+                        baseCriteria.setOrderFields(Arrays.asList(new OrderField("assignUser", SearchCriteria.ASC)));
+                        List<ProjectTicket> ticketsByCriteria = (List<ProjectTicket>) projectTicketService.findTicketsByCriteria(new BasicSearchRequest<>(baseCriteria));
                         wrapBody.addComponent(buildProjectTicketsLayout(ticketsByCriteria));
                         push();
                     });
@@ -122,11 +121,11 @@ public class UserWorkloadReportViewImpl extends AbstractVerticalPageView impleme
                             ticketTypes.add(ProjectTypeConstants.RISK);
                         }
 
-                        ProjectTicketSearchCriteria ticketSearchCriteria = new ProjectTicketSearchCriteria();
-                        ticketSearchCriteria.setProjectIds(new SetSearchField<>(projectId));
+
+                        baseCriteria.setProjectIds(new SetSearchField<>(projectId));
                         if (!ticketTypes.isEmpty()) {
-                            ticketSearchCriteria.setTypes(new SetSearchField<>(ticketTypes));
-                            List<ProjectTicket> ticketsByCriteria = (List<ProjectTicket>) projectTicketService.findTicketsByCriteria(new BasicSearchRequest<>(ticketSearchCriteria));
+                            baseCriteria.setTypes(new SetSearchField<>(ticketTypes));
+                            List<ProjectTicket> ticketsByCriteria = (List<ProjectTicket>) projectTicketService.findTicketsByCriteria(new BasicSearchRequest<>(baseCriteria));
                             wrapBody.addComponent(buildProjectTicketsLayout(ticketsByCriteria));
                             push();
                         }

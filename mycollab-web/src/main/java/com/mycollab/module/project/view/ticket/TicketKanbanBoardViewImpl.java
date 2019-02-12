@@ -1,22 +1,22 @@
 package com.mycollab.module.project.view.ticket;
 
+import com.google.common.base.MoreObjects;
 import com.google.common.eventbus.Subscribe;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Div;
 import com.hp.gagawa.java.elements.Img;
 import com.hp.gagawa.java.elements.Text;
+import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.i18n.OptionI18nEnum;
 import com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.mycollab.db.arguments.BasicSearchRequest;
 import com.mycollab.db.arguments.SetSearchField;
-import com.mycollab.html.DivLessFormatter;
 import com.mycollab.module.file.StorageUtils;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectLinkGenerator;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.domain.ProjectTicket;
 import com.mycollab.module.project.domain.Risk;
-import com.mycollab.module.project.domain.SimpleProjectMember;
 import com.mycollab.module.project.domain.Task;
 import com.mycollab.module.project.domain.criteria.ProjectTicketSearchCriteria;
 import com.mycollab.module.project.event.TicketEvent;
@@ -51,10 +51,9 @@ import com.vaadin.event.dd.DropHandler;
 import com.vaadin.event.dd.acceptcriteria.AcceptCriterion;
 import com.vaadin.event.dd.acceptcriteria.Not;
 import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.shared.ui.dd.HorizontalDropLocation;
 import com.vaadin.shared.ui.dd.VerticalDropLocation;
 import com.vaadin.ui.*;
-import fi.jasoft.dragdroplayouts.DDHorizontalLayout;
+import com.vaadin.ui.themes.ValoTheme;
 import fi.jasoft.dragdroplayouts.DDVerticalLayout;
 import fi.jasoft.dragdroplayouts.client.ui.LayoutDragMode;
 import fi.jasoft.dragdroplayouts.events.LayoutBoundTransferable;
@@ -197,7 +196,7 @@ public class TicketKanbanBoardViewImpl extends AbstractVerticalPageView implemen
                     if (CollectionUtils.isNotEmpty(tickets)) {
                         tickets.forEach(ticket -> {
                             String status = ticket.getStatus();
-                            String assignee = ticket.getAssignUser();
+                            String assignee = MoreObjects.firstNonNull(ticket.getAssignUser(), "");
                             Pair pair = new Pair(assignee, status);
                             KanbanBlock kanbanBlock = kanbanBlocks.get(pair);
                             if (kanbanBlock != null) {
@@ -215,33 +214,47 @@ public class TicketKanbanBoardViewImpl extends AbstractVerticalPageView implemen
         ProjectMemberService projectMemberService = AppContextUtil.getSpringBean(ProjectMemberService.class);
         List<SimpleUser> activeMembers = projectMemberService.getActiveUsersInProject(CurrentProjectVariables.getProjectId(), AppUI.getAccountId());
 
-        GridLayout gridLayout = new GridLayout(statuses.length + 1, activeMembers.size() + 1);
-        gridLayout.setSpacing(true);
-        for (int i = 0; i < statuses.length; i++) {
-            gridLayout.addComponent(new ELabel(""), i + 1, 0);
-        }
-
-        for (int i = 0; i < activeMembers.size(); i++) {
-            Img img = new Img("", StorageUtils.getAvatarPath(activeMembers.get(i).getAvatarid(), 32))
-                    .setCSSClass((WebThemes.CIRCLE_BOX));
-            SimpleUser member = activeMembers.get(i);
-            Div userDiv = new DivLessFormatter().appendChild(img, new A(ProjectLinkGenerator.generateProjectMemberLink(CurrentProjectVariables.getProjectId(), member.getUsername()))
-                    .appendText(member.getDisplayName()));
-            MVerticalLayout assigneeBox = new MVerticalLayout(ELabel.html(userDiv.write()).withFullWidth()).withMargin(true).withStyleName("assignee-block").withFullHeight().withWidth("250px");
-            gridLayout.addComponent(assigneeBox, 0, i + 1);
-        }
-
         kanbanBlocks = new ConcurrentHashMap<>();
-        for (int i = 0; i < statuses.length; i++) {
-            for (int j = 0; j < activeMembers.size(); j++) {
-                String assignee = activeMembers.get(j).getUsername();
-                String status = statuses[i].name();
-                KanbanBlock kanbanBlock = new KanbanBlock(assignee, status);
-                kanbanBlocks.put(new Pair(assignee, status), kanbanBlock);
-                gridLayout.addComponent(kanbanBlock, i+1, j+1);
+        kanbanLayout.add(new NotAssigneeLayout());
+        activeMembers.forEach(assignee -> kanbanLayout.addComponent(new MemberLayout(assignee)));
+    }
+
+    private class MemberLayout extends MVerticalLayout {
+        private SimpleUser member;
+        private MHorizontalLayout bodyLayout;
+
+        MemberLayout(SimpleUser member) {
+            withMargin(false);
+            this.member = member;
+            bodyLayout = new MHorizontalLayout();
+            for (StatusI18nEnum status : statuses) {
+                KanbanBlock kanbanBlock = new KanbanBlock(member.getUsername(), status.name());
+                kanbanBlocks.put(new Pair(member.getUsername(), status.name()), kanbanBlock);
+                bodyLayout.with(kanbanBlock);
             }
+
+            Img userAvatar = new Img("", StorageUtils.getAvatarPath(member.getAvatarid(), 16))
+                    .setCSSClass(WebThemes.CIRCLE_BOX);
+            A userLink = new A(ProjectLinkGenerator.generateProjectMemberLink(CurrentProjectVariables.getProjectId(), member.getUsername())).appendText(member.getDisplayName());
+            Div userDiv = new Div().appendChild(userAvatar, new Text(" "), userLink);
+            this.with(ELabel.html(userDiv.write()).withStyleName(ValoTheme.LABEL_H3, WebThemes.MARGIN_TOP, WebThemes.MARGIN_BOTTOM), bodyLayout);
         }
-        kanbanLayout.addComponent(gridLayout);
+    }
+
+    private class NotAssigneeLayout extends MVerticalLayout {
+        private MHorizontalLayout bodyLayout;
+
+        NotAssigneeLayout() {
+            withMargin(false);
+            bodyLayout = new MHorizontalLayout();
+            for (StatusI18nEnum status : statuses) {
+                KanbanBlock kanbanBlock = new KanbanBlock("", status.name());
+                kanbanBlocks.put(new Pair("", status.name()), kanbanBlock);
+                bodyLayout.with(kanbanBlock);
+            }
+
+            with(new ELabel(UserUIContext.getMessage(GenericI18Enum.OPT_UNDEFINED)).withStyleName(ValoTheme.LABEL_NO_MARGIN, ValoTheme.LABEL_H3), bodyLayout);
+        }
     }
 
     private static class KanbanBlockItem extends BlockRowRender {
@@ -276,11 +289,9 @@ public class TicketKanbanBoardViewImpl extends AbstractVerticalPageView implemen
 
             this.addComponent(footer);
         }
-
-
     }
 
-    private class KanbanBlock extends MVerticalLayout implements IBlockContainer {
+    private static class KanbanBlock extends MVerticalLayout implements IBlockContainer {
         private String status;
         private String assignee;
 
@@ -298,7 +309,7 @@ public class TicketKanbanBoardViewImpl extends AbstractVerticalPageView implemen
             dragLayoutContainer = new DDVerticalLayout();
             dragLayoutContainer.setMargin(false);
             dragLayoutContainer.setSpacing(true);
-            dragLayoutContainer.setComponentVerticalDropRatio(0.3f);
+            dragLayoutContainer.setComponentVerticalDropRatio(0.1f);
             dragLayoutContainer.setDragMode(LayoutDragMode.CLONE);
             dragLayoutContainer.setDropHandler(new DropHandler() {
                 @Override

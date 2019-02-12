@@ -143,7 +143,7 @@ public class AccountSettingBreadcrumb extends MHorizontalLayout implements Cache
         removeAllComponents();
         this.addComponent(ELabel.html(VaadinIcons.HOME.getHtml()));
         this.addComponent(ELabel.html(VaadinIcons.ANGLE_RIGHT.getHtml()));
-        this.addComponent(new MButton(UserUIContext.getMessage(AdminI18nEnum.VIEW_SETTING)).withStyleName(WebThemes.BUTTON_LINK));
+        this.addComponent(new MButton(UserUIContext.getMessage(AdminI18nEnum.VIEW_CUSTOMIZATION)).withStyleName(WebThemes.BUTTON_LINK));
         AppUI.addFragment("account/setting/general", UserUIContext.getMessage(AdminI18nEnum.VIEW_SETTING));
     }
 

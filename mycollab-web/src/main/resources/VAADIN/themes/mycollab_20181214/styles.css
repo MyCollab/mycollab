@@ -1842,19 +1842,9 @@ a.pending {
 }
 
 .field-note {
-	border-radius: 5px;
-	padding: 3px 5px;
+	border-radius: 6px;
+	padding: 3px 6px;
 	margin-right: 5px;
-	color: #ffffff;
-	background-color: #46be8a;
-}
-
-.field-note:hover {
-	background-color: #3dae7d;
-}
-
-.field-note a:visited, .field-note a:link {
-	color: #ffffff;
 }
 
 .arrow-btn {
@@ -2029,13 +2019,6 @@ a.pending {
 
 .v-label.center {
 	text-align: center;
-}
-
-.v-label.middle {
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translateX(-50%) translateY(-50%);
 }
 
 .circle-box, img .circle-box {
@@ -16695,19 +16678,9 @@ a.pending {
 }
 
 .field-note {
-	border-radius: 5px;
-	padding: 3px 5px;
+	border-radius: 6px;
+	padding: 3px 6px;
 	margin-right: 5px;
-	color: #ffffff;
-	background-color: #46be8a;
-}
-
-.field-note:hover {
-	background-color: #3dae7d;
-}
-
-.field-note a:visited, .field-note a:link {
-	color: #ffffff;
 }
 
 .arrow-btn {
@@ -16882,13 +16855,6 @@ a.pending {
 
 .v-label.center {
 	text-align: center;
-}
-
-.v-label.middle {
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translateX(-50%) translateY(-50%);
 }
 
 .circle-box, img .circle-box {

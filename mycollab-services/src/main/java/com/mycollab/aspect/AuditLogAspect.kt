@@ -93,37 +93,6 @@ class AuditLogAspect(private var cacheService: CacheService,
         val isSelective = "updateSelectiveWithSession" == joinPoint.signature.name
 
         try {
-            val watchableAnnotation = cls.getAnnotation(Watchable::class.java)
-            if (watchableAnnotation != null) {
-                val monitorType = ClassInfoMap.getType(cls)
-                val sAccountId = PropertyUtils.getProperty(bean, "saccountid") as Int
-                val typeId = PropertyUtils.getProperty(bean, "id") as Int
-
-                var extraTypeId: Int? = null
-                if ("" != watchableAnnotation.extraTypeId) {
-                    extraTypeId = PropertyUtils.getProperty(bean, watchableAnnotation.extraTypeId) as Int
-                }
-
-                val monitorItem = MonitorItem()
-                monitorItem.createdtime = LocalDateTime.now()
-                monitorItem.type = monitorType
-                monitorItem.typeid = "$typeId"
-                monitorItem.extratypeid = extraTypeId
-                monitorItem.username = username
-                monitorItem.saccountid = sAccountId
-                monitorItemService.saveWithSession(monitorItem, username)
-
-                // check whether the current user is in monitor list, if not add him in
-                if (watchableAnnotation.userFieldName != "") {
-                    val moreUser = PropertyUtils.getProperty(bean, watchableAnnotation.userFieldName) as? String
-                    if (moreUser != null && moreUser != username) {
-                        monitorItem.id = null
-                        monitorItem.username = moreUser
-                        monitorItemService.saveWithSession(monitorItem, moreUser)
-                    }
-                }
-            }
-
             val traceableAnnotation = cls.getAnnotation(Traceable::class.java)
             if (traceableAnnotation != null) {
                 try {

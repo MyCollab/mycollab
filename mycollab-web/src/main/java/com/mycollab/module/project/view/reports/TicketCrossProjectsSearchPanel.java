@@ -37,7 +37,7 @@ public class TicketCrossProjectsSearchPanel extends DefaultGenericSearchPanel<Pr
     private ProjectTicketSearchCriteria searchCriteria;
 
     private static Param[] paramFields = new Param[]{
-            ProjectTicketSearchCriteria.p_projectIds,
+            /*ProjectTicketSearchCriteria.p_projectIds,*/
             ProjectTicketSearchCriteria.p_name, ProjectTicketSearchCriteria.p_startDate,
             ProjectTicketSearchCriteria.p_endDate, ProjectTicketSearchCriteria.p_dueDate};
 

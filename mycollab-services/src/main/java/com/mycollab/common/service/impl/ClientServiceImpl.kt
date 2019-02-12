@@ -3,7 +3,6 @@ package com.mycollab.common.service.impl
 import com.mycollab.aspect.ClassInfo
 import com.mycollab.aspect.ClassInfoMap
 import com.mycollab.aspect.Traceable
-import com.mycollab.aspect.Watchable
 import com.mycollab.common.ModuleNameConstants
 import com.mycollab.common.dao.ClientMapper
 import com.mycollab.common.dao.ClientMapperExt
@@ -21,7 +20,6 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 @Transactional
 @Traceable(nameField = "name")
-@Watchable(userFieldName = "assignuser")
 class ClientServiceImpl(private val accountMapper: ClientMapper,
                         private val accountMapperExt: ClientMapperExt) : DefaultService<Int, Client, ClientSearchCriteria>(), ClientService {
 

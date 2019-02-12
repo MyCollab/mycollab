@@ -1,6 +1,7 @@
 package com.mycollab.module.project.view.reports;
 
 import com.mycollab.module.project.domain.criteria.ProjectTicketSearchCriteria;
+import com.mycollab.vaadin.event.HasSearchHandlers;
 import com.mycollab.vaadin.mvp.PageView;
 
 /**
@@ -13,5 +14,5 @@ public interface UserWorkloadReportView extends PageView {
 
     ProjectTicketSearchCriteria getCriteria();
 
-    void display();
+    HasSearchHandlers<ProjectTicketSearchCriteria> getSearchHandlers();
 }

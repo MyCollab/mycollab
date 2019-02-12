@@ -20,7 +20,6 @@ import com.google.common.eventbus.AsyncEventBus
 import com.mycollab.aspect.ClassInfo
 import com.mycollab.aspect.ClassInfoMap
 import com.mycollab.aspect.Traceable
-import com.mycollab.aspect.Watchable
 import com.mycollab.cache.CleanCacheEvent
 import com.mycollab.common.ModuleNameConstants
 import com.mycollab.common.domain.GroupItem
@@ -62,7 +61,6 @@ import javax.sql.DataSource
 @Service
 @Transactional
 @Traceable(nameField = "name", extraFieldName = "projectid")
-@Watchable(userFieldName = "assignuser", extraTypeId = "projectid")
 class BugServiceImpl(private val bugMapper: BugMapper,
                      private val bugMapperExt: BugMapperExt,
                      private val asyncEventBus: AsyncEventBus,
@@ -111,7 +109,7 @@ class BugServiceImpl(private val bugMapper: BugMapper,
 
     @CleanCache
     fun postDirtyUpdate(sAccountId: Int?) {
-        asyncEventBus.post(CleanCacheEvent(sAccountId, arrayOf<Class<*>>(ProjectService::class.java, ProjectTicketService::class.java, ProjectMemberService::class.java, ProjectActivityStreamService::class.java, ItemTimeLoggingService::class.java, TagService::class.java, TimelineTrackingService::class.java, ProjectTicketService::class.java)))
+        asyncEventBus.post(CleanCacheEvent(sAccountId, arrayOf(ProjectService::class.java, ProjectTicketService::class.java, ProjectMemberService::class.java, ProjectActivityStreamService::class.java, ItemTimeLoggingService::class.java, TagService::class.java, TimelineTrackingService::class.java, ProjectTicketService::class.java)))
     }
 
     override fun updateSelectiveWithSession(record: BugWithBLOBs, username: String?): Int? {
