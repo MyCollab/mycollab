@@ -89,13 +89,9 @@ public class VerticalTabsheet extends CustomComponent {
         addTab(null, id, caption, null, resource);
     }
 
-    public void addTab(String id, String caption, String link, Resource resource) {
-        addTab(null, id, caption, link, resource);
-    }
-
     public void addTab(String parentId, String id, String caption, String link, Resource resource) {
         if (!hasTab(id)) {
-            final ButtonTab tab = new ButtonTab(id, caption, link);
+            ButtonTab tab = new ButtonTab(id, caption, link);
 
             tab.addClickListener(clickEvent -> {
                 if (!clickEvent.isCtrlKey() && !clickEvent.isMetaKey()) {
@@ -123,9 +119,7 @@ public class VerticalTabsheet extends CustomComponent {
                     tab.addStyleName("hide");
 
                     if (parentTab.getListeners(Button.ClickEvent.class).size() < 2) {
-                        parentTab.addClickListener((Button.ClickListener) event -> {
-                            parentTab.toggleGroupTabDisplay();
-                        });
+                        parentTab.addClickListener((Button.ClickListener) event -> parentTab.toggleGroupTabDisplay());
                     }
                 } else {
                     throw new MyCollabException("Not found parent tab with id " + parentId);

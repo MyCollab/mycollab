@@ -32,13 +32,11 @@ import org.vaadin.viritin.layouts.MVerticalLayout;
  */
 public abstract class ProjectListNoItemView extends VerticalLayout {
     public ProjectListNoItemView() {
-        MVerticalLayout content = new MVerticalLayout().withWidth("700px");
         ELabel image = ELabel.h2(viewIcon().getHtml()).withUndefinedWidth();
-
         ELabel title = ELabel.h2(viewTitle()).withUndefinedWidth();
         ELabel body = ELabel.html(viewHint()).withStyleName(WebThemes.LABEL_WORD_WRAP).withUndefinedWidth();
-        MHorizontalLayout links = createControlButtons();
-        content.with(image, title, body, links).alignAll(Alignment.TOP_CENTER);
+
+        MVerticalLayout content = new MVerticalLayout(image, title, body, createControlButtons()).withWidth("700px").alignAll(Alignment.TOP_CENTER);
         this.addComponent(content);
         this.setComponentAlignment(content, Alignment.MIDDLE_CENTER);
     }

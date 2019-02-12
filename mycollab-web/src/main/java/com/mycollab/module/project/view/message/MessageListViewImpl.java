@@ -35,9 +35,7 @@ import com.mycollab.module.project.domain.SimpleMessage;
 import com.mycollab.module.project.domain.criteria.MessageSearchCriteria;
 import com.mycollab.module.project.i18n.MessageI18nEnum;
 import com.mycollab.module.project.service.MessageService;
-import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.module.project.ui.components.ComponentUtils;
-import com.mycollab.module.project.ui.components.ProjectListNoItemView;
 import com.mycollab.module.project.ui.components.ProjectMemberBlock;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppUI;
@@ -85,16 +83,9 @@ public class MessageListViewImpl extends AbstractVerticalPageView implements Mes
     public void setCriteria(final MessageSearchCriteria criteria) {
         this.removeAllComponents();
         this.searchCriteria = criteria;
-        MessageService messageService = AppContextUtil.getSpringBean(MessageService.class);
-        int totalCount = messageService.getTotalCount(searchCriteria);
 
-        if (totalCount == 0) {
-            MessageListNoItemView messageListNoItemView = new MessageListNoItemView();
-            with(messageListNoItemView).expand(messageListNoItemView);
-        } else {
-            messageList.setSearchCriteria(searchCriteria);
-            with(searchPanel, bodyLayout).expand(bodyLayout);
-        }
+        messageList.setSearchCriteria(searchCriteria);
+        with(searchPanel, bodyLayout).expand(bodyLayout);
     }
 
     private class MessageRowDisplayHandler implements IBeanList.RowDisplayHandler<SimpleMessage> {
@@ -137,7 +128,6 @@ public class MessageListViewImpl extends AbstractVerticalPageView implements Mes
             deleteBtn.setVisible(CurrentProjectVariables.canAccess(ProjectRolePermissionCollections.MESSAGES));
 
             MHorizontalLayout rightHeader = new MHorizontalLayout(timePostLbl, deleteBtn).alignAll(Alignment.MIDDLE_RIGHT);
-
             messageHeader.with(leftHeader, rightHeader).expand(leftHeader);
 
             rowLayout.addComponent(messageHeader);
@@ -145,8 +135,7 @@ public class MessageListViewImpl extends AbstractVerticalPageView implements Mes
             SafeHtmlLabel messageContent = new SafeHtmlLabel(message.getMessage());
             rowLayout.addComponent(messageContent);
 
-            MHorizontalLayout notification = new MHorizontalLayout().withStyleName("notification");
-            notification.setSizeUndefined();
+            MHorizontalLayout notification = new MHorizontalLayout().withStyleName("notification").withUndefinedSize();
             if (message.getCommentsCount() > 0) {
                 MHorizontalLayout commentNotification = new MHorizontalLayout();
                 Label commentCountLbl = ELabel.html(String.format("%s %s", Integer.toString(message.getCommentsCount()), VaadinIcons.COMMENTS.getHtml()));
@@ -230,14 +219,14 @@ public class MessageListViewImpl extends AbstractVerticalPageView implements Mes
         TextField titleField = new MTextField().withFullWidth().withRequiredIndicatorVisible(true);
         gridFormLayoutHelper.addComponent(titleField, UserUIContext.getMessage(MessageI18nEnum.FORM_TITLE), 0, 0);
 
-        final RichTextArea descField = new RichTextArea();
+        RichTextArea descField = new RichTextArea();
         descField.setWidth("100%");
         descField.setHeight("200px");
         gridFormLayoutHelper.addComponent(descField, UserUIContext.getMessage(GenericI18Enum.FORM_DESCRIPTION), 0, 1);
         newMessageLayout.with(gridFormLayoutHelper.getLayout());
 
-        final AttachmentPanel attachmentPanel = new AttachmentPanel();
-        final CheckBox chkIsStick = new CheckBox(UserUIContext.getMessage(MessageI18nEnum.FORM_IS_STICK));
+        AttachmentPanel attachmentPanel = new AttachmentPanel();
+        CheckBox chkIsStick = new CheckBox(UserUIContext.getMessage(MessageI18nEnum.FORM_IS_STICK));
 
         MButton cancelBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
                 clickEvent -> {
@@ -285,37 +274,4 @@ public class MessageListViewImpl extends AbstractVerticalPageView implements Mes
         return this.searchPanel;
     }
 
-    private class MessageListNoItemView extends ProjectListNoItemView {
-        private static final long serialVersionUID = 6711716775690122182L;
-
-        @Override
-        protected VaadinIcons viewIcon() {
-            return ProjectAssetsManager.getAsset(ProjectTypeConstants.MESSAGE);
-        }
-
-        @Override
-        protected String viewTitle() {
-            return UserUIContext.getMessage(GenericI18Enum.VIEW_NO_ITEM_TITLE);
-        }
-
-        @Override
-        protected String viewHint() {
-            return UserUIContext.getMessage(GenericI18Enum.VIEW_NO_ITEM_HINT);
-        }
-
-        @Override
-        protected String actionMessage() {
-            return UserUIContext.getMessage(MessageI18nEnum.NEW);
-        }
-
-        @Override
-        protected Button.ClickListener actionListener() {
-            return clickEvent -> createAddMessageLayout();
-        }
-
-        @Override
-        protected boolean hasPermission() {
-            return CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.MESSAGES);
-        }
-    }
 }

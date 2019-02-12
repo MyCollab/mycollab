@@ -23,10 +23,8 @@ import com.mycollab.aspect.Traceable
 import com.mycollab.cache.CleanCacheEvent
 import com.mycollab.common.ModuleNameConstants
 import com.mycollab.common.domain.GroupItem
-import com.mycollab.common.event.TimelineTrackingUpdateEvent
 import com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum
 import com.mycollab.common.service.TagService
-import com.mycollab.common.service.TimelineTrackingService
 import com.mycollab.concurrent.DistributionLockUtil
 import com.mycollab.core.MyCollabException
 import com.mycollab.core.cache.CacheKey
@@ -85,11 +83,7 @@ class BugServiceImpl(private val bugMapper: BugMapper,
                 if (record.status == null) {
                     record.status = StatusI18nEnum.Open.name
                 }
-                val bugId = super.saveWithSession(record, username)
-
-                asyncEventBus.post(TimelineTrackingUpdateEvent(ProjectTypeConstants.BUG, bugId, "status", record.status,
-                        record.projectid, record.saccountid))
-                return bugId
+                return super.saveWithSession(record, username)
             } else {
                 throw MyCollabException("Timeout operation")
             }
@@ -101,21 +95,11 @@ class BugServiceImpl(private val bugMapper: BugMapper,
         }
     }
 
-    override fun updateWithSession(record: BugWithBLOBs, username: String?): Int {
-        asyncEventBus.post(TimelineTrackingUpdateEvent(ProjectTypeConstants.BUG, record.id, "status", record.status,
-                record.projectid, record.saccountid))
-        return super.updateWithSession(record, username)
-    }
-
     @CleanCache
     fun postDirtyUpdate(sAccountId: Int?) {
-        asyncEventBus.post(CleanCacheEvent(sAccountId, arrayOf(ProjectService::class.java, ProjectTicketService::class.java, ProjectMemberService::class.java, ProjectActivityStreamService::class.java, ItemTimeLoggingService::class.java, TagService::class.java, TimelineTrackingService::class.java, ProjectTicketService::class.java)))
-    }
-
-    override fun updateSelectiveWithSession(record: BugWithBLOBs, username: String?): Int? {
-        asyncEventBus.post(TimelineTrackingUpdateEvent(ProjectTypeConstants.BUG, record.id, "status", record.status,
-                record.projectid, record.saccountid))
-        return super.updateSelectiveWithSession(record, username)
+        asyncEventBus.post(CleanCacheEvent(sAccountId, arrayOf(ProjectService::class.java, ProjectTicketService::class.java,
+                ProjectMemberService::class.java, ProjectActivityStreamService::class.java, ItemTimeLoggingService::class.java,
+                TagService::class.java, ProjectTicketService::class.java)))
     }
 
     override fun massRemoveWithSession(items: List<BugWithBLOBs>, username: String?, sAccountId: Int) {
