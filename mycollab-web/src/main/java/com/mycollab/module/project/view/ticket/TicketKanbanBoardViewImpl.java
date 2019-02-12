@@ -46,28 +46,20 @@ import com.mycollab.vaadin.ui.NotificationUtil;
 import com.mycollab.vaadin.ui.UIUtils;
 import com.mycollab.vaadin.web.ui.ButtonGroup;
 import com.mycollab.vaadin.web.ui.WebThemes;
-import com.vaadin.event.dd.DragAndDropEvent;
-import com.vaadin.event.dd.DropHandler;
-import com.vaadin.event.dd.acceptcriteria.AcceptCriterion;
-import com.vaadin.event.dd.acceptcriteria.Not;
 import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.shared.ui.dd.VerticalDropLocation;
+import com.vaadin.shared.ui.dnd.DropEffect;
+import com.vaadin.shared.ui.dnd.EffectAllowed;
 import com.vaadin.ui.*;
+import com.vaadin.ui.dnd.DragSourceExtension;
+import com.vaadin.ui.dnd.DropTargetExtension;
 import com.vaadin.ui.themes.ValoTheme;
-import fi.jasoft.dragdroplayouts.DDVerticalLayout;
-import fi.jasoft.dragdroplayouts.client.ui.LayoutDragMode;
-import fi.jasoft.dragdroplayouts.events.LayoutBoundTransferable;
-import fi.jasoft.dragdroplayouts.events.VerticalLocationIs;
 import org.apache.commons.collections4.CollectionUtils;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MCssLayout;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum.*;
@@ -288,6 +280,15 @@ public class TicketKanbanBoardViewImpl extends AbstractVerticalPageView implemen
             footer.addComponent(popupFieldFactory.createAssigneePopupField(projectTicket));
 
             this.addComponent(footer);
+
+            DragSourceExtension<KanbanBlockItem> dragSource = new DragSourceExtension<>(this);
+
+            // set the allowed effect
+            dragSource.setEffectAllowed(EffectAllowed.MOVE);
+            // set the text to transfer
+            dragSource.setDataTransferText("hello receiver");
+            // set other data to transfer (in this case HTML)
+            dragSource.setDataTransferData("text/html", "<label>hello receiver</label>");
         }
     }
 
@@ -295,7 +296,7 @@ public class TicketKanbanBoardViewImpl extends AbstractVerticalPageView implemen
         private String status;
         private String assignee;
 
-        private DDVerticalLayout dragLayoutContainer;
+        private MVerticalLayout dragLayoutContainer;
         private Label header;
 
         KanbanBlock(String assignee, String stage) {
@@ -306,76 +307,58 @@ public class TicketKanbanBoardViewImpl extends AbstractVerticalPageView implemen
             this.setId(optionId);
 //            JavaScript.getCurrent().execute("$('#" + optionId + "').css({'background-color':'lightgray'});");
 
-            dragLayoutContainer = new DDVerticalLayout();
-            dragLayoutContainer.setMargin(false);
-            dragLayoutContainer.setSpacing(true);
-            dragLayoutContainer.setComponentVerticalDropRatio(0.1f);
-            dragLayoutContainer.setDragMode(LayoutDragMode.CLONE);
-            dragLayoutContainer.setDropHandler(new DropHandler() {
-                @Override
-                public void drop(DragAndDropEvent event) {
-                    LayoutBoundTransferable transferable = (LayoutBoundTransferable) event.getTransferable();
+            dragLayoutContainer = new MVerticalLayout().withMargin(false).withId("drag-container");
+            DropTargetExtension<VerticalLayout> dropTarget = new DropTargetExtension<>(dragLayoutContainer);
+            // the drop effect must match the allowed effect in the drag source for a successful drop
+            dropTarget.setDropEffect(DropEffect.MOVE);
 
-                    DDVerticalLayout.VerticalLayoutTargetDetails details = (DDVerticalLayout.VerticalLayoutTargetDetails) event
-                            .getTargetDetails();
+            // catch the drops
+            dropTarget.addDropListener(event -> {
+                // if the drag source is in the same UI as the target
+                Optional<AbstractComponent> dragSource = event.getDragSourceComponent();
+                if (dragSource.isPresent() && dragSource.get() instanceof KanbanBlockItem) {
+                    KanbanBlockItem kanbanItem = (KanbanBlockItem) dragSource.get();
+                    ProjectTicket ticket = kanbanItem.projectTicket;
 
-                    Component dragComponent = transferable.getComponent();
-                    if (dragComponent instanceof KanbanBlockItem) {
-                        KanbanBlockItem kanbanItem = (KanbanBlockItem) dragComponent;
-                        ProjectTicket ticket = kanbanItem.projectTicket;
+                    if (ticket.isBug() && (!stage.equals(Open.name()) && !stage.equals(ReOpen.name()) && !stage.equals(Verified.name())
+                            && !stage.equals(Resolved.name()) && !stage.equals(InProgress.name()) && !stage.equals(Unresolved.name()))) {
+                        NotificationUtil.showErrorNotification("Invalid state for bug");
+                    } else if (ticket.isRisk() && (!stage.equals(Open.name()) && !stage.equals(Closed.name()))) {
+                        NotificationUtil.showErrorNotification("Invalid state for risk");
+                    } else if (ticket.isTask() && (!stage.equals(Open.name()) && !stage.equals(Pending.name()) && !stage.equals(InProgress.name()) && !stage.equals(Closed.name()))) {
+                        NotificationUtil.showErrorNotification("Invalid state for task");
+                    } else {
+                        dragLayoutContainer.addComponent(kanbanItem);
 
-                        if (ticket.isBug() && (!stage.equals(Open.name()) && !stage.equals(ReOpen.name()) && !stage.equals(Verified.name())
-                                && !stage.equals(Resolved.name()) && !stage.equals(InProgress.name()) && !stage.equals(Unresolved.name()))) {
-                            NotificationUtil.showErrorNotification("Invalid state for bug");
-                        } else if (ticket.isRisk() && (!stage.equals(Open.name()) && !stage.equals(Closed.name()))) {
-                            NotificationUtil.showErrorNotification("Invalid state for risk");
-                        } else if (ticket.isTask() && (!stage.equals(Open.name()) && !stage.equals(Pending.name()) && !stage.equals(InProgress.name()) && !stage.equals(Closed.name()))) {
-                            NotificationUtil.showErrorNotification("Invalid state for task");
-                        } else {
-                            int newIndex = details.getOverIndex();
-                            if (details.getDropLocation() == VerticalDropLocation.BOTTOM) {
-                                dragLayoutContainer.addComponent(kanbanItem);
-                            } else if (newIndex == -1) {
-                                dragLayoutContainer.addComponent(kanbanItem, 0);
-                            } else {
-                                dragLayoutContainer.addComponent(kanbanItem, newIndex);
-                            }
-
-                            if (ticket.isBug()) {
-                                BugWithBLOBs bug = ProjectTicket.buildBug(ticket);
-                                bug.setStatus(stage);
-                                bug.setAssignuser(assignee);
-                                BugService bugService = AppContextUtil.getSpringBean(BugService.class);
-                                bugService.updateSelectiveWithSession(bug, UserUIContext.getUsername());
-                            } else if (ticket.isTask()) {
-                                Task task = ProjectTicket.buildTask(ticket);
-                                task.setStatus(stage);
-                                task.setAssignuser(assignee);
-                                ProjectTaskService taskService = AppContextUtil.getSpringBean(ProjectTaskService.class);
-                                taskService.updateSelectiveWithSession(task, UserUIContext.getUsername());
-                            } else if (ticket.isRisk()) {
-                                Risk risk = ProjectTicket.buildRisk(ticket);
-                                risk.setStatus(stage);
-                                risk.setAssignuser(assignee);
-                                RiskService riskService = AppContextUtil.getSpringBean(RiskService.class);
-                                riskService.updateSelectiveWithSession(risk, UserUIContext.getUsername());
-                            }
+                        if (ticket.isBug()) {
+                            BugWithBLOBs bug = ProjectTicket.buildBug(ticket);
+                            bug.setStatus(stage);
+                            bug.setAssignuser(assignee);
+                            BugService bugService = AppContextUtil.getSpringBean(BugService.class);
+                            bugService.updateSelectiveWithSession(bug, UserUIContext.getUsername());
+                        } else if (ticket.isTask()) {
+                            Task task = ProjectTicket.buildTask(ticket);
+                            task.setStatus(stage);
+                            task.setAssignuser(assignee);
+                            ProjectTaskService taskService = AppContextUtil.getSpringBean(ProjectTaskService.class);
+                            taskService.updateSelectiveWithSession(task, UserUIContext.getUsername());
+                        } else if (ticket.isRisk()) {
+                            Risk risk = ProjectTicket.buildRisk(ticket);
+                            risk.setStatus(stage);
+                            risk.setAssignuser(assignee);
+                            RiskService riskService = AppContextUtil.getSpringBean(RiskService.class);
+                            riskService.updateSelectiveWithSession(risk, UserUIContext.getUsername());
+                        }
 
 
-                            refresh();
+                        refresh();
 
-                            Component sourceComponent = transferable.getSourceComponent();
-                            KanbanBlock sourceKanban = UIUtils.getRoot(sourceComponent, KanbanBlock.class);
-                            if (sourceKanban != null && sourceKanban != KanbanBlock.this) {
-                                sourceKanban.refresh();
-                            }
+                        Component sourceComponent = event.getComponent();
+                        KanbanBlock sourceKanban = UIUtils.getRoot(sourceComponent, KanbanBlock.class);
+                        if (sourceKanban != null && sourceKanban != KanbanBlock.this) {
+                            sourceKanban.refresh();
                         }
                     }
-                }
-
-                @Override
-                public AcceptCriterion getAcceptCriterion() {
-                    return new Not(VerticalLocationIs.MIDDLE);
                 }
             });
 

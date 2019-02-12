@@ -18,19 +18,18 @@ package com.mycollab.vaadin.web.ui;
 
 import com.mycollab.vaadin.ui.ELabel;
 import com.vaadin.icons.VaadinIcons;
-import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Label;
-import fi.jasoft.dragdroplayouts.DDVerticalLayout;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
+import org.vaadin.viritin.layouts.MVerticalLayout;
 
 /**
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class Depot extends DDVerticalLayout {
+public class Depot extends MVerticalLayout {
     private static final long serialVersionUID = 1L;
 
     private boolean isOpened = true;
@@ -81,7 +80,7 @@ public class Depot extends DDVerticalLayout {
 
     public void setTitle(String title) {
         this.title = title;
-        String depotTitle = (isOpened)? String.format("%s %s", VaadinIcons.ANGLE_DOWN.getHtml(), this.title) : String.format("%s %s", VaadinIcons.ANGLE_RIGHT.getHtml(), this.title);
+        String depotTitle = (isOpened) ? String.format("%s %s", VaadinIcons.ANGLE_DOWN.getHtml(), this.title) : String.format("%s %s", VaadinIcons.ANGLE_RIGHT.getHtml(), this.title);
         headerLbl.setValue(depotTitle);
     }
 

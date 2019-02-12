@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -23,9 +23,7 @@ import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Label;
-import fi.jasoft.dragdroplayouts.DDVerticalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
 /**
@@ -34,17 +32,14 @@ import org.vaadin.viritin.layouts.MVerticalLayout;
  */
 class DefaultTicketGroupComponent extends MVerticalLayout implements IGroupComponent, IBlockContainer {
     private Label headerLbl;
-    private DDVerticalLayout wrapBody;
+    private MVerticalLayout wrapBody;
 
     private String titleValue;
 
     DefaultTicketGroupComponent(String titleValue) {
         this.titleValue = titleValue;
         this.withMargin(new MarginInfo(true, false, true, false)).withSpacing(false);
-        wrapBody = new DDVerticalLayout();
-        wrapBody.setSpacing(false);
-        wrapBody.setWidth("100%");
-        wrapBody.addStyleName(WebThemes.BORDER_LIST);
+        wrapBody = new MVerticalLayout().withSpacing(false).withFullWidth().withStyleName(WebThemes.BORDER_LIST);
         headerLbl = ELabel.h3("").withFullWidth();
         this.with(headerLbl, wrapBody);
         refresh();

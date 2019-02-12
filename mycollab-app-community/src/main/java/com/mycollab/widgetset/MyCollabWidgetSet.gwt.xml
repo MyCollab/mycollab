@@ -8,8 +8,6 @@
 
     <inherits name="com.vaadin.contextmenu.WidgetSet" />
 
-    <inherits name="fi.jasoft.dragdroplayouts.DragDropLayoutsWidgetSet" />
-
     <inherits name="org.vaadin.hene.popupbutton.widgetset.PopupbuttonWidgetset" />
 
     <inherits name="org.vaadin.addons.WidgetSet" />

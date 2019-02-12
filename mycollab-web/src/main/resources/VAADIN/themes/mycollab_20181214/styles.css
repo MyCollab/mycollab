@@ -2095,7 +2095,7 @@ div.v-window .v-panel {
 }
 
 .kanban-layout .v-gridlayout-slot {
-	padding-bottom: 10px;
+	padding-bottom: 12px;
 }
 
 .kanban-layout .assignee-block {
@@ -2104,7 +2104,7 @@ div.v-window .v-panel {
 
 .kanban-layout .kanban-block {
 	background-color: #fdde86;
-	padding: 10px;
+	padding: 12px;
 }
 
 .kanban-layout .kanban-block .header {
@@ -2120,12 +2120,16 @@ div.v-window .v-panel {
 .kanban-layout .kanban-block .kanban-item {
 	background-color: white;
 	cursor: move;
-	padding: 5px 5px 5px 10px;
-	margin: 0px 0px 2px 0px;
+	padding: 6px 6px 6px 12px;
+	margin: 0px 0px 3px 0px;
 }
 
 .kanban-layout .kanban-block .kanban-item:hover {
 	background-color: #f5f5f5;
+}
+
+.kanban-layout .kanban-block #drag-container {
+	min-height: 21px;
 }
 
 .block-popupedit {
@@ -16931,7 +16935,7 @@ div.v-window .v-panel {
 }
 
 .kanban-layout .v-gridlayout-slot {
-	padding-bottom: 10px;
+	padding-bottom: 12px;
 }
 
 .kanban-layout .assignee-block {
@@ -16940,7 +16944,7 @@ div.v-window .v-panel {
 
 .kanban-layout .kanban-block {
 	background-color: #fdde86;
-	padding: 10px;
+	padding: 12px;
 }
 
 .kanban-layout .kanban-block .header {
@@ -16956,12 +16960,16 @@ div.v-window .v-panel {
 .kanban-layout .kanban-block .kanban-item {
 	background-color: white;
 	cursor: move;
-	padding: 5px 5px 5px 10px;
-	margin: 0px 0px 2px 0px;
+	padding: 6px 6px 6px 12px;
+	margin: 0px 0px 3px 0px;
 }
 
 .kanban-layout .kanban-block .kanban-item:hover {
 	background-color: #f5f5f5;
+}
+
+.kanban-layout .kanban-block #drag-container {
+	min-height: 21px;
 }
 
 .block-popupedit {
