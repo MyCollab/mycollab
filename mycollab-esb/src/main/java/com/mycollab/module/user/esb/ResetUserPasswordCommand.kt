@@ -32,6 +32,7 @@ import com.mycollab.module.user.accountsettings.localization.UserI18nEnum
 import com.mycollab.module.user.service.UserService
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
+import java.util.*
 
 /**
  * @author MyCollab Ltd
@@ -60,11 +61,9 @@ class ResetUserPasswordCommand(private val extMailService: ExtMailService,
             contentGenerator.putVariable("urlRecoveryPassword", recoveryPasswordURL)
             contentGenerator.putVariable("copyRight", LocalizationHelper.getMessage(locale, MailI18nEnum.Copyright,
                     DateTimeUtils.getCurrentYear()))
-            val recipient = MailRecipientField(user.email, user.username)
-            val recipientFields = listOf(recipient)
-
+           
             extMailService.sendHTMLMail(applicationConfiguration.notifyEmail, applicationConfiguration.siteName,
-                    recipientFields,
+                    Collections.singletonList(MailRecipientField(user.username, user.username)),
                     LocalizationHelper.getMessage(locale, UserI18nEnum.MAIL_RECOVERY_PASSWORD_SUBJECT,
                             applicationConfiguration.siteName),
                     contentGenerator.parseFile("mailUserRecoveryPasswordNotifier.ftl", locale))
