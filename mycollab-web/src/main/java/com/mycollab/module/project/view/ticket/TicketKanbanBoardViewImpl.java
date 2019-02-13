@@ -252,7 +252,7 @@ public class TicketKanbanBoardViewImpl extends AbstractVerticalPageView implemen
     private static class KanbanBlockItem extends BlockRowRender {
         private ProjectTicket projectTicket;
 
-        private KanbanBlockItem(final ProjectTicket ticket) {
+        private KanbanBlockItem(ProjectTicket ticket) {
             this.projectTicket = ticket;
             this.addStyleName("kanban-item list-row");
             if (ticket.isBug()) {

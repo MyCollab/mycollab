@@ -16,11 +16,11 @@
  */
 package com.mycollab.module.user.domain
 
+import com.google.common.base.MoreObjects
 import com.mycollab.core.arguments.NotBindable
 import com.mycollab.core.utils.StringUtils
-import com.mycollab.security.PermissionMap
-import com.google.common.base.MoreObjects
 import com.mycollab.i18n.LocalizationHelper
+import com.mycollab.security.PermissionMap
 import java.util.*
 
 /**
@@ -42,8 +42,8 @@ class SimpleUser : User() {
     @NotBindable
     var locale: Locale? = null
         get() {
-          return LocalizationHelper.getLocaleInstance(language)
-      }
+            return LocalizationHelper.getLocaleInstance(language)
+        }
 
     var subDomain: String? = null
     var accountId: Int? = null
@@ -53,15 +53,12 @@ class SimpleUser : User() {
     var inviteUserFullName: String? = null
     var displayName: String? = null
         get() {
-            if (StringUtils.isBlank(field)) {
-                val result = "$firstname $lastname"
-                if (StringUtils.isBlank(result)) {
-                    val displayName = username
-                    return StringUtils.extractNameFromEmail(displayName)
-                }
-                return result
+            val result = "$firstname $lastname"
+            if (StringUtils.isBlank(result)) {
+                val displayName = username
+                return StringUtils.extractNameFromEmail(displayName)
             }
-            return field
+            return result
         }
     var dateFormat: String? = null
         get() = MoreObjects.firstNonNull(field, "MM/dd/yyyy")

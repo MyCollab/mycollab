@@ -49,5 +49,6 @@ public enum DayI18nEnum {
     OPT_WEEKLY,
     OPT_MONTHLY,
 
-    OPT_NO_DATE_SET
+    OPT_NO_DATE_SET,
+    ERROR_INVALID_DATES
 }

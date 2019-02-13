@@ -20,6 +20,7 @@ import com.google.common.eventbus.AsyncEventBus
 import com.mycollab.configuration.EnDecryptHelper
 import com.mycollab.configuration.IDeploymentMode
 import com.mycollab.core.UserInvalidInputException
+import com.mycollab.core.utils.StringUtils
 import com.mycollab.db.arguments.BasicSearchRequest
 import com.mycollab.db.arguments.NumberSearchField
 import com.mycollab.db.arguments.SetSearchField
@@ -92,11 +93,11 @@ class UserServiceDBImpl(private val userMapper: UserMapper,
             record.password = EnDecryptHelper.encryptSaltPassword(password)
         }
 
-        if (record.email == null) {
+        if (StringUtils.isBlank(record.email)) {
             record.email = record.username
         }
 
-        if (record.lastname == null) {
+        if (StringUtils.isBlank(record.lastname)) {
             val userEmail = record.email
             val index = userEmail.lastIndexOf("@")
             if (index > 0) {
@@ -183,6 +184,10 @@ class UserServiceDBImpl(private val userMapper: UserMapper,
                     throw UserInvalidInputException("Can not change role of user ${record.username}. The reason is ${record.username} is the unique account owner of the current account.")
                 }
             }
+        }
+
+        if (StringUtils.isBlank(record.email)) {
+            record.email = record.username
         }
 
         if (record.username != record.email) {
@@ -272,12 +277,11 @@ class UserServiceDBImpl(private val userMapper: UserMapper,
                         val rolePer = roles[0] as RolePermission
                         val permissionMap = PermissionMap.fromJsonString(rolePer.roleval)
                         user.permissionMaps = permissionMap
-                        LOG.debug("Find role match to user $username")
                     } else {
-                        LOG.debug("We can not find any role associate to user $username")
+                        LOG.error("We can not find any role associate to user $username")
                     }
                 } else {
-                    LOG.debug("User %s has no any role $username")
+                    LOG.error("User %s has no any role $username")
                 }
             }
             user.password = null

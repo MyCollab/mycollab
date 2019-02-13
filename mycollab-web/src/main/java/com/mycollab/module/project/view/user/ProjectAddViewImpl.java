@@ -61,7 +61,7 @@ public class ProjectAddViewImpl extends AbstractVerticalPageView implements Proj
     }
 
     @Override
-    public void editItem(final Project item) {
+    public void editItem(Project item) {
         this.project = item;
         editForm.setFormLayoutFactory(new FormLayoutFactory());
         editForm.setBeanFormFieldFactory(new EditFormFieldFactory(editForm));

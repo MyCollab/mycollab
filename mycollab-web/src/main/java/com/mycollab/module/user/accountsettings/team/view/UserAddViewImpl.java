@@ -331,7 +331,9 @@ public class UserAddViewImpl extends AbstractVerticalPageView implements UserAdd
 
         @Override
         protected void doSetValue(Integer roleId) {
-            roleBox.selectRoleById(roleId);
+            if (roleId != null) {
+                roleBox.selectRoleById(roleId);
+            }
         }
 
         @Override

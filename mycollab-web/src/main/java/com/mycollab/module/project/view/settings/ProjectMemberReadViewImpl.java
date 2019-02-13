@@ -86,7 +86,7 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
         previewForm = initPreviewForm();
         previewForm.setWidth("100%");
 
-        bottomLayout = new ResponsiveLayout().withSpacing();
+        bottomLayout = new ResponsiveLayout();
         this.addHeaderRightContent(createButtonControls());
         this.with(previewForm, bottomLayout);
     }
@@ -101,7 +101,7 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
         return previewForm;
     }
 
-    public void previewItem(final SimpleProjectMember projectMember) {
+    public void previewItem(SimpleProjectMember projectMember) {
         this.beanItem = projectMember;
         previewForm.setFormLayoutFactory(initFormLayoutFactory());
         previewForm.setBeanFormFieldFactory(initBeanFormFieldFactory());

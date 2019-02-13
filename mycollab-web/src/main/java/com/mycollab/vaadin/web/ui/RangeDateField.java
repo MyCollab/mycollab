@@ -16,11 +16,12 @@
  */
 package com.mycollab.vaadin.web.ui;
 
+import com.mycollab.common.i18n.DayI18nEnum;
 import com.mycollab.core.UserInvalidInputException;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.DateField;
-import com.vaadin.ui.Label;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 import java.time.LocalDate;
@@ -38,15 +39,18 @@ public class RangeDateField extends MHorizontalLayout {
     public RangeDateField() {
         startDateField = new DateField();
         endDateField = new DateField();
-        with(ELabel.html("From: "), startDateField,  ELabel.html("To: "), endDateField).alignAll(Alignment.MIDDLE_LEFT);
+        with(ELabel.html(UserUIContext.getMessage(DayI18nEnum.OPT_FROM)), startDateField,
+                ELabel.html(UserUIContext.getMessage(DayI18nEnum.OPT_TO)), endDateField).alignAll(Alignment.MIDDLE_LEFT);
     }
 
     public LocalDate[] getBounds() {
         LocalDate start = startDateField.getValue();
         LocalDate end = endDateField.getValue();
-        if (start.isAfter(end)) {
-            throw new UserInvalidInputException("Invalid input dates");
+
+        if (start == null || end == null || start.isAfter(end)) {
+            throw new UserInvalidInputException(UserUIContext.getMessage(DayI18nEnum.ERROR_INVALID_DATES));
         }
+
         return new LocalDate[]{start, end};
     }
 }

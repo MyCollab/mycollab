@@ -87,15 +87,15 @@ public class ProjectAddPresenter extends AbstractPresenter<ProjectAddView> {
 
         Project project = (Project) data.getParams();
 
-
         if (project.getId() == null) {
+            project.setSaccountid(AppUI.getAccountId());
             AppUI.addFragment("project/add", UserUIContext.getMessage(GenericI18Enum.BROWSER_ADD_ITEM_TITLE,
                     UserUIContext.getMessage(ProjectI18nEnum.SINGLE)));
         } else {
             ProjectBreadcrumb breadcrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);
             breadcrumb.gotoProjectEdit();
         }
-
+        view.editItem(project);
     }
 
     private void saveProject(Project project) {

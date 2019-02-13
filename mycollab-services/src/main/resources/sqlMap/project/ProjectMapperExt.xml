@@ -135,7 +135,7 @@
         m_prj_project.createdtime, m_prj_project.lastUpdatedTime, m_prj_project.avatarId, m_prj_project.contextAsk, m_prj_project.memlead,
         concat(s_user.firstname, ' ', s_user.lastname) AS createUserFullName,
         concat(leadUser.firstname, ' ', leadUser.lastname) AS leadFullName,
-        leadUser.avatarId AS leam_dAvatarId, m_prj_project.clientId,
+        leadUser.avatarId AS leadAvatarId, m_prj_project.clientId,
         m_client.name AS clientName, m_client.avatarId AS clientAvatarId, m_prj_project.currencyid, m_prj_project.progress,
         (SELECT COUNT(*) FROM m_tracker_bug WHERE m_tracker_bug.projectId=m_prj_project.id) AS numBugs,
         (SELECT COUNT(*) FROM m_tracker_bug WHERE m_tracker_bug.projectId=m_prj_project.id AND m_tracker_bug.status NOT IN ('Resolved', 'Verified')) AS numOpenBugs,
