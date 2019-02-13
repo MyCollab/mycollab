@@ -45,7 +45,7 @@ class DefaultMailer(private val emailConf: EmailConfiguration) : IMailer {
             toEmail.forEach {
                 when {
                     isValidate(it.email) && isValidate(it.name) -> email.addTo(it.email, it.name)
-                    else -> LOG.error("Invalid cc email input: ${it.email}---${it.email}")
+                    else -> LOG.error("Invalid to email input: ${it.email}---${it.email}")
                 }
             }
 
@@ -59,7 +59,7 @@ class DefaultMailer(private val emailConf: EmailConfiguration) : IMailer {
             bccEmail?.forEach {
                 when {
                     isValidate(it.email) && isValidate(it.name) -> email.addBcc(it.email, it.name)
-                    else -> LOG.error("Invalid cc email input: ${it.email}---${it.email}")
+                    else -> LOG.error("Invalid bcc email input: ${it.email}---${it.email}")
                 }
             }
 
