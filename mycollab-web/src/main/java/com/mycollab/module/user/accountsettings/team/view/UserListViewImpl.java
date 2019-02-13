@@ -164,7 +164,7 @@ public class UserListViewImpl extends AbstractVerticalPageView implements UserLi
 
         if (RegisterStatusConstants.NOT_LOG_IN_YET.equals(member.getRegisterstatus())) {
             MButton resendBtn = new MButton(UserUIContext.getMessage(UserI18nEnum.ACTION_RESEND_INVITATION), clickEvent -> {
-                SendUserInvitationEvent invitationEvent = new SendUserInvitationEvent(member.getUsername(), "",
+                SendUserInvitationEvent invitationEvent = new SendUserInvitationEvent(member.getUsername(), member.getPassword(),
                         member.getInviteUser(), AppUI.getSubDomain(), AppUI.getAccountId());
                 AsyncEventBus asyncEventBus = AppContextUtil.getSpringBean(AsyncEventBus.class);
                 asyncEventBus.post(invitationEvent);
