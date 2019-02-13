@@ -16,7 +16,6 @@
  */
 package com.mycollab.module.project.view.bug;
 
-import com.mycollab.common.ModuleNameConstants;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.core.ResourceNotFoundException;
 import com.mycollab.core.SecureAccessException;
@@ -27,7 +26,6 @@ import com.mycollab.module.project.ProjectRolePermissionCollections;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.event.BugEvent;
 import com.mycollab.module.project.event.TicketEvent;
-import com.mycollab.module.project.event.UpdateNotificationItemReadStatusEvent;
 import com.mycollab.module.project.view.ProjectBreadcrumb;
 import com.mycollab.module.project.view.ProjectGenericPresenter;
 import com.mycollab.module.project.view.ProjectView;
@@ -36,7 +34,6 @@ import com.mycollab.module.tracker.domain.SimpleBug;
 import com.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.mycollab.module.tracker.service.BugService;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.spring.AppEventBus;
 import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.vaadin.UserUIContext;
@@ -100,9 +97,9 @@ public class BugReadPresenter extends ProjectGenericPresenter<BugReadView> {
             public void onPrint(Object source, SimpleBug data) {
                 PrintButton btn = (PrintButton) source;
                 btn.doPrint(data, new FormReportLayout(ProjectTypeConstants.BUG, BugWithBLOBs.Field.name.name(),
-                        BugDefaultFormLayoutFactory.getReadForm(), SimpleBug.Field.components.name(), SimpleBug.Field
-                        .affectedVersions.name(), SimpleBug.Field.fixedVersions.name(), BugWithBLOBs.Field.id.name(),
-                        SimpleBug.Field.selected.name()));
+                        BugDefaultFormLayoutFactory.getReadForm(), SimpleBug.Field.components.name(),
+                        SimpleBug.Field.affectedVersions.name(), SimpleBug.Field.fixedVersions.name(),
+                        BugWithBLOBs.Field.id.name(), SimpleBug.Field.selected.name()));
             }
 
             @Override
@@ -162,9 +159,6 @@ public class BugReadPresenter extends ProjectGenericPresenter<BugReadView> {
 
                     ProjectBreadcrumb breadcrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);
                     breadcrumb.gotoBugRead(bug);
-
-                    AppEventBus.getInstance().post(new UpdateNotificationItemReadStatusEvent(UserUIContext.getUsername(),
-                            ModuleNameConstants.PRJ, ProjectTypeConstants.BUG, bug.getId().toString()));
                 } else {
                     throw new ResourceNotFoundException();
                 }

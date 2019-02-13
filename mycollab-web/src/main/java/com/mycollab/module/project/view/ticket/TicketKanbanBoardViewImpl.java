@@ -1,10 +1,19 @@
 package com.mycollab.module.project.view.ticket;
 
+import com.google.common.base.MoreObjects;
 import com.google.common.eventbus.Subscribe;
+import com.hp.gagawa.java.elements.A;
+import com.hp.gagawa.java.elements.Div;
+import com.hp.gagawa.java.elements.Img;
+import com.hp.gagawa.java.elements.Text;
+import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.i18n.OptionI18nEnum;
 import com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
+import com.mycollab.db.arguments.BasicSearchRequest;
 import com.mycollab.db.arguments.SetSearchField;
+import com.mycollab.module.file.StorageUtils;
 import com.mycollab.module.project.CurrentProjectVariables;
+import com.mycollab.module.project.ProjectLinkGenerator;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.domain.ProjectTicket;
 import com.mycollab.module.project.domain.Risk;
@@ -29,7 +38,6 @@ import com.mycollab.module.tracker.service.BugService;
 import com.mycollab.module.user.domain.SimpleUser;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.*;
-import com.mycollab.vaadin.AsyncInvoker.PageCommand;
 import com.mycollab.vaadin.event.HasSearchHandlers;
 import com.mycollab.vaadin.mvp.AbstractVerticalPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
@@ -38,27 +46,20 @@ import com.mycollab.vaadin.ui.NotificationUtil;
 import com.mycollab.vaadin.ui.UIUtils;
 import com.mycollab.vaadin.web.ui.ButtonGroup;
 import com.mycollab.vaadin.web.ui.WebThemes;
-import com.vaadin.event.dd.DragAndDropEvent;
-import com.vaadin.event.dd.DropHandler;
-import com.vaadin.event.dd.acceptcriteria.AcceptCriterion;
-import com.vaadin.event.dd.acceptcriteria.Not;
 import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.shared.ui.dd.HorizontalDropLocation;
-import com.vaadin.shared.ui.dd.VerticalDropLocation;
+import com.vaadin.shared.ui.dnd.DropEffect;
+import com.vaadin.shared.ui.dnd.EffectAllowed;
 import com.vaadin.ui.*;
-import fi.jasoft.dragdroplayouts.DDHorizontalLayout;
-import fi.jasoft.dragdroplayouts.DDVerticalLayout;
-import fi.jasoft.dragdroplayouts.client.ui.LayoutDragMode;
-import fi.jasoft.dragdroplayouts.events.LayoutBoundTransferable;
-import fi.jasoft.dragdroplayouts.events.VerticalLocationIs;
+import com.vaadin.ui.dnd.DragSourceExtension;
+import com.vaadin.ui.dnd.DropTargetExtension;
+import com.vaadin.ui.themes.ValoTheme;
+import org.apache.commons.collections4.CollectionUtils;
 import org.vaadin.viritin.button.MButton;
+import org.vaadin.viritin.layouts.MCssLayout;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum.*;
@@ -73,8 +74,8 @@ public class TicketKanbanBoardViewImpl extends AbstractVerticalPageView implemen
     private ProjectTicketService ticketService = AppContextUtil.getSpringBean(ProjectTicketService.class);
 
     private TicketSearchPanel searchPanel;
-    private DDHorizontalLayout kanbanLayout;
-    private Map<String, KanbanBlock> kanbanBlocks;
+    private MCssLayout kanbanLayout;
+    private Map<Pair, KanbanBlock> kanbanBlocks;
     private ProjectTicketSearchCriteria baseCriteria;
 
     private StatusI18nEnum[] statuses = OptionI18nEnum.statuses;
@@ -126,41 +127,7 @@ public class TicketKanbanBoardViewImpl extends AbstractVerticalPageView implemen
         MHorizontalLayout controlLayout = new MHorizontalLayout(ELabel.html("Filter by: "), group)
                 .withDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
 
-        kanbanLayout = new DDHorizontalLayout();
-        kanbanLayout.setHeight("100%");
-        kanbanLayout.addStyleName("kanban-layout");
-        kanbanLayout.setSpacing(true);
-        kanbanLayout.setComponentHorizontalDropRatio(0.3f);
-        kanbanLayout.setDragMode(LayoutDragMode.CLONE_OTHER);
-
-        // Enable dropping components
-        kanbanLayout.setDropHandler(new DropHandler() {
-            @Override
-            public void drop(DragAndDropEvent event) {
-                LayoutBoundTransferable transferable = (LayoutBoundTransferable) event.getTransferable();
-
-                DDHorizontalLayout.HorizontalLayoutTargetDetails details = (DDHorizontalLayout.HorizontalLayoutTargetDetails) event
-                        .getTargetDetails();
-                Component dragComponent = transferable.getComponent();
-                if (dragComponent instanceof KanbanBlock) {
-                    KanbanBlock kanbanItem = (KanbanBlock) dragComponent;
-                    int newIndex = details.getOverIndex();
-                    if (details.getDropLocation() == HorizontalDropLocation.RIGHT) {
-                        kanbanLayout.addComponent(kanbanItem);
-                    } else if (newIndex == -1) {
-                        kanbanLayout.addComponent(kanbanItem, 0);
-                    } else {
-                        kanbanLayout.addComponent(kanbanItem, newIndex);
-                    }
-                }
-            }
-
-            @Override
-            public AcceptCriterion getAcceptCriterion() {
-                return new Not(VerticalLocationIs.MIDDLE);
-            }
-        });
-
+        kanbanLayout = new MCssLayout().withStyleName("kanban-layout", WebThemes.NO_SCROLLABLE_CONTAINER);
         this.with(searchPanel, controlLayout, kanbanLayout).expand(kanbanLayout);
     }
 
@@ -206,57 +173,80 @@ public class TicketKanbanBoardViewImpl extends AbstractVerticalPageView implemen
     public void queryTickets(ProjectTicketSearchCriteria searchCriteria) {
         baseCriteria = searchCriteria;
         kanbanLayout.removeAllComponents();
-        kanbanBlocks = new ConcurrentHashMap<>();
 
         setProjectNavigatorVisibility(false);
         buildMembersBlock();
 
-//        AsyncInvoker.access(getUI(), new PageCommand() {
-//            @Override
-//            public void run() {
-//                Arrays.stream(statuses).forEach(status -> {
-//                    KanbanBlock block = new KanbanBlock(status.name());
-//                    kanbanBlocks.put(status.name(), block);
-//                    kanbanLayout.addComponent(block);
-//                });
-//                push();
-//
-//                int totalTickets = ticketService.getTotalCount(searchCriteria);
-//                searchPanel.setTotalCountNumber(totalTickets);
-//                int pages = totalTickets / 50;
-//                for (int page = 0; page < pages + 1; page++) {
-//                    List<ProjectTicket> tickets = (List<ProjectTicket>) ticketService.findPageableListByCriteria(new BasicSearchRequest<>(searchCriteria, page + 1, 50));
-//                    if (CollectionUtils.isNotEmpty(tickets)) {
-//                        tickets.forEach(ticket -> {
-//                            String status = ticket.getStatus();
-//                            KanbanBlock kanbanBlock = kanbanBlocks.get(status);
-//                            if (kanbanBlock != null) {
-//                                kanbanBlock.addBlockItem(new KanbanBlockItem(ticket));
-//                            }
-//                        });
-//                        this.push();
-//                    }
-//                }
-//            }
-//        });
+        AsyncInvoker.access(getUI(), new AsyncInvoker.PageCommand() {
+            @Override
+            public void run() {
+                int totalTickets = ticketService.getTotalCount(searchCriteria);
+                searchPanel.setTotalCountNumber(totalTickets);
+                int pages = totalTickets / 50;
+                for (int page = 0; page < pages + 1; page++) {
+                    List<ProjectTicket> tickets = (List<ProjectTicket>) ticketService.findPageableListByCriteria(new BasicSearchRequest<>(searchCriteria, page + 1, 50));
+                    if (CollectionUtils.isNotEmpty(tickets)) {
+                        tickets.forEach(ticket -> {
+                            String status = ticket.getStatus();
+                            String assignee = MoreObjects.firstNonNull(ticket.getAssignUser(), "");
+                            Pair pair = new Pair(assignee, status);
+                            KanbanBlock kanbanBlock = kanbanBlocks.get(pair);
+                            if (kanbanBlock != null) {
+                                kanbanBlock.addBlockItem(new KanbanBlockItem(ticket));
+                            }
+                        });
+                        this.push();
+                    }
+                }
+            }
+        });
     }
 
     private void buildMembersBlock() {
         ProjectMemberService projectMemberService = AppContextUtil.getSpringBean(ProjectMemberService.class);
         List<SimpleUser> activeMembers = projectMemberService.getActiveUsersInProject(CurrentProjectVariables.getProjectId(), AppUI.getAccountId());
 
-        activeMembers.forEach(member ->
-                AsyncInvoker.access(getUI(), new PageCommand() {
-                    @Override
-                    public void run() {
-                        Arrays.stream(statuses).forEach(status -> {
-                            KanbanBlock block = new KanbanBlock(status.name());
-                            kanbanBlocks.put(status.name(), block);
-                            kanbanLayout.addComponent(block);
-                        });
-                        push();
-                    }
-                }));
+        kanbanBlocks = new ConcurrentHashMap<>();
+        kanbanLayout.add(new NotAssigneeLayout());
+        activeMembers.forEach(assignee -> kanbanLayout.addComponent(new MemberLayout(assignee)));
+    }
+
+    private class MemberLayout extends MVerticalLayout {
+        private SimpleUser member;
+        private MHorizontalLayout bodyLayout;
+
+        MemberLayout(SimpleUser member) {
+            withMargin(false);
+            this.member = member;
+            bodyLayout = new MHorizontalLayout();
+            for (StatusI18nEnum status : statuses) {
+                KanbanBlock kanbanBlock = new KanbanBlock(member.getUsername(), status.name());
+                kanbanBlocks.put(new Pair(member.getUsername(), status.name()), kanbanBlock);
+                bodyLayout.with(kanbanBlock);
+            }
+
+            Img userAvatar = new Img("", StorageUtils.getAvatarPath(member.getAvatarid(), 16))
+                    .setCSSClass(WebThemes.CIRCLE_BOX);
+            A userLink = new A(ProjectLinkGenerator.generateProjectMemberLink(CurrentProjectVariables.getProjectId(), member.getUsername())).appendText(member.getDisplayName());
+            Div userDiv = new Div().appendChild(userAvatar, new Text(" "), userLink);
+            this.with(ELabel.html(userDiv.write()).withStyleName(ValoTheme.LABEL_H3, WebThemes.MARGIN_TOP, WebThemes.MARGIN_BOTTOM), bodyLayout);
+        }
+    }
+
+    private class NotAssigneeLayout extends MVerticalLayout {
+        private MHorizontalLayout bodyLayout;
+
+        NotAssigneeLayout() {
+            withMargin(false);
+            bodyLayout = new MHorizontalLayout();
+            for (StatusI18nEnum status : statuses) {
+                KanbanBlock kanbanBlock = new KanbanBlock("", status.name());
+                kanbanBlocks.put(new Pair("", status.name()), kanbanBlock);
+                bodyLayout.with(kanbanBlock);
+            }
+
+            with(new ELabel(UserUIContext.getMessage(GenericI18Enum.OPT_UNDEFINED)).withStyleName(ValoTheme.LABEL_NO_MARGIN, ValoTheme.LABEL_H3), bodyLayout);
+        }
     }
 
     private static class KanbanBlockItem extends BlockRowRender {
@@ -290,87 +280,85 @@ public class TicketKanbanBoardViewImpl extends AbstractVerticalPageView implemen
             footer.addComponent(popupFieldFactory.createAssigneePopupField(projectTicket));
 
             this.addComponent(footer);
+
+            DragSourceExtension<KanbanBlockItem> dragSource = new DragSourceExtension<>(this);
+
+            // set the allowed effect
+            dragSource.setEffectAllowed(EffectAllowed.MOVE);
+            // set the text to transfer
+            dragSource.setDataTransferText("hello receiver");
+            // set other data to transfer (in this case HTML)
+            dragSource.setDataTransferData("text/html", "<label>hello receiver</label>");
         }
     }
 
-    private class KanbanBlock extends MVerticalLayout implements IBlockContainer {
+    private static class KanbanBlock extends MVerticalLayout implements IBlockContainer {
         private String status;
-        private DDVerticalLayout dragLayoutContainer;
+        private String assignee;
+
+        private MVerticalLayout dragLayoutContainer;
         private Label header;
 
-        KanbanBlock(String stage) {
-            this.withWidth("250px").withStyleName("kanban-block").withMargin(false);
+        KanbanBlock(String assignee, String stage) {
             this.status = stage;
+            this.assignee = assignee;
+            this.withWidth("250px").withStyleName("kanban-block").withMargin(false);
             final String optionId = UUID.randomUUID().toString() + "-" + stage.hashCode();
             this.setId(optionId);
-            JavaScript.getCurrent().execute("$('#" + optionId + "').css({'background-color':'lightgray'});");
+//            JavaScript.getCurrent().execute("$('#" + optionId + "').css({'background-color':'lightgray'});");
 
-            dragLayoutContainer = new DDVerticalLayout();
-            dragLayoutContainer.setMargin(false);
-            dragLayoutContainer.setSpacing(true);
-            dragLayoutContainer.setComponentVerticalDropRatio(0.3f);
-            dragLayoutContainer.setDragMode(LayoutDragMode.CLONE);
-            dragLayoutContainer.setDropHandler(new DropHandler() {
-                @Override
-                public void drop(DragAndDropEvent event) {
-                    LayoutBoundTransferable transferable = (LayoutBoundTransferable) event.getTransferable();
+            dragLayoutContainer = new MVerticalLayout().withMargin(false).withId("drag-container");
+            DropTargetExtension<VerticalLayout> dropTarget = new DropTargetExtension<>(dragLayoutContainer);
+            // the drop effect must match the allowed effect in the drag source for a successful drop
+            dropTarget.setDropEffect(DropEffect.MOVE);
 
-                    DDVerticalLayout.VerticalLayoutTargetDetails details = (DDVerticalLayout.VerticalLayoutTargetDetails) event
-                            .getTargetDetails();
+            // catch the drops
+            dropTarget.addDropListener(event -> {
+                // if the drag source is in the same UI as the target
+                Optional<AbstractComponent> dragSource = event.getDragSourceComponent();
+                if (dragSource.isPresent() && dragSource.get() instanceof KanbanBlockItem) {
+                    KanbanBlockItem kanbanItem = (KanbanBlockItem) dragSource.get();
+                    ProjectTicket ticket = kanbanItem.projectTicket;
 
-                    Component dragComponent = transferable.getComponent();
-                    if (dragComponent instanceof KanbanBlockItem) {
-                        KanbanBlockItem kanbanItem = (KanbanBlockItem) dragComponent;
-                        ProjectTicket ticket = kanbanItem.projectTicket;
+                    if (ticket.isBug() && (!stage.equals(Open.name()) && !stage.equals(ReOpen.name()) && !stage.equals(Verified.name())
+                            && !stage.equals(Resolved.name()) && !stage.equals(InProgress.name()) && !stage.equals(Unresolved.name()))) {
+                        NotificationUtil.showErrorNotification("Invalid state for bug");
+                    } else if (ticket.isRisk() && (!stage.equals(Open.name()) && !stage.equals(Closed.name()))) {
+                        NotificationUtil.showErrorNotification("Invalid state for risk");
+                    } else if (ticket.isTask() && (!stage.equals(Open.name()) && !stage.equals(Pending.name()) && !stage.equals(InProgress.name()) && !stage.equals(Closed.name()))) {
+                        NotificationUtil.showErrorNotification("Invalid state for task");
+                    } else {
+                        dragLayoutContainer.addComponent(kanbanItem);
 
-                        if (ticket.isBug() && (!stage.equals(Open.name()) && !stage.equals(ReOpen.name()) && !stage.equals(Verified.name())
-                                && !stage.equals(Resolved.name()) && !stage.equals(InProgress.name()) && !stage.equals(Unresolved.name()))) {
-                            NotificationUtil.showErrorNotification("Invalid state for bug");
-                        } else if (ticket.isRisk() && (!stage.equals(Open.name()) && !stage.equals(Closed.name()))) {
-                            NotificationUtil.showErrorNotification("Invalid state for risk");
-                        } else if (ticket.isTask() && (!stage.equals(Open.name()) && !stage.equals(Pending.name()) && !stage.equals(InProgress.name()) && !stage.equals(Closed.name()))) {
-                            NotificationUtil.showErrorNotification("Invalid state for task");
-                        } else {
-                            int newIndex = details.getOverIndex();
-                            if (details.getDropLocation() == VerticalDropLocation.BOTTOM) {
-                                dragLayoutContainer.addComponent(kanbanItem);
-                            } else if (newIndex == -1) {
-                                dragLayoutContainer.addComponent(kanbanItem, 0);
-                            } else {
-                                dragLayoutContainer.addComponent(kanbanItem, newIndex);
-                            }
+                        if (ticket.isBug()) {
+                            BugWithBLOBs bug = ProjectTicket.buildBug(ticket);
+                            bug.setStatus(stage);
+                            bug.setAssignuser(assignee);
+                            BugService bugService = AppContextUtil.getSpringBean(BugService.class);
+                            bugService.updateSelectiveWithSession(bug, UserUIContext.getUsername());
+                        } else if (ticket.isTask()) {
+                            Task task = ProjectTicket.buildTask(ticket);
+                            task.setStatus(stage);
+                            task.setAssignuser(assignee);
+                            ProjectTaskService taskService = AppContextUtil.getSpringBean(ProjectTaskService.class);
+                            taskService.updateSelectiveWithSession(task, UserUIContext.getUsername());
+                        } else if (ticket.isRisk()) {
+                            Risk risk = ProjectTicket.buildRisk(ticket);
+                            risk.setStatus(stage);
+                            risk.setAssignuser(assignee);
+                            RiskService riskService = AppContextUtil.getSpringBean(RiskService.class);
+                            riskService.updateSelectiveWithSession(risk, UserUIContext.getUsername());
+                        }
 
-                            if (ticket.isBug()) {
-                                BugWithBLOBs bug = ProjectTicket.buildBug(ticket);
-                                bug.setStatus(stage);
-                                BugService bugService = AppContextUtil.getSpringBean(BugService.class);
-                                bugService.updateSelectiveWithSession(bug, UserUIContext.getUsername());
-                            } else if (ticket.isTask()) {
-                                Task task = ProjectTicket.buildTask(ticket);
-                                task.setStatus(stage);
-                                ProjectTaskService taskService = AppContextUtil.getSpringBean(ProjectTaskService.class);
-                                taskService.updateSelectiveWithSession(task, UserUIContext.getUsername());
-                            } else if (ticket.isRisk()) {
-                                Risk risk = ProjectTicket.buildRisk(ticket);
-                                risk.setStatus(stage);
-                                RiskService riskService = AppContextUtil.getSpringBean(RiskService.class);
-                                riskService.updateSelectiveWithSession(risk, UserUIContext.getUsername());
-                            }
 
-                            refresh();
+                        refresh();
 
-                            Component sourceComponent = transferable.getSourceComponent();
-                            KanbanBlock sourceKanban = UIUtils.getRoot(sourceComponent, KanbanBlock.class);
-                            if (sourceKanban != null && sourceKanban != KanbanBlock.this) {
-                                sourceKanban.refresh();
-                            }
+                        Component sourceComponent = event.getComponent();
+                        KanbanBlock sourceKanban = UIUtils.getRoot(sourceComponent, KanbanBlock.class);
+                        if (sourceKanban != null && sourceKanban != KanbanBlock.this) {
+                            sourceKanban.refresh();
                         }
                     }
-                }
-
-                @Override
-                public AcceptCriterion getAcceptCriterion() {
-                    return new Not(VerticalLocationIs.MIDDLE);
                 }
             });
 
@@ -397,6 +385,31 @@ public class TicketKanbanBoardViewImpl extends AbstractVerticalPageView implemen
         @Override
         public void refresh() {
             header.setValue(String.format("%s (%d)", UserUIContext.getMessage(StatusI18nEnum.class, status), getTicketComponentCount()));
+        }
+    }
+
+    private static class Pair {
+        private String memberName;
+
+        private String status;
+
+        Pair(String memberName, String status) {
+            this.memberName = memberName;
+            this.status = status;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            Pair pair = (Pair) o;
+            return memberName.equals(pair.memberName) &&
+                    status.equals(pair.status);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(memberName, status);
         }
     }
 }

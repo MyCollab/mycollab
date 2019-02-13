@@ -22,7 +22,7 @@
     </Security>
 
     <Workspaces rootPath='repo2/wiki-workspaces' defaultWorkspace='wiki' />
-    <Workspace name="mycollab_live">
+    <Workspace name="wiki">
         <FileSystem class="com.mycollab.module.ecm.DbFileSystemExt">
             <param name="schemaObjectPrefix" value="wiki_s_" />
         </FileSystem>
@@ -30,8 +30,8 @@
         <PersistenceManager class="com.mycollab.module.ecm.BundleDbPersistenceManagerExt">
             <param name="schemaObjectPrefix" value="wiki_p_workspace" />
         </PersistenceManager>
-
     </Workspace>
+
     <!-- Configures the versioning -->
 
     <Versioning rootPath='repo2/wiki-workspaces/version'>

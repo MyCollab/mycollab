@@ -17,11 +17,10 @@
 package com.mycollab.module.project.domain
 
 import com.mycollab.core.arguments.NotBindable
+import com.mycollab.core.reporting.NotInReport
 import com.mycollab.core.utils.StringUtils
 import com.mycollab.security.PermissionMap
 import java.time.LocalDateTime
-
-import java.util.Date
 
 /**
  * @author MyCollab Ltd.
@@ -36,7 +35,13 @@ class SimpleProjectMember : ProjectMember() {
     var roleName: String? = null
 
     @NotBindable
-    var permissionMaps: PermissionMap? = null
+    @NotInReport
+    var permissionVal: String? = null
+
+    @NotBindable
+    @NotInReport
+    var permissionMap: PermissionMap? = null
+        get() = if (field == null) PermissionMap.fromJsonString(permissionVal) else field
 
     var numOpenTasks: Int? = null
 
@@ -53,16 +58,14 @@ class SimpleProjectMember : ProjectMember() {
     var totalNonBillableLogTime: Double? = null
 
     val displayName: String?
-        get() = if (StringUtils.isBlank(memberFullName)) {
-            StringUtils.extractNameFromEmail(username)
-        } else memberFullName
+        get() = if (StringUtils.isBlank(memberFullName)) StringUtils.extractNameFromEmail(username) else memberFullName
 
-    fun canRead(permissionItem: String): Boolean = permissionMaps != null && permissionMaps!!.canRead(permissionItem)
+    fun canRead(permissionItem: String): Boolean = permissionMap != null && permissionMap!!.canRead(permissionItem)
 
-    fun canWrite(permissionItem: String): Boolean = permissionMaps != null && permissionMaps!!.canWrite(permissionItem)
+    fun canWrite(permissionItem: String): Boolean = permissionMap != null && permissionMap!!.canWrite(permissionItem)
 
     fun canAccess(permissionItem: String): Boolean =
-            permissionMaps != null && permissionMaps!!.canAccess(permissionItem)
+            permissionMap != null && permissionMap!!.canAccess(permissionItem)
 
     enum class Field {
         roleName, memberFullName, totalBillableLogTime, totalNonBillableLogTime, projectName, numOpenTasks, numOpenBugs;

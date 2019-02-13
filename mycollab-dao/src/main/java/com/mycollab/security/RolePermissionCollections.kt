@@ -17,6 +17,7 @@
 package com.mycollab.security
 
 import com.google.common.collect.ImmutableList
+import com.mycollab.common.i18n.ClientI18nEnum
 import com.mycollab.module.user.accountsettings.localization.RoleI18nEnum
 import com.mycollab.module.user.accountsettings.localization.UserI18nEnum
 
@@ -42,15 +43,16 @@ object RolePermissionCollections {
     const val GLOBAL_PROJECT_SETTINGS = "GlobalProjectSettings"
 
     @JvmField
-    val ACCOUNT_PERMISSION_ARR = ImmutableList.of(
+    val ACCOUNT_PERMISSION_ARR = listOf(
             PermissionDefItem(ACCOUNT_USER, UserI18nEnum.SINGLE, AccessPermissionFlag::class.java),
             PermissionDefItem(ACCOUNT_ROLE, RoleI18nEnum.SINGLE, AccessPermissionFlag::class.java),
             PermissionDefItem(ACCOUNT_BILLING, RoleI18nEnum.OPT_BILLING_MANAGEMENT, BooleanPermissionFlag::class.java),
             PermissionDefItem(ACCOUNT_THEME, RoleI18nEnum.OPT_THEME, BooleanPermissionFlag::class.java))
 
     @JvmField
-    val PROJECT_PERMISSION_ARR = ImmutableList.of(PermissionDefItem(
-            CREATE_NEW_PROJECT, RoleI18nEnum.OPT_CREATE_NEW_PROJECT, BooleanPermissionFlag::class.java), PermissionDefItem(
-            GLOBAL_PROJECT_SETTINGS, RoleI18nEnum.OPT_GLOBAL_PROJECT_SETTINGS, BooleanPermissionFlag::class.java))
+    val PROJECT_PERMISSION_ARR = listOf(
+            PermissionDefItem(CREATE_NEW_PROJECT, RoleI18nEnum.OPT_CREATE_NEW_PROJECT, BooleanPermissionFlag::class.java),
+            PermissionDefItem(CLIENT, ClientI18nEnum.SINGLE, AccessPermissionFlag::class.java),
+            PermissionDefItem(GLOBAL_PROJECT_SETTINGS, RoleI18nEnum.OPT_GLOBAL_PROJECT_SETTINGS, BooleanPermissionFlag::class.java))
 
 }

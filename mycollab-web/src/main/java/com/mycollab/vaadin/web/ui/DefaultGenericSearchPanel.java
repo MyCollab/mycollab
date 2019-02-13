@@ -41,6 +41,7 @@ public abstract class DefaultGenericSearchPanel<S extends SearchCriteria> extend
     private static final long serialVersionUID = 1L;
 
     private List<SearchHandler<S>> searchHandlers;
+    private MHorizontalLayout headerLayout;
     private MHorizontalLayout headerRightComp;
     private ComponentContainer headerTitleComp;
 
@@ -70,19 +71,21 @@ public abstract class DefaultGenericSearchPanel<S extends SearchCriteria> extend
         return null;
     }
 
-    MHorizontalLayout constructHeader() {
-        MHorizontalLayout headerComp = new MHorizontalLayout().withFullWidth().withMargin(new MarginInfo(true, false, true, false));
-        headerRightComp = new MHorizontalLayout();
-        headerTitleComp = buildSearchTitle();
-        if (headerTitleComp != null) {
-            headerComp.with(headerTitleComp, headerRightComp).expand(headerRightComp);
-        }
+    MHorizontalLayout getHeader() {
+        if (headerLayout == null) {
+            headerLayout = new MHorizontalLayout().withFullWidth().withMargin(new MarginInfo(true, false, true, false));
+            headerRightComp = new MHorizontalLayout();
+            headerTitleComp = buildSearchTitle();
+            if (headerTitleComp != null) {
+                headerLayout.with(headerTitleComp, headerRightComp).expand(headerRightComp);
+            }
 
-        Component extraControls = buildExtraControls();
-        if (extraControls != null) {
-            addHeaderRight(extraControls);
+            Component extraControls = buildExtraControls();
+            if (extraControls != null) {
+                addHeaderRight(extraControls);
+            }
         }
-        return headerComp;
+        return headerLayout;
     }
 
     public void setTotalCountNumber(Integer countNumber) {

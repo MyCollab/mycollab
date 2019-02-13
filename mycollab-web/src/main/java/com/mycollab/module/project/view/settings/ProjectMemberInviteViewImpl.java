@@ -37,23 +37,21 @@ import com.mycollab.vaadin.mvp.AbstractVerticalPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.FormContainer;
-import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.web.ui.AddViewLayout;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.vaadin.icons.VaadinIcons;
-import com.vaadin.ui.*;
+import com.vaadin.ui.Label;
+import com.vaadin.ui.Layout;
+import com.vaadin.ui.TextArea;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
-
-import java.util.Collection;
 
 /**
  * @author MyCollab Ltd.
  * @since 1.0
  */
-// TODO
 @ViewComponent
 public class ProjectMemberInviteViewImpl extends AbstractVerticalPageView implements ProjectMemberInviteView {
     private static final long serialVersionUID = 1L;
@@ -84,7 +82,7 @@ public class ProjectMemberInviteViewImpl extends AbstractVerticalPageView implem
 
         inviteUserTokenField = new InviteUserTokenField();
         informationLayout.addComponent(new MVerticalLayout(inviteUserTokenField, new ELabel(UserUIContext.getMessage
-                        (ProjectMemberI18nEnum.USER_TOKEN_INVITE_HINT)).withFullWidth().withStyleName(UIConstants.META_INFO)).withMargin(false),
+                        (ProjectMemberI18nEnum.USER_TOKEN_INVITE_HINT)).withFullWidth().withStyleName(WebThemes.META_INFO)).withMargin(false),
                 UserUIContext.getMessage(ProjectMemberI18nEnum.FORM_INVITEES_EMAIL), 0, 0);
         informationLayout.addComponent(roleComboBox, UserUIContext.getMessage(ProjectMemberI18nEnum.FORM_ROLE), 0, 1);
 
@@ -100,10 +98,8 @@ public class ProjectMemberInviteViewImpl extends AbstractVerticalPageView implem
     private Layout createButtonControls() {
         MButton inviteBtn = new MButton(UserUIContext.getMessage(ProjectMemberI18nEnum.BUTTON_NEW_INVITEE), clickEvent -> {
             SimpleProjectRole role = roleComboBox.getValue();
-            String roleName = (role != null) ? role.getRolename() : "";
-            // TODO: error in role.getId for the admin case
-            ProjectMemberInviteViewImpl.this.fireEvent(new ViewEvent<InviteMembers>(ProjectMemberInviteViewImpl.this,
-                    new InviteMembers(inviteUserTokenField.getInviteEmails(), role.getId(), roleName, messageArea.getValue())));
+            ProjectMemberInviteViewImpl.this.fireEvent(new ViewEvent<>(ProjectMemberInviteViewImpl.this,
+                    new InviteMembers(inviteUserTokenField.getInviteEmails(), role.getId(), role.getRolename(), messageArea.getValue())));
         }).withIcon(VaadinIcons.PAPERPLANE).withStyleName(WebThemes.BUTTON_ACTION);
 
         MButton cancelBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CANCEL),

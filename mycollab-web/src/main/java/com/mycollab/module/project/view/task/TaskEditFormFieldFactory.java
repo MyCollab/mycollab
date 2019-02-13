@@ -16,10 +16,14 @@
  */
 package com.mycollab.module.project.view.task;
 
+import com.mycollab.core.utils.BusinessDayTimeUtils;
+import com.mycollab.core.utils.DateTimeUtils;
 import com.mycollab.module.file.AttachmentUtils;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.domain.SimpleTask;
 import com.mycollab.module.project.domain.Task;
+import com.mycollab.module.project.i18n.TaskI18nEnum;
+import com.mycollab.module.project.ui.components.DurationEditField;
 import com.mycollab.module.project.ui.components.PriorityComboBox;
 import com.mycollab.module.project.ui.components.ProjectSubscribersComp;
 import com.mycollab.module.project.ui.components.TaskSliderField;
@@ -38,6 +42,8 @@ import com.vaadin.ui.RichTextArea;
 import org.vaadin.viritin.fields.DoubleField;
 import org.vaadin.viritin.fields.MTextField;
 
+import java.time.LocalDate;
+
 /**
  * @author MyCollab Ltd
  * @since 5.1.1
@@ -47,6 +53,8 @@ class TaskEditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<Si
 
     private ProjectSubscribersComp subscribersComp;
     private AttachmentUploadField attachmentUploadField;
+
+    private DateField startDateField, endDateField;
 
     TaskEditFormFieldFactory(GenericBeanForm<SimpleTask> form, Integer projectId) {
         super(form);
@@ -77,38 +85,36 @@ class TaskEditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<Si
         } else if (Task.Field.priority.equalTo(propertyId)) {
             return new PriorityComboBox();
         } else if (Task.Field.duration.equalTo(propertyId)) {
-//            final TextField field = new TextField();
-//            field.setConverter(new HumanTimeConverter());
-//            final SimpleTask beanItem = attachForm.getBean();
-//            if (beanItem.getNumSubTasks() != null && beanItem.getNumSubTasks() > 0) {
-//                field.setEnabled(false);
-//                field.setDescription(UserUIContext.getMessage(TaskI18nEnum.ERROR_CAN_NOT_EDIT_PARENT_TASK_FIELD));
-//            }
-//
-//            //calculate the end date if the start date is set
-//            field.addBlurListener(blurEvent -> {
-//                HumanTime humanTime = HumanTime.eval(field.getValue());
-//                long duration = Long.valueOf(humanTime.getDelta() + "");
-//                DateTimeOptionField startDateField = (DateTimeOptionField) fieldGroup.getField(Task.Field.startdate.name());
-//                Date startDateVal = startDateField.getValue();
-//                if (duration > 0 && startDateVal != null) {
-//                    int daysDuration = (int) (duration / DateTimeUtils.MILLISECONDS_IN_A_DAY);
-//                    if (daysDuration > 0) {
-//                        DateTime startDateJoda = new DateTime(startDateVal);
-//                        LocalDate calculatedDate = BusinessDayTimeUtils.plusDays(startDateJoda.toLocalDate(), daysDuration);
-//                        DateTime endDateJoda = new DateTime(calculatedDate.toDate());
-//                        DateTimeOptionField endDateField = (DateTimeOptionField) fieldGroup.getField(Task.Field.enddate.name());
-//                        beanItem.setEnddate(endDateJoda.toDate());
-//                        endDateField.setPropertyDataSource(new TransactionalPropertyWrapper<>(new MethodProperty(beanItem, "enddate")));
-//                    }
-//                }
-//            });
-//            return field;
+            DurationEditField field = new DurationEditField();
+            field.setWidth(WebThemes.FORM_CONTROL_WIDTH);
+            final SimpleTask beanItem = attachForm.getBean();
+            if (beanItem.getNumSubTasks() != null && beanItem.getNumSubTasks() > 0) {
+                field.setEnabled(false);
+                field.setDescription(UserUIContext.getMessage(TaskI18nEnum.ERROR_CAN_NOT_EDIT_PARENT_TASK_FIELD));
+            }
+
+            field.addValueChangeListener((HasValue.ValueChangeListener<Long>) event -> {
+                long duration = event.getValue();
+                LocalDate startDateVal = startDateField.getValue();
+                if (duration > 0 && startDateVal != null) {
+                    int daysDuration = (int) (duration / DateTimeUtils.MILLISECONDS_IN_A_DAY);
+                    if (daysDuration > 0) {
+                        LocalDate endDateVal = BusinessDayTimeUtils.plusDays(startDateVal, daysDuration);
+                        endDateField.setValue(endDateVal);
+                    }
+                }
+            });
+            return field;
         } else if (Task.Field.originalestimate.equalTo(propertyId) || Task.Field.remainestimate.equalTo(propertyId)) {
             return new DoubleField().withWidth(WebThemes.FORM_CONTROL_WIDTH);
-        } else if (Task.Field.startdate.equalTo(propertyId) || Task.Field.enddate.equalTo(propertyId)
-                || Task.Field.duedate.equalTo(propertyId)) {
+        } else if (Task.Field.duedate.equalTo(propertyId)) {
             return new DateField();
+        } else if (Task.Field.startdate.equalTo(propertyId)) {
+            startDateField = new DateField();
+            return startDateField;
+        } else if (Task.Field.enddate.equalTo(propertyId)) {
+            endDateField = new DateField();
+            return endDateField;
         } else if ("section-attachments".equals(propertyId)) {
             Task beanItem = attachForm.getBean();
             if (beanItem.getId() != null) {

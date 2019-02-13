@@ -25,7 +25,7 @@ import java.util.Locale
  * @author MyCollab Ltd.
  * @since 5.0.5
  */
-class I18nExpression(field: String, private val keyCls: Class<*>) : SimpleFieldExpression<String>(field) {
+class I18nExpression(field: String, private val keyCls: Class<out Enum<*>>) : SimpleFieldExpression<String>(field) {
 
     override fun evaluate(reportParameters: ReportParameters): String {
         val locale = reportParameters.locale

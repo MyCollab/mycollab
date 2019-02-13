@@ -19,8 +19,6 @@ package com.mycollab.module.project.view.milestone;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.mycollab.configuration.SiteConfiguration;
-import com.mycollab.core.arguments.ValuedBean;
-import com.mycollab.core.utils.BeanUtility;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectRolePermissionCollections;
 import com.mycollab.module.project.ProjectTypeConstants;
@@ -30,6 +28,7 @@ import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.module.project.ui.components.*;
 import com.mycollab.module.project.view.ProjectView;
+import com.mycollab.module.tracker.domain.SimpleBug;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.event.HasPreviewFormHandlers;
 import com.mycollab.vaadin.mvp.ViewComponent;
@@ -43,7 +42,6 @@ import com.vaadin.icons.VaadinIcons;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
-import org.apache.commons.beanutils.PropertyUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.vaadin.viritin.layouts.MVerticalLayout;
@@ -62,10 +60,11 @@ public class MilestoneReadViewImpl extends AbstractPreviewItemComp<SimpleMilesto
     private DateInfoComp dateInfoComp;
     private PeopleInfoComp peopleInfoComp;
     private MilestoneTimeLogComp milestoneTimeLogComp;
+    private PlanningInfoComp planningInfoComp;
 
     public MilestoneReadViewImpl() {
         super(UserUIContext.getMessage(MilestoneI18nEnum.DETAIL), ProjectAssetsManager.getAsset
-                (ProjectTypeConstants.MILESTONE), new MilestonePreviewFormLayout(), false);
+                (ProjectTypeConstants.MILESTONE), new MilestonePreviewFormLayout());
     }
 
     @Override
@@ -99,14 +98,15 @@ public class MilestoneReadViewImpl extends AbstractPreviewItemComp<SimpleMilesto
         activityComponent = new ProjectActivityComponent(ProjectTypeConstants.MILESTONE, CurrentProjectVariables.getProjectId());
         dateInfoComp = new DateInfoComp();
         peopleInfoComp = new PeopleInfoComp();
+        planningInfoComp = new PlanningInfoComp();
 
         ProjectView projectView = UIUtils.getRoot(this, ProjectView.class);
         MVerticalLayout detailLayout = new MVerticalLayout().withMargin(new MarginInfo(false, true, false, true));
         if (SiteConfiguration.isCommunityEdition()) {
-            detailLayout.with(dateInfoComp, peopleInfoComp);
+            detailLayout.with(peopleInfoComp, planningInfoComp, dateInfoComp);
         } else {
             milestoneTimeLogComp = new MilestoneTimeLogComp();
-            detailLayout.with(dateInfoComp, peopleInfoComp, milestoneTimeLogComp);
+            detailLayout.with(peopleInfoComp, planningInfoComp, milestoneTimeLogComp, dateInfoComp);
         }
 
         Panel detailPanel = new Panel(UserUIContext.getMessage(GenericI18Enum.OPT_DETAILS), detailLayout);
@@ -136,6 +136,7 @@ public class MilestoneReadViewImpl extends AbstractPreviewItemComp<SimpleMilesto
         activityComponent.loadActivities("" + beanItem.getId());
         dateInfoComp.displayEntryDateTime(beanItem);
         peopleInfoComp.displayEntryPeople(beanItem);
+        planningInfoComp.displayPlanningInfo(beanItem);
     }
 
     @Override
@@ -176,7 +177,7 @@ public class MilestoneReadViewImpl extends AbstractPreviewItemComp<SimpleMilesto
     private static class PeopleInfoComp extends MVerticalLayout {
         private static final long serialVersionUID = 1L;
 
-        void displayEntryPeople(ValuedBean bean) {
+        void displayEntryPeople(SimpleMilestone milestone) {
             this.removeAllComponents();
             this.withMargin(false);
 
@@ -188,34 +189,62 @@ public class MilestoneReadViewImpl extends AbstractPreviewItemComp<SimpleMilesto
             layout.setSpacing(true);
             layout.setWidth("100%");
             layout.setMargin(new MarginInfo(false, false, false, true));
-            try {
-                Label createdLbl = new Label(UserUIContext.getMessage(ProjectCommonI18nEnum.ITEM_CREATED_PEOPLE));
-                createdLbl.setSizeUndefined();
-                layout.addComponent(createdLbl, 0, 0);
 
-                String createdUserName = (String) PropertyUtils.getProperty(bean, "createduser");
-                String createdUserAvatarId = (String) PropertyUtils.getProperty(bean, "createdUserAvatarId");
-                String createdUserDisplayName = (String) PropertyUtils.getProperty(bean, "createdUserFullName");
+            Label createdLbl = new ELabel(UserUIContext.getMessage(ProjectCommonI18nEnum.ITEM_CREATED_PEOPLE)).withUndefinedWidth().withStyleName(WebThemes.META_COLOR);
+            layout.addComponent(createdLbl, 0, 0);
 
-                ProjectMemberLink createdUserLink = new ProjectMemberLink(createdUserName, createdUserAvatarId, createdUserDisplayName);
-                layout.addComponent(createdUserLink, 1, 0);
-                layout.setColumnExpandRatio(1, 1.0f);
+            String createdUserName = milestone.getCreateduser();
+            String createdUserAvatarId = milestone.getCreatedUserAvatarId();
+            String createdUserDisplayName = milestone.getCreatedUserFullName();
 
-                ELabel assigneeLbl = new ELabel(UserUIContext.getMessage(ProjectCommonI18nEnum.ITEM_ASSIGN_PEOPLE))
-                        .withUndefinedWidth();
-                layout.addComponent(assigneeLbl, 0, 1);
-                String assignUserName = (String) PropertyUtils.getProperty(bean, "assignuser");
-                String assignUserAvatarId = (String) PropertyUtils.getProperty(bean, "ownerAvatarId");
-                String assignUserDisplayName = (String) PropertyUtils.getProperty(bean, "ownerFullName");
+            ProjectMemberLink createdUserLink = new ProjectMemberLink(createdUserName, createdUserAvatarId, createdUserDisplayName);
+            layout.addComponent(createdUserLink, 1, 0);
+            layout.setColumnExpandRatio(1, 1.0f);
 
-                ProjectMemberLink assignUserLink = new ProjectMemberLink(assignUserName, assignUserAvatarId, assignUserDisplayName);
-                layout.addComponent(assignUserLink, 1, 1);
-            } catch (Exception e) {
-                LOG.error("Can not build user link {} ", BeanUtility.printBeanObj(bean));
-            }
+            ELabel assigneeLbl = new ELabel(UserUIContext.getMessage(ProjectCommonI18nEnum.ITEM_ASSIGN_PEOPLE))
+                    .withUndefinedWidth().withStyleName(WebThemes.META_COLOR);
+            layout.addComponent(assigneeLbl, 0, 1);
+            String assignUserName = milestone.getAssignuser();
+            String assignUserAvatarId = milestone.getOwnerAvatarId();
+            String assignUserDisplayName = milestone.getOwnerFullName();
+
+            ProjectMemberLink assignUserLink = new ProjectMemberLink(assignUserName, assignUserAvatarId, assignUserDisplayName);
+            layout.addComponent(assignUserLink, 1, 1);
 
             this.addComponent(layout);
+        }
+    }
 
+    private static class PlanningInfoComp extends MVerticalLayout {
+        private void displayPlanningInfo(SimpleMilestone milestone) {
+            this.removeAllComponents();
+            this.withMargin(false);
+
+            Label peopleInfoHeader = ELabel.html(VaadinIcons.CALENDAR_CLOCK.getHtml() + " " + UserUIContext.getMessage(ProjectCommonI18nEnum.SUB_INFO_PLANNING));
+            peopleInfoHeader.setStyleName("info-hdr");
+            this.addComponent(peopleInfoHeader);
+
+            GridLayout layout = new GridLayout(2, 2);
+            layout.setSpacing(true);
+            layout.setWidth("100%");
+            layout.setMargin(new MarginInfo(false, false, false, true));
+
+            ELabel startDateLbl = new ELabel(UserUIContext.getMessage(GenericI18Enum.FORM_START_DATE)).withStyleName(WebThemes.META_COLOR)
+                    .withUndefinedWidth();
+            layout.addComponent(startDateLbl, 0, 0);
+
+            ELabel startDateVal = new ELabel(UserUIContext.formatDate(milestone.getStartdate()));
+            layout.addComponent(startDateVal, 1, 0);
+
+            ELabel endDateLbl = new ELabel(UserUIContext.getMessage(GenericI18Enum.FORM_END_DATE)).withStyleName(WebThemes.META_COLOR).withUndefinedWidth();
+            layout.addComponent(endDateLbl, 0, 1);
+
+            ELabel endDateVal = new ELabel(UserUIContext.formatDate(milestone.getEnddate()));
+            layout.addComponent(endDateVal, 1, 1);
+
+            layout.setColumnExpandRatio(1, 1.0f);
+
+            this.addComponent(layout);
         }
     }
 }

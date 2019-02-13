@@ -24,6 +24,8 @@ import com.vaadin.icons.VaadinIcons;
 import com.vaadin.ui.IconGenerator;
 import com.vaadin.ui.StyleGenerator;
 
+import static com.mycollab.module.project.i18n.OptionI18nEnum.BugSeverity.Major;
+
 /**
  * @author MyCollab Ltd.
  * @since 1.0
@@ -42,5 +44,6 @@ public class BugSeverityComboBox extends I18nValueComboBox<BugSeverity> {
                 return null;
             }
         });
+        setValue(Major);
     }
 }

@@ -45,10 +45,7 @@ import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.ApplicationEventListener;
 import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.vaadin.UserUIContext;
-import com.mycollab.vaadin.event.HasMassItemActionHandler;
 import com.mycollab.vaadin.event.HasSearchHandlers;
-import com.mycollab.vaadin.event.HasSelectableItemHandlers;
-import com.mycollab.vaadin.event.HasSelectionOptionHandlers;
 import com.mycollab.vaadin.mvp.AbstractVerticalPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.ELabel;
@@ -56,7 +53,6 @@ import com.mycollab.vaadin.ui.UIUtils;
 import com.mycollab.vaadin.web.ui.QueryParamHandler;
 import com.mycollab.vaadin.web.ui.StringValueComboBox;
 import com.mycollab.vaadin.web.ui.WebThemes;
-import com.mycollab.vaadin.web.ui.table.AbstractPagedBeanTable;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
@@ -128,7 +124,7 @@ public class TicketDashboardViewImpl extends AbstractVerticalPageView implements
         extraCompsHeaderLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
         extraCompsHeaderLayout.addComponent(new ELabel(UserUIContext.getMessage(GenericI18Enum.ACTION_SORT)));
-        final StringValueComboBox sortCombo = new StringValueComboBox(false, UserUIContext.getMessage(GenericI18Enum.OPT_SORT_DESCENDING),
+        StringValueComboBox sortCombo = new StringValueComboBox(false, UserUIContext.getMessage(GenericI18Enum.OPT_SORT_DESCENDING),
                 UserUIContext.getMessage(GenericI18Enum.OPT_SORT_ASCENDING));
         sortCombo.setWidth("130px");
         sortCombo.addValueChangeListener(valueChangeEvent -> {
@@ -144,7 +140,7 @@ public class TicketDashboardViewImpl extends AbstractVerticalPageView implements
         extraCompsHeaderLayout.addComponent(sortCombo);
 
         extraCompsHeaderLayout.addComponent(new ELabel(UserUIContext.getMessage(GenericI18Enum.OPT_GROUP)));
-        final StringValueComboBox groupCombo = new StringValueComboBox(false, UserUIContext.getMessage(GenericI18Enum.FORM_DUE_DATE),
+        StringValueComboBox groupCombo = new StringValueComboBox(false, UserUIContext.getMessage(GenericI18Enum.FORM_DUE_DATE),
                 UserUIContext.getMessage(GenericI18Enum.FORM_START_DATE), UserUIContext.getMessage(GenericI18Enum.FORM_CREATED_TIME),
                 UserUIContext.getMessage(GenericI18Enum.OPT_PLAIN), UserUIContext.getMessage(GenericI18Enum.OPT_USER),
                 UserUIContext.getMessage(MilestoneI18nEnum.SINGLE));
@@ -157,8 +153,6 @@ public class TicketDashboardViewImpl extends AbstractVerticalPageView implements
         groupCombo.setWidth("130px");
 
         extraCompsHeaderLayout.addComponent(groupCombo);
-
-        ticketSearchPanel.addHeaderRight(extraCompsHeaderLayout);
 
         MButton printBtn = new MButton("", clickEvent -> UI.getCurrent().addWindow(
                 new TicketCustomizeReportOutputWindow(new LazyValueInjector() {
@@ -177,12 +171,11 @@ public class TicketDashboardViewImpl extends AbstractVerticalPageView implements
                 .withVisible(CurrentProjectVariables.canWriteTicket());
         extraCompsHeaderLayout.addComponent(newTicketBtn);
 
-        MHorizontalLayout mainLayout = new MHorizontalLayout().withFullHeight().withFullWidth();
+        ticketSearchPanel.addHeaderRight(extraCompsHeaderLayout);
+
         wrapBody = new MVerticalLayout().withMargin(new MarginInfo(false, false, true, false));
 
-        mainLayout.with(wrapBody).expand(wrapBody);
-
-        this.with(ticketSearchPanel, mainLayout).expand(mainLayout);
+        this.with(ticketSearchPanel, wrapBody).expand(wrapBody);
     }
 
     @Override
@@ -254,7 +247,10 @@ public class TicketDashboardViewImpl extends AbstractVerticalPageView implements
     @Override
     public void queryTickets(ProjectTicketSearchCriteria searchCriteria) {
         baseCriteria = searchCriteria;
-        baseCriteria.setTypes(CurrentProjectVariables.getRestrictedTicketTypes());
+        if (baseCriteria.getTypes() == null) {
+            baseCriteria.setTypes(CurrentProjectVariables.getRestrictedTicketTypes());
+        }
+
         queryAndDisplayTickets();
         displayTicketsStatistic();
     }
@@ -309,37 +305,7 @@ public class TicketDashboardViewImpl extends AbstractVerticalPageView implements
     }
 
     @Override
-    public void enableActionControls(int numOfSelectedItem) {
-
-    }
-
-    @Override
-    public void disableActionControls() {
-
-    }
-
-    @Override
     public HasSearchHandlers<ProjectTicketSearchCriteria> getSearchHandlers() {
         return ticketSearchPanel;
-    }
-
-    @Override
-    public HasSelectionOptionHandlers getOptionSelectionHandlers() {
-        return null;
-    }
-
-    @Override
-    public HasMassItemActionHandler getPopupActionHandlers() {
-        return null;
-    }
-
-    @Override
-    public HasSelectableItemHandlers<ProjectTicket> getSelectableItemHandlers() {
-        return null;
-    }
-
-    @Override
-    public AbstractPagedBeanTable<ProjectTicketSearchCriteria, ProjectTicket> getPagedBeanGrid() {
-        return null;
     }
 }

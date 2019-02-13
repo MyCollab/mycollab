@@ -34,7 +34,7 @@ import com.mycollab.module.tracker.domain.SimpleBug;
  */
 public class BugDefaultFormLayoutFactory {
 
-    private static DynaSection mainSection() {
+    private static DynaSection mainAddSection() {
         DynaSection mainSection = new DynaSectionBuilder().layoutType(LayoutType.TWO_COLUMN).build();
 
         //Row 1
@@ -46,6 +46,7 @@ public class BugDefaultFormLayoutFactory {
         mainSection.fields(new TextDynaFieldBuilder().fieldName(BugWithBLOBs.Field.priority)
                 .displayName(GenericI18Enum.FORM_PRIORITY)
                 .contextHelp(GenericI18Enum.FORM_PRIORITY_HELP)
+                .required(true)
                 .fieldIndex(1).build());
 
         mainSection.fields(new TextDynaFieldBuilder().fieldName(BugWithBLOBs.Field.assignuser)
@@ -112,6 +113,75 @@ public class BugDefaultFormLayoutFactory {
         return mainSection;
     }
 
+    private static DynaSection mainReadSection() {
+        DynaSection mainSection = new DynaSectionBuilder().layoutType(LayoutType.TWO_COLUMN).build();
+
+        //Row 1
+        mainSection.fields(new TextDynaFieldBuilder().fieldName(BugWithBLOBs.Field.name)
+                .displayName(BugI18nEnum.FORM_SUMMARY)
+                .fieldIndex(0).mandatory(true).required(true).colSpan(true).build());
+
+        // Row 2
+        mainSection.fields(new TextDynaFieldBuilder().fieldName(BugWithBLOBs.Field.status)
+                .displayName(GenericI18Enum.FORM_STATUS)
+                .fieldIndex(1).build());
+
+        mainSection.fields(new TextDynaFieldBuilder().fieldName(BugWithBLOBs.Field.resolution)
+                .displayName(BugI18nEnum.FORM_RESOLUTION)
+                .fieldIndex(2).build());
+
+        //Row 3
+        mainSection.fields(new TextDynaFieldBuilder().fieldName(BugWithBLOBs.Field.priority)
+                .displayName(GenericI18Enum.FORM_PRIORITY)
+                .contextHelp(GenericI18Enum.FORM_PRIORITY_HELP)
+                .required(true)
+                .fieldIndex(3).build());
+
+        mainSection.fields(new TextDynaFieldBuilder().fieldName(BugWithBLOBs.Field.severity)
+                .displayName(BugI18nEnum.FORM_SEVERITY)
+                .fieldIndex(4).build());
+
+        mainSection.fields(new TextDynaFieldBuilder().fieldName(SimpleBug.Field.components)
+                .displayName(BugI18nEnum.FORM_COMPONENTS)
+                .contextHelp(BugI18nEnum.FORM_COMPONENTS_HELP)
+                .fieldIndex(5).build());
+
+        mainSection.fields(new TextDynaFieldBuilder().fieldName(SimpleBug.Field.affectedVersions)
+                .displayName(BugI18nEnum.FORM_AFFECTED_VERSIONS)
+                .contextHelp(BugI18nEnum.FORM_AFFECTED_VERSIONS_HELP)
+                .fieldIndex(6).build());
+
+        mainSection.fields(new TextDynaFieldBuilder().fieldName(SimpleBug.Field.fixedVersions)
+                .displayName(BugI18nEnum.FORM_FIXED_VERSIONS)
+                .contextHelp(BugI18nEnum.FORM_FIXED_VERSIONS_HELP)
+                .fieldIndex(8).build());
+
+        mainSection.fields(new TextDynaFieldBuilder().fieldName(BugWithBLOBs.Field.milestoneid)
+                .displayName(MilestoneI18nEnum.SINGLE)
+                .fieldIndex(10).build());
+
+        mainSection.fields(new TextDynaFieldBuilder().fieldName(BugWithBLOBs.Field.originalestimate)
+                .displayName(BugI18nEnum.FORM_ORIGINAL_ESTIMATE)
+                .contextHelp(BugI18nEnum.FORM_ORIGINAL_ESTIMATE_HELP)
+                .fieldIndex(11).build());
+
+        mainSection.fields(new TextDynaFieldBuilder().fieldName(BugWithBLOBs.Field.remainestimate)
+                .displayName(BugI18nEnum.FORM_REMAIN_ESTIMATE)
+                .contextHelp(BugI18nEnum.FORM_REMAIN_ESTIMATE_HELP)
+                .fieldIndex(12).build());
+
+
+        mainSection.fields(new TextDynaFieldBuilder().fieldName(BugWithBLOBs.Field.environment)
+                .displayName(BugI18nEnum.FORM_ENVIRONMENT)
+                .fieldIndex(13).colSpan(true).build());
+
+        mainSection.fields(new TextDynaFieldBuilder().fieldName(BugWithBLOBs.Field.description)
+                .displayName(GenericI18Enum.FORM_DESCRIPTION)
+                .fieldIndex(14).colSpan(true).build());
+
+        return mainSection;
+    }
+
     private static DynaSection attachmentSection() {
         DynaSection attachmentSection = new DynaSectionBuilder().layoutType(LayoutType.ONE_COLUMN).header(GenericI18Enum.FORM_ATTACHMENTS).build();
         attachmentSection.fields(new TextDynaFieldBuilder().fieldName("section-attachments")
@@ -128,10 +198,10 @@ public class BugDefaultFormLayoutFactory {
     }
 
     public static DynaForm getReadForm() {
-        return new DynaForm(mainSection(), attachmentSection());
+        return new DynaForm(mainReadSection(), attachmentSection());
     }
 
     public static DynaForm getAddForm() {
-        return new DynaForm(mainSection(), followersSection(), attachmentSection());
+        return new DynaForm(mainAddSection(), followersSection(), attachmentSection());
     }
 }

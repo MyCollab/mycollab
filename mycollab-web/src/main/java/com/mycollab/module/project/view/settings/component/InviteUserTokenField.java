@@ -16,7 +16,6 @@
  */
 package com.mycollab.module.project.view.settings.component;
 
-
 import com.explicatis.ext_token_field.ExtTokenField;
 import com.explicatis.ext_token_field.SimpleTokenizable;
 import com.explicatis.ext_token_field.Tokenizable;
@@ -91,7 +90,6 @@ public class InviteUserTokenField extends CssLayout {
         };
 
     }
-
 
     public Collection<String> getInviteEmails() {
         return inviteEmails;

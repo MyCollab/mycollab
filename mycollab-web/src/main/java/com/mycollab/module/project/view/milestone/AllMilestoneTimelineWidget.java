@@ -36,14 +36,10 @@ import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.TooltipHelper;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
-import com.mycollab.vaadin.web.ui.WebThemes;
+import com.mycollab.vaadin.web.ui.Depot;
 import com.vaadin.icons.VaadinIcons;
-import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.ui.Alignment;
 import com.vaadin.ui.CheckBox;
-import com.vaadin.ui.CssLayout;
-import org.vaadin.viritin.layouts.MHorizontalLayout;
-import org.vaadin.viritin.layouts.MVerticalLayout;
+import org.vaadin.viritin.layouts.MCssLayout;
 
 import java.util.Collections;
 import java.util.List;
@@ -52,28 +48,27 @@ import java.util.List;
  * @author MyCollab Ltd
  * @since 5.2.4
  */
-public class AllMilestoneTimelineWidget extends MVerticalLayout {
+public class AllMilestoneTimelineWidget extends Depot {
     private List<SimpleMilestone> milestones;
-    private CssLayout timelineContainer;
+
+    public AllMilestoneTimelineWidget() {
+        super(UserUIContext.getMessage(MilestoneI18nEnum.OPT_TIMELINE), new MCssLayout());
+        this.setWidth("100%");
+        this.addStyleName("tm-container");
+    }
 
     public void display(List<Integer> projectIds) {
-        this.withMargin(new MarginInfo(false, false, true, false)).withStyleName("tm-container").withFullWidth();
-
-        MHorizontalLayout headerLayout = new MHorizontalLayout().withMargin(new MarginInfo(false, true, false, true))
-                .withStyleName(WebThemes.PANEL_HEADER, "wrapped");
-        headerLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
-        ELabel titleLbl = ELabel.h3(UserUIContext.getMessage(MilestoneI18nEnum.OPT_TIMELINE));
-
-        final CheckBox includeNoDateSet = new CheckBox(UserUIContext.getMessage(DayI18nEnum.OPT_NO_DATE_SET));
+        CheckBox includeNoDateSet = new CheckBox(UserUIContext.getMessage(DayI18nEnum.OPT_NO_DATE_SET));
         includeNoDateSet.setValue(false);
 
-        final CheckBox includeClosedMilestone = new CheckBox(UserUIContext.getMessage(MilestoneStatus.Closed));
+        CheckBox includeClosedMilestone = new CheckBox(UserUIContext.getMessage(MilestoneStatus.Closed));
         includeClosedMilestone.setValue(false);
 
         includeNoDateSet.addValueChangeListener(valueChangeEvent -> displayTimelines(includeNoDateSet.getValue(), includeClosedMilestone.getValue()));
         includeClosedMilestone.addValueChangeListener(valueChangeEvent -> displayTimelines(includeNoDateSet.getValue(), includeClosedMilestone.getValue()));
-        headerLayout.with(titleLbl, includeNoDateSet, includeClosedMilestone).expand(titleLbl).withAlign(includeNoDateSet, Alignment
-                .MIDDLE_RIGHT).withAlign(includeClosedMilestone, Alignment.MIDDLE_RIGHT);
+
+        addHeaderElement(includeNoDateSet);
+        addHeaderElement(includeClosedMilestone);
 
         MilestoneSearchCriteria searchCriteria = new MilestoneSearchCriteria();
         searchCriteria.setProjectIds(new SetSearchField<>(projectIds));
@@ -81,16 +76,12 @@ public class AllMilestoneTimelineWidget extends MVerticalLayout {
         MilestoneService milestoneService = AppContextUtil.getSpringBean(MilestoneService.class);
         milestones = (List<SimpleMilestone>) milestoneService.findPageableListByCriteria(new BasicSearchRequest<>(searchCriteria));
 
-        this.addComponent(headerLayout);
-        timelineContainer = new CssLayout();
-        timelineContainer.setWidth("100%");
-        this.addComponent(timelineContainer);
-        timelineContainer.addStyleName("tm-wrapper");
+        bodyContent.addStyleName("tm-wrapper");
         displayTimelines(false, false);
     }
 
     private void displayTimelines(boolean includeNoDateSet, boolean includeClosedMilestone) {
-        timelineContainer.removeAllComponents();
+        bodyContent.removeAllComponents();
         Ul ul = new Ul().setCSSClass("timeline");
 
         for (SimpleMilestone milestone : milestones) {
@@ -156,6 +147,6 @@ public class AllMilestoneTimelineWidget extends MVerticalLayout {
             ul.appendChild(li);
         }
 
-        timelineContainer.addComponent(ELabel.html(ul.write()).withUndefinedWidth());
+        bodyContent.addComponent(ELabel.html(ul.write()).withUndefinedWidth());
     }
 }

@@ -23,6 +23,7 @@ import com.mycollab.core.utils.StringUtils;
 import com.mycollab.vaadin.UserUIContext;
 import com.vaadin.ui.*;
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.vaadin.hene.popupbutton.PopupButton;
@@ -38,8 +39,7 @@ import java.util.List;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-// TODO
-public abstract class MultiSelectComp<T> extends CustomField<T> {
+public abstract class MultiSelectComp<T> extends CustomField<List<T>> {
     private static final long serialVersionUID = 1L;
 
     private static final Logger LOG = LoggerFactory.getLogger(MultiSelectComp.class);
@@ -103,13 +103,13 @@ public abstract class MultiSelectComp<T> extends CustomField<T> {
     private void initContentPopup() {
         popupContent.removeAllComponents();
         items = createData();
-        for (final T item : items) {
-            final ItemSelectionComp<T> chkItem = buildItem(item);
+        for (T item : items) {
+            CheckBox chkItem = buildItem(item);
 
             if (selectedItems != null) {
                 for (T selectedItem : selectedItems) {
                     if (compareVal(item, selectedItem)) {
-//                        chkItem.setInternalVal(true);
+                        chkItem.setValue(true);
                     }
                 }
             }
@@ -120,7 +120,7 @@ public abstract class MultiSelectComp<T> extends CustomField<T> {
         popupContent.setWidth(widthVal);
     }
 
-    protected ItemSelectionComp<T> buildItem(final T item) {
+    private CheckBox buildItem(T item) {
         String itemName = "";
         if (!"".equals(propertyDisplayField)) {
             try {
@@ -132,14 +132,13 @@ public abstract class MultiSelectComp<T> extends CustomField<T> {
             itemName = item.toString();
         }
 
-        final ItemSelectionComp<T> chkItem = new ItemSelectionComp<>(item, itemName);
-//        chkItem.setImmediate(true);
+        CheckBox chkItem = new CheckBox(StringUtils.trim(itemName, 25, true));
 
         chkItem.addValueChangeListener(valueChangeEvent -> {
-            final Boolean value = chkItem.getValue();
+            Boolean value = chkItem.getValue();
 
-            if (value && !selectedItems.contains(item)) {
-                selectedItems.add(item);
+            if (value) {
+                if (!selectedItems.contains(item)) selectedItems.add(item);
             } else {
                 selectedItems.remove(item);
             }
@@ -150,19 +149,23 @@ public abstract class MultiSelectComp<T> extends CustomField<T> {
     }
 
     private void displaySelectedItems() {
-        componentsText.setReadOnly(false);
-        componentsText.setValue(selectedItems.size() + " selected");
-        componentsText.setReadOnly(true);
-        Ul ul = new Ul();
-        try {
-            for (T item : selectedItems) {
-                String objDisplayName = (String) PropertyUtils.getProperty(item, propertyDisplayField);
-                ul.appendChild(new Li().appendText(objDisplayName));
+        if (CollectionUtils.isNotEmpty(selectedItems)) {
+            componentsText.setReadOnly(false);
+            componentsText.setValue(selectedItems.size() + " selected");
+            componentsText.setReadOnly(true);
+            Ul ul = new Ul();
+            try {
+                for (T item : selectedItems) {
+                    String objDisplayName = (String) PropertyUtils.getProperty(item, propertyDisplayField);
+                    ul.appendChild(new Li().appendText(objDisplayName));
+                }
+            } catch (Exception e) {
+                LOG.error("Error when build tooltip", e);
             }
-        } catch (Exception e) {
-            LOG.error("Error when build tooltip", e);
+            componentsText.setDescription(ul.write());
+        } else {
+            componentsText.setValue("");
         }
-        componentsText.setDescription(ul.write());
     }
 
     public void setSelectedItems(List<T> selectedValues) {
@@ -189,21 +192,5 @@ public abstract class MultiSelectComp<T> extends CustomField<T> {
 
     public List<T> getSelectedItems() {
         return this.selectedItems;
-    }
-
-    public static class ItemSelectionComp<T> extends CheckBox {
-        private static final long serialVersionUID = 1L;
-
-        private T item;
-
-        public ItemSelectionComp(T item, String caption) {
-            super();
-            this.item = item;
-            this.setCaption(StringUtils.trim(caption, 25, true));
-        }
-
-//        void setInternalVal(Boolean val) {
-//            this.setInternalValue(val);
-//        }
     }
 }

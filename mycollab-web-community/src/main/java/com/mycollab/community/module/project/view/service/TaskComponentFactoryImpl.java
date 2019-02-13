@@ -33,7 +33,7 @@ import com.mycollab.module.project.i18n.TimeTrackingI18nEnum;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.module.project.view.service.TaskComponentFactory;
 import com.mycollab.vaadin.UserUIContext;
-import com.mycollab.vaadin.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.ui.AbstractComponent;
 import org.springframework.stereotype.Service;
@@ -54,7 +54,7 @@ public class TaskComponentFactoryImpl implements TaskComponentFactory {
     @Override
     public AbstractComponent createAssigneePopupField(SimpleTask task) {
         String avatarLink = StorageUtils.getAvatarPath(task.getAssignUserAvatarId(), 16);
-        Img img = new Img(task.getAssignUserFullName(), avatarLink).setCSSClass(UIConstants.CIRCLE_BOX)
+        Img img = new Img(task.getAssignUserFullName(), avatarLink).setCSSClass(WebThemes.CIRCLE_BOX)
                 .setTitle(task.getAssignUserFullName());
         return new MetaFieldBuilder().withCaption(img.write())
                 .withDescription(UserUIContext.getMessage(ShellI18nEnum.OPT_UPGRADE_PRO_INTRO,

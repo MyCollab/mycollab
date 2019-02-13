@@ -30,7 +30,7 @@ import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.module.project.view.service.BugComponentFactory;
 import com.mycollab.module.tracker.domain.SimpleBug;
 import com.mycollab.vaadin.UserUIContext;
-import com.mycollab.vaadin.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.ui.AbstractComponent;
 import org.springframework.stereotype.Service;
@@ -54,7 +54,7 @@ public class BugComponentFactoryImpl implements BugComponentFactory {
     public AbstractComponent createAssigneePopupField(SimpleBug bug) {
         String avatarLink = StorageUtils.getAvatarPath(bug.getAssignUserAvatarId(), 16);
         Img img = new Img(bug.getAssignuserFullName(), avatarLink).setTitle(bug.getAssignuserFullName())
-                .setCSSClass(UIConstants.CIRCLE_BOX);
+                .setCSSClass(WebThemes.CIRCLE_BOX);
         return new MetaFieldBuilder().withCaption(img.write())
                 .withDescription(UserUIContext.getMessage(GenericI18Enum.FORM_ASSIGNEE)).build();
     }

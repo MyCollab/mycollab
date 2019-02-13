@@ -18,8 +18,7 @@ package com.mycollab.module.project.view.task;
 
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.configuration.SiteConfiguration;
-import com.mycollab.core.arguments.ValuedBean;
-import com.mycollab.core.utils.BeanUtility;
+import com.mycollab.core.utils.HumanTime;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectRolePermissionCollections;
 import com.mycollab.module.project.ProjectTypeConstants;
@@ -45,12 +44,8 @@ import com.mycollab.vaadin.web.ui.ReadViewLayout;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.GridLayout;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Panel;
+import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
-import org.apache.commons.beanutils.PropertyUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
@@ -70,11 +65,12 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
     private ProjectFollowersComp<SimpleTask> followerSheet;
     private DateInfoComp dateInfoComp;
     private TaskTimeLogSheet timeLogComp;
+    private PlanningInfoComp planningInfoComp;
     private PeopleInfoComp peopleInfoComp;
 
     public TaskReadViewImpl() {
         super(UserUIContext.getMessage(TaskI18nEnum.DETAIL),
-                ProjectAssetsManager.getAsset(ProjectTypeConstants.TASK), new TaskPreviewFormLayout(), false);
+                ProjectAssetsManager.getAsset(ProjectTypeConstants.TASK), new TaskPreviewFormLayout());
     }
 
     @Override
@@ -93,14 +89,15 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
         dateInfoComp = new DateInfoComp();
         peopleInfoComp = new PeopleInfoComp();
         followerSheet = new ProjectFollowersComp<>(ProjectTypeConstants.TASK, ProjectRolePermissionCollections.TASKS);
+        planningInfoComp = new PlanningInfoComp();
 
         ProjectView projectView = UIUtils.getRoot(this, ProjectView.class);
         MVerticalLayout detailLayout = new MVerticalLayout().withMargin(new MarginInfo(false, true, false, true));
         if (SiteConfiguration.isCommunityEdition()) {
-            detailLayout.with(dateInfoComp, peopleInfoComp, followerSheet);
+            detailLayout.with(peopleInfoComp, planningInfoComp, followerSheet, dateInfoComp);
         } else {
             timeLogComp = ViewManager.getCacheComponent(TaskTimeLogSheet.class);
-            detailLayout.with(dateInfoComp, peopleInfoComp, timeLogComp, followerSheet);
+            detailLayout.with(peopleInfoComp, planningInfoComp, timeLogComp, followerSheet, dateInfoComp);
         }
 
         Panel detailPanel = new Panel(UserUIContext.getMessage(GenericI18Enum.OPT_DETAILS), detailLayout);
@@ -124,6 +121,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
         followerSheet.displayFollowers(beanItem);
         peopleInfoComp.displayEntryPeople(beanItem);
         dateInfoComp.displayEntryDateTime(beanItem);
+        planningInfoComp.displayPlanningInfo(beanItem);
     }
 
     @Override
@@ -175,8 +173,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
 
         void displayTaskHeader(SimpleTask task) {
             toggleTaskSummaryField = new ToggleTaskSummaryField(task, true);
-            toggleTaskSummaryField.addLabelStyleNames(ValoTheme.LABEL_H3);
-            toggleTaskSummaryField.addLabelStyleNames(ValoTheme.LABEL_NO_MARGIN);
+            toggleTaskSummaryField.addLabelStyleNames(ValoTheme.LABEL_H3, ValoTheme.LABEL_NO_MARGIN);
             if (task.getParenttaskid() == null) {
                 MHorizontalLayout header = new MHorizontalLayout().withFullWidth();
                 header.with(toggleTaskSummaryField);
@@ -227,7 +224,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
             this.withMargin(false);
         }
 
-        void displayEntryPeople(ValuedBean bean) {
+        void displayEntryPeople(SimpleTask task) {
             this.removeAllComponents();
 
             ELabel peopleInfoHeader = ELabel.html(VaadinIcons.USER.getHtml() + " " +
@@ -237,31 +234,73 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
             GridLayout layout = new GridLayout(2, 2);
             layout.setWidth("100%");
             layout.setMargin(new MarginInfo(false, false, false, true));
-            try {
-                ELabel createdLbl = new ELabel(UserUIContext.getMessage(ProjectCommonI18nEnum.ITEM_CREATED_PEOPLE)).withUndefinedWidth();
-                layout.addComponent(createdLbl, 0, 0);
 
-                String createdUserName = (String) PropertyUtils.getProperty(bean, "createduser");
-                String createdUserAvatarId = (String) PropertyUtils.getProperty(bean, "logByAvatarId");
-                String createdUserDisplayName = (String) PropertyUtils.getProperty(bean, "logByFullName");
+            ELabel createdLbl = new ELabel(UserUIContext.getMessage(ProjectCommonI18nEnum.ITEM_CREATED_PEOPLE)).withStyleName(WebThemes.META_COLOR).withUndefinedWidth();
+            layout.addComponent(createdLbl, 0, 0);
 
-                ProjectMemberLink createdUserLink = new ProjectMemberLink(createdUserName,
-                        createdUserAvatarId, createdUserDisplayName);
-                layout.addComponent(createdUserLink, 1, 0);
-                layout.setColumnExpandRatio(1, 1.0f);
+            String createdUserName = task.getCreateduser();
+            String createdUserAvatarId = task.getLogByAvatarId();
+            String createdUserDisplayName = task.getLogByFullName();
 
-                ELabel assigneeLbl = new ELabel(UserUIContext.getMessage(ProjectCommonI18nEnum.ITEM_ASSIGN_PEOPLE))
-                        .withUndefinedWidth();
-                layout.addComponent(assigneeLbl, 0, 1);
-                String assignUserName = (String) PropertyUtils.getProperty(bean, "assignuser");
-                String assignUserAvatarId = (String) PropertyUtils.getProperty(bean, "assignUserAvatarId");
-                String assignUserDisplayName = (String) PropertyUtils.getProperty(bean, "assignUserFullName");
+            ProjectMemberLink createdUserLink = new ProjectMemberLink(createdUserName,
+                    createdUserAvatarId, createdUserDisplayName);
+            layout.addComponent(createdUserLink, 1, 0);
+            layout.setColumnExpandRatio(1, 1.0f);
 
-                ProjectMemberLink assignUserLink = new ProjectMemberLink(assignUserName, assignUserAvatarId, assignUserDisplayName);
-                layout.addComponent(assignUserLink, 1, 1);
-            } catch (Exception e) {
-                LOG.error("Can not build user link {} ", BeanUtility.printBeanObj(bean));
-            }
+            ELabel assigneeLbl = new ELabel(UserUIContext.getMessage(ProjectCommonI18nEnum.ITEM_ASSIGN_PEOPLE)).withStyleName(WebThemes.META_COLOR)
+                    .withUndefinedWidth();
+            layout.addComponent(assigneeLbl, 0, 1);
+            String assignUserName = task.getAssignuser();
+            String assignUserAvatarId = task.getAssignUserAvatarId();
+            String assignUserDisplayName = task.getAssignUserFullName();
+
+            ProjectMemberLink assignUserLink = new ProjectMemberLink(assignUserName, assignUserAvatarId, assignUserDisplayName);
+            layout.addComponent(assignUserLink, 1, 1);
+
+            this.addComponent(layout);
+        }
+    }
+
+    private static class PlanningInfoComp extends MVerticalLayout {
+        private void displayPlanningInfo(SimpleTask task) {
+            this.removeAllComponents();
+            this.withMargin(false);
+
+            Label peopleInfoHeader = ELabel.html(VaadinIcons.CALENDAR_CLOCK.getHtml() + " " + UserUIContext.getMessage(ProjectCommonI18nEnum.SUB_INFO_PLANNING));
+            peopleInfoHeader.setStyleName("info-hdr");
+            this.addComponent(peopleInfoHeader);
+
+            GridLayout layout = new GridLayout(2, 4);
+            layout.setSpacing(true);
+            layout.setWidth("100%");
+            layout.setMargin(new MarginInfo(false, false, false, true));
+
+            ELabel startDateLbl = new ELabel(UserUIContext.getMessage(GenericI18Enum.FORM_START_DATE)).withStyleName(WebThemes.META_COLOR)
+                    .withUndefinedWidth();
+            layout.addComponent(startDateLbl, 0, 0);
+
+            ELabel startDateVal = new ELabel(UserUIContext.formatDate(task.getStartdate()));
+            layout.addComponent(startDateVal, 1, 0);
+
+            ELabel endDateLbl = new ELabel(UserUIContext.getMessage(GenericI18Enum.FORM_END_DATE)).withStyleName(WebThemes.META_COLOR).withUndefinedWidth();
+            layout.addComponent(endDateLbl, 0, 1);
+
+            ELabel endDateVal = new ELabel(UserUIContext.formatDate(task.getEnddate()));
+            layout.addComponent(endDateVal, 1, 1);
+
+            ELabel dueDateLbl = new ELabel(UserUIContext.getMessage(GenericI18Enum.FORM_DUE_DATE)).withStyleName(WebThemes.META_COLOR).withUndefinedWidth();
+            layout.addComponent(dueDateLbl, 0, 2);
+
+            ELabel dueDateVal = new ELabel(UserUIContext.formatDate(task.getDuedate()));
+            layout.addComponent(dueDateVal, 1, 2);
+
+            ELabel durationLbl = new ELabel(UserUIContext.getMessage(GenericI18Enum.FORM_DURATION)).withStyleName(WebThemes.META_COLOR).withUndefinedWidth();
+            layout.addComponent(durationLbl, 0, 3);
+
+            String durationValue = (task.getDuration() != null) ? new HumanTime(task.getDuration()).getApproximately() : "";
+            layout.addComponent(new ELabel(durationValue), 1, 3);
+
+            layout.setColumnExpandRatio(1, 1.0f);
 
             this.addComponent(layout);
         }

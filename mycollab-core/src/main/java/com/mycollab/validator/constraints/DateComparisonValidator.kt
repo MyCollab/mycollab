@@ -39,7 +39,7 @@ class DateComparisonValidator : ConstraintValidator<DateComparison, Any> {
             val firstValue = PropertyUtils.getProperty(value, firstDateField) as? LocalDate
             val lastValue = PropertyUtils.getProperty(value, lastDateField) as? LocalDate
             if (firstValue != null && lastValue != null) {
-                return firstValue.isBefore(lastValue)
+                return firstValue.isBefore(lastValue.plusDays(1))
             }
             true
         } catch (ex: Exception) {

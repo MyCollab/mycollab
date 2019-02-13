@@ -62,7 +62,7 @@ public class CommentRowDisplayHandler implements IBeanList.RowDisplayHandler<Sim
         ELabel timePostLbl = ELabel.html(UserUIContext.getMessage(GenericI18Enum.EXT_ADDED_COMMENT, comment.getOwnerFullName(),
                 UserUIContext.formatPrettyTime(comment.getCreatedtime())))
                 .withDescription(UserUIContext.formatDateTime(comment.getCreatedtime()));
-        timePostLbl.setStyleName(UIConstants.META_INFO);
+        timePostLbl.setStyleName(WebThemes.META_INFO);
 
         if (hasDeletePermission(comment)) {
             MButton msgDeleteBtn = new MButton(VaadinIcons.TRASH).withStyleName(WebThemes.BUTTON_ICON_ONLY)

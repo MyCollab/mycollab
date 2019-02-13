@@ -33,7 +33,9 @@ class TagServiceImpl : TagService {
 
     override fun findTagsInAccount(name: String, types: Array<String>, @CacheKey accountId: Int?): List<Tag>? = null
 
-    override fun findTagsInProject(projectId: Int, accountId: Int): List<AggregateTag>? = null
+    override fun findAggregateTagsInProject(projectId: Int, accountId: Int): List<AggregateTag>? = null
+
+    override fun findTagsInProject(projectId: Int, accountId: Int): List<Tag>? = null
 
     override fun deleteByExample(example: TagExample): Int? = 0
 

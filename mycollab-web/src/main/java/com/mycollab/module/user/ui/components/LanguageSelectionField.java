@@ -16,9 +16,8 @@
  */
 package com.mycollab.module.user.ui.components;
 
-import com.mycollab.i18n.LocalizationHelper;
 import com.mycollab.vaadin.ui.ELabel;
-import com.mycollab.vaadin.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.ui.*;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
@@ -38,14 +37,22 @@ public class LanguageSelectionField extends CustomField<String> {
         languageBox.setEmptySelectionAllowed(false);
         languageBox.setWidth("200px");
 
-        languageCode = new ELabel().withStyleName(UIConstants.META_INFO);
+        languageCode = new ELabel().withStyleName(WebThemes.META_INFO);
 
-        Locale[] supportedLanguages = LocalizationHelper.getAvailableLocales();
+        Locale[] supportedLanguages = new Locale[]{Locale.US, Locale.SIMPLIFIED_CHINESE, Locale.GERMANY,
+                new Locale("es", "ES"),
+                new Locale("vi", "VI"),
+                new Locale("pt", "BR"),
+                new Locale("fr"),
+                new Locale("ru"),
+                new Locale("tr", "TR"),
+                new Locale("fi", "FI"),
+                Locale.JAPAN};
         languageBox.setItems(supportedLanguages);
-        languageBox.setItemCaptionGenerator((ItemCaptionGenerator<Locale>) locale -> locale.getDisplayName(locale));
+        languageBox.setItemCaptionGenerator((ItemCaptionGenerator<Locale>) locale -> locale.getDisplayLanguage(locale));
         languageBox.addValueChangeListener(event -> {
             Locale locale = event.getValue();
-            languageCode.setValue(locale != null ? locale.getDisplayName(locale) : "");
+            languageCode.setValue(locale != null ? locale.getDisplayLanguage(locale) : "");
         });
     }
 

@@ -28,7 +28,7 @@ import com.mycollab.spring.AppContextUtil
 import com.mycollab.vaadin.AppUI
 import com.mycollab.vaadin.TooltipHelper
 import com.mycollab.vaadin.TooltipHelper.TOOLTIP_ID
-import com.mycollab.vaadin.ui.UIConstants
+import com.mycollab.vaadin.web.ui.WebThemes
 
 /**
  * @author MyCollab Ltd.
@@ -40,7 +40,7 @@ object ProjectLinkBuilder {
     fun generateProjectMemberHtmlLink(projectId: Int, username: String?, displayName: String?, avatarId: String?,
                                       isDisplayTooltip: Boolean): String = if (username != null) {
         val userAvatar = Img("", AppContextUtil.getSpringBean(AbstractStorageService::class.java)
-                .getAvatarPath(avatarId, 16)).setCSSClass(UIConstants.CIRCLE_BOX)
+                .getAvatarPath(avatarId, 16)).setCSSClass(WebThemes.CIRCLE_BOX)
         val link = A().setId("tag$TOOLTIP_ID").setHref(ProjectLinkGenerator.generateProjectMemberLink(projectId,
                 username)).appendText(StringUtils.trim(displayName, 30, true))
         if (isDisplayTooltip) {

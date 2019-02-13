@@ -42,7 +42,7 @@ interface ProjectMapperExt : ISearchableDAO<ProjectSearchCriteria> {
 
     fun getUserProjectKeys(@Param("searchCriteria") criteria: ProjectSearchCriteria): List<Int>
 
-    fun getProjectsUserInvolved(@Param("username") username: String, @Param("sAccountId") sAccountId: Int?): List<SimpleProject>
+    fun getProjectsUserInvolved(@Param("username") username: String?, @Param("sAccountId") sAccountId: Int?): List<SimpleProject>
 
     fun findProjectById(projectId: Int): SimpleProject
 

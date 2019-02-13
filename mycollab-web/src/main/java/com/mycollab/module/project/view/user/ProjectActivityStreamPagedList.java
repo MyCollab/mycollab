@@ -41,7 +41,6 @@ import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.TooltipHelper;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
-import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.ui.registry.AuditLogRegistry;
 import com.mycollab.vaadin.web.ui.AbstractBeanPagedList;
 import com.mycollab.vaadin.web.ui.ButtonGroup;
@@ -160,7 +159,7 @@ public class ProjectActivityStreamPagedList extends AbstractBeanPagedList<Projec
     private String buildAssigneeValue(SimpleActivityStream activityStream) {
         DivLessFormatter div = new DivLessFormatter();
         Img userAvatar = new Img("", StorageUtils.getAvatarPath(activityStream.getCreatedUserAvatarId(), 16))
-                .setCSSClass(UIConstants.CIRCLE_BOX);
+                .setCSSClass(WebThemes.CIRCLE_BOX);
         A userLink = new A().setId("tag" + TooltipHelper.TOOLTIP_ID).setHref(ProjectLinkGenerator.generateProjectMemberLink(
                 activityStream.getExtratypeid(), activityStream.getCreateduser()));
 
@@ -177,17 +176,12 @@ public class ProjectActivityStreamPagedList extends AbstractBeanPagedList<Projec
         DivLessFormatter div = new DivLessFormatter();
         Text image = new Text(ProjectAssetsManager.getAsset(activityStream.getType()).getHtml());
         A itemLink = new A().setId("tag" + TooltipHelper.TOOLTIP_ID);
-        if (ProjectTypeConstants.TASK.equals(activityStream.getType())
-                || ProjectTypeConstants.BUG.equals(activityStream.getType())) {
-            itemLink.setHref(ProjectLinkGenerator.generateProjectItemLink(
-                    activityStream.getProjectShortName(),
-                    activityStream.getExtratypeid(), activityStream.getType(),
-                    activityStream.getItemKey() + ""));
+        if (ProjectTypeConstants.TASK.equals(activityStream.getType()) || ProjectTypeConstants.BUG.equals(activityStream.getType())) {
+            itemLink.setHref(ProjectLinkGenerator.generateProjectItemLink(activityStream.getProjectShortName(),
+                    activityStream.getExtratypeid(), activityStream.getType(), activityStream.getItemKey() + ""));
         } else {
-            itemLink.setHref(ProjectLinkGenerator.generateProjectItemLink(
-                    activityStream.getProjectShortName(),
-                    activityStream.getExtratypeid(), activityStream.getType(),
-                    activityStream.getTypeid()));
+            itemLink.setHref(ProjectLinkGenerator.generateProjectItemLink(activityStream.getProjectShortName(),
+                    activityStream.getExtratypeid(), activityStream.getType(), activityStream.getTypeid()));
         }
 
         itemLink.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(activityStream.getType(),

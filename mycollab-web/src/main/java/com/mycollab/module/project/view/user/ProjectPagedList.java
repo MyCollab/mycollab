@@ -40,7 +40,6 @@ import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.IBeanList;
-import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.web.ui.DefaultBeanPagedList;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.icons.VaadinIcons;
@@ -50,6 +49,7 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.VerticalLayout;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
+import org.vaadin.viritin.layouts.MVerticalLayout;
 
 /**
  * @author MyCollab Ltd.
@@ -78,21 +78,20 @@ public class ProjectPagedList extends DefaultBeanPagedList<ProjectService, Proje
     private static class ProjectRowDisplayHandler implements IBeanList.RowDisplayHandler<SimpleProject> {
 
         @Override
-        public Component generateRow(IBeanList<SimpleProject> host, final SimpleProject project, final int rowIndex) {
-            final MHorizontalLayout layout = new MHorizontalLayout().withFullWidth().withStyleName("projectblock");
+        public Component generateRow(IBeanList<SimpleProject> host, SimpleProject project, int rowIndex) {
+            MHorizontalLayout layout = new MHorizontalLayout().withMargin(false).withFullWidth().withStyleName(WebThemes.BORDER_LIST_ROW);
             layout.addComponent(ProjectAssetsUtil.projectLogoComp(project.getShortname(), project.getId(), project.getAvatarid(), 64));
             if (project.isArchived()) {
-                layout.addStyleName("projectlink-wrapper-archived");
+                layout.addStyleName("project-archived");
             }
-            final VerticalLayout linkIconFix = new VerticalLayout();
-            linkIconFix.setSpacing(true);
+            MVerticalLayout mainLayout = new MVerticalLayout().withMargin(false);
 
             A projectDiv = new A(ProjectLinkGenerator.generateProjectLink(project.getId())).appendText(project.getName());
-            ELabel projectLbl = ELabel.h3(projectDiv.write()).withStyleName(UIConstants.TEXT_ELLIPSIS).withFullWidth();
+            ELabel projectLbl = ELabel.h3(projectDiv.write()).withStyleName(WebThemes.TEXT_ELLIPSIS).withFullWidth();
             projectLbl.setDescription(ProjectTooltipGenerator.generateToolTipProject(UserUIContext.getUserLocale(),
                     AppUI.getDateFormat(), project, AppUI.getSiteUrl(), UserUIContext.getUserTimeZone()), ContentMode.HTML);
 
-            linkIconFix.addComponent(projectLbl);
+            mainLayout.addComponent(projectLbl);
 
             MHorizontalLayout metaInfo = new MHorizontalLayout().withFullWidth();
             metaInfo.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
@@ -110,7 +109,7 @@ public class ProjectPagedList extends DefaultBeanPagedList<ProjectService, Proje
                     nonBillableHoursDiv, DivLessFormatter.EMPTY_SPACE);
             if (project.getMemlead() != null) {
                 Div leadDiv = new Div().appendChild(new Img("", StorageUtils.getAvatarPath(project
-                                .getLeadAvatarId(), 16)).setCSSClass(UIConstants.CIRCLE_BOX), DivLessFormatter.EMPTY_SPACE,
+                                .getLeadAvatarId(), 16)).setCSSClass(WebThemes.CIRCLE_BOX), DivLessFormatter.EMPTY_SPACE,
                         new A(ProjectLinkGenerator.generateProjectMemberLink(project.getId(), project.getMemlead()))
                                 .appendText(StringUtils.trim(project.getLeadFullName(), 30, true))).setTitle
                         (UserUIContext.getMessage(ProjectI18nEnum.FORM_LEADER));
@@ -124,20 +123,20 @@ public class ProjectPagedList extends DefaultBeanPagedList<ProjectService, Proje
                     accountDiv.appendText(VaadinIcons.INSTITUTION.getHtml() + " ");
                 } else {
                     Img clientImg = new Img("", StorageUtils.getEntityLogoPath(AppUI.getAccountId(),
-                            project.getClientAvatarId(), 16)).setCSSClass(UIConstants.CIRCLE_BOX);
+                            project.getClientAvatarId(), 16)).setCSSClass(WebThemes.CIRCLE_BOX);
                     accountDiv.appendChild(clientImg).appendChild(DivLessFormatter.EMPTY_SPACE);
                 }
 
                 accountDiv.appendChild(new A(ProjectLinkGenerator.generateClientPreviewLink(project.getClientid()))
-                        .appendText(StringUtils.trim(project.getClientName(), 30, true))).setCSSClass(UIConstants.BLOCK)
+                        .appendText(StringUtils.trim(project.getClientName(), 30, true))).setCSSClass(WebThemes.BLOCK)
                         .setTitle(project.getClientName());
                 metaDiv.appendChild(0, accountDiv);
                 metaDiv.appendChild(1, DivLessFormatter.EMPTY_SPACE);
             }
             metaDiv.setCSSClass(WebThemes.FLEX_DISPLAY);
-            metaInfo.addComponent(ELabel.html(metaDiv.write()).withStyleName(UIConstants.META_INFO).withUndefinedWidth());
+            metaInfo.addComponent(ELabel.html(metaDiv.write()).withStyleName(WebThemes.META_INFO).withUndefinedWidth());
 
-            linkIconFix.addComponent(metaInfo);
+            mainLayout.addComponent(metaInfo);
 
             int openAssignments = project.getNumOpenBugs() + project.getNumOpenTasks() + project.getNumOpenRisks();
             int totalAssignments = project.getNumBugs() + project.getNumTasks() + project.getNumRisks();
@@ -145,13 +144,13 @@ public class ProjectPagedList extends DefaultBeanPagedList<ProjectService, Proje
             if (totalAssignments > 0) {
                 progressInfoLbl = new ELabel(UserUIContext.getMessage(ProjectI18nEnum.OPT_PROJECT_TICKET,
                         (totalAssignments - openAssignments), totalAssignments, (totalAssignments - openAssignments)
-                                * 100 / totalAssignments)).withStyleName(UIConstants.META_INFO);
+                                * 100 / totalAssignments)).withStyleName(WebThemes.META_INFO);
             } else {
                 progressInfoLbl = new ELabel(UserUIContext.getMessage(ProjectI18nEnum.OPT_NO_TICKET))
-                        .withStyleName(UIConstants.META_INFO);
+                        .withStyleName(WebThemes.META_INFO);
             }
-            linkIconFix.addComponent(progressInfoLbl);
-            layout.with(linkIconFix).expand(linkIconFix);
+            mainLayout.addComponent(progressInfoLbl);
+            layout.with(mainLayout).expand(mainLayout);
             return layout;
         }
     }

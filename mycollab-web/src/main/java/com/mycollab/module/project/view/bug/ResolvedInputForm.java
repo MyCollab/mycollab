@@ -43,14 +43,13 @@ import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.*;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
-import com.vaadin.data.Converter;
 import com.vaadin.data.HasValue;
 import com.vaadin.event.ShortcutAction.KeyCode;
-import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import org.apache.commons.collections.CollectionUtils;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
+import org.vaadin.viritin.layouts.MVerticalLayout;
 
 import java.time.LocalDateTime;
 
@@ -87,7 +86,7 @@ public class ResolvedInputForm extends AdvancedEditBeanForm<SimpleBug> {
 
         @Override
         public AbstractComponent getLayout() {
-            final VerticalLayout layout = new VerticalLayout();
+            MVerticalLayout layout = new MVerticalLayout();
             informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(LayoutType.TWO_COLUMN);
             layout.addComponent(informationLayout.getLayout());
 
@@ -151,15 +150,14 @@ public class ResolvedInputForm extends AdvancedEditBeanForm<SimpleBug> {
                     .withStyleName(WebThemes.BUTTON_OPTION);
 
             final MHorizontalLayout controlsBtn = new MHorizontalLayout(cancelBtn, resolveBtn);
-            layout.addComponent(controlsBtn);
-            layout.setComponentAlignment(controlsBtn, Alignment.MIDDLE_RIGHT);
+            layout.with(controlsBtn).withAlign(controlsBtn, Alignment.MIDDLE_RIGHT);
 
             return layout;
         }
 
         @Override
         protected HasValue<?> onAttachField(Object propertyId, HasValue<?> field) {
-            if (propertyId.equals("resolution")) {
+            if (BugWithBLOBs.Field.resolution.equalTo(propertyId)) {
                 return informationLayout.addComponent(field, UserUIContext.getMessage(BugI18nEnum.FORM_RESOLUTION),
                         UserUIContext.getMessage(BugI18nEnum.FORM_RESOLUTION_HELP), 0, 0);
             } else if (propertyId.equals("assignuser")) {
@@ -183,7 +181,7 @@ public class ResolvedInputForm extends AdvancedEditBeanForm<SimpleBug> {
 
         @Override
         protected HasValue<?> onCreateField(final Object propertyId) {
-            if (propertyId.equals("resolution")) {
+            if (BugWithBLOBs.Field.resolution.equalTo(propertyId)) {
                 if (StringUtils.isBlank(bean.getResolution()) || UserUIContext.getMessage(BugResolution.None).equals(bug.getResolution())) {
                     bean.setResolution(BugResolution.Fixed.name());
                 }
@@ -205,18 +203,18 @@ public class ResolvedInputForm extends AdvancedEditBeanForm<SimpleBug> {
             return null;
         }
 
-        private class ResolutionField extends CustomField<BugWithBLOBs> {
+        private class ResolutionField extends CustomField<String> {
             private MHorizontalLayout layout;
             private BugResolutionComboBox resolutionComboBox;
 
             ResolutionField() {
                 resolutionComboBox = BugResolutionComboBox.getInstanceForResolvedBugWindow();
+                resolutionComboBox.setValueByString(bean.getResolution());
             }
 
             @Override
             protected Component initContent() {
                 layout = new MHorizontalLayout(resolutionComboBox);
-//                TODO fieldGroup.bind(resolutionComboBox, BugWithBLOBs.Field.resolution.name());
                 resolutionComboBox.addValueChangeListener(valueChangeEvent -> {
                     BugResolution value = resolutionComboBox.getValue();
                     if (BugResolution.Duplicate == value) {
@@ -233,13 +231,13 @@ public class ResolvedInputForm extends AdvancedEditBeanForm<SimpleBug> {
             }
 
             @Override
-            protected void doSetValue(BugWithBLOBs bugWithBLOBs) {
-
+            protected void doSetValue(String value) {
+                resolutionComboBox.setValueByString(value);
             }
 
             @Override
-            public BugWithBLOBs getValue() {
-                return null;
+            public String getValue() {
+                return resolutionComboBox.getValue().name();
             }
         }
     }

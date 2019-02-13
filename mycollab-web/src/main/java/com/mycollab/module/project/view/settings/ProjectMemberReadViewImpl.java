@@ -16,9 +16,7 @@
  */
 package com.mycollab.module.project.view.settings;
 
-import com.hp.gagawa.java.elements.A;
-import com.hp.gagawa.java.elements.Img;
-import com.hp.gagawa.java.elements.Span;
+import com.hp.gagawa.java.elements.*;
 import com.jarektoro.responsivelayout.ResponsiveLayout;
 import com.jarektoro.responsivelayout.ResponsiveRow;
 import com.mycollab.common.ModuleNameConstants;
@@ -31,6 +29,7 @@ import com.mycollab.module.project.*;
 import com.mycollab.module.project.domain.ProjectTicket;
 import com.mycollab.module.project.domain.SimpleProjectMember;
 import com.mycollab.module.project.domain.criteria.ProjectTicketSearchCriteria;
+import com.mycollab.module.project.i18n.OptionI18nEnum;
 import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.mycollab.module.project.i18n.ProjectMemberI18nEnum;
 import com.mycollab.module.project.i18n.TimeTrackingI18nEnum;
@@ -58,10 +57,13 @@ import com.vaadin.data.HasValue;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
+import com.vaadin.ui.Label;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MCssLayout;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
+
+import java.lang.Object;
 
 import static com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 
@@ -168,7 +170,7 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
             row.setMargin(true);
 
             Image memberAvatar = UserAvatarControlFactory.createUserAvatarEmbeddedComponent(beanItem.getMemberAvatarId(), 100);
-            memberAvatar.addStyleName(UIConstants.CIRCLE_BOX);
+            memberAvatar.addStyleName(WebThemes.CIRCLE_BOX);
             row.addColumn().withDisplayRules(12, 12, 3, 2).withComponent(memberAvatar);
 
             MVerticalLayout memberInfo = new MVerticalLayout().withMargin(new MarginInfo(false, false, false, true));
@@ -181,11 +183,11 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
             memberInfo.addComponent(new MHorizontalLayout(memberLink, editNotificationBtn).alignAll(Alignment.MIDDLE_LEFT));
 
             A roleLink = new A(ProjectLinkGenerator.generateRolePreviewLink(beanItem.getProjectid(), beanItem.getProjectroleid())).appendText(beanItem.getRoleName());
-            memberInfo.addComponent(ELabel.html(roleLink.write()).withStyleName(UIConstants.META_INFO).withFullWidth());
+            memberInfo.addComponent(ELabel.html(roleLink.write()).withStyleName(WebThemes.META_INFO).withFullWidth());
 
             if (Boolean.TRUE.equals(AppUI.showEmailPublicly())) {
                 Label memberEmailLabel = ELabel.html(String.format("<a href='mailto:%s'>%s</a>", beanItem.getUsername(),
-                        beanItem.getUsername())).withStyleName(UIConstants.META_INFO).withFullWidth();
+                        beanItem.getUsername())).withStyleName(WebThemes.META_INFO).withFullWidth();
                 memberInfo.addComponent(memberEmailLabel);
             }
 
@@ -207,7 +209,7 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
                             beanItem.getTotalBillableLogTime())).setTitle(UserUIContext.getMessage(TimeTrackingI18nEnum.OPT_BILLABLE_HOURS)), VaadinIcons.GIFT.getHtml(), new Span().appendText("" + NumberUtils.roundDouble(2, beanItem.getTotalNonBillableLogTime()
                     )).setTitle(UserUIContext.getMessage(TimeTrackingI18nEnum.OPT_NON_BILLABLE_HOURS)));
 
-            Label memberWorkStatus = ELabel.html(memberWorksInfo).withStyleName(UIConstants.META_INFO);
+            Label memberWorkStatus = ELabel.html(memberWorksInfo).withStyleName(WebThemes.META_INFO);
             memberInfo.addComponent(memberWorkStatus);
 
             row.addColumn().withDisplayRules(12, 12, 9, 10).withComponent(memberInfo);
@@ -252,7 +254,7 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
         UserAssignmentWidget() {
             super(UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_ASSIGNMENT_VALUE, 0), new CssLayout());
 
-            final CheckBox overdueSelection = new CheckBox(UserUIContext.getMessage(StatusI18nEnum.Overdue));
+            CheckBox overdueSelection = new CheckBox(UserUIContext.getMessage(StatusI18nEnum.Overdue));
             overdueSelection.addValueChangeListener(valueChangeEvent -> {
                 boolean isOverdueOption = overdueSelection.getValue();
                 if (isOverdueOption) {
@@ -264,7 +266,7 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
                 updateSearchResult();
             });
 
-            final CheckBox isOpenSelection = new CheckBox(UserUIContext.getMessage(StatusI18nEnum.Open), true);
+            CheckBox isOpenSelection = new CheckBox(UserUIContext.getMessage(StatusI18nEnum.Open), true);
             isOpenSelection.addValueChangeListener(valueChangeEvent -> {
                 boolean isOpenOption = isOpenSelection.getValue();
                 if (isOpenOption) {
@@ -279,7 +281,7 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
             addHeaderElement(isOpenSelection);
 
             ticketList = new DefaultBeanPagedList<>(AppContextUtil.getSpringBean(ProjectTicketService.class),
-                    new TaskRowDisplayHandler(), 10);
+                    new TicketRowDisplayHandler(), 10);
             bodyContent.addComponent(ticketList);
         }
 
@@ -297,12 +299,34 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
         }
     }
 
-    private static class TaskRowDisplayHandler implements IBeanList.RowDisplayHandler<ProjectTicket> {
+    private static class TicketRowDisplayHandler implements IBeanList.RowDisplayHandler<ProjectTicket> {
 
         @Override
         public Component generateRow(IBeanList<ProjectTicket> host, ProjectTicket ticket, int rowIndex) {
             MHorizontalLayout rowComp = new MHorizontalLayout().withStyleName("list-row").withFullWidth();
             rowComp.setDefaultComponentAlignment(Alignment.TOP_LEFT);
+
+            Div issueDiv = new Div().appendText(ProjectAssetsManager.getAsset(ticket.getType()).getHtml());
+            String status = "";
+            if (ticket.isBug()) {
+                status = UserUIContext.getMessage(StatusI18nEnum.class, ticket.getStatus());
+                rowComp.addStyleName("bug");
+            } else if (ticket.isMilestone()) {
+                status = UserUIContext.getMessage(OptionI18nEnum.MilestoneStatus.class, ticket.getStatus());
+                rowComp.addStyleName("milestone");
+            } else if (ticket.isRisk()) {
+                status = UserUIContext.getMessage(StatusI18nEnum.class, ticket.getStatus());
+                rowComp.addStyleName("risk");
+            } else if (ticket.isTask()) {
+                status = UserUIContext.getMessage(StatusI18nEnum.class, ticket.getStatus());
+                rowComp.addStyleName("task");
+            }
+            issueDiv.appendChild(new Span().appendText(status).setCSSClass(WebThemes.BLOCK));
+
+            String avatarLink = StorageUtils.getAvatarPath(ticket.getAssignUserAvatarId(), 16);
+            Img img = new Img(ticket.getAssignUserFullName(), avatarLink).setCSSClass(WebThemes.CIRCLE_BOX)
+                    .setTitle(ticket.getAssignUserFullName());
+            issueDiv.appendChild(img, new Text(" "));
 
             A ticketLink = new A().setId("tag" + TooltipHelper.TOOLTIP_ID);
             ticketLink.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(ticket.getType(), ticket.getTypeId() + ""));
@@ -316,21 +340,15 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
                 ticketLink.setHref(ProjectLinkGenerator.generateProjectItemLink(ticket.getProjectShortName(),
                         ticket.getProjectId(), ticket.getType(), ticket.getTypeId() + ""));
             }
-            Label ticketLbl = ELabel.html(ticketLink.write()).withFullWidth();
+
+            issueDiv.appendChild(ticketLink);
             if (ticket.isClosed()) {
-                ticketLbl.addStyleName("completed");
+                ticketLink.setCSSClass("completed");
             } else if (ticket.isOverdue()) {
-                ticketLbl.addStyleName("overdue");
+                ticketLink.setCSSClass("overdue");
             }
 
-            String avatarLink = StorageUtils.getAvatarPath(ticket.getAssignUserAvatarId(), 16);
-            Img img = new Img(ticket.getAssignUserFullName(), avatarLink).setCSSClass(UIConstants.CIRCLE_BOX)
-                    .setTitle(ticket.getAssignUserFullName());
-
-            MHorizontalLayout iconsLayout = new MHorizontalLayout().with(ELabel.fontIcon(ProjectAssetsManager.getAsset(
-                    ticket.getType())), ELabel.html(img.write()));
-            MCssLayout issueWrapper = new MCssLayout(ticketLbl);
-            rowComp.with(iconsLayout, issueWrapper).expand(issueWrapper);
+            rowComp.with(ELabel.html(issueDiv.write()).withFullWidth());
             return rowComp;
         }
     }

@@ -18,6 +18,7 @@ package com.mycollab.vaadin.ui.formatter
 
 import com.mycollab.common.i18n.GenericI18Enum
 import com.mycollab.core.utils.StringUtils
+import com.mycollab.module.user.domain.SimpleUser
 import com.mycollab.vaadin.UserUIContext
 
 /**
@@ -27,9 +28,9 @@ import com.mycollab.vaadin.UserUIContext
 class DefaultHistoryFieldFormat : HistoryFieldFormat {
 
     override fun toString(value: String): String =
-            toString(value, true, UserUIContext.getMessage(GenericI18Enum.FORM_EMPTY))
+            toString(UserUIContext.getUser(), value, true, UserUIContext.getMessage(GenericI18Enum.FORM_EMPTY))
 
-    override fun toString(value: String, displayAsHtml: Boolean, msgIfBlank: String): String =
+    override fun toString(currentViewUser: SimpleUser, value: String, displayAsHtml: Boolean, msgIfBlank: String): String =
             when {
                 StringUtils.isNotBlank(value) -> if (value.length > 150) "${value.substring(0, 150)}..." else value
                 else -> msgIfBlank

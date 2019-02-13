@@ -19,6 +19,7 @@ package com.mycollab.module.project.view.settings;
 import com.mycollab.common.NotificationType;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.core.MyCollabException;
+import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.domain.ProjectNotificationSetting;
 import com.mycollab.module.project.i18n.ProjectSettingI18nEnum;
 import com.mycollab.module.project.service.ProjectNotificationSettingService;
@@ -89,7 +90,7 @@ public class ProjectNotificationSettingViewComponent extends BlockWidget {
             } catch (Exception e) {
                 throw new MyCollabException(e);
             }
-        }).withIcon(VaadinIcons.CLIPBOARD).withStyleName(WebThemes.BUTTON_ACTION);
+        }).withIcon(VaadinIcons.CLIPBOARD).withStyleName(WebThemes.BUTTON_ACTION).withVisible(!CurrentProjectVariables.isProjectArchived());
         body.addComponent(saveBtn);
 
         this.addComponent(body);

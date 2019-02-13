@@ -19,6 +19,7 @@ package com.mycollab.vaadin.ui.formatter
 import com.mycollab.common.i18n.GenericI18Enum
 import com.mycollab.core.utils.DateTimeUtils
 import com.mycollab.core.utils.StringUtils
+import com.mycollab.module.user.domain.SimpleUser
 import com.mycollab.vaadin.UserUIContext
 
 /**
@@ -28,13 +29,13 @@ import com.mycollab.vaadin.UserUIContext
 class DateTimeHistoryFieldFormat : HistoryFieldFormat {
 
     override fun toString(value: String) =
-            toString(value, true, UserUIContext.getMessage(GenericI18Enum.FORM_EMPTY))
+            toString(UserUIContext.getUser(), value, true, UserUIContext.getMessage(GenericI18Enum.FORM_EMPTY))
 
-    override fun toString(value: String, displayAsHtml: Boolean, msgIfBlank: String) =
+    override fun toString(currentViewUser: SimpleUser, value: String, displayAsHtml: Boolean, msgIfBlank: String) =
             when {
                 StringUtils.isNotBlank(value) -> {
-                    val date = DateTimeUtils.parseDateByW3C(value)
-                    UserUIContext.formatDateTime(date)
+                    val date = DateTimeUtils.parseDateTimeWithMilisByW3C(value)
+                    DateTimeUtils.formatDate(date, currentViewUser.dateFormat, currentViewUser.locale)
                 }
                 else -> msgIfBlank
             }

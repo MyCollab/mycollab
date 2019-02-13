@@ -60,7 +60,7 @@ public class UserProjectDashboardViewImpl extends AbstractVerticalPageView imple
     public void lazyLoadView() {
         removeAllComponents();
         ProjectService projectService = AppContextUtil.getSpringBean(ProjectService.class);
-        List<Integer> prjKeys = projectService.getProjectKeysUserInvolved(UserUIContext.getUsername(), AppUI.getAccountId());
+        List<Integer> prjKeys = projectService.getOpenProjectKeysUserInvolved(UserUIContext.getUsername(), AppUI.getAccountId());
         if (CollectionUtils.isNotEmpty(prjKeys)) {
             ResponsiveLayout contentWrapper = new ResponsiveLayout(ResponsiveLayout.ContainerType.FIXED);
             contentWrapper.setSizeFull();
@@ -80,12 +80,8 @@ public class UserProjectDashboardViewImpl extends AbstractVerticalPageView imple
                     .withMargin(new MarginInfo(true, true, false, false)).withFullWidth();
             column1.setComponent(leftPanel);
 
-            MVerticalLayout rightPanel = new MVerticalLayout().withMargin(false);
-
-            rightPanel.with(activityStreamComponent);
-
             ResponsiveColumn column2 = new ResponsiveColumn(12, 12, 6, 6);
-            column2.setComponent(rightPanel);
+            column2.setComponent(activityStreamComponent);
 
             row.addColumn(column1);
             row.addColumn(column2);

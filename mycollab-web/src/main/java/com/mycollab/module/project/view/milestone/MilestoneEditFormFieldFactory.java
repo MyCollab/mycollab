@@ -53,9 +53,7 @@ public class MilestoneEditFormFieldFactory extends AbstractBeanFieldGroupEditFie
     @Override
     protected HasValue<?> onCreateField(Object propertyId) {
         if (Milestone.Field.assignuser.equalTo(propertyId)) {
-            ProjectMemberSelectionField memberSelectionField = new ProjectMemberSelectionField();
-            memberSelectionField.setRequiredIndicatorVisible(true);
-            return memberSelectionField;
+            return new ProjectMemberSelectionField();
         } else if (propertyId.equals("status")) {
             return new ProgressStatusComboBox();
         } else if (propertyId.equals("name")) {

@@ -34,8 +34,7 @@ class ClientUrlResolver : ProjectUrlResolver() {
     }
 
     private class ListUrlResolver : ProjectUrlResolver() {
-        override fun handlePage(vararg params: String) =
-                EventBusFactory.getInstance().post(ClientEvent.GotoList(this, null))
+        override fun handlePage(vararg params: String) = EventBusFactory.getInstance().post(ClientEvent.GotoList(this, null))
     }
 
     private class PreviewUrlResolver : ProjectUrlResolver() {

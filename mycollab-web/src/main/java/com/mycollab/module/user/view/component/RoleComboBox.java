@@ -37,7 +37,7 @@ import java.util.Optional;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class RoleComboBox extends ComboBox implements Converter<SimpleRole, Integer> {
+public class RoleComboBox extends ComboBox<SimpleRole> implements Converter<SimpleRole, Integer> {
     private static final long serialVersionUID = 1L;
 
     private List<SimpleRole> roles;
@@ -61,9 +61,13 @@ public class RoleComboBox extends ComboBox implements Converter<SimpleRole, Inte
         roles.forEach(role -> {
             if (Boolean.TRUE.equals(role.getIsdefault())) {
                 this.setValue(role);
-                return;
             }
         });
+    }
+
+    public void selectRoleById(Integer roleId) {
+        Optional<SimpleRole> selectedRole = roles.stream().filter(role -> role.getId() == roleId).findFirst();
+        setValue(selectedRole.orElse(null));
     }
 
     @Override

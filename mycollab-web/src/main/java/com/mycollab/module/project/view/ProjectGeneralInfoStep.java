@@ -33,6 +33,7 @@ import com.mycollab.vaadin.ui.AdvancedEditBeanForm;
 import com.mycollab.vaadin.ui.GenericBeanForm;
 import com.mycollab.vaadin.ui.IDynaFormLayout;
 import com.mycollab.vaadin.web.ui.DefaultDynaFormLayout;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.data.HasValue;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.DateField;
@@ -125,16 +126,16 @@ public class ProjectGeneralInfoStep implements AbstractProjectAddWindow.FormWiza
             if (Project.Field.description.equalTo(propertyId)) {
                 return new RichTextArea();
             } else if (Project.Field.status.equalTo(propertyId)) {
-                ProjectStatusComboBox projectCombo = new ProjectStatusComboBox();
-                projectCombo.setRequiredIndicatorVisible(true);
+                ProjectStatusComboBox statusField = new ProjectStatusComboBox();
+                statusField.setRequiredIndicatorVisible(true);
                 if (project.getStatus() == null) {
                     project.setStatus(StatusI18nEnum.Open.name());
                 }
-                return projectCombo;
+                return statusField;
             } else if (Project.Field.shortname.equalTo(propertyId)) {
-                return new MTextField().withRequiredIndicatorVisible(true);
+                return new MTextField().withRequiredIndicatorVisible(true).withWidth(WebThemes.FORM_CONTROL_WIDTH);
             } else if (Project.Field.name.equalTo(propertyId)) {
-                return new MTextField().withRequiredIndicatorVisible(true);
+                return new MTextField().withRequiredIndicatorVisible(true).withWidth(WebThemes.FORM_CONTROL_WIDTH);
             } else if (Project.Field.memlead.equalTo(propertyId)) {
                 return new ActiveUserComboBox();
             } else if (Project.Field.planstartdate.equalTo(propertyId) || Project.Field.planenddate.equalTo(propertyId)) {

@@ -22,6 +22,7 @@ import com.mycollab.module.project.domain.SimpleProject;
 import com.mycollab.module.project.service.ProjectService;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.ItemCaptionGenerator;
@@ -36,9 +37,14 @@ import java.util.Optional;
 public class UserProjectComboBox extends ComboBox<SimpleProject> {
     private List<SimpleProject> projects;
 
-    public UserProjectComboBox(String username) {
+    public UserProjectComboBox() {
         ProjectService projectService = AppContextUtil.getSpringBean(ProjectService.class);
-        projects = projectService.getProjectsUserInvolved(username, AppUI.getAccountId());
+        if (UserUIContext.isAdmin()) {
+            projects = projectService.getProjectsUserInvolved(null, AppUI.getAccountId());
+        } else {
+            projects = projectService.getProjectsUserInvolved(UserUIContext.getUsername(), AppUI.getAccountId());
+        }
+
         setItems(projects);
         setItemCaptionGenerator((ItemCaptionGenerator<SimpleProject>) Project::getName);
         this.setWidth(WebThemes.FORM_CONTROL_WIDTH);

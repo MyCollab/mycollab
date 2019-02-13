@@ -34,7 +34,6 @@ import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.vaadin.mvp.PageActionChain;
 import com.mycollab.vaadin.ui.ELabel;
-import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.web.ui.UserLink;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.mycollab.vaadin.web.ui.table.DefaultPagedBeanTable;
@@ -131,7 +130,7 @@ class FollowingTicketBeanTableDisplay extends DefaultPagedBeanTable<ProjectFollo
             Div projectLinkDiv = new Div().appendText(ProjectAssetsManager.getAsset(ProjectTypeConstants.PROJECT).getHtml() + " ")
                     .appendChild(new A(ProjectLinkGenerator.generateProjectLink(ticket.getProjectId()))
                             .appendText(ticket.getProjectName()));
-            return new ELabel(projectLinkDiv.write(), ContentMode.HTML).withStyleName(UIConstants.LABEL_WORD_WRAP);
+            return new ELabel(projectLinkDiv.write(), ContentMode.HTML).withStyleName(WebThemes.LABEL_WORD_WRAP);
         });
 
         this.addGeneratedColumn("assignUser", (source, itemId, columnId) -> {

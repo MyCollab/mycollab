@@ -42,7 +42,6 @@ import com.mycollab.vaadin.mvp.AbstractVerticalPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.DefaultMassItemActionHandlerContainer;
 import com.mycollab.vaadin.ui.ELabel;
-import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.web.ui.CheckBoxDecor;
 import com.mycollab.vaadin.web.ui.LabelLink;
 import com.mycollab.vaadin.web.ui.SelectionOptionButton;
@@ -111,18 +110,18 @@ public class ProjectListViewImpl extends AbstractVerticalPageView implements Pro
             projectLink.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(ProjectTypeConstants.PROJECT,
                     project.getId() + ""));
             projectLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction());
-            A url;
+            A homepageUrl;
             if (StringUtils.isNotBlank(project.getHomepage())) {
-                url = new A(project.getHomepage(), "_blank").appendText(project.getHomepage()).setCSSClass(UIConstants.META_INFO);
+                homepageUrl = new A(project.getHomepage(), "_blank").appendText(project.getHomepage()).setCSSClass(WebThemes.META_INFO);
             } else {
-                url = new A("").appendText(UserUIContext.getMessage(GenericI18Enum.OPT_UNDEFINED));
+                homepageUrl = new A("").appendText(UserUIContext.getMessage(GenericI18Enum.OPT_UNDEFINED));
             }
 
-            Div projectDiv = new Div().appendChild(projectLink, new Br(), url);
-            ELabel b = ELabel.html(projectDiv.write());
+            Div projectDiv = new Div().appendChild(projectLink, new Br(), homepageUrl);
+            ELabel projectLbl = ELabel.html(projectDiv.write());
             return new MHorizontalLayout(ProjectAssetsUtil.projectLogoComp(project
-                    .getShortname(), project.getId(), project.getAvatarid(), 32), b)
-                    .expand(b).alignAll(Alignment.MIDDLE_LEFT).withMargin(false);
+                    .getShortname(), project.getId(), project.getAvatarid(), 32), projectLbl)
+                    .expand(projectLbl).alignAll(Alignment.MIDDLE_LEFT).withMargin(false);
         });
 
         tableItem.addGeneratedColumn(Project.Field.memlead.name(), (source, itemId, columnId) -> {
@@ -169,8 +168,7 @@ public class ProjectListViewImpl extends AbstractVerticalPageView implements Pro
     }
 
     private ComponentContainer constructTableActionControls() {
-        MHorizontalLayout layout = new MHorizontalLayout().withFullWidth();
-        layout.addStyleName(WebThemes.TABLE_ACTION_CONTROLS);
+        MHorizontalLayout layout = new MHorizontalLayout().withFullWidth().withStyleName(WebThemes.TABLE_ACTION_CONTROLS);
 
         selectOptionButton = new SelectionOptionButton(tableItem);
         selectOptionButton.setWidthUndefined();

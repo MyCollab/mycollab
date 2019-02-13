@@ -34,10 +34,7 @@ class I18nFieldFormat : FieldFormat {
 
     private var enumKey: Class<out Enum<*>>? = null
 
-    constructor(fieldName: String, displayName: Enum<*>, enumKey: Class<out Enum<*>>) : this(fieldName, displayName, enumKey, false)
-
-    constructor(fieldName: String, displayName: Enum<*>, enumKey: Class<out Enum<*>>,
-                isColSpan: Boolean?) : super(fieldName, displayName, isColSpan!!) {
+    constructor(fieldName: String, displayName: Enum<*>, enumKey: Class<out Enum<*>>) : super(fieldName, displayName) {
         this.enumKey = enumKey
     }
 

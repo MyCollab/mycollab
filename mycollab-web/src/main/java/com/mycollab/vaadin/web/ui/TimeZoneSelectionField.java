@@ -24,7 +24,6 @@ import com.vaadin.ui.ItemCaptionGenerator;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
-import java.time.ZoneId;
 import java.util.Collection;
 
 /**
@@ -41,6 +40,7 @@ public class TimeZoneSelectionField extends CustomField<String> {
         areaSelection = new StringValueComboBox(false, TimezoneVal.getAreas());
         areaSelection.addValueChangeListener((ValueChangeListener) event -> setCboTimeZone(areaSelection.getValue()));
         timezoneSelection = new ComboBox<>();
+        timezoneSelection.setWidth(WebThemes.FORM_CONTROL_WIDTH);
         String area = areaSelection.getSelectedItem().orElse(null);
         areaSelection.setValue(area);
         setCboTimeZone(area);
@@ -48,15 +48,8 @@ public class TimeZoneSelectionField extends CustomField<String> {
 
     @Override
     protected Component initContent() {
-        if (isVerticalDisplay) {
-            MVerticalLayout layout = new MVerticalLayout().withMargin(false);
-            layout.with(areaSelection, timezoneSelection);
-            return layout;
-        } else {
-            MHorizontalLayout layout = new MHorizontalLayout();
-            layout.with(areaSelection, timezoneSelection).expand(timezoneSelection);
-            return layout;
-        }
+        return (isVerticalDisplay) ? new MVerticalLayout(areaSelection, timezoneSelection).withMargin(false) :
+                new MHorizontalLayout(areaSelection, timezoneSelection);
     }
 
     private void setCboTimeZone(String area) {

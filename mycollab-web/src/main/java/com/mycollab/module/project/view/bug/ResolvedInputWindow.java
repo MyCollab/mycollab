@@ -41,6 +41,6 @@ public class ResolvedInputWindow extends MWindow {
         VerticalLayout contentLayout = new VerticalLayout();
         contentLayout.setMargin(new MarginInfo(false, false, true, false));
         contentLayout.addComponent(editForm);
-        withWidth("900px").withModal(true).withResizable(false).withContent(contentLayout).withCenter();
+        withWidth("600px").withModal(true).withResizable(false).withContent(contentLayout).withCenter();
     }
 }

@@ -20,10 +20,7 @@ import org.ocpsoft.prettytime.PrettyTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.temporal.TemporalAccessor;
@@ -38,6 +35,8 @@ import java.util.*;
  */
 public class DateTimeUtils {
     private static final Logger LOG = LoggerFactory.getLogger(DateTimeUtils.class);
+
+    public static Integer MILLISECONDS_IN_A_DAY = 1000*60*60*24;
 
     private static ZoneId utcZone = ZoneId.of("UTC");
 
@@ -55,7 +54,7 @@ public class DateTimeUtils {
     }
 
     public static String convertToStringWithUserTimeZone(String dateVal, String dateFormat, Locale locale, ZoneId userTimeZone) {
-        LocalDateTime date = parseDateByW3C(dateVal);
+        LocalDateTime date = parseDateTimeWithMilisByW3C(dateVal);
         return convertToStringWithUserTimeZone(date, dateFormat, locale, userTimeZone);
     }
 
@@ -63,11 +62,23 @@ public class DateTimeUtils {
      * @param strDate
      * @return
      */
-    public static LocalDateTime parseDateByW3C(String strDate) {
-        if (!StringUtils.isNotBlank(strDate)) {
+    public static LocalDateTime parseDateTimeWithMilisByW3C(String strDate) {
+        if (StringUtils.isNotBlank(strDate)) {
             try {
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
                 return LocalDateTime.parse(strDate, formatter);
+            } catch (DateTimeParseException e) {
+                LOG.error("Error while parse date", e);
+            }
+        }
+        return null;
+    }
+
+    public static LocalDate parseDate(String strDate) {
+        if (StringUtils.isNotBlank(strDate)) {
+            try {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                return LocalDate.parse(strDate, formatter);
             } catch (DateTimeParseException e) {
                 LOG.error("Error while parse date", e);
             }
@@ -99,15 +110,7 @@ public class DateTimeUtils {
         return p.format(convertLocalDateTimeToDate(dateTime, zoneId));
     }
 
-    public static String getPrettyDurationValue(TemporalAccessor date, Locale locale) {
-//        Period period = Period.between(date, LocalDate.now());
-        // TODO
-//        PeriodFormatter formatter = PeriodFormat.wordBased(locale);
-//        return formatter.print(period);
-        return "Implemented";
-    }
-
-    private static Date convertLocalDateTimeToDate(LocalDateTime localDT, ZoneId zoneId) {
+    public static Date convertLocalDateTimeToDate(LocalDateTime localDT, ZoneId zoneId) {
         return Date.from(localDT.atZone(zoneId).toInstant());
     }
 

@@ -21,6 +21,7 @@ import com.mycollab.core.utils.StringUtils.isBlank
 import com.mycollab.html.FormatUtils
 import com.mycollab.module.mail.MailUtils
 import com.mycollab.module.user.AccountLinkGenerator
+import com.mycollab.module.user.domain.SimpleUser
 import com.mycollab.module.user.service.UserService
 import com.mycollab.spring.AppContextUtil
 import com.mycollab.vaadin.AppUI
@@ -34,15 +35,15 @@ import com.mycollab.vaadin.ui.formatter.HistoryFieldFormat
 class UserHistoryFieldFormat : HistoryFieldFormat {
 
     override fun toString(value: String): String =
-            toString(value, true, UserUIContext.getMessage(GenericI18Enum.FORM_EMPTY))
+            toString(UserUIContext.getUser(), value, true, UserUIContext.getMessage(GenericI18Enum.FORM_EMPTY))
 
-    override fun toString(value: String, displayAsHtml: Boolean, msgIfBlank: String): String {
+    override fun toString(currentViewUser: SimpleUser, value: String, displayAsHtml: Boolean, msgIfBlank: String): String {
         if (isBlank(value)) {
             return msgIfBlank
         }
 
         val userService = AppContextUtil.getSpringBean(UserService::class.java)
-        val user = userService.findUserByUserNameInAccount(value, AppUI.accountId)
+        val user = userService.findUserByUserNameInAccount(value, currentViewUser.accountId!!)
         if (user != null) {
             return if (displayAsHtml) {
                 val userAvatarLink = MailUtils.getAvatarLink(user.avatarid, 16)

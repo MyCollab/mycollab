@@ -27,6 +27,7 @@ import com.mycollab.module.user.domain.User;
 import com.mycollab.module.user.service.UserService;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.UserUIContext;
+import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.NotificationUtil;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
@@ -60,11 +61,11 @@ public class PasswordChangeWindow extends MWindow {
     private void initUI() {
         final MVerticalLayout mainLayout = new MVerticalLayout().withFullWidth();
 
-        final Label lbInstruct1 = new Label(UserUIContext.getMessage(UserI18nEnum.MSG_PASSWORD_INSTRUCT_LABEL_1));
+        Label lbInstruct1 = new ELabel(UserUIContext.getMessage(UserI18nEnum.MSG_PASSWORD_INSTRUCT_LABEL_1)).withFullWidth();
         mainLayout.addComponent(lbInstruct1);
         mainLayout.setComponentAlignment(lbInstruct1, Alignment.MIDDLE_LEFT);
 
-        final Label lbInstruct2 = new Label(UserUIContext.getMessage(UserI18nEnum.MSG_PASSWORD_INSTRUCT_LABEL_2));
+        final Label lbInstruct2 = new ELabel(UserUIContext.getMessage(UserI18nEnum.MSG_PASSWORD_INSTRUCT_LABEL_2)).withFullWidth();
         mainLayout.addComponent(lbInstruct2);
         mainLayout.setComponentAlignment(lbInstruct2, Alignment.MIDDLE_LEFT);
 

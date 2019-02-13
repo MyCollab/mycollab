@@ -92,15 +92,15 @@ public class RoleAddPresenter extends AbstractPresenter<RoleAddView> {
             accountModule.gotoSubView(SettingUIConstants.ROLES, view);
 
             Role role = (Role) data.getParams();
-            view.editItem(role);
-
             AccountSettingBreadcrumb breadcrumb = ViewManager.getCacheComponent(AccountSettingBreadcrumb.class);
 
             if (role.getId() == null) {
+                role.setSaccountid(AppUI.getAccountId());
                 breadcrumb.gotoRoleAdd();
             } else {
                 breadcrumb.gotoRoleEdit(role);
             }
+            view.editItem(role);
         } else {
             NotificationUtil.showMessagePermissionAlert();
         }

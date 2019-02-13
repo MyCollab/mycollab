@@ -3,8 +3,10 @@ package com.mycollab.module.project.view;
 import com.mycollab.common.i18n.ClientI18nEnum;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.configuration.SiteConfiguration;
+import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.mycollab.module.project.i18n.ProjectI18nEnum;
+import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.module.project.view.client.IClientPresenter;
 import com.mycollab.module.project.view.parameters.ClientScreenData;
 import com.mycollab.module.project.view.reports.IReportPresenter;
@@ -46,7 +48,7 @@ public class BoardContainer extends AbstractSingleContainerPageView implements P
     private void buildComponents() {
         tabsheet.addTab("Dashboard", UserUIContext.getMessage(GenericI18Enum.VIEW_DASHBOARD), VaadinIcons.DASHBOARD);
 
-        tabsheet.addTab("Projects", UserUIContext.getMessage(ProjectI18nEnum.LIST), VaadinIcons.BUILDING_O);
+        tabsheet.addTab("Projects", UserUIContext.getMessage(ProjectI18nEnum.LIST), ProjectAssetsManager.getAsset(ProjectTypeConstants.PROJECT));
 
         tabsheet.addTab("FollowingTickets", UserUIContext.getMessage(ProjectCommonI18nEnum.VIEW_FAVORITES), VaadinIcons.EYE);
 

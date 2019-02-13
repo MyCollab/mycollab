@@ -6,8 +6,8 @@ import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.AbstractFormLayoutFactory;
 import com.mycollab.vaadin.ui.ELabel;
-import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.web.ui.AddViewLayout;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.data.HasValue;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
@@ -49,7 +49,7 @@ public abstract class StandupReportFormLayoutFactory extends AbstractFormLayoutF
         whatTodayField = new StandupCustomField();
         layoutField.addComponent(whatTodayField);
 
-        final ELabel roadblockLbl = ELabel.h3(UserUIContext.getMessage(StandupI18nEnum.STANDUP_ISSUE)).withStyleName(UIConstants.LABEL_WORD_WRAP);
+        final ELabel roadblockLbl = ELabel.h3(UserUIContext.getMessage(StandupI18nEnum.STANDUP_ISSUE)).withStyleName(WebThemes.LABEL_WORD_WRAP);
         layoutField.with(roadblockLbl);
         whatProblemField = new StandupCustomField();
         layoutField.addComponent(whatProblemField);

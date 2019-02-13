@@ -16,11 +16,12 @@
  */
 package com.mycollab.module.project.view.page;
 
-import com.hp.gagawa.java.elements.A;
-import com.hp.gagawa.java.elements.Div;
-import com.hp.gagawa.java.elements.Img;
+import com.hp.gagawa.java.elements.*;
+import com.mycollab.common.i18n.DayI18nEnum;
 import com.mycollab.common.i18n.GenericI18Enum;
+import com.mycollab.core.utils.DateTimeUtils;
 import com.mycollab.core.utils.StringUtils;
+import com.mycollab.html.DivLessFormatter;
 import com.mycollab.module.file.StorageUtils;
 import com.mycollab.module.page.domain.Page;
 import com.mycollab.module.page.domain.PageVersion;
@@ -44,7 +45,6 @@ import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.resources.LazyStreamSource;
 import com.mycollab.vaadin.resources.OnDemandFileDownloader;
 import com.mycollab.vaadin.ui.ELabel;
-import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.web.ui.AbstractPreviewItemComp;
 import com.mycollab.vaadin.web.ui.AdvancedPreviewBeanForm;
 import com.mycollab.vaadin.web.ui.ReadViewLayout;
@@ -62,7 +62,6 @@ import java.util.List;
  * @author MyCollab Ltd.
  * @since 4.4.0
  */
-// TODO
 @ViewComponent
 public class PageReadViewImpl extends AbstractPreviewItemComp<Page> implements PageReadView {
     private static final long serialVersionUID = 1L;
@@ -74,14 +73,8 @@ public class PageReadViewImpl extends AbstractPreviewItemComp<Page> implements P
     private PageService pageService;
 
     public PageReadViewImpl() {
-        super(UserUIContext.getMessage(PageI18nEnum.DETAIL), ProjectAssetsManager.getAsset(ProjectTypeConstants.PAGE), new PagePreviewFormLayout(), false);
+        super(UserUIContext.getMessage(PageI18nEnum.DETAIL), ProjectAssetsManager.getAsset(ProjectTypeConstants.PAGE), new PagePreviewFormLayout());
         pageService = AppContextUtil.getSpringBean(PageService.class);
-        constructHeader();
-    }
-
-    private void constructHeader() {
-        pageVersionsSelection = new PageVersionSelectionBox();
-        header.with(pageVersionsSelection).expand(pageVersionsSelection).withAlign(pageVersionsSelection, Alignment.MIDDLE_LEFT);
     }
 
     @Override
@@ -142,6 +135,9 @@ public class PageReadViewImpl extends AbstractPreviewItemComp<Page> implements P
         fileDownloader.extend(exportPdfBtn);
 
         pagesPreviewForm.insertToControlBlock(exportPdfBtn);
+
+        pageVersionsSelection = new PageVersionSelectionBox();
+        pagesPreviewForm.insertToControlBlock(pageVersionsSelection);
         return buttonControls;
     }
 
@@ -160,28 +156,28 @@ public class PageReadViewImpl extends AbstractPreviewItemComp<Page> implements P
             MVerticalLayout header = new MVerticalLayout().withMargin(false);
             ELabel titleLbl = ELabel.h3(beanItem.getSubject());
             header.with(titleLbl);
-            Div footer = new Div().setStyle("width:100%").setCSSClass(UIConstants.META_INFO);
-//            Span lastUpdatedTimeTxt = new Span().appendText(UserUIContext.getMessage(DayI18nEnum.LAST_UPDATED_ON,
-//                    UserUIContext.formatPrettyTime(beanItem.getLastUpdatedTime().getTime())))
-//                    .setTitle(UserUIContext.formatDateTime(beanItem.getLastUpdatedTime().getTime()));
+            Div footer = new Div().setStyle("width:100%").setCSSClass(WebThemes.META_INFO);
+            Span lastUpdatedTimeTxt = new Span().appendText(UserUIContext.getMessage(DayI18nEnum.LAST_UPDATED_ON,
+                    UserUIContext.formatPrettyTime(DateTimeUtils.toLocalDateTime(beanItem.getLastUpdatedTime()))))
+                    .setTitle(UserUIContext.formatDateTime(DateTimeUtils.toLocalDateTime(beanItem.getLastUpdatedTime())));
 
             ProjectMemberService projectMemberService = AppContextUtil.getSpringBean(ProjectMemberService.class);
             SimpleProjectMember member = projectMemberService.findMemberByUsername(beanItem.getCreatedUser(),
                     CurrentProjectVariables.getProjectId(), AppUI.getAccountId());
             if (member != null) {
                 Img userAvatar = new Img("", StorageUtils.getAvatarPath(member.getMemberAvatarId(), 16))
-                        .setCSSClass(UIConstants.CIRCLE_BOX);
+                        .setCSSClass(WebThemes.CIRCLE_BOX);
                 A userLink = new A().setId("tag" + TooltipHelper.TOOLTIP_ID).
                         setHref(ProjectLinkGenerator.generateProjectMemberLink(member.getProjectid(),
                                 member.getUsername())).
                         appendText(StringUtils.trim(member.getMemberFullName(), 30, true));
                 userLink.setAttribute("onmouseover", TooltipHelper.userHoverJsFunction(member.getUsername()));
                 userLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction());
-//                footer.appendChild(lastUpdatedTimeTxt, new Text("&nbsp;-&nbsp;" + UserUIContext.getMessage
-//                                (GenericI18Enum.OPT_CREATED_BY) + ": "), userAvatar,
-//                        DivLessFormatter.EMPTY_SPACE, userLink, DivLessFormatter.EMPTY_SPACE);
+                footer.appendChild(lastUpdatedTimeTxt, new Text("&nbsp;-&nbsp;" + UserUIContext.getMessage
+                                (GenericI18Enum.OPT_CREATED_BY) + ": "), userAvatar,
+                        DivLessFormatter.EMPTY_SPACE, userLink, DivLessFormatter.EMPTY_SPACE);
             } else {
-//                footer.appendChild(lastUpdatedTimeTxt);
+                footer.appendChild(lastUpdatedTimeTxt);
             }
 
             header.addComponent(ELabel.html(footer.write()));
@@ -200,15 +196,15 @@ public class PageReadViewImpl extends AbstractPreviewItemComp<Page> implements P
         }
 
         void displayVersions(String path) {
-            List<PageVersion> pageVersions = pageService.getPageVersions(path);
-            if (pageVersions.size() > 0) {
-                final ComboBox pageSelection = new ComboBox();
+            List<PageVersion> versions = pageService.getPageVersions(path);
+            if (versions.size() > 0) {
+                final ComboBox<PageVersion> pageSelection = new ComboBox<>();
                 content.addComponent(pageSelection);
-//                pageSelection.setEmptySelectionAllowed(false);
+                pageSelection.setEmptySelectionAllowed(false);
                 pageSelection.setTextInputAllowed(false);
 
                 pageSelection.addValueChangeListener(valueChangeEvent -> {
-                    selectedVersion = (PageVersion) pageSelection.getValue();
+                    selectedVersion = pageSelection.getValue();
                     if (selectedVersion != null) {
                         Page page = pageService.getPageByVersion(beanItem.getPath(), selectedVersion.getName());
                         page.setPath(beanItem.getPath());
@@ -217,27 +213,19 @@ public class PageReadViewImpl extends AbstractPreviewItemComp<Page> implements P
                     }
                 });
 
-//                pageSelection.setItemCaptionMode(ItemCaptionMode.EXPLICIT);
-//                pageSelection.setEmptySelectionAllowed(false);
+                pageSelection.setEmptySelectionAllowed(false);
+                pageSelection.setItems(versions);
+                pageSelection.setItemCaptionGenerator((ItemCaptionGenerator<PageVersion>) this::getVersionDisplay);
 
-                for (int i = 0; i < pageVersions.size(); i++) {
-                    PageVersion version = pageVersions.get(i);
-//                    pageSelection.addItem(version);
-//                    pageSelection.setItemCaption(version, getVersionDisplay(version, i));
-                }
-
-                if (pageVersions.size() > 0) {
-                    pageSelection.setValue(pageVersions.get(pageVersions.size() - 1));
+                if (versions.size() > 0) {
+                    pageSelection.setValue(versions.get(versions.size() - 1));
                 }
             }
         }
 
-        String getVersionDisplay(PageVersion version, int index) {
-            String vFormat = "%s (%s)";
+        String getVersionDisplay(PageVersion version) {
             Calendar createdTime = version.getCreatedTime();
-//            String date = UserUIContext.formatDateTime(createdTime.getTime());
-//            return String.format(vFormat, "V" + (index + 1), date);
-            return "Unimplemented";
+            return UserUIContext.formatDateTime(DateTimeUtils.toLocalDateTime(createdTime));
         }
     }
 }

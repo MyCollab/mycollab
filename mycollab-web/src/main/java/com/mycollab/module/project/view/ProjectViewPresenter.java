@@ -57,7 +57,7 @@ public class ProjectViewPresenter extends ProjectGenericPresenter<ProjectView> {
                 ProjectMemberService projectMemberService = AppContextUtil.getSpringBean(ProjectMemberService.class);
                 boolean userBelongToProject = projectMemberService.isUserBelongToProject(UserUIContext.getUsername(), project.getId(),
                         AppUI.getAccountId());
-                if (userBelongToProject) {
+                if (userBelongToProject || UserUIContext.isAdmin()) {
                     CurrentProjectVariables.setProject(project);
                     view.initView(project);
                 } else {

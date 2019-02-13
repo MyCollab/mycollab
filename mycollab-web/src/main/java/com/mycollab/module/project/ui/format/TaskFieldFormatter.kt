@@ -24,6 +24,7 @@ import com.mycollab.module.project.domain.Task
 import com.mycollab.module.project.i18n.MilestoneI18nEnum
 import com.mycollab.module.project.i18n.OptionI18nEnum.Priority
 import com.mycollab.module.project.i18n.TaskI18nEnum
+import com.mycollab.module.user.domain.SimpleUser
 import com.mycollab.vaadin.UserUIContext
 import com.mycollab.vaadin.ui.formatter.FieldGroupFormatter
 import com.mycollab.vaadin.ui.formatter.HistoryFieldFormat
@@ -38,9 +39,9 @@ class TaskFieldFormatter private constructor() : FieldGroupFormatter() {
 
     init {
         generateFieldDisplayHandler(Task.Field.name.name, GenericI18Enum.FORM_NAME)
-        generateFieldDisplayHandler(Task.Field.startdate.name, GenericI18Enum.FORM_START_DATE, FieldGroupFormatter.DATETIME_FIELD)
-        generateFieldDisplayHandler(Task.Field.enddate.name, GenericI18Enum.FORM_END_DATE, FieldGroupFormatter.DATETIME_FIELD)
-        generateFieldDisplayHandler(Task.Field.duedate.name, GenericI18Enum.FORM_DUE_DATE, FieldGroupFormatter.DATETIME_FIELD)
+        generateFieldDisplayHandler(Task.Field.startdate.name, GenericI18Enum.FORM_START_DATE, FieldGroupFormatter.DATE_FIELD)
+        generateFieldDisplayHandler(Task.Field.enddate.name, GenericI18Enum.FORM_END_DATE, FieldGroupFormatter.DATE_FIELD)
+        generateFieldDisplayHandler(Task.Field.duedate.name, GenericI18Enum.FORM_DUE_DATE, FieldGroupFormatter.DATE_FIELD)
         generateFieldDisplayHandler(Task.Field.priority.name, GenericI18Enum.FORM_PRIORITY,
                 I18nHistoryFieldFormat(Priority::class.java))
         generateFieldDisplayHandler(Task.Field.status.name, GenericI18Enum.FORM_STATUS,
@@ -59,9 +60,9 @@ class TaskFieldFormatter private constructor() : FieldGroupFormatter() {
     private class DurationFieldFormat : HistoryFieldFormat {
 
         override fun toString(value: String): String =
-                toString(value, true, UserUIContext.getMessage(GenericI18Enum.FORM_EMPTY))
+                toString(UserUIContext.getUser(), value, true, UserUIContext.getMessage(GenericI18Enum.FORM_EMPTY))
 
-        override fun toString(value: String, displayAsHtml: Boolean, msgIfBlank: String): String =
+        override fun toString(currentViewUser:SimpleUser, value: String, displayAsHtml: Boolean, msgIfBlank: String): String =
                 when {
                     StringUtils.isNotBlank(value) -> try {
                         val duration = java.lang.Long.parseLong(value)

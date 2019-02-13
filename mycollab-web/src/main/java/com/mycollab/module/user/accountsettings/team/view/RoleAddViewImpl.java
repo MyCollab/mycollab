@@ -42,6 +42,7 @@ import com.vaadin.icons.VaadinIcons;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import org.vaadin.viritin.fields.MTextField;
+import org.vaadin.viritin.layouts.MVerticalLayout;
 
 import java.util.HashMap;
 import java.util.List;
@@ -129,7 +130,7 @@ public class RoleAddViewImpl extends AbstractVerticalPageView implements RoleAdd
 
             @Override
             protected Layout createBottomPanel() {
-                final VerticalLayout permissionsPanel = new VerticalLayout();
+                 MVerticalLayout permissionsPanel = new MVerticalLayout().withMargin(false);
 
                 PermissionMap perMap;
                 if (role instanceof SimpleRole) {
@@ -192,9 +193,9 @@ public class RoleAddViewImpl extends AbstractVerticalPageView implements RoleAdd
 
             @Override
             protected HasValue<?> onCreateField(final Object propertyId) {
-                if (propertyId.equals("description")) {
+                if (Role.Field.description.equalTo(propertyId)) {
                     return new RichTextArea();
-                } else if (propertyId.equals("rolename")) {
+                } else if (Role.Field.rolename.equalTo(propertyId)) {
                     return new MTextField().withRequiredIndicatorVisible(true);
                 } else if (Role.Field.isdefault.equalTo(propertyId)) {
                     return new CheckBox();

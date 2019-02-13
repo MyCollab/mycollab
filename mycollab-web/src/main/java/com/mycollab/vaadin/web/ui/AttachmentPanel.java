@@ -26,7 +26,6 @@ import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.resources.file.FileAssetsUtil;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.NotificationUtil;
-import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.web.ui.utils.MultiFileUpload;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.ui.Component;
@@ -76,10 +75,10 @@ public class AttachmentPanel extends MCssLayout {
             AttachmentPanel.this.removeComponent(fileAttachmentLayout);
         }).withIcon(VaadinIcons.TRASH).withStyleName(WebThemes.BUTTON_ICON_ONLY);
 
-        ELabel fileLbl = ELabel.html(fileName).withDescription(fileName).withStyleName(UIConstants.TEXT_ELLIPSIS);
+        ELabel fileLbl = ELabel.html(fileName).withDescription(fileName).withStyleName(WebThemes.TEXT_ELLIPSIS);
         fileAttachmentLayout.with(ELabel.fontIcon(FileAssetsUtil.getFileIconResource(fileName)).withUndefinedWidth(),
                 fileLbl, new ELabel(" - " + FileUtils.getVolumeDisplay(file.length()))
-                        .withStyleName(UIConstants.META_INFO).withUndefinedWidth(), removeBtn).expand(fileLbl);
+                        .withStyleName(WebThemes.META_INFO).withUndefinedWidth(), removeBtn).expand(fileLbl);
         this.addComponent(fileAttachmentLayout, 0);
     }
 

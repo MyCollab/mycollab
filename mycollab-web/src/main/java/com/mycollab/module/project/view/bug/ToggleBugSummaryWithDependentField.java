@@ -52,7 +52,9 @@ public class ToggleBugSummaryWithDependentField extends CustomField<SimpleBug> {
                     UserUIContext.getMessage(GenericI18Enum.ACTION_YES),
                     UserUIContext.getMessage(GenericI18Enum.ACTION_NO), confirmDialog -> {
                         RelatedBugExample ex = new RelatedBugExample();
-                        ex.createCriteria().andBugidEqualTo(hostBug.getId()).andRelatedidEqualTo(relatedBug.getId());
+                        ex.or().andBugidEqualTo(hostBug.getId()).andRelatedidEqualTo(relatedBug.getId());
+                        ex.or().andRelatedidEqualTo(hostBug.getId()).andBugidEqualTo(relatedBug.getId());
+
                         RelatedBugMapper bugMapper = AppContextUtil.getSpringBean(RelatedBugMapper.class);
                         bugMapper.deleteByExample(ex);
                         UIUtils.removeChildAssociate(toggleBugSummaryField, RemoveInlineComponentMarker.class);

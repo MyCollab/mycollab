@@ -19,6 +19,8 @@ package com.mycollab.module.project.view.task;
 import com.mycollab.module.project.domain.SimpleTask;
 import com.mycollab.module.project.i18n.TaskI18nEnum;
 import com.mycollab.vaadin.UserUIContext;
+import com.mycollab.vaadin.web.ui.WebThemes;
+import org.vaadin.viritin.layouts.MVerticalLayout;
 import org.vaadin.viritin.layouts.MWindow;
 
 /**
@@ -36,6 +38,6 @@ public class TaskAddWindow extends MWindow {
             }
         };
         editForm.setBean(task);
-        this.withWidth("1200px").withModal(true).withResizable(false).withContent(editForm).withCenter();
+        this.withWidth(WebThemes.WINDOW_FORM_WIDTH).withModal(true).withResizable(false).withContent(new MVerticalLayout(editForm)).withCenter();
     }
 }

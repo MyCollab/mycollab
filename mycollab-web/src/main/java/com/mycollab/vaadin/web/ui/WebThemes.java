@@ -34,17 +34,20 @@ public class WebThemes {
     public static final String BUTTON_DANGER = "danger-button";
     public static final String BUTTON_LINK = "link";
     public static final String DANGER = "danger";
+
     public static final String LINK_COMPLETED = "completed";
     public static final String LINK_OVERDUE = "overdue";
     public static final String LINK_PENDING = "pending";
+
     public static final String MILESTONE_BOX = "milestone-box";
     public static final String MULTI_SELECT_BG = "multiselect";
     public static final String BTN_ACTIVE = "btn-group-default";
     public static final String OPTION_POPUP_CONTENT = "optionPopupContent";
     public static final String MESSAGE_CONTAINER = "message-container";
+
     public static final String MARGIN_TOP = "margin-top";
     public static final String MARGIN_RIGHT = "margin-right";
-    public static final String MARGIN_LEFT = "margin-left";
+    public static final String MARGIN_LEFT_HALF = "margin-left-half";
     public static final String MARGIN_BOTTOM = "margin-bottom";
     public static final String MARGIN = "margin";
 
@@ -54,11 +57,13 @@ public class WebThemes {
     public static final String META_COLOR = "meta-color";
     public static final String TEXT_ALIGN_RIGHT = "text-align-right";
     public static final String LABEL_OVERDUE = "overdue";
+
     public static final String GRIDFORM_STANDARD = "colored-gridlayout";
     public static final String GRIDFORM_BORDERLESS = "borderless";
+
     public static final String FORM_SECTION = "section";
     public static final String ARROW_BTN = "arrow-btn";
-    public static final String CURSOR_POINTER = "cursor_pointer";
+    public static final String CURSOR_POINTER = "cursor-pointer";
     public static final String HOVER_EFFECT_NOT_BOX = "hover-effect-not-box";
     public static final String FLEX_DISPLAY = "flex";
     public static final String PANEL_HEADER = "panel-header";
@@ -72,4 +77,12 @@ public class WebThemes {
     public static final String BORDER_LIST_ROW = "row";
     public static final String HIDE_ELEMENT = "hide-element";
     public static final String REQUIRED_FIELD_INDICATOR = "required-field-indicator";
+    public static final String CIRCLE_BOX = "circle-box";
+    public static final String TEXT_ELLIPSIS = "text-ellipsis";
+    public static final String LABEL_WORD_WRAP = "word-wrap";
+    public static final String META_INFO = "meta-info";
+    public static final String FIELD_NOTE = "field-note";
+    public static final String BLOCK = "block";
+    public static final String BLOCK_POPUP_EDIT = "block-popupedit";
+    public static final String ALIGN_RIGHT = "align-right";
 }

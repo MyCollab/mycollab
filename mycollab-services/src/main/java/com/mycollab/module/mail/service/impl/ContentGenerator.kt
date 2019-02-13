@@ -22,6 +22,7 @@ import com.mycollab.module.file.service.AbstractStorageService
 import com.mycollab.module.mail.service.IContentGenerator
 import com.mycollab.schedule.email.MailStyles
 import freemarker.template.Configuration
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.InitializingBean
 import org.springframework.beans.factory.config.BeanDefinition
 import org.springframework.context.annotation.Scope
@@ -40,6 +41,11 @@ class ContentGenerator(private val applicationConfiguration: ApplicationConfigur
                        private val deploymentMode: IDeploymentMode,
                        private val templateEngine: Configuration,
                        private val storageFactory: AbstractStorageService) : IContentGenerator, InitializingBean {
+
+    companion object {
+        @JvmStatic
+        private val LOG = LoggerFactory.getLogger(javaClass.enclosingClass)
+    }
     private val templateContext = mutableMapOf<String, Any>()
 
     @Throws(Exception::class)
@@ -58,8 +64,9 @@ class ContentGenerator(private val applicationConfiguration: ApplicationConfigur
         putVariable("storageFactory", storageFactory)
     }
 
-    override fun putVariable(key: String, value: Any) {
-        templateContext[key] = value
+    override fun putVariable(key: String, value: Any?) {
+        if (value != null) templateContext[key] = value
+        else LOG.warn("Can not put null value with key $key to template")
     }
 
     override fun parseFile(templateFilePath: String): String = parseFile(templateFilePath, null)

@@ -40,14 +40,12 @@ import com.mycollab.vaadin.TooltipHelper;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.IBeanList;
-import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.ui.UserAvatarControlFactory;
 import com.mycollab.vaadin.web.ui.DefaultBeanPagedList;
 import com.mycollab.vaadin.web.ui.Depot;
 import com.mycollab.vaadin.web.ui.SearchTextField;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.icons.VaadinIcons;
-import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Image;
@@ -55,6 +53,7 @@ import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
+import org.vaadin.viritin.layouts.MVerticalLayout;
 
 import java.util.Collections;
 
@@ -62,14 +61,14 @@ import java.util.Collections;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class ProjectMembersWidget extends Depot {
+class ProjectMembersWidget extends Depot {
     private static final long serialVersionUID = 1L;
 
     private DefaultBeanPagedList<ProjectMemberService, ProjectMemberSearchCriteria, SimpleProjectMember> memberList;
     private boolean sortAsc = true;
     private ProjectMemberSearchCriteria searchCriteria;
 
-    public ProjectMembersWidget() {
+    ProjectMembersWidget() {
         super("", new CssLayout());
         MButton sortBtn = new MButton().withIcon(VaadinIcons.CARET_UP).withStyleName(WebThemes.BUTTON_ICON_ONLY);
         sortBtn.addClickListener(clickEvent -> {
@@ -128,32 +127,31 @@ public class ProjectMembersWidget extends Depot {
         public Component generateRow(IBeanList<SimpleProjectMember> host, SimpleProjectMember member, int rowIndex) {
             MHorizontalLayout layout = new MHorizontalLayout().withFullWidth().withStyleName("list-row");
             Image userAvatar = UserAvatarControlFactory.createUserAvatarEmbeddedComponent(member.getMemberAvatarId(), 48);
-            userAvatar.addStyleName(UIConstants.CIRCLE_BOX);
+            userAvatar.addStyleName(WebThemes.CIRCLE_BOX);
             layout.addComponent(userAvatar);
 
-            VerticalLayout content = new VerticalLayout();
-            content.addComponent(new ELabel(buildAssigneeValue(member), ContentMode.HTML).withStyleName(UIConstants.TEXT_ELLIPSIS));
+            MVerticalLayout content = new MVerticalLayout().withMargin(false);
+            content.addComponent(ELabel.html(buildAssigneeValue(member)).withStyleName(WebThemes.TEXT_ELLIPSIS));
             layout.with(content).expand(content);
 
             CssLayout footer = new CssLayout();
 
-            String roleVal = member.getRoleName();
+            String roleVal = member.getRoleName() + "&nbsp;&nbsp;";
             ELabel memberRole = ELabel.html(roleVal).withDescription(UserUIContext.getMessage(ProjectRoleI18nEnum.SINGLE))
-                    .withStyleName(UIConstants.META_INFO);
+                    .withStyleName(WebThemes.META_INFO);
             footer.addComponent(memberRole);
 
-            String memberWorksInfo = ProjectAssetsManager.getAsset(ProjectTypeConstants.TASK).getHtml() + "&nbsp;" +
+            String memberWorksInfo = ProjectAssetsManager.getAsset(ProjectTypeConstants.TASK).getHtml() +
                     new Span().appendText("" + member.getNumOpenTasks()).setTitle(UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_OPEN_TASKS)) +
                     "&nbsp;&nbsp;" +
-                    ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG).getHtml() + "&nbsp;" +
+                    ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG).getHtml() +
                     new Span().appendText("" + member.getNumOpenBugs()).setTitle(UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_OPEN_BUGS)) + "&nbsp;&nbsp;"
                     + VaadinIcons.MONEY.getHtml() + "&nbsp;" + new Span().appendText("" + NumberUtils.roundDouble(2,
                     member.getTotalBillableLogTime())).setTitle(UserUIContext.getMessage(TimeTrackingI18nEnum.OPT_BILLABLE_HOURS)) + "&nbsp;&nbsp;" +
-                    VaadinIcons.GIFT.getHtml() +
-                    "&nbsp;" + new Span().appendText("" + NumberUtils.roundDouble(2, member.getTotalNonBillableLogTime()))
+                    VaadinIcons.GIFT.getHtml() + new Span().appendText("" + NumberUtils.roundDouble(2, member.getTotalNonBillableLogTime()))
                     .setTitle(UserUIContext.getMessage(TimeTrackingI18nEnum.OPT_NON_BILLABLE_HOURS));
 
-            ELabel memberWorkStatus = ELabel.html(memberWorksInfo).withStyleName(UIConstants.META_INFO);
+            ELabel memberWorkStatus = ELabel.html(memberWorksInfo).withStyleName(WebThemes.META_INFO);
             footer.addComponent(memberWorkStatus);
 
             content.addComponent(footer);
@@ -162,8 +160,7 @@ public class ProjectMembersWidget extends Depot {
 
         private String buildAssigneeValue(SimpleProjectMember member) {
             Div div = new DivLessFormatter();
-            A userLink = new A().setId("tag" + TooltipHelper.TOOLTIP_ID).
-                    setHref(ProjectLinkGenerator.generateProjectMemberLink(member.getProjectid(), member.getUsername()));
+            A userLink = new A(ProjectLinkGenerator.generateProjectMemberLink(member.getProjectid(), member.getUsername())).setId("tag" + TooltipHelper.TOOLTIP_ID);
 
             userLink.setAttribute("onmouseover", TooltipHelper.userHoverJsFunction(member.getUsername()));
             userLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction());

@@ -32,13 +32,10 @@ import com.mycollab.module.tracker.domain.SimpleBug;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.mycollab.vaadin.ui.GenericBeanForm;
-import com.mycollab.vaadin.ui.UIConstants;
-import com.mycollab.vaadin.ui.field.DateViewField;
-import com.mycollab.vaadin.ui.field.DefaultViewField;
-import com.mycollab.vaadin.ui.field.I18nFormViewField;
-import com.mycollab.vaadin.ui.field.RichTextViewField;
+import com.mycollab.vaadin.ui.field.*;
 import com.mycollab.vaadin.web.ui.AdvancedPreviewBeanForm;
 import com.mycollab.vaadin.web.ui.DefaultDynaFormLayout;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.data.HasValue;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.shared.ui.ContentMode;
@@ -67,13 +64,7 @@ public class BugPreviewForm extends AdvancedPreviewBeanForm<SimpleBug> {
         @Override
         protected HasValue<?> onCreateField(final Object propertyId) {
             SimpleBug beanItem = attachForm.getBean();
-            if (BugWithBLOBs.Field.duedate.equalTo(propertyId)) {
-                return new DateViewField();
-            } else if (BugWithBLOBs.Field.startdate.equalTo(propertyId)) {
-                return new DateViewField();
-            } else if (BugWithBLOBs.Field.enddate.equalTo(propertyId)) {
-                return new DateViewField();
-            } else if (SimpleBug.Field.assignuserFullName.equalTo(propertyId)) {
+            if (SimpleBug.Field.assignuserFullName.equalTo(propertyId)) {
                 return new ProjectUserFormLinkField(beanItem.getProjectid(), beanItem.getAssignuser(),
                         beanItem.getAssignUserAvatarId(), beanItem.getAssignuserFullName());
             } else if (SimpleBug.Field.loguserFullName.equalTo(propertyId)) {
@@ -88,17 +79,17 @@ public class BugPreviewForm extends AdvancedPreviewBeanForm<SimpleBug> {
                     || SimpleBug.Field.fixedVersions.equalTo(propertyId)) {
                 return new VersionsViewField();
             } else if (SimpleBug.Field.milestoneName.equalTo(propertyId)) {
-                return new ProjectItemViewField(ProjectTypeConstants.MILESTONE, beanItem.getMilestoneid() + "",
+                return new ProjectItemViewField(ProjectTypeConstants.MILESTONE, beanItem.getMilestoneid(),
                         beanItem.getMilestoneName());
             } else if (BugWithBLOBs.Field.description.equalTo(propertyId) || BugWithBLOBs.Field.environment.equalTo(propertyId)) {
                 return new RichTextViewField();
             } else if (BugWithBLOBs.Field.status.equalTo(propertyId)) {
-                return new I18nFormViewField(StatusI18nEnum.class).withStyleName(UIConstants.FIELD_NOTE);
+                return new I18nFormViewField(StatusI18nEnum.class).withStyleName(WebThemes.FIELD_NOTE);
             } else if (BugWithBLOBs.Field.priority.equalTo(propertyId)) {
                 if (StringUtils.isNotBlank(beanItem.getPriority())) {
                     String priorityLink = ProjectAssetsManager.getPriority(beanItem.getPriority()).getHtml() + " "
                             + UserUIContext.getMessage(OptionI18nEnum.Priority.class, beanItem.getPriority());
-                    DefaultViewField field = new DefaultViewField(priorityLink, ContentMode.HTML);
+                    StyleViewField field = new StyleViewField(priorityLink);
                     field.addStyleName("priority-" + beanItem.getPriority().toLowerCase());
                     return field;
                 }
@@ -106,12 +97,12 @@ public class BugPreviewForm extends AdvancedPreviewBeanForm<SimpleBug> {
                 if (StringUtils.isNotBlank(beanItem.getSeverity())) {
                     String severityLink = VaadinIcons.STAR.getHtml() + " " +
                             UserUIContext.getMessage(BugSeverity.class, beanItem.getSeverity());
-                    DefaultViewField lbPriority = new DefaultViewField(severityLink, ContentMode.HTML);
+                    StyleViewField lbPriority = new StyleViewField(severityLink);
                     lbPriority.addStyleName("bug-severity-" + beanItem.getSeverity().toLowerCase());
                     return lbPriority;
                 }
             } else if (BugWithBLOBs.Field.resolution.equalTo(propertyId)) {
-                return new I18nFormViewField(BugResolution.class);
+                return new I18nFormViewField(BugResolution.class).withStyleName(WebThemes.FIELD_NOTE);
             }
             return null;
         }

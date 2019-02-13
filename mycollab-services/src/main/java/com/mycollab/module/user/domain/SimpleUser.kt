@@ -20,6 +20,8 @@ import com.mycollab.core.arguments.NotBindable
 import com.mycollab.core.utils.StringUtils
 import com.mycollab.security.PermissionMap
 import com.google.common.base.MoreObjects
+import com.mycollab.i18n.LocalizationHelper
+import java.util.*
 
 /**
  * @author MyCollab Ltd.
@@ -36,6 +38,12 @@ class SimpleUser : User() {
 
     @NotBindable
     var isAccountOwner: Boolean? = null
+
+    @NotBindable
+    var locale: Locale? = null
+        get() {
+          return LocalizationHelper.getLocaleInstance(language)
+      }
 
     var subDomain: String? = null
     var accountId: Int? = null

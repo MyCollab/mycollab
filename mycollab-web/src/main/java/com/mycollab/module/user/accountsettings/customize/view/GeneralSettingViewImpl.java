@@ -43,7 +43,6 @@ import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.AccountAssetsResolver;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.FormContainer;
-import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.web.ui.ServiceMenu;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
@@ -53,6 +52,7 @@ import com.vaadin.server.BrowserWindowOpener;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
+import com.vaadin.ui.themes.ValoTheme;
 import org.vaadin.easyuploads.UploadField;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
@@ -86,7 +86,7 @@ public class GeneralSettingViewImpl extends AbstractVerticalPageView implements 
         this.addComponent(formContainer);
 
         MHorizontalLayout generalSettingHeader = new MHorizontalLayout();
-        Label headerLbl = new Label(UserUIContext.getMessage(AdminI18nEnum.OPT_GENERAL_SETTINGS));
+        ELabel headerLbl = new ELabel(UserUIContext.getMessage(AdminI18nEnum.OPT_GENERAL_SETTINGS)).withStyleName(WebThemes.BUTTON_LINK, ValoTheme.LABEL_H3, ValoTheme.LABEL_NO_MARGIN);
 
         MButton editBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_EDIT), clickEvent -> UI.getCurrent().addWindow(new AccountInfoChangeWindow()))
                 .withStyleName(WebThemes.BUTTON_LINK);
@@ -303,7 +303,7 @@ public class GeneralSettingViewImpl extends AbstractVerticalPageView implements 
         BrowserWindowOpener opener = new BrowserWindowOpener(serverConfiguration.getApiUrl("localization/translations"));
         opener.extend(downloadBtn);
         rightPanel.with(downloadBtn, new ELabel(UserUIContext.getMessage(ShellI18nEnum.OPT_UPDATE_LANGUAGE_INSTRUCTION))
-                .withStyleName(UIConstants.META_INFO).withFullWidth());
+                .withStyleName(WebThemes.META_INFO).withFullWidth());
         layout.with(leftPanel, rightPanel).expand(rightPanel);
         formContainer.addSection("Languages", layout);
         this.with(formContainer);

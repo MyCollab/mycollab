@@ -21,13 +21,15 @@ import com.hp.gagawa.java.elements.Img
 import com.mycollab.core.utils.StringUtils
 import com.mycollab.html.DivLessFormatter
 import com.mycollab.module.file.service.AbstractStorageService
+import com.mycollab.module.user.domain.SimpleUser
 import com.mycollab.module.user.service.UserService
 import com.mycollab.spring.AppContextUtil
 import com.mycollab.vaadin.AppUI
 import com.mycollab.vaadin.TooltipHelper
 import com.mycollab.vaadin.TooltipHelper.TOOLTIP_ID
-import com.mycollab.vaadin.ui.UIConstants
+import com.mycollab.vaadin.UserUIContext
 import com.mycollab.vaadin.ui.formatter.HistoryFieldFormat
+import com.mycollab.vaadin.web.ui.WebThemes
 import org.slf4j.LoggerFactory
 
 /**
@@ -36,9 +38,9 @@ import org.slf4j.LoggerFactory
  */
 class ProjectMemberHistoryFieldFormat : HistoryFieldFormat {
 
-    override fun toString(value: String): String = toString(value, true, "")
+    override fun toString(value: String): String = toString(UserUIContext.getUser(), value, true, "")
 
-    override fun toString(value: String, displayAsHtml: Boolean, msgIfBlank: String): String {
+    override fun toString(currentViewUser:SimpleUser, value: String, displayAsHtml: Boolean, msgIfBlank: String): String {
         if (StringUtils.isBlank(value)) {
             return msgIfBlank
         }
@@ -49,7 +51,7 @@ class ProjectMemberHistoryFieldFormat : HistoryFieldFormat {
             if (user != null) {
                 return if (displayAsHtml) {
                     val userAvatar = Img("", AppContextUtil.getSpringBean(AbstractStorageService::class.java)
-                            .getAvatarPath(user.avatarid, 16)).setCSSClass(UIConstants.CIRCLE_BOX)
+                            .getAvatarPath(user.avatarid, 16)).setCSSClass(WebThemes.CIRCLE_BOX)
                     val link = A().setId("tag" + TOOLTIP_ID).appendText(StringUtils.trim(user.displayName, 30, true))
                     link.setAttribute("onmouseover", TooltipHelper.userHoverJsFunction(user.username))
                     link.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction())

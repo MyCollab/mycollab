@@ -35,7 +35,7 @@ import java.util.List;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class ComponentMultiSelectField extends MultiSelectComp {
+public class ComponentMultiSelectField extends MultiSelectComp<Component> {
     private static final long serialVersionUID = 1L;
 
     public ComponentMultiSelectField() {
@@ -58,14 +58,13 @@ public class ComponentMultiSelectField extends MultiSelectComp {
         UI.getCurrent().addWindow(new ComponentAddWindow());
     }
 
-
     @Override
-    protected void doSetValue(Object o) {
-
+    protected void doSetValue(List<Component> value) {
+        setSelectedItems(value);
     }
 
     @Override
-    public Object getValue() {
-        return null;
+    public List<Component> getValue() {
+        return selectedItems;
     }
 }

@@ -20,6 +20,8 @@ import com.hp.gagawa.java.elements.Span
 import com.mycollab.common.i18n.GenericI18Enum
 import com.mycollab.core.utils.DateTimeUtils
 import com.mycollab.core.utils.StringUtils
+import com.mycollab.core.utils.TimezoneVal
+import com.mycollab.module.user.domain.SimpleUser
 import com.mycollab.vaadin.UserUIContext
 
 /**
@@ -29,14 +31,14 @@ import com.mycollab.vaadin.UserUIContext
 class PrettyDateTimeHistoryFieldFormat : HistoryFieldFormat {
 
     override fun toString(value: String): String =
-            toString(value, true, UserUIContext.getMessage(GenericI18Enum.FORM_EMPTY))
+            toString(UserUIContext.getUser(), value, true, UserUIContext.getMessage(GenericI18Enum.FORM_EMPTY))
 
-    override fun toString(value: String, displayAsHtml: Boolean, msgIfBlank: String): String =
+    override fun toString(currentViewUser: SimpleUser, value: String, displayAsHtml: Boolean, msgIfBlank: String): String =
             if (StringUtils.isNotBlank(value)) {
-                val formatDate = DateTimeUtils.parseDateByW3C(value)
+                val formatDate = DateTimeUtils.parseDateTimeWithMilisByW3C(value)
                 if (displayAsHtml) {
-                    val lbl = Span().appendText(UserUIContext.formatPrettyTime(formatDate))
-                    lbl.title = UserUIContext.formatDateTime(formatDate)
+                    val lbl = Span().appendText(DateTimeUtils.getPrettyDateValue(formatDate, TimezoneVal.valueOf(currentViewUser.timezone), currentViewUser.locale))
+                    lbl.title = value
                     lbl.write()
                 } else {
                     UserUIContext.formatDateTime(formatDate)

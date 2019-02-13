@@ -3,7 +3,6 @@ package com.mycollab.module.project.service
 import com.mycollab.db.arguments.BasicSearchRequest
 import com.mycollab.db.arguments.NumberSearchField
 import com.mycollab.db.arguments.StringSearchField
-import com.mycollab.module.project.dao.ProjectRolePermissionMapper
 import com.mycollab.module.project.domain.criteria.ProjectRoleSearchCriteria
 import com.mycollab.test.DataSet
 import com.mycollab.test.rule.DbUnitInitializerRule
@@ -12,10 +11,10 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
+import java.util.*
 
 @ExtendWith(DbUnitInitializerRule::class)
-class ProjectRoleServiceTest(@Autowired val projectRoleService: ProjectRoleService,
-                             @Autowired val projectRolePermissionService: ProjectRolePermissionMapper) : IntegrationServiceTest() {
+class ProjectRoleServiceTest(@Autowired val projectRoleService: ProjectRoleService) : IntegrationServiceTest() {
 
     @Test
     @DataSet
@@ -35,5 +34,13 @@ class ProjectRoleServiceTest(@Autowired val projectRoleService: ProjectRoleServi
     fun testFindRole() {
         val role = projectRoleService.findById(1, 1)
         assertThat(role).extracting("rolename").contains("role1")
+    }
+
+    @Test
+    @DataSet
+    fun testFindProjectPermissions() {
+        val permissions = projectRoleService.findProjectsPermissions("haiphucnguyen@gmail.com", Arrays.asList(1), 1)
+        assertThat(permissions.size).isEqualTo(1)
+        assertThat(permissions[0].item1).isEqualTo(1)
     }
 }

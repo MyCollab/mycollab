@@ -28,7 +28,7 @@ import com.mycollab.module.project.domain.SimpleMilestone;
 import com.mycollab.module.project.i18n.TimeTrackingI18nEnum;
 import com.mycollab.module.project.view.service.MilestoneComponentFactory;
 import com.mycollab.vaadin.UserUIContext;
-import com.mycollab.vaadin.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.ui.AbstractComponent;
 import org.springframework.stereotype.Service;
@@ -42,7 +42,7 @@ public class MilestoneComponentFactoryImpl implements MilestoneComponentFactory 
     @Override
     public AbstractComponent createMilestoneAssigneePopupField(SimpleMilestone milestone, boolean isDisplayName) {
         String avatarLink = StorageUtils.getAvatarPath(milestone.getOwnerAvatarId(), 16);
-        Img img = new Img(milestone.getOwnerFullName(), avatarLink).setCSSClass(UIConstants.CIRCLE_BOX)
+        Img img = new Img(milestone.getOwnerFullName(), avatarLink).setCSSClass(WebThemes.CIRCLE_BOX)
                 .setTitle(milestone.getOwnerFullName());
         if (isDisplayName) {
             return new MetaFieldBuilder().withCaption(img.write() + " " + StringUtils.trim(milestone.getOwnerFullName(), 20, true))

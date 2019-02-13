@@ -55,6 +55,20 @@ public class MilestoneDefaultFormLayoutFactory {
         return mainSection;
     }
 
+    private static DynaSection readMainSection() {
+        DynaSection mainSection = new DynaSectionBuilder().layoutType(LayoutType.TWO_COLUMN).build();
+
+        mainSection.fields(new TextDynaFieldBuilder().fieldName(Milestone.Field.name).displayName(GenericI18Enum.FORM_NAME)
+                .fieldIndex(0).mandatory(true).required(true).colSpan(true).build());
+
+        mainSection.fields(new TextDynaFieldBuilder().fieldName(Milestone.Field.status).displayName(GenericI18Enum.FORM_STATUS)
+                .contextHelp(MilestoneI18nEnum.FORM_STATUS_FIELD_HELP).fieldIndex(4).build());
+
+        mainSection.fields(new TextDynaFieldBuilder().fieldName(Milestone.Field.description).displayName(GenericI18Enum.FORM_DESCRIPTION)
+                .fieldIndex(5).colSpan(true).build());
+        return mainSection;
+    }
+
     private static DynaSection assignmentSection() {
         DynaSection assignmentSection = new DynaSectionBuilder().layoutType(LayoutType.ONE_COLUMN).header(ProjectCommonI18nEnum.OPT_ASSIGNMENT_LIST).build();
         assignmentSection.fields(new TextDynaFieldBuilder().fieldName("section-assignments")
@@ -74,6 +88,6 @@ public class MilestoneDefaultFormLayoutFactory {
     }
 
     public static DynaForm getReadForm() {
-        return new DynaForm(mainSection(), assignmentSection(), attachmentSection());
+        return new DynaForm(readMainSection(), assignmentSection(), attachmentSection());
     }
 }

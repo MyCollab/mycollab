@@ -93,14 +93,15 @@ public class BugAddPresenter extends ProjectGenericPresenter<BugAddView> {
             projectView.gotoSubView(ProjectView.TICKET_ENTRY, view);
 
             SimpleBug bug = (SimpleBug) data.getParams();
-            view.editItem(bug);
 
             ProjectBreadcrumb breadcrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);
             if (bug.getId() == null) {
                 breadcrumb.gotoBugAdd();
+                bug.setSaccountid(AppUI.getAccountId());
             } else {
                 breadcrumb.gotoBugEdit(bug);
             }
+            view.editItem(bug);
         } else {
             throw new SecureAccessException();
         }

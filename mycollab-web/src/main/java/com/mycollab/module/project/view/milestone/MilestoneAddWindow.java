@@ -53,11 +53,11 @@ public class MilestoneAddWindow extends MWindow {
         }
         VerticalLayout content = new VerticalLayout();
         withWidth("800px").withModal(true).withResizable(false).withContent(content).withCenter();
-        final AdvancedEditBeanForm<SimpleMilestone> editForm = new AdvancedEditBeanForm<>();
+        AdvancedEditBeanForm<SimpleMilestone> editForm = new AdvancedEditBeanForm<>();
         content.addComponent(editForm);
         editForm.setFormLayoutFactory(new DefaultDynaFormLayout(ProjectTypeConstants.MILESTONE,
                 MilestoneDefaultFormLayoutFactory.getAddForm(), Milestone.Field.id.name()));
-        final MilestoneEditFormFieldFactory milestoneEditFormFieldFactory = new MilestoneEditFormFieldFactory(editForm);
+        MilestoneEditFormFieldFactory milestoneEditFormFieldFactory = new MilestoneEditFormFieldFactory(editForm);
         editForm.setBeanFormFieldFactory(milestoneEditFormFieldFactory);
         editForm.setBean(milestone);
 

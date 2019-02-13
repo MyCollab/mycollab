@@ -19,6 +19,9 @@ package com.mycollab.module.ecm;
 import com.mycollab.spring.AppContextUtil;
 import com.zaxxer.hikari.HikariDataSource;
 import org.apache.jackrabbit.core.fs.db.DbFileSystem;
+import org.apache.jackrabbit.core.util.db.ConnectionHelper;
+
+import javax.sql.DataSource;
 
 /**
  * Db file system of mycollab jackrabbit storage
@@ -35,5 +38,10 @@ public class DbFileSystemExt extends DbFileSystem {
         this.user = ds.getUsername();
         this.password = ds.getPassword();
         this.url = ds.getJdbcUrl();
+    }
+
+    @Override
+    protected ConnectionHelper createConnectionHelper(DataSource dataSrc) throws Exception {
+        return new MySqlConnectionHelper(dataSrc);
     }
 }

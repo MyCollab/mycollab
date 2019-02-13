@@ -123,13 +123,19 @@ object ThemeManager {
             //Date label of activity stream
             extraStyles.append(".activity-list .feed-block-wrap .date-lbl { background-color:#${accountTheme.actionbtn};}")
             extraStyles.append(".activity-list .feed-block-wrap .date-lbl::after{ border-left-color:#${accountTheme.actionbtn};}")
-            extraStyles.append(".activity-list .feed-block-wrap:hover .date-lbl { background-color:" + ColorUtils.darkerColor("#" + accountTheme.actionbtn) + ";}")
+            extraStyles.append(".activity-list .feed-block-wrap:hover .date-lbl { background-color:${ColorUtils.darkerColor("#" + accountTheme.actionbtn)};}")
             extraStyles.append(".activity-list .feed-block-wrap:hover .date-lbl::after{ border-left-color:${ColorUtils.darkerColor("#" + accountTheme.actionbtn)};}")
 
             // Button group default button
             extraStyles.append(".toggle-btn-group .v-button.btn-group-default {background-color:#${accountTheme.actionbtn};}")
             extraStyles.append(".toggle-btn-group .v-button.btn-group-default:hover {background-color:${ColorUtils.darkerColor("#" + accountTheme.actionbtn)};}")
             extraStyles.append(".v-context-menu-container .v-context-menu .v-context-submenu:hover {background-color:#${accountTheme.actionbtn};}")
+
+            //Styles for field-note
+            extraStyles.append(".field-note {color: #${accountTheme.actionbtn}; border: 1px solid ${ColorUtils.darkerColor("#" + accountTheme.actionbtn, 0.1)};}")
+            extraStyles.append(".field-note:hover {border-color: ${ColorUtils.darkerColor("#" + accountTheme.actionbtn, 0.15)};}")
+            extraStyles.append(".field-note a:visited {color: #${accountTheme.actionbtn};}")
+            extraStyles.append(".field-note a:link {color: #${accountTheme.actionbtn};}")
         }
 
         if (accountTheme.actionbtntext != null) {
@@ -189,8 +195,8 @@ object ThemeManager {
             Page.getCurrent().styles.add(extraStyles.toString())
         }
 
-        Page.getCurrent().styles.add(".window-max-height{max-height: ${UIUtils.getBrowserHeight()-220}px;}")
-        Page.getCurrent().styles.add(".content-height{min-height: ${UIUtils.getBrowserHeight()-45}px;}")
+        Page.getCurrent().styles.add(".window-max-height{max-height: ${UIUtils.getBrowserHeight() - 220}px;}")
+        Page.getCurrent().styles.add(".content-height{min-height: ${UIUtils.getBrowserHeight() - 45}px;}")
         Page.getCurrent().styles.add(".vertical-tabsheet .v-button-tab.collapsed-tab::after{content: '${String(Character.toChars(VaadinIcons.ANGLE_RIGHT.codepoint))}';" +
                 "color: #${accountTheme.vtabsheettext};}")
         Page.getCurrent().styles.add(".vertical-tabsheet .v-button-tab.un-collapsed-tab::after{content: '${String(Character.toChars(VaadinIcons.ANGLE_DOWN.codepoint))}';" +

@@ -91,10 +91,10 @@ class AssignBugWindow extends MWindow {
 
             @Override
             public AbstractComponent getLayout() {
-                final VerticalLayout layout = new VerticalLayout();
-                this.informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(LayoutType.TWO_COLUMN);
+                VerticalLayout layout = new VerticalLayout();
+                this.informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(LayoutType.ONE_COLUMN);
 
-                layout.addComponent(this.informationLayout.getLayout());
+                layout.addComponent(informationLayout.getLayout());
 
                 final MButton approveBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_ASSIGN), clickEvent -> {
                     if (EditForm.this.validateForm()) {
@@ -138,7 +138,7 @@ class AssignBugWindow extends MWindow {
                 if (propertyId.equals("assignuser")) {
                     return informationLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.FORM_ASSIGNEE), 0, 0);
                 } else if (propertyId.equals("comment")) {
-                    return informationLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.OPT_COMMENT), 0, 1, 2);
+                    return informationLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.OPT_COMMENT), 0, 1);
                 }
                 return null;
             }
@@ -147,7 +147,7 @@ class AssignBugWindow extends MWindow {
         private class EditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<BugWithBLOBs> {
             private static final long serialVersionUID = 1L;
 
-            public EditFormFieldFactory(GenericBeanForm<BugWithBLOBs> form) {
+            EditFormFieldFactory(GenericBeanForm<BugWithBLOBs> form) {
                 super(form);
             }
 

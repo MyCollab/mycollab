@@ -37,7 +37,6 @@ import com.mycollab.vaadin.AsyncInvoker;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.NotificationUtil;
-import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.ui.UserAvatarControlFactory;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.icons.VaadinIcons;
@@ -60,7 +59,6 @@ import java.util.List;
  * @author MyCollab Ltd.
  * @since 4.3.3
  */
-// TODO
 public class ProjectFollowersComp<V extends ValuedBean> extends MVerticalLayout {
     private static final long serialVersionUID = 1L;
     private static final Logger LOG = LoggerFactory.getLogger(ProjectFollowersComp.class);
@@ -134,9 +132,7 @@ public class ProjectFollowersComp<V extends ValuedBean> extends MVerticalLayout 
             public void run() {
                 watcherLayout.removeAllComponents();
                 followers = monitorItemService.getWatchers(type, typeId);
-                for (SimpleUser follower : followers) {
-                    watcherLayout.addComponent(new FollowerComp(follower));
-                }
+                followers.forEach(follower -> watcherLayout.addComponent(new FollowerComp(follower)));
             }
         });
     }
@@ -166,7 +162,7 @@ public class ProjectFollowersComp<V extends ValuedBean> extends MVerticalLayout 
     private class FollowerComp extends CssLayout {
         FollowerComp(final SimpleUser user) {
             final Image userAvatarBtn = UserAvatarControlFactory.createUserAvatarEmbeddedComponent(user.getAvatarid(), 32);
-            userAvatarBtn.addStyleName(UIConstants.CIRCLE_BOX);
+            userAvatarBtn.addStyleName(WebThemes.CIRCLE_BOX);
             userAvatarBtn.setDescription(CommonTooltipGenerator.generateTooltipUser(UserUIContext.getUserLocale(), user,
                     AppUI.getSiteUrl(), UserUIContext.getUserTimeZone()));
             addComponent(userAvatarBtn);
@@ -189,7 +185,6 @@ public class ProjectFollowersComp<V extends ValuedBean> extends MVerticalLayout 
         private List<SimpleProjectMember> unsavedMembers = new ArrayList<>();
 
         ModifyWatcherPopup() {
-//            new Restrain(this).setMaxHeight("600px");
             this.addStyleName(WebThemes.SCROLLABLE_CONTAINER);
             ProjectMemberSearchCriteria criteria = new ProjectMemberSearchCriteria();
             criteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));

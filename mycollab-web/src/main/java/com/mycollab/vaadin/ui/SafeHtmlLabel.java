@@ -17,6 +17,7 @@
 package com.mycollab.vaadin.ui;
 
 import com.mycollab.core.utils.StringUtils;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.ui.Label;
 import org.jsoup.Jsoup;
@@ -29,7 +30,7 @@ import org.jsoup.nodes.Document;
 public class SafeHtmlLabel extends Label {
     public SafeHtmlLabel(String value) {
         super(StringUtils.formatRichText(value), ContentMode.HTML);
-        this.addStyleName(UIConstants.LABEL_WORD_WRAP);
+        this.addStyleName(WebThemes.LABEL_WORD_WRAP);
     }
 
     public SafeHtmlLabel(String value, int trimCharacters) {
@@ -37,6 +38,6 @@ public class SafeHtmlLabel extends Label {
         String content = doc.body().text();
         content = StringUtils.trim(content, trimCharacters);
         this.setValue(content);
-        this.addStyleName(UIConstants.LABEL_WORD_WRAP);
+        this.addStyleName(WebThemes.LABEL_WORD_WRAP);
     }
 }

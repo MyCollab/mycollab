@@ -26,7 +26,7 @@ import com.mycollab.module.file.StorageUtils;
 import com.mycollab.module.project.domain.ProjectTicket;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
-import com.mycollab.vaadin.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.WebThemes;
 
 import java.util.List;
 
@@ -49,8 +49,8 @@ public class UserOrderComponent extends TicketGroupOrderComponent {
                     groupComponent.insertTicket(ticket);
                 } else {
                     Img img = new Img("", StorageUtils.getAvatarPath(ticket.getAssignUserAvatarId(), 32))
-                            .setCSSClass((UIConstants.CIRCLE_BOX));
-                    Div userDiv = new DivLessFormatter().appendChild(img, new Text(" " + ticket.getAssignUserFullName()));
+                            .setCSSClass((WebThemes.CIRCLE_BOX));
+                    Div userDiv = new DivLessFormatter().appendChild(img, new Text(ticket.getAssignUserFullName()));
 
                     DefaultTicketGroupComponent groupComponent = new DefaultTicketGroupComponent(userDiv.write());
                     userAvailables.put(assignUser, groupComponent);

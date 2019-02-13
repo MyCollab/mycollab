@@ -17,9 +17,8 @@
 package com.mycollab.common.service.impl
 
 import com.mycollab.common.dao.OptionValMapper
-import com.mycollab.common.dao.TimelineTrackingCachingMapper
-import com.mycollab.common.dao.TimelineTrackingMapper
-import com.mycollab.common.domain.*
+import com.mycollab.common.domain.OptionVal
+import com.mycollab.common.domain.OptionValExample
 import com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum
 import com.mycollab.common.service.OptionValService
 import com.mycollab.core.UserInvalidInputException
@@ -34,7 +33,6 @@ import org.springframework.stereotype.Service
 import java.sql.PreparedStatement
 import java.sql.SQLException
 import java.time.LocalDateTime
-import java.util.*
 import javax.sql.DataSource
 
 /**
@@ -43,8 +41,6 @@ import javax.sql.DataSource
  */
 @Service
 class OptionValServiceImpl(private val optionValMapper: OptionValMapper,
-                           private val timelineTrackingMapper: TimelineTrackingMapper,
-                           private val timelineTrackingCachingMapper: TimelineTrackingCachingMapper,
                            private val dataSource: DataSource) : DefaultCrudService<Int, OptionVal>(), OptionValService {
 
     override val crudMapper: ICrudGenericDAO<Int, OptionVal>
@@ -88,30 +84,11 @@ class OptionValServiceImpl(private val optionValMapper: OptionValMapper,
             val ex = OptionValExample()
             ex.createCriteria().andTypeEqualTo(record.type).andTypevalEqualTo(typeVal)
                     .andFieldgroupEqualTo(record.fieldgroup).andSaccountidEqualTo(record
-                    .saccountid).andIsdefaultEqualTo(java.lang.Boolean.FALSE)
+                            .saccountid).andIsdefaultEqualTo(java.lang.Boolean.FALSE)
             if (optionValMapper.countByExample(ex) > 0) {
                 throw UserInvalidInputException("There is already column name $typeVal")
             }
         }
-    }
-
-    override fun updateWithSession(record: OptionVal, username: String?): Int {
-        if (java.lang.Boolean.FALSE == record.isdefault) {
-            val timelineTrackingExample = TimelineTrackingExample()
-            timelineTrackingExample.createCriteria().andTypeEqualTo(record.type).andFieldvalEqualTo(record.typeval)
-                    .andFieldgroupEqualTo(record.fieldgroup).andExtratypeidEqualTo(record.extraid)
-            val timelineTracking = TimelineTracking()
-            timelineTracking.fieldval = record.typeval
-            timelineTrackingMapper.updateByExampleSelective(timelineTracking, timelineTrackingExample)
-
-            val timelineTrackingCachingExample = TimelineTrackingCachingExample()
-            timelineTrackingCachingExample.createCriteria().andTypeEqualTo(record.type).andFieldvalEqualTo(record.typeval).andFieldgroupEqualTo(record.fieldgroup).andExtratypeidEqualTo(record.extraid)
-            val timelineTrackingCaching = TimelineTrackingCaching()
-            timelineTrackingCaching.fieldval = record.typeval
-            timelineTrackingCachingMapper.updateByExampleSelective(timelineTrackingCaching,
-                    timelineTrackingCachingExample)
-        }
-        return super.updateWithSession(record, username)
     }
 
     override fun massUpdateOptionIndexes(mapIndexes: List<Map<String, Int>>, sAccountId: Int?) {

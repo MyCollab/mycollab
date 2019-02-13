@@ -24,7 +24,6 @@ import com.mycollab.core.utils.FileUtils;
 import com.mycollab.module.file.StorageUtils;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.ELabel;
-import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.web.ui.AbstractAboutWindow;
 import com.mycollab.vaadin.web.ui.WebResourceIds;
 import com.vaadin.server.ExternalResource;

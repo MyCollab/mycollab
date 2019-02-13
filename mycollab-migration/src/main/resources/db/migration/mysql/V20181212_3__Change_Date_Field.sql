@@ -113,16 +113,6 @@ ALTER TABLE `m_prj_time_logging`
 CHANGE COLUMN `createdTime` `createdTime` DATETIME NULL ,
 CHANGE COLUMN `lastUpdatedTime` `lastUpdatedTime` DATETIME NULL ;
 
-ALTER TABLE `s_billing_subscription`
-ADD COLUMN `lastUpdatedTime` DATETIME NULL,
-CHANGE COLUMN `createdTime` `createdTime` DATETIME NULL ;
-
-ALTER TABLE `s_billing_subscription_history`
-CHANGE COLUMN `createdTime` `createdTime` DATETIME NULL ;
-
-ALTER TABLE `s_email_preference`
-CHANGE COLUMN `createdTime` `createdTime` DATETIME NULL ;
-
 ALTER TABLE `s_favorite`
 CHANGE COLUMN `lastUpdatedTime` `lastUpdatedTime` DATETIME NULL ,
 CHANGE COLUMN `createdTime` `createdTime` DATETIME NULL ;

@@ -23,7 +23,7 @@
         <result column="numComments" jdbcType="INTEGER" property="numComments" />
         <result column="numFollowers" jdbcType="INTEGER" property="numFollowers" />
         <result column="priority" jdbcType="VARCHAR" property="priority" />
-        <result column="sAccountId" jdbcType="INTEGER" property="sAccountId" />
+        <result column="sAccountId" jdbcType="INTEGER" property="saccountid" />
         <result column="billableHours" property="billableHours" jdbcType="DOUBLE"/>
         <result column="nonBillableHours" property="nonBillableHours" jdbcType="DOUBLE"/>
         <result column="startDate" jdbcType="TIMESTAMP" property="startDate" />
@@ -311,9 +311,9 @@
             mainTbl.originalEstimate, mainTbl.remainEstimate,
             m_prj_milestone.name AS milestoneName
           FROM m_prj_risk AS mainTbl
+              INNER JOIN m_prj_project ON (mainTbl.projectId=m_prj_project.id)
               LEFT OUTER JOIN s_user assignUserTbl ON (mainTbl.assignUser=assignUserTbl.username)
               LEFT OUTER JOIN s_user createdUserTbl ON (mainTbl.createdUser=createdUserTbl.username)
-              LEFT OUTER JOIN m_prj_project ON (mainTbl.projectId=m_prj_project.id AND m_prj_project.status='Open')
               LEFT OUTER JOIN m_prj_milestone ON (mainTbl.milestoneId=m_prj_milestone.id)
         ]]>
     </sql>
@@ -336,9 +336,9 @@
             mainTbl.id AS milestoneId, 0 AS originalEstimate, 0 AS remainEstimate,
             mainTbl.name AS milestoneName
           FROM m_prj_milestone AS mainTbl
+            INNER JOIN m_prj_project ON (mainTbl.projectId=m_prj_project.id)
             LEFT OUTER JOIN s_user assignUserTbl ON (mainTbl.assignUser=assignUserTbl.username)
             LEFT OUTER JOIN s_user createdUserTbl ON (mainTbl.createdUser=createdUserTbl.username)
-            LEFT OUTER JOIN m_prj_project ON (mainTbl.projectId=m_prj_project.id AND m_prj_project.status='Open')
         ]]>
     </sql>
 
@@ -364,9 +364,9 @@
                 mainTbl.milestoneId, mainTbl.originalEstimate, mainTbl.remainEstimate,
                 m_prj_milestone.name AS milestoneName
           FROM m_tracker_bug AS mainTbl
+              INNER JOIN m_prj_project ON (mainTbl.projectId=m_prj_project.id)
               LEFT OUTER JOIN s_user AS assignUserTbl ON (mainTbl.assignUser=assignUserTbl.username)
               LEFT OUTER JOIN s_user createdUserTbl ON (mainTbl.createdUser=createdUserTbl.username)
-              LEFT OUTER JOIN m_prj_project ON (mainTbl.projectId=m_prj_project.id AND m_prj_project.status='Open')
               LEFT OUTER JOIN m_prj_milestone ON (mainTbl.milestoneId=m_prj_milestone.id)
         ]]>
     </sql>
@@ -393,9 +393,9 @@
             mainTbl.originalEstimate, mainTbl.remainEstimate,
             m_prj_milestone.name AS milestoneName
           FROM m_prj_task AS mainTbl
+            INNER JOIN m_prj_project ON (mainTbl.projectId=m_prj_project.id)
             LEFT OUTER JOIN s_user assignUserTbl ON (mainTbl.assignUser=assignUserTbl.username)
             LEFT OUTER JOIN s_user createdUserTbl ON (mainTbl.createdUser=createdUserTbl.username)
-            LEFT OUTER JOIN m_prj_project ON (mainTbl.projectId=m_prj_project.id AND m_prj_project.status='Open')
             LEFT OUTER JOIN m_prj_milestone ON (mainTbl.milestoneId=m_prj_milestone.id)
         ]]>
     </sql>

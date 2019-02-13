@@ -39,11 +39,9 @@ import com.mycollab.vaadin.ui.GenericBeanForm;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.vaadin.data.HasValue;
-import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.RichTextArea;
-import com.vaadin.ui.VerticalLayout;
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
@@ -68,11 +66,11 @@ public class ApproveInputWindow extends MWindow {
         super(UserUIContext.getMessage(BugI18nEnum.OPT_APPROVE_BUG, bug.getName()));
         this.bug = bug;
 
-        MVerticalLayout contentLayout = new MVerticalLayout().withMargin(new MarginInfo(false, false, true, false));
+        MVerticalLayout contentLayout = new MVerticalLayout().withMargin(false);
         EditForm editForm = new EditForm();
         editForm.setBean(bug);
         contentLayout.addComponent(editForm);
-        this.withResizable(false).withModal(true).withWidth("750px").withContent(contentLayout).withCenter();
+        this.withResizable(false).withModal(true).withWidth("600px").withContent(contentLayout).withCenter();
     }
 
     private class EditForm extends AdvancedEditBeanForm<BugWithBLOBs> {
@@ -91,7 +89,7 @@ public class ApproveInputWindow extends MWindow {
 
             @Override
             public AbstractComponent getLayout() {
-                final VerticalLayout layout = new VerticalLayout();
+                MVerticalLayout layout = new MVerticalLayout();
                 informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(LayoutType.TWO_COLUMN);
 
                 layout.addComponent(informationLayout.getLayout());
@@ -128,9 +126,8 @@ public class ApproveInputWindow extends MWindow {
                 MButton cancelBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
                         .withStyleName(WebThemes.BUTTON_OPTION);
 
-                final MHorizontalLayout controlsBtn = new MHorizontalLayout(cancelBtn, approveBtn).withMargin(true);
-                layout.addComponent(controlsBtn);
-                layout.setComponentAlignment(controlsBtn, Alignment.MIDDLE_RIGHT);
+                MHorizontalLayout controlsBtn = new MHorizontalLayout(cancelBtn, approveBtn).withMargin(false);
+                layout.with(controlsBtn).withAlign(controlsBtn, Alignment.MIDDLE_RIGHT);
                 return layout;
             }
 

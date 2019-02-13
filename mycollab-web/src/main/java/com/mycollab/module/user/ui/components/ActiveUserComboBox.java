@@ -27,6 +27,7 @@ import com.mycollab.module.user.service.UserService;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.ui.UserAvatarControlFactory;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.data.Converter;
 import com.vaadin.data.Result;
 import com.vaadin.data.ValueContext;
@@ -48,6 +49,7 @@ public class ActiveUserComboBox extends ComboBox<SimpleUser> implements Converte
     private List<SimpleUser> users;
 
     public ActiveUserComboBox() {
+        this.setWidth(WebThemes.FORM_CONTROL_WIDTH);
         UserSearchCriteria criteria = new UserSearchCriteria();
         criteria.setSaccountid(new NumberSearchField(AppUI.getAccountId()));
         criteria.setRegisterStatuses(new SetSearchField<>(RegisterStatusConstants.ACTIVE));

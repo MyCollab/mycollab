@@ -17,6 +17,7 @@
 package com.mycollab.vaadin;
 
 import ch.qos.cal10n.IMessageConveyor;
+import com.mycollab.common.i18n.DayI18nEnum;
 import com.mycollab.configuration.SiteConfiguration;
 import com.mycollab.core.SessionExpireException;
 import com.mycollab.core.utils.DateTimeUtils;
@@ -39,6 +40,7 @@ import org.slf4j.LoggerFactory;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Period;
 import java.time.ZoneId;
 import java.time.temporal.TemporalAccessor;
 import java.util.Date;
@@ -167,8 +169,6 @@ public class UserUIContext implements Serializable {
 
     public static String getMessage(Class<? extends Enum> enumCls, String option, Object... objects) {
         try {
-            if (option == null)
-                return "";
             Enum key = Enum.valueOf(enumCls, option);
             return getMessage(key, objects);
         } catch (Exception e) {
@@ -247,19 +247,6 @@ public class UserUIContext implements Serializable {
      * @param permissionItem
      * @return
      */
-    public static boolean canBeFalse(String permissionItem) {
-        if (isAdmin()) {
-            return true;
-        }
-
-        PermissionMap permissionMap = getInstance().session.getPermissionMaps();
-        return permissionMap != null && permissionMap.canBeFalse(permissionItem);
-    }
-
-    /**
-     * @param permissionItem
-     * @return
-     */
     public static boolean canRead(String permissionItem) {
         if (isAdmin()) {
             return true;
@@ -321,7 +308,7 @@ public class UserUIContext implements Serializable {
      * @return
      */
     public static String formatDate(TemporalAccessor date) {
-        return date == null ? "" : DateTimeUtils.formatDate(date, AppUI.getDateFormat(), UserUIContext.getUserLocale(),
+        return date == null ? "" : DateTimeUtils.formatDate(date, getInstance().session.getDateFormat(), UserUIContext.getUserLocale(),
                 UserUIContext.getUserTimeZone());
     }
 
@@ -349,12 +336,13 @@ public class UserUIContext implements Serializable {
     }
 
     public static String formatShortDate(LocalDate date) {
-        return date == null ? "" : DateTimeUtils.formatDate(date, AppUI.getShortDateFormat(), UserUIContext.getUserLocale(),
-                UserUIContext.getUserTimeZone());
+        return date == null ? "" : DateTimeUtils.formatDate(date, getInstance().session.getShortDateFormat(),
+                UserUIContext.getUserLocale(), UserUIContext.getUserTimeZone());
     }
 
-    public static String formatDuration(TemporalAccessor date) {
-        return DateTimeUtils.getPrettyDurationValue(date, getUserLocale());
+    public static String formatDuration(LocalDate date) {
+        Period period = Period.between(date, LocalDate.now());
+        return UserUIContext.getMessage(DayI18nEnum.DURATION, period.getDays());
     }
 
 }

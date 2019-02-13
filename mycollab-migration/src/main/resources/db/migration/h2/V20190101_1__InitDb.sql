@@ -231,7 +231,7 @@ CREATE TABLE `s_user` (
   `nickname` varchar(45) DEFAULT NULL,
   `birthday` date DEFAULT NULL,
   `password` varchar(100) DEFAULT NULL,
-  `email` varchar(255) NOT NULL,
+  `email` varchar(255) NULL,
   `website` varchar(255) DEFAULT NULL,
   `registeredTime` datetime DEFAULT NULL,
   `lastAccessedTime` datetime DEFAULT NULL,
@@ -547,35 +547,6 @@ CREATE TABLE `m_monitor_item` (
   CONSTRAINT `FK_m_monitor_item_2` FOREIGN KEY (`sAccountId`) REFERENCES `s_account` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ;
 
-
-
---
--- Table structure for table `m_notification_item`
---
-
-DROP TABLE IF EXISTS `m_notification_item`;
-
-
-CREATE TABLE `m_notification_item` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `module` varchar(45) NOT NULL,
-  `type` varchar(45) NOT NULL,
-  `typeId` varchar(45) NOT NULL,
-  `notificationUser` varchar(45) NOT NULL,
-  `createdTime` datetime NOT NULL,
-  `message` varchar(1000) NOT NULL,
-  `isRead` tinyint(1) NOT NULL,
-  `sAccountId` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `id_UNIQUE` (`id`),
-  KEY `FK_m_notification_item_1_idx` (`notificationUser`),
-  KEY `FK_m_notification_item_2_idx` (`sAccountId`),
-  CONSTRAINT `FK_m_notification_item_1` FOREIGN KEY (`notificationUser`) REFERENCES `s_user` (`username`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FK_m_notification_item_2` FOREIGN KEY (`sAccountId`) REFERENCES `s_account` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ;
-
-
-
 --
 -- Table structure for table `m_options`
 --
@@ -689,7 +660,6 @@ CREATE TABLE `m_prj_customize_view` (
   `displayStandup` bit(1) NOT NULL,
   `displayTimeLogging` bit(1) NOT NULL,
   `displayPage` bit(1) NOT NULL,
-  `displayFile` bit(1) NOT NULL,
   `displayInvoice` bit(1) NOT NULL,
   `displayTicket` bit(1) DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -1667,51 +1637,6 @@ CREATE TABLE `s_testimonial` (
   `testimonial` text NOT NULL,
   `website` varchar(100) DEFAULT NULL,
   `email` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ;
-
-
-
---
--- Table structure for table `s_timeline_tracking`
---
-
-DROP TABLE IF EXISTS `s_timeline_tracking`;
-
-
-CREATE TABLE `s_timeline_tracking` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `type` varchar(45)  NOT NULL,
-  `typeId` int(11) unsigned NOT NULL,
-  `fieldval` varchar(45)  NOT NULL,
-  `fieldgroup` varchar(45)  NOT NULL,
-  `extratypeid` int(11) unsigned DEFAULT NULL,
-  `sAccountId` int(11) NOT NULL,
-  `forDay` date NOT NULL,
-  `flag` tinyint(2) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`id`),
-  KEY `FK_s_timeline_tracking_1_idx` (`sAccountId`),
-  CONSTRAINT `FK_s_timeline_tracking_1` FOREIGN KEY (`sAccountId`) REFERENCES `s_account` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ;
-
-
-
---
--- Table structure for table `s_timeline_tracking_cache`
---
-
-DROP TABLE IF EXISTS `s_timeline_tracking_cache`;
-
-
-CREATE TABLE `s_timeline_tracking_cache` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `type` varchar(45)  NOT NULL,
-  `fieldval` varchar(45) DEFAULT NULL,
-  `extratypeid` int(11) unsigned DEFAULT NULL,
-  `sAccountId` int(11) NOT NULL,
-  `forDay` date DEFAULT NULL,
-  `fieldgroup` varchar(45)  NOT NULL,
-  `count` int(6) NOT NULL,
   PRIMARY KEY (`id`)
 ) ;
 

@@ -45,7 +45,7 @@ import com.mycollab.module.project.view.task.TaskEditForm;
 import com.mycollab.module.tracker.domain.SimpleBug;
 import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.UserUIContext;
-import com.mycollab.vaadin.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.ui.AbstractComponent;
@@ -159,7 +159,7 @@ public class TicketComponentFactoryImpl implements TicketComponentFactory {
     @Override
     public AbstractComponent createAssigneePopupField(ProjectTicket ticket) {
         String avatarLink = StorageUtils.getAvatarPath(ticket.getAssignUserAvatarId(), 16);
-        Img img = new Img(ticket.getAssignUserFullName(), avatarLink).setCSSClass(UIConstants.CIRCLE_BOX)
+        Img img = new Img(ticket.getAssignUserFullName(), avatarLink).setCSSClass(WebThemes.CIRCLE_BOX)
                 .setTitle(ticket.getAssignUserFullName());
         return new MetaFieldBuilder().withCaption(img.write())
                 .withDescription(UserUIContext.getMessage(ShellI18nEnum.OPT_UPGRADE_PRO_INTRO,

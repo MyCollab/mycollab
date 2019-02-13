@@ -20,7 +20,7 @@ import com.mycollab.core.utils.CurrencyUtils;
 import com.mycollab.core.utils.StringUtils;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
-import com.mycollab.vaadin.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomField;
 
@@ -34,7 +34,7 @@ public class CurrencyViewField extends CustomField<String> {
     private ELabel label;
 
     public CurrencyViewField() {
-        label = new ELabel().withFullWidth().withStyleName(UIConstants.LABEL_WORD_WRAP);
+        label = new ELabel().withFullWidth().withStyleName(WebThemes.LABEL_WORD_WRAP);
     }
 
     @Override

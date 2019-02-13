@@ -19,6 +19,7 @@ package com.mycollab.module.project.service.impl
 import com.mycollab.aspect.ClassInfo
 import com.mycollab.aspect.ClassInfoMap
 import com.mycollab.common.ModuleNameConstants
+import com.mycollab.core.Tuple2
 import com.mycollab.core.utils.JsonDeSerializer
 import com.mycollab.db.persistence.ICrudGenericDAO
 import com.mycollab.db.persistence.ISearchableDAO
@@ -27,6 +28,7 @@ import com.mycollab.module.project.ProjectTypeConstants
 import com.mycollab.module.project.dao.ProjectRoleMapper
 import com.mycollab.module.project.dao.ProjectRoleMapperExt
 import com.mycollab.module.project.dao.ProjectRolePermissionMapper
+import com.mycollab.module.project.dao.ProjectRolePermissionMapperExt
 import com.mycollab.module.project.domain.ProjectRole
 import com.mycollab.module.project.domain.ProjectRolePermission
 import com.mycollab.module.project.domain.ProjectRolePermissionExample
@@ -43,7 +45,8 @@ import org.springframework.stereotype.Service
 @Service
 class ProjectRoleServiceImpl(private val roleMapper: ProjectRoleMapper,
                              private val roleMapperExt: ProjectRoleMapperExt,
-                             private val projectRolePermissionMapper: ProjectRolePermissionMapper) : DefaultService<Int, ProjectRole, ProjectRoleSearchCriteria>(), ProjectRoleService {
+                             private val rolePermissionMapper: ProjectRolePermissionMapper,
+                             private val rolePermissionMapperExt: ProjectRolePermissionMapperExt) : DefaultService<Int, ProjectRole, ProjectRoleSearchCriteria>(), ProjectRoleService {
 
     override val crudMapper: ICrudGenericDAO<Int, ProjectRole>
         get() = roleMapper as ICrudGenericDAO<Int, ProjectRole>
@@ -62,14 +65,23 @@ class ProjectRoleServiceImpl(private val roleMapper: ProjectRoleMapper,
         rolePer.projectid = projectId
         rolePer.roleval = perVal
 
-        val data = projectRolePermissionMapper.countByExample(ex)
+        val data = rolePermissionMapper.countByExample(ex)
         when {
-            data > 0 -> projectRolePermissionMapper.updateByExampleSelective(rolePer, ex)
-            else -> projectRolePermissionMapper.insert(rolePer)
+            data > 0 -> rolePermissionMapper.updateByExampleSelective(rolePer, ex)
+            else -> rolePermissionMapper.insert(rolePer)
         }
     }
 
     override fun findById(roleId: Int, sAccountId: Int): SimpleProjectRole? = roleMapperExt.findRoleById(roleId)
+
+    override fun findProjectsPermissions(username: String?, projectIds: List<Int>?, sAccountId: Int): List<Tuple2<Int, PermissionMap>> {
+        val permissions = rolePermissionMapperExt.findProjectsPermissions(username, projectIds, sAccountId)
+        return permissions.map {
+            val permissionVal = it.permissionVal
+            val permissionMap = PermissionMap.fromJsonString(permissionVal)
+            Tuple2(it.roleId, permissionMap)
+        }.toCollection(mutableListOf())
+    }
 
     companion object {
 

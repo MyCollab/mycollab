@@ -39,7 +39,6 @@ import org.apache.commons.collections.CollectionUtils
 import org.springframework.dao.DuplicateKeyException
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
-import java.util.*
 
 /**
  * @author MyCollab Ltd.
@@ -147,7 +146,7 @@ class BillingAccountServiceImpl(private val billingAccountMapper: BillingAccount
         userAccount.username = username
 
         userAccountMapper.insert(userAccount)
-        asyncEventBus.post(AccountCreatedEvent(sAccountId, username, isCreatedDefaultData!!))
+        asyncEventBus.post(AccountCreatedEvent(sAccountId, username, isCreatedDefaultData))
     }
 
     override fun getTotalActiveUsersInAccount(accountId: Int): Int {
@@ -166,7 +165,7 @@ class BillingAccountServiceImpl(private val billingAccountMapper: BillingAccount
         role.issystemrole = true
         role.isdefault = java.lang.Boolean.FALSE
         val roleId = roleService.saveWithSession(role, "")
-        roleService.savePermission(roleId, PermissionMap.buildEmployeePermissionCollection(), accountId)
+        roleService.savePermission(roleId, PermissionMap.EMPLOYEE_ROLE_MAP, accountId)
         return roleId
     }
 
@@ -179,7 +178,7 @@ class BillingAccountServiceImpl(private val billingAccountMapper: BillingAccount
         role.issystemrole = true
         role.isdefault = java.lang.Boolean.FALSE
         val roleId = roleService.saveWithSession(role, "")
-        roleService.savePermission(roleId, PermissionMap.buildAdminPermissionCollection(), accountId)
+        roleService.savePermission(roleId, PermissionMap.ADMIN_ROLE_MAP, accountId)
         return roleId
     }
 
@@ -192,7 +191,7 @@ class BillingAccountServiceImpl(private val billingAccountMapper: BillingAccount
         role.issystemrole = true
         role.isdefault = java.lang.Boolean.TRUE
         val roleId = roleService.saveWithSession(role, "")
-        roleService.savePermission(roleId, PermissionMap.buildGuestPermissionCollection(), accountId)
+        roleService.savePermission(roleId, PermissionMap.GUESS_ROLE_MAP, accountId)
         return roleId
     }
 }

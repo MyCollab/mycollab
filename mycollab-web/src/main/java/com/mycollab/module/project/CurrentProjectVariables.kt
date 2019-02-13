@@ -41,7 +41,7 @@ import org.slf4j.LoggerFactory
 object CurrentProjectVariables {
     private val LOG = LoggerFactory.getLogger(CurrentProjectVariables::class.java)
 
-    private val CURRENT_PAGE_VAR = "project_page"
+    private const val CURRENT_PAGE_VAR = "project_page"
 
     // get member permission
     @JvmStatic
@@ -66,7 +66,7 @@ object CurrentProjectVariables {
                 if (!rolePermissions.isEmpty()) {
                     val rolePer = rolePermissions[0]
                     val permissionMap = PermissionMap.fromJsonString(rolePer.roleval)
-                    prjMember.permissionMaps = permissionMap
+                    prjMember.permissionMap = permissionMap
                 }
 
                 if (ProjectMemberStatusConstants.NOT_ACCESS_YET == prjMember.status) {
@@ -169,7 +169,6 @@ object CurrentProjectVariables {
                 customizeView.displaypage = true
                 customizeView.displaystandup = true
                 customizeView.displaytimelogging = true
-                customizeView.displayfile = true
                 customizeView.displayinvoice = true
             }
             return customizeView

@@ -33,7 +33,6 @@ import com.mycollab.module.project.i18n.TaskI18nEnum;
  */
 public class TaskDefaultFormLayoutFactory {
 
-
     private static DynaSection mainSection() {
         DynaSection mainSection = new DynaSectionBuilder().layoutType(LayoutType.TWO_COLUMN).build();
 
@@ -98,6 +97,50 @@ public class TaskDefaultFormLayoutFactory {
         return mainSection;
     }
 
+    private static DynaSection mainReadSection() {
+        DynaSection mainSection = new DynaSectionBuilder().layoutType(LayoutType.TWO_COLUMN).build();
+
+        mainSection.fields(new TextDynaFieldBuilder().fieldName(Task.Field.name)
+                .displayName(GenericI18Enum.FORM_NAME)
+                .fieldIndex(0).mandatory(true).required(true)
+                .colSpan(true).build());
+
+        mainSection.fields(new TextDynaFieldBuilder().fieldName(Task.Field.priority)
+                .displayName(GenericI18Enum.FORM_PRIORITY)
+                .contextHelp(GenericI18Enum.FORM_PRIORITY_HELP)
+                .fieldIndex(4).build());
+
+        mainSection.fields(new TextDynaFieldBuilder().fieldName(Task.Field.isestimated)
+                .displayName(TaskI18nEnum.FORM_IS_ESTIMATED)
+                .contextHelp(TaskI18nEnum.FORM_IS_ESTIMATED_HELP)
+                .fieldIndex(6).build());
+
+        mainSection.fields(new TextDynaFieldBuilder().fieldName(Task.Field.milestoneid).required(true)
+                .displayName(MilestoneI18nEnum.SINGLE)
+                .fieldIndex(8).build());
+
+        mainSection.fields(new TextDynaFieldBuilder().fieldName(Task.Field.percentagecomplete)
+                .displayName(TaskI18nEnum.FORM_PERCENTAGE_COMPLETE)
+                .fieldIndex(9).build());
+
+        mainSection.fields(new TextDynaFieldBuilder().fieldName(Task.Field.status)
+                .displayName(GenericI18Enum.FORM_STATUS)
+                .contextHelp(TaskI18nEnum.FORM_STATUS_HELP).fieldIndex(10).build());
+
+        mainSection.fields(new TextDynaFieldBuilder().fieldName(Task.Field.originalestimate)
+                .displayName(TaskI18nEnum.FORM_ORIGINAL_ESTIMATE)
+                .contextHelp(TaskI18nEnum.FORM_ORIGINAL_ESTIMATE_HELP).fieldIndex(11).build());
+
+        mainSection.fields(new TextDynaFieldBuilder().fieldName(Task.Field.remainestimate)
+                .displayName(TaskI18nEnum.FORM_REMAIN_ESTIMATE)
+                .contextHelp(TaskI18nEnum.FORM_REMAIN_ESTIMATE_HELP).fieldIndex(12).build());
+
+        mainSection.fields(new TextDynaFieldBuilder().fieldName(Task.Field.description)
+                .displayName(GenericI18Enum.FORM_DESCRIPTION)
+                .colSpan(true).fieldIndex(13).build());
+        return mainSection;
+    }
+
     private static DynaSection attachmentSection() {
         DynaSection attachmentSection = new DynaSectionBuilder().layoutType(LayoutType.ONE_COLUMN).header(GenericI18Enum.FORM_ATTACHMENTS).build();
         attachmentSection.fields(new TextDynaFieldBuilder().fieldName("section-attachments")
@@ -124,6 +167,6 @@ public class TaskDefaultFormLayoutFactory {
     }
 
     public static DynaForm getReadForm() {
-        return new DynaForm(mainSection(), subTasksSection(), attachmentSection());
+        return new DynaForm(mainReadSection(), subTasksSection(), attachmentSection());
     }
 }

@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -80,7 +80,7 @@ public class UserReadViewImpl extends AbstractVerticalPageView implements UserRe
         header.removeAllComponents();
         MHorizontalLayout avatarAndPass = new MHorizontalLayout().withFullWidth();
         Image cropField = UserAvatarControlFactory.createUserAvatarEmbeddedComponent(user.getAvatarid(), 100);
-        cropField.addStyleName(UIConstants.CIRCLE_BOX);
+        cropField.addStyleName(WebThemes.CIRCLE_BOX);
         CssLayout userAvatar = new CssLayout();
         userAvatar.addComponent(cropField);
         avatarAndPass.addComponent(userAvatar);
@@ -94,12 +94,7 @@ public class UserReadViewImpl extends AbstractVerticalPageView implements UserRe
         basicLayout.addComponent(userWrapper);
         basicLayout.setComponentAlignment(userWrapper, Alignment.MIDDLE_LEFT);
 
-        GridFormLayoutHelper userFormLayout;
-        if (UserUIContext.isAdmin()) {
-            userFormLayout = GridFormLayoutHelper.defaultFormLayoutHelper(LayoutType.ONE_COLUMN);
-        } else {
-            userFormLayout = GridFormLayoutHelper.defaultFormLayoutHelper(LayoutType.ONE_COLUMN);
-        }
+        GridFormLayoutHelper userFormLayout = GridFormLayoutHelper.defaultFormLayoutHelper(LayoutType.ONE_COLUMN);
         userFormLayout.getLayout().addStyleName(WebThemes.GRIDFORM_BORDERLESS);
         basicLayout.addComponent(userFormLayout.getLayout());
 
@@ -130,7 +125,8 @@ public class UserReadViewImpl extends AbstractVerticalPageView implements UserRe
             MButton btnChangePassword = new MButton(UserUIContext.getMessage(GenericI18Enum.ACTION_CHANGE),
                     clickEvent -> UI.getCurrent().addWindow(new PasswordChangeWindow(user)))
                     .withStyleName(WebThemes.BUTTON_LINK);
-            userFormLayout.addComponent(new MHorizontalLayout(new Label("***********"), btnChangePassword),
+            ELabel label = ELabel.EMPTY_SPACE();
+            userFormLayout.addComponent(new MHorizontalLayout(new ELabel("***********"), btnChangePassword, label).expand(label),
                     UserUIContext.getMessage(ShellI18nEnum.FORM_PASSWORD), 0, 5);
         }
 

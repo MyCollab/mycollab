@@ -29,5 +29,7 @@ object ClientScreenData {
 
     class Add(param: Client) : ScreenData<Client>(param)
 
+    class Edit(param: Client) : ScreenData<Client>(param)
+
     class Search(param: ClientSearchCriteria?) : ScreenData<ClientSearchCriteria>(param)
 }

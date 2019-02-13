@@ -21,8 +21,8 @@ import com.mycollab.core.utils.StringUtils;
 import com.mycollab.module.user.AccountLinkGenerator;
 import com.mycollab.vaadin.TooltipHelper;
 import com.mycollab.vaadin.ui.ELabel;
-import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.ui.UserAvatarControlFactory;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.ui.Image;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
@@ -34,7 +34,7 @@ public class UserBlock extends MVerticalLayout {
     public UserBlock(String username, String userAvatarId, String displayName) {
         withMargin(false).withWidth("80px");
         Image avatar = UserAvatarControlFactory.createUserAvatarEmbeddedComponent(userAvatarId, 48);
-        avatar.addStyleName(UIConstants.CIRCLE_BOX);
+        avatar.addStyleName(WebThemes.CIRCLE_BOX);
 
         A userLink = new A().setId("tag" + TooltipHelper.TOOLTIP_ID).setHref(AccountLinkGenerator.generateUserLink(username))
                 .appendText(StringUtils.trim(displayName, 30, true));

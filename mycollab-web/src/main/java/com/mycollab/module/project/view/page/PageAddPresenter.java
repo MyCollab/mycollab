@@ -87,7 +87,6 @@ public class PageAddPresenter extends ProjectGenericPresenter<PageAddView> {
             } else {
                 breadcrumb.gotoPageEdit(page);
             }
-
         } else {
             throw new SecureAccessException();
         }

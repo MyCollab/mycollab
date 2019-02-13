@@ -30,5 +30,5 @@ object PageScreenData {
 
     class Edit(params: Page) : ScreenData<Page>(params)
 
-    class Search(params: String) : ScreenData<String>(params)
+    class Search(params: Any?) : ScreenData<Any>(params)
 }

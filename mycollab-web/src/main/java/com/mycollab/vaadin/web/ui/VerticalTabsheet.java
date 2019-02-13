@@ -19,7 +19,6 @@ package com.mycollab.vaadin.web.ui;
 import com.mycollab.common.i18n.ShellI18nEnum;
 import com.mycollab.core.MyCollabException;
 import com.mycollab.vaadin.UserUIContext;
-import com.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.Page;
 import com.vaadin.server.Resource;
@@ -90,13 +89,9 @@ public class VerticalTabsheet extends CustomComponent {
         addTab(null, id, caption, null, resource);
     }
 
-    public void addTab(String id, String caption, String link, Resource resource) {
-        addTab(null, id, caption, link, resource);
-    }
-
     public void addTab(String parentId, String id, String caption, String link, Resource resource) {
         if (!hasTab(id)) {
-            final ButtonTab tab = new ButtonTab(id, caption, link);
+            ButtonTab tab = new ButtonTab(id, caption, link);
 
             tab.addClickListener(clickEvent -> {
                 if (!clickEvent.isCtrlKey() && !clickEvent.isMetaKey()) {
@@ -110,7 +105,7 @@ public class VerticalTabsheet extends CustomComponent {
             });
 
             tab.setIcon(resource);
-            tab.withStyleName(TAB_STYLE, UIConstants.TEXT_ELLIPSIS).withFullWidth();
+            tab.withStyleName(TAB_STYLE, WebThemes.TEXT_ELLIPSIS).withFullWidth();
 
             if (parentId == null) {
                 navigatorContainer.addComponent(tab);
@@ -124,9 +119,7 @@ public class VerticalTabsheet extends CustomComponent {
                     tab.addStyleName("hide");
 
                     if (parentTab.getListeners(Button.ClickEvent.class).size() < 2) {
-                        parentTab.addClickListener((Button.ClickListener) event -> {
-                            parentTab.toggleGroupTabDisplay();
-                        });
+                        parentTab.addClickListener((Button.ClickListener) event -> parentTab.toggleGroupTabDisplay());
                     }
                 } else {
                     throw new MyCollabException("Not found parent tab with id " + parentId);

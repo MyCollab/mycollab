@@ -45,7 +45,6 @@ import static com.mycollab.common.i18n.QueryI18nEnum.IS_NOT;
  * @author MyCollab Ltd
  * @since 5.2.1
  */
-// TODO
 public class TaskSavedFilterComboBox extends SavedFilterComboBox {
     public static final String ALL_TASKS = "ALL_TICKETS";
     public static final String OPEN_TASKS = "OPEN_TICKETS";

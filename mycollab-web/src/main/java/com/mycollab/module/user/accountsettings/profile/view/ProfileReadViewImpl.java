@@ -39,9 +39,9 @@ import com.mycollab.vaadin.web.ui.UploadImageField;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.vaadin.data.HasValue;
-import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
+import com.vaadin.ui.themes.ValoTheme;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
@@ -71,7 +71,7 @@ public class ProfileReadViewImpl extends AbstractVerticalPageView implements Pro
     private void displayUserAvatar() {
         avatarAndPass.removeAllComponents();
         Image cropField = UserAvatarControlFactory.createUserAvatarEmbeddedComponent(UserUIContext.getUserAvatarId(), 100);
-        cropField.addStyleName(UIConstants.CIRCLE_BOX);
+        cropField.addStyleName(WebThemes.CIRCLE_BOX);
         CssLayout avatarWrapper = new CssLayout();
         avatarWrapper.addComponent(cropField);
         MVerticalLayout userAvatar = new MVerticalLayout().withMargin(false).with(avatarWrapper);
@@ -100,8 +100,8 @@ public class ProfileReadViewImpl extends AbstractVerticalPageView implements Pro
         userFormLayout.getLayout().addStyleName(WebThemes.GRIDFORM_BORDERLESS);
         userFormLayout.addComponent(new Label(UserUIContext.formatDate(user.getBirthday())),
                 UserUIContext.getMessage(UserI18nEnum.FORM_BIRTHDAY), 0, 0);
-        userFormLayout.addComponent(new Label(new A("mailto:" + user.getEmail()).appendText(user.getEmail()).setTarget("_blank")
-                .write(), ContentMode.HTML), UserUIContext.getMessage(GenericI18Enum.FORM_EMAIL), 0, 1);
+        userFormLayout.addComponent(ELabel.html(new A("mailto:" + user.getEmail()).appendText(user.getEmail()).setTarget("_blank").write()),
+                UserUIContext.getMessage(GenericI18Enum.FORM_EMAIL), 0, 1);
         userFormLayout.addComponent(new Label(TimezoneVal.getDisplayName(UserUIContext.getUserLocale(), user.getTimezone())),
                 UserUIContext.getMessage(UserI18nEnum.FORM_TIMEZONE), 0, 2);
         userFormLayout.addComponent(new Label(LocalizationHelper.getLocaleInstance(user.getLanguage()).getDisplayLanguage(UserUIContext.getUserLocale())),
@@ -144,25 +144,22 @@ public class ProfileReadViewImpl extends AbstractVerticalPageView implements Pro
                 FormContainer layout = new FormContainer();
                 layout.addComponent(avatarAndPass);
 
-                MHorizontalLayout contactInformationHeader = new MHorizontalLayout();
-                contactInformationHeader.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
-                Label contactInformationHeaderLbl = new Label(UserUIContext.getMessage(UserI18nEnum.SECTION_CONTACT_INFORMATION));
-
                 MButton btnChangeContactInfo = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_EDIT),
                         clickEvent -> UI.getCurrent().addWindow(new ContactInfoChangeWindow(formItem.getBean())))
                         .withStyleName(WebThemes.BUTTON_LINK);
-                contactInformationHeader.with(contactInformationHeaderLbl, btnChangeContactInfo).alignAll(Alignment.MIDDLE_LEFT);
+
+                MHorizontalLayout contactInformationHeader = new MHorizontalLayout(new ELabel(UserUIContext.getMessage(UserI18nEnum.SECTION_CONTACT_INFORMATION))
+                        .withStyleName(ValoTheme.LABEL_H3, ValoTheme.LABEL_NO_MARGIN), btnChangeContactInfo).alignAll(Alignment.MIDDLE_LEFT);
 
                 layout.addSection(new CssLayout(contactInformationHeader), contactLayout.getLayout());
-
-                MHorizontalLayout advanceInfoHeader = new MHorizontalLayout();
-                Label advanceInfoHeaderLbl = new Label(UserUIContext.getMessage(UserI18nEnum.SECTION_ADVANCED_INFORMATION));
 
                 MButton btnChangeAdvanceInfo = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_EDIT),
                         clickEvent -> UI.getCurrent().addWindow(new AdvancedInfoChangeWindow(formItem.getBean())))
                         .withStyleName(WebThemes.BUTTON_LINK);
 
-                advanceInfoHeader.with(advanceInfoHeaderLbl, btnChangeAdvanceInfo);
+                MHorizontalLayout advanceInfoHeader = new MHorizontalLayout(new ELabel(UserUIContext.getMessage(UserI18nEnum.SECTION_ADVANCED_INFORMATION))
+                        .withStyleName(ValoTheme.LABEL_H3, ValoTheme.LABEL_NO_MARGIN), btnChangeAdvanceInfo).alignAll(Alignment.MIDDLE_LEFT);
+
                 layout.addSection(new CssLayout(advanceInfoHeader), advancedInfoLayout.getLayout());
                 return layout;
             }

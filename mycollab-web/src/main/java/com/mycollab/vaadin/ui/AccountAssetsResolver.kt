@@ -19,6 +19,7 @@ package com.mycollab.vaadin.ui
 import com.mycollab.module.file.service.AbstractStorageService
 import com.mycollab.spring.AppContextUtil
 import com.mycollab.vaadin.resources.VaadinResourceFactory
+import com.mycollab.vaadin.web.ui.WebThemes
 import com.vaadin.server.ExternalResource
 import com.vaadin.server.Resource
 import com.vaadin.ui.Button
@@ -30,7 +31,7 @@ import org.vaadin.viritin.button.MButton
  */
 object AccountAssetsResolver {
     @JvmStatic
-    fun createAccountLogoImageComponent(logoId: String?, size: Int): Button = MButton().withStyleName(UIConstants.BUTTON_LINK).withIcon(createLogoResource(logoId, size))
+    fun createAccountLogoImageComponent(logoId: String?, size: Int): Button = MButton().withStyleName(WebThemes.BUTTON_LINK).withIcon(createLogoResource(logoId, size))
 
     @JvmStatic
     fun createLogoResource(logoId: String?, size: Int): Resource = if (logoId == null) {

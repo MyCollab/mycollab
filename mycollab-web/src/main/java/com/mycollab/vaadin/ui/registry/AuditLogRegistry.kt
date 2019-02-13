@@ -41,7 +41,7 @@ class AuditLogRegistry : InitializingBean {
     override fun afterPropertiesSet() {}
 
     fun registerAuditLogHandler(typeVal: String, fieldGroupFormatter: FieldGroupFormatter) {
-        auditPrinters.put(typeVal, fieldGroupFormatter)
+        auditPrinters[typeVal] = fieldGroupFormatter
     }
 
     fun generatorDetailChangeOfActivity(activityStream: SimpleActivityStream): String {

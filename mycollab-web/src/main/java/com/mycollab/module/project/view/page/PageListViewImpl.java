@@ -38,7 +38,6 @@ import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.HeaderWithIcon;
 import com.mycollab.vaadin.ui.SafeHtmlLabel;
-import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.web.ui.ButtonGroup;
 import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.mycollab.vaadin.web.ui.SortButton;
@@ -200,7 +199,7 @@ public class PageListViewImpl extends AbstractVerticalPageView implements PageLi
                 ProjectLinkBuilder.generateProjectMemberHtmlLink(CurrentProjectVariables.getProjectId(), resource.getCreatedUser(), true),
                 UserUIContext.formatPrettyTime(DateTimeUtils.toLocalDateTime(resource.getCreatedTime()))))
                 .withDescription(UserUIContext.formatDateTime(DateTimeUtils.toLocalDateTime(resource.getCreatedTime())))
-                .withStyleName(UIConstants.META_INFO);
+                .withStyleName(WebThemes.META_INFO);
         container.addComponent(lastUpdateInfo);
 
         MButton editBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_EDIT),
@@ -240,7 +239,7 @@ public class PageListViewImpl extends AbstractVerticalPageView implements PageLi
                         CurrentProjectVariables.getProjectId(), resource.getLastUpdatedUser(), true),
                 UserUIContext.formatPrettyTime(DateTimeUtils.toLocalDateTime(resource.getLastUpdatedTime()))))
                 .withDescription(UserUIContext.formatDateTime(DateTimeUtils.toLocalDateTime(resource.getLastUpdatedTime())))
-                .withStyleName(UIConstants.META_INFO);
+                .withStyleName(WebThemes.META_INFO);
         container.addComponent(lastUpdateInfo);
 
         MButton editBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_EDIT),

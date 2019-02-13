@@ -191,12 +191,10 @@ public abstract class SavedFilterComboBox extends CustomField<String> {
 
     @Override
     protected void doSetValue(String s) {
-        // TODO
     }
 
     @Override
     public String getValue() {
-        // TODO
         return null;
     }
 

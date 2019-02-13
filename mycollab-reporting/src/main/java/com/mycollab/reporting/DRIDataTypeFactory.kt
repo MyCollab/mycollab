@@ -18,12 +18,11 @@ package com.mycollab.reporting
 
 import com.mycollab.core.reporting.NotInReport
 import com.mycollab.reporting.datatype.Java8DateTimeType
+import com.mycollab.reporting.datatype.Java8DateType
+import net.sf.dynamicreports.report.builder.DynamicReports.type
 import net.sf.dynamicreports.report.definition.datatype.DRIDataType
 import net.sf.dynamicreports.report.exception.DRException
-
 import java.lang.reflect.Field
-
-import net.sf.dynamicreports.report.builder.DynamicReports.type
 
 /**
  * @author MyCollab Ltd.
@@ -39,10 +38,10 @@ object DRIDataTypeFactory {
         }
 
         val dataType = field.type.name
-        return if ("java.time.LocalDateTime" == dataType) {
-            Java8DateTimeType() as T
-        } else {
-            type.detectType(dataType)
+        return when (dataType) {
+            "java.time.LocalDateTime" -> Java8DateTimeType() as T
+            "java.time.LocalDate" -> Java8DateType() as T
+            else -> type.detectType(dataType)
         }
     }
 }

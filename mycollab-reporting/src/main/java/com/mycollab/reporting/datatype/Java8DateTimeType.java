@@ -8,6 +8,10 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
+/**
+ * @author MyCollab Ltd
+ * @since 7.0.0
+ */
 public class Java8DateTimeType extends AbstractDataType<LocalDateTime, LocalDateTime> {
     /**
      * {@inheritDoc}

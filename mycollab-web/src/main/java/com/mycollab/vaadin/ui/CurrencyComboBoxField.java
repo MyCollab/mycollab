@@ -44,7 +44,7 @@ public class CurrencyComboBoxField extends ComboBox<Currency> implements Convert
 
     @Override
     public Result<String> convertToModel(Currency value, ValueContext context) {
-        return Result.ok(value.getCurrencyCode());
+        return (value != null) ? Result.ok(value.getCurrencyCode()) : Result.ok(null);
     }
 
     @Override

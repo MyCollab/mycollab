@@ -62,7 +62,7 @@ class ProjectServiceTest : IntegrationServiceTest() {
     fun testGetListProjects() {
         val criteria = ProjectSearchCriteria()
         criteria.saccountid = NumberSearchField(1)
-        val projects = projectService.findPageableListByCriteria(BasicSearchRequest<ProjectSearchCriteria>(criteria)) as List<SimpleProject>
+        val projects = projectService.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<SimpleProject>
         Assertions.assertEquals(projects.size.toLong(), 4)
         assertThat<SimpleProject>(projects).extracting("id", "name").contains(tuple(1, "A"),
                 tuple(2, "B"), tuple(3, "C"), tuple(4, "D"))
@@ -97,9 +97,20 @@ class ProjectServiceTest : IntegrationServiceTest() {
     @Test
     fun testGetProjectsUserInvolved() {
         val projects = projectService.getProjectsUserInvolved("admin", 1)
-        Assertions.assertEquals(2, projects.size.toLong())
         assertThat(projects.size).isEqualTo(2)
         assertThat(projects).extracting("id", "name").contains(tuple(1, "A"), tuple(2, "B"))
+    }
+
+    @DataSet
+    @Test
+    fun testGetProjectKeysUserInvolved() {
+        val keys = projectService.getProjectKeysUserInvolved("admin", 1)
+        assertThat(keys.size).isEqualTo(2)
+        assertThat(keys).contains(1, 2)
+
+        val allPrjKeys = projectService.getProjectKeysUserInvolved(null, 1)
+        assertThat(allPrjKeys.size).isEqualTo(4)
+        assertThat(allPrjKeys).contains(1, 2, 3, 4)
     }
 
     @DataSet
@@ -122,5 +133,14 @@ class ProjectServiceTest : IntegrationServiceTest() {
     fun testFindProjectWithCustomer() {
         val project = projectService.findById(3, 1)
         assertThat(project).extracting("clientName", "clientid", "leadFullName", "shortname").contains("a", 1, "Nguyen Hai", "bbb")
+    }
+
+    @DataSet
+    @Test
+    fun testFindProjectRelayEmailNotifications() {
+        val notifications = projectService.findProjectRelayEmailNotifications()
+        assertThat(notifications.size).isEqualTo(1)
+        assertThat(notifications[0].notifyUsers.size).isEqualTo(2)
+        assertThat(notifications[0].notifyUsers).extracting("username").contains("admin", "user2")
     }
 }

@@ -31,8 +31,9 @@ import com.mycollab.vaadin.AsyncInvoker
 import com.mycollab.vaadin.EventBusFactory
 import com.mycollab.vaadin.UserUIContext
 import com.mycollab.vaadin.ui.ELabel
-import com.mycollab.vaadin.ui.UIConstants
+import com.sun.javaws.security.AppContextUtil
 import com.vaadin.icons.VaadinIcons
+import com.vaadin.shared.ui.MarginInfo
 import com.vaadin.ui.*
 import org.vaadin.hene.popupbutton.PopupButton
 import org.vaadin.viritin.button.MButton
@@ -47,10 +48,10 @@ import org.vaadin.viritin.layouts.MVerticalLayout
 abstract class AbstractNotificationComponent : PopupButton(), PopupButton.PopupVisibilityListener, ApplicationEventListener<ShellEvent.NewNotification> {
 
     private val notificationItems = mutableSetOf<AbstractNotification>()
-    private val notificationContainer = MVerticalLayout().withSpacing(false).withMargin(false).withStyleName(WebThemes.SCROLLABLE_CONTAINER)
+    protected var notificationCount = 0L
+    protected val notificationContainer = MVerticalLayout().withSpacing(false).withMargin(false).withStyleName(WebThemes.SCROLLABLE_CONTAINER)
 
     init {
-//        Restrain(notificationContainer).setMaxWidth("500px").setMaxHeight("500px")
         this.content = notificationContainer
         this.icon = VaadinIcons.BELL
         this.styleName = "notification-button"
@@ -72,6 +73,12 @@ abstract class AbstractNotificationComponent : PopupButton(), PopupButton.PopupV
         notificationContainer.removeAllComponents()
 
         if (notificationItems.isNotEmpty()) {
+            val markReadButton = MButton("Mark all read").withListener {
+
+            }.withStyleName(WebThemes.BUTTON_LINK)
+            val markReadLayout = MHorizontalLayout(markReadButton).withAlign(markReadButton, Alignment.MIDDLE_RIGHT).withFullWidth()
+                    .withStyleName(WebThemes.BORDER_BOTTOM).withMargin(MarginInfo(false, true, false, false))
+            notificationContainer.add(markReadLayout)
             notificationItems.forEach { addNotificationEntry(it) }
         } else {
             val noItemLbl = Label(UserUIContext.getMessage(ShellI18nEnum.OPT_NO_NOTIFICATION))
@@ -89,21 +96,23 @@ abstract class AbstractNotificationComponent : PopupButton(), PopupButton.PopupV
     }
 
     protected fun addNotification(notification: AbstractNotification) {
+        notificationCount++
         notificationItems.add(notification)
         updateCaption()
         displayTrayNotification(notification)
     }
 
     fun removeNotification(notification: AbstractNotification) {
+        notificationCount--;
         notificationItems.remove(notification)
         updateCaption()
     }
 
     private fun updateCaption() {
-        if (ui != null && notificationItems.isNotEmpty()) {
+        if (ui != null && notificationCount > 0) {
             AsyncInvoker.access(ui, object : AsyncInvoker.PageCommand() {
                 override fun run() {
-                    this@AbstractNotificationComponent.caption = "${notificationItems.size}"
+                    this@AbstractNotificationComponent.caption = "$notificationCount"
                 }
             })
         } else {
@@ -143,8 +152,7 @@ abstract class AbstractNotificationComponent : PopupButton(), PopupButton.PopupV
     private fun buildComponentFromNotification(item: AbstractNotification): Component? {
         when (item) {
             is NewUpdateAvailableNotification -> {
-                val spanEl = Span()
-                spanEl.appendText(UserUIContext.getMessage(ShellI18nEnum.OPT_HAVING_NEW_VERSION, item.version))
+                val spanEl = Span().appendText(UserUIContext.getMessage(ShellI18nEnum.OPT_HAVING_NEW_VERSION, item.version))
                 val lbl = ELabel.html("${VaadinIcons.INFO_CIRCLE.html} ${spanEl.write()}").withFullWidth()
                 val lblWrapper = CssLayout()
                 lblWrapper.addComponent(lbl)
@@ -153,7 +161,7 @@ abstract class AbstractNotificationComponent : PopupButton(), PopupButton.PopupV
                         val upgradeBtn = MButton(UserUIContext.getMessage(ShellI18nEnum.ACTION_UPGRADE)) { _ ->
                             UI.getCurrent().addWindow(UpgradeConfirmWindow(item.version, item.manualDownloadLink, item.installerFile))
                             this@AbstractNotificationComponent.isPopupVisible = false
-                        }.withStyleName(UIConstants.BLOCK)
+                        }.withStyleName(WebThemes.BLOCK)
                         MHorizontalLayout(lblWrapper, upgradeBtn).expand(lblWrapper).withDefaultComponentAlignment(Alignment.TOP_LEFT)
                     }
                     else -> lblWrapper
@@ -164,14 +172,14 @@ abstract class AbstractNotificationComponent : PopupButton(), PopupButton.PopupV
                 val uploadAvatarBtn = MButton(UserUIContext.getMessage(ShellI18nEnum.ACTION_UPLOAD_AVATAR)) { _ ->
                     EventBusFactory.getInstance().post(ShellEvent.GotoUserAccountModule(this, arrayOf("preview")))
                     this@AbstractNotificationComponent.isPopupVisible = false
-                }.withStyleName(UIConstants.BLOCK)
+                }.withStyleName(WebThemes.BLOCK)
                 return MHorizontalLayout(avatarUploadLbl, uploadAvatarBtn).expand(avatarUploadLbl).withDefaultComponentAlignment(Alignment.TOP_LEFT)
             }
             is SmtpSetupNotification -> {
                 val smtpBtn = MButton(UserUIContext.getMessage(GenericI18Enum.ACTION_SETUP)) { _ ->
                     EventBusFactory.getInstance().post(ShellEvent.GotoUserAccountModule(this, arrayOf("setup")))
                     this@AbstractNotificationComponent.isPopupVisible = false
-                }.withStyleName(UIConstants.BLOCK)
+                }.withStyleName(WebThemes.BLOCK)
                 val lbl = ELabel.html("${VaadinIcons.EXCLAMATION_CIRCLE.html} ${UserUIContext.getMessage(ShellI18nEnum.ERROR_NO_SMTP_SETTING)}")
                 val lblWrapper = MCssLayout(lbl)
                 return MHorizontalLayout(lblWrapper, smtpBtn).expand(lblWrapper).withDefaultComponentAlignment(Alignment.TOP_LEFT)

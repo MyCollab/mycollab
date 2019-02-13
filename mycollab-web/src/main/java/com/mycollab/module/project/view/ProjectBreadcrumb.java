@@ -43,6 +43,7 @@ import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.web.ui.CommonUIFactory;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.mycollab.vaadin.web.ui.utils.LabelStringGenerator;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -77,19 +78,12 @@ public class ProjectBreadcrumb extends MHorizontalLayout implements CacheableCom
 
     private void addLink(Button button) {
         button.addStyleName(WebThemes.BUTTON_LINK);
-        with(new ELabel("/"), button);
+        with(ELabel.html(VaadinIcons.ANGLE_RIGHT.getHtml()), button);
     }
 
     private void addEnabledLink(Button button) {
         button.addStyleName(WebThemes.BUTTON_LINK);
-        with(new ELabel("/"), button);
-    }
-
-    public void gotoSearchProjectItems() {
-        addSummaryLink();
-        addLink(new Button(UserUIContext.getMessage(GenericI18Enum.BUTTON_SEARCH)));
-        AppUI.addFragment(ProjectLinkGenerator.generateProjectLink(project.getId()),
-                UserUIContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
+        with(ELabel.html(VaadinIcons.ANGLE_RIGHT.getHtml()), button);
     }
 
     public void gotoMessageList() {

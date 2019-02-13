@@ -17,7 +17,6 @@
 package com.mycollab.db.arguments
 
 import java.io.Serializable
-import java.util.*
 
 /**
  * @author MyCollab Ltd.
@@ -54,7 +53,7 @@ abstract class SearchCriteria : Serializable {
 
     fun addOrderField(orderField: OrderField) {
         if (orderFields == null) {
-            orderFields = ArrayList()
+            orderFields = mutableListOf()
         }
         orderFields!!.add(orderField)
     }
@@ -67,15 +66,13 @@ abstract class SearchCriteria : Serializable {
         this.orderFields = orderFields
     }
 
-    class OrderField(val field: String, val direction: String) : Serializable
+    class OrderField(val field: String, val direction: String = "ASC") : Serializable
 
     companion object {
         private const val serialVersionUID = 1L
 
-        @JvmField
-        val ASC = "ASC"
+        const val ASC = "ASC"
 
-        @JvmField
-        val DESC = "DESC"
+        const val DESC = "DESC"
     }
 }

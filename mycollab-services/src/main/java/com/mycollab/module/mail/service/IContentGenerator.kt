@@ -28,7 +28,7 @@ interface IContentGenerator {
      * @param key
      * @param value
      */
-    fun putVariable(key: String, value: Any)
+    fun putVariable(key: String, value: Any?)
 
     /**
      *

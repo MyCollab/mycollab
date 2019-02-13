@@ -8,8 +8,6 @@
 
     <inherits name="com.vaadin.contextmenu.WidgetSet" />
 
-    <inherits name="fi.jasoft.dragdroplayouts.DragDropLayoutsWidgetSet" />
-
     <inherits name="org.vaadin.hene.popupbutton.widgetset.PopupbuttonWidgetset" />
 
     <inherits name="org.vaadin.addons.WidgetSet" />
@@ -26,13 +24,9 @@
 
     <inherits name="org.vaadin.alump.ckeditor.WidgetSet" />
 
-    <inherits name="org.vaadin.sliderpanel.WidgetSet"/>
-
     <inherits name="org.vaadin.cropper.WidgetSet" />
 
-    <inherits name="com.fo0.advancedtokenfield.AdvancedTokenField.WidgetSet"/> <!--Plugin: AdvancedTokenField-->
-
-    <inherits name="org.vaadin.alump.searchdropdown.WidgetSet"/> <!--Plugin: SearchDropDown-->
+    <inherits name="com.explicatis.ext_token_field.WidgetSet"/>
 
     <inherits name="org.vaadin.addons.stackpanel.WidgetSet"/>
 </module>

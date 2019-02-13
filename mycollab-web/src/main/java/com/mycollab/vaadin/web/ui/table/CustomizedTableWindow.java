@@ -74,20 +74,18 @@ public abstract class CustomizedTableWindow extends MWindow {
 
         MButton restoreLink = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_RESET), clickEvent -> {
             Set<TableViewField> defaultSelectedColumns = new HashSet<>(tableItem.getDefaultSelectedColumns());
-            if (defaultSelectedColumns != null) {
-                final Set<TableViewField> selectedColumns = new HashSet<>();
-                final Collection<TableViewField> itemIds = ((ListDataProvider<TableViewField>) listBuilder.getDataProvider()).getItems();
+            final Set<TableViewField> selectedColumns = new HashSet<>();
+            final Collection<TableViewField> itemIds = ((ListDataProvider<TableViewField>) listBuilder.getDataProvider()).getItems();
 
-                for (TableViewField column : defaultSelectedColumns) {
-                    for (TableViewField viewField : itemIds) {
-                        if (column.getField().equals(viewField.getField())) {
-                            selectedColumns.add(viewField);
-                        }
+            for (TableViewField column : defaultSelectedColumns) {
+                for (TableViewField viewField : itemIds) {
+                    if (column.getField().equals(viewField.getField())) {
+                        selectedColumns.add(viewField);
                     }
                 }
-
-                listBuilder.setValue(selectedColumns);
             }
+
+            listBuilder.setValue(selectedColumns);
         }).withStyleName(WebThemes.BUTTON_LINK);
         contentLayout.with(restoreLink).withAlign(restoreLink, Alignment.TOP_RIGHT);
 

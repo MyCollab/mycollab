@@ -160,7 +160,7 @@ public class StandupListViewImpl extends AbstractVerticalPageView implements Sta
     private class ProjectRowHandler implements IBeanList.RowDisplayHandler<StandupReportStatistic> {
         @Override
         public Component generateRow(final IBeanList<StandupReportStatistic> host, final StandupReportStatistic project, int rowIndex) {
-            ELabel projectLbl = new ELabel(project.getProjectName()).withStyleName(UIConstants.TEXT_ELLIPSIS);
+            ELabel projectLbl = new ELabel(project.getProjectName()).withStyleName(WebThemes.TEXT_ELLIPSIS);
             final MHorizontalLayout layout = new MHorizontalLayout(ProjectAssetsUtil.projectLogoComp(project
                     .getProjectKey(), project.getProjectId(), project.getProjectAvatarId(), 32),
                     projectLbl, new ELabel(" (" + project.getTotalWrittenReports() + " / "
@@ -228,7 +228,7 @@ public class StandupListViewImpl extends AbstractVerticalPageView implements Sta
             userInfo.setDefaultComponentAlignment(Alignment.TOP_CENTER);
 
             Image userAvatar = UserAvatarControlFactory.createUserAvatarEmbeddedComponent(report.getLogByAvatarId(), 100);
-            userAvatar.addStyleName(UIConstants.CIRCLE_BOX);
+            userAvatar.addStyleName(WebThemes.CIRCLE_BOX);
             userInfo.addComponent(userAvatar);
             Label memberLink = ELabel.html(buildMemberLink(report));
             userInfo.with(memberLink).expand(memberLink).withAlign(memberLink, Alignment.TOP_CENTER);
@@ -236,17 +236,17 @@ public class StandupListViewImpl extends AbstractVerticalPageView implements Sta
 
             MVerticalLayout reportContent = new MVerticalLayout().withStyleName(WebThemes.BORDER_LEFT, WebThemes.HOVER_EFFECT_NOT_BOX);
 
-            reportContent.addComponent(ELabel.h3(UserUIContext.getMessage(StandupI18nEnum.STANDUP_LASTDAY)).withStyleName(UIConstants.LABEL_WORD_WRAP).withFullWidth());
+            reportContent.addComponent(ELabel.h3(UserUIContext.getMessage(StandupI18nEnum.STANDUP_LASTDAY)).withStyleName(WebThemes.LABEL_WORD_WRAP).withFullWidth());
             Label whatYesterdayField = new SafeHtmlLabel(report.getWhatlastday());
             whatYesterdayField.setWidth("100%");
             reportContent.addComponent(whatYesterdayField);
 
-            reportContent.addComponent(ELabel.h3(UserUIContext.getMessage(StandupI18nEnum.STANDUP_TODAY)).withStyleName(UIConstants.LABEL_WORD_WRAP).withFullWidth());
+            reportContent.addComponent(ELabel.h3(UserUIContext.getMessage(StandupI18nEnum.STANDUP_TODAY)).withStyleName(WebThemes.LABEL_WORD_WRAP).withFullWidth());
             Label whatTodayField = new SafeHtmlLabel(report.getWhattoday());
             whatTodayField.setWidth("100%");
             reportContent.addComponent(whatTodayField);
 
-            reportContent.addComponent(ELabel.h3(UserUIContext.getMessage(StandupI18nEnum.STANDUP_ISSUE)).withStyleName(UIConstants.LABEL_WORD_WRAP).withFullWidth());
+            reportContent.addComponent(ELabel.h3(UserUIContext.getMessage(StandupI18nEnum.STANDUP_ISSUE)).withStyleName(WebThemes.LABEL_WORD_WRAP).withFullWidth());
             Label whatProblemField = new SafeHtmlLabel(report.getWhatproblem());
             whatProblemField.setWidth("100%");
             reportContent.addComponent(whatProblemField);

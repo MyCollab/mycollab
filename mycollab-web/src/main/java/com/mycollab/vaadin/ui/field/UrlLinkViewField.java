@@ -19,7 +19,7 @@ package com.mycollab.vaadin.ui.field;
 import com.hp.gagawa.java.elements.A;
 import com.mycollab.core.utils.StringUtils;
 import com.mycollab.vaadin.ui.ELabel;
-import com.mycollab.vaadin.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomField;
 
@@ -48,7 +48,7 @@ public class UrlLinkViewField extends CustomField<String> {
             return ELabel.html("&nbsp;");
         } else {
             final A link = new A(url).appendText(caption).setTarget("_blank");
-            return ELabel.html(link.write()).withStyleName(UIConstants.TEXT_ELLIPSIS);
+            return ELabel.html(link.write()).withStyleName(WebThemes.TEXT_ELLIPSIS);
         }
     }
 

@@ -196,7 +196,7 @@ CREATE TABLE s_user (
   nickname varchar(45) DEFAULT NULL,
   birthday date DEFAULT NULL,
   password varchar(100) DEFAULT NULL,
-  email varchar(255) NOT NULL,
+  email varchar(255) NULL,
   website varchar(255) DEFAULT NULL,
   registeredTime timestamp DEFAULT NULL,
   lastAccessedTime timestamp DEFAULT NULL,
@@ -485,32 +485,6 @@ CREATE TABLE m_monitor_item (
   CONSTRAINT FK_m_monitor_item_2 FOREIGN KEY (sAccountId) REFERENCES s_account (id) ON DELETE CASCADE ON UPDATE CASCADE
 ) ;
 
-
-
---
--- Table structure for table m_notification_item
---
-
-DROP TABLE IF EXISTS m_notification_item;
-
-
-CREATE TABLE m_notification_item (
-  id serial,
-  module varchar(45) NOT NULL,
-  type varchar(45) NOT NULL,
-  typeId varchar(45) NOT NULL,
-  notificationUser varchar(45) NOT NULL,
-  createdTime timestamp NOT NULL,
-  message varchar(1000) NOT NULL,
-  isRead boolean NOT NULL,
-  sAccountId integer NOT NULL,
-  PRIMARY KEY (id),
-  CONSTRAINT FK_m_notification_item_1 FOREIGN KEY (notificationUser) REFERENCES s_user (username) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT FK_m_notification_item_2 FOREIGN KEY (sAccountId) REFERENCES s_account (id) ON DELETE CASCADE ON UPDATE CASCADE
-) ;
-
-
-
 --
 -- Table structure for table m_options
 --
@@ -615,7 +589,6 @@ CREATE TABLE m_prj_customize_view (
   displayStandup boolean NOT NULL,
   displayTimeLogging boolean NOT NULL,
   displayPage boolean NOT NULL,
-  displayFile boolean NOT NULL,
   displayInvoice boolean NOT NULL,
   displayTicket boolean DEFAULT NULL,
   PRIMARY KEY (id),
@@ -1120,7 +1093,7 @@ CREATE TABLE s_account_theme (
   vTabsheetTextSelected varchar(6) DEFAULT NULL,
   actionBtn varchar(6) DEFAULT NULL,
   actionBtnText varchar(6) DEFAULT NULL,
-  optionBtn varchar(6) DEFAULT NULL,
+  optionBtn varchar(6) DEFAULT NULL,=
   optionBtnText varchar(6) DEFAULT NULL,
   dangerBtn varchar(6) DEFAULT NULL,
   dangerBtnText varchar(6) DEFAULT NULL,
@@ -1515,50 +1488,6 @@ CREATE TABLE s_testimonial (
   testimonial text NOT NULL,
   website varchar(100) DEFAULT NULL,
   email varchar(100) DEFAULT NULL,
-  PRIMARY KEY (id)
-) ;
-
-
-
---
--- Table structure for table s_timeline_tracking
---
-
-DROP TABLE IF EXISTS s_timeline_tracking;
-
-
-CREATE TABLE s_timeline_tracking (
-  id serial,
-  type varchar(45)  NOT NULL,
-  typeId integer NOT NULL,
-  fieldval varchar(45)  NOT NULL,
-  fieldgroup varchar(45)  NOT NULL,
-  extratypeid integer DEFAULT NULL,
-  sAccountId integer NOT NULL,
-  forDay date NOT NULL,
-  flag smallint NOT NULL DEFAULT 1,
-  PRIMARY KEY (id),
-  CONSTRAINT FK_s_timeline_tracking_1 FOREIGN KEY (sAccountId) REFERENCES s_account (id) ON DELETE CASCADE ON UPDATE CASCADE
-) ;
-
-
-
---
--- Table structure for table s_timeline_tracking_cache
---
-
-DROP TABLE IF EXISTS s_timeline_tracking_cache;
-
-
-CREATE TABLE s_timeline_tracking_cache (
-  id serial,
-  type varchar(45)  NOT NULL,
-  fieldval varchar(45) DEFAULT NULL,
-  extratypeid integer DEFAULT NULL,
-  sAccountId integer NOT NULL,
-  forDay date DEFAULT NULL,
-  fieldgroup varchar(45)  NOT NULL,
-  count smallint NOT NULL,
   PRIMARY KEY (id)
 ) ;
 

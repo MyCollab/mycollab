@@ -30,8 +30,7 @@ public class OptionI18nEnum {
 
     public static BugSeverity[] bug_severities = {BugSeverity.Critical, BugSeverity.Major, BugSeverity.Minor, BugSeverity.Trivial};
 
-    public static InvoiceStatus[] invoiceStatuses = {InvoiceStatus.Paid,
-            InvoiceStatus.Sent, InvoiceStatus.Scheduled};
+    public static InvoiceStatus[] invoiceStatuses = {InvoiceStatus.Paid, InvoiceStatus.Sent, InvoiceStatus.Scheduled};
 
     @BaseName("project-milestone-status")
     @LocaleData(value = {@Locale("en-US")}, defaultCharset = "UTF-8")

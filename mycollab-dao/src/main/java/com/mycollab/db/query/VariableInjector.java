@@ -39,7 +39,6 @@ import java.util.HashSet;
  * @author MyCollab Ltd
  * @since 5.2.1
  */
-// TODO: check minDate, maxDate
 @JsonSerialize(using = VariableInjector.Serializer.class)
 @JsonDeserialize(using = VariableInjector.Deserializer.class)
 public interface VariableInjector<T> {
@@ -149,7 +148,6 @@ public interface VariableInjector<T> {
         private Object convertType(String type, String value) {
             if ("date".equals(type)) {
                 long timeInMillis = Long.parseLong(value);
-                // TODO: CHECK timezone
                 return Instant.ofEpochMilli(timeInMillis).atZone(ZoneId.systemDefault()).toLocalDateTime();
             } else {
                 return value;

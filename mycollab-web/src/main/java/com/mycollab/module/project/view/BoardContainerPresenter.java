@@ -29,7 +29,7 @@ public class BoardContainerPresenter extends AbstractPresenter<BoardContainer> {
                 || data instanceof ReportScreenData.GotoUserWorkload || data instanceof ReportScreenData.GotoTimesheet
                 || data instanceof StandupScreenData.Search) {
             presenter = PresenterResolver.getPresenter(IReportPresenter.class);
-        } else if (data instanceof ClientScreenData.Add || data instanceof ClientScreenData.Read || data instanceof ClientScreenData.Search) {
+        } else if (data instanceof ClientScreenData.Add || data instanceof ClientScreenData.Edit || data instanceof ClientScreenData.Read || data instanceof ClientScreenData.Search) {
             presenter = PresenterResolver.getPresenter(IClientPresenter.class);
         } else if (data instanceof ProjectModuleScreenData.SearchItem) {
             presenter = PresenterResolver.getPresenter(ProjectSearchItemPresenter.class);

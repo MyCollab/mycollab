@@ -42,6 +42,7 @@ import com.vaadin.icons.VaadinIcons;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
+import org.vaadin.viritin.layouts.MVerticalLayout;
 
 import java.util.List;
 
@@ -128,13 +129,13 @@ public class RoleReadViewImpl extends AbstractVerticalPageView implements RoleRe
 
     class FormLayoutFactory extends RoleFormLayoutFactory {
 
-        public FormLayoutFactory() {
+        FormLayoutFactory() {
             super(role.getRolename());
         }
 
         @Override
         protected Layout createBottomPanel() {
-            VerticalLayout permissionsPanel = new VerticalLayout();
+            MVerticalLayout permissionsPanel = new MVerticalLayout().withMargin(false);
 
             PermissionMap permissionMap = role.getPermissionMap();
 

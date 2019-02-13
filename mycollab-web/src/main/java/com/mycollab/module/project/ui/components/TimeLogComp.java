@@ -25,11 +25,10 @@ import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.icons.VaadinIcons;
-import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
+import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
@@ -43,7 +42,7 @@ public abstract class TimeLogComp<B extends ValuedBean> extends MVerticalLayout 
 
     protected ItemTimeLoggingService itemTimeLoggingService;
     protected B beanItem;
-    private Label billableHoursLbl, nonBillableHoursLbl, remainHoursLbl;
+    private GridLayout layout;
 
     protected TimeLogComp() {
         this.itemTimeLoggingService = AppContextUtil.getSpringBean(ItemTimeLoggingService.class);
@@ -52,8 +51,8 @@ public abstract class TimeLogComp<B extends ValuedBean> extends MVerticalLayout 
         HorizontalLayout header = new MHorizontalLayout().withStyleName("info-hdr");
         header.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
-        Label dateInfoHeader = new Label(VaadinIcons.CLOCK.getHtml() + " " +
-                UserUIContext.getMessage(TimeTrackingI18nEnum.SUB_INFO_TIME), ContentMode.HTML);
+        ELabel dateInfoHeader = ELabel.html(VaadinIcons.CLOCK.getHtml() + " " +
+                UserUIContext.getMessage(TimeTrackingI18nEnum.SUB_INFO_TIME));
         header.addComponent(dateInfoHeader);
 
         if (hasEditPermission()) {
@@ -66,25 +65,35 @@ public abstract class TimeLogComp<B extends ValuedBean> extends MVerticalLayout 
 
         this.addComponent(header);
 
-        MVerticalLayout layout = new MVerticalLayout().withFullWidth().withMargin(new MarginInfo(false, false, false, true));
-
-        billableHoursLbl = new Label();
-        nonBillableHoursLbl = new Label();
-        remainHoursLbl = new Label();
-        layout.addComponent(billableHoursLbl);
-        layout.addComponent(nonBillableHoursLbl);
-        layout.addComponent(remainHoursLbl);
+        layout = new GridLayout(2, 3);
+        layout.setSpacing(true);
+        layout.setWidth("100%");
+        layout.setMargin(new MarginInfo(false, false, false, true));
+        layout.setColumnExpandRatio(1, 1.0f);
         this.addComponent(layout);
     }
 
-    public void displayTime(final B bean) {
+    public void displayTime(B bean) {
+        layout.removeAllComponents();
         this.beanItem = bean;
         Double billableHours = getTotalBillableHours(beanItem);
         Double nonBillableHours = getTotalNonBillableHours(beanItem);
         Double remainHours = getRemainedHours(beanItem);
-        billableHoursLbl.setValue(String.format("%s: %s", UserUIContext.getMessage(TimeTrackingI18nEnum.OPT_BILLABLE_HOURS), billableHours));
-        nonBillableHoursLbl.setValue(String.format("%s: %s", UserUIContext.getMessage(TimeTrackingI18nEnum.OPT_NON_BILLABLE_HOURS), nonBillableHours));
-        remainHoursLbl.setValue(String.format("%s: %s", UserUIContext.getMessage(TimeTrackingI18nEnum.OPT_REMAIN_HOURS), remainHours));
+
+        ELabel billableHoursLbl = new ELabel(UserUIContext.getMessage(TimeTrackingI18nEnum.OPT_BILLABLE_HOURS)).withStyleName(WebThemes.META_COLOR)
+                .withUndefinedWidth();
+        layout.addComponent(billableHoursLbl, 0, 0);
+        layout.addComponent(new ELabel(billableHours + ""), 1, 0);
+
+        ELabel nonBillableHoursLbl = new ELabel(UserUIContext.getMessage(TimeTrackingI18nEnum.OPT_NON_BILLABLE_HOURS)).withStyleName(WebThemes.META_COLOR)
+                .withUndefinedWidth();
+        layout.addComponent(nonBillableHoursLbl, 0, 1);
+        layout.addComponent(new ELabel(nonBillableHours + ""), 1, 1);
+
+        ELabel remainHoursLbl = new ELabel(UserUIContext.getMessage(TimeTrackingI18nEnum.OPT_REMAIN_HOURS)).withStyleName(WebThemes.META_COLOR)
+                .withUndefinedWidth();
+        layout.addComponent(remainHoursLbl, 0, 2);
+        layout.addComponent(new ELabel(remainHours + ""), 1, 2);
     }
 
     protected abstract Double getTotalBillableHours(B bean);

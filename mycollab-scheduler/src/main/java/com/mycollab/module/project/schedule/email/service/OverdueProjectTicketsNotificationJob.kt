@@ -151,7 +151,7 @@ class OverdueProjectTicketsNotificationJob : GenericQuartzJobBean() {
         val LOG = LoggerFactory.getLogger(OverdueProjectTicketsNotificationJob::class.java)
 
         class OverdueAssignmentFormatter {
-            fun formatDate(date: LocalDateTime?): String = DateTimeUtils.formatDate(date, "yyyy-MM-dd", Locale.US)
+            fun formatDate(date: LocalDate?): String = DateTimeUtils.formatDate(date, "yyyy-MM-dd", Locale.US)
 
             fun formatLink(siteUrl: String, assignment: ProjectTicket): String {
                 try {

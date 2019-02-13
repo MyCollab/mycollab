@@ -26,7 +26,6 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 /**
  * @author MyCollab Ltd
@@ -38,7 +37,7 @@ public class FieldDefAnalyzer {
     public static List<TableViewField> toTableFields(String jsonValue) {
         try {
             ObjectMapper mapper = new ObjectMapper();
-            return mapper.readValue(jsonValue, new TypeReference<Set<TableViewField>>() {
+            return mapper.readValue(jsonValue, new TypeReference<List<TableViewField>>() {
             });
         } catch (Exception e) {
             LOG.error("Error", e);

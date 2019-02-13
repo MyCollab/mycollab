@@ -28,13 +28,7 @@ import ch.qos.cal10n.LocaleData;
 @LocaleData(value = {@Locale("en-US")}, defaultCharset = "UTF-8")
 public enum DayI18nEnum {
     LAST_UPDATED_ON,
-    TIME_FORMAT,
-    HOUR_SUFFIX,
-    HOUR_PLURAL_SUFFIX,
-    MINUTE_SUFFIX,
-    MINUTE_PLURAL_SUFFIX,
-    SECOND_SUFFIX,
-    SECOND_PLURAL_SUFFIX,
+    DURATION,
 
     OPT_MONDAY,
     OPT_TUESDAY,

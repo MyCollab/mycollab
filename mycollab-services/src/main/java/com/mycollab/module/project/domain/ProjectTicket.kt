@@ -72,7 +72,7 @@ class ProjectTicket : ValuedBean(), Serializable {
 
     var lastUpdatedTime: LocalDateTime? = null
 
-    var sAccountId: Int? = null
+    var saccountid: Int? = null
 
     var billableHours: Double? = null
 
@@ -167,7 +167,7 @@ class ProjectTicket : ValuedBean(), Serializable {
             task.enddate = bean.getEndDate()
             task.duedate = bean.dueDate
             task.status = bean.status
-            task.saccountid = bean.sAccountId
+            task.saccountid = bean.saccountid
             task.priority = bean.priority
             task.assignuser = bean.assignUser
             task.milestoneid = bean.milestoneId
@@ -185,7 +185,7 @@ class ProjectTicket : ValuedBean(), Serializable {
             bug.duedate = bean.dueDate
             bug.status = bean.status
             bug.priority = bean.priority
-            bug.saccountid = bean.sAccountId
+            bug.saccountid = bean.saccountid
             bug.assignuser = bean.assignUser
             bug.milestoneid = bean.milestoneId
             return bug
@@ -201,7 +201,7 @@ class ProjectTicket : ValuedBean(), Serializable {
             risk.enddate = bean.getEndDate()
             risk.duedate = bean.dueDate
             risk.status = bean.status
-            risk.saccountid = bean.sAccountId
+            risk.saccountid = bean.saccountid
             risk.priority = bean.priority
             risk.assignuser = bean.assignUser
             risk.milestoneid = bean.milestoneId

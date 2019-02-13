@@ -19,6 +19,7 @@ package com.mycollab.module.project.view.user;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Div;
 import com.hp.gagawa.java.elements.Img;
+import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.configuration.SiteConfiguration;
 import com.mycollab.core.utils.StringUtils;
 import com.mycollab.html.DivLessFormatter;
@@ -35,7 +36,6 @@ import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ViewManager;
 import com.mycollab.vaadin.ui.ELabel;
-import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.shared.ui.MarginInfo;
@@ -53,32 +53,45 @@ import org.vaadin.viritin.layouts.MVerticalLayout;
 public class ProjectInfoComponent extends MHorizontalLayout {
 
     public ProjectInfoComponent(SimpleProject project) {
-        this.withMargin(false).withFullWidth().withStyleName("top-panel").withId("tab-content-header");
-        Component projectIcon = ProjectAssetsUtil.editableProjectLogoComp(project.getShortname(), project.getId(), project.getAvatarid(), 32);
+        this.withFullWidth().withStyleName("top-panel").withId("tab-content-header");
+        Component projectIcon = ProjectAssetsUtil.editableProjectLogoComp(project.getShortname(), project.getId(), project.getAvatarid(), 64);
         this.with(projectIcon).withAlign(projectIcon, Alignment.TOP_LEFT);
 
         ProjectBreadcrumb breadCrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);
         breadCrumb.setProject(project);
-        MVerticalLayout headerLayout = new MVerticalLayout().withSpacing(false).withMargin(new MarginInfo(false, true, false, true));
+        MVerticalLayout headerLayout = new MVerticalLayout().withSpacing(false).withMargin(new MarginInfo(false, true, false, false));
 
-        MHorizontalLayout footer = new MHorizontalLayout().withStyleName(UIConstants.META_INFO, WebThemes.FLEX_DISPLAY);
+        MHorizontalLayout footer = new MHorizontalLayout().withStyleName(WebThemes.META_INFO, WebThemes.FLEX_DISPLAY).withUndefinedHeight();
         footer.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
         headerLayout.with(breadCrumb, footer);
 
-        if (project.getMemlead() != null) {
+        if (StringUtils.isNotBlank(project.getMemlead())) {
             Div leadAvatar = new DivLessFormatter().appendChild(new Img("", StorageUtils.getAvatarPath
-                            (project.getLeadAvatarId(), 16)).setCSSClass(UIConstants.CIRCLE_BOX), DivLessFormatter.EMPTY_SPACE,
+                            (project.getLeadAvatarId(), 16)).setCSSClass(WebThemes.CIRCLE_BOX), DivLessFormatter.EMPTY_SPACE,
                     new A(ProjectLinkGenerator.generateProjectMemberLink(project.getId(), project.getMemlead()))
                             .appendText(StringUtils.trim(project.getLeadFullName(), 30, true)))
                     .setTitle(project.getLeadFullName());
             ELabel leadLbl = ELabel.html(UserUIContext.getMessage(ProjectI18nEnum.FORM_LEADER) + ": " + leadAvatar.write()).withUndefinedWidth();
             footer.with(leadLbl);
         }
-        if (project.getHomepage() != null) {
+        if (StringUtils.isNotBlank(project.getHomepage())) {
             ELabel homepageLbl = ELabel.html(VaadinIcons.GLOBE.getHtml() + " " + new A(project.getHomepage())
                     .appendText(project.getHomepage()).setTarget("_blank").write())
                     .withStyleName(ValoTheme.LABEL_SMALL).withUndefinedWidth();
             homepageLbl.setDescription(UserUIContext.getMessage(ProjectI18nEnum.FORM_HOME_PAGE));
+            footer.addComponent(homepageLbl);
+        }
+
+        if (project.getPlanstartdate() != null) {
+            ELabel dateLbl = ELabel.html(VaadinIcons.TIME_FORWARD.getHtml() + " " + UserUIContext.formatDate(project.getPlanstartdate()))
+                    .withStyleName(ValoTheme.LABEL_SMALL).withDescription(UserUIContext.getMessage(GenericI18Enum.FORM_START_DATE)).withUndefinedWidth();
+            footer.addComponent(dateLbl);
+        }
+
+        if (project.getPlanenddate() != null) {
+            ELabel dateLbl = ELabel.html(VaadinIcons.TIME_BACKWARD.getHtml() + " " + UserUIContext.formatDate(project.getPlanenddate()))
+                    .withStyleName(ValoTheme.LABEL_SMALL).withDescription(UserUIContext.getMessage(GenericI18Enum.FORM_END_DATE)).withUndefinedWidth();
+            footer.addComponent(dateLbl);
         }
 
         if (project.getClientid() != null && !SiteConfiguration.isCommunityEdition()) {
@@ -87,14 +100,14 @@ public class ProjectInfoComponent extends MHorizontalLayout {
                 clientDiv.appendText(VaadinIcons.INSTITUTION.getHtml() + " ");
             } else {
                 Img clientImg = new Img("", StorageUtils.getEntityLogoPath(AppUI.getAccountId(), project.getClientAvatarId(), 16))
-                        .setCSSClass(UIConstants.CIRCLE_BOX);
+                        .setCSSClass(WebThemes.CIRCLE_BOX);
                 clientDiv.appendChild(clientImg).appendChild(DivLessFormatter.EMPTY_SPACE);
             }
             clientDiv.appendChild(new A(ProjectLinkGenerator.generateClientPreviewLink(project.getClientid()))
                     .appendText(StringUtils.trim(project.getClientName(), 30, true)));
-            ELabel accountBtn = ELabel.html(clientDiv.write()).withStyleName(WebThemes.BUTTON_LINK)
+            ELabel clientLink = ELabel.html(clientDiv.write()).withStyleName(WebThemes.BUTTON_LINK)
                     .withUndefinedWidth();
-            footer.addComponents(accountBtn);
+            footer.addComponents(clientLink);
         }
 
         if (!SiteConfiguration.isCommunityEdition()) {

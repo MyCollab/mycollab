@@ -25,13 +25,13 @@ import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
-import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Label;
+import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 import org.vaadin.viritin.layouts.MWindow;
@@ -40,8 +40,8 @@ import org.vaadin.viritin.layouts.MWindow;
  * @author MyCollab Ltd
  * @since 5.3.1
  */
-public class NewUserAddedWindow extends MWindow {
-    public NewUserAddedWindow(final SimpleUser user, String uncryptPassword) {
+class NewUserAddedWindow extends MWindow {
+    NewUserAddedWindow(final SimpleUser user, String uncryptPassword) {
         super(UserUIContext.getMessage(UserI18nEnum.NEW));
         MVerticalLayout content = new MVerticalLayout();
         this.withModal(true).withResizable(false).withClosable(false).withCenter().withWidth("600px").withContent(content);
@@ -51,26 +51,25 @@ public class NewUserAddedWindow extends MWindow {
         content.with(infoLbl);
 
         String signinInstruction = UserUIContext.getMessage(UserI18nEnum.OPT_SIGN_IN_MSG, AppUI.getSiteUrl(), AppUI.getSiteUrl());
-        content.with(new MVerticalLayout(new Label(signinInstruction, ContentMode.HTML),
-                new ELabel(UserUIContext.getMessage(GenericI18Enum.FORM_EMAIL)).withStyleName(UIConstants.META_INFO),
+        content.with(new MVerticalLayout(ELabel.html(signinInstruction),
+                new ELabel(UserUIContext.getMessage(GenericI18Enum.FORM_EMAIL)).withStyleName(WebThemes.META_INFO),
                 new Label("    " + user.getUsername()),
-                new ELabel(UserUIContext.getMessage(ShellI18nEnum.FORM_PASSWORD)).withStyleName(UIConstants.META_INFO),
+                new ELabel(UserUIContext.getMessage(ShellI18nEnum.FORM_PASSWORD)).withStyleName(WebThemes.META_INFO),
                 new Label("    " + (uncryptPassword != null ? uncryptPassword : UserUIContext.getMessage(UserI18nEnum.OPT_USER_SET_OWN_PASSWORD)))));
 
         content.with(new ELabel(UserUIContext.getMessage(GenericI18Enum.HELP_SPAM_FILTER_PREVENT_MESSAGE)).withStyleName
-                (UIConstants.META_INFO));
+                (WebThemes.META_INFO).withFullWidth());
 
-        Button createMoreUserBtn = new Button(UserUIContext.getMessage(UserI18nEnum.OPT_CREATE_ANOTHER_USER), clickEvent -> {
+        MButton createMoreUserBtn = new MButton(UserUIContext.getMessage(UserI18nEnum.OPT_CREATE_ANOTHER_USER), clickEvent -> {
             EventBusFactory.getInstance().post(new UserEvent.GotoAdd(this, null));
             close();
-        });
-        createMoreUserBtn.addStyleName(WebThemes.BUTTON_LINK);
+        }).withStyleName(WebThemes.BUTTON_LINK);
 
-        Button doneBtn = new Button(UserUIContext.getMessage(GenericI18Enum.ACTION_DONE), clickEvent -> {
+        MButton doneBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.ACTION_DONE), clickEvent -> {
             EventBusFactory.getInstance().post(new UserEvent.GotoList(this, null));
             close();
-        });
-        doneBtn.addStyleName(WebThemes.BUTTON_ACTION);
+        }).withStyleName(WebThemes.BUTTON_ACTION);
+
         MHorizontalLayout buttonControls = new MHorizontalLayout(createMoreUserBtn, doneBtn).withFullWidth()
                 .withAlign(createMoreUserBtn, Alignment.MIDDLE_LEFT).withAlign(doneBtn, Alignment.MIDDLE_RIGHT);
         content.with(buttonControls);
