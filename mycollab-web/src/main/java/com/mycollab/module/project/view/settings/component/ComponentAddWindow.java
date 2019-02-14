@@ -66,11 +66,6 @@ class ComponentAddWindow extends MWindow implements IEditFormHandler<Component> 
     }
 
     @Override
-    public void onSaveAndNew(Component bean) {
-
-    }
-
-    @Override
     public void onCancel() {
         close();
     }

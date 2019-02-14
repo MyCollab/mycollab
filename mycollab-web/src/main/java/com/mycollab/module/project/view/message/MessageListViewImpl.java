@@ -46,7 +46,7 @@ import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.*;
 import com.mycollab.vaadin.web.ui.*;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
-import com.vaadin.event.ShortcutAction;
+import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
@@ -196,7 +196,7 @@ public class MessageListViewImpl extends AbstractVerticalPageView implements Mes
 
                     MButton searchBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_SEARCH), clickEvent -> callSearchAction())
                             .withStyleName(WebThemes.BUTTON_ACTION).withIcon(VaadinIcons.SEARCH)
-                            .withClickShortcut(ShortcutAction.KeyCode.ENTER);
+                            .withClickShortcut(KeyCode.ENTER);
                     return new MHorizontalLayout(nameField, searchBtn).withMargin(true).withAlign(nameField, Alignment.MIDDLE_LEFT);
                 }
 
@@ -261,7 +261,8 @@ public class MessageListViewImpl extends AbstractVerticalPageView implements Mes
                 NotificationUtil.showErrorNotification(UserUIContext.getMessage(ErrorI18nEnum.FIELD_MUST_NOT_NULL,
                         UserUIContext.getMessage(MessageI18nEnum.FORM_TITLE)));
             }
-        }).withIcon(VaadinIcons.CLIPBOARD).withStyleName(WebThemes.BUTTON_ACTION);
+        }).withIcon(VaadinIcons.CLIPBOARD).withStyleName(WebThemes.BUTTON_ACTION)
+                .withClickShortcut(KeyCode.ENTER);
 
         MHorizontalLayout controlLayout = new MHorizontalLayout(chkIsStick, cancelBtn, saveBtn).alignAll(Alignment.MIDDLE_CENTER);
         newMessageLayout.with(attachmentPanel, controlLayout).withAlign(controlLayout, Alignment.MIDDLE_RIGHT);

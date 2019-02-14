@@ -24,6 +24,7 @@ import com.vaadin.ui.ItemCaptionGenerator;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
+import java.time.ZoneId;
 import java.util.Collection;
 
 /**
@@ -44,6 +45,8 @@ public class TimeZoneSelectionField extends CustomField<String> {
         String area = areaSelection.getSelectedItem().orElse(null);
         areaSelection.setValue(area);
         setCboTimeZone(area);
+
+        doSetValue(ZoneId.systemDefault().getId());
     }
 
     @Override

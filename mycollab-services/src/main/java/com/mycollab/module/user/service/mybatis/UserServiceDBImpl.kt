@@ -188,13 +188,10 @@ class UserServiceDBImpl(private val userMapper: UserMapper,
 
         if (StringUtils.isBlank(record.email)) {
             record.email = record.username
-        }
-
-        if (record.username != record.email) {
             val ex = UserExample()
             ex.createCriteria().andUsernameEqualTo(record.email)
             val numUsers = userMapper.countByExample(ex)
-            if (numUsers > 0) {
+            if (numUsers > 1) {
                 throw UserInvalidInputException("Email %s is already existed in system. Please choose another email ${record.email}")
             }
         }
@@ -202,7 +199,6 @@ class UserServiceDBImpl(private val userMapper: UserMapper,
         // now we keep username similar than email
         val ex = UserExample()
         ex.createCriteria().andUsernameEqualTo(record.username)
-        record.username = record.email
         userMapper.updateByExampleSelective(record, ex)
 
         val userAccountEx = UserAccountExample()
@@ -321,10 +317,7 @@ class UserServiceDBImpl(private val userMapper: UserMapper,
         userAccountMapper.updateByExampleSelective(userAccount, userAccountEx)
 
         // notify users are "deleted"
-        for (username in usernames) {
-            val event = DeleteUserEvent(username, accountId)
-            asyncEventBus.post(event)
-        }
+        usernames.forEach { asyncEventBus.post(DeleteUserEvent(it, accountId)) }
     }
 
     override fun findUserByUserName(username: String): User? {

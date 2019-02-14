@@ -26,6 +26,8 @@ import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.data.provider.ListDataProvider;
+import com.vaadin.event.ShortcutAction;
+import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.Sizeable;
 import com.vaadin.ui.Alignment;
@@ -89,7 +91,7 @@ public abstract class CustomizedTableWindow extends MWindow {
         }).withStyleName(WebThemes.BUTTON_LINK);
         contentLayout.with(restoreLink).withAlign(restoreLink, Alignment.TOP_RIGHT);
 
-        final MButton saveBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_SAVE), clickEvent -> {
+        MButton saveBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_SAVE), clickEvent -> {
             Set<TableViewField> selectedColumns = listBuilder.getValue();
             table.setDisplayColumns(new ArrayList<>(selectedColumns));
             // Save custom table view def
@@ -100,9 +102,9 @@ public abstract class CustomizedTableWindow extends MWindow {
             viewDef.setViewinfo(FieldDefAnalyzer.toJson(new ArrayList<>(selectedColumns)));
             customViewStoreService.saveOrUpdateViewLayoutDef(viewDef);
             close();
-        }).withIcon(VaadinIcons.CLIPBOARD).withStyleName(WebThemes.BUTTON_ACTION);
+        }).withIcon(VaadinIcons.CLIPBOARD).withStyleName(WebThemes.BUTTON_ACTION).withClickShortcut(KeyCode.ENTER);
 
-        final MButton cancelBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
+        MButton cancelBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
                 .withStyleName(WebThemes.BUTTON_OPTION);
 
         MHorizontalLayout buttonControls = new MHorizontalLayout(cancelBtn, saveBtn);

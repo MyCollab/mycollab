@@ -28,6 +28,7 @@ import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.NotificationUtil;
 import com.mycollab.vaadin.web.ui.BlockWidget;
 import com.mycollab.vaadin.web.ui.WebThemes;
+import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
@@ -90,7 +91,8 @@ public class ProjectNotificationSettingViewComponent extends BlockWidget {
             } catch (Exception e) {
                 throw new MyCollabException(e);
             }
-        }).withIcon(VaadinIcons.CLIPBOARD).withStyleName(WebThemes.BUTTON_ACTION).withVisible(!CurrentProjectVariables.isProjectArchived());
+        }).withIcon(VaadinIcons.CLIPBOARD).withStyleName(WebThemes.BUTTON_ACTION).withVisible(!CurrentProjectVariables.isProjectArchived())
+                .withClickShortcut(KeyCode.ENTER);
         body.addComponent(saveBtn);
 
         this.addComponent(body);

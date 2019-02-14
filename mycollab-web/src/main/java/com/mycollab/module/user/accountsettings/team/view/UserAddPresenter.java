@@ -81,11 +81,11 @@ public class UserAddPresenter extends AbstractPresenter<UserAddView> {
         user.setAccountId(AppUI.getAccountId());
         user.setSubDomain(AppUI.getSubDomain());
 
-        if (user.getStatus() == null) {
+        if (StringUtils.isBlank(user.getStatus())) {
             user.setStatus(UserStatusConstants.EMAIL_VERIFIED_REQUEST);
         }
 
-        if (user.getRegisterstatus() == null) {
+        if (StringUtils.isBlank(user.getRegisterstatus())) {
             user.setRegisterstatus(RegisterStatusConstants.NOT_LOG_IN_YET);
         }
 

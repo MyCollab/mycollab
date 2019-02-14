@@ -20,6 +20,8 @@ import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.AdvancedEditBeanForm;
 import com.mycollab.vaadin.web.ui.WebThemes;
+import com.vaadin.event.ShortcutAction;
+import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.ui.ComponentContainer;
 import org.vaadin.viritin.button.MButton;
@@ -49,7 +51,8 @@ public class FormControlsGenerator {
                 if (editForm.validateForm()) {
                     editForm.fireSaveAndNewForm();
                 }
-            }).withIcon(VaadinIcons.CLIPBOARD_CROSS).withStyleName(WebThemes.BUTTON_ACTION);
+            }).withIcon(VaadinIcons.CLIPBOARD_CROSS).withStyleName(WebThemes.BUTTON_ACTION)
+                    .withClickShortcut(KeyCode.ENTER);
             layout.addComponent(saveAndNewBtn);
         }
 

@@ -38,6 +38,7 @@ import com.vaadin.data.Converter;
 import com.vaadin.data.HasValue;
 import com.vaadin.data.Result;
 import com.vaadin.data.provider.ListDataProvider;
+import com.vaadin.event.ShortcutAction;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.SerializableFunction;
 import com.vaadin.shared.ui.MarginInfo;
@@ -116,7 +117,7 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
         MButton saveBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_SAVE), clickEvent -> {
             String queryText = queryTextField.getValue();
             saveSearchCriteria(queryText);
-        }).withIcon(VaadinIcons.CLIPBOARD).withStyleName(WebThemes.BUTTON_ACTION);
+        }).withIcon(VaadinIcons.CLIPBOARD).withStyleName(WebThemes.BUTTON_ACTION).withClickShortcut(ShortcutAction.KeyCode.ENTER);
         filterBox.addComponent(saveBtn);
 
         MButton cancelBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> buildFilterBox(null))

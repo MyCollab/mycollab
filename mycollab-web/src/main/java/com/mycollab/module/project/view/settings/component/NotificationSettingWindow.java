@@ -28,12 +28,11 @@ import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.NotificationUtil;
 import com.mycollab.vaadin.web.ui.WebThemes;
+import com.vaadin.event.ShortcutAction;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.ItemCaptionGenerator;
 import com.vaadin.ui.RadioButtonGroup;
-import com.vaadin.v7.ui.AbstractSelect;
-import com.vaadin.v7.ui.OptionGroup;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
@@ -97,7 +96,8 @@ public class NotificationSettingWindow extends MWindow {
             } catch (Exception e) {
                 throw new MyCollabException(e);
             }
-        }).withStyleName(WebThemes.BUTTON_ACTION).withIcon(VaadinIcons.CLIPBOARD);
+        }).withStyleName(WebThemes.BUTTON_ACTION).withIcon(VaadinIcons.CLIPBOARD)
+                .withClickShortcut(ShortcutAction.KeyCode.ENTER);
         MHorizontalLayout btnControls = new MHorizontalLayout(closeBtn, saveBtn);
         body.with(btnControls).withAlign(btnControls, Alignment.TOP_RIGHT);
 

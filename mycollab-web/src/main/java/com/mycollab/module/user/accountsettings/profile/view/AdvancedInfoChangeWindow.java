@@ -28,9 +28,8 @@ import com.mycollab.vaadin.Utils;
 import com.mycollab.vaadin.web.ui.CountryComboBox;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
-import com.vaadin.event.ShortcutAction;
+import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.icons.VaadinIcons;
-import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.TextField;
 import org.vaadin.viritin.button.MButton;
@@ -75,7 +74,7 @@ class AdvancedInfoChangeWindow extends MWindow {
                 .withStyleName(WebThemes.BUTTON_OPTION);
 
         MButton saveBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_SAVE), clickEvent -> changeInfo())
-                .withStyleName(WebThemes.BUTTON_ACTION).withIcon(VaadinIcons.CLIPBOARD).withClickShortcut(ShortcutAction.KeyCode.ENTER);
+                .withStyleName(WebThemes.BUTTON_ACTION).withIcon(VaadinIcons.CLIPBOARD).withClickShortcut(KeyCode.ENTER);
 
         MHorizontalLayout buttonControls = new MHorizontalLayout(cancelBtn, saveBtn);
         mainLayout.with(buttonControls).withAlign(buttonControls, Alignment.MIDDLE_RIGHT);
