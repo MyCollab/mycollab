@@ -33,7 +33,7 @@ import com.mycollab.module.project.event.TaskEvent;
 import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.mycollab.module.project.i18n.TaskI18nEnum;
 import com.mycollab.module.project.service.ProjectTaskService;
-import com.mycollab.module.project.ui.components.BlockRowRender;
+import com.mycollab.module.project.ui.components.TicketRowRender;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.EventBusFactory;
@@ -146,7 +146,7 @@ class ToggleTaskSummaryField extends AbstractToggleSummaryField {
                             if (confirmDialog.isConfirmed()) {
                                 AppContextUtil.getSpringBean(ProjectTaskService.class).removeWithSession(task,
                                         UserUIContext.getUsername(), AppUI.getAccountId());
-                                BlockRowRender rowRenderer = UIUtils.getRoot(ToggleTaskSummaryField.this, BlockRowRender.class);
+                                TicketRowRender rowRenderer = UIUtils.getRoot(ToggleTaskSummaryField.this, TicketRowRender.class);
                                 if (rowRenderer != null) {
                                     rowRenderer.selfRemoved();
                                 }

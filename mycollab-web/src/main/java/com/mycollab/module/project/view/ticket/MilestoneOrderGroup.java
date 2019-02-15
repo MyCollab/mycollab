@@ -18,6 +18,7 @@ package com.mycollab.module.project.view.ticket;
 
 import com.mycollab.core.utils.SortedArrayMap;
 import com.mycollab.module.project.domain.ProjectTicket;
+import com.mycollab.module.project.ui.components.TicketRowRender;
 
 import java.util.List;
 
@@ -25,9 +26,17 @@ import java.util.List;
  * @author MyCollab Ltd
  * @since 5.4.6
  */
-class MilestoneOrderGroup extends TicketGroupOrderComponent {
+public class MilestoneOrderGroup extends TicketGroupOrderComponent {
     private SortedArrayMap<Integer, MilestoneTicketGroupComponent> milestonesAvailable = new SortedArrayMap<>();
     private MilestoneTicketGroupComponent unspecifiedTickets;
+
+    public MilestoneOrderGroup() {
+        super();
+    }
+
+    public MilestoneOrderGroup(Class<? extends TicketRowRender> ticketRowRenderCls) {
+        super(ticketRowRenderCls);
+    }
 
     @Override
     public void insertTickets(List<ProjectTicket> tickets) {
@@ -36,7 +45,7 @@ class MilestoneOrderGroup extends TicketGroupOrderComponent {
             if (milestoneId != null) {
                 if (milestonesAvailable.containsKey(milestoneId)) {
                     MilestoneTicketGroupComponent groupComponent = milestonesAvailable.get(milestoneId);
-                    groupComponent.insertTicket(ticket);
+                    groupComponent.insertTicketComp(buildRenderer(ticket));
                 } else {
                     MilestoneTicketGroupComponent groupComponent = new MilestoneTicketGroupComponent(milestoneId);
                     milestonesAvailable.put(milestoneId, groupComponent);
@@ -51,14 +60,14 @@ class MilestoneOrderGroup extends TicketGroupOrderComponent {
                         }
                     }
 
-                    groupComponent.insertTicket(ticket);
+                    groupComponent.insertTicketComp(buildRenderer(ticket));
                 }
             } else {
                 if (unspecifiedTickets == null) {
                     unspecifiedTickets = new MilestoneTicketGroupComponent(null);
                     addComponent(unspecifiedTickets);
                 }
-                unspecifiedTickets.insertTicket(ticket);
+                unspecifiedTickets.insertTicketComp(buildRenderer(ticket));
             }
         }
     }

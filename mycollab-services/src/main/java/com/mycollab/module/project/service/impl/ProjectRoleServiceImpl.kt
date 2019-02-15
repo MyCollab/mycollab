@@ -83,6 +83,11 @@ class ProjectRoleServiceImpl(private val roleMapper: ProjectRoleMapper,
         }.toCollection(mutableListOf())
     }
 
+    override fun findProjectsPermission(username: String?, projectId: Int, sAccountId: Int): PermissionMap {
+        val rolePerVal = rolePermissionMapperExt.findProjectPermission(username, projectId, sAccountId);
+        return PermissionMap.fromJsonString(rolePerVal.permissionVal)
+    }
+
     companion object {
 
         init {

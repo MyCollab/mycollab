@@ -71,10 +71,4 @@ class UserServiceTest : IntegrationServiceTest() {
         val user = userService.findUserByUserNameInAccount("hainguyen@esofthead.com", 1)
         assertThat(user).extracting("username", "accountId", "firstname", "lastname").contains("hainguyen@esofthead.com", 1, "Nguyen", "Hai")
     }
-
-    @DataSet
-    @Test
-    fun testUpdateUserAccount() {
-
-    }
 }

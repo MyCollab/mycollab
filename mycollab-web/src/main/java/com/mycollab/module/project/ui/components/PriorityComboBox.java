@@ -42,7 +42,7 @@ public class PriorityComboBox extends I18nValueComboBox<Priority> {
                 return VaadinIcons.ARROW_DOWN;
             }
         });
-        this.setStyleGenerator((StyleGenerator<Priority>) itemId -> String.format("task-%s", itemId.name().toLowerCase()));
+        this.setStyleGenerator((StyleGenerator<Priority>) itemId -> String.format("priority-%s", itemId.name().toLowerCase()));
         this.setValue(Medium);
     }
 }

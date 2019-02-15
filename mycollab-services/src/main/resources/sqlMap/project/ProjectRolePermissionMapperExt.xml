@@ -21,4 +21,15 @@
               #end
           #end
     </select>
+
+    <select id="findProjectPermission" parameterType="map"
+            resultMap="com.mycollab.module.project.dao.ProjectRolePermissionMapperExt.Tuple2" lang="velocity">
+        SELECT DISTINCT m_prj_project.id AS roleId, m_prj_role_permission.roleVal AS permissionVal
+        FROM m_prj_project, m_prj_member, m_prj_role_permission
+        WHERE
+          m_prj_project.sAccountId = @{sAccountId,jdbcType=NUMERIC}
+          AND m_prj_role_permission.projectId=m_prj_project.id
+          AND (m_prj_member.projectId = m_prj_project.id AND m_prj_member.username = @{username})
+          AND m_prj_project.id = @{projectId,jdbcType=NUMERIC}
+    </select>
 </mapper>

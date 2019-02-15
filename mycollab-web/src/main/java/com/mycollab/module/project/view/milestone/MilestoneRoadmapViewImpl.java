@@ -45,7 +45,7 @@ import com.mycollab.module.project.service.MilestoneService;
 import com.mycollab.module.project.service.ProjectTicketService;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.module.project.ui.ProjectAssetsUtil;
-import com.mycollab.module.project.ui.components.BlockRowRender;
+import com.mycollab.module.project.ui.components.TicketRowRender;
 import com.mycollab.module.project.ui.components.IBlockContainer;
 import com.mycollab.module.project.view.ProjectView;
 import com.mycollab.module.project.view.service.MilestoneComponentFactory;
@@ -256,7 +256,7 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
                 new ButtonGroup(roadmapBtn, boardBtn).withDefaultButton(roadmapBtn));
     }
 
-    private static class MilestoneBlock extends BlockRowRender {
+    private static class MilestoneBlock extends TicketRowRender {
         private boolean showIssues = false;
 
         MilestoneBlock(final SimpleMilestone milestone) {

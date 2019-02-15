@@ -19,6 +19,7 @@ package com.mycollab.module.project.view.ticket;
 import com.mycollab.module.project.domain.ProjectTicket;
 import com.mycollab.module.project.ui.components.IBlockContainer;
 import com.mycollab.module.project.ui.components.IGroupComponent;
+import com.mycollab.module.project.ui.components.TicketRowRender;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.shared.ui.MarginInfo;
@@ -57,8 +58,8 @@ class DefaultTicketGroupComponent extends MVerticalLayout implements IGroupCompo
         }
     }
 
-    void insertTicket(ProjectTicket ticket) {
-        wrapBody.addComponent(new TicketRowRenderer(ticket));
+    void insertTicketComp(TicketRowRender ticketRowRender) {
+        wrapBody.addComponent(ticketRowRender);
         updateTitle();
     }
 

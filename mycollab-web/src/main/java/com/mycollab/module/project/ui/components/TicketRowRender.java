@@ -16,6 +16,7 @@
  */
 package com.mycollab.module.project.ui.components;
 
+import com.mycollab.module.project.domain.ProjectTicket;
 import com.mycollab.vaadin.ui.UIUtils;
 import com.vaadin.ui.ComponentContainer;
 import org.vaadin.viritin.layouts.MVerticalLayout;
@@ -24,7 +25,8 @@ import org.vaadin.viritin.layouts.MVerticalLayout;
  * @author MyCollab Ltd
  * @since 5.4.3
  */
-public class BlockRowRender extends MVerticalLayout {
+public class TicketRowRender extends MVerticalLayout {
+    protected ProjectTicket ticket;
 
     public void selfRemoved() {
         IBlockContainer blockContainer = UIUtils.getRoot(this, IBlockContainer.class);
@@ -35,5 +37,9 @@ public class BlockRowRender extends MVerticalLayout {
         if (blockContainer != null) {
             blockContainer.refresh();
         }
+    }
+
+    final public ProjectTicket getTicket() {
+        return ticket;
     }
 }

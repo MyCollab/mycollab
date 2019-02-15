@@ -20,6 +20,7 @@ import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.core.utils.DateTimeUtils;
 import com.mycollab.core.utils.SortedArrayMap;
 import com.mycollab.module.project.domain.ProjectTicket;
+import com.mycollab.module.project.ui.components.TicketRowRender;
 import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.vaadin.icons.VaadinIcons;
@@ -36,6 +37,14 @@ public class DueDateOrderComponent extends TicketGroupOrderComponent {
     private SortedArrayMap<Long, DefaultTicketGroupComponent> dueDateAvailables = new SortedArrayMap<>();
     private DefaultTicketGroupComponent unspecifiedTasks;
 
+    public DueDateOrderComponent() {
+        super();
+    }
+
+    public DueDateOrderComponent(Class<? extends TicketRowRender> ticketRowRenderCls) {
+        super(ticketRowRenderCls);
+    }
+
     @Override
     public void insertTickets(List<ProjectTicket> tickets) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(AppUI.getLongDateFormat()).withLocale(UserUIContext.getUserLocale());
@@ -47,7 +56,7 @@ public class DueDateOrderComponent extends TicketGroupOrderComponent {
                 Long time = firstDayInWeek.toEpochDay();
                 if (dueDateAvailables.containsKey(time)) {
                     DefaultTicketGroupComponent groupComponent = dueDateAvailables.get(time);
-                    groupComponent.insertTicket(ticket);
+                    groupComponent.insertTicketComp(buildRenderer(ticket));
                 } else {
                     LocalDate maxValue = DateTimeUtils.getLastDayOfWeek(dueDate);
                     String sundayStr = formatter.format(maxValue);
@@ -56,14 +65,14 @@ public class DueDateOrderComponent extends TicketGroupOrderComponent {
                     DefaultTicketGroupComponent groupComponent = new DefaultTicketGroupComponent(titleValue);
                     dueDateAvailables.put(time, groupComponent);
                     addComponent(groupComponent);
-                    groupComponent.insertTicket(ticket);
+                    groupComponent.insertTicketComp(buildRenderer(ticket));
                 }
             } else {
                 if (unspecifiedTasks == null) {
                     unspecifiedTasks = new DefaultTicketGroupComponent(VaadinIcons.CALENDAR.getHtml() + " " + UserUIContext.getMessage(GenericI18Enum.OPT_UNDEFINED));
                     addComponent(unspecifiedTasks);
                 }
-                unspecifiedTasks.insertTicket(ticket);
+                unspecifiedTasks.insertTicketComp(buildRenderer(ticket));
             }
         }
     }

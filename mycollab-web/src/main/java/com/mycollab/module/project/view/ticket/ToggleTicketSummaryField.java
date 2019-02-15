@@ -33,7 +33,7 @@ import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.mycollab.module.project.service.ProjectTaskService;
 import com.mycollab.module.project.service.ProjectTicketService;
 import com.mycollab.module.project.service.RiskService;
-import com.mycollab.module.project.ui.components.BlockRowRender;
+import com.mycollab.module.project.ui.components.TicketRowRender;
 import com.mycollab.module.tracker.domain.BugWithBLOBs;
 import com.mycollab.module.tracker.service.BugService;
 import com.mycollab.spring.AppContextUtil;
@@ -47,7 +47,6 @@ import com.mycollab.vaadin.web.ui.AbstractToggleSummaryField;
 import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.icons.VaadinIcons;
-import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
@@ -108,8 +107,8 @@ public class ToggleTicketSummaryField extends AbstractToggleSummaryField {
                             confirmDialog -> {
                                 if (confirmDialog.isConfirmed()) {
                                     AppContextUtil.getSpringBean(ProjectTicketService.class).removeTicket(ticket, UserUIContext.getUsername());
-                                    BlockRowRender rowRenderer = UIUtils.getRoot(ToggleTicketSummaryField.this,
-                                            BlockRowRender.class);
+                                    TicketRowRender rowRenderer = UIUtils.getRoot(ToggleTicketSummaryField.this,
+                                            TicketRowRender.class);
                                     if (rowRenderer != null) {
                                         rowRenderer.selfRemoved();
                                     }

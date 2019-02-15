@@ -26,10 +26,10 @@ import javax.validation.constraints.NotEmpty
  */
 class Page : PageResource() {
 
-    @NotEmpty(message = "Subject must be not null")
+    @NotEmpty
     var subject: String = ""
 
-    @NotEmpty(message = "Content must be not null")
+    @NotEmpty
     var content: String = ""
 
     @NotBindable

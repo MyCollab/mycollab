@@ -10,6 +10,8 @@ import com.mycollab.vaadin.mvp.PageView;
  */
 public interface UserWorkloadReportView extends PageView {
 
+    void display();
+
     void queryTickets(ProjectTicketSearchCriteria searchCriteria);
 
     ProjectTicketSearchCriteria getCriteria();

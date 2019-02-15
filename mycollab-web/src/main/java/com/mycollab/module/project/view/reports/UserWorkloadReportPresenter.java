@@ -29,8 +29,7 @@ public class UserWorkloadReportPresenter extends AbstractPresenter<UserWorkloadR
         IReportContainer reportContainer = (IReportContainer) container;
         reportContainer.addView(view);
 
-        ProjectTicketSearchCriteria searchCriteria = new ProjectTicketSearchCriteria();
-        view.queryTickets(searchCriteria);
+        view.display();
 
         ReportBreadcrumb breadCrumb = ViewManager.getCacheComponent(ReportBreadcrumb.class);
         breadCrumb.gotoUserWorkloadReport();

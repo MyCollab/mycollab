@@ -16,6 +16,8 @@
  */
 package com.mycollab.vaadin.ui;
 
+import com.hp.gagawa.java.elements.Li;
+import com.hp.gagawa.java.elements.Ul;
 import com.mycollab.core.UserInvalidInputException;
 import com.mycollab.core.arguments.NotBindable;
 import com.mycollab.core.utils.ClassUtils;
@@ -35,7 +37,6 @@ import org.slf4j.LoggerFactory;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Path;
-import java.lang.annotation.Annotation;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -168,20 +169,22 @@ public abstract class AbstractBeanFieldGroupFieldFactory<B> implements IBeanFiel
         Set<ConstraintViolation<B>> violations = validator.validate(attachForm.getBean());
         if (violations.size() > 0) {
             StringBuilder errorMsg = new StringBuilder();
-
+            Ul ul = new Ul();
             for (ConstraintViolation violation : violations) {
                 Path propertyPath = violation.getPropertyPath();
                 if (propertyPath != null && !propertyPath.toString().equals("")) {
-                    errorMsg.append(propertyPath + " " + violation.getMessage()).append("<br/>");
+                    Li errorElement = new Li().appendText(propertyPath + " " + violation.getMessage());
+                    ul.appendChild(errorElement);
                     Binder.Binding<B, ?> binding = binder.getBinding(propertyPath.toString()).orElse(null);
                     if (binding != null) {
                         ((Component) binding.getField()).addStyleName("errorField");
                     }
                 } else {
-                    errorMsg.append(violation.getMessage()).append("<br/>");
+                    Li errorElement = new Li().appendText(violation.getMessage());
+                    ul.appendChild(errorElement);
                 }
             }
-            throw new UserInvalidInputException(errorMsg.toString());
+            throw new UserInvalidInputException(ul.write());
         }
         return true;
     }

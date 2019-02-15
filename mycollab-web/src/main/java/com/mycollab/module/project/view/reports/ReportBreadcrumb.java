@@ -79,8 +79,8 @@ public class ReportBreadcrumb extends MHorizontalLayout implements CacheableComp
         this.addComponent(ELabel.html(VaadinIcons.ANGLE_RIGHT.getHtml()));
         this.addComponent(new MButton(UserUIContext.getMessage(ProjectCommonI18nEnum.VIEW_REPORTS), new GotoReportsListener()).withStyleName(WebThemes.BUTTON_LINK));
         this.addComponent(ELabel.html(VaadinIcons.ANGLE_RIGHT.getHtml()));
-        this.addComponent(new MButton(UserUIContext.getMessage(ProjectReportI18nEnum.REPORT_USERS_WORKLOAD)).withStyleName(WebThemes.BUTTON_LINK));
-        AppUI.addFragment(ProjectLinkGenerator.generateUsersWorkloadReportLink(), UserUIContext.getMessage(ProjectReportI18nEnum.REPORT_USERS_WORKLOAD));
+        this.addComponent(new MButton(UserUIContext.getMessage(ProjectReportI18nEnum.REPORT_TICKET_ASSIGNMENT)).withStyleName(WebThemes.BUTTON_LINK));
+        AppUI.addFragment(ProjectLinkGenerator.generateUsersWorkloadReportLink(), UserUIContext.getMessage(ProjectReportI18nEnum.REPORT_TICKET_ASSIGNMENT));
     }
 
     private static class GotoReportsListener implements Button.ClickListener {

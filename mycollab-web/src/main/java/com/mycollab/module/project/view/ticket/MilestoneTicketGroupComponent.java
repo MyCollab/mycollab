@@ -28,6 +28,7 @@ import com.mycollab.module.project.service.ProjectTicketService;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.module.project.ui.components.IBlockContainer;
 import com.mycollab.module.project.ui.components.IGroupComponent;
+import com.mycollab.module.project.ui.components.TicketRowRender;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.UserUIContext;
@@ -81,8 +82,8 @@ class MilestoneTicketGroupComponent extends MVerticalLayout implements IGroupCom
         // catch the drops
         dropTarget.addDropListener(event -> {
             Optional<AbstractComponent> dragSource = event.getDragSourceComponent();
-            if (dragSource.isPresent() && dragSource.get() instanceof TicketRowRenderer) {
-                TicketRowRenderer ticketRowRenderer = (TicketRowRenderer) dragSource.get();
+            if (dragSource.isPresent() && dragSource.get() instanceof EditableTicketRowRenderer) {
+                TicketRowRender ticketRowRenderer = (TicketRowRender) dragSource.get();
                 MilestoneTicketGroupComponent originalMilestoneContainer = UIUtils.getRoot(ticketRowRenderer,
                         MilestoneTicketGroupComponent.class);
                 ProjectTicket ticket = ticketRowRenderer.getTicket();
@@ -109,8 +110,7 @@ class MilestoneTicketGroupComponent extends MVerticalLayout implements IGroupCom
         }
     }
 
-    void insertTicket(ProjectTicket ticket) {
-        TicketRowRenderer ticketRowRenderer = new TicketRowRenderer(ticket);
+    void insertTicketComp(TicketRowRender ticketRowRenderer) {
         ticketRowRenderer.addStyleName("cursor-move");
         wrapBody.addComponent(ticketRowRenderer);
         updateTitle();

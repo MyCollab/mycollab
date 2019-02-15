@@ -23,12 +23,4 @@
             </constraint>
         </field>
     </bean>
-
-    <bean class="Role" ignore-annotations="false">
-        <field name="rolename">
-            <constraint annotation="javax.validation.constraints.NotNull">
-                <message>The role name must be not null</message>
-            </constraint>
-        </field>
-    </bean>
 </constraint-mappings>

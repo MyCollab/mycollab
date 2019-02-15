@@ -12,23 +12,12 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <http:></http:>//www.gnu.org/licenses/>.
  */
-package com.mycollab.vaadin.ui;
+package com.mycollab.vaadin.ui
 
 /**
- * @param <B>
- * @author MyCollab Ltd
- * @since 3.0
+ * @author MyCollab Ltd.
+ * @since 2.0
  */
-public abstract class AbstractBeanFieldGroupEditFieldFactory<B> extends AbstractBeanFieldGroupFieldFactory<B> {
-    private static final long serialVersionUID = 1L;
-
-    public AbstractBeanFieldGroupEditFieldFactory(GenericBeanForm<B> form) {
-        this(form, true);
-    }
-
-    public AbstractBeanFieldGroupEditFieldFactory(GenericBeanForm<B> form, boolean isValidateForm) {
-        super(form, isValidateForm, false);
-    }
-}
+abstract class AbstractBeanFieldGroupViewFieldFactory<B>(form: GenericBeanForm<B>) : AbstractBeanFieldGroupFieldFactory<B>(form, true, true)

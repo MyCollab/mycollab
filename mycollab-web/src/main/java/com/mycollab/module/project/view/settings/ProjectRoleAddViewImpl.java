@@ -117,7 +117,7 @@ public class ProjectRoleAddViewImpl extends AbstractEditItemComp<ProjectRole> im
         final GridFormLayoutHelper permissionFormHelper = GridFormLayoutHelper.defaultFormLayoutHelper(LayoutType.TWO_COLUMN);
 
         for (int i = 0; i < ProjectRolePermissionCollections.PROJECT_PERMISSIONS.length; i++) {
-            final String permissionPath = ProjectRolePermissionCollections.PROJECT_PERMISSIONS[i];
+            String permissionPath = ProjectRolePermissionCollections.PROJECT_PERMISSIONS[i];
             KeyCaptionComboBox permissionBox;
             Enum captionHelp;
             if (ProjectRolePermissionCollections.FINANCE.equals(permissionPath) ||

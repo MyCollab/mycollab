@@ -139,7 +139,6 @@ public abstract class AbstractPreviewItemComp<B> extends AbstractVerticalPageVie
             return favoriteItemService.isUserFavorite(UserUIContext.getUsername(), getType(),
                     PropertyUtils.getProperty(beanItem, "id").toString());
         } catch (Exception e) {
-            LOG.error("Error while check favorite", e);
             return false;
         }
     }

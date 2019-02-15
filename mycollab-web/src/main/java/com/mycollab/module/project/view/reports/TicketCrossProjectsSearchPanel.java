@@ -37,12 +37,13 @@ public class TicketCrossProjectsSearchPanel extends DefaultGenericSearchPanel<Pr
     private ProjectTicketSearchCriteria searchCriteria;
 
     private static Param[] paramFields = new Param[]{
-            /*ProjectTicketSearchCriteria.p_projectIds,*/
-            ProjectTicketSearchCriteria.p_name, ProjectTicketSearchCriteria.p_startDate,
-            ProjectTicketSearchCriteria.p_endDate, ProjectTicketSearchCriteria.p_dueDate};
+            ProjectTicketSearchCriteria.p_name,
+            ProjectTicketSearchCriteria.p_startDate,
+            ProjectTicketSearchCriteria.p_endDate,
+            ProjectTicketSearchCriteria.p_dueDate};
 
     protected ComponentContainer buildSearchTitle() {
-        return new MHorizontalLayout(ELabel.html(VaadinIcons.CALENDAR_CLOCK.getHtml() + " " + UserUIContext.getMessage(ProjectReportI18nEnum.REPORT_USERS_WORKLOAD))
+        return new MHorizontalLayout(ELabel.html(VaadinIcons.CALENDAR_CLOCK.getHtml() + " " + UserUIContext.getMessage(ProjectReportI18nEnum.REPORT_TICKET_ASSIGNMENT))
                 .withStyleName(ValoTheme.LABEL_H2, ValoTheme.LABEL_NO_MARGIN));
     }
 

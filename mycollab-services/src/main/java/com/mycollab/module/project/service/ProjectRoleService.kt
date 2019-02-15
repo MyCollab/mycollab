@@ -40,4 +40,7 @@ interface ProjectRoleService : IDefaultService<Int, ProjectRole, ProjectRoleSear
 
     @Cacheable
     fun findProjectsPermissions(username: String?, projectIds: List<Int>?, @CacheKey sAccountId: Int): List<Tuple2<Int, PermissionMap>>
+
+    @Cacheable
+    fun findProjectsPermission(username: String?, projectId: Int, @CacheKey sAccountId: Int): PermissionMap
 }

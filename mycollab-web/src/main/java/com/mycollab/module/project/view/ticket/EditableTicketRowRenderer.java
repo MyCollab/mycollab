@@ -23,7 +23,7 @@ import com.mycollab.module.project.domain.criteria.ProjectTicketSearchCriteria;
 import com.mycollab.module.project.event.TicketEvent;
 import com.mycollab.module.project.service.ProjectTicketService;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
-import com.mycollab.module.project.ui.components.BlockRowRender;
+import com.mycollab.module.project.ui.components.TicketRowRender;
 import com.mycollab.module.project.view.service.TicketComponentFactory;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.EventBusFactory;
@@ -45,13 +45,12 @@ import org.vaadin.viritin.layouts.MHorizontalLayout;
  * @author MyCollab Ltd
  * @since 5.1.1
  */
-public class TicketRowRenderer extends BlockRowRender implements PropertyChangedListener {
-    private static Logger LOG = LoggerFactory.getLogger(TicketRowRenderer.class);
+public class EditableTicketRowRenderer extends TicketRowRender implements PropertyChangedListener {
+    private static Logger LOG = LoggerFactory.getLogger(EditableTicketRowRenderer.class);
 
     private ToggleTicketSummaryField toggleTicketField;
-    private ProjectTicket ticket;
 
-    public TicketRowRenderer(ProjectTicket ticket) {
+    public EditableTicketRowRenderer(ProjectTicket ticket) {
         this.ticket = ticket;
         withMargin(false).withFullWidth().addStyleName(WebThemes.BORDER_LIST_ROW);
 
@@ -93,10 +92,6 @@ public class TicketRowRenderer extends BlockRowRender implements PropertyChanged
             ((LazyPopupView) component).addPropertyChangeListener(this);
         }
         return component;
-    }
-
-    public ProjectTicket getTicket() {
-        return ticket;
     }
 
     @Override

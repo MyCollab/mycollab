@@ -29,7 +29,7 @@ import com.mycollab.module.project.service.ProjectTaskService;
 import com.mycollab.module.project.service.ProjectTicketService;
 import com.mycollab.module.project.service.RiskService;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
-import com.mycollab.module.project.ui.components.BlockRowRender;
+import com.mycollab.module.project.ui.components.TicketRowRender;
 import com.mycollab.module.project.ui.components.IBlockContainer;
 import com.mycollab.module.project.view.ProjectView;
 import com.mycollab.module.project.view.service.TicketComponentFactory;
@@ -249,7 +249,7 @@ public class TicketKanbanBoardViewImpl extends AbstractVerticalPageView implemen
         }
     }
 
-    private static class KanbanBlockItem extends BlockRowRender {
+    private static class KanbanBlockItem extends TicketRowRender {
         private ProjectTicket projectTicket;
 
         private KanbanBlockItem(ProjectTicket ticket) {

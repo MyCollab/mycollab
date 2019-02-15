@@ -37,7 +37,7 @@ import com.mycollab.module.project.i18n.OptionI18nEnum.MilestoneStatus;
 import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.mycollab.module.project.service.MilestoneService;
 import com.mycollab.module.project.service.ProjectTicketService;
-import com.mycollab.module.project.ui.components.BlockRowRender;
+import com.mycollab.module.project.ui.components.TicketRowRender;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.EventBusFactory;
@@ -148,7 +148,7 @@ class ToggleMilestoneSummaryField extends AbstractToggleSummaryField {
                             if (confirmDialog.isConfirmed()) {
                                 AppContextUtil.getSpringBean(MilestoneService.class).removeWithSession(milestone,
                                         UserUIContext.getUsername(), AppUI.getAccountId());
-                                BlockRowRender rowRenderer = UIUtils.getRoot(ToggleMilestoneSummaryField.this, BlockRowRender.class);
+                                TicketRowRender rowRenderer = UIUtils.getRoot(ToggleMilestoneSummaryField.this, TicketRowRender.class);
                                 if (rowRenderer != null) {
                                     rowRenderer.selfRemoved();
                                 }
