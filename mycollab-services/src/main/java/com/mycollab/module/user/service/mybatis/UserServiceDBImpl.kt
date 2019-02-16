@@ -196,10 +196,17 @@ class UserServiceDBImpl(private val userMapper: UserMapper,
             }
         }
 
-        // now we keep username similar than email
         val ex = UserExample()
         ex.createCriteria().andUsernameEqualTo(record.username)
         userMapper.updateByExampleSelective(record, ex)
+
+        // now we keep username similar than email
+        if (record.email != record.username) {
+            record.username = record.email
+            val ex1 = UserExample()
+            ex1.createCriteria().andEmailEqualTo(record.email)
+            userMapper.updateByExample(record, ex1)
+        }
 
         val userAccountEx = UserAccountExample()
         userAccountEx.createCriteria().andUsernameEqualTo(record.username).andAccountidEqualTo(sAccountId)

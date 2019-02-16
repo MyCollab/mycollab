@@ -2,12 +2,15 @@ package com.mycollab.module.project.view.ticket;
 
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Div;
+import com.hp.gagawa.java.elements.Img;
 import com.hp.gagawa.java.elements.Span;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.configuration.SiteConfiguration;
 import com.mycollab.core.utils.NumberUtils;
+import com.mycollab.module.file.StorageUtils;
 import com.mycollab.module.project.ProjectLinkGenerator;
 import com.mycollab.module.project.domain.ProjectTicket;
+import com.mycollab.module.project.i18n.OptionI18nEnum;
 import com.mycollab.module.project.i18n.TimeTrackingI18nEnum;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.module.project.ui.components.TicketRowRender;
@@ -17,7 +20,6 @@ import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
-import org.vaadin.viritin.layouts.MVerticalLayout;
 
 /**
  * @author MyCollab Ltd
@@ -27,15 +29,19 @@ public class ReadableTicketRowRenderer extends TicketRowRender {
 
     public ReadableTicketRowRenderer(ProjectTicket ticket) {
         this.ticket = ticket;
-        A ticketDiv;
+        String avatarLink = StorageUtils.getAvatarPath(ticket.getAssignUserAvatarId(), 16);
+        Img img = new Img(ticket.getAssignUserFullName(), avatarLink).setCSSClass(WebThemes.CIRCLE_BOX)
+                .setTitle(ticket.getAssignUserFullName());
+
+        A ticketLink;
         if (ticket.isBug() || ticket.isTask()) {
-            ticketDiv = new A(ProjectLinkGenerator.generateProjectItemLink(ticket.getProjectShortName(), ticket.getProjectId(), ticket.getType(), ticket.getExtraTypeId() + "")).
+            ticketLink = new A(ProjectLinkGenerator.generateProjectItemLink(ticket.getProjectShortName(), ticket.getProjectId(), ticket.getType(), ticket.getExtraTypeId() + "")).
                     appendText(ticket.getName());
         } else {
-            ticketDiv = new A(ProjectLinkGenerator.generateProjectItemLink(ticket.getProjectShortName(), ticket.getProjectId(), ticket.getType(), ticket.getTypeId() + "")).
+            ticketLink = new A(ProjectLinkGenerator.generateProjectItemLink(ticket.getProjectShortName(), ticket.getProjectId(), ticket.getType(), ticket.getTypeId() + "")).
                     appendText(ticket.getName());
         }
-        this.with(ELabel.html(ProjectAssetsManager.getAsset(ticket.getType()).getHtml() + " " + ticketDiv.write())
+        this.with(ELabel.html(ProjectAssetsManager.getAsset(ticket.getType()).getHtml() + " " + img.write() + " " + ticketLink.write())
                 .withStyleName(WebThemes.LABEL_WORD_WRAP).withFullWidth());
         this.addStyleName(WebThemes.BORDER_LIST_ROW);
         if (ticket.isTask()) {
@@ -47,6 +53,7 @@ public class ReadableTicketRowRenderer extends TicketRowRender {
         }
         CssLayout footer = new CssLayout();
         footer.addComponent(buildTicketCommentComp(ticket));
+        footer.addComponent(buildTicketPriorityComp(ticket));
         footer.addComponent(buildTicketStatusComp(ticket));
         footer.addComponent(buildStartdateComp(ticket));
         footer.addComponent(buildEnddateComp(ticket));
@@ -61,6 +68,12 @@ public class ReadableTicketRowRenderer extends TicketRowRender {
     private Component buildTicketCommentComp(ProjectTicket ticket) {
         return ELabel.html(VaadinIcons.COMMENT_O.getHtml() + " " + NumberUtils.zeroIfNull(ticket.getNumComments()))
                 .withDescription(UserUIContext.getMessage(GenericI18Enum.OPT_COMMENTS)).withStyleName(WebThemes.META_INFO);
+    }
+
+    private Component buildTicketPriorityComp(ProjectTicket ticket) {
+        return ELabel.html(ProjectAssetsManager.getPriorityHtml(ticket.getPriority()) + " " +
+                UserUIContext.getMessage(OptionI18nEnum.Priority.class, ticket.getPriority()))
+                .withStyleName(WebThemes.MARGIN_LEFT_HALF, WebThemes.META_INFO);
     }
 
     private Component buildTicketStatusComp(ProjectTicket ticket) {

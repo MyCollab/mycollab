@@ -250,10 +250,9 @@ public class TicketKanbanBoardViewImpl extends AbstractVerticalPageView implemen
     }
 
     private static class KanbanBlockItem extends TicketRowRender {
-        private ProjectTicket projectTicket;
 
         private KanbanBlockItem(ProjectTicket ticket) {
-            this.projectTicket = ticket;
+            this.ticket = ticket;
             this.addStyleName("kanban-item list-row");
             if (ticket.isBug()) {
                 this.addStyleName("bug");
@@ -267,7 +266,7 @@ public class TicketKanbanBoardViewImpl extends AbstractVerticalPageView implemen
 
             MHorizontalLayout headerLayout = new MHorizontalLayout();
 
-            ToggleTicketSummaryField toggleTicketSummaryField = new ToggleTicketSummaryField(projectTicket);
+            ToggleTicketSummaryField toggleTicketSummaryField = new ToggleTicketSummaryField(ticket);
             ELabel iconLbl = ELabel.html(ProjectAssetsManager.getAsset(ticket.getType()).getHtml()).withUndefinedWidth();
             headerLayout.with(iconLbl, toggleTicketSummaryField).expand(toggleTicketSummaryField);
 
@@ -275,9 +274,9 @@ public class TicketKanbanBoardViewImpl extends AbstractVerticalPageView implemen
 
             CssLayout footer = new CssLayout();
 
-            footer.addComponent(popupFieldFactory.createCommentsPopupField(projectTicket));
-            footer.addComponent(popupFieldFactory.createFollowersPopupField(projectTicket));
-            footer.addComponent(popupFieldFactory.createAssigneePopupField(projectTicket));
+            footer.addComponent(popupFieldFactory.createCommentsPopupField(ticket));
+            footer.addComponent(popupFieldFactory.createFollowersPopupField(ticket));
+            footer.addComponent(popupFieldFactory.createAssigneePopupField(ticket));
 
             this.addComponent(footer);
 
@@ -318,7 +317,7 @@ public class TicketKanbanBoardViewImpl extends AbstractVerticalPageView implemen
                 Optional<AbstractComponent> dragSource = event.getDragSourceComponent();
                 if (dragSource.isPresent() && dragSource.get() instanceof KanbanBlockItem) {
                     KanbanBlockItem kanbanItem = (KanbanBlockItem) dragSource.get();
-                    ProjectTicket ticket = kanbanItem.projectTicket;
+                    ProjectTicket ticket = kanbanItem.getTicket();
 
                     if (ticket.isBug() && (!stage.equals(Open.name()) && !stage.equals(ReOpen.name()) && !stage.equals(Verified.name())
                             && !stage.equals(Resolved.name()) && !stage.equals(InProgress.name()) && !stage.equals(Unresolved.name()))) {

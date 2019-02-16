@@ -259,7 +259,7 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
     private static class MilestoneBlock extends TicketRowRender {
         private boolean showIssues = false;
 
-        MilestoneBlock(final SimpleMilestone milestone) {
+        MilestoneBlock(SimpleMilestone milestone) {
             this.withMargin(new MarginInfo(true, false, true, false)).withStyleName("roadmap-block");
 
             VaadinIcons statusIcon = ProjectAssetsUtil.getPhaseIcon(milestone.getStatus());
@@ -306,7 +306,7 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
             progressLayout.with(progressInfoLbl);
 
             if (totalAssignments > 0) {
-                final MButton viewIssuesBtn = new MButton(UserUIContext.getMessage(ProjectI18nEnum.ACTION_VIEW_TICKETS))
+                MButton viewIssuesBtn = new MButton(UserUIContext.getMessage(ProjectI18nEnum.ACTION_VIEW_TICKETS))
                         .withStyleName(WebThemes.BUTTON_LINK);
                 viewIssuesBtn.addClickListener(clickEvent -> {
                     showIssues = !showIssues;

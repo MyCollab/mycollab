@@ -14,6 +14,7 @@ import com.mycollab.db.arguments.SearchCriteria;
 import com.mycollab.db.arguments.SearchCriteria.OrderField;
 import com.mycollab.db.arguments.SetSearchField;
 import com.mycollab.db.query.LazyValueInjector;
+import com.mycollab.db.query.SearchFieldInfo;
 import com.mycollab.html.DivLessFormatter;
 import com.mycollab.module.file.StorageUtils;
 import com.mycollab.module.project.ProjectLinkGenerator;
@@ -22,8 +23,10 @@ import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.domain.ProjectTicket;
 import com.mycollab.module.project.domain.SimpleProject;
 import com.mycollab.module.project.domain.criteria.ProjectTicketSearchCriteria;
+import com.mycollab.module.project.event.TicketEvent;
 import com.mycollab.module.project.i18n.MilestoneI18nEnum;
 import com.mycollab.module.project.i18n.ProjectI18nEnum;
+import com.mycollab.module.project.query.TicketQueryInfo;
 import com.mycollab.module.project.service.ProjectRoleService;
 import com.mycollab.module.project.service.ProjectService;
 import com.mycollab.module.project.service.ProjectTicketService;
@@ -32,12 +35,14 @@ import com.mycollab.module.project.view.ticket.*;
 import com.mycollab.security.PermissionMap;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppUI;
+import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.vaadin.TooltipHelper;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.event.HasSearchHandlers;
 import com.mycollab.vaadin.mvp.AbstractVerticalPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.ELabel;
+import com.mycollab.vaadin.web.ui.SavedFilterComboBox;
 import com.mycollab.vaadin.web.ui.StringValueComboBox;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.icons.VaadinIcons;
@@ -70,6 +75,7 @@ public class UserWorkloadReportViewImpl extends AbstractVerticalPageView impleme
     private ResponsiveLayout wrapBody;
     private MVerticalLayout projectTicketsContentLayout;
     private TicketGroupOrderComponent ticketGroupOrderComponent;
+    private TicketSavedFilterComboBox savedFilterComboBox;
 
     private ProjectRoleService projectRoleService;
     private ProjectTicketService projectTicketService;
@@ -89,6 +95,18 @@ public class UserWorkloadReportViewImpl extends AbstractVerticalPageView impleme
 
         MHorizontalLayout extraCompsHeaderLayout = new MHorizontalLayout();
         extraCompsHeaderLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
+
+        savedFilterComboBox = new TicketSavedFilterComboBox();
+        savedFilterComboBox.addQuerySelectListener((SavedFilterComboBox.QuerySelectListener) querySelectEvent -> {
+            List<SearchFieldInfo<ProjectTicketSearchCriteria>> fieldInfos = querySelectEvent.getSearchFieldInfos();
+            ProjectTicketSearchCriteria criteria = SearchFieldInfo.buildSearchCriteria(ProjectTicketSearchCriteria.class,
+                    fieldInfos);
+            EventBusFactory.getInstance().post(new TicketEvent.SearchRequest(UserWorkloadReportViewImpl.this, criteria));
+            queryTickets(criteria);
+        });
+
+        extraCompsHeaderLayout.addComponent(new ELabel(UserUIContext.getMessage(GenericI18Enum.SAVE_FILTER_VALUE)));
+        extraCompsHeaderLayout.addComponent(savedFilterComboBox);
 
         extraCompsHeaderLayout.addComponent(new ELabel(UserUIContext.getMessage(GenericI18Enum.ACTION_SORT)));
         StringValueComboBox sortCombo = new StringValueComboBox(false, UserUIContext.getMessage(GenericI18Enum.OPT_SORT_DESCENDING),
@@ -164,7 +182,7 @@ public class UserWorkloadReportViewImpl extends AbstractVerticalPageView impleme
         rightCol.setContent(projectTicketsContentLayout);
         row.addColumn(rightCol);
 
-        queryTickets(searchCriteria);
+        savedFilterComboBox.selectQueryInfo(TicketQueryInfo.OPEN_TICKETS);
     }
 
     @Override
