@@ -17,6 +17,7 @@
 package com.mycollab.module.project.view.settings;
 
 import com.mycollab.core.SecureAccessException;
+import com.mycollab.module.project.view.ProjectView;
 import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectRolePermissionCollections;
@@ -71,10 +72,7 @@ public class ProjectRoleAddPresenter extends AbstractPresenter<ProjectRoleAddVie
 
     public void save(ProjectRole item) {
         ProjectRoleService roleService = AppContextUtil.getSpringBean(ProjectRoleService.class);
-        item.setSaccountid(AppUI.getAccountId());
-
         SimpleProject project = CurrentProjectVariables.getProject();
-        item.setProjectid(project.getId());
 
         if (item.getId() == null) {
             roleService.saveWithSession(item, UserUIContext.getUsername());
@@ -89,19 +87,19 @@ public class ProjectRoleAddPresenter extends AbstractPresenter<ProjectRoleAddVie
     @Override
     protected void onGo(HasComponents container, ScreenData<?> data) {
         if (CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.ROLES)) {
-            ProjectRoleContainer roleContainer = (ProjectRoleContainer) container;
-            roleContainer.removeAllComponents();
-            roleContainer.addComponent(view);
+            ProjectView projectView = (ProjectView) container;
+            projectView.gotoSubView(ProjectView.ROLE_ENTRY, view);
 
             ProjectRole role = (ProjectRole) data.getParams();
-
-            view.editItem(role);
             ProjectBreadcrumb breadcrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);
             if (role.getId() == null) {
+                role.setSaccountid(AppUI.getAccountId());
+                role.setProjectid(CurrentProjectVariables.getProject().getId());
                 breadcrumb.gotoRoleAdd();
             } else {
                 breadcrumb.gotoRoleEdit(role);
             }
+            view.editItem(role);
         } else {
             throw new SecureAccessException();
         }

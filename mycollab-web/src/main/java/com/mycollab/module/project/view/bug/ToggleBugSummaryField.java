@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -35,9 +35,9 @@ import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.TooltipHelper;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
-import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.web.ui.AbstractToggleSummaryField;
-import com.vaadin.server.FontAwesome;
+import com.mycollab.vaadin.web.ui.WebThemes;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.themes.ValoTheme;
 import org.vaadin.viritin.button.MButton;
@@ -47,19 +47,19 @@ import org.vaadin.viritin.layouts.MHorizontalLayout;
  * @author MyCollab Ltd
  * @since 5.2.3
  */
-public class ToggleBugSummaryField extends AbstractToggleSummaryField {
+class ToggleBugSummaryField extends AbstractToggleSummaryField {
     private boolean isRead = true;
     private BugWithBLOBs bug;
     private int maxLength;
 
-    public ToggleBugSummaryField(final BugWithBLOBs bug) {
+    ToggleBugSummaryField(final BugWithBLOBs bug) {
         this(bug, Integer.MAX_VALUE);
     }
 
-    public ToggleBugSummaryField(final BugWithBLOBs bug, int trimCharacters) {
+    ToggleBugSummaryField(final BugWithBLOBs bug, int trimCharacters) {
         this.bug = bug;
         this.maxLength = trimCharacters;
-        titleLinkLbl = ELabel.html(buildBugLink()).withStyleName(UIConstants.LABEL_WORD_WRAP).withWidthUndefined();
+        titleLinkLbl = ELabel.html(buildBugLink()).withStyleName(WebThemes.LABEL_WORD_WRAP).withUndefinedWidth();
         this.addComponent(titleLinkLbl);
         buttonControls = new MHorizontalLayout().withStyleName("toggle").withSpacing(false);
         if (CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.BUGS)) {
@@ -79,7 +79,7 @@ public class ToggleBugSummaryField extends AbstractToggleSummaryField {
                     isRead = !isRead;
                 }
             }).withDescription(UserUIContext.getMessage(BugI18nEnum.OPT_EDIT_BUG_NAME))
-                    .withIcon(FontAwesome.EDIT).withStyleName(ValoTheme.BUTTON_ICON_ONLY, ValoTheme.BUTTON_ICON_ALIGN_TOP);
+                    .withIcon(VaadinIcons.EDIT).withStyleName(ValoTheme.BUTTON_ICON_ONLY, ValoTheme.BUTTON_ICON_ALIGN_TOP);
             buttonControls.with(instantEditBtn);
             this.addComponent(buttonControls);
         }
@@ -109,7 +109,7 @@ public class ToggleBugSummaryField extends AbstractToggleSummaryField {
         Div resultDiv = new DivLessFormatter().appendChild(bugLink);
         if (SimpleBug.isOverdue(bug)) {
             bugLink.setCSSClass("overdue");
-            resultDiv.appendChild(new Span().setCSSClass(UIConstants.META_INFO)
+            resultDiv.appendChild(new Span().setCSSClass(WebThemes.META_INFO)
                     .appendText(" - " + UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_DUE_IN, UserUIContext.formatDuration(bug.getDuedate()))));
         } else if (SimpleBug.isCompleted(bug)) {
             bugLink.setCSSClass("completed");

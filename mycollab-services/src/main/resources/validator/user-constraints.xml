@@ -10,9 +10,6 @@
             <constraint annotation="org.hibernate.validator.constraints.Email">
                 <message>Please enter a valid email</message>
             </constraint>
-            <constraint annotation="javax.validation.constraints.NotNull">
-                <message>Please email must be not null</message>
-            </constraint>
         </field>
         <field name="workphone">
             <constraint
@@ -23,14 +20,6 @@
         <field name="homephone">
             <constraint annotation="com.mycollab.validator.constraints.PhoneNumber">
                 <message>Please enter a valid phone number</message>
-            </constraint>
-        </field>
-    </bean>
-
-    <bean class="Role" ignore-annotations="false">
-        <field name="rolename">
-            <constraint annotation="javax.validation.constraints.NotNull">
-                <message>The role name must be not null</message>
             </constraint>
         </field>
     </bean>

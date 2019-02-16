@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -26,7 +26,7 @@ import com.mycollab.module.tracker.domain.criteria.ComponentSearchCriteria;
 import com.mycollab.module.tracker.service.ComponentService;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.web.ui.MultiSelectComp;
-import com.vaadin.data.Property;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.ui.UI;
 
 import java.util.List;
@@ -35,11 +35,12 @@ import java.util.List;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class ComponentMultiSelectField extends MultiSelectComp {
+public class ComponentMultiSelectField extends MultiSelectComp<Component> {
     private static final long serialVersionUID = 1L;
 
     public ComponentMultiSelectField() {
         super("name", true);
+        this.setWidth(WebThemes.FORM_CONTROL_WIDTH);
     }
 
     @Override
@@ -58,16 +59,12 @@ public class ComponentMultiSelectField extends MultiSelectComp {
     }
 
     @Override
-    public void setPropertyDataSource(Property newDataSource) {
-        List<Component> components = (List<Component>) newDataSource.getValue();
-        if (components != null) {
-            this.setSelectedItems(components);
-        }
-        super.setPropertyDataSource(newDataSource);
+    protected void doSetValue(List<Component> value) {
+        setSelectedItems(value);
     }
 
     @Override
-    public Class<?> getType() {
-        return Object.class;
+    public List<Component> getValue() {
+        return selectedItems;
     }
 }

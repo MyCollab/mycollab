@@ -17,8 +17,8 @@
 package com.mycollab.core.utils
 
 import com.rits.cloning.Cloner
-import org.apache.commons.lang.builder.ToStringBuilder
-import org.apache.commons.lang.builder.ToStringStyle
+import org.apache.commons.lang3.builder.ToStringBuilder
+import org.apache.commons.lang3.builder.ToStringStyle
 
 /**
  * Utility class to print bean properties. This class is used for debug purpose

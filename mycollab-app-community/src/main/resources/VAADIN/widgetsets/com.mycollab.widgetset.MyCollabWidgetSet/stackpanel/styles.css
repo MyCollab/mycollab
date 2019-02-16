@@ -1,0 +1,20 @@
+div.v-stackpanel > div.v-panel-captionwrap {
+	cursor: pointer;
+	user-select: none;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+}
+
+div.v-stackpanel .v-stackpanel-toggle {
+	float: right;
+	opacity: 0.5;
+}
+
+div.v-stackpanel .v-stackpanel-toggle:hover {
+	opacity: 1;
+}
+
+div.v-stackpanel.v-stackpanel-disabled .v-stackpanel-toggle {
+	visibility: hidden;
+}

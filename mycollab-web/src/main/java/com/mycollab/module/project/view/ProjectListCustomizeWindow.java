@@ -29,10 +29,10 @@ import java.util.Collection;
  * @author MyCollab Ltd
  * @since 5.2.12
  */
-public class ProjectListCustomizeWindow extends CustomizedTableWindow {
+class ProjectListCustomizeWindow extends CustomizedTableWindow {
     private static final long serialVersionUID = 1L;
 
-    public ProjectListCustomizeWindow(AbstractPagedBeanTable table) {
+    ProjectListCustomizeWindow(AbstractPagedBeanTable table) {
         super(ProjectTypeConstants.PROJECT, table);
     }
 

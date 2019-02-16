@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -25,12 +25,10 @@ import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.NotificationUtil;
-import com.mycollab.vaadin.ui.UIUtils;
-import com.vaadin.server.FontAwesome;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import org.apache.commons.collections.CollectionUtils;
-import org.vaadin.jouni.restrain.Restrain;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.fields.MTextField;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
@@ -101,7 +99,7 @@ public class MailFormWindow extends MWindow {
     }
 
     private Layout createTextFieldMailWithHelp(String title, Component component) {
-        return new MHorizontalLayout(ELabel.html(title + "&nbsp;" + FontAwesome.QUESTION_CIRCLE.getHtml())
+        return new MHorizontalLayout(ELabel.html(title + "&nbsp;" + VaadinIcons.QUESTION_CIRCLE.getHtml())
                 .withStyleName(WebThemes.INLINE_HELP).withDescription("Enter the user name or email, then press the enter button to finish the entry")
                 .withWidth("80px"), component).expand(component).withFullWidth()
                 .withDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
@@ -131,7 +129,7 @@ public class MailFormWindow extends MWindow {
             });
         }
 
-        final MTextField subject = new MTextField().withRequired(true).withFullWidth();
+        final MTextField subject = new MTextField().withRequiredIndicatorVisible(true).withFullWidth();
         subjectField = createTextFieldMail("Subject:", subject);
         inputLayout.addComponent(subjectField, 0, 1);
 
@@ -178,13 +176,12 @@ public class MailFormWindow extends MWindow {
             } else {
                 NotificationUtil.showErrorNotification("Your email is empty value, please fulfil it before sending email!");
             }
-        }).withIcon(FontAwesome.SEND).withStyleName(WebThemes.BUTTON_ACTION);
+        }).withIcon(VaadinIcons.PAPERPLANE).withStyleName(WebThemes.BUTTON_ACTION);
 
         MHorizontalLayout controlsLayout = new MHorizontalLayout(cancelBtn, sendBtn)
                 .withMargin(new MarginInfo(false, true, true, false));
         mainLayout.with(attachments);
         mainLayout.addStyleName(WebThemes.SCROLLABLE_CONTAINER);
-        new Restrain(mainLayout).setMaxHeight((UIUtils.getBrowserHeight() - 180) + "px");
         this.setContent(new MVerticalLayout(mainLayout, controlsLayout).withMargin(false)
                 .withSpacing(false).withAlign(controlsLayout, Alignment.TOP_RIGHT));
     }

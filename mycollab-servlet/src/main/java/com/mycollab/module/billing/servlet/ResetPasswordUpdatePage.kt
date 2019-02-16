@@ -31,7 +31,7 @@ import javax.servlet.http.HttpServletResponse
  * @author MyCollab Ltd.
  * @since 1.0
  */
-@WebServlet(name = "recoverUserPasswordServlet", urlPatterns = ["/user/recoverypassword/*"])
+@WebServlet(urlPatterns = ["/user/recoverypassword/*"], name = "recoverUserPasswordServlet")
 class ResetPasswordUpdatePage : TemplateWebServletRequestHandler() {
 
     @Autowired

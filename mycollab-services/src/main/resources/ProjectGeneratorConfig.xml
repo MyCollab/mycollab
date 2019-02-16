@@ -1,14 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE generatorConfiguration
-  PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
-  "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
 <generatorConfiguration>
 
     <context id="MySQL" targetRuntime="MyBatis3">
         <plugin type="com.mycollab.mybatis.plugin.MyCollabModelFilePlugin" />
+        <plugin type="org.mybatis.generator.plugins.FluentBuilderMethodsPlugin" />
+        <plugin type="org.mybatis.generator.plugins.MapperAnnotationPlugin" />
 
         <jdbcConnection connectionURL="jdbc:mysql://localhost:3306/mycollab?verifyServerCertificate=false"
-            driverClass="com.mysql.jdbc.Driver" password="mycollab123" userId="root" />
+                        driverClass="com.mysql.cj.jdbc.Driver" password="mycollab123" userId="root" />
+
+        <javaTypeResolver>
+            <property name="useJSR310Types" value="true"/>
+        </javaTypeResolver>
+
 
         <javaModelGenerator targetPackage="com.mycollab.module.project.domain" targetProject="src/main/java">
             <property name="rootClass" value="com.mycollab.core.arguments.ValuedBean" />
@@ -21,17 +28,20 @@
             <property name="rootInterface" value="com.mycollab.db.persistence.ICrudGenericDAO" />
         </javaClientGenerator>
 
+
         <table domainObjectName="Message" schema="mycollab" tableName="m_prj_message" />
-        <table domainObjectName="Milestone" schema="mycollab" tableName="m_prj_milestone" />
+        <table domainObjectName="Milestone" schema="mycollab" tableName="m_prj_milestone" >
+            <generatedKey column="id" sqlStatement="JDBC"/>
+        </table>
         <table domainObjectName="Project" schema="mycollab" tableName="m_prj_project" />
         <table domainObjectName="ProjectNotificationSetting" schema="mycollab" tableName="m_prj_notifications" />
         <table domainObjectName="ProjectRole" schema="mycollab" tableName="m_prj_role" />
         <table domainObjectName="ProjectRolePermission" schema="mycollab" tableName="m_prj_role_permission" />
         <table domainObjectName="Task" schema="mycollab" tableName="m_prj_task" />
         <table domainObjectName="ProjectMember" schema="mycollab" tableName="m_prj_member" />
-        <table domainObjectName="Predecessor" schema="mycollab" tableName="m_prj_predecessor" />
         <table domainObjectName="ProjectCustomizeView" schema="mycollab" tableName="m_prj_customize_view" />
         <table domainObjectName="KanbanBoard" schema="mycollab" tableName="m_prj_kanban_board" />
+        <table domainObjectName="StandupReport" schema="mycollab" tableName="m_prj_standup" />
     </context>
 
 </generatorConfiguration>

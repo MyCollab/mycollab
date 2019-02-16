@@ -21,6 +21,7 @@ import org.jsoup.nodes.Document
 import org.jsoup.nodes.Node
 import org.jsoup.nodes.TextNode
 import org.jsoup.safety.Whitelist
+import java.lang.System.currentTimeMillis
 import java.util.*
 import java.util.regex.Pattern
 import javax.mail.internet.AddressException
@@ -138,7 +139,7 @@ object StringUtils {
             } else ""
 
     @JvmStatic
-    fun generateSoftUniqueId(): String = "" + GregorianCalendar().timeInMillis + Random().nextInt(10)
+    fun generateSoftUniqueId(): String = "${currentTimeMillis()}${Random().nextInt(10)}"
 
     @JvmStatic
     fun getStrOptionalNullValue(value: String?): String = value ?: ""

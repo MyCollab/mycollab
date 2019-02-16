@@ -19,6 +19,8 @@ package com.mycollab.security
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.mycollab.core.arguments.ValuedBean
 import com.mycollab.core.utils.JsonDeSerializer
+import com.mycollab.core.utils.StringUtils
+import org.slf4j.LoggerFactory
 
 /**
  * Map contains all permissions in MyCollab, it is used to all permissions if
@@ -37,7 +39,7 @@ class PermissionMap : ValuedBean() {
      * @param value
      */
     fun addPath(permissionItem: String, value: Int) {
-        perMap.put(permissionItem, value)
+        perMap[permissionItem] = value
     }
 
     /**
@@ -62,15 +64,6 @@ class PermissionMap : ValuedBean() {
     fun canBeYes(permissionItem: String): Boolean {
         val value = perMap[permissionItem]
         return value != null && BooleanPermissionFlag.beTrue(value as Int?)
-    }
-
-    /**
-     * @param permissionItem
-     * @return
-     */
-    fun canBeFalse(permissionItem: String): Boolean {
-        val value = perMap[permissionItem]
-        return value != null && BooleanPermissionFlag.beFalse(value as Int?)
     }
 
     /**
@@ -108,20 +101,38 @@ class PermissionMap : ValuedBean() {
     companion object {
         private val serialVersionUID = 1L
 
+        private val LOG = LoggerFactory.getLogger(PermissionMap::class.java)
+
+        @JvmField
+        val ADMIN_ROLE_MAP = buildAdminPermissionCollection()
+
+        @JvmField
+        val EMPLOYEE_ROLE_MAP = buildEmployeePermissionCollection()
+
+        @JvmField
+        val GUESS_ROLE_MAP = buildGuestPermissionCollection()
+
+
         /**
          * @param json
          * @return
          */
         @JvmStatic
-        fun fromJsonString(json: String): PermissionMap = JsonDeSerializer.fromJson(json, PermissionMap::class.java)
+        fun fromJsonString(json: String?): PermissionMap {
+            return if (StringUtils.isBlank(json)) PermissionMap()
+            else try {
+                JsonDeSerializer.fromJson(json, PermissionMap::class.java)
+            } catch (e: Exception) {
+                LOG.error("Error to get permission", e)
+                PermissionMap()
+            }
+        }
 
         /**
          * @return
          */
-        @JvmStatic
-        fun buildAdminPermissionCollection(): PermissionMap {
+        private fun buildAdminPermissionCollection(): PermissionMap {
             val permissionMap = PermissionMap()
-            RolePermissionCollections.CRM_PERMISSIONS_ARR.forEach { (key) -> permissionMap.addPath(key, AccessPermissionFlag.ACCESS) }
 
             RolePermissionCollections.ACCOUNT_PERMISSION_ARR.forEach { (key) ->
                 when (key) {
@@ -131,18 +142,14 @@ class PermissionMap : ValuedBean() {
             }
 
             RolePermissionCollections.PROJECT_PERMISSION_ARR.forEach { (key) -> permissionMap.addPath(key, BooleanPermissionFlag.TRUE) }
-
-            RolePermissionCollections.DOCUMENT_PERMISSION_ARR.forEach { (key) -> permissionMap.addPath(key, AccessPermissionFlag.ACCESS) }
             return permissionMap
         }
 
         /**
          * @return
          */
-        @JvmStatic
-        fun buildEmployeePermissionCollection(): PermissionMap {
+        private fun buildEmployeePermissionCollection(): PermissionMap {
             val permissionMap = PermissionMap()
-            RolePermissionCollections.CRM_PERMISSIONS_ARR.forEach { permissionMap.addPath(it.key, AccessPermissionFlag.READ_ONLY) }
 
             RolePermissionCollections.ACCOUNT_PERMISSION_ARR.forEach {
                 when {
@@ -157,18 +164,14 @@ class PermissionMap : ValuedBean() {
                     else -> permissionMap.addPath(it.key, BooleanPermissionFlag.FALSE)
                 }
             }
-
-            RolePermissionCollections.DOCUMENT_PERMISSION_ARR.forEach { permissionMap.addPath(it.key, AccessPermissionFlag.READ_WRITE) }
             return permissionMap
         }
 
         /**
          * @return
          */
-        @JvmStatic
-        fun buildGuestPermissionCollection(): PermissionMap {
+        private fun buildGuestPermissionCollection(): PermissionMap {
             val permissionMap = PermissionMap()
-            RolePermissionCollections.CRM_PERMISSIONS_ARR.forEach { element -> permissionMap.addPath(element.key, AccessPermissionFlag.NO_ACCESS) }
 
             RolePermissionCollections.ACCOUNT_PERMISSION_ARR.forEach {
                 when {
@@ -178,8 +181,6 @@ class PermissionMap : ValuedBean() {
             }
 
             RolePermissionCollections.PROJECT_PERMISSION_ARR.forEach { permissionMap.addPath(it.key, BooleanPermissionFlag.FALSE) }
-
-            RolePermissionCollections.DOCUMENT_PERMISSION_ARR.forEach { permissionMap.addPath(it.key, AccessPermissionFlag.NO_ACCESS) }
             return permissionMap
         }
     }

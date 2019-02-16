@@ -18,17 +18,17 @@ package com.mycollab.module.project.view.page;
 
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.core.SecureAccessException;
-import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.module.page.domain.Page;
 import com.mycollab.module.page.service.PageService;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectRolePermissionCollections;
-import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.event.PageEvent;
 import com.mycollab.module.project.view.ProjectBreadcrumb;
 import com.mycollab.module.project.view.ProjectGenericPresenter;
+import com.mycollab.module.project.view.ProjectView;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppUI;
+import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.event.DefaultPreviewFormHandler;
 import com.mycollab.vaadin.mvp.LoadPolicy;
@@ -85,9 +85,9 @@ public class PageReadPresenter extends ProjectGenericPresenter<PageReadView> {
     @Override
     protected void onGo(HasComponents container, ScreenData<?> data) {
         if (CurrentProjectVariables.canRead(ProjectRolePermissionCollections.PAGES)) {
-            PageContainer pageContainer = (PageContainer) container;
-            pageContainer.navigateToContainer(ProjectTypeConstants.PAGE);
-            pageContainer.setContent(view);
+            ProjectView projectView = (ProjectView) container;
+            projectView.gotoSubView(ProjectView.PAGE_ENTRY, view);
+
             Page page = (Page) data.getParams();
             view.previewItem(page);
 

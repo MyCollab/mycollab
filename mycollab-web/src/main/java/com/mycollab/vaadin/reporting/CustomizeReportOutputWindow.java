@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -38,20 +38,23 @@ import com.mycollab.vaadin.resources.OnDemandFileDownloader;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.web.ui.MailFormWindow;
 import com.mycollab.vaadin.web.ui.WebThemes;
-import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.server.FontAwesome;
+import com.vaadin.data.provider.ListDataProvider;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.Sizeable;
 import com.vaadin.server.StreamResource;
-import com.vaadin.ui.*;
-import org.vaadin.tepi.listbuilder.ListBuilder;
+import com.vaadin.ui.Alignment;
+import com.vaadin.ui.ItemCaptionGenerator;
+import com.vaadin.ui.RadioButtonGroup;
+import com.vaadin.ui.UI;
+import com.vaadin.v7.ui.Table;
+import org.tepi.listbuilder.ListBuilder;
 import org.vaadin.viritin.button.MButton;
+import org.vaadin.viritin.layouts.MCssLayout;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 import org.vaadin.viritin.layouts.MWindow;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -62,7 +65,7 @@ public abstract class CustomizeReportOutputWindow<S extends SearchCriteria, B ex
 
     private ListBuilder listBuilder;
     private String viewId;
-    private OptionGroup optionGroup;
+    private RadioButtonGroup<String> optionGroup;
     private Table sampleTableDisplay;
 
     public CustomizeReportOutputWindow(String viewId, String reportTitle, Class<B> beanCls,
@@ -72,28 +75,21 @@ public abstract class CustomizeReportOutputWindow<S extends SearchCriteria, B ex
         this.withModal(true).withResizable(false).withWidth("1000px").withCenter().withContent(contentLayout);
         this.viewId = viewId;
 
-        optionGroup = new OptionGroup();
-        optionGroup.addStyleName("sortDirection");
-        optionGroup.addItems(UserUIContext.getMessage(FileI18nEnum.CSV), UserUIContext.getMessage(FileI18nEnum.PDF),
+        optionGroup = new RadioButtonGroup<>();
+        optionGroup.setItems(UserUIContext.getMessage(FileI18nEnum.CSV), UserUIContext.getMessage(FileI18nEnum.PDF),
                 UserUIContext.getMessage(FileI18nEnum.EXCEL));
         optionGroup.setValue(UserUIContext.getMessage(FileI18nEnum.CSV));
         contentLayout.with(new MHorizontalLayout(ELabel.h3(UserUIContext.getMessage(GenericI18Enum.ACTION_EXPORT)),
                 optionGroup).alignAll(Alignment.MIDDLE_LEFT));
 
         contentLayout.with(ELabel.h3(UserUIContext.getMessage(GenericI18Enum.ACTION_SELECT_COLUMNS)));
-        listBuilder = new ListBuilder();
-        listBuilder.setImmediate(true);
-        listBuilder.setColumns(0);
+        listBuilder = new ListBuilder("", new ListDataProvider<>(getAvailableColumns()));
         listBuilder.setLeftColumnCaption(UserUIContext.getMessage(GenericI18Enum.OPT_AVAILABLE_COLUMNS));
         listBuilder.setRightColumnCaption(UserUIContext.getMessage(GenericI18Enum.OPT_VIEW_COLUMNS));
         listBuilder.setWidth(100, Sizeable.Unit.PERCENTAGE);
-        listBuilder.setItemCaptionMode(AbstractSelect.ItemCaptionMode.EXPLICIT);
-        final BeanItemContainer<TableViewField> container = new BeanItemContainer<>(TableViewField.class,
-                this.getAvailableColumns());
-        listBuilder.setContainerDataSource(container);
-        getAvailableColumns().forEach(field -> listBuilder.setItemCaption(field, UserUIContext.getMessage(field.getDescKey())));
+        listBuilder.setItemCaptionGenerator((ItemCaptionGenerator<TableViewField>) item -> UserUIContext.getMessage(item.getDescKey()));
 
-        final Collection<TableViewField> viewColumnIds = this.getViewColumns();
+        final Set<TableViewField> viewColumnIds = this.getViewColumns();
         listBuilder.setValue(viewColumnIds);
         contentLayout.with(listBuilder).withAlign(listBuilder, Alignment.TOP_CENTER);
 
@@ -104,10 +100,10 @@ public abstract class CustomizeReportOutputWindow<S extends SearchCriteria, B ex
                     UserUIContext.getMessage(field.getDescKey()), null, Table.Align.LEFT);
             sampleTableDisplay.setColumnWidth(field.getField(), field.getDefaultWidth());
         }
-        sampleTableDisplay.setWidth("100%");
+
         sampleTableDisplay.addItem(buildSampleData(), 1);
         sampleTableDisplay.setPageLength(1);
-        contentLayout.with(sampleTableDisplay);
+        contentLayout.with(new MCssLayout(sampleTableDisplay).withStyleName(WebThemes.SCROLLABLE_CONTAINER).withFullWidth());
         filterColumns();
 
         listBuilder.addValueChangeListener(valueChangeEvent -> filterColumns());
@@ -121,13 +117,13 @@ public abstract class CustomizeReportOutputWindow<S extends SearchCriteria, B ex
                 .withStyleName(WebThemes.BUTTON_OPTION);
 
         final MButton exportBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.ACTION_EXPORT))
-                .withStyleName(WebThemes.BUTTON_ACTION).withIcon(FontAwesome.DOWNLOAD);
+                .withStyleName(WebThemes.BUTTON_ACTION).withIcon(VaadinIcons.DOWNLOAD);
         OnDemandFileDownloader fileDownloader = new OnDemandFileDownloader(new LazyStreamSource() {
 
             @Override
             protected StreamResource.StreamSource buildStreamSource() {
                 return (StreamResource.StreamSource) () -> {
-                    Collection<TableViewField> columns = (Collection<TableViewField>) listBuilder.getValue();
+                    Set<TableViewField> columns = listBuilder.getValue();
                     // Save custom table view def
                     CustomViewStoreService customViewStoreService = AppContextUtil.getSpringBean(CustomViewStoreService.class);
                     CustomViewStore viewDef = new CustomViewStore();
@@ -158,7 +154,7 @@ public abstract class CustomizeReportOutputWindow<S extends SearchCriteria, B ex
         fileDownloader.extend(exportBtn);
 
         final MButton exportMailBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.ACTION_EXPORT_MAIL))
-                .withStyleName(WebThemes.BUTTON_ACTION).withIcon(FontAwesome.MAIL_REPLY_ALL);
+                .withStyleName(WebThemes.BUTTON_ACTION).withIcon(VaadinIcons.REPLY_ALL);
         exportMailBtn.addClickListener(clickEvent -> {
             Collection<TableViewField> columns = (Collection<TableViewField>) listBuilder.getValue();
             SimpleReportTemplateExecutor reportTemplateExecutor = new SimpleReportTemplateExecutor.AllItems<>(
@@ -179,7 +175,7 @@ public abstract class CustomizeReportOutputWindow<S extends SearchCriteria, B ex
     }
 
     private ReportExportType getExportType() {
-        String exportTypeVal = (String) optionGroup.getValue();
+        String exportTypeVal = optionGroup.getValue();
         if (UserUIContext.getMessage(FileI18nEnum.CSV).equals(exportTypeVal)) {
             return ReportExportType.CSV;
         } else if (UserUIContext.getMessage(FileI18nEnum.EXCEL).equals(exportTypeVal)) {
@@ -192,19 +188,17 @@ public abstract class CustomizeReportOutputWindow<S extends SearchCriteria, B ex
     private void filterColumns() {
         Collection<TableViewField> columns = (Collection<TableViewField>) listBuilder.getValue();
         Collection<String> visibleColumns = new ArrayList<>();
-        for (TableViewField column : columns) {
-            visibleColumns.add(column.getField());
-        }
+        columns.forEach(column -> visibleColumns.add(column.getField()));
         sampleTableDisplay.setVisibleColumns(visibleColumns.toArray(new String[visibleColumns.size()]));
     }
 
-    private Collection<TableViewField> getViewColumns() {
+    private Set<TableViewField> getViewColumns() {
         CustomViewStoreService customViewStoreService = AppContextUtil.getSpringBean(CustomViewStoreService.class);
         CustomViewStore viewLayoutDef = customViewStoreService.getViewLayoutDef(AppUI.getAccountId(),
                 UserUIContext.getUsername(), viewId);
         if (!(viewLayoutDef instanceof NullCustomViewStore)) {
             try {
-                return FieldDefAnalyzer.toTableFields(viewLayoutDef.getViewinfo());
+                return new HashSet<>(FieldDefAnalyzer.toTableFields(viewLayoutDef.getViewinfo()));
             } catch (Exception e) {
                 return getDefaultColumns();
             }
@@ -213,9 +207,21 @@ public abstract class CustomizeReportOutputWindow<S extends SearchCriteria, B ex
         }
     }
 
-    abstract protected Collection<TableViewField> getDefaultColumns();
+    abstract protected Set<TableViewField> getDefaultColumns();
 
-    abstract protected Collection<TableViewField> getAvailableColumns();
+    abstract protected Set<TableViewField> getAvailableColumns();
 
-    abstract protected Object[] buildSampleData();
+    abstract protected Map<String, String> getSampleMap();
+
+    private Object[] buildSampleData() {
+        Map<String, String> sampleMap = getSampleMap();
+        Object[] visibleColumns = sampleTableDisplay.getVisibleColumns();
+        if (visibleColumns != null && visibleColumns.length > 0) {
+            String[] sampleData = new String[visibleColumns.length];
+            for (int i = 0; i < visibleColumns.length; i++) {
+                sampleData[i] = sampleMap.get(visibleColumns[i].toString());
+            }
+            return sampleData;
+        } else return null;
+    }
 }

@@ -33,10 +33,6 @@ object ShellEvent {
 
     class GotoProjectModule(source: Any, val data: Any?) : ApplicationEvent(source)
 
-    class GotoCrmModule(source: Any, val data: Any?) : ApplicationEvent(source)
-
-    class GotoFileModule(source: Any, val data: Any?) : ApplicationEvent(source)
-
     class GotoUserAccountModule(source: Any, val data: Any?) : ApplicationEvent(source)
 
     class GotoForgotPasswordPage(source: Any, val data: Any?) : ApplicationEvent(source)

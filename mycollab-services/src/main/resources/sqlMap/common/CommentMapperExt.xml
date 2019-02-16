@@ -32,7 +32,7 @@
             SELECT m_comment.id, m_comment.comment, m_comment.createdUser, m_comment.createdTime, 
                    m_comment.type, m_comment.typeId, m_comment.sAccountId, m_comment.extraTypeId,
                    s_user.avatarId AS ownerAvatarId,
-                   concat(s_user.firstname, ' ', LTRIM(IFNULL(s_user.middlename, '')), s_user.lastname) as ownerFullName
+                   concat(s_user.firstname, ' ', s_user.lastname) as ownerFullName
                 FROM m_comment
                     LEFT OUTER JOIN s_user ON m_comment.createdUser = s_user.username
         ]]>

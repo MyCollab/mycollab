@@ -18,12 +18,14 @@ package com.mycollab.module.project.dao
 
 import com.mycollab.db.persistence.ISearchableDAO
 import com.mycollab.module.project.domain.criteria.ProjectGenericItemSearchCriteria
+import org.apache.ibatis.annotations.Mapper
 import org.apache.ibatis.annotations.Param
 
 /**
  * @author MyCollab Ltd.
  * @since 5.0.3
  */
+@Mapper
 interface ProjectGenericItemMapper : ISearchableDAO<ProjectGenericItemSearchCriteria> {
 
     fun getTotalCountFromRisk(@Param("searchCriteria") criteria: ProjectGenericItemSearchCriteria): Int

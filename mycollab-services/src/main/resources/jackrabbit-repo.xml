@@ -11,39 +11,33 @@
 
     <!-- security configuration -->
     <Security appName="Jackrabbit">
-        <SecurityManager
-            class="org.apache.jackrabbit.core.security.simple.SimpleSecurityManager"
+        <SecurityManager class="org.apache.jackrabbit.core.security.simple.SimpleSecurityManager"
             workspaceName="default2">
         </SecurityManager>
-        <AccessManager
-            class="org.apache.jackrabbit.core.security.simple.SimpleAccessManager">
+        <AccessManager class="org.apache.jackrabbit.core.security.simple.SimpleAccessManager">
         </AccessManager>
-        <LoginModule
-            class="org.apache.jackrabbit.core.security.simple.SimpleLoginModule">
+        <LoginModule class="org.apache.jackrabbit.core.security.simple.SimpleLoginModule">
             <param name="adminId" value="admin" />
         </LoginModule>
     </Security>
 
-    <Workspaces rootPath='repo2/workspaces' defaultWorkspace='default2' />
-    <Workspace name="mycollab_live">
+    <Workspaces rootPath='repo2/workspaces' defaultWorkspace='ecm' />
+    <Workspace name="ecm">
         <FileSystem class="com.mycollab.module.ecm.DbFileSystemExt">
             <param name="schemaObjectPrefix" value="ecm_s_" />
         </FileSystem>
 
-        <PersistenceManager
-            class="com.mycollab.module.ecm.BundleDbPersistenceManagerExt">
+        <PersistenceManager class="com.mycollab.module.ecm.BundleDbPersistenceManagerExt">
             <param name="schemaObjectPrefix" value="ecm_p_workspace" />
         </PersistenceManager>
-
     </Workspace>
     <!-- Configures the versioning -->
 
-    <Versioning rootPath='repo/version'>
+    <Versioning rootPath='repo2/version'>
         <FileSystem class='com.mycollab.module.ecm.DbFileSystemExt'>
             <param name="schemaObjectPrefix" value="ecm_s_" />
         </FileSystem>
-        <PersistenceManager
-            class="com.mycollab.module.ecm.BundleDbPersistenceManagerExt">
+        <PersistenceManager class="com.mycollab.module.ecm.BundleDbPersistenceManagerExt">
             <param name="schemaObjectPrefix" value="ecm_p_version" />
         </PersistenceManager>
 
@@ -51,8 +45,7 @@
 
     <!-- Cluster configuration with system variables. -->
     <Cluster>
-        <Journal
-            class="com.mycollab.module.ecm.ContentDatabaseJournal">
+        <Journal class="com.mycollab.module.ecm.DatabaseJournalExt">
             <param name="schemaObjectPrefix" value="ecm_journal" />
         </Journal>
     </Cluster>

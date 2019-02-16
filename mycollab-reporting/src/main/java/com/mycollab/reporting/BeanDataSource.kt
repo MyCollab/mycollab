@@ -32,7 +32,7 @@ class BeanDataSource<T>(val data: List<T>) : JRDataSource {
     private var currentRecord: T? = null
 
     @Throws(JRException::class)
-    override fun getFieldValue(jrField: JRField): Any {
+    override fun getFieldValue(jrField: JRField): Any? {
         try {
             val fieldName = jrField.name
             return PropertyUtils.getProperty(currentRecord, fieldName)

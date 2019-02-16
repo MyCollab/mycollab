@@ -1,26 +1,28 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package com.mycollab.module.project.view;
 
+import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
+import com.mycollab.vaadin.AppUI;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.LoadPolicy;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.mvp.ViewScope;
 import com.mycollab.vaadin.web.ui.AbstractPresenter;
-import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.HasComponents;
 
 /**
@@ -35,9 +37,10 @@ public class UserProjectDashboardPresenter extends AbstractPresenter<UserProject
 
     @Override
     protected void onGo(HasComponents container, ScreenData data) {
-        ComponentContainer componentContainer = (ComponentContainer) container;
-        componentContainer.removeAllComponents();
-        componentContainer.addComponent(view);
+        BoardContainer boardContainer = (BoardContainer) container;
+        boardContainer.gotoSubView("Dashboard", view);
         view.lazyLoadView();
+
+        AppUI.addFragment("project/dashboard", UserUIContext.getMessage(ProjectCommonI18nEnum.VIEW_DASHBOARD));
     }
 }

@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -24,7 +24,6 @@ import com.mycollab.core.utils.NumberUtils;
 import com.mycollab.core.utils.StringUtils;
 import com.mycollab.html.DivLessFormatter;
 import com.mycollab.module.file.StorageUtils;
-import com.mycollab.module.project.ProjectLinkBuilder;
 import com.mycollab.module.project.ProjectLinkGenerator;
 import com.mycollab.module.project.ProjectTooltipGenerator;
 import com.mycollab.module.project.domain.SimpleProject;
@@ -41,15 +40,16 @@ import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.IBeanList;
-import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.web.ui.DefaultBeanPagedList;
 import com.mycollab.vaadin.web.ui.WebThemes;
-import com.vaadin.server.FontAwesome;
+import com.vaadin.icons.VaadinIcons;
+import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.VerticalLayout;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
+import org.vaadin.viritin.layouts.MVerticalLayout;
 
 /**
  * @author MyCollab Ltd.
@@ -78,39 +78,38 @@ public class ProjectPagedList extends DefaultBeanPagedList<ProjectService, Proje
     private static class ProjectRowDisplayHandler implements IBeanList.RowDisplayHandler<SimpleProject> {
 
         @Override
-        public Component generateRow(IBeanList<SimpleProject> host, final SimpleProject project, final int rowIndex) {
-            final MHorizontalLayout layout = new MHorizontalLayout().withFullWidth().withStyleName("projectblock");
+        public Component generateRow(IBeanList<SimpleProject> host, SimpleProject project, int rowIndex) {
+            MHorizontalLayout layout = new MHorizontalLayout().withMargin(false).withFullWidth().withStyleName(WebThemes.BORDER_LIST_ROW);
             layout.addComponent(ProjectAssetsUtil.projectLogoComp(project.getShortname(), project.getId(), project.getAvatarid(), 64));
             if (project.isArchived()) {
-                layout.addStyleName("projectlink-wrapper-archived");
+                layout.addStyleName("project-archived");
             }
-            final VerticalLayout linkIconFix = new VerticalLayout();
-            linkIconFix.setSpacing(true);
+            MVerticalLayout mainLayout = new MVerticalLayout().withMargin(false);
 
             A projectDiv = new A(ProjectLinkGenerator.generateProjectLink(project.getId())).appendText(project.getName());
-            ELabel projectLbl = ELabel.h3(projectDiv.write()).withStyleName(UIConstants.TEXT_ELLIPSIS).withFullWidth();
+            ELabel projectLbl = ELabel.h3(projectDiv.write()).withStyleName(WebThemes.TEXT_ELLIPSIS).withFullWidth();
             projectLbl.setDescription(ProjectTooltipGenerator.generateToolTipProject(UserUIContext.getUserLocale(),
-                    AppUI.getDateFormat(), project, AppUI.getSiteUrl(), UserUIContext.getUserTimeZone()));
+                    AppUI.getDateFormat(), project, AppUI.getSiteUrl(), UserUIContext.getUserTimeZone()), ContentMode.HTML);
 
-            linkIconFix.addComponent(projectLbl);
+            mainLayout.addComponent(projectLbl);
 
             MHorizontalLayout metaInfo = new MHorizontalLayout().withFullWidth();
             metaInfo.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
-            Div activeMembersDiv = new Div().appendText(FontAwesome.USERS.getHtml() + " " + project.getNumActiveMembers())
+            Div activeMembersDiv = new Div().appendText(VaadinIcons.USERS.getHtml() + " " + project.getNumActiveMembers())
                     .setTitle(UserUIContext.getMessage(ProjectMemberI18nEnum.OPT_ACTIVE_MEMBERS));
-            Div createdTimeDiv = new Div().appendText(FontAwesome.CLOCK_O.getHtml() + " " + UserUIContext
+            Div createdTimeDiv = new Div().appendText(VaadinIcons.CLOCK.getHtml() + " " + UserUIContext
                     .formatPrettyTime(project.getCreatedtime())).setTitle(UserUIContext.getMessage(GenericI18Enum.FORM_CREATED_TIME));
-            Div billableHoursDiv = new Div().appendText(FontAwesome.MONEY.getHtml() + " " + NumberUtils.roundDouble(2, project.getTotalBillableHours())).
+            Div billableHoursDiv = new Div().appendText(VaadinIcons.MONEY.getHtml() + " " + NumberUtils.roundDouble(2, project.getTotalBillableHours())).
                     setTitle(UserUIContext.getMessage(TimeTrackingI18nEnum.OPT_BILLABLE_HOURS));
-            Div nonBillableHoursDiv = new Div().appendText(FontAwesome.GIFT.getHtml() + " " + NumberUtils.roundDouble(2,
+            Div nonBillableHoursDiv = new Div().appendText(VaadinIcons.GIFT.getHtml() + " " + NumberUtils.roundDouble(2,
                     project.getTotalNonBillableHours())).setTitle(UserUIContext.getMessage(TimeTrackingI18nEnum.OPT_NON_BILLABLE_HOURS));
             Div metaDiv = new Div().appendChild(activeMembersDiv, DivLessFormatter.EMPTY_SPACE, createdTimeDiv,
                     DivLessFormatter.EMPTY_SPACE, billableHoursDiv, DivLessFormatter.EMPTY_SPACE,
                     nonBillableHoursDiv, DivLessFormatter.EMPTY_SPACE);
             if (project.getMemlead() != null) {
                 Div leadDiv = new Div().appendChild(new Img("", StorageUtils.getAvatarPath(project
-                                .getLeadAvatarId(), 16)).setCSSClass(UIConstants.CIRCLE_BOX), DivLessFormatter.EMPTY_SPACE,
+                                .getLeadAvatarId(), 16)).setCSSClass(WebThemes.CIRCLE_BOX), DivLessFormatter.EMPTY_SPACE,
                         new A(ProjectLinkGenerator.generateProjectMemberLink(project.getId(), project.getMemlead()))
                                 .appendText(StringUtils.trim(project.getLeadFullName(), 30, true))).setTitle
                         (UserUIContext.getMessage(ProjectI18nEnum.FORM_LEADER));
@@ -118,26 +117,26 @@ public class ProjectPagedList extends DefaultBeanPagedList<ProjectService, Proje
                 metaDiv.appendChild(1, DivLessFormatter.EMPTY_SPACE);
             }
 
-            if (project.getAccountid() != null) {
+            if (project.getClientid() != null) {
                 Div accountDiv = new Div();
                 if (project.getClientAvatarId() == null) {
-                    accountDiv.appendText(FontAwesome.INSTITUTION.getHtml() + " ");
+                    accountDiv.appendText(VaadinIcons.INSTITUTION.getHtml() + " ");
                 } else {
                     Img clientImg = new Img("", StorageUtils.getEntityLogoPath(AppUI.getAccountId(),
-                            project.getClientAvatarId(), 16)).setCSSClass(UIConstants.CIRCLE_BOX);
+                            project.getClientAvatarId(), 16)).setCSSClass(WebThemes.CIRCLE_BOX);
                     accountDiv.appendChild(clientImg).appendChild(DivLessFormatter.EMPTY_SPACE);
                 }
 
-                accountDiv.appendChild(new A(ProjectLinkGenerator.generateClientPreviewLink(project.getAccountid()))
-                        .appendText(StringUtils.trim(project.getClientName(), 30, true))).setCSSClass(UIConstants.BLOCK)
+                accountDiv.appendChild(new A(ProjectLinkGenerator.generateClientPreviewLink(project.getClientid()))
+                        .appendText(StringUtils.trim(project.getClientName(), 30, true))).setCSSClass(WebThemes.BLOCK)
                         .setTitle(project.getClientName());
                 metaDiv.appendChild(0, accountDiv);
                 metaDiv.appendChild(1, DivLessFormatter.EMPTY_SPACE);
             }
             metaDiv.setCSSClass(WebThemes.FLEX_DISPLAY);
-            metaInfo.addComponent(ELabel.html(metaDiv.write()).withStyleName(UIConstants.META_INFO).withWidthUndefined());
+            metaInfo.addComponent(ELabel.html(metaDiv.write()).withStyleName(WebThemes.META_INFO).withUndefinedWidth());
 
-            linkIconFix.addComponent(metaInfo);
+            mainLayout.addComponent(metaInfo);
 
             int openAssignments = project.getNumOpenBugs() + project.getNumOpenTasks() + project.getNumOpenRisks();
             int totalAssignments = project.getNumBugs() + project.getNumTasks() + project.getNumRisks();
@@ -145,13 +144,13 @@ public class ProjectPagedList extends DefaultBeanPagedList<ProjectService, Proje
             if (totalAssignments > 0) {
                 progressInfoLbl = new ELabel(UserUIContext.getMessage(ProjectI18nEnum.OPT_PROJECT_TICKET,
                         (totalAssignments - openAssignments), totalAssignments, (totalAssignments - openAssignments)
-                                * 100 / totalAssignments)).withStyleName(UIConstants.META_INFO);
+                                * 100 / totalAssignments)).withStyleName(WebThemes.META_INFO);
             } else {
                 progressInfoLbl = new ELabel(UserUIContext.getMessage(ProjectI18nEnum.OPT_NO_TICKET))
-                        .withStyleName(UIConstants.META_INFO);
+                        .withStyleName(WebThemes.META_INFO);
             }
-            linkIconFix.addComponent(progressInfoLbl);
-            layout.with(linkIconFix).expand(linkIconFix);
+            mainLayout.addComponent(progressInfoLbl);
+            layout.with(mainLayout).expand(mainLayout);
             return layout;
         }
     }

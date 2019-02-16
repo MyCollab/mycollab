@@ -1,4 +1,4 @@
-# Free, open source CRM, Document and Project Management software
+# Free, open source Project Management software
 [![License](http://img.shields.io/badge/License-AGPLv3-orange.svg)](https://www.gnu.org/licenses/agpl-3.0.en.html) [![Project Stats](https://www.openhub.net/p/mycollab/widgets/project_thin_badge.gif)](https://www.openhub.net/p/mycollab) [![Build](https://travis-ci.org/MyCollab/mycollab.svg)](https://travis-ci.org/MyCollab/mycollab)
 [![Version](https://img.shields.io/badge/Version-6.0.0-brightgreen.svg)](https://community.mycollab.com/)
 [![Github](https://img.shields.io/github/downloads/MyCollab/mycollab/total.svg)](https://github.com/MyCollab/mycollab/releases)
@@ -6,9 +6,7 @@
 
 ## Introduction
 
-MyCollab is the free and open source collaboration tools, it has three existing modules: Project Management, CRM and Document Management. Intuitive UI, rich features, high performance and stable are the advantages compare with various popular tools in the market such as Redmine, Bugzilla, Mantis etc. This open source is included into a trusted commercial product that is deployed on hundreds of companies' servers.
-
-MyCollab does work well on both desktop and mobile devices.
+MyCollab is the free and open source project management software. Intuitive UI, rich features, high performance and stable are the advantages compare with various popular tools in the market such as Redmine, Bugzilla, Mantis etc. This open source is included into a trusted commercial product that is deployed on hundreds of companies' servers.
 
 <table>
   <tr>
@@ -67,18 +65,15 @@ Visit our website https://www.mycollab.com/ to get a free trial of the premium s
 
 ## Features
 MyCollab provides the rich set features of Project Management, Customer Management module and online collaboration methods.
-  * CRM
-  * Document Management
   * Project Management
-  * Online Document Editor
   * Activity stream and audit logging
   * Kanban board
   * Roadmap view
   * Issues Management
   * Tasks and dependencies management
   * Milestones
-  * Gantt chart (for premium users only)
   * Time tracking (for premium users only)
+  * Invoice management (for premium users only)
   * Risk Management (For premium users only)
   * People and Permission management
   * Reporting

@@ -16,15 +16,14 @@
  */
 package com.mycollab.aspect
 
-import java.util.GregorianCalendar
 
 import org.apache.commons.beanutils.PropertyUtils
 import org.aspectj.lang.JoinPoint
 import org.aspectj.lang.annotation.Aspect
 import org.aspectj.lang.annotation.Before
-import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
+import java.time.LocalDateTime
 
 /**
  *
@@ -39,8 +38,8 @@ class InjectTimeLoggingAspect {
     fun injectDateForSaveMethod(joinPoint: JoinPoint, bean: Any, username: String) {
         try {
             LOG.debug("Set createtime and lastupdatedtime if enable")
-            PropertyUtils.setProperty(bean, "createdtime", GregorianCalendar().time)
-            PropertyUtils.setProperty(bean, "lastupdatedtime", GregorianCalendar().time)
+            PropertyUtils.setProperty(bean, "createdtime", LocalDateTime.now())
+            PropertyUtils.setProperty(bean, "lastupdatedtime", LocalDateTime.now())
         } catch (e: Exception) {
         }
 
@@ -50,7 +49,7 @@ class InjectTimeLoggingAspect {
     fun injectDateForUpdateMethod(joinPoint: JoinPoint, bean: Any, username: String) {
         try {
             LOG.debug("Set createtime and lastupdatedtime if enable")
-            PropertyUtils.setProperty(bean, "lastupdatedtime", GregorianCalendar().time)
+            PropertyUtils.setProperty(bean, "lastupdatedtime", LocalDateTime.now())
         } catch (e: Exception) {
         }
 

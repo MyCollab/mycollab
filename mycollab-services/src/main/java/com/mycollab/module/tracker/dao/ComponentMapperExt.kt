@@ -19,12 +19,14 @@ package com.mycollab.module.tracker.dao
 import com.mycollab.db.persistence.ISearchableDAO
 import com.mycollab.module.tracker.domain.SimpleComponent
 import com.mycollab.module.tracker.domain.criteria.ComponentSearchCriteria
+import org.apache.ibatis.annotations.Mapper
 import org.apache.ibatis.annotations.Param
 
 /**
  * @author MyCollab Ltd.
  * @since 1.0.0
  */
+@Mapper
 interface ComponentMapperExt : ISearchableDAO<ComponentSearchCriteria> {
 
     fun findComponentById(componentId: Int): SimpleComponent?

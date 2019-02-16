@@ -39,6 +39,6 @@ object FollowingTicketFieldDef {
             WebUIConstants.TABLE_X_LABEL_WIDTH)
 
     @JvmField
-    val createdDate = TableViewField(FollowerI18nEnum.OPT_FOLLOWER_CREATE_DATE,
-            "monitorDate", WebUIConstants.TABLE_DATE_WIDTH)
+    val createdTime = TableViewField(FollowerI18nEnum.OPT_FOLLOWER_CREATE_DATE,
+            "createdTime", WebUIConstants.TABLE_DATE_WIDTH)
 }

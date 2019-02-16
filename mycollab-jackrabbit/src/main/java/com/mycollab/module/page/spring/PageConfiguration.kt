@@ -34,8 +34,8 @@ import javax.jcr.SimpleCredentials
  * @author MyCollab Ltd.
  * @since 4.6.0
  */
-@DependsOn("dbMigration")
 @Configuration
+@DependsOn("appContextUtil")
 class PageConfiguration {
 
     @Bean
@@ -43,7 +43,7 @@ class PageConfiguration {
     fun pageRepository(): RepositoryFactoryBean {
         val bean = RepositoryFactoryBean()
         bean.configuration = ClassPathResource("wiki-repo.xml")
-        bean.homeDir = FileSystemResource("repo2/wiki-workspace")
+        bean.homeDir = FileSystemResource("repo2/wiki-workspaces")
         return bean
     }
 

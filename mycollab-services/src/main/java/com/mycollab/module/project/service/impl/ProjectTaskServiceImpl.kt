@@ -20,12 +20,9 @@ import com.google.common.eventbus.AsyncEventBus
 import com.mycollab.aspect.ClassInfo
 import com.mycollab.aspect.ClassInfoMap
 import com.mycollab.aspect.Traceable
-import com.mycollab.aspect.Watchable
 import com.mycollab.cache.CleanCacheEvent
 import com.mycollab.common.ModuleNameConstants
 import com.mycollab.common.domain.GroupItem
-import com.mycollab.common.event.TimelineTrackingAdjustIfEntityDeleteEvent
-import com.mycollab.common.event.TimelineTrackingUpdateEvent
 import com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum
 import com.mycollab.concurrent.DistributionLockUtil
 import com.mycollab.core.MyCollabException
@@ -66,7 +63,6 @@ import javax.sql.DataSource
 @Service
 @Transactional
 @Traceable(nameField = "name", extraFieldName = "projectid")
-@Watchable(userFieldName = "assignuser", extraTypeId = "projectid")
 class ProjectTaskServiceImpl(private val taskMapper: TaskMapper,
                              private val taskMapperExt: TaskMapperExt,
                              private val asyncEventBus: AsyncEventBus,
@@ -100,10 +96,7 @@ class ProjectTaskServiceImpl(private val taskMapper: TaskMapper,
                 val key = taskMapperExt.getMaxKey(record.projectid!!)
                 record.taskkey = if (key == null) 1 else key + 1
 
-                val taskId = super.saveWithSession(record, username)
-                asyncEventBus.post(TimelineTrackingUpdateEvent(ProjectTypeConstants.TASK, taskId, "status",
-                        record.status, record.projectid, record.saccountid))
-                return taskId
+                return super.saveWithSession(record, username)
             } else {
                 throw MyCollabException("Timeout operation.")
             }
@@ -118,10 +111,7 @@ class ProjectTaskServiceImpl(private val taskMapper: TaskMapper,
     @Transactional
     override fun updateWithSession(record: Task, username: String?): Int {
         beforeUpdate(record)
-        val result = super.updateWithSession(record, username)
-        asyncEventBus.post(TimelineTrackingUpdateEvent(ProjectTypeConstants.TASK, record.id, "status",
-                record.status, record.projectid, record.saccountid))
-        return result
+        return super.updateWithSession(record, username)
     }
 
     private fun beforeUpdate(record: Task) {
@@ -134,29 +124,20 @@ class ProjectTaskServiceImpl(private val taskMapper: TaskMapper,
 
     override fun updateSelectiveWithSession(record: Task, username: String?): Int? {
         beforeUpdate(record)
-        val result = super.updateSelectiveWithSession(record, username)!!
-        asyncEventBus.post(TimelineTrackingUpdateEvent(ProjectTypeConstants.TASK, record.id, "status",
-                record.status, record.projectid, record.saccountid))
-        return result
+        return super.updateSelectiveWithSession(record, username)!!
     }
 
     @CleanCache
     fun postDirtyUpdate(sAccountId: Int?) {
         asyncEventBus.post(CleanCacheEvent(sAccountId, arrayOf(ProjectService::class.java,
                 ProjectTicketService::class.java, ProjectActivityStreamService::class.java,
-                ProjectMemberService::class.java, MilestoneService::class.java, ItemTimeLoggingService::class.java,
-                GanttAssignmentService::class.java)))
+                ProjectMemberService::class.java, MilestoneService::class.java, ItemTimeLoggingService::class.java)))
     }
 
     override fun massRemoveWithSession(items: List<Task>, username: String?, sAccountId: Int) {
         super.massRemoveWithSession(items, username, sAccountId)
         val event = DeleteProjectTaskEvent(items.toTypedArray(), username, sAccountId)
         asyncEventBus.post(event)
-    }
-
-    override fun removeWithSession(item: Task, username: String?, sAccountId: Int) {
-        super.removeWithSession(item, username, sAccountId)
-        asyncEventBus.post(TimelineTrackingAdjustIfEntityDeleteEvent(ProjectTypeConstants.TASK, item.id, arrayOf("status"), item.projectid, item.saccountid))
     }
 
     override fun getPrioritySummary(criteria: TaskSearchCriteria): List<GroupItem> =
@@ -183,7 +164,7 @@ class ProjectTaskServiceImpl(private val taskMapper: TaskMapper,
         val searchCriteria = TaskSearchCriteria()
         searchCriteria.parentTaskId = NumberSearchField(taskId)
         searchCriteria.addExtraField(TaskSearchCriteria.p_status.buildPropertyParamNotInList(SearchField.AND,
-                listOf(StatusI18nEnum.Closed.name)))
+                setOf(StatusI18nEnum.Closed.name)))
         return taskMapperExt.getTotalCount(searchCriteria)
     }
 

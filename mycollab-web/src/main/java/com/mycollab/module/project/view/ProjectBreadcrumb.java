@@ -43,9 +43,11 @@ import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.web.ui.CommonUIFactory;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.mycollab.vaadin.web.ui.utils.LabelStringGenerator;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Label;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 /**
@@ -70,25 +72,18 @@ public class ProjectBreadcrumb extends MHorizontalLayout implements CacheableCom
     private void addSummaryLink() {
         removeAllComponents();
         with(ELabel.h3(new A(ProjectLinkGenerator.generateProjectLink(project.getId())).appendText(StringUtils
-                .trim(project.getName(), 30, true)).write())).withDescription(ProjectTooltipGenerator.generateToolTipProject(UserUIContext.getUserLocale(), AppUI.getDateFormat(),
-                project, AppUI.getSiteUrl(), UserUIContext.getUserTimeZone()));
+                .trim(project.getName(), 30, true)).write()).withDescription(ProjectTooltipGenerator.generateToolTipProject(UserUIContext.getUserLocale(), AppUI.getDateFormat(),
+                project, AppUI.getSiteUrl(), UserUIContext.getUserTimeZone())));
     }
 
     private void addLink(Button button) {
         button.addStyleName(WebThemes.BUTTON_LINK);
-        with(new ELabel("/"), button);
+        with(ELabel.html(VaadinIcons.ANGLE_RIGHT.getHtml()), button);
     }
 
     private void addEnabledLink(Button button) {
         button.addStyleName(WebThemes.BUTTON_LINK);
-        with(new ELabel("/"), button);
-    }
-
-    public void gotoSearchProjectItems() {
-        addSummaryLink();
-        addLink(new Button(UserUIContext.getMessage(GenericI18Enum.BUTTON_SEARCH)));
-        AppUI.addFragment(ProjectLinkGenerator.generateProjectLink(project.getId()),
-                UserUIContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
+        with(ELabel.html(VaadinIcons.ANGLE_RIGHT.getHtml()), button);
     }
 
     public void gotoMessageList() {
@@ -150,14 +145,6 @@ public class ProjectBreadcrumb extends MHorizontalLayout implements CacheableCom
         addLink(new Button(UserUIContext.getMessage(ProjectCommonI18nEnum.VIEW_ROADMAP)));
         AppUI.addFragment("project/roadmap/" + UrlEncodeDecoder.encode(project.getId()),
                 UserUIContext.getMessage(ProjectCommonI18nEnum.VIEW_ROADMAP));
-    }
-
-    public void gotoMilestoneKanban() {
-        addSummaryLink();
-        addLink(new Button(UserUIContext.getMessage(MilestoneI18nEnum.LIST), new GotoMilestoneListListener()));
-        addLink(new Button(UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_KANBAN)));
-        AppUI.addFragment("project/milestone/kanban/" + UrlEncodeDecoder.encode(project.getId()),
-                UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_KANBAN));
     }
 
     public void gotoMilestoneRead(Milestone milestone) {
@@ -284,7 +271,7 @@ public class ProjectBreadcrumb extends MHorizontalLayout implements CacheableCom
         addEnabledLink(new Button(UserUIContext.getMessage(TicketI18nEnum.LIST), new GotoTicketDashboard()));
         addLink(new Button(String.format("%s: %s", UserUIContext.getMessage(TicketI18nEnum.SINGLE),
                 UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_KANBAN))));
-        AppUI.addFragment("project/ticket/kanban/" + UrlEncodeDecoder.encode(project.getId()),
+        AppUI.addFragment(ProjectLinkGenerator.generateTicketKanbanLink(project.getId()),
                 UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_KANBAN));
     }
 
@@ -294,20 +281,6 @@ public class ProjectBreadcrumb extends MHorizontalLayout implements CacheableCom
         addLink(new Button(UserUIContext.getMessage(TaskI18nEnum.NEW)));
         AppUI.addFragment("project/task/add/" + UrlEncodeDecoder.encode(project.getId()),
                 UserUIContext.getMessage(TaskI18nEnum.NEW));
-    }
-
-    public void gotoGanttView() {
-        addSummaryLink();
-        addLink(new Button(UserUIContext.getMessage(ProjectCommonI18nEnum.VIEW_GANTT_CHART)));
-        AppUI.addFragment("project/gantt/" + UrlEncodeDecoder.encode(project.getId()),
-                UserUIContext.getMessage(ProjectCommonI18nEnum.VIEW_GANTT_CHART));
-    }
-
-    public void gotoCalendar() {
-        addSummaryLink();
-        addLink(new Button(UserUIContext.getMessage(ProjectCommonI18nEnum.VIEW_CALENDAR)));
-        AppUI.addFragment("project/calendar/" + UrlEncodeDecoder.encode(project.getId()),
-                UserUIContext.getMessage(ProjectCommonI18nEnum.VIEW_CALENDAR));
     }
 
     public void gotoTaskRead(SimpleTask task) {
@@ -484,13 +457,6 @@ public class ProjectBreadcrumb extends MHorizontalLayout implements CacheableCom
                 UserUIContext.getMessage(InvoiceI18nEnum.LIST));
     }
 
-    public void gotoFileList() {
-        addSummaryLink();
-        addLink(new Button(UserUIContext.getMessage(ProjectCommonI18nEnum.VIEW_FILE)));
-        AppUI.addFragment(ProjectLinkGenerator.generateFileDashboardLink(project.getId()),
-                UserUIContext.getMessage(BreadcrumbI18nEnum.FRA_FILES));
-    }
-
     public void gotoUserList() {
         addSummaryLink();
         addLink(new Button(UserUIContext.getMessage(ProjectMemberI18nEnum.LIST)));
@@ -598,7 +564,7 @@ public class ProjectBreadcrumb extends MHorizontalLayout implements CacheableCom
         }
     }
 
-    public void gotoProjectDashboard() {
+    public void gotoProjectSummary() {
         addSummaryLink();
         AppUI.addFragment(ProjectLinkGenerator.generateProjectLink(project.getId()),
                 UserUIContext.getMessage(GenericI18Enum.VIEW_DASHBOARD));

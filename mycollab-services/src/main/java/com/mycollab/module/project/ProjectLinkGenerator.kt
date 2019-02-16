@@ -41,6 +41,9 @@ object ProjectLinkGenerator {
             "${URL_PREFIX_PARAM}project/ticket/dashboard/${UrlEncodeDecoder.encode(projectId)}"
 
     @JvmStatic
+    fun generateTicketKanbanLink(projectId: Int): String = "${URL_PREFIX_PARAM}project/ticket/kanban/${UrlEncodeDecoder.encode(projectId)}"
+
+    @JvmStatic
     fun generateTaskPreviewLink(taskKey: Int?, prjShortName: String): String =
             "${URL_PREFIX_PARAM}project/task/preview/$prjShortName-$taskKey"
 
@@ -151,15 +154,8 @@ object ProjectLinkGenerator {
     fun generateBugEditLink(bugKey: Int?, prjShortName: String): String = "${URL_PREFIX_PARAM}project/bug/edit/$prjShortName-$bugKey"
 
     @JvmStatic
-    fun generateBugsLink(projectId: Int): String = "${URL_PREFIX_PARAM}project/bug/list/${UrlEncodeDecoder.encode(projectId)}"
-
-    @JvmStatic
     fun generateBugPreviewFullLink(siteUrl: String, bugKey: Int?, prjShortName: String): String =
             "$siteUrl${generateBugPreviewLink(bugKey, prjShortName)}"
-
-    @JvmStatic
-    fun generateFileDashboardLink(projectId: Int): String =
-            "${URL_PREFIX_PARAM}project/file/dashboard/${UrlEncodeDecoder.encode(projectId)}"
 
     @JvmStatic
     fun generateTimeReportLink(projectId: Int): String =
@@ -168,7 +164,6 @@ object ProjectLinkGenerator {
     @JvmStatic
     fun generateInvoiceListLink(projectId: Int): String =
             "${URL_PREFIX_PARAM}project/invoice/list/${UrlEncodeDecoder.encode(projectId)}"
-
 
     @JvmStatic
     fun generateRolePreviewLink(projectId: Int, roleId: Int?): String =

@@ -16,8 +16,8 @@
  */
 package com.mycollab.shell.view
 
+import com.mycollab.vaadin.mvp.IModule
 import com.mycollab.vaadin.mvp.PageView
-import com.mycollab.web.IDesktopModule
 
 /**
  * @author MyCollab Ltd
@@ -26,5 +26,5 @@ import com.mycollab.web.IDesktopModule
 interface MainView : PageView {
     fun display()
 
-    fun addModule(module: IDesktopModule)
+    fun addModule(module: IModule)
 }

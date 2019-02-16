@@ -27,6 +27,7 @@ import com.mycollab.module.project.i18n.ProjectMemberI18nEnum;
 import com.mycollab.module.project.i18n.ProjectRoleI18nEnum;
 import com.mycollab.module.project.service.ProjectRoleService;
 import com.mycollab.module.project.view.ProjectBreadcrumb;
+import com.mycollab.module.project.view.ProjectView;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.UserUIContext;
@@ -86,9 +87,9 @@ public class ProjectRoleListPresenter extends ListSelectionPresenter<ProjectRole
     @Override
     protected void deleteSelectedItems() {
         if (!isSelectAll) {
-            Collection<SimpleProjectRole> currentDataList = view.getPagedBeanTable().getCurrentDataList();
+            Collection<SimpleProjectRole> roles = view.getPagedBeanGrid().getItems();
             List<ProjectRole> keyList = new ArrayList<>();
-            for (ProjectRole item : currentDataList) {
+            for (ProjectRole item : roles) {
                 if (item.isSelected()) {
                     if (Boolean.TRUE.equals(item.getIssystemrole())) {
                         NotificationUtil.showErrorNotification(UserUIContext.
@@ -114,9 +115,8 @@ public class ProjectRoleListPresenter extends ListSelectionPresenter<ProjectRole
     @Override
     protected void onGo(HasComponents container, ScreenData<?> data) {
         if (CurrentProjectVariables.canRead(ProjectRolePermissionCollections.ROLES)) {
-            ProjectRoleContainer roleContainer = (ProjectRoleContainer) container;
-            roleContainer.removeAllComponents();
-            roleContainer.addComponent(view);
+            ProjectView projectView = (ProjectView) container;
+            projectView.gotoSubView(ProjectView.ROLE_ENTRY, view);
             searchCriteria = (ProjectRoleSearchCriteria) data.getParams();
             doSearch(searchCriteria);
 

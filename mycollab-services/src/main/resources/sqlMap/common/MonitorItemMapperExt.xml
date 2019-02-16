@@ -32,7 +32,7 @@
         #end
         
         #ifnotnull($searchCriteria.user)
-            ${searchCriteria.user.operation} m_monitor_item.user = @{searchCriteria.user.value}
+            ${searchCriteria.user.operation} m_monitor_item.username = @{searchCriteria.user.value}
         #end
         
         #ifnotnull($searchCriteria.extraTypeIds)
@@ -47,12 +47,12 @@
 
     <sql id="selectItem">
         <![CDATA[
-          SELECT m_monitor_item.id, m_monitor_item.user, m_monitor_item.monitor_date, m_monitor_item.type, m_monitor_item.typeId,
+          SELECT m_monitor_item.id, m_monitor_item.username, m_monitor_item.createdTime, m_monitor_item.type, m_monitor_item.typeId,
                  m_monitor_item.extratypeid,
                  changeUser.avatarId AS userAvatarId,
-                 concat(changeUser.firstname, ' ', LTRIM(IFNULL(concat(changeUser.middlename,' '), '')), changeUser.lastname) as userFullname
+                 concat(changeUser.firstname, ' ', changeUser.lastname) as userFullname
             FROM m_monitor_item
-              LEFT OUTER JOIN s_user AS changeUser ON (m_monitor_item.user=changeUser.username)
+              LEFT OUTER JOIN s_user AS changeUser ON (m_monitor_item.username=changeUser.username)
         ]]>
     </sql>
     
@@ -63,7 +63,7 @@
                 ${orderField.field} ${orderField.direction},
             #end
         #end
-        m_monitor_item.monitor_date DESC
+        m_monitor_item.createdTime DESC
     </sql>
 
     <select id="getTotalCount" parameterType="com.mycollab.common.domain.criteria.MonitorSearchCriteria" resultType="int" lang="velocity">
@@ -77,11 +77,11 @@
     </select>
 
     <insert id="saveMonitorItems">
-        insert into m_monitor_item (id, user, monitor_date, type, typeId, extraTypeId, sAccountId)
+        insert into m_monitor_item (id, username, createdTime, type, typeId, extraTypeId, sAccountId)
         values
         <foreach collection="monitors" item="monitorItem" separator=",">
             (
-            #{monitorItem.id}, #{monitorItem.user}, #{monitorItem.monitorDate}, #{monitorItem.type},
+            #{monitorItem.id}, #{monitorItem.username}, #{monitorItem.createdtime}, #{monitorItem.type},
             #{monitorItem.typeid}, #{monitorItem.extratypeid}, #{monitorItem.saccountid}
             )
         </foreach>
@@ -101,7 +101,7 @@
             resultMap="com.mycollab.module.user.dao.UserMapperExt.SimpleUserResult" lang="velocity">
         SELECT DISTINCT s_user.firstname, s_user.lastname, s_user.username, s_user.avatarId
         FROM m_monitor_item, s_user
-        WHERE m_monitor_item.type=@{type} AND m_monitor_item.typeId=@{typeId} AND m_monitor_item.user=s_user.username
+        WHERE m_monitor_item.type=@{type} AND m_monitor_item.typeId=@{typeId} AND m_monitor_item.username=s_user.username
 
     </select>
     

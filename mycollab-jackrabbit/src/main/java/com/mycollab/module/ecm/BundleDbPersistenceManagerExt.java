@@ -16,10 +16,13 @@
  */
 package com.mycollab.module.ecm;
 
-import com.mycollab.configuration.DatabaseConfiguration;
 import com.mycollab.spring.AppContextUtil;
+import com.zaxxer.hikari.HikariDataSource;
 import org.apache.jackrabbit.core.persistence.PMContext;
 import org.apache.jackrabbit.core.persistence.pool.BundleDbPersistenceManager;
+import org.apache.jackrabbit.core.util.db.ConnectionHelper;
+
+import javax.sql.DataSource;
 
 /**
  * Customize db persistence of jackrabbit
@@ -33,19 +36,18 @@ public class BundleDbPersistenceManagerExt extends BundleDbPersistenceManager {
      * {@inheritDoc}
      */
     public void init(PMContext context) throws Exception {
-        DatabaseConfiguration dbConf = AppContextUtil.getSpringBean(DatabaseConfiguration.class);
-        setDriver(dbConf.getDriverClassName());
-        setUser(dbConf.getUsername());
-        setPassword(dbConf.getPassword());
-        setUrl(dbConf.getUrl());
+        HikariDataSource ds = AppContextUtil.getSpringBean(HikariDataSource.class);
+        setDriver(ds.getDriverClassName());
+        setUser(ds.getUsername());
+        setPassword(ds.getPassword());
+        setUrl(ds.getJdbcUrl());
 
-        if (getSchemaObjectPrefix() == null) {
-            setSchemaObjectPrefix("ecm_p_workspace");
-        }
-
-        if (getDatabaseType() == null) {
-            setDatabaseType("mysql");
-        }
+        setDatabaseType(DbUtil.getSchemaType(ds.getDriverClassName()));
         super.init(context);
+    }
+
+    @Override
+    protected ConnectionHelper createConnectionHelper(DataSource dataSrc) throws Exception {
+        return new MySqlConnectionHelper(dataSrc);
     }
 }

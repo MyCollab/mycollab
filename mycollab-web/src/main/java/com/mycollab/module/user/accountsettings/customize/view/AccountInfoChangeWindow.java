@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -18,6 +18,7 @@ package com.mycollab.module.user.accountsettings.customize.view;
 
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.core.utils.BeanUtility;
+import com.mycollab.form.view.LayoutType;
 import com.mycollab.module.user.accountsettings.localization.AdminI18nEnum;
 import com.mycollab.module.user.domain.BillingAccount;
 import com.mycollab.module.user.domain.SimpleBillingAccount;
@@ -34,10 +35,9 @@ import com.mycollab.vaadin.ui.field.DateFormatField;
 import com.mycollab.vaadin.web.ui.TimeZoneSelectionField;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
-import com.vaadin.data.Property;
-import com.vaadin.data.Validator;
-import com.vaadin.event.ShortcutAction;
-import com.vaadin.server.FontAwesome;
+import com.vaadin.data.HasValue;
+import com.vaadin.event.ShortcutAction.KeyCode;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.Page;
 import com.vaadin.ui.*;
 import org.vaadin.viritin.button.MButton;
@@ -57,12 +57,12 @@ class AccountInfoChangeWindow extends MWindow {
     AccountInfoChangeWindow() {
         super(UserUIContext.getMessage(AdminI18nEnum.OPT_CHANGE_ACCOUNT_INFO));
         MVerticalLayout content = new MVerticalLayout();
-        this.withModal(true).withResizable(false).withWidth("700px").withContent(content).withCenter();
+        this.withModal(true).withResizable(false).withWidth("600px").withContent(content).withCenter();
 
         billingAccount = BeanUtility.deepClone(AppUI.getBillingAccount());
         editForm = new AdvancedEditBeanForm<>();
         editForm.setFormLayoutFactory(new AbstractFormLayoutFactory() {
-            private GridFormLayoutHelper gridFormLayoutHelper = GridFormLayoutHelper.defaultFormLayoutHelper(1, 9, "200px");
+            private GridFormLayoutHelper gridFormLayoutHelper = GridFormLayoutHelper.defaultFormLayoutHelper(LayoutType.ONE_COLUMN);
 
             @Override
             public AbstractComponent getLayout() {
@@ -70,7 +70,7 @@ class AccountInfoChangeWindow extends MWindow {
             }
 
             @Override
-            public Component onAttachField(Object propertyId, Field<?> field) {
+            public HasValue<?> onAttachField(Object propertyId, HasValue<?> field) {
                 if (BillingAccount.Field.sitename.equalTo(propertyId)) {
                     return gridFormLayoutHelper.addComponent(field, UserUIContext.getMessage(AdminI18nEnum.FORM_SITE_NAME), 0, 0);
                 } else if (BillingAccount.Field.subdomain.equalTo(propertyId)) {
@@ -100,7 +100,7 @@ class AccountInfoChangeWindow extends MWindow {
 
         editForm.setBeanFormFieldFactory(new AbstractBeanFieldGroupEditFieldFactory<SimpleBillingAccount>(editForm) {
             @Override
-            protected Field<?> onCreateField(Object propertyId) {
+            protected HasValue<?> onCreateField(Object propertyId) {
                 if (BillingAccount.Field.subdomain.equalTo(propertyId)) {
                     return new SubDomainField();
                 } else if (BillingAccount.Field.defaulttimezone.equalTo(propertyId)) {
@@ -123,7 +123,7 @@ class AccountInfoChangeWindow extends MWindow {
 
         editForm.setBean(billingAccount);
 
-        MHorizontalLayout buttonControls = new MHorizontalLayout().withMargin(true);
+        MHorizontalLayout buttonControls = new MHorizontalLayout().withMargin(false);
         MButton saveBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_SAVE), clickEvent -> {
             if (editForm.validateForm()) {
                 BillingAccountService billingAccountService = AppContextUtil.getSpringBean(BillingAccountService.class);
@@ -133,7 +133,7 @@ class AccountInfoChangeWindow extends MWindow {
                 String assignExec = String.format("window.location.assign(\'%s\');", siteUrl);
                 Page.getCurrent().getJavaScript().execute(assignExec);
             }
-        }).withIcon(FontAwesome.SAVE).withStyleName(WebThemes.BUTTON_ACTION).withClickShortcut(ShortcutAction.KeyCode.ENTER);
+        }).withIcon(VaadinIcons.CLIPBOARD).withStyleName(WebThemes.BUTTON_ACTION).withClickShortcut(KeyCode.ENTER);
 
         MButton cancelBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
                 .withStyleName(WebThemes.BUTTON_OPTION);
@@ -155,24 +155,30 @@ class AccountInfoChangeWindow extends MWindow {
             return layout;
         }
 
+//        @Override
+//        public void setPropertyDataSource(Property newDataSource) {
+//            String value = (String) newDataSource.getValue();
+//            if (value != null) {
+//                subDomainField.setValue(value);
+//            }
+//            super.setPropertyDataSource(newDataSource);
+//        }
+//
+//        @Override
+//        public void commit() throws SourceException, Validator.InvalidValueException {
+//            setInternalValue(subDomainField.getValue());
+//            super.commit();
+//        }
+
+
         @Override
-        public void setPropertyDataSource(Property newDataSource) {
-            String value = (String) newDataSource.getValue();
-            if (value != null) {
-                subDomainField.setValue(value);
-            }
-            super.setPropertyDataSource(newDataSource);
+        protected void doSetValue(String s) {
+
         }
 
         @Override
-        public void commit() throws SourceException, Validator.InvalidValueException {
-            setInternalValue(subDomainField.getValue());
-            super.commit();
-        }
-
-        @Override
-        public Class<? extends String> getType() {
-            return String.class;
+        public String getValue() {
+            return null;
         }
     }
 }

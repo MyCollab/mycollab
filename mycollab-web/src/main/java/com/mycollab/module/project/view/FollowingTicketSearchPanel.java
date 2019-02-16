@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -31,10 +31,12 @@ import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.UserUIContext;
-import com.mycollab.vaadin.ui.HeaderWithFontAwesome;
-import com.mycollab.vaadin.web.ui.*;
+import com.mycollab.vaadin.ui.HeaderWithIcon;
+import com.mycollab.vaadin.web.ui.BasicSearchLayout;
+import com.mycollab.vaadin.web.ui.DefaultGenericSearchPanel;
+import com.mycollab.vaadin.web.ui.SearchLayout;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
 import com.vaadin.ui.*;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
@@ -58,7 +60,7 @@ public class FollowingTicketSearchPanel extends DefaultGenericSearchPanel<Follow
     private List<SimpleProject> projects;
 
     @Override
-    protected HeaderWithFontAwesome buildSearchTitle() {
+    protected HeaderWithIcon buildSearchTitle() {
         return null;
     }
 
@@ -74,7 +76,7 @@ public class FollowingTicketSearchPanel extends DefaultGenericSearchPanel<Follow
     }
 
     public void doSearch() {
-        basicSearchLayout.callSearchAction();
+        this.callSearchAction();
     }
 
     private class FollowingTicketBasicSearchLayout extends BasicSearchLayout<FollowingTicketSearchCriteria> {
@@ -84,7 +86,7 @@ public class FollowingTicketSearchPanel extends DefaultGenericSearchPanel<Follow
         private TextField summaryField;
         private CheckBox taskSelect, bugSelect, riskSelect;
 
-        public FollowingTicketBasicSearchLayout() {
+        FollowingTicketBasicSearchLayout() {
             super(FollowingTicketSearchPanel.this);
         }
 
@@ -104,7 +106,7 @@ public class FollowingTicketSearchPanel extends DefaultGenericSearchPanel<Follow
 
             summaryField = new TextField();
             summaryField.setWidth("100%");
-            summaryField.setInputPrompt(UserUIContext.getMessage(GenericI18Enum.ACTION_QUERY_BY_TEXT));
+            summaryField.setPlaceholder(UserUIContext.getMessage(GenericI18Enum.ACTION_QUERY_BY_TEXT));
             selectionLayout.addComponent(summaryField, 1, 0);
 
             Label typeLb = new Label("Type:");
@@ -115,16 +117,16 @@ public class FollowingTicketSearchPanel extends DefaultGenericSearchPanel<Follow
             MHorizontalLayout typeSelectWrapper = new MHorizontalLayout().withMargin(new MarginInfo(false, true, false, false));
             selectionLayout.addComponent(typeSelectWrapper, 1, 1);
 
-            this.taskSelect = new CheckBox(UserUIContext.getMessage(TaskI18nEnum.SINGLE), true);
-            this.taskSelect.setIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.TASK));
+            taskSelect = new CheckBox(UserUIContext.getMessage(TaskI18nEnum.SINGLE), true);
+            taskSelect.setIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.TASK));
 
-            this.bugSelect = new CheckBox(UserUIContext.getMessage(BugI18nEnum.SINGLE), true);
-            this.bugSelect.setIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG));
+            bugSelect = new CheckBox(UserUIContext.getMessage(BugI18nEnum.SINGLE), true);
+            bugSelect.setIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG));
 
-            this.riskSelect = new CheckBox(UserUIContext.getMessage(RiskI18nEnum.SINGLE), true);
-            this.riskSelect.setIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.RISK));
+            riskSelect = new CheckBox(UserUIContext.getMessage(RiskI18nEnum.SINGLE), true);
+            riskSelect.setIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.RISK));
 
-            typeSelectWrapper.with(this.taskSelect, this.bugSelect, this.riskSelect);
+            typeSelectWrapper.with(taskSelect, bugSelect, riskSelect);
 
             Label projectLb = new Label("Project:");
             projectLb.setWidthUndefined();
@@ -132,9 +134,6 @@ public class FollowingTicketSearchPanel extends DefaultGenericSearchPanel<Follow
 
             projectField = new UserInvolvedProjectsListSelect();
             projectField.setWidth("300px");
-            projectField.setItemCaptionMode(ItemCaptionMode.EXPLICIT);
-            projectField.setNullSelectionAllowed(false);
-            projectField.setMultiSelect(true);
             projectField.setRows(4);
             selectionLayout.addComponent(projectField, 3, 0, 3, 1);
 
@@ -151,13 +150,13 @@ public class FollowingTicketSearchPanel extends DefaultGenericSearchPanel<Follow
             searchCriteria.setUser(StringSearchField.and(UserUIContext.getUsername()));
 
             List<String> types = new ArrayList<>();
-            if (this.taskSelect.getValue()) {
+            if (taskSelect.getValue()) {
                 types.add(ProjectTypeConstants.TASK);
             }
-            if (this.bugSelect.getValue()) {
+            if (bugSelect.getValue()) {
                 types.add(ProjectTypeConstants.BUG);
             }
-            if (this.riskSelect.getValue()) {
+            if (riskSelect.getValue()) {
                 types.add(ProjectTypeConstants.RISK);
             }
 
@@ -170,9 +169,10 @@ public class FollowingTicketSearchPanel extends DefaultGenericSearchPanel<Follow
             String summary = summaryField.getValue().trim();
             searchCriteria.setName(StringSearchField.and(StringUtils.isEmpty(summary) ? "" : summary));
 
-            Collection<Integer> selectedProjects = (Collection<Integer>) projectField.getValue();
+            Collection<SimpleProject> selectedProjects = projectField.getValue();
             if (CollectionUtils.isNotEmpty(selectedProjects)) {
-                searchCriteria.setExtraTypeIds(new SetSearchField<>(selectedProjects.toArray(new Integer[selectedProjects.size()])));
+                List<Integer> keys = selectedProjects.stream().map(Project::getId).collect(Collectors.toList());
+                searchCriteria.setExtraTypeIds(new SetSearchField<>(keys));
             } else {
                 List<Integer> keys = projects.stream().map(Project::getId).collect(Collectors.toList());
                 if (keys.size() > 0) {
@@ -184,17 +184,14 @@ public class FollowingTicketSearchPanel extends DefaultGenericSearchPanel<Follow
         }
     }
 
-    private class UserInvolvedProjectsListSelect extends ListSelect {
+    private class UserInvolvedProjectsListSelect extends ListSelect<SimpleProject> {
         private static final long serialVersionUID = 1L;
 
         UserInvolvedProjectsListSelect() {
-            FollowingTicketSearchPanel.this.projects = AppContextUtil.getSpringBean(ProjectService.class)
+            projects = AppContextUtil.getSpringBean(ProjectService.class)
                     .getProjectsUserInvolved(UserUIContext.getUsername(), AppUI.getAccountId());
-
-            for (SimpleProject project : projects) {
-                this.addItem(project.getId());
-                this.setItemCaption(project.getId(), project.getName());
-            }
+            setItems(projects);
+            setItemCaptionGenerator((ItemCaptionGenerator<SimpleProject>) Project::getName);
         }
     }
 }

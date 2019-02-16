@@ -48,9 +48,6 @@ open class Resource : Comparable<Resource> {
             } else field
         }
 
-    val isExternalResource: Boolean
-        get() = this is ExternalFolder || this is ExternalContent
-
     override fun compareTo(other: Resource): Int {
         return if (this is Folder && other is Content) {
             -1

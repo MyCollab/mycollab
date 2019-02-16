@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -22,15 +22,18 @@ import com.mycollab.core.MyCollabException;
 import com.mycollab.core.UserInvalidInputException;
 import com.mycollab.core.utils.ImageUtil;
 import com.mycollab.vaadin.UserUIContext;
-import com.mycollab.vaadin.addon.webcomponents.CropField;
-import com.mycollab.vaadin.addon.webcomponents.client.VCropSelection;
 import com.mycollab.vaadin.ui.ELabel;
-import com.vaadin.server.FontAwesome;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.Resource;
 import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.ui.*;
+import com.vaadin.ui.Alignment;
+import com.vaadin.ui.CssLayout;
+import com.vaadin.ui.Embedded;
+import com.vaadin.ui.VerticalLayout;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.vaadin.cropper.Cropper;
+import org.vaadin.cropper.client.CropSelection;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
@@ -75,7 +78,7 @@ public class ImagePreviewCropWindow extends MWindow {
 
         VerticalLayout previewBoxTitle = new VerticalLayout();
         previewBoxTitle.setMargin(new MarginInfo(false, true, false, true));
-        previewBoxTitle.addComponent(ELabel.html(UserUIContext.getMessage(ShellI18nEnum.OPT_IMAGE_EDIT_INSTRUCTION)));
+        previewBoxTitle.addComponent(ELabel.html(UserUIContext.getMessage(ShellI18nEnum.OPT_IMAGE_EDIT_INSTRUCTION)).withFullWidth());
 
         MButton cancelBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
                 .withStyleName(WebThemes.BUTTON_OPTION);
@@ -90,7 +93,7 @@ public class ImagePreviewCropWindow extends MWindow {
                     throw new MyCollabException("Error when saving user avatar", e);
                 }
             }
-        }).withIcon(FontAwesome.CHECK).withStyleName(WebThemes.BUTTON_ACTION);
+        }).withIcon(VaadinIcons.CHECK).withStyleName(WebThemes.BUTTON_ACTION);
 
         MHorizontalLayout controlBtns = new MHorizontalLayout(acceptBtn, cancelBtn);
 
@@ -99,34 +102,31 @@ public class ImagePreviewCropWindow extends MWindow {
         previewBox.with(previewBoxTitle).expand(previewBoxTitle);
 
         CssLayout cropBox = new CssLayout();
-        cropBox.setWidth("100%");
-        VerticalLayout currentPhotoBox = new VerticalLayout();
+        cropBox.setSizeFull();
         Resource resource = new ByteArrayImageResource(ImageUtil.convertImageToByteArray(originalImage), "image/png");
-        CropField cropField = new CropField(resource);
-        cropField.setImmediate(true);
-        cropField.setSelectionAspectRatio(1.0f);
-        cropField.addValueChangeListener(valueChangeEvent -> {
-            VCropSelection newSelection = (VCropSelection) valueChangeEvent.getProperty().getValue();
-            int x1 = newSelection.getXTopLeft();
-            int y1 = newSelection.getYTopLeft();
-            int x2 = newSelection.getXBottomRight();
-            int y2 = newSelection.getYBottomRight();
-            if (x2 > x1 && y2 > y1) {
-                BufferedImage subImage = originalImage.getSubimage(x1, y1, (x2 - x1), (y2 - y1));
-                ByteArrayOutputStream outStream = new ByteArrayOutputStream();
-                try {
-                    ImageIO.write(subImage, "png", outStream);
-                    scaleImageData = outStream.toByteArray();
-                    displayPreviewImage();
-                } catch (IOException e) {
-                    LOG.error("Error while scale image: ", e);
-                }
+        Cropper cropField = new Cropper(resource);
+        cropField.setAspectRatio(1.0d);
+        cropField.setWidth("470px");
+        cropField.setHeight("470px");
+        cropField.addCropSelectionChangedListener(valueChangeEvent -> {
+            CropSelection newSelection = valueChangeEvent.getSelection();
+            int x1 = newSelection.getX();
+            int y1 = newSelection.getY();
+            int x2 = newSelection.getWidth();
+            int y2 = newSelection.getHeight();
+            BufferedImage subImage = originalImage.getSubimage(x1, y1, x2, y2);
+            ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+            try {
+                ImageIO.write(subImage, "png", outStream);
+                scaleImageData = outStream.toByteArray();
+                displayPreviewImage();
+            } catch (IOException e) {
+                LOG.error("Error while scale image: ", e);
             }
         });
-        currentPhotoBox.setWidth("520px");
-        currentPhotoBox.setHeight("470px");
-        currentPhotoBox.addComponent(cropField);
-        cropBox.addComponent(currentPhotoBox);
+        cropBox.setWidth("470px");
+        cropBox.setHeight("470px");
+        cropBox.addComponent(cropField);
 
         content.with(previewBox, ELabel.hr(), cropBox);
         displayPreviewImage();
@@ -139,7 +139,7 @@ public class ImagePreviewCropWindow extends MWindow {
             previewImage.setWidth("100px");
             previewPhoto.addComponent(previewImage);
         } else {
-            previewPhoto.addComponent(ELabel.fontIcon(FontAwesome.QUESTION_CIRCLE).withStyleName("icon-48px").withWidthUndefined());
+            previewPhoto.addComponent(ELabel.fontIcon(VaadinIcons.QUESTION_CIRCLE).withStyleName("icon-48px").withUndefinedWidth());
         }
     }
 

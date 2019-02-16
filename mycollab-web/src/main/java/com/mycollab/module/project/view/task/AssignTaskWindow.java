@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -20,7 +20,7 @@ import com.mycollab.common.domain.CommentWithBLOBs;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.service.CommentService;
 import com.mycollab.core.utils.StringUtils;
-import com.mycollab.vaadin.EventBusFactory;
+import com.mycollab.form.view.LayoutType;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.domain.Task;
@@ -30,6 +30,7 @@ import com.mycollab.module.project.service.ProjectTaskService;
 import com.mycollab.module.project.view.settings.component.ProjectMemberSelectionField;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppUI;
+import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.mycollab.vaadin.ui.AbstractFormLayoutFactory;
@@ -37,15 +38,19 @@ import com.mycollab.vaadin.ui.AdvancedEditBeanForm;
 import com.mycollab.vaadin.ui.GenericBeanForm;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
-import com.vaadin.server.FontAwesome;
+import com.vaadin.data.HasValue;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.ui.*;
+import com.vaadin.ui.AbstractComponent;
+import com.vaadin.ui.Alignment;
+import com.vaadin.ui.RichTextArea;
+import com.vaadin.ui.VerticalLayout;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 import org.vaadin.viritin.layouts.MWindow;
 
-import java.util.GregorianCalendar;
+import java.time.LocalDateTime;
 
 /**
  * @author MyCollab Ltd.
@@ -77,13 +82,12 @@ class AssignTaskWindow extends MWindow {
         }
 
         class FormLayoutFactory extends AbstractFormLayoutFactory {
-            private static final long serialVersionUID = 1L;
             private GridFormLayoutHelper informationLayout;
 
             @Override
             public AbstractComponent getLayout() {
                 VerticalLayout layout = new VerticalLayout();
-                this.informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 2);
+                this.informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(LayoutType.ONE_COLUMN);
                 layout.addComponent(informationLayout.getLayout());
 
                 MButton cancelBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
@@ -100,7 +104,7 @@ class AssignTaskWindow extends MWindow {
                         if (StringUtils.isNotBlank(commentValue)) {
                             CommentWithBLOBs comment = new CommentWithBLOBs();
                             comment.setComment(commentArea.getValue());
-                            comment.setCreatedtime(new GregorianCalendar().getTime());
+                            comment.setCreatedtime(LocalDateTime.now());
                             comment.setCreateduser(UserUIContext.getUsername());
                             comment.setSaccountid(AppUI.getAccountId());
                             comment.setType(ProjectTypeConstants.TASK);
@@ -114,20 +118,20 @@ class AssignTaskWindow extends MWindow {
                         close();
                         EventBusFactory.getInstance().post(new TaskEvent.GotoRead(this, task.getId()));
                     }
-                }).withIcon(FontAwesome.SHARE).withStyleName(WebThemes.BUTTON_ACTION);
+                }).withIcon(VaadinIcons.SHARE).withStyleName(WebThemes.BUTTON_ACTION);
 
-                MHorizontalLayout controlsBtn = new MHorizontalLayout(cancelBtn, approveBtn).withMargin(true);
+                MHorizontalLayout controlsBtn = new MHorizontalLayout(cancelBtn, approveBtn).withMargin(false);
                 layout.addComponent(controlsBtn);
                 layout.setComponentAlignment(controlsBtn, Alignment.MIDDLE_RIGHT);
                 return layout;
             }
 
             @Override
-            protected Component onAttachField(Object propertyId, Field<?> field) {
+            protected HasValue<?> onAttachField(Object propertyId, HasValue<?> field) {
                 if (Task.Field.assignuser.equalTo(propertyId)) {
                     return informationLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.FORM_ASSIGNEE), 0, 0);
                 } else if (propertyId.equals("comment")) {
-                    return informationLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.OPT_COMMENT), 0, 1, 2, "100%");
+                    return informationLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.OPT_COMMENT), 0, 1);
                 }
                 return null;
             }
@@ -136,17 +140,16 @@ class AssignTaskWindow extends MWindow {
         private class EditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<Task> {
             private static final long serialVersionUID = 1L;
 
-            public EditFormFieldFactory(GenericBeanForm<Task> form) {
+            EditFormFieldFactory(GenericBeanForm<Task> form) {
                 super(form);
             }
 
             @Override
-            protected Field<?> onCreateField(Object propertyId) {
+            protected HasValue<?> onCreateField(Object propertyId) {
                 if (propertyId.equals("assignuser")) {
                     return new ProjectMemberSelectionField();
                 } else if (propertyId.equals("comment")) {
                     commentArea = new RichTextArea();
-                    commentArea.setNullRepresentation("");
                     return commentArea;
                 }
                 return null;

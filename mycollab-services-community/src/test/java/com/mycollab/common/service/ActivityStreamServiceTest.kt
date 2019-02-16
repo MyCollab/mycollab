@@ -22,15 +22,16 @@ import com.mycollab.db.arguments.BasicSearchRequest
 import com.mycollab.db.arguments.NumberSearchField
 import com.mycollab.db.arguments.SetSearchField
 import com.mycollab.test.DataSet
+import com.mycollab.test.rule.DbUnitInitializerRule
 import com.mycollab.test.spring.IntegrationServiceTest
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.tuple
-import org.junit.Test
-import org.junit.runner.RunWith
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner
+import org.springframework.test.context.junit.jupiter.SpringExtension
 
-@RunWith(SpringJUnit4ClassRunner::class)
+@ExtendWith(SpringExtension::class, DbUnitInitializerRule::class)
 class ActivityStreamServiceTest : IntegrationServiceTest() {
 
     @Autowired

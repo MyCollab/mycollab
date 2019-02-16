@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -20,8 +20,9 @@ import com.google.common.eventbus.AsyncEventBus;
 import com.mycollab.cache.CleanCacheEvent;
 import com.mycollab.common.domain.MonitorItem;
 import com.mycollab.common.i18n.GenericI18Enum;
+import com.mycollab.common.i18n.OptionI18nEnum;
+import com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.mycollab.common.service.MonitorItemService;
-import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.module.file.AttachmentUtils;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.event.TicketEvent;
@@ -31,23 +32,23 @@ import com.mycollab.module.tracker.service.BugRelatedItemService;
 import com.mycollab.module.tracker.service.BugService;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppUI;
+import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.vaadin.UserUIContext;
-import com.mycollab.vaadin.ui.AbstractFormLayoutFactory;
 import com.mycollab.vaadin.ui.AdvancedEditBeanForm;
-import com.mycollab.vaadin.ui.IFormLayoutFactory;
-import com.mycollab.vaadin.ui.UIUtils;
+import com.mycollab.vaadin.ui.WrappedFormLayoutFactory;
 import com.mycollab.vaadin.web.ui.DefaultDynaFormLayout;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.mycollab.vaadin.web.ui.field.AttachmentUploadField;
-import com.vaadin.server.FontAwesome;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.ui.*;
-import org.vaadin.jouni.restrain.Restrain;
+import com.vaadin.ui.AbstractComponent;
 import org.vaadin.viritin.button.MButton;
+import org.vaadin.viritin.layouts.MCssLayout;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
+import org.vaadin.viritin.layouts.MVerticalLayout;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 /**
@@ -66,20 +67,20 @@ public class BugEditForm extends AdvancedEditBeanForm<SimpleBug> {
 
     }
 
-    class FormLayoutFactory extends AbstractFormLayoutFactory {
-        private IFormLayoutFactory formLayoutFactory;
+    class FormLayoutFactory extends WrappedFormLayoutFactory {
 
         @Override
         public AbstractComponent getLayout() {
-            VerticalLayout layout = new VerticalLayout();
-            formLayoutFactory = new DefaultDynaFormLayout(ProjectTypeConstants.BUG, BugDefaultFormLayoutFactory.getForm());
-            AbstractComponent gridLayout = formLayoutFactory.getLayout();
+            MVerticalLayout layout = new MVerticalLayout().withMargin(false);
+            wrappedLayoutFactory = new DefaultDynaFormLayout(ProjectTypeConstants.BUG, BugDefaultFormLayoutFactory.getAddForm());
+            AbstractComponent gridLayout = wrappedLayoutFactory.getLayout();
             gridLayout.addStyleName(WebThemes.SCROLLABLE_CONTAINER);
-            new Restrain(gridLayout).setMaxHeight((UIUtils.getBrowserHeight() - 180) + "px");
-            layout.addComponent(gridLayout);
-            layout.setExpandRatio(gridLayout, 1.0f);
+            gridLayout.addStyleName("window-max-height");
 
             MButton saveBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_SAVE), clickEvent -> {
+                if (bean.getStatus() == null) {
+                    bean.setStatus(StatusI18nEnum.Open.name());
+                }
                 if (validateForm()) {
                     BugService bugService = AppContextUtil.getSpringBean(BugService.class);
                     Integer bugId;
@@ -110,34 +111,29 @@ public class BugEditForm extends AdvancedEditBeanForm<SimpleBug> {
                         List<MonitorItem> monitorItems = new ArrayList<>();
                         for (String follower : followers) {
                             MonitorItem monitorItem = new MonitorItem();
-                            monitorItem.setMonitorDate(new GregorianCalendar().getTime());
                             monitorItem.setSaccountid(AppUI.getAccountId());
                             monitorItem.setType(ProjectTypeConstants.BUG);
-                            monitorItem.setTypeid(bugId);
-                            monitorItem.setUser(follower);
+                            monitorItem.setTypeid(bugId + "");
+                            monitorItem.setUsername(follower);
                             monitorItem.setExtratypeid(bean.getProjectid());
                             monitorItems.add(monitorItem);
+                            monitorItem.setCreatedtime(LocalDateTime.now());
                         }
                         MonitorItemService monitorItemService = AppContextUtil.getSpringBean(MonitorItemService.class);
                         monitorItemService.saveMonitorItems(monitorItems);
                     }
                     postExecution();
                 }
-            }).withIcon(FontAwesome.SAVE).withStyleName(WebThemes.BUTTON_ACTION);
+            }).withIcon(VaadinIcons.CLIPBOARD).withStyleName(WebThemes.BUTTON_ACTION);
 
             MButton cancelBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> postExecution())
                     .withStyleName(WebThemes.BUTTON_OPTION);
 
-            MHorizontalLayout buttonControls = new MHorizontalLayout(cancelBtn, saveBtn).withMargin(new MarginInfo(true, false, false, false));
+            MCssLayout buttonControls = new MCssLayout(new MHorizontalLayout(cancelBtn, saveBtn).withStyleName(WebThemes.ALIGN_RIGHT)
+                    .withMargin(new MarginInfo(true, false, false, false))).withFullWidth().withStyleName(WebThemes.BORDER_TOP);
 
-            layout.addComponent(buttonControls);
-            layout.setComponentAlignment(buttonControls, Alignment.MIDDLE_RIGHT);
+            layout.with(gridLayout, buttonControls).expand(gridLayout);
             return layout;
-        }
-
-        @Override
-        protected Component onAttachField(Object propertyId, Field<?> field) {
-            return formLayoutFactory.attachField(propertyId, field);
         }
     }
 }

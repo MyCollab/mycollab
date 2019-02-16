@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -28,11 +28,10 @@ import com.mycollab.module.project.domain.SimpleMilestone;
 import com.mycollab.module.project.i18n.TimeTrackingI18nEnum;
 import com.mycollab.module.project.view.service.MilestoneComponentFactory;
 import com.mycollab.vaadin.UserUIContext;
-import com.mycollab.vaadin.ui.UIConstants;
-import com.vaadin.server.FontAwesome;
+import com.mycollab.vaadin.web.ui.WebThemes;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.ui.AbstractComponent;
 import org.springframework.stereotype.Service;
-import org.vaadin.teemu.VaadinIcons;
 
 /**
  * @author MyCollab Ltd
@@ -43,7 +42,7 @@ public class MilestoneComponentFactoryImpl implements MilestoneComponentFactory 
     @Override
     public AbstractComponent createMilestoneAssigneePopupField(SimpleMilestone milestone, boolean isDisplayName) {
         String avatarLink = StorageUtils.getAvatarPath(milestone.getOwnerAvatarId(), 16);
-        Img img = new Img(milestone.getOwnerFullName(), avatarLink).setCSSClass(UIConstants.CIRCLE_BOX)
+        Img img = new Img(milestone.getOwnerFullName(), avatarLink).setCSSClass(WebThemes.CIRCLE_BOX)
                 .setTitle(milestone.getOwnerFullName());
         if (isDisplayName) {
             return new MetaFieldBuilder().withCaption(img.write() + " " + StringUtils.trim(milestone.getOwnerFullName(), 20, true))
@@ -93,13 +92,13 @@ public class MilestoneComponentFactoryImpl implements MilestoneComponentFactory 
 
     @Override
     public AbstractComponent createBillableHoursPopupField(SimpleMilestone milestone) {
-        return new MetaFieldBuilder().withCaptionAndIcon(FontAwesome.MONEY, "" + (milestone.getTotalBugBillableHours() + milestone.getTotalTaskBillableHours()))
+        return new MetaFieldBuilder().withCaptionAndIcon(VaadinIcons.MONEY, "" + (milestone.getTotalBugBillableHours() + milestone.getTotalTaskBillableHours()))
                 .withDescription(UserUIContext.getMessage(TimeTrackingI18nEnum.OPT_BILLABLE_HOURS)).build();
     }
 
     @Override
     public AbstractComponent createNonBillableHoursPopupField(SimpleMilestone milestone) {
-        return new MetaFieldBuilder().withCaptionAndIcon(FontAwesome.GIFT, "" + (milestone.getTotalBugNonBillableHours() + milestone.getTotalTaskNonBillableHours()))
+        return new MetaFieldBuilder().withCaptionAndIcon(VaadinIcons.GIFT, "" + (milestone.getTotalBugNonBillableHours() + milestone.getTotalTaskNonBillableHours()))
                 .withDescription(UserUIContext.getMessage(TimeTrackingI18nEnum.OPT_NON_BILLABLE_HOURS)).build();
     }
 }

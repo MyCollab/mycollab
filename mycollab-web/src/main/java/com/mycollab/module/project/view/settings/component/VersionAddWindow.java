@@ -18,6 +18,7 @@ package com.mycollab.module.project.view.settings.component;
 
 import com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.mycollab.module.project.CurrentProjectVariables;
+import com.mycollab.module.project.ProjectRolePermissionCollections;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.i18n.VersionI18nEnum;
 import com.mycollab.module.project.view.settings.VersionDefaultFormLayoutFactory;
@@ -53,7 +54,9 @@ class VersionAddWindow extends MWindow implements IEditFormHandler<Version> {
         version.setSaccountid(AppUI.getAccountId());
         version.setStatus(StatusI18nEnum.Open.name());
         editForm.setBean(version);
-        ComponentContainer buttonControls = generateEditFormControls(editForm, true, false, true);
+        ComponentContainer buttonControls = generateEditFormControls(editForm,
+                CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.VERSIONS),
+                false, true);
         withWidth("750px").withModal(true).withResizable(false).withContent(new MVerticalLayout(editForm,
                 buttonControls).withAlign(buttonControls, Alignment.TOP_RIGHT)).withCenter();
     }

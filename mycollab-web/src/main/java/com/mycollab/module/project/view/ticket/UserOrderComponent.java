@@ -24,9 +24,10 @@ import com.mycollab.core.utils.SortedArrayMap;
 import com.mycollab.html.DivLessFormatter;
 import com.mycollab.module.file.StorageUtils;
 import com.mycollab.module.project.domain.ProjectTicket;
+import com.mycollab.module.project.ui.components.TicketRowRender;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
-import com.mycollab.vaadin.ui.UIConstants;
+import com.mycollab.vaadin.web.ui.WebThemes;
 
 import java.util.List;
 
@@ -39,6 +40,14 @@ public class UserOrderComponent extends TicketGroupOrderComponent {
     private SortedArrayMap<String, DefaultTicketGroupComponent> userAvailables = new SortedArrayMap<>();
     private DefaultTicketGroupComponent unspecifiedTasks;
 
+    public UserOrderComponent() {
+        super();
+    }
+
+    public UserOrderComponent(Class<? extends TicketRowRender> ticketRowRenderCls) {
+        super(ticketRowRenderCls);
+    }
+
     @Override
     public void insertTickets(List<ProjectTicket> tickets) {
         for (ProjectTicket ticket : tickets) {
@@ -46,11 +55,11 @@ public class UserOrderComponent extends TicketGroupOrderComponent {
             if (assignUser != null) {
                 if (userAvailables.containsKey(assignUser)) {
                     DefaultTicketGroupComponent groupComponent = userAvailables.get(assignUser);
-                    groupComponent.insertTicket(ticket);
+                    groupComponent.insertTicketComp(buildRenderer(ticket));
                 } else {
                     Img img = new Img("", StorageUtils.getAvatarPath(ticket.getAssignUserAvatarId(), 32))
-                            .setCSSClass((UIConstants.CIRCLE_BOX));
-                    Div userDiv = new DivLessFormatter().appendChild(img, new Text(" " + ticket.getAssignUserFullName()));
+                            .setCSSClass((WebThemes.CIRCLE_BOX));
+                    Div userDiv = new DivLessFormatter().appendChild(img, new Text(ticket.getAssignUserFullName()));
 
                     DefaultTicketGroupComponent groupComponent = new DefaultTicketGroupComponent(userDiv.write());
                     userAvailables.put(assignUser, groupComponent);
@@ -61,14 +70,14 @@ public class UserOrderComponent extends TicketGroupOrderComponent {
                         addComponent(groupComponent);
                     }
 
-                    groupComponent.insertTicket(ticket);
+                    groupComponent.insertTicketComp(buildRenderer(ticket));
                 }
             } else {
                 if (unspecifiedTasks == null) {
                     unspecifiedTasks = new DefaultTicketGroupComponent(UserUIContext.getMessage(GenericI18Enum.OPT_UNDEFINED));
                     addComponent(unspecifiedTasks, 0);
                 }
-                unspecifiedTasks.insertTicket(ticket);
+                unspecifiedTasks.insertTicketComp(buildRenderer(ticket));
             }
         }
     }

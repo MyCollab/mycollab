@@ -28,6 +28,7 @@ import org.slf4j.LoggerFactory
 import org.springframework.aop.framework.Advised
 import org.springframework.stereotype.Component
 import java.lang.reflect.InvocationTargetException
+import java.time.LocalDateTime
 import java.util.*
 
 /**
@@ -82,7 +83,7 @@ class TraceableCreateAspect(private var activityStreamService: ActivityStreamSer
             activity.module = ClassInfoMap.getModule(cls)
             activity.type = ClassInfoMap.getType(cls)
             activity.typeid = PropertyUtils.getProperty(bean, traceableAnnotation.idField).toString()
-            activity.createdtime = GregorianCalendar().time
+            activity.createdtime = LocalDateTime.now()
             activity.action = action
             activity.saccountid = PropertyUtils.getProperty(bean, "saccountid") as Int
             activity.createduser = username
@@ -90,7 +91,7 @@ class TraceableCreateAspect(private var activityStreamService: ActivityStreamSer
             val nameObj = PropertyUtils.getProperty(bean, traceableAnnotation.nameField)
             val nameField: String
             nameField = when (nameObj) {
-                is Date -> DateTimeUtils.formatDate(nameObj, "MM/dd/yyyy", Locale.US)
+                is LocalDateTime -> DateTimeUtils.formatDate(nameObj, "MM/dd/yyyy", Locale.US)
                 else -> nameObj.toString()
             }
             activity.namefield = nameField

@@ -35,7 +35,6 @@ class ShellController(container: MainWindowContainer) : AbstractController() {
                 val mainViewPresenter = PresenterResolver.getPresenter(MainViewPresenter::class.java)
                 val mainView = mainViewPresenter.getView()
                 container.setContent(mainView)
-                container.styleName = "mainView"
                 mainViewPresenter.go(container, null)
             }
         })

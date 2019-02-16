@@ -19,6 +19,7 @@ package com.mycollab.module.project.view.bug;
 import com.mycollab.common.domain.CommentWithBLOBs;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.service.CommentService;
+import com.mycollab.form.view.LayoutType;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.event.BugEvent;
@@ -37,8 +38,10 @@ import com.mycollab.vaadin.ui.AdvancedEditBeanForm;
 import com.mycollab.vaadin.ui.GenericBeanForm;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
-import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.ui.*;
+import com.vaadin.data.HasValue;
+import com.vaadin.ui.AbstractComponent;
+import com.vaadin.ui.Alignment;
+import com.vaadin.ui.RichTextArea;
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
@@ -47,7 +50,7 @@ import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 import org.vaadin.viritin.layouts.MWindow;
 
-import java.util.GregorianCalendar;
+import java.time.LocalDateTime;
 
 import static com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 
@@ -63,11 +66,11 @@ public class ApproveInputWindow extends MWindow {
         super(UserUIContext.getMessage(BugI18nEnum.OPT_APPROVE_BUG, bug.getName()));
         this.bug = bug;
 
-        MVerticalLayout contentLayout = new MVerticalLayout().withMargin(new MarginInfo(false, false, true, false));
+        MVerticalLayout contentLayout = new MVerticalLayout().withMargin(false);
         EditForm editForm = new EditForm();
         editForm.setBean(bug);
         contentLayout.addComponent(editForm);
-        this.withResizable(false).withModal(true).withWidth("750px").withContent(contentLayout).withCenter();
+        this.withResizable(false).withModal(true).withWidth("600px").withContent(contentLayout).withCenter();
     }
 
     private class EditForm extends AdvancedEditBeanForm<BugWithBLOBs> {
@@ -86,8 +89,8 @@ public class ApproveInputWindow extends MWindow {
 
             @Override
             public AbstractComponent getLayout() {
-                final VerticalLayout layout = new VerticalLayout();
-                informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 6);
+                MVerticalLayout layout = new MVerticalLayout();
+                informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(LayoutType.TWO_COLUMN);
 
                 layout.addComponent(informationLayout.getLayout());
 
@@ -104,7 +107,7 @@ public class ApproveInputWindow extends MWindow {
                         if (StringUtils.isNotBlank(commentValue)) {
                             CommentWithBLOBs comment = new CommentWithBLOBs();
                             comment.setComment(Jsoup.clean(commentArea.getValue(), Whitelist.relaxed()));
-                            comment.setCreatedtime(new GregorianCalendar().getTime());
+                            comment.setCreatedtime(LocalDateTime.now());
                             comment.setCreateduser(UserUIContext.getUsername());
                             comment.setSaccountid(AppUI.getAccountId());
                             comment.setType(ProjectTypeConstants.BUG);
@@ -123,18 +126,17 @@ public class ApproveInputWindow extends MWindow {
                 MButton cancelBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
                         .withStyleName(WebThemes.BUTTON_OPTION);
 
-                final MHorizontalLayout controlsBtn = new MHorizontalLayout(cancelBtn, approveBtn).withMargin(true);
-                layout.addComponent(controlsBtn);
-                layout.setComponentAlignment(controlsBtn, Alignment.MIDDLE_RIGHT);
+                MHorizontalLayout controlsBtn = new MHorizontalLayout(cancelBtn, approveBtn).withMargin(false);
+                layout.with(controlsBtn).withAlign(controlsBtn, Alignment.MIDDLE_RIGHT);
                 return layout;
             }
 
             @Override
-            protected Component onAttachField(Object propertyId, Field<?> field) {
+            protected HasValue<?> onAttachField(Object propertyId, HasValue<?> field) {
                 if (propertyId.equals("assignuser")) {
                     return informationLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.FORM_ASSIGNEE), 0, 0);
                 } else if (propertyId.equals("comment")) {
-                    return informationLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.OPT_COMMENT), 0, 1, 2, "100%");
+                    return informationLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.OPT_COMMENT), 0, 1, 2);
                 }
                 return null;
             }
@@ -143,12 +145,12 @@ public class ApproveInputWindow extends MWindow {
         private class EditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<BugWithBLOBs> {
             private static final long serialVersionUID = 1L;
 
-            public EditFormFieldFactory(GenericBeanForm<BugWithBLOBs> form) {
+            EditFormFieldFactory(GenericBeanForm<BugWithBLOBs> form) {
                 super(form);
             }
 
             @Override
-            protected Field<?> onCreateField(final Object propertyId) {
+            protected HasValue<?> onCreateField(final Object propertyId) {
                 if (propertyId.equals("assignuser")) {
                     return new ProjectMemberSelectionField();
                 } else if (propertyId.equals("comment")) {

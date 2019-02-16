@@ -16,23 +16,21 @@
  */
 package com.mycollab.module.project.service
 
-import com.mycollab.db.arguments.BasicSearchRequest
-import com.mycollab.db.arguments.NumberSearchField
-import com.mycollab.db.arguments.RangeDateSearchField
-import com.mycollab.db.arguments.SetSearchField
+import com.mycollab.db.arguments.*
 import com.mycollab.module.project.domain.ProjectTicket
 import com.mycollab.module.project.domain.criteria.ProjectTicketSearchCriteria
 import com.mycollab.test.DataSet
+import com.mycollab.test.rule.DbUnitInitializerRule
 import com.mycollab.test.spring.IntegrationServiceTest
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.tuple
-import org.joda.time.LocalDate
-import org.junit.Test
-import org.junit.runner.RunWith
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner
+import org.springframework.test.context.junit.jupiter.SpringExtension
+import java.time.LocalDate
 
-@RunWith(SpringJUnit4ClassRunner::class)
+@ExtendWith(SpringExtension::class, DbUnitInitializerRule::class)
 class ProjectTicketServiceTest : IntegrationServiceTest() {
     @Autowired
     private lateinit var projectTicketService: ProjectTicketService
@@ -42,11 +40,11 @@ class ProjectTicketServiceTest : IntegrationServiceTest() {
     fun testGetAccountsHasOverdueAssignments() {
         val criteria = ProjectTicketSearchCriteria()
         criteria.saccountid = null
-        val now = LocalDate()
-        val rangeDateSearchField = RangeDateSearchField(now.minusDays(10000).toDate(), now.toDate())
+        val now = LocalDate.now()
+        val rangeDateSearchField = RangeDateSearchField(now.minusDays(10000), now)
         criteria.dateInRange = rangeDateSearchField
         val accounts = projectTicketService.getAccountsHasOverdueAssignments(criteria)
-        assertThat(accounts).isNotEmpty().hasSize(2)
+        assertThat(accounts).isNotEmpty.hasSize(2)
         assertThat(accounts).extracting("subdomain", "id").contains(tuple("a", 1), tuple("b", 2))
     }
 
@@ -73,5 +71,19 @@ class ProjectTicketServiceTest : IntegrationServiceTest() {
         val groupItems = projectTicketService.getAssigneeSummary(criteria)
         assertThat(groupItems).hasSize(2)
         assertThat(groupItems).extracting("groupid", "value", "extraValue").contains(tuple("hai79", 2.0, null), tuple("linhduong", 1.0, "linh123"))
+    }
+
+    @DataSet
+    @Test
+    fun testFindOpenTicketsInRangeDate() {
+        val criteria = ProjectTicketSearchCriteria()
+        criteria.saccountid = NumberSearchField.equal(1)
+        criteria.projectIds = SetSearchField(1)
+        criteria.open = SearchField()
+        val from = LocalDate.of(2019, 1, 7)
+        val to = from.plusDays(7)
+        criteria.dateInRange = RangeDateSearchField(from, to)
+        val tickets = projectTicketService.findPageableListByCriteria(BasicSearchRequest(criteria))
+        assertThat(tickets.size).isEqualTo(1)
     }
 }

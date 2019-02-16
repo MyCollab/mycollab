@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -40,24 +40,20 @@ import com.mycollab.module.project.ui.ProjectLocalizationTypeMap;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.TooltipHelper;
 import com.mycollab.vaadin.UserUIContext;
-import com.mycollab.vaadin.ui.UIConstants;
+import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.registry.AuditLogRegistry;
 import com.mycollab.vaadin.web.ui.AbstractBeanPagedList;
+import com.mycollab.vaadin.web.ui.ButtonGroup;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.Label;
-import org.apache.commons.lang3.time.DateUtils;
-import org.vaadin.peter.buttongroup.ButtonGroup;
 import org.vaadin.viritin.button.MButton;
+import org.vaadin.viritin.layouts.MCssLayout;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -76,7 +72,7 @@ public class ProjectActivityStreamPagedList extends AbstractBeanPagedList<Projec
     }
 
     public int setSearchCriteria(final ActivityStreamSearchCriteria searchCriteria) {
-        listContainer.removeAllComponents();
+        this.removeAllComponents();
         searchRequest = new BasicSearchRequest<>(searchCriteria, currentPage, defaultNumberSearchItems);
         doSearch();
         return totalCount;
@@ -101,61 +97,58 @@ public class ProjectActivityStreamPagedList extends AbstractBeanPagedList<Projec
             }
         }
 
-        List<ProjectActivityStream> currentListData = projectActivityStreamService.getProjectActivityStreams((BasicSearchRequest<ActivityStreamSearchCriteria>) searchRequest);
-        this.listContainer.removeAllComponents();
-        Date currentDate = new GregorianCalendar(2100, 1, 1).getTime();
+        List<ProjectActivityStream> projectActivities = projectActivityStreamService.getProjectActivityStreams((BasicSearchRequest<ActivityStreamSearchCriteria>) searchRequest);
+        this.removeAllComponents();
+        LocalDate currentDate = LocalDate.of(2100, 1, 1);
 
         CssLayout currentFeedBlock = new CssLayout();
         AuditLogRegistry auditLogRegistry = AppContextUtil.getSpringBean(AuditLogRegistry.class);
 
         try {
-            for (ProjectActivityStream activityStream : currentListData) {
-                if (ProjectTypeConstants.PAGE.equals(activityStream.getType())) {
+            for (ProjectActivityStream activity : projectActivities) {
+                if (ProjectTypeConstants.PAGE.equals(activity.getType())) {
                     ProjectPageService pageService = AppContextUtil.getSpringBean(ProjectPageService.class);
-                    Page page = pageService.getPage(activityStream.getTypeid(), UserUIContext.getUsername());
+                    Page page = pageService.getPage(activity.getTypeid(), UserUIContext.getUsername());
                     if (page != null) {
-                        activityStream.setNamefield(page.getSubject());
+                        activity.setNamefield(page.getSubject());
                     }
                 }
 
-                Date itemCreatedDate = activityStream.getCreatedtime();
+                LocalDate itemCreatedDate = activity.getCreatedtime().toLocalDate();
 
-                if (!DateUtils.isSameDay(currentDate, itemCreatedDate)) {
+                if (!currentDate.isEqual(itemCreatedDate)) {
                     currentFeedBlock = new CssLayout();
                     currentFeedBlock.setStyleName("feed-block");
                     feedBlocksPut(currentDate, itemCreatedDate, currentFeedBlock);
                     currentDate = itemCreatedDate;
                 }
                 StringBuilder content = new StringBuilder();
-                String itemType = ProjectLocalizationTypeMap.getType(activityStream.getType());
-                String assigneeParam = buildAssigneeValue(activityStream);
-                String itemParam = buildItemValue(activityStream);
+                String itemType = ProjectLocalizationTypeMap.getType(activity.getType());
+                String assigneeParam = buildAssigneeValue(activity);
+                String itemParam = buildItemValue(activity);
 
-                if (ActivityStreamConstants.ACTION_CREATE.equals(activityStream.getAction())) {
+                if (ActivityStreamConstants.ACTION_CREATE.equals(activity.getAction())) {
                     content.append(UserUIContext.getMessage(ProjectCommonI18nEnum.FEED_USER_ACTIVITY_CREATE_ACTION_TITLE,
                             assigneeParam, itemType, itemParam));
-                } else if (ActivityStreamConstants.ACTION_UPDATE.equals(activityStream.getAction())) {
+                } else if (ActivityStreamConstants.ACTION_UPDATE.equals(activity.getAction())) {
                     content.append(UserUIContext.getMessage(ProjectCommonI18nEnum.FEED_USER_ACTIVITY_UPDATE_ACTION_TITLE,
                             assigneeParam, itemType, itemParam));
-                    if (activityStream.getAssoAuditLog() != null) {
-                        content.append(auditLogRegistry.generatorDetailChangeOfActivity(activityStream));
+                    if (activity.getAssoAuditLog() != null) {
+                        content.append(auditLogRegistry.generatorDetailChangeOfActivity(activity));
                     }
-                } else if (ActivityStreamConstants.ACTION_COMMENT.equals(activityStream.getAction())) {
+                } else if (ActivityStreamConstants.ACTION_COMMENT.equals(activity.getAction())) {
                     content.append(UserUIContext.getMessage(ProjectCommonI18nEnum.FEED_USER_ACTIVITY_COMMENT_ACTION_TITLE,
                             assigneeParam, itemType, itemParam));
-                    if (activityStream.getAssoAuditLog() != null) {
+                    if (activity.getAssoAuditLog() != null) {
                         content.append("<ul><li>\"").append(
-                                StringUtils.trimHtmlTags(activityStream.getAssoAuditLog().getChangeset(), 200)).append("\"</li></ul>");
+                                StringUtils.trimHtmlTags(activity.getAssoAuditLog().getChangeset(), 200)).append("\"</li></ul>");
                     }
-                } else if (ActivityStreamConstants.ACTION_DELETE.equals(activityStream.getAction())) {
+                } else if (ActivityStreamConstants.ACTION_DELETE.equals(activity.getAction())) {
                     content.append(UserUIContext.getMessage(ProjectCommonI18nEnum.FEED_USER_ACTIVITY_DELETE_ACTION_TITLE,
                             assigneeParam, itemType, itemParam));
                 }
-                Label actionLbl = new Label(content.toString(), ContentMode.HTML);
-                CssLayout streamWrapper = new CssLayout();
-                streamWrapper.setWidth("100%");
-                streamWrapper.addStyleName("stream-wrapper");
-                streamWrapper.addComponent(actionLbl);
+                ELabel actionLbl = ELabel.html(content.toString()).withFullWidth();
+                MCssLayout streamWrapper = new MCssLayout(actionLbl).withFullWidth().withStyleName("stream-wrapper");
                 currentFeedBlock.addComponent(streamWrapper);
             }
         } catch (Exception e) {
@@ -166,7 +159,7 @@ public class ProjectActivityStreamPagedList extends AbstractBeanPagedList<Projec
     private String buildAssigneeValue(SimpleActivityStream activityStream) {
         DivLessFormatter div = new DivLessFormatter();
         Img userAvatar = new Img("", StorageUtils.getAvatarPath(activityStream.getCreatedUserAvatarId(), 16))
-                .setCSSClass(UIConstants.CIRCLE_BOX);
+                .setCSSClass(WebThemes.CIRCLE_BOX);
         A userLink = new A().setId("tag" + TooltipHelper.TOOLTIP_ID).setHref(ProjectLinkGenerator.generateProjectMemberLink(
                 activityStream.getExtratypeid(), activityStream.getCreateduser()));
 
@@ -183,17 +176,12 @@ public class ProjectActivityStreamPagedList extends AbstractBeanPagedList<Projec
         DivLessFormatter div = new DivLessFormatter();
         Text image = new Text(ProjectAssetsManager.getAsset(activityStream.getType()).getHtml());
         A itemLink = new A().setId("tag" + TooltipHelper.TOOLTIP_ID);
-        if (ProjectTypeConstants.TASK.equals(activityStream.getType())
-                || ProjectTypeConstants.BUG.equals(activityStream.getType())) {
-            itemLink.setHref(ProjectLinkGenerator.generateProjectItemLink(
-                    activityStream.getProjectShortName(),
-                    activityStream.getExtratypeid(), activityStream.getType(),
-                    activityStream.getItemKey() + ""));
+        if (ProjectTypeConstants.TASK.equals(activityStream.getType()) || ProjectTypeConstants.BUG.equals(activityStream.getType())) {
+            itemLink.setHref(ProjectLinkGenerator.generateProjectItemLink(activityStream.getProjectShortName(),
+                    activityStream.getExtratypeid(), activityStream.getType(), activityStream.getItemKey() + ""));
         } else {
-            itemLink.setHref(ProjectLinkGenerator.generateProjectItemLink(
-                    activityStream.getProjectShortName(),
-                    activityStream.getExtratypeid(), activityStream.getType(),
-                    activityStream.getTypeid()));
+            itemLink.setHref(ProjectLinkGenerator.generateProjectItemLink(activityStream.getProjectShortName(),
+                    activityStream.getExtratypeid(), activityStream.getType(), activityStream.getTypeid()));
         }
 
         itemLink.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(activityStream.getType(),
@@ -209,39 +197,29 @@ public class ProjectActivityStreamPagedList extends AbstractBeanPagedList<Projec
         return div.write();
     }
 
-    protected void feedBlocksPut(Date currentDate, Date nextDate, ComponentContainer currentBlock) {
+    protected void feedBlocksPut(LocalDate currentDate, LocalDate nextDate, ComponentContainer currentBlock) {
         MHorizontalLayout blockWrapper = new MHorizontalLayout().withSpacing(false).withFullWidth().withStyleName
                 ("feed-block-wrap");
 
         blockWrapper.setDefaultComponentAlignment(Alignment.TOP_LEFT);
-        Calendar cal1 = Calendar.getInstance();
-        cal1.setTime(currentDate);
 
-        Calendar cal2 = Calendar.getInstance();
-        cal2.setTime(nextDate);
-
-        if (cal1.get(Calendar.YEAR) != cal2.get(Calendar.YEAR)) {
-            int currentYear = cal2.get(Calendar.YEAR);
-            Label yearLbl = new Label("<div>" + String.valueOf(currentYear) + "</div>", ContentMode.HTML);
-            yearLbl.setStyleName("year-lbl");
-            yearLbl.setWidthUndefined();
-            listContainer.addComponent(yearLbl);
+        if (currentDate.getYear() != nextDate.getYear()) {
+            int currentYear = nextDate.getYear();
+            ELabel yearLbl = ELabel.html("<div>" + currentYear + "</div>").withStyleName("year-lbl").withUndefinedWidth();
+            this.addComponent(yearLbl);
         } else {
             blockWrapper.setMargin(new MarginInfo(true, false, false, false));
         }
-        Label dateLbl = new Label(UserUIContext.formatShortDate(nextDate));
-        dateLbl.setStyleName("date-lbl");
-        dateLbl.setWidthUndefined();
+        ELabel dateLbl = new ELabel(UserUIContext.formatShortDate(nextDate)).withStyleName("date-lbl").withUndefinedWidth();
         blockWrapper.with(dateLbl, currentBlock).expand(currentBlock);
 
-        this.listContainer.addComponent(blockWrapper);
+        this.addComponent(blockWrapper);
     }
 
     @Override
     protected MHorizontalLayout createPageControls() {
-        this.controlBarWrapper = new MHorizontalLayout().withFullHeight().withStyleName("page-controls");
-        ButtonGroup controlBtns = new ButtonGroup();
-        controlBtns.setStyleName(WebThemes.BUTTON_ACTION);
+        controlBarWrapper = new MHorizontalLayout().withFullHeight().withStyleName("page-controls");
+
         MButton prevBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_NAV_NEWER), clickEvent -> pageChange(currentPage - 1))
                 .withWidth("64px").withStyleName(WebThemes.BUTTON_ACTION);
         if (currentPage == 1) {
@@ -254,8 +232,8 @@ public class ProjectActivityStreamPagedList extends AbstractBeanPagedList<Projec
             nextBtn.setEnabled(false);
         }
 
-        controlBtns.addButton(prevBtn);
-        controlBtns.addButton(nextBtn);
+        ButtonGroup controlBtns = new ButtonGroup(prevBtn, nextBtn);
+        controlBtns.setStyleName(WebThemes.BUTTON_ACTION);
 
         controlBarWrapper.addComponent(controlBtns);
         return controlBarWrapper;
@@ -264,15 +242,6 @@ public class ProjectActivityStreamPagedList extends AbstractBeanPagedList<Projec
     @Override
     protected QueryHandler<ProjectActivityStream> buildQueryHandler() {
         return new QueryHandler<ProjectActivityStream>() {
-            @Override
-            public int queryTotalCount() {
-                return 0;
-            }
-
-            @Override
-            public List<ProjectActivityStream> queryCurrentData() {
-                return null;
-            }
         };
     }
 }

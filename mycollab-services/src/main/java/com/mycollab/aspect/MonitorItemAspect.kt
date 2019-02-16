@@ -17,7 +17,6 @@
 package com.mycollab.aspect
 
 import com.mycollab.common.MonitorTypeConstants
-import com.mycollab.common.domain.MonitorItem
 import com.mycollab.common.domain.RelayEmailNotificationWithBLOBs
 import com.mycollab.common.service.MonitorItemService
 import com.mycollab.common.service.RelayEmailNotificationService
@@ -29,7 +28,6 @@ import org.slf4j.LoggerFactory
 import org.springframework.aop.framework.Advised
 import org.springframework.beans.factory.annotation.Configurable
 import org.springframework.stereotype.Component
-import java.util.*
 
 /**
  * @author MyCollab Ltd.
@@ -46,35 +44,6 @@ class MonitorItemAspect(private var monitorItemService: MonitorItemService,
         val advised = joinPoint.`this` as Advised
         val cls = advised.targetSource.targetClass!!
         try {
-            val watchableAnnotation = cls.getAnnotation(Watchable::class.java)
-            if (watchableAnnotation != null) {
-                val sAccountId = PropertyUtils.getProperty(bean, "saccountid") as Int
-                val typeId = PropertyUtils.getProperty(bean, "id") as Int
-                var extraTypeId: Int? = null
-                if ("" != watchableAnnotation.extraTypeId) {
-                    extraTypeId = PropertyUtils.getProperty(bean, watchableAnnotation.extraTypeId) as Int
-                }
-
-                val monitorItem = MonitorItem()
-                monitorItem.monitorDate = GregorianCalendar().time
-                monitorItem.type = ClassInfoMap.getType(cls)
-                monitorItem.typeid = typeId
-                monitorItem.extratypeid = extraTypeId
-                monitorItem.user = username
-                monitorItem.saccountid = sAccountId
-
-                monitorItemService.saveWithSession(monitorItem, username)
-
-                if (watchableAnnotation.userFieldName != "") {
-                    val moreUser = PropertyUtils.getProperty(bean, watchableAnnotation.userFieldName) as? String
-                    if (moreUser != null && moreUser != username) {
-                        monitorItem.id = null
-                        monitorItem.user = moreUser
-                        monitorItemService.saveWithSession(monitorItem, moreUser)
-                    }
-                }
-            }
-
             val traceAnnotation = cls.getAnnotation(Traceable::class.java)
             if (traceAnnotation != null) {
                 val sAccountId = PropertyUtils.getProperty(bean, "saccountid") as Int

@@ -43,9 +43,9 @@ import com.mycollab.vaadin.ui.*;
 import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.mycollab.vaadin.web.ui.SearchTextField;
 import com.mycollab.vaadin.web.ui.WebThemes;
-import com.vaadin.server.FontAwesome;
+import com.vaadin.icons.VaadinIcons;
+import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
 import org.vaadin.viritin.button.MButton;
@@ -66,29 +66,28 @@ public class UserListViewImpl extends AbstractVerticalPageView implements UserLi
     private CssLayout contentLayout;
     private UserSearchCriteria searchCriteria;
     private boolean sortAsc = true;
-    private HeaderWithFontAwesome headerText;
+    private HeaderWithIcon headerText;
 
     public UserListViewImpl() {
-        super();
         this.setMargin(new MarginInfo(false, true, false, true));
         MHorizontalLayout header = new MHorizontalLayout().withMargin(new MarginInfo(true, false, true, false))
                 .withFullWidth();
         MButton createBtn = new MButton(UserUIContext.getMessage(UserI18nEnum.NEW),
                 clickEvent -> EventBusFactory.getInstance().post(new UserEvent.GotoAdd(this, null)))
-                .withIcon(FontAwesome.PLUS).withStyleName(WebThemes.BUTTON_ACTION)
+                .withIcon(VaadinIcons.PLUS).withStyleName(WebThemes.BUTTON_ACTION)
                 .withVisible(UserUIContext.canWrite(RolePermissionCollections.ACCOUNT_USER));
 
-        headerText = HeaderWithFontAwesome.h2(FontAwesome.USERS, UserUIContext.getMessage(UserI18nEnum.LIST) + " " +
+        headerText = HeaderWithIcon.h2(VaadinIcons.USERS, UserUIContext.getMessage(UserI18nEnum.LIST) + " " +
                 UserUIContext.getMessage(GenericI18Enum.OPT_TOTAL_VALUE, 0));
 
-        final MButton sortBtn = new MButton().withIcon(FontAwesome.SORT_ALPHA_ASC).withStyleName(WebThemes.BUTTON_ICON_ONLY);
+        MButton sortBtn = new MButton().withIcon(VaadinIcons.CARET_UP).withStyleName(WebThemes.BUTTON_ICON_ONLY);
         sortBtn.addClickListener(clickEvent -> {
             sortAsc = !sortAsc;
             if (sortAsc) {
-                sortBtn.setIcon(FontAwesome.SORT_ALPHA_ASC);
+                sortBtn.setIcon(VaadinIcons.CARET_UP);
                 displayUsers();
             } else {
-                sortBtn.setIcon(FontAwesome.SORT_ALPHA_DESC);
+                sortBtn.setIcon(VaadinIcons.CARET_DOWN);
                 displayUsers();
             }
         });
@@ -115,7 +114,7 @@ public class UserListViewImpl extends AbstractVerticalPageView implements UserLi
                     protected Object doEval() {
                         return searchCriteria;
                     }
-                }))).withIcon(FontAwesome.PRINT).withStyleName(WebThemes.BUTTON_OPTION)
+                }))).withIcon(VaadinIcons.PRINT).withStyleName(WebThemes.BUTTON_OPTION)
                 .withDescription(UserUIContext.getMessage(GenericI18Enum.ACTION_EXPORT));
 
         header.with(headerText, sortBtn, searchTextField, printBtn, createBtn).alignAll(Alignment.MIDDLE_LEFT).expand(headerText);
@@ -144,21 +143,17 @@ public class UserListViewImpl extends AbstractVerticalPageView implements UserLi
         List<SimpleUser> users = (List<SimpleUser>) userService.findPageableListByCriteria(new BasicSearchRequest<>(searchCriteria));
         headerText.updateTitle(String.format("%s %s", UserUIContext.getMessage(UserI18nEnum.LIST), UserUIContext.getMessage(GenericI18Enum.OPT_TOTAL_VALUE, users.size())));
 
-        for (SimpleUser userAccount : users) {
-            contentLayout.addComponent(generateMemberBlock(userAccount));
-        }
+        users.forEach(user -> contentLayout.addComponent(generateMemberBlock(user)));
     }
 
-    private Component generateMemberBlock(final SimpleUser member) {
-        VerticalLayout blockContent = new VerticalLayout();
-        blockContent.setWidth("350px");
-        blockContent.setStyleName("member-block");
+    private Component generateMemberBlock(SimpleUser member) {
+        MVerticalLayout blockContent = new MVerticalLayout().withWidth("350px").withStyleName("member-block");
         if (RegisterStatusConstants.NOT_LOG_IN_YET.equals(member.getRegisterstatus())) {
             blockContent.addStyleName("inactive");
         }
         MHorizontalLayout blockTop = new MHorizontalLayout().withFullWidth();
         Image memberAvatar = UserAvatarControlFactory.createUserAvatarEmbeddedComponent(member.getAvatarid(), 100);
-        memberAvatar.addStyleName(UIConstants.CIRCLE_BOX);
+        memberAvatar.addStyleName(WebThemes.CIRCLE_BOX);
         blockTop.addComponent(memberAvatar);
 
         MVerticalLayout memberInfo = new MVerticalLayout().withMargin(false);
@@ -169,7 +164,7 @@ public class UserListViewImpl extends AbstractVerticalPageView implements UserLi
 
         if (RegisterStatusConstants.NOT_LOG_IN_YET.equals(member.getRegisterstatus())) {
             MButton resendBtn = new MButton(UserUIContext.getMessage(UserI18nEnum.ACTION_RESEND_INVITATION), clickEvent -> {
-                SendUserInvitationEvent invitationEvent = new SendUserInvitationEvent(member.getUsername(), member.getPassword(),
+                SendUserInvitationEvent invitationEvent = new SendUserInvitationEvent(member.getUsername(), "",
                         member.getInviteUser(), AppUI.getSubDomain(), AppUI.getAccountId());
                 AsyncEventBus asyncEventBus = AppContextUtil.getSpringBean(AsyncEventBus.class);
                 asyncEventBus.post(invitationEvent);
@@ -180,7 +175,7 @@ public class UserListViewImpl extends AbstractVerticalPageView implements UserLi
         }
 
         MButton editBtn = new MButton("", clickEvent -> EventBusFactory.getInstance().post(new UserEvent.GotoEdit(UserListViewImpl.this, member)))
-                .withIcon(FontAwesome.EDIT).withStyleName(WebThemes.BUTTON_LINK);
+                .withIcon(VaadinIcons.EDIT).withStyleName(WebThemes.BUTTON_LINK);
         buttonControls.with(editBtn);
 
         MButton deleteBtn = new MButton("", clickEvent ->
@@ -196,21 +191,20 @@ public class UserListViewImpl extends AbstractVerticalPageView implements UserLi
                                 EventBusFactory.getInstance().post(new UserEvent.GotoList(UserListViewImpl.this, null));
                             }
                         })
-        ).withIcon(FontAwesome.TRASH_O).withStyleName(WebThemes.BUTTON_LINK);
+        ).withIcon(VaadinIcons.TRASH).withStyleName(WebThemes.BUTTON_LINK);
         buttonControls.with(deleteBtn);
 
-        memberInfo.addComponent(buttonControls);
-        memberInfo.setComponentAlignment(buttonControls, Alignment.MIDDLE_RIGHT);
+        memberInfo.with(buttonControls).withAlign(buttonControls, Alignment.MIDDLE_RIGHT);
 
-        A memberLink = new A(AccountLinkGenerator.generateUserLink(
-                member.getUsername())).appendText(member.getDisplayName());
-        ELabel memberLinkLbl = ELabel.h3(memberLink.write()).withStyleName(UIConstants.TEXT_ELLIPSIS);
-        memberInfo.addComponent(memberLinkLbl);
-        memberInfo.addComponent(ELabel.hr());
+        A memberLink = new A(AccountLinkGenerator.generateUserLink(member.getUsername()))
+                .appendText(member.getDisplayName());
+        ELabel memberLinkLbl = ELabel.h3(memberLink.write()).withStyleName(WebThemes.TEXT_ELLIPSIS);
 
-        if (member.getRoleid() != null) {
-            String memberRoleLinkPrefix = String.format("<a href=\"%s\"", AccountLinkGenerator.generateRoleLink(member.getRoleid()));
-            ELabel memberRole = new ELabel(ContentMode.HTML).withStyleName(UIConstants.TEXT_ELLIPSIS);
+        memberInfo.with(memberLinkLbl, ELabel.hr());
+
+        if (member.getRoleId() != null) {
+            String memberRoleLinkPrefix = String.format("<a href=\"%s\"", AccountLinkGenerator.generateRoleLink(member.getRoleId()));
+            ELabel memberRole = new ELabel(ContentMode.HTML).withStyleName(WebThemes.TEXT_ELLIPSIS);
             if (Boolean.TRUE.equals(member.isAccountOwner())) {
                 memberRole.setValue(String.format("%sstyle=\"color: #B00000;\">%s</a>", memberRoleLinkPrefix,
                         UserUIContext.getMessage(RoleI18nEnum.OPT_ACCOUNT_OWNER)));
@@ -224,14 +218,12 @@ public class UserListViewImpl extends AbstractVerticalPageView implements UserLi
                     (RoleI18nEnum.OPT_ACCOUNT_OWNER)), ContentMode.HTML);
             memberInfo.addComponent(memberRole);
         } else {
-            Label lbl = new Label();
-            lbl.setHeight("10px");
-            memberInfo.addComponent(lbl);
+            memberInfo.addComponent(new ELabel().withHeight("10px"));
         }
 
         if (Boolean.TRUE.equals(AppUI.showEmailPublicly())) {
             Label memberEmailLabel = ELabel.html(String.format("<a href='mailto:%s'>%s</a>", member.getUsername(), member.getUsername()))
-                    .withStyleName(UIConstants.TEXT_ELLIPSIS, UIConstants.META_INFO).withFullWidth();
+                    .withStyleName(WebThemes.TEXT_ELLIPSIS, WebThemes.META_INFO).withFullWidth();
             memberInfo.addComponent(memberEmailLabel);
         }
 
@@ -242,6 +234,7 @@ public class UserListViewImpl extends AbstractVerticalPageView implements UserLi
         ELabel lastAccessTimeLbl = ELabel.html(UserUIContext.getMessage(UserI18nEnum.OPT_MEMBER_LOGGED_IN, UserUIContext
                 .formatPrettyTime(member.getLastaccessedtime()))).withDescription(UserUIContext.formatDateTime(member.getLastaccessedtime()));
         memberInfo.addComponent(lastAccessTimeLbl);
+
         blockTop.with(memberInfo).expand(memberInfo);
         blockContent.addComponent(blockTop);
         return blockContent;

@@ -22,13 +22,14 @@ import net.sf.dynamicreports.report.exception.DRException
 import org.slf4j.LoggerFactory
 import java.io.IOException
 import java.io.OutputStream
+import java.time.ZoneId
 import java.util.*
 
 /**
  * @author MyCollab Ltd
  * @since 5.1.4
  */
-abstract class SimpleReportTemplateExecutor<T>(timeZone: TimeZone, locale: Locale, reportTitle: String, protected var fieldBuilder: RpFieldsBuilder, outputForm: ReportExportType, protected var classType: Class<T>) : ReportTemplateExecutor(timeZone, locale, reportTitle, outputForm) {
+abstract class SimpleReportTemplateExecutor<T>(timeZone: ZoneId, locale: Locale, reportTitle: String, protected var fieldBuilder: RpFieldsBuilder, outputForm: ReportExportType, protected var classType: Class<T>) : ReportTemplateExecutor(timeZone, locale, reportTitle, outputForm) {
 
     protected lateinit var reportBuilder: AbstractReportBuilder
 
@@ -48,7 +49,7 @@ abstract class SimpleReportTemplateExecutor<T>(timeZone: TimeZone, locale: Local
         reportBuilder.toStream(outputStream)
     }
 
-    class AllItems<S : SearchCriteria, T>(timeZone: TimeZone, locale: Locale, reportTitle: String, fieldBuilder: RpFieldsBuilder, outputForm: ReportExportType,
+    class AllItems<S : SearchCriteria, T>(timeZone: ZoneId, locale: Locale, reportTitle: String, fieldBuilder: RpFieldsBuilder, outputForm: ReportExportType,
                                           classType: Class<T>, private val searchService: ISearchableService<S>) : SimpleReportTemplateExecutor<T>(timeZone, locale, reportTitle, fieldBuilder, outputForm, classType) {
 
         private var totalItems: Int = 0
@@ -62,7 +63,7 @@ abstract class SimpleReportTemplateExecutor<T>(timeZone: TimeZone, locale: Local
         }
     }
 
-    class ListData<T>(timeZone: TimeZone, locale: Locale, reportTitle: String, fieldBuilder: RpFieldsBuilder, outputForm: ReportExportType, private val data: List<T>, classType: Class<T>) : SimpleReportTemplateExecutor<T>(timeZone, locale, reportTitle, fieldBuilder, outputForm, classType) {
+    class ListData<T>(timeZone: ZoneId, locale: Locale, reportTitle: String, fieldBuilder: RpFieldsBuilder, outputForm: ReportExportType, private val data: List<T>, classType: Class<T>) : SimpleReportTemplateExecutor<T>(timeZone, locale, reportTitle, fieldBuilder, outputForm, classType) {
 
         override fun fillReport() {
             val ds = BeanDataSource(data)

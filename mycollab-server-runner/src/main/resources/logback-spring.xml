@@ -4,7 +4,8 @@
     <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
         <Target>System.out</Target>
         <encoder>
-            <pattern>%d{"HH:mm:ss,SSS"} %5p %c{1}:%L - %m%n</pattern>
+            <pattern>%d{"HH:mm:ss,SSS"} %5p %c:%L - %m%n</pattern>
+            <!--<pattern>%d{"HH:mm:ss,SSS"} %5p %c{1}:%L - %m%n</pattern>-->
         </encoder>
     </appender>
     <!--

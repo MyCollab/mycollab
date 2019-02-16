@@ -19,7 +19,6 @@ package com.mycollab.module.project.view.milestone
 import com.mycollab.common.UrlTokenizer
 import com.mycollab.core.ResourceNotFoundException
 import com.mycollab.db.arguments.SetSearchField
-import com.mycollab.vaadin.EventBusFactory
 import com.mycollab.module.project.domain.SimpleMilestone
 import com.mycollab.module.project.domain.criteria.MilestoneSearchCriteria
 import com.mycollab.module.project.event.ProjectEvent
@@ -29,6 +28,7 @@ import com.mycollab.module.project.view.parameters.MilestoneScreenData
 import com.mycollab.module.project.view.parameters.ProjectScreenData
 import com.mycollab.spring.AppContextUtil
 import com.mycollab.vaadin.AppUI
+import com.mycollab.vaadin.EventBusFactory
 import com.mycollab.vaadin.mvp.PageActionChain
 
 /**
@@ -41,7 +41,6 @@ class MilestoneUrlResolver : ProjectUrlResolver() {
         this.addSubResolver("add", AddUrlResolver())
         this.addSubResolver("edit", EditUrlResolver())
         this.addSubResolver("preview", PreviewUrlResolver())
-        this.addSubResolver("kanban", KanbanUrlResolver())
     }
 
     private class ListUrlResolver : ProjectUrlResolver() {
@@ -51,14 +50,6 @@ class MilestoneUrlResolver : ProjectUrlResolver() {
             milestoneSearchCriteria.projectIds = SetSearchField(projectId)
             val chain = PageActionChain(ProjectScreenData.Goto(projectId),
                     MilestoneScreenData.Search(milestoneSearchCriteria))
-            EventBusFactory.getInstance().post(ProjectEvent.GotoMyProject(this, chain))
-        }
-    }
-
-    private class KanbanUrlResolver : ProjectUrlResolver() {
-        override fun handlePage(vararg params: String) {
-            val projectId = UrlTokenizer(params[0]).getInt()
-            val chain = PageActionChain(ProjectScreenData.Goto(projectId), MilestoneScreenData.Kanban())
             EventBusFactory.getInstance().post(ProjectEvent.GotoMyProject(this, chain))
         }
     }

@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -21,17 +21,18 @@ import com.mycollab.common.i18n.ShellI18nEnum;
 import com.mycollab.configuration.EnDecryptHelper;
 import com.mycollab.core.InvalidPasswordException;
 import com.mycollab.core.utils.PasswordCheckerUtil;
+import com.mycollab.form.view.LayoutType;
 import com.mycollab.module.user.accountsettings.localization.UserI18nEnum;
 import com.mycollab.module.user.domain.User;
 import com.mycollab.module.user.service.UserService;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.UserUIContext;
+import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.NotificationUtil;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
-import com.vaadin.event.ShortcutAction;
-import com.vaadin.server.FontAwesome;
-import com.vaadin.shared.ui.MarginInfo;
+import com.vaadin.event.ShortcutAction.KeyCode;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.PasswordField;
@@ -60,15 +61,15 @@ public class PasswordChangeWindow extends MWindow {
     private void initUI() {
         final MVerticalLayout mainLayout = new MVerticalLayout().withFullWidth();
 
-        final Label lbInstruct1 = new Label(UserUIContext.getMessage(UserI18nEnum.MSG_PASSWORD_INSTRUCT_LABEL_1));
+        Label lbInstruct1 = new ELabel(UserUIContext.getMessage(UserI18nEnum.MSG_PASSWORD_INSTRUCT_LABEL_1)).withFullWidth();
         mainLayout.addComponent(lbInstruct1);
         mainLayout.setComponentAlignment(lbInstruct1, Alignment.MIDDLE_LEFT);
 
-        final Label lbInstruct2 = new Label(UserUIContext.getMessage(UserI18nEnum.MSG_PASSWORD_INSTRUCT_LABEL_2));
+        final Label lbInstruct2 = new ELabel(UserUIContext.getMessage(UserI18nEnum.MSG_PASSWORD_INSTRUCT_LABEL_2)).withFullWidth();
         mainLayout.addComponent(lbInstruct2);
         mainLayout.setComponentAlignment(lbInstruct2, Alignment.MIDDLE_LEFT);
 
-        GridFormLayoutHelper passInfo = GridFormLayoutHelper.defaultFormLayoutHelper(1, 3);
+        GridFormLayoutHelper passInfo = GridFormLayoutHelper.defaultFormLayoutHelper(LayoutType.ONE_COLUMN);
 
         txtNewPassword = new PasswordField();
         passInfo.addComponent(txtNewPassword, UserUIContext.getMessage(ShellI18nEnum.OPT_NEW_PASSWORD), 0, 0);
@@ -83,9 +84,9 @@ public class PasswordChangeWindow extends MWindow {
                 .withStyleName(WebThemes.BUTTON_OPTION);
 
         MButton saveBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_SAVE), clickEvent -> changePassword())
-                .withIcon(FontAwesome.SAVE).withStyleName(WebThemes.BUTTON_ACTION).withClickShortcut(ShortcutAction.KeyCode.ENTER);
+                .withIcon(VaadinIcons.CLIPBOARD).withStyleName(WebThemes.BUTTON_ACTION).withClickShortcut(KeyCode.ENTER);
 
-        MHorizontalLayout hlayoutControls = new MHorizontalLayout(cancelBtn, saveBtn).withMargin(new MarginInfo(false, true, false, true));
+        MHorizontalLayout hlayoutControls = new MHorizontalLayout(cancelBtn, saveBtn).withMargin(false);
         mainLayout.with(hlayoutControls).withAlign(hlayoutControls, Alignment.MIDDLE_RIGHT);
 
         this.setContent(mainLayout);

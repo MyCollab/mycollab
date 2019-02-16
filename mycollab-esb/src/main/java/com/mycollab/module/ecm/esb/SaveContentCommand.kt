@@ -20,7 +20,7 @@ import com.google.common.eventbus.AllowConcurrentEvents
 import com.google.common.eventbus.Subscribe
 import com.mycollab.concurrent.DistributionLockUtil
 import com.mycollab.core.utils.StringUtils
-import com.mycollab.module.ecm.service.DriveInfoService
+import com.mycollab.common.service.DriveInfoService
 import com.mycollab.module.esb.GenericCommand
 import com.mycollab.module.file.service.RawContentService
 import org.slf4j.LoggerFactory

@@ -96,8 +96,7 @@ public class ContentSessionFactory extends JcrSessionFactory {
         thumbnailPathPropertyTemplate.setName("mycollab:thumbnailPath");
         thumbnailPathPropertyTemplate.setMandatory(false);
         thumbnailPathPropertyTemplate.setRequiredType(PropertyType.STRING);
-        contentTypeTemplate.getPropertyDefinitionTemplates().add(
-                thumbnailPathPropertyTemplate);
+        contentTypeTemplate.getPropertyDefinitionTemplates().add(thumbnailPathPropertyTemplate);
 
         PropertyDefinitionTemplate lastModifiedUserPropertyTemplate = manager.createPropertyDefinitionTemplate();
         lastModifiedUserPropertyTemplate.setMultiple(false);
@@ -112,8 +111,7 @@ public class ContentSessionFactory extends JcrSessionFactory {
         mimeTypePropertyTemplate.setName("mycollab:mimeType");
         mimeTypePropertyTemplate.setMandatory(false);
         mimeTypePropertyTemplate.setRequiredType(PropertyType.STRING);
-        contentTypeTemplate.getPropertyDefinitionTemplates().add(
-                mimeTypePropertyTemplate);
+        contentTypeTemplate.getPropertyDefinitionTemplates().add(mimeTypePropertyTemplate);
 
         PropertyDefinitionTemplate sizePropertyTemplate = manager.createPropertyDefinitionTemplate();
         sizePropertyTemplate.setMultiple(false);

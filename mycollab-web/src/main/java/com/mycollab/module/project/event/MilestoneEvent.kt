@@ -33,8 +33,6 @@ object MilestoneEvent {
 
     class GotoRoadmap(source: Any) : ApplicationEvent(source)
 
-    class GotoKanban(source: Any) : ApplicationEvent(source)
-
     class NewMilestoneAdded(source: Any, val data: Int) : ApplicationEvent(source)
 
     class MilestoneDeleted(source: Any, val data: Int) : ApplicationEvent(source)

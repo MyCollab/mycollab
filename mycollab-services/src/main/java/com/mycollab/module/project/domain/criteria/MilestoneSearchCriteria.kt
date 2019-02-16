@@ -25,11 +25,8 @@ import com.mycollab.db.arguments.StringSearchField
  * @author MyCollab Ltd.
  * @since 1.0
  */
-class MilestoneSearchCriteria : SearchCriteria() {
-
-    var assignUser: StringSearchField? = null
-    var statuses: SetSearchField<String>? = null
-    var projectIds: SetSearchField<Int>? = null
-    var id: NumberSearchField? = null
-    var milestoneName: StringSearchField? = null
-}
+class MilestoneSearchCriteria(var assignUser: StringSearchField? = null,
+                              var statuses: SetSearchField<String>? = null,
+                              var projectIds: SetSearchField<Int>? = null,
+                              var id: NumberSearchField? = null,
+                              var milestoneName: StringSearchField? = null) : SearchCriteria()

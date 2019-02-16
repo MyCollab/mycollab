@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -21,7 +21,6 @@ import com.mycollab.configuration.SiteConfiguration;
 import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.db.arguments.SearchField;
 import com.mycollab.db.arguments.SetSearchField;
-import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.module.file.AttachmentUtils;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectRolePermissionCollections;
@@ -35,8 +34,10 @@ import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.mycollab.module.project.service.MilestoneService;
 import com.mycollab.module.project.service.ProjectTicketService;
 import com.mycollab.module.project.view.ProjectBreadcrumb;
+import com.mycollab.module.project.view.ProjectView;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppUI;
+import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.event.IEditFormHandler;
 import com.mycollab.vaadin.mvp.LoadPolicy;
@@ -89,19 +90,19 @@ public class MilestoneAddPresenter extends AbstractPresenter<MilestoneAddView> {
     @Override
     protected void onGo(HasComponents container, ScreenData<?> data) {
         if (CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.MILESTONES)) {
-            MilestoneContainer milestoneContainer = (MilestoneContainer) container;
-            milestoneContainer.navigateToContainer(ProjectTypeConstants.MILESTONE);
-            milestoneContainer.setContent(view);
+            ProjectView projectView = (ProjectView) container;
+            projectView.gotoSubView(ProjectView.MILESTONE_ENTRY, view);
 
             SimpleMilestone milestone = (SimpleMilestone) data.getParams();
-            view.editItem(milestone);
 
             ProjectBreadcrumb breadcrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);
             if (milestone.getId() == null) {
+                milestone.setSaccountid(AppUI.getAccountId());
                 breadcrumb.gotoMilestoneAdd();
             } else {
                 breadcrumb.gotoMilestoneEdit(milestone);
             }
+            view.editItem(milestone);
         } else {
             NotificationUtil.showMessagePermissionAlert();
         }
@@ -129,7 +130,7 @@ public class MilestoneAddPresenter extends AbstractPresenter<MilestoneAddView> {
             searchCriteria.setTypes(new SetSearchField<>(ProjectTypeConstants.BUG, ProjectTypeConstants.RISK,
                     ProjectTypeConstants.TASK));
             searchCriteria.setMilestoneId(NumberSearchField.equal(milestone.getId()));
-            searchCriteria.setOpenned(new SearchField());
+            searchCriteria.setOpen(new SearchField());
             ProjectTicketService genericTaskService = AppContextUtil.getSpringBean(ProjectTicketService.class);
             int openAssignmentsCount = genericTaskService.getTotalCount(searchCriteria);
             if (openAssignmentsCount > 0) {

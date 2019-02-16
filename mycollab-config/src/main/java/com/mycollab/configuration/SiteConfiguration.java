@@ -1,10 +1,8 @@
 package com.mycollab.configuration;
 
 import com.mycollab.spring.AppContextUtil;
-import org.joda.time.DateTimeZone;
 
 import java.util.Locale;
-import java.util.TimeZone;
 
 import static com.mycollab.configuration.ApplicationProperties.*;
 
@@ -20,11 +18,8 @@ public class SiteConfiguration {
 
     private Locale defaultLocale;
     private String endecryptPassword;
-    private String dropboxCallbackUrl;
 
     public static void loadConfiguration() {
-        TimeZone.setDefault(DateTimeZone.UTC.toTimeZone());
-        DateTimeZone.setDefault(DateTimeZone.UTC);
         ApplicationProperties.loadProps();
         instance = new SiteConfiguration();
 
@@ -36,8 +31,6 @@ public class SiteConfiguration {
         }
 
         instance.endecryptPassword = ApplicationProperties.getString(BI_ENDECRYPT_PASSWORD, "mycollab123");
-
-        instance.dropboxCallbackUrl = ApplicationProperties.getString(DROPBOX_AUTH_LINK);
     }
 
     private static SiteConfiguration getInstance() {
@@ -64,10 +57,6 @@ public class SiteConfiguration {
 
     public static Locale getDefaultLocale() {
         return Locale.US;
-    }
-
-    public static String getDropboxCallbackUrl() {
-        return getInstance().dropboxCallbackUrl;
     }
 
     public static String getEnDecryptPassword() {

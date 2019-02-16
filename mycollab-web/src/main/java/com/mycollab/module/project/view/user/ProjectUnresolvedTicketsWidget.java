@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -34,9 +34,8 @@ import com.mycollab.vaadin.web.ui.DefaultBeanPagedList;
 import com.mycollab.vaadin.web.ui.Depot;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.CssLayout;
-import org.joda.time.LocalDate;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 /**
  * @author MyCollab Ltd
@@ -44,7 +43,7 @@ import java.util.Date;
  */
 public class ProjectUnresolvedTicketsWidget extends Depot {
     private ProjectTicketSearchCriteria searchCriteria;
-    private DefaultBeanPagedList<ProjectTicketService, ProjectTicketSearchCriteria, ProjectTicket> taskList;
+    private DefaultBeanPagedList<ProjectTicketService, ProjectTicketSearchCriteria, ProjectTicket> ticketList;
     private String title = "";
 
     public ProjectUnresolvedTicketsWidget() {
@@ -60,7 +59,7 @@ public class ProjectUnresolvedTicketsWidget extends Depot {
             }
             updateSearchResult();
         });
-        taskList = new DefaultBeanPagedList(AppContextUtil.getSpringBean(ProjectTicketService.class),
+        ticketList = new DefaultBeanPagedList(AppContextUtil.getSpringBean(ProjectTicketService.class),
                 new TicketRowDisplayHandler(false), 10) {
             @Override
             protected String stringWhenEmptyList() {
@@ -68,16 +67,16 @@ public class ProjectUnresolvedTicketsWidget extends Depot {
             }
         };
         addHeaderElement(myItemsSelection);
-        bodyContent.addComponent(taskList);
+        bodyContent.addComponent(ticketList);
     }
 
     public void displayUnresolvedAssignmentsThisWeek() {
         title = UserUIContext.getMessage(ProjectI18nEnum.OPT_UNRESOLVED_TICKET_THIS_WEEK);
         searchCriteria = new ProjectTicketSearchCriteria();
-        searchCriteria.setOpenned(new SearchField());
+        searchCriteria.setOpen(new SearchField());
         searchCriteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
-        LocalDate now = new LocalDate();
-        Date[] bounceDateOfWeek = DateTimeUtils.getBounceDatesOfWeek(now.toDate());
+        LocalDate now = LocalDate.now();
+        LocalDate[] bounceDateOfWeek = DateTimeUtils.getBounceDatesOfWeek(now);
         RangeDateSearchField range = new RangeDateSearchField(bounceDateOfWeek[0], bounceDateOfWeek[1]);
         searchCriteria.setDateInRange(range);
         updateSearchResult();
@@ -86,18 +85,18 @@ public class ProjectUnresolvedTicketsWidget extends Depot {
     public void displayUnresolvedAssignmentsNextWeek() {
         title = UserUIContext.getMessage(ProjectI18nEnum.OPT_UNRESOLVED_TICKET_NEXT_WEEK);
         searchCriteria = new ProjectTicketSearchCriteria();
-        searchCriteria.setOpenned(new SearchField());
+        searchCriteria.setOpen(new SearchField());
         searchCriteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
-        LocalDate now = new LocalDate();
+        LocalDate now = LocalDate.now();
         now = now.plusDays(7);
-        Date[] bounceDateOfWeek = DateTimeUtils.getBounceDatesOfWeek(now.toDate());
+        LocalDate[] bounceDateOfWeek = DateTimeUtils.getBounceDatesOfWeek(now);
         RangeDateSearchField range = new RangeDateSearchField(bounceDateOfWeek[0], bounceDateOfWeek[1]);
         searchCriteria.setDateInRange(range);
         updateSearchResult();
     }
 
     private void updateSearchResult() {
-        taskList.setSearchCriteria(searchCriteria);
-        this.setTitle(String.format(title, taskList.getTotalCount()));
+        ticketList.setSearchCriteria(searchCriteria);
+        this.setTitle(String.format(title, ticketList.getTotalCount()));
     }
 }

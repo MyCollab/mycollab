@@ -1,36 +1,34 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package com.mycollab.module.project.view.settings;
 
-import com.mycollab.common.ModuleNameConstants;
 import com.mycollab.core.MyCollabException;
 import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectRolePermissionCollections;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.event.BugComponentEvent;
-import com.mycollab.module.project.event.UpdateNotificationItemReadStatusEvent;
 import com.mycollab.module.project.view.ProjectBreadcrumb;
+import com.mycollab.module.project.view.ProjectView;
 import com.mycollab.module.tracker.domain.Component;
 import com.mycollab.module.tracker.domain.SimpleComponent;
 import com.mycollab.module.tracker.domain.criteria.ComponentSearchCriteria;
 import com.mycollab.module.tracker.service.ComponentService;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.spring.AppEventBus;
 import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.vaadin.UserUIContext;
@@ -135,16 +133,12 @@ public class ComponentReadPresenter extends AbstractPresenter<ComponentReadView>
                 ComponentService componentService = AppContextUtil.getSpringBean(ComponentService.class);
                 SimpleComponent component = componentService.findById((Integer) data.getParams(), AppUI.getAccountId());
                 if (component != null) {
-                    ProjectComponentContainer componentContainer = (ProjectComponentContainer) container;
-                    componentContainer.removeAllComponents();
-                    componentContainer.addComponent(view);
+                    ProjectView projectView = (ProjectView) container;
+                    projectView.gotoSubView(ProjectView.COMPONENT_ENTRY, view);
                     view.previewItem(component);
 
                     ProjectBreadcrumb breadcrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);
                     breadcrumb.gotoComponentRead(component);
-
-                    AppEventBus.getInstance().post(new UpdateNotificationItemReadStatusEvent(UserUIContext.getUsername(),
-                            ModuleNameConstants.PRJ, ProjectTypeConstants.BUG_COMPONENT, component.getId().toString()));
                 } else {
                     NotificationUtil.showRecordNotExistNotification();
                 }

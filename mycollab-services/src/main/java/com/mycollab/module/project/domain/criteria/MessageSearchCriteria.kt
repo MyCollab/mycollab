@@ -26,13 +26,7 @@ import com.mycollab.db.arguments.StringSearchField
  * @author MyCollab Ltd.
  * @since 1.0
  */
-class MessageSearchCriteria : SearchCriteria() {
-
-    var id: NumberSearchField? = null
-
-    var projectids: SetSearchField<Int>? = null
-
-    var title: StringSearchField? = null
-
-    var message: StringSearchField? = null
-}
+class MessageSearchCriteria(var id: NumberSearchField? = null,
+                            var projectIds: SetSearchField<Int>? = null,
+                            var title: StringSearchField? = null,
+                            var message: StringSearchField? = null) : SearchCriteria()

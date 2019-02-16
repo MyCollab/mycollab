@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -28,7 +28,6 @@ import com.mycollab.module.project.i18n.MessageI18nEnum;
 import com.mycollab.module.project.service.MessageService;
 import com.mycollab.module.project.ui.components.CommentDisplay;
 import com.mycollab.module.project.ui.components.ComponentUtils;
-import com.mycollab.module.project.ui.components.ProjectAttachmentDisplayComponentFactory;
 import com.mycollab.module.project.ui.components.ProjectMemberBlock;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppUI;
@@ -38,13 +37,15 @@ import com.mycollab.vaadin.mvp.AbstractVerticalPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.*;
 import com.mycollab.vaadin.web.ui.AdvancedPreviewBeanForm;
+import com.mycollab.vaadin.web.ui.AttachmentDisplayComponent;
 import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.mycollab.vaadin.web.ui.WebThemes;
-import com.vaadin.server.FontAwesome;
+import com.vaadin.data.HasValue;
+import com.vaadin.icons.VaadinIcons;
+import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import org.apache.commons.collections.CollectionUtils;
 import org.vaadin.viritin.button.MButton;
-import org.vaadin.viritin.layouts.MCssLayout;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
@@ -60,21 +61,14 @@ public class MessageReadViewImpl extends AbstractVerticalPageView implements Mes
 
     private AdvancedPreviewBeanForm<SimpleMessage> previewForm;
     private SimpleMessage message;
-    private MCssLayout contentWrapper;
     private MHorizontalLayout header;
     private CommentDisplay commentDisplay;
     private CheckBox stickyCheck;
 
     public MessageReadViewImpl() {
-        super();
-
-        header = new MHorizontalLayout().withMargin(true).withStyleName("hdr-view").withFullWidth();
+        header = new MHorizontalLayout().withMargin(true).withFullWidth();
         previewForm = new AdvancedPreviewBeanForm<>();
-
-        contentWrapper = new MCssLayout().withStyleName(WebThemes.CONTENT_WRAPPER);
-        contentWrapper.addComponent(previewForm);
-        contentWrapper.setWidth("900px");
-        with(header, contentWrapper).expand(contentWrapper);
+        with(header, previewForm).expand(previewForm);
     }
 
     @Override
@@ -90,7 +84,7 @@ public class MessageReadViewImpl extends AbstractVerticalPageView implements Mes
             private static final long serialVersionUID = 1L;
 
             @Override
-            protected Field<?> onCreateField(Object propertyId) {
+            protected HasValue<?> onCreateField(Object propertyId) {
                 return null;
             }
         });
@@ -106,8 +100,7 @@ public class MessageReadViewImpl extends AbstractVerticalPageView implements Mes
 
         @Override
         public AbstractComponent getLayout() {
-            header.removeAllComponents();
-            MVerticalLayout messageAddLayout = new MVerticalLayout().withMargin(false).withFullWidth();
+            MVerticalLayout messageAddLayout = new MVerticalLayout().withMargin(new MarginInfo(false, true, false, true)).withFullWidth();
 
             MButton deleteBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_DELETE), clickEvent -> {
                 ConfirmDialogExt.show(UI.getCurrent(),
@@ -122,7 +115,7 @@ public class MessageReadViewImpl extends AbstractVerticalPageView implements Mes
                                 previewForm.fireCancelForm(message);
                             }
                         });
-            }).withIcon(FontAwesome.TRASH_O).withStyleName(WebThemes.BUTTON_DANGER);
+            }).withIcon(VaadinIcons.TRASH).withStyleName(WebThemes.BUTTON_DANGER);
             deleteBtn.setVisible(CurrentProjectVariables.canAccess(ProjectRolePermissionCollections.MESSAGES));
 
             stickyCheck = new CheckBox(UserUIContext.getMessage(MessageI18nEnum.FORM_IS_STICK), message.getIsstick());
@@ -134,7 +127,7 @@ public class MessageReadViewImpl extends AbstractVerticalPageView implements Mes
             });
             stickyCheck.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.MESSAGES));
 
-            HeaderWithFontAwesome headerText = ComponentUtils.headerH2(ProjectTypeConstants.MESSAGE, message.getTitle());
+            HeaderWithIcon headerText = ComponentUtils.headerH2(ProjectTypeConstants.MESSAGE, message.getTitle());
             header.with(headerText, stickyCheck, deleteBtn).withAlign(headerText, Alignment.MIDDLE_LEFT)
                     .withAlign(stickyCheck, Alignment.MIDDLE_RIGHT).withAlign(deleteBtn, Alignment.MIDDLE_RIGHT).expand(headerText);
 
@@ -144,7 +137,7 @@ public class MessageReadViewImpl extends AbstractVerticalPageView implements Mes
                 messageLayout.addStyleName("important-message");
             }
 
-            ProjectMemberBlock userBlock = new ProjectMemberBlock(message.getPosteduser(), message.getPostedUserAvatarId(),
+            ProjectMemberBlock userBlock = new ProjectMemberBlock(message.getCreateduser(), message.getPostedUserAvatarId(),
                     message.getFullPostedUserName());
 
             messageLayout.addComponent(userBlock);
@@ -155,10 +148,10 @@ public class MessageReadViewImpl extends AbstractVerticalPageView implements Mes
             messageHeader.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
             ELabel timePostLbl = ELabel.html(UserUIContext.getMessage(MessageI18nEnum.USER_COMMENT_ADD, message.getFullPostedUserName(),
-                    UserUIContext.formatPrettyTime(message.getPosteddate())))
-                    .withDescription(UserUIContext.formatDateTime(message.getPosteddate()));
+                    UserUIContext.formatPrettyTime(message.getCreatedtime())))
+                    .withDescription(UserUIContext.formatDateTime(message.getCreatedtime()));
             timePostLbl.setSizeUndefined();
-            timePostLbl.setStyleName(UIConstants.META_INFO);
+            timePostLbl.setStyleName(WebThemes.META_INFO);
 
             messageHeader.with(timePostLbl).expand(timePostLbl);
 
@@ -172,15 +165,14 @@ public class MessageReadViewImpl extends AbstractVerticalPageView implements Mes
                     AppUI.getAccountId(), message.getProjectid(), ProjectTypeConstants.MESSAGE, "" + message.getId()));
             if (CollectionUtils.isNotEmpty(attachments)) {
                 HorizontalLayout attachmentField = new HorizontalLayout();
-                Button attachmentIcon = new Button(null, FontAwesome.PAPERCLIP);
+                Button attachmentIcon = new Button(null, VaadinIcons.PAPERCLIP);
                 attachmentIcon.addStyleName(WebThemes.BUTTON_ICON_ONLY);
                 attachmentField.addComponent(attachmentIcon);
 
                 Label lbAttachment = new Label(UserUIContext.getMessage(GenericI18Enum.FORM_ATTACHMENTS));
                 attachmentField.addComponent(lbAttachment);
 
-                Component attachmentDisplayComp = ProjectAttachmentDisplayComponentFactory
-                        .getAttachmentDisplayComponent(message.getProjectid(), ProjectTypeConstants.MESSAGE, message.getId());
+                AttachmentDisplayComponent attachmentDisplayComp = new AttachmentDisplayComponent(attachments);
 
                 MVerticalLayout messageFooter = new MVerticalLayout().withFullWidth()
                         .with(attachmentField, attachmentDisplayComp);
@@ -189,13 +181,9 @@ public class MessageReadViewImpl extends AbstractVerticalPageView implements Mes
             }
 
             messageLayout.with(rowLayout).expand(rowLayout);
-            messageAddLayout.addComponent(messageLayout);
 
-            if (commentDisplay != null && commentDisplay.getParent() == contentWrapper) {
-                contentWrapper.removeComponent(commentDisplay);
-            }
             commentDisplay = createCommentPanel();
-            contentWrapper.addComponent(commentDisplay);
+            messageAddLayout.with(messageLayout, commentDisplay);
 
             return messageAddLayout;
         }
@@ -207,7 +195,7 @@ public class MessageReadViewImpl extends AbstractVerticalPageView implements Mes
         }
 
         @Override
-        protected Component onAttachField(Object propertyId, Field<?> field) {
+        protected HasValue<?> onAttachField(Object propertyId, HasValue<?> field) {
             return null;
         }
     }

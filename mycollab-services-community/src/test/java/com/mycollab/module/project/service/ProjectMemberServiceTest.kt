@@ -16,20 +16,17 @@
  */
 package com.mycollab.module.project.service
 
-import com.mycollab.module.project.domain.SimpleProjectMember
-import com.mycollab.module.user.domain.SimpleUser
 import com.mycollab.test.DataSet
+import com.mycollab.test.rule.DbUnitInitializerRule
 import com.mycollab.test.spring.IntegrationServiceTest
-import org.junit.Test
-import org.junit.runner.RunWith
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner
-
-import java.util.Arrays
-
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.test.context.junit.jupiter.SpringExtension
+import java.util.*
 
-@RunWith(SpringJUnit4ClassRunner::class)
+@ExtendWith(SpringExtension::class, DbUnitInitializerRule::class)
 class ProjectMemberServiceTest : IntegrationServiceTest() {
     @Autowired
     private lateinit var projectMemberService: ProjectMemberService
@@ -72,8 +69,6 @@ class ProjectMemberServiceTest : IntegrationServiceTest() {
     @Test
     fun testFindMemberByUsername() {
         val member = projectMemberService.findMemberByUsername("user1", 1, 1)
-        assertThat(member!!.projectid).isEqualTo(1)
-        assertThat(member.status).isEqualTo("Active")
-        assertThat(member.username).isEqualTo("user1")
+        assertThat(member).extracting("projectid", "status", "username").contains(1, "Active", "user1")
     }
 }

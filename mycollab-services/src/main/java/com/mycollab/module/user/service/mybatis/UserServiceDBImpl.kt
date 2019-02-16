@@ -20,6 +20,7 @@ import com.google.common.eventbus.AsyncEventBus
 import com.mycollab.configuration.EnDecryptHelper
 import com.mycollab.configuration.IDeploymentMode
 import com.mycollab.core.UserInvalidInputException
+import com.mycollab.core.utils.StringUtils
 import com.mycollab.db.arguments.BasicSearchRequest
 import com.mycollab.db.arguments.NumberSearchField
 import com.mycollab.db.arguments.SetSearchField
@@ -47,7 +48,7 @@ import org.apache.ibatis.session.RowBounds
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import java.util.*
+import java.time.LocalDateTime
 
 /**
  * @author MyCollab Ltd.
@@ -77,10 +78,10 @@ class UserServiceDBImpl(private val userMapper: UserMapper,
         var userAccountEx = UserAccountExample()
 
         if (deploymentMode.isDemandEdition) {
-            userAccountEx.createCriteria().andUsernameEqualTo(record.email).andAccountidEqualTo(sAccountId)
+            userAccountEx.createCriteria().andUsernameEqualTo(record.username).andAccountidEqualTo(sAccountId)
                     .andRegisterstatusEqualTo(RegisterStatusConstants.ACTIVE)
         } else {
-            userAccountEx.createCriteria().andUsernameEqualTo(record.email).andRegisterstatusEqualTo(RegisterStatusConstants.ACTIVE)
+            userAccountEx.createCriteria().andUsernameEqualTo(record.username).andRegisterstatusEqualTo(RegisterStatusConstants.ACTIVE)
         }
 
         if (userAccountMapper.countByExample(userAccountEx) > 0) {
@@ -92,11 +93,11 @@ class UserServiceDBImpl(private val userMapper: UserMapper,
             record.password = EnDecryptHelper.encryptSaltPassword(password)
         }
 
-        if (record.username == null) {
-            record.username = record.email
+        if (StringUtils.isBlank(record.email)) {
+            record.email = record.username
         }
 
-        if (record.lastname == null) {
+        if (StringUtils.isBlank(record.lastname)) {
             val userEmail = record.email
             val index = userEmail.lastIndexOf("@")
             if (index > 0) {
@@ -131,16 +132,16 @@ class UserServiceDBImpl(private val userMapper: UserMapper,
         }
 
         userAccount.username = record.username
-        userAccount.registeredtime = GregorianCalendar().time
-        userAccount.lastaccessedtime = GregorianCalendar().time
+        userAccount.registeredtime = LocalDateTime.now()
+        userAccount.lastaccessedtime = LocalDateTime.now()
         userAccount.registerstatus = RegisterStatusConstants.NOT_LOG_IN_YET
         userAccount.inviteuser = inviteUser
 
         userAccountEx = UserAccountExample()
         if (deploymentMode.isDemandEdition) {
-            userAccountEx.createCriteria().andUsernameEqualTo(record.email).andAccountidEqualTo(sAccountId)
+            userAccountEx.createCriteria().andUsernameEqualTo(record.username).andAccountidEqualTo(sAccountId)
         } else {
-            userAccountEx.createCriteria().andUsernameEqualTo(record.email)
+            userAccountEx.createCriteria().andUsernameEqualTo(record.username)
         }
 
         when {
@@ -149,8 +150,7 @@ class UserServiceDBImpl(private val userMapper: UserMapper,
         }
 
         if (isSendInvitationEmail) {
-            val invitationEvent = SendUserInvitationEvent(record.username, password,
-                    inviteUser, subDomain, sAccountId)
+            val invitationEvent = SendUserInvitationEvent(record.username, password, inviteUser, subDomain, sAccountId)
             asyncEventBus.post(invitationEvent)
         }
     }
@@ -186,36 +186,43 @@ class UserServiceDBImpl(private val userMapper: UserMapper,
             }
         }
 
-        if (record.username != record.email) {
+        if (StringUtils.isBlank(record.email)) {
+            record.email = record.username
             val ex = UserExample()
             ex.createCriteria().andUsernameEqualTo(record.email)
             val numUsers = userMapper.countByExample(ex)
-            if (numUsers > 0) {
+            if (numUsers > 1) {
                 throw UserInvalidInputException("Email %s is already existed in system. Please choose another email ${record.email}")
             }
         }
 
-        // now we keep username similar than email
         val ex = UserExample()
         ex.createCriteria().andUsernameEqualTo(record.username)
-        record.username = record.email
         userMapper.updateByExampleSelective(record, ex)
+
+        // now we keep username similar than email
+        if (record.email != record.username) {
+            record.username = record.email
+            val ex1 = UserExample()
+            ex1.createCriteria().andEmailEqualTo(record.email)
+            userMapper.updateByExample(record, ex1)
+        }
 
         val userAccountEx = UserAccountExample()
         userAccountEx.createCriteria().andUsernameEqualTo(record.username).andAccountidEqualTo(sAccountId)
         val userAccounts = userAccountMapper.selectByExample(userAccountEx)
         if (userAccounts.size > 0) {
             val userAccount = userAccounts[0]
-            if (record.roleid == -1) {
+            if (record.roleId == -1) {
                 userAccount.roleid = null
                 userAccount.isaccountowner = true
             } else {
-                userAccount.roleid = record.roleid
+                userAccount.roleid = record.roleId
                 userAccount.isaccountowner = false
             }
 
             userAccount.registerstatus = record.registerstatus
-            userAccount.lastaccessedtime = GregorianCalendar().time
+            userAccount.lastaccessedtime = LocalDateTime.now()
             userAccountMapper.updateByPrimaryKey(userAccount)
         }
     }
@@ -232,7 +239,7 @@ class UserServiceDBImpl(private val userMapper: UserMapper,
         criteria.saccountid = null
 
         if (deploymentMode.isDemandEdition) {
-            criteria.subdomain = StringSearchField.and(subDomain)
+            criteria.subDomain = StringSearchField.and(subDomain)
         }
 
         val users = findPageableListByCriteria(BasicSearchRequest(criteria)) as List<SimpleUser>
@@ -242,7 +249,7 @@ class UserServiceDBImpl(private val userMapper: UserMapper,
             var user: SimpleUser? = null
             if (deploymentMode.isDemandEdition) {
                 for (testUser in users) {
-                    if (subDomain == testUser.subdomain) {
+                    if (subDomain == testUser.subDomain) {
                         user = testUser
                         break
                     }
@@ -265,20 +272,19 @@ class UserServiceDBImpl(private val userMapper: UserMapper,
             LOG.debug("User $username login to system successfully!")
 
             if (user.isAccountOwner == null || (user.isAccountOwner != null && !user.isAccountOwner!!)) {
-                if (user.roleid != null) {
+                if (user.roleId != null) {
                     val ex = RolePermissionExample()
-                    ex.createCriteria().andRoleidEqualTo(user.roleid)
+                    ex.createCriteria().andRoleidEqualTo(user.roleId)
                     val roles = rolePermissionMapper.selectByExampleWithBLOBs(ex)
                     if (CollectionUtils.isNotEmpty(roles)) {
                         val rolePer = roles[0] as RolePermission
                         val permissionMap = PermissionMap.fromJsonString(rolePer.roleval)
                         user.permissionMaps = permissionMap
-                        LOG.debug("Find role match to user $username")
                     } else {
-                        LOG.debug("We can not find any role associate to user $username")
+                        LOG.error("We can not find any role associate to user $username")
                     }
                 } else {
-                    LOG.debug("User %s has no any role $username")
+                    LOG.error("User %s has no any role $username")
                 }
             }
             user.password = null
@@ -318,10 +324,7 @@ class UserServiceDBImpl(private val userMapper: UserMapper,
         userAccountMapper.updateByExampleSelective(userAccount, userAccountEx)
 
         // notify users are "deleted"
-        for (username in usernames) {
-            val event = DeleteUserEvent(username, accountId)
-            asyncEventBus.post(event)
-        }
+        usernames.forEach { asyncEventBus.post(DeleteUserEvent(it, accountId)) }
     }
 
     override fun findUserByUserName(username: String): User? {

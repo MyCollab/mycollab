@@ -16,29 +16,27 @@
  */
 package com.mycollab.db.arguments
 
-import org.joda.time.LocalDate
-import java.util.*
+import java.time.LocalDate
 
 /**
  * @author MyCollab Ltd
  * @since 6.0.0
  */
-class DateSearchField(operation: String, var dateVal: Date, var comparison: String, var value: Date = LocalDate(dateVal).toDate()) : SearchField(operation) {
-    constructor(dateVal: Date) : this(SearchField.AND, dateVal, DateSearchField.LESS_THAN)
+class DateSearchField(operation: String, var value: LocalDate, var comparison: String = DateSearchField.LESS_THAN) : SearchField(operation) {
 
-    constructor(dateVal: Date, comparison: String) : this(SearchField.AND, dateVal, comparison)
+    constructor(dateVal: LocalDate, comparison: String) : this(SearchField.AND, dateVal, comparison)
 
     companion object {
-        @JvmField val LESS_THAN = "<"
+        const val LESS_THAN = "<"
 
-        @JvmField val LESS_THAN_EQUAL = "<="
+        const val LESS_THAN_EQUAL = "<="
 
-        @JvmField val GREATER_THAN = ">"
+        const val GREATER_THAN = ">"
 
-        @JvmField val GREATER_THAN_EQUAL = ">="
+        const val  GREATER_THAN_EQUAL = ">="
 
-        @JvmField val EQUAL = "="
+        const val  EQUAL = "="
 
-        @JvmField val NOT_EQUAL = "<>"
+        const val  NOT_EQUAL = "<>"
     }
 }

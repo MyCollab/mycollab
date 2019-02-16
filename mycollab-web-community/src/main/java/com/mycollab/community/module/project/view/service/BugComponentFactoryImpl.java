@@ -30,11 +30,10 @@ import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.module.project.view.service.BugComponentFactory;
 import com.mycollab.module.tracker.domain.SimpleBug;
 import com.mycollab.vaadin.UserUIContext;
-import com.mycollab.vaadin.ui.UIConstants;
-import com.vaadin.server.FontAwesome;
+import com.mycollab.vaadin.web.ui.WebThemes;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.ui.AbstractComponent;
 import org.springframework.stereotype.Service;
-import org.vaadin.teemu.VaadinIcons;
 
 import static com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 
@@ -55,7 +54,7 @@ public class BugComponentFactoryImpl implements BugComponentFactory {
     public AbstractComponent createAssigneePopupField(SimpleBug bug) {
         String avatarLink = StorageUtils.getAvatarPath(bug.getAssignUserAvatarId(), 16);
         Img img = new Img(bug.getAssignuserFullName(), avatarLink).setTitle(bug.getAssignuserFullName())
-                .setCSSClass(UIConstants.CIRCLE_BOX);
+                .setCSSClass(WebThemes.CIRCLE_BOX);
         return new MetaFieldBuilder().withCaption(img.write())
                 .withDescription(UserUIContext.getMessage(GenericI18Enum.FORM_ASSIGNEE)).build();
     }
@@ -63,10 +62,10 @@ public class BugComponentFactoryImpl implements BugComponentFactory {
     @Override
     public AbstractComponent createCommentsPopupField(SimpleBug bug) {
         if (bug.getNumComments() != null) {
-            return new MetaFieldBuilder().withCaptionAndIcon(FontAwesome.COMMENT_O, "" + bug.getNumComments())
+            return new MetaFieldBuilder().withCaptionAndIcon(VaadinIcons.COMMENT_O, "" + bug.getNumComments())
                     .withDescription(UserUIContext.getMessage(GenericI18Enum.OPT_COMMENTS)).build();
         } else {
-            return new MetaFieldBuilder().withCaptionAndIcon(FontAwesome.COMMENT_O, " 0")
+            return new MetaFieldBuilder().withCaptionAndIcon(VaadinIcons.COMMENT_O, " 0")
                     .withDescription(UserUIContext.getMessage(GenericI18Enum.OPT_COMMENTS)).build();
         }
     }
@@ -87,7 +86,7 @@ public class BugComponentFactoryImpl implements BugComponentFactory {
 
     @Override
     public AbstractComponent createStatusPopupField(SimpleBug bug) {
-        return new MetaFieldBuilder().withCaptionAndIcon(FontAwesome.INFO_CIRCLE, UserUIContext.getMessage(StatusI18nEnum
+        return new MetaFieldBuilder().withCaptionAndIcon(VaadinIcons.INFO_CIRCLE, UserUIContext.getMessage(StatusI18nEnum
                 .class, bug.getStatus())).withDescription(UserUIContext.getMessage(GenericI18Enum.FORM_STATUS)).build();
     }
 
@@ -95,12 +94,12 @@ public class BugComponentFactoryImpl implements BugComponentFactory {
     public AbstractComponent createDeadlinePopupField(SimpleBug bug) {
         if (bug.getDueDateRoundPlusOne() == null) {
             Div divHint = new Div().setCSSClass("nonValue");
-            divHint.appendText(FontAwesome.CLOCK_O.getHtml());
+            divHint.appendText(VaadinIcons.CLOCK.getHtml());
             divHint.appendChild(new Span().appendText(UserUIContext.getMessage(GenericI18Enum.OPT_UNDEFINED)).setCSSClass("hide"));
             return new MetaFieldBuilder().withCaption(divHint.write()).withDescription(UserUIContext.getMessage
                     (GenericI18Enum.FORM_DUE_DATE)).build();
         } else {
-            return new MetaFieldBuilder().withCaption(String.format("%s %s", FontAwesome.CLOCK_O.getHtml(),
+            return new MetaFieldBuilder().withCaption(String.format("%s %s", VaadinIcons.CLOCK.getHtml(),
                     UserUIContext.formatPrettyTime(bug.getDueDateRoundPlusOne()))).withDescription(UserUIContext.getMessage
                     (GenericI18Enum.FORM_DUE_DATE)).build();
         }
@@ -138,19 +137,19 @@ public class BugComponentFactoryImpl implements BugComponentFactory {
 
     @Override
     public AbstractComponent createBillableHoursPopupField(SimpleBug bug) {
-        return new MetaFieldBuilder().withCaptionAndIcon(FontAwesome.MONEY, "" + bug.getBillableHours())
+        return new MetaFieldBuilder().withCaptionAndIcon(VaadinIcons.MONEY, "" + bug.getBillableHours())
                 .withDescription(UserUIContext.getMessage(TimeTrackingI18nEnum.OPT_BILLABLE_HOURS)).build();
     }
 
     @Override
     public AbstractComponent createNonbillableHoursPopupField(SimpleBug bug) {
-        return new MetaFieldBuilder().withCaptionAndIcon(FontAwesome.GIFT, "" + bug.getNonBillableHours())
+        return new MetaFieldBuilder().withCaptionAndIcon(VaadinIcons.GIFT, "" + bug.getNonBillableHours())
                 .withDescription(UserUIContext.getMessage(TimeTrackingI18nEnum.OPT_NON_BILLABLE_HOURS)).build();
     }
 
     @Override
     public AbstractComponent createFollowersPopupField(SimpleBug bug) {
-        return new MetaFieldBuilder().withCaptionAndIcon(FontAwesome.EYE, "" + bug.getNumFollowers())
+        return new MetaFieldBuilder().withCaptionAndIcon(VaadinIcons.EYE, "" + bug.getNumFollowers())
                 .withDescription(UserUIContext.getMessage(FollowerI18nEnum.OPT_SUB_INFO_WATCHERS)).build();
     }
 }

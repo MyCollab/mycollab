@@ -33,7 +33,7 @@ import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.mycollab.module.project.service.ProjectTaskService;
 import com.mycollab.module.project.service.ProjectTicketService;
 import com.mycollab.module.project.service.RiskService;
-import com.mycollab.module.project.ui.components.BlockRowRender;
+import com.mycollab.module.project.ui.components.TicketRowRender;
 import com.mycollab.module.tracker.domain.BugWithBLOBs;
 import com.mycollab.module.tracker.service.BugService;
 import com.mycollab.spring.AppContextUtil;
@@ -42,13 +42,11 @@ import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.vaadin.TooltipHelper;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
-import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.ui.UIUtils;
 import com.mycollab.vaadin.web.ui.AbstractToggleSummaryField;
 import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.mycollab.vaadin.web.ui.WebThemes;
-import com.vaadin.server.FontAwesome;
-import com.vaadin.shared.ui.MarginInfo;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
@@ -64,11 +62,11 @@ public class ToggleTicketSummaryField extends AbstractToggleSummaryField {
     private ProjectTicket ticket;
     private boolean isRead = true;
 
-    public ToggleTicketSummaryField(final ProjectTicket ticket) {
+    public ToggleTicketSummaryField(ProjectTicket ticket) {
         this.ticket = ticket;
         this.setWidth("100%");
         titleLinkLbl = ELabel.html(buildTicketLink()).withStyleName(ValoTheme.LABEL_NO_MARGIN,
-                UIConstants.LABEL_WORD_WRAP).withWidthUndefined();
+                WebThemes.LABEL_WORD_WRAP).withUndefinedWidth();
         if (ticket.isClosed()) {
             titleLinkLbl.addStyleName(WebThemes.LINK_COMPLETED);
         } else if (ticket.isOverdue()) {
@@ -77,7 +75,7 @@ public class ToggleTicketSummaryField extends AbstractToggleSummaryField {
         this.addComponent(titleLinkLbl);
         if (CurrentProjectVariables.canWriteTicket(ticket)) {
             this.addStyleName("editable-field");
-            buttonControls = new MHorizontalLayout().withMargin(new MarginInfo(false, false, false, true)).withStyleName("toggle");
+            buttonControls = new MHorizontalLayout().withMargin(false).withStyleName("toggle");
             buttonControls.setDefaultComponentAlignment(Alignment.TOP_LEFT);
             MButton instantEditBtn = new MButton("", clickEvent -> {
                 if (isRead) {
@@ -93,7 +91,7 @@ public class ToggleTicketSummaryField extends AbstractToggleSummaryField {
                     editField.addBlurListener(blurEvent -> updateFieldValue(editField));
                     isRead = !isRead;
                 }
-            }).withIcon(FontAwesome.EDIT).withStyleName(ValoTheme.BUTTON_ICON_ALIGN_TOP);
+            }).withIcon(VaadinIcons.EDIT).withStyleName(ValoTheme.BUTTON_ICON_ALIGN_TOP);
             instantEditBtn.setDescription(UserUIContext.getMessage(GenericI18Enum.ACTION_CLICK_TO_EDIT));
             buttonControls.with(instantEditBtn);
 
@@ -109,15 +107,15 @@ public class ToggleTicketSummaryField extends AbstractToggleSummaryField {
                             confirmDialog -> {
                                 if (confirmDialog.isConfirmed()) {
                                     AppContextUtil.getSpringBean(ProjectTicketService.class).removeTicket(ticket, UserUIContext.getUsername());
-                                    BlockRowRender rowRenderer = UIUtils.getRoot(ToggleTicketSummaryField.this,
-                                            BlockRowRender.class);
+                                    TicketRowRender rowRenderer = UIUtils.getRoot(ToggleTicketSummaryField.this,
+                                            TicketRowRender.class);
                                     if (rowRenderer != null) {
                                         rowRenderer.selfRemoved();
                                     }
                                     EventBusFactory.getInstance().post(new TicketEvent.HasTicketPropertyChanged(this, "all"));
                                 }
                             });
-                }).withIcon(FontAwesome.TRASH).withStyleName(ValoTheme.BUTTON_ICON_ALIGN_TOP);
+                }).withIcon(VaadinIcons.TRASH).withStyleName(ValoTheme.BUTTON_ICON_ALIGN_TOP);
                 buttonControls.with(removeBtn);
             }
 
@@ -173,7 +171,7 @@ public class ToggleTicketSummaryField extends AbstractToggleSummaryField {
         issueDiv.appendChild(ticketLink);
 
         if (ticket.isOverdue()) {
-            issueDiv.appendChild(new Span().setCSSClass(UIConstants.META_INFO).appendText(" - " + UserUIContext
+            issueDiv.appendChild(new Span().setCSSClass(WebThemes.META_INFO).appendText(" - " + UserUIContext
                     .getMessage(ProjectCommonI18nEnum.OPT_DUE_IN, UserUIContext.formatDuration(ticket.getDueDate()))));
         }
         return issueDiv.write();

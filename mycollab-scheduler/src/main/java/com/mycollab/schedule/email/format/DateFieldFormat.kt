@@ -23,7 +23,8 @@ import com.mycollab.core.utils.TimezoneVal
 import com.mycollab.schedule.email.MailContext
 import org.apache.commons.beanutils.PropertyUtils
 import org.slf4j.LoggerFactory
-import java.util.*
+import java.time.LocalDate
+import java.time.LocalDateTime
 
 /**
  * @author MyCollab Ltd
@@ -40,7 +41,7 @@ class DateFieldFormat(fieldName: String, displayName: Enum<*>) : FieldFormat(fie
             val value = PropertyUtils.getProperty(wrappedBean, fieldName)
             when (value) {
                 null -> Span().write()
-                else -> Span().appendText(DateTimeUtils.formatDate(value as Date, context.user.dateFormat,
+                else -> Span().appendText(DateTimeUtils.formatDate(value as LocalDate, context.user.dateFormat,
                         context.locale, TimezoneVal.valueOf(context.user.timezone))).write()
             }
         } catch (e: Exception) {

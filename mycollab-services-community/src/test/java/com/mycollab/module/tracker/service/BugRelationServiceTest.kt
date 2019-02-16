@@ -17,18 +17,19 @@
 package com.mycollab.module.tracker.service
 
 import com.mycollab.test.DataSet
+import com.mycollab.test.rule.DbUnitInitializerRule
 import com.mycollab.test.spring.IntegrationServiceTest
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.Test
-import org.junit.runner.RunWith
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner
+import org.springframework.test.context.junit.jupiter.SpringExtension
 
 /**
  * @author MyCollab Ltd
  * @since 5.2.12
  */
-@RunWith(SpringJUnit4ClassRunner::class)
+@ExtendWith(SpringExtension::class, DbUnitInitializerRule::class)
 class BugRelationServiceTest : IntegrationServiceTest() {
 
     @Autowired

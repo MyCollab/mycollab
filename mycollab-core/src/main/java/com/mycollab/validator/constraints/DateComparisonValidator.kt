@@ -17,11 +17,9 @@
 package com.mycollab.validator.constraints
 
 import org.apache.commons.beanutils.PropertyUtils
-import org.joda.time.LocalDate
-
+import java.time.LocalDate
 import javax.validation.ConstraintValidator
 import javax.validation.ConstraintValidatorContext
-import java.util.Date
 
 /**
  * @author MyCollab Ltd.
@@ -38,12 +36,10 @@ class DateComparisonValidator : ConstraintValidator<DateComparison, Any> {
 
     override fun isValid(value: Any, context: ConstraintValidatorContext): Boolean {
         return try {
-            val firstValue = PropertyUtils.getProperty(value, firstDateField) as? Date
-            val lastValue = PropertyUtils.getProperty(value, lastDateField) as? Date
+            val firstValue = PropertyUtils.getProperty(value, firstDateField) as? LocalDate
+            val lastValue = PropertyUtils.getProperty(value, lastDateField) as? LocalDate
             if (firstValue != null && lastValue != null) {
-                val firstDate = LocalDate(PropertyUtils.getProperty(value, firstDateField))
-                val lastDate = LocalDate(PropertyUtils.getProperty(value, lastDateField))
-                return firstDate <= lastDate
+                return firstValue.isBefore(lastValue.plusDays(1))
             }
             true
         } catch (ex: Exception) {

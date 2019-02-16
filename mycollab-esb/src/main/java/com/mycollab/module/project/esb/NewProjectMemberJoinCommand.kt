@@ -19,7 +19,6 @@ package com.mycollab.module.project.esb
 import com.google.common.eventbus.AllowConcurrentEvents
 import com.google.common.eventbus.Subscribe
 import com.hp.gagawa.java.elements.A
-import com.mycollab.common.FontAwesomeUtils
 import com.mycollab.common.domain.MailRecipientField
 import com.mycollab.common.i18n.MailI18nEnum
 import com.mycollab.configuration.ApplicationConfiguration
@@ -32,6 +31,7 @@ import com.mycollab.module.esb.GenericCommand
 import com.mycollab.module.mail.service.ExtMailService
 import com.mycollab.module.mail.service.IContentGenerator
 import com.mycollab.module.project.ProjectLinkGenerator
+import com.mycollab.module.project.ProjectResources
 import com.mycollab.module.project.ProjectTypeConstants
 import com.mycollab.module.project.domain.SimpleProjectMember
 import com.mycollab.module.project.service.ProjectMemberService
@@ -85,7 +85,7 @@ class NewProjectMemberJoinCommand(private val billingAccountService: BillingAcco
 
         class Formatter {
             fun formatProjectLink(siteUrl: String, newMember: SimpleProjectMember): String =
-                    DivLessFormatter().appendText(FontAwesomeUtils.toHtml(ProjectTypeConstants.PROJECT)).appendChild(DivLessFormatter.EMPTY_SPACE, A(ProjectLinkGenerator.generateProjectFullLink(siteUrl,
+                    DivLessFormatter().appendText(ProjectResources.getFontIconHtml(ProjectTypeConstants.PROJECT)).appendChild(DivLessFormatter.EMPTY_SPACE, A(ProjectLinkGenerator.generateProjectFullLink(siteUrl,
                             newMember.projectid)).appendText(newMember.projectName)).write()
 
 
@@ -93,8 +93,7 @@ class NewProjectMemberJoinCommand(private val billingAccountService: BillingAcco
                     A(ProjectLinkGenerator.generateProjectMemberFullLink(siteUrl, newMember.projectid, newMember.username)).appendText(newMember.displayName).write()
 
             fun formatRoleName(siteUrl: String, newMember: SimpleProjectMember): String =
-                    if (newMember.isProjectOwner) "Project Owner"
-                    else A(ProjectLinkGenerator.generateRolePreviewFullLink(siteUrl, newMember.projectid,
+                    A(ProjectLinkGenerator.generateRolePreviewFullLink(siteUrl, newMember.projectid,
                             newMember.projectid)).appendText(newMember.roleName).write()
         }
     }

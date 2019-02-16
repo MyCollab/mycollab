@@ -27,10 +27,10 @@ object CacheParamMapper {
     fun <P : Param> register(type: String, displayName: Enum<*>?, param: P): P {
         var valueParamMap: MutableMap<String, ValueParam>? = map[type]
         if (valueParamMap == null) {
-            valueParamMap = mutableMapOf<String, ValueParam>()
-            map.put(type, valueParamMap)
+            valueParamMap = mutableMapOf()
+            map[type] = valueParamMap
         }
-        valueParamMap.put(param.id, ValueParam(displayName, param))
+        valueParamMap[param.id] = ValueParam(displayName, param)
         return param
     }
 

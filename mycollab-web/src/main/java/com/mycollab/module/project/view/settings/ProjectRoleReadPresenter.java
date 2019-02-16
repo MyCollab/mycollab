@@ -19,6 +19,7 @@ package com.mycollab.module.project.view.settings;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.core.MyCollabException;
 import com.mycollab.db.arguments.NumberSearchField;
+import com.mycollab.module.project.view.ProjectView;
 import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.domain.SimpleProjectRole;
@@ -127,15 +128,14 @@ public class ProjectRoleReadPresenter extends AbstractPresenter<ProjectRoleReadV
 
     @Override
     protected void onGo(HasComponents container, ScreenData<?> data) {
-        ProjectRoleContainer roleContainer = (ProjectRoleContainer) container;
+        ProjectView projectView = (ProjectView) container;
 
         if (data.getParams() instanceof Integer) {
             SimpleProjectRole role = projectRoleService.findById((Integer) data.getParams(), AppUI.getAccountId());
             if (role == null) {
                 NotificationUtil.showRecordNotExistNotification();
             } else {
-                roleContainer.removeAllComponents();
-                roleContainer.addComponent(view);
+                projectView.gotoSubView(ProjectView.ROLE_ENTRY, view);
                 view.previewItem(role);
                 ProjectBreadcrumb breadCrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);
                 breadCrumb.gotoRoleRead(role);

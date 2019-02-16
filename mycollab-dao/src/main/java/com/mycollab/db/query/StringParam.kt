@@ -16,7 +16,7 @@
  */
 package com.mycollab.db.query
 
-import com.mycollab.common.i18n.QueryI18nEnum.StringI18nEnum.*
+import com.mycollab.common.i18n.QueryI18nEnum.*
 import com.mycollab.core.MyCollabException
 import com.mycollab.db.arguments.NoValueSearchField
 import com.mycollab.db.arguments.OneValueSearchField
@@ -85,6 +85,7 @@ class StringParam(id: String, table: String, column: String) : ColumnParam(id, t
 
     companion object {
 
-        @JvmField val OPTIONS = arrayOf(IS, IS_NOT, CONTAINS, NOT_CONTAINS, IS_EMPTY, IS_NOT_EMPTY)
+        @JvmField
+        val OPTIONS = arrayOf(IS, IS_NOT, CONTAINS, NOT_CONTAINS, IS_EMPTY, IS_NOT_EMPTY)
     }
 }

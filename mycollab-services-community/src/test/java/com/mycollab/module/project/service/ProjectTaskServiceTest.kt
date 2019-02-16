@@ -16,17 +16,16 @@
  */
 package com.mycollab.module.project.service
 
-import com.mycollab.module.project.domain.SimpleTask
 import com.mycollab.test.DataSet
+import com.mycollab.test.rule.DbUnitInitializerRule
 import com.mycollab.test.spring.IntegrationServiceTest
-import org.junit.Test
-import org.junit.runner.RunWith
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner
-
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.test.context.junit.jupiter.SpringExtension
 
-@RunWith(SpringJUnit4ClassRunner::class)
+@ExtendWith(SpringExtension::class, DbUnitInitializerRule::class)
 class ProjectTaskServiceTest : IntegrationServiceTest() {
 
     @Autowired
@@ -36,15 +35,13 @@ class ProjectTaskServiceTest : IntegrationServiceTest() {
     @Test
     fun testFindById() {
         val task = projectTaskService.findById(1, 1)
-        assertThat(task!!.name).isEqualTo("task1")
-        assertThat(task.projectShortname).isEqualTo("aaa")
+        assertThat(task).extracting("name", "projectShortname").contains("task1", "aaa")
     }
 
     @DataSet
     @Test
     fun testFindByProjectAndTaskKey() {
         val task = projectTaskService.findByProjectAndTaskKey(1, "aaa", 1)
-        assertThat(task!!.name).isEqualTo("task1")
-        assertThat(task.projectShortname).isEqualTo("aaa")
+        assertThat(task).extracting("name", "projectShortname").contains("task1", "aaa")
     }
 }

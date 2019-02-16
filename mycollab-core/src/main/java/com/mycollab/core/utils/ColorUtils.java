@@ -27,23 +27,23 @@ public class ColorUtils {
         return brighterColor(hexValue, 0.1);
     }
 
-    public static final String brighterColor(String hexValue, double fraction) {
+    public static String brighterColor(String hexValue, double fraction) {
         Color color = Color.decode(hexValue);
         Color brighter = lighter(color, fraction);
         return toHexString(brighter);
     }
 
-    public static final String darkerColor(String hexValue) {
+    public static String darkerColor(String hexValue) {
         return darkerColor(hexValue, 0.1);
     }
 
-    public static final String darkerColor(String hexValue, double fraction) {
+    public static String darkerColor(String hexValue, double fraction) {
         Color color = Color.decode(hexValue);
         Color brighter = darker(color, fraction);
         return toHexString(brighter);
     }
 
-    public final static String toHexString(Color colour) throws NullPointerException {
+    public static String toHexString(Color colour) throws NullPointerException {
         String hexColour = Integer.toHexString(colour.getRGB() & 0xffffff);
         if (hexColour.length() < 6) {
             hexColour = "000000".substring(0, 6 - hexColour.length()) + hexColour;

@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -24,21 +24,28 @@ import com.mycollab.module.project.ProjectRolePermissionCollections;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.i18n.VersionI18nEnum;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
-import com.mycollab.module.project.ui.components.ProjectPreviewFormControlsGenerator;
-import com.mycollab.vaadin.web.ui.*;
 import com.mycollab.module.project.ui.components.DateInfoComp;
 import com.mycollab.module.project.ui.components.ProjectActivityComponent;
+import com.mycollab.module.project.ui.components.ProjectPreviewFormControlsGenerator;
 import com.mycollab.module.project.ui.components.TagViewComponent;
+import com.mycollab.module.project.view.ProjectView;
 import com.mycollab.module.tracker.domain.Version;
 import com.mycollab.module.tracker.service.VersionService;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.event.HasPreviewFormHandlers;
 import com.mycollab.vaadin.mvp.ViewComponent;
-import com.vaadin.server.FontAwesome;
+import com.mycollab.vaadin.ui.UIUtils;
+import com.mycollab.vaadin.web.ui.AbstractPreviewItemComp;
+import com.mycollab.vaadin.web.ui.AdvancedPreviewBeanForm;
+import com.mycollab.vaadin.web.ui.WebThemes;
+import com.vaadin.icons.VaadinIcons;
+import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Panel;
 import org.vaadin.viritin.button.MButton;
+import org.vaadin.viritin.layouts.MVerticalLayout;
 
 /**
  * @author MyCollab Ltd.
@@ -69,13 +76,20 @@ public class VersionReadViewImpl extends AbstractPreviewItemComp<Version> implem
         activityComponent = new ProjectActivityComponent(ProjectTypeConstants.BUG_VERSION,
                 CurrentProjectVariables.getProjectId());
 
+        ProjectView projectView = UIUtils.getRoot(this, ProjectView.class);
+        MVerticalLayout detailLayout = new MVerticalLayout().withMargin(new MarginInfo(false, true, false, true));
+
         dateInfoComp = new DateInfoComp();
         if (SiteConfiguration.isCommunityEdition()) {
-            addToSideBar(dateInfoComp);
+            detailLayout.with(dateInfoComp);
         } else {
             versionTimeLogComp = new VersionTimeLogComp();
-            addToSideBar(dateInfoComp, versionTimeLogComp);
+            detailLayout.with(dateInfoComp, versionTimeLogComp);
         }
+
+        Panel detailPanel = new Panel(UserUIContext.getMessage(GenericI18Enum.OPT_DETAILS), detailLayout);
+        UIUtils.makeStackPanel(detailPanel);
+        projectView.addComponentToRightBar(detailPanel);
     }
 
     @Override
@@ -94,11 +108,11 @@ public class VersionReadViewImpl extends AbstractPreviewItemComp<Version> implem
         if (StatusI18nEnum.Open.name().equals(beanItem.getStatus())) {
             removeLayoutStyleName(WebThemes.LINK_COMPLETED);
             quickActionStatusBtn.setCaption(UserUIContext.getMessage(GenericI18Enum.BUTTON_CLOSE));
-            quickActionStatusBtn.setIcon(FontAwesome.ARCHIVE);
+            quickActionStatusBtn.setIcon(VaadinIcons.ARCHIVE);
         } else {
             addLayoutStyleName(WebThemes.LINK_COMPLETED);
             quickActionStatusBtn.setCaption(UserUIContext.getMessage(GenericI18Enum.BUTTON_REOPEN));
-            quickActionStatusBtn.setIcon(FontAwesome.CLIPBOARD);
+            quickActionStatusBtn.setIcon(VaadinIcons.CLIPBOARD);
         }
     }
 
@@ -132,12 +146,12 @@ public class VersionReadViewImpl extends AbstractPreviewItemComp<Version> implem
                 beanItem.setStatus(StatusI18nEnum.Open.name());
                 VersionReadViewImpl.this.removeLayoutStyleName(WebThemes.LINK_COMPLETED);
                 quickActionStatusBtn.setCaption(UserUIContext.getMessage(GenericI18Enum.BUTTON_CLOSE));
-                quickActionStatusBtn.setIcon(FontAwesome.ARCHIVE);
+                quickActionStatusBtn.setIcon(VaadinIcons.ARCHIVE);
             } else {
                 beanItem.setStatus(StatusI18nEnum.Closed.name());
                 VersionReadViewImpl.this.addLayoutStyleName(WebThemes.LINK_COMPLETED);
                 quickActionStatusBtn.setCaption(UserUIContext.getMessage(GenericI18Enum.BUTTON_REOPEN));
-                quickActionStatusBtn.setIcon(FontAwesome.CLIPBOARD);
+                quickActionStatusBtn.setIcon(VaadinIcons.CLIPBOARD);
             }
 
             VersionService service = AppContextUtil.getSpringBean(VersionService.class);

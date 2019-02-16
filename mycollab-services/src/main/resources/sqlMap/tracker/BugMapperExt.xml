@@ -345,9 +345,9 @@
                     FROM m_comment
                     WHERE m_comment.type='Project-Bug' AND m_comment.typeId=m_tracker_bug.id) AS numComments,
                  m_tracker_bug.remainEstimate, m_tracker_bug.milestoneId, bugkey, milestone.name as milestoneName,
-                 concat(assignuserTbl.firstname, ' ', LTRIM(concat(IFNULL(assignuserTbl.middlename, ''), ' ')), assignuserTbl.lastname) as assignuserFullName,
+                 concat(assignuserTbl.firstname, ' ', assignuserTbl.lastname) as assignuserFullName,
                  assignuserTbl.avatarId AS assignUserAvatarId,
-                 concat(loguserTbl.firstname, ' ', LTRIM(concat(IFNULL(loguserTbl.middlename, ''), ' ')), loguserTbl.lastname) as loguserFullName,
+                 concat(loguserTbl.firstname, ' ', loguserTbl.lastname) as loguserFullName,
                  loguserTbl.avatarId AS loguserAvatarId,
                  m_prj_project.name as projectname, m_prj_project.shortname AS projectShortName,
                  affectedversion.id as affectedversion_id, affectedversion.projectId as affectedversion_projectid,
@@ -487,7 +487,7 @@
         SELECT m_tracker_bug.assignUser AS groupid,
             COUNT(IFNULL(m_tracker_bug.assignUser, '')) AS value,
             s_user.avatarId AS extraValue,
-            concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) as groupname
+            concat(s_user.firstname, ' ', s_user.lastname) as groupname
         FROM m_tracker_bug
             LEFT OUTER JOIN s_user ON (m_tracker_bug.assignUser = s_user.username)
         ]]>
@@ -504,7 +504,7 @@
         <![CDATA[
         SELECT m_tracker_bug.createdUser AS groupid,
             COUNT(IFNULL(m_tracker_bug.createdUser,'')) AS value,
-            concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) as groupname
+            concat(s_user.firstname, ' ', s_user.lastname) as groupname
         FROM m_tracker_bug
             LEFT OUTER JOIN s_user ON (m_tracker_bug.createdUser = s_user.username)
         ]]>

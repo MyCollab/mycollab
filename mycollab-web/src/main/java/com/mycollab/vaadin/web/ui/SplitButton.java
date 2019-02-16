@@ -23,6 +23,7 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.HorizontalLayout;
 import org.vaadin.hene.popupbutton.PopupButton;
+import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 import java.io.Serializable;
 import java.lang.reflect.Method;
@@ -43,12 +44,9 @@ public class SplitButton extends CustomComponent {
     }
 
     public SplitButton(Button parentButton) {
-        this.setImmediate(true);
-        HorizontalLayout contentLayout = new HorizontalLayout();
-        contentLayout.setStyleName("splitbutton");
+        MHorizontalLayout contentLayout = new MHorizontalLayout().withSpacing(false).withStyleName("splitbutton").withUndefinedWidth();
         this.parentButton = parentButton;
         parentButton.addStyleName("parent-button");
-        parentButton.setImmediate(true);
         parentButton.addClickListener(clickEvent -> fireEvent(new SplitButtonClickEvent(SplitButton.this)));
 
         popupButton = new PopupButton();
@@ -60,7 +58,8 @@ public class SplitButton extends CustomComponent {
         contentLayout.addComponent(parentButton);
         contentLayout.addComponent(popupButton);
 
-        this.setCompositionRoot(contentLayout);
+        setCompositionRoot(contentLayout);
+        this.setWidthUndefined();
     }
 
     @Override

@@ -31,13 +31,13 @@
                     s_relay_email_notification.extraTypeId,
                     s_relay_email_notification.changeBy, s_relay_email_notification.changeComment,
                     s_account.logoPath AS accountLogo,
-                    concat(changeUser.firstname, ' ', LTRIM(IFNULL(changeUser.middlename, '')), changeUser.lastname) as changeByUserFullName,
+                    concat(changeUser.firstname, ' ', changeUser.lastname) as changeByUserFullName,
                     notifier.firstname AS notifiers_firstname, notifier.lastname AS notifiers_lastname, notifier.username AS notifiers_username,
                     notifier.email AS notifiers_email, notifier.language AS notifiers_language, s_relay_email_notification.sAccountId AS notifiers_accountId
                 FROM s_relay_email_notification
                     LEFT OUTER JOIN s_user AS changeUser ON (changeUser.username=s_relay_email_notification.changeBy)
                     LEFT OUTER JOIN m_monitor_item ON (m_monitor_item.typeId=s_relay_email_notification.typeId AND s_relay_email_notification.type=m_monitor_item.type)
-                    INNER JOIN s_user AS notifier ON (m_monitor_item.user=notifier.username AND notifier.status='EmailVerified')
+                    INNER JOIN s_user AS notifier ON (m_monitor_item.username=notifier.username AND notifier.status='EmailVerified')
                     INNER JOIN s_account ON (s_relay_email_notification.sAccountId=s_account.id)
         ]]>
     </sql>

@@ -19,10 +19,8 @@ package com.mycollab.concurrent
 import com.mycollab.spring.AppContextUtil
 import org.apache.commons.collections.map.AbstractReferenceMap
 import org.apache.commons.collections.map.ReferenceMap
-import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-
-import java.util.Collections
+import java.util.*
 import java.util.concurrent.locks.Lock
 import java.util.concurrent.locks.ReentrantLock
 
@@ -35,7 +33,8 @@ object DistributionLockUtil {
 
     private val map = Collections.synchronizedMap(ReferenceMap(AbstractReferenceMap.WEAK, AbstractReferenceMap.WEAK))
 
-    @JvmStatic fun getLock(lockName: String): Lock = try {
+    @JvmStatic
+    fun getLock(lockName: String): Lock = try {
         val lockService = AppContextUtil.getSpringBean(DistributionLockService::class.java)
         val lock = lockService.getLock(lockName)
         lock ?: getStaticDefaultLock(lockName)
@@ -44,7 +43,8 @@ object DistributionLockUtil {
         getStaticDefaultLock(lockName)
     }
 
-    @JvmStatic fun removeLock(lockName: String) {
+    @JvmStatic
+    fun removeLock(lockName: String) {
         map.remove(lockName)
     }
 

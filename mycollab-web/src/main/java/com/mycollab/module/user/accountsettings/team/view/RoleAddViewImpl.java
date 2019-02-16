@@ -1,24 +1,23 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package com.mycollab.module.user.accountsettings.team.view;
 
-import com.mycollab.common.i18n.ErrorI18nEnum;
-import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.i18n.SecurityI18nEnum;
+import com.mycollab.form.view.LayoutType;
 import com.mycollab.module.user.accountsettings.localization.RoleI18nEnum;
 import com.mycollab.module.user.domain.Role;
 import com.mycollab.module.user.domain.SimpleRole;
@@ -38,10 +37,12 @@ import com.mycollab.vaadin.ui.GenericBeanForm;
 import com.mycollab.vaadin.web.ui.AddViewLayout;
 import com.mycollab.vaadin.web.ui.KeyCaptionComboBox;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
-import com.vaadin.server.FontAwesome;
+import com.vaadin.data.HasValue;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import org.vaadin.viritin.fields.MTextField;
+import org.vaadin.viritin.layouts.MVerticalLayout;
 
 import java.util.HashMap;
 import java.util.List;
@@ -90,13 +91,13 @@ public class RoleAddViewImpl extends AbstractVerticalPageView implements RoleAdd
 
         private class FormLayoutFactory extends RoleFormLayoutFactory {
 
-            public FormLayoutFactory() {
+            FormLayoutFactory() {
                 super("");
             }
 
             @Override
             public AbstractComponent getLayout() {
-                AddViewLayout formAddLayout = new AddViewLayout(initFormHeader(), FontAwesome.USERS);
+                AddViewLayout formAddLayout = new AddViewLayout(initFormHeader(), VaadinIcons.USERS);
 
                 ComponentContainer topLayout = createButtonControls();
                 if (topLayout != null) {
@@ -129,7 +130,7 @@ public class RoleAddViewImpl extends AbstractVerticalPageView implements RoleAdd
 
             @Override
             protected Layout createBottomPanel() {
-                final VerticalLayout permissionsPanel = new VerticalLayout();
+                 MVerticalLayout permissionsPanel = new MVerticalLayout().withMargin(false);
 
                 PermissionMap perMap;
                 if (role instanceof SimpleRole) {
@@ -138,25 +139,9 @@ public class RoleAddViewImpl extends AbstractVerticalPageView implements RoleAdd
                     perMap = new PermissionMap();
                 }
 
-                GridFormLayoutHelper crmFormHelper = GridFormLayoutHelper.defaultFormLayoutHelper(
-                        2, RolePermissionCollections.CRM_PERMISSIONS_ARR.size() / 2 + 1);
-
-                for (int i = 0; i < RolePermissionCollections.CRM_PERMISSIONS_ARR.size(); i++) {
-                    PermissionDefItem permissionDefItem = RolePermissionCollections.CRM_PERMISSIONS_ARR.get(i);
-                    KeyCaptionComboBox permissionBox = PermissionComboBoxFactory.createPermissionSelection(permissionDefItem.getPermissionCls());
-
-                    Integer flag = perMap.getPermissionFlag(permissionDefItem.getKey());
-                    permissionBox.setValue(flag);
-                    permissionControlsMap.put(permissionDefItem.getKey(), permissionBox);
-                    crmFormHelper.addComponent(permissionBox, UserUIContext.getMessage(permissionDefItem.getCaption()), i % 2, i / 2);
-                }
-
                 permissionsPanel.addComponent(constructGridLayout(UserUIContext.getMessage(RoleI18nEnum.SECTION_PROJECT_MANAGEMENT_TITLE),
                         perMap, RolePermissionCollections.PROJECT_PERMISSION_ARR));
-                permissionsPanel.addComponent(constructGridLayout(UserUIContext.getMessage(RoleI18nEnum.SECTION_CRM_TITLE),
-                        perMap, RolePermissionCollections.CRM_PERMISSIONS_ARR));
-                permissionsPanel.addComponent(constructGridLayout(UserUIContext.getMessage(RoleI18nEnum.SECTION_DOCUMENT_TITLE),
-                        perMap, RolePermissionCollections.DOCUMENT_PERMISSION_ARR));
+
                 permissionsPanel.addComponent(constructGridLayout(UserUIContext.getMessage(RoleI18nEnum.SECTION_ACCOUNT_MANAGEMENT_TITLE),
                         perMap, RolePermissionCollections.ACCOUNT_PERMISSION_ARR));
 
@@ -165,7 +150,7 @@ public class RoleAddViewImpl extends AbstractVerticalPageView implements RoleAdd
         }
 
         private ComponentContainer constructGridLayout(String depotTitle, PermissionMap perMap, List<PermissionDefItem> defItems) {
-            GridFormLayoutHelper formHelper = GridFormLayoutHelper.defaultFormLayoutHelper(2, defItems.size() / 2 + 1);
+            GridFormLayoutHelper formHelper = GridFormLayoutHelper.defaultFormLayoutHelper(LayoutType.TWO_COLUMN);
             FormContainer permissionsPanel = new FormContainer();
             permissionsPanel.addSection(depotTitle, formHelper.getLayout());
 
@@ -173,7 +158,7 @@ public class RoleAddViewImpl extends AbstractVerticalPageView implements RoleAdd
                 PermissionDefItem permissionDefItem = defItems.get(i);
                 KeyCaptionComboBox permissionBox = PermissionComboBoxFactory.createPermissionSelection(permissionDefItem.getPermissionCls());
                 Integer flag = perMap.getPermissionFlag(permissionDefItem.getKey());
-                permissionBox.setValue(flag);
+                permissionBox.setValue(KeyCaptionComboBox.Entry.of(flag));
                 Enum captionHelp;
                 if (permissionBox instanceof YesNoPermissionComboBox) {
                     captionHelp = SecurityI18nEnum.BOOLEAN_PERMISSION_HELP;
@@ -193,8 +178,8 @@ public class RoleAddViewImpl extends AbstractVerticalPageView implements RoleAdd
 
             for (Map.Entry<String, KeyCaptionComboBox> entry : permissionControlsMap.entrySet()) {
                 KeyCaptionComboBox permissionBox = entry.getValue();
-                Integer perValue = (Integer) permissionBox.getValue();
-                permissionMap.addPath(entry.getKey(), perValue);
+                KeyCaptionComboBox.Entry perValue = permissionBox.getValue();
+                permissionMap.addPath(entry.getKey(), perValue.getKey());
             }
             return permissionMap;
         }
@@ -202,19 +187,18 @@ public class RoleAddViewImpl extends AbstractVerticalPageView implements RoleAdd
         private class EditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<Role> {
             private static final long serialVersionUID = 1L;
 
-            public EditFormFieldFactory(GenericBeanForm<Role> form) {
+            EditFormFieldFactory(GenericBeanForm<Role> form) {
                 super(form);
             }
 
             @Override
-            protected Field<?> onCreateField(final Object propertyId) {
-                if (propertyId.equals("description")) {
+            protected HasValue<?> onCreateField(final Object propertyId) {
+                if (Role.Field.description.equalTo(propertyId)) {
                     return new RichTextArea();
-                } else if (propertyId.equals("rolename")) {
-                    return new MTextField().withNullRepresentation("").withRequired(true)
-                            .withRequiredError(UserUIContext.getMessage(ErrorI18nEnum.FIELD_MUST_NOT_NULL,
-                                    UserUIContext.getMessage(GenericI18Enum.FORM_NAME)));
-
+                } else if (Role.Field.rolename.equalTo(propertyId)) {
+                    return new MTextField().withRequiredIndicatorVisible(true);
+                } else if (Role.Field.isdefault.equalTo(propertyId)) {
+                    return new CheckBox();
                 }
                 return null;
             }

@@ -1,28 +1,24 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package com.mycollab.module.project.view.ticket;
 
-import com.hp.gagawa.java.elements.Div;
-import com.hp.gagawa.java.elements.Text;
-import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.core.utils.SortedArrayMap;
-import com.mycollab.html.DivLessFormatter;
 import com.mycollab.module.project.domain.ProjectTicket;
-import com.mycollab.vaadin.UserUIContext;
+import com.mycollab.module.project.ui.components.TicketRowRender;
 
 import java.util.List;
 
@@ -30,9 +26,17 @@ import java.util.List;
  * @author MyCollab Ltd
  * @since 5.4.6
  */
-class MilestoneOrderGroup extends TicketGroupOrderComponent {
+public class MilestoneOrderGroup extends TicketGroupOrderComponent {
     private SortedArrayMap<Integer, MilestoneTicketGroupComponent> milestonesAvailable = new SortedArrayMap<>();
     private MilestoneTicketGroupComponent unspecifiedTickets;
+
+    public MilestoneOrderGroup() {
+        super();
+    }
+
+    public MilestoneOrderGroup(Class<? extends TicketRowRender> ticketRowRenderCls) {
+        super(ticketRowRenderCls);
+    }
 
     @Override
     public void insertTickets(List<ProjectTicket> tickets) {
@@ -41,7 +45,7 @@ class MilestoneOrderGroup extends TicketGroupOrderComponent {
             if (milestoneId != null) {
                 if (milestonesAvailable.containsKey(milestoneId)) {
                     MilestoneTicketGroupComponent groupComponent = milestonesAvailable.get(milestoneId);
-                    groupComponent.insertTicket(ticket);
+                    groupComponent.insertTicketComp(buildRenderer(ticket));
                 } else {
                     MilestoneTicketGroupComponent groupComponent = new MilestoneTicketGroupComponent(milestoneId);
                     milestonesAvailable.put(milestoneId, groupComponent);
@@ -56,14 +60,14 @@ class MilestoneOrderGroup extends TicketGroupOrderComponent {
                         }
                     }
 
-                    groupComponent.insertTicket(ticket);
+                    groupComponent.insertTicketComp(buildRenderer(ticket));
                 }
             } else {
                 if (unspecifiedTickets == null) {
                     unspecifiedTickets = new MilestoneTicketGroupComponent(null);
                     addComponent(unspecifiedTickets);
                 }
-                unspecifiedTickets.insertTicket(ticket);
+                unspecifiedTickets.insertTicketComp(buildRenderer(ticket));
             }
         }
     }

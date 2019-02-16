@@ -25,3 +25,5 @@ import com.mycollab.vaadin.mvp.PageView
 interface ProjectMemberInviteView : PageView {
     fun display()
 }
+
+class InviteMembers(val emails: Collection<String>, val roleId: Int?, val roleName: String, val inviteMessage: String)

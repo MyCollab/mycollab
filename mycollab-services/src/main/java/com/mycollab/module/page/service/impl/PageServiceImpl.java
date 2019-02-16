@@ -303,7 +303,7 @@ public class PageServiceImpl implements PageService {
                             node.getPrimaryNodeType().getName(), path));
                 }
             }
-            return new ArrayList<>();
+            return new ArrayList<Page>();
         });
     }
 
@@ -341,7 +341,7 @@ public class PageServiceImpl implements PageService {
             }
 
             LOG.debug("There is no resource in path {}", path);
-            return new ArrayList<>();
+            return new ArrayList<PageResource>();
         });
     }
 

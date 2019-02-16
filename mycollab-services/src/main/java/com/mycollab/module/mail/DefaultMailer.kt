@@ -76,6 +76,7 @@ class DefaultMailer(private val emailConf: EmailConfiguration) : IMailer {
 
             return email
         } catch (e: EmailException) {
+            LOG.info("Email content: $subject \n $html")
             throw MyCollabException(e)
         }
 
@@ -88,6 +89,7 @@ class DefaultMailer(private val emailConf: EmailConfiguration) : IMailer {
             val email = getBasicEmail(fromEmail, fromName, toEmails, ccEmails, bccEmails, subject, html)
             email.send()
         } catch (e: EmailException) {
+            LOG.info("Email content: $subject \n $html")
             throw MyCollabException(e)
         }
 

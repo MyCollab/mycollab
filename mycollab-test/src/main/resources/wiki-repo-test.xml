@@ -17,14 +17,12 @@
         <AccessManager
             class="org.apache.jackrabbit.core.security.simple.SimpleAccessManager">
         </AccessManager>
-        <LoginModule
-            class="org.apache.jackrabbit.core.security.simple.SimpleLoginModule">
+        <LoginModule class="org.apache.jackrabbit.core.security.simple.SimpleLoginModule">
             <param name="adminId" value="admin" />
         </LoginModule>
     </Security>
 
-    <Workspaces rootPath='wiki-repo-test/workspaces'
-        defaultWorkspace='default' />
+    <Workspaces rootPath='wiki-repo-test/workspaces' defaultWorkspace='wiki' />
     <Workspace name="wiki">
         <FileSystem class='org.apache.jackrabbit.core.fs.mem.MemoryFileSystem'>
         </FileSystem>

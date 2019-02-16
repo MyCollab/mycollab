@@ -45,8 +45,9 @@ import com.mycollab.module.project.service.MilestoneService;
 import com.mycollab.module.project.service.ProjectTicketService;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.module.project.ui.ProjectAssetsUtil;
-import com.mycollab.module.project.ui.components.BlockRowRender;
+import com.mycollab.module.project.ui.components.TicketRowRender;
 import com.mycollab.module.project.ui.components.IBlockContainer;
+import com.mycollab.module.project.view.ProjectView;
 import com.mycollab.module.project.view.service.MilestoneComponentFactory;
 import com.mycollab.module.project.view.ticket.ToggleTicketSummaryField;
 import com.mycollab.spring.AppContextUtil;
@@ -54,16 +55,16 @@ import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.ApplicationEventListener;
 import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.vaadin.UserUIContext;
-import com.mycollab.vaadin.addon.webcomponents.FloatingComponent;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.ELabel;
-import com.mycollab.vaadin.ui.UIConstants;
+import com.mycollab.vaadin.ui.UIUtils;
 import com.mycollab.vaadin.web.ui.AbstractLazyPageView;
-import com.mycollab.vaadin.web.ui.ToggleButtonGroup;
+import com.mycollab.vaadin.web.ui.ButtonGroup;
 import com.mycollab.vaadin.web.ui.WebThemes;
-import com.vaadin.server.FontAwesome;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
+import org.vaadin.addons.stackpanel.StackPanel;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
@@ -101,7 +102,7 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
             };
 
     private MVerticalLayout roadMapView;
-    private MVerticalLayout filterPanel;
+    private MVerticalLayout filterLayout;
     private ELabel headerText;
     private CheckBox closeMilestoneSelection, inProgressMilestoneSelection, futureMilestoneSelection;
     private MilestoneSearchCriteria baseCriteria;
@@ -144,27 +145,27 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
         futureMilestoneSelection.addValueChangeListener(valueChangeEvent ->
                 displayMilestones(baseCriteria, closeMilestoneSelection.getValue(), inProgressMilestoneSelection.getValue(),
                         futureMilestoneSelection.getValue()));
-        futureMilestoneSelection.setIcon(FontAwesome.CLOCK_O);
+        futureMilestoneSelection.setIcon(VaadinIcons.CLOCK);
 
-        filterPanel.with(closeMilestoneSelection, inProgressMilestoneSelection, futureMilestoneSelection);
+        filterLayout.with(closeMilestoneSelection, inProgressMilestoneSelection, futureMilestoneSelection);
         displayWidget();
     }
 
     private void displayWidget() {
-        final MilestoneSearchCriteria tmpCriteria = BeanUtility.deepClone(baseCriteria);
+        MilestoneSearchCriteria tmpCriteria = BeanUtility.deepClone(baseCriteria);
         tmpCriteria.setStatuses(new SetSearchField<>(MilestoneStatus.Closed.name()));
         int totalCloseCount = milestoneService.getTotalCount(tmpCriteria);
         closeMilestoneSelection.setCaption(String.format("%s (%d)",
                 UserUIContext.getMessage(MilestoneI18nEnum.WIDGET_CLOSED_PHASE_TITLE), totalCloseCount));
-        closeMilestoneSelection.setIcon(FontAwesome.MINUS_CIRCLE);
-        filterPanel.addComponent(closeMilestoneSelection);
+        closeMilestoneSelection.setIcon(VaadinIcons.MINUS_CIRCLE);
+        filterLayout.addComponent(closeMilestoneSelection);
 
         tmpCriteria.setStatuses(new SetSearchField<>(MilestoneStatus.InProgress.name()));
         int totalInProgressCount = milestoneService.getTotalCount(tmpCriteria);
         inProgressMilestoneSelection.setCaption(String.format("%s (%d)",
                 UserUIContext.getMessage(MilestoneI18nEnum.WIDGET_INPROGRESS_PHASE_TITLE), totalInProgressCount));
-        inProgressMilestoneSelection.setIcon(FontAwesome.SPINNER);
-        filterPanel.addComponent(inProgressMilestoneSelection);
+        inProgressMilestoneSelection.setIcon(VaadinIcons.SPINNER);
+        filterLayout.addComponent(inProgressMilestoneSelection);
 
         tmpCriteria.setStatuses(new SetSearchField<>(MilestoneStatus.Future.name()));
         int totalFutureCount = milestoneService.getTotalCount(tmpCriteria);
@@ -211,14 +212,19 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
     private void initUI() {
         headerText = ELabel.h2("");
 
-        MHorizontalLayout header = new MHorizontalLayout().withStyleName("hdr-view").withFullWidth().withMargin(true)
+        MHorizontalLayout headerComp = new MHorizontalLayout().withFullWidth().withMargin(true)
                 .with(headerText, createHeaderRight()).withAlign(headerText, Alignment.MIDDLE_LEFT).expand(headerText);
-        this.addComponent(header);
-        roadMapView = new MVerticalLayout().withSpacing(false);
-        filterPanel = new MVerticalLayout().withWidth("250px").withStyleName(WebThemes.BOX);
-        FloatingComponent floatingComponent = FloatingComponent.floatThis(filterPanel);
-        floatingComponent.setContainerId("main-body");
-        this.addComponent(new MHorizontalLayout().withFullWidth().with(roadMapView, filterPanel).expand(roadMapView));
+        this.addComponent(headerComp);
+        roadMapView = new MVerticalLayout().withSpacing(false).withMargin(false);
+        filterLayout = new MVerticalLayout();
+
+        MHorizontalLayout bodyComp = new MHorizontalLayout(roadMapView).withFullWidth().withMargin(true).expand(roadMapView);
+        this.with(headerComp, bodyComp).expand(bodyComp);
+
+        ProjectView projectView = UIUtils.getRoot(this, ProjectView.class);
+        Panel filterPanel = new Panel("Filter by status", filterLayout);
+        StackPanel.extend(filterPanel);
+        projectView.addComponentToRightBar(filterPanel);
     }
 
     private HorizontalLayout createHeaderRight() {
@@ -227,7 +233,7 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
             milestone.setSaccountid(AppUI.getAccountId());
             milestone.setProjectid(CurrentProjectVariables.getProjectId());
             UI.getCurrent().addWindow(new MilestoneAddWindow(milestone));
-        }).withIcon(FontAwesome.PLUS).withStyleName(WebThemes.BUTTON_ACTION)
+        }).withIcon(VaadinIcons.PLUS).withStyleName(WebThemes.BUTTON_ACTION)
                 .withVisible(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.MILESTONES));
 
         MButton printBtn = new MButton("", clickEvent ->
@@ -237,38 +243,28 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
                         return baseCriteria;
                     }
                 }))
-        ).withIcon(FontAwesome.PRINT).withStyleName(WebThemes.BUTTON_OPTION)
+        ).withIcon(VaadinIcons.PRINT).withStyleName(WebThemes.BUTTON_OPTION)
                 .withDescription(UserUIContext.getMessage(GenericI18Enum.ACTION_EXPORT));
 
         MButton boardBtn = new MButton(UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_BOARD), clickEvent ->
-                EventBusFactory.getInstance().post(new MilestoneEvent.GotoList(this, null))).withIcon(FontAwesome.SERVER).withWidth("100px");
+                EventBusFactory.getInstance().post(new MilestoneEvent.GotoList(this, null))).withIcon(VaadinIcons.SERVER).withWidth("100px");
 
         MButton roadmapBtn = new MButton(UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_LIST)).withIcon
-                (FontAwesome.NAVICON).withWidth("100px");
+                (VaadinIcons.BULLETS).withWidth("100px");
 
-        ToggleButtonGroup viewButtons = new ToggleButtonGroup();
-        viewButtons.addButton(roadmapBtn);
-        viewButtons.addButton(boardBtn);
-        if (!SiteConfiguration.isCommunityEdition()) {
-            MButton kanbanBtn = new MButton(UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_KANBAN),
-                    clickEvent -> EventBusFactory.getInstance().post(new MilestoneEvent.GotoKanban(MilestoneRoadmapViewImpl.this)))
-                    .withIcon(FontAwesome.TH).withWidth("100px");
-            viewButtons.addButton(kanbanBtn);
-        }
-
-        viewButtons.withDefaultButton(roadmapBtn);
-        return new MHorizontalLayout(createBtn, printBtn, viewButtons);
+        return new MHorizontalLayout(createBtn, printBtn,
+                new ButtonGroup(roadmapBtn, boardBtn).withDefaultButton(roadmapBtn));
     }
 
-    private static class MilestoneBlock extends BlockRowRender {
+    private static class MilestoneBlock extends TicketRowRender {
         private boolean showIssues = false;
 
-        MilestoneBlock(final SimpleMilestone milestone) {
+        MilestoneBlock(SimpleMilestone milestone) {
             this.withMargin(new MarginInfo(true, false, true, false)).withStyleName("roadmap-block");
 
-            FontAwesome statusIcon = ProjectAssetsUtil.getPhaseIcon(milestone.getStatus());
+            VaadinIcons statusIcon = ProjectAssetsUtil.getPhaseIcon(milestone.getStatus());
             ELabel statusLbl = ELabel.html(statusIcon.getHtml() + " " + UserUIContext.getMessage(MilestoneStatus.class,
-                    milestone.getStatus())).withStyleName(UIConstants.BLOCK).withWidthUndefined();
+                    milestone.getStatus())).withStyleName(WebThemes.BLOCK).withUndefinedWidth();
             ToggleMilestoneSummaryField toggleMilestoneSummaryField = new ToggleMilestoneSummaryField(milestone, false, true);
             MHorizontalLayout headerLayout = new MHorizontalLayout(statusLbl, toggleMilestoneSummaryField).expand
                     (toggleMilestoneSummaryField).withFullWidth();
@@ -298,10 +294,10 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
             if (totalAssignments > 0) {
                 progressInfoLbl = new ELabel(UserUIContext.getMessage(ProjectI18nEnum.OPT_PROJECT_TICKET,
                         (totalAssignments - openAssignments), totalAssignments, (totalAssignments - openAssignments)
-                                * 100 / totalAssignments)).withStyleName(UIConstants.META_INFO);
+                                * 100 / totalAssignments)).withStyleName(WebThemes.META_INFO);
             } else {
                 progressInfoLbl = new ELabel(UserUIContext.getMessage(ProjectI18nEnum.OPT_NO_TICKET))
-                        .withStyleName(UIConstants.META_INFO);
+                        .withStyleName(WebThemes.META_INFO);
             }
 
             final MVerticalLayout issueLayout = new MVerticalLayout().withMargin(new MarginInfo(false, true, false, true));
@@ -310,7 +306,7 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
             progressLayout.with(progressInfoLbl);
 
             if (totalAssignments > 0) {
-                final MButton viewIssuesBtn = new MButton(UserUIContext.getMessage(ProjectI18nEnum.ACTION_VIEW_TICKETS))
+                MButton viewIssuesBtn = new MButton(UserUIContext.getMessage(ProjectI18nEnum.ACTION_VIEW_TICKETS))
                         .withStyleName(WebThemes.BUTTON_LINK);
                 viewIssuesBtn.addClickListener(clickEvent -> {
                     showIssues = !showIssues;
@@ -327,18 +323,18 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
                             ToggleTicketSummaryField toggleTicketSummaryField = new ToggleTicketSummaryField(ticket);
                             MHorizontalLayout rowComp = new MHorizontalLayout(ELabel.EMPTY_SPACE());
                             rowComp.setDefaultComponentAlignment(Alignment.TOP_LEFT);
-                            rowComp.with(ELabel.fontIcon(ProjectAssetsManager.getAsset(ticket.getType())).withWidthUndefined());
+                            rowComp.with(ELabel.fontIcon(ProjectAssetsManager.getAsset(ticket.getType())).withUndefinedWidth());
                             String status = "";
                             if (ticket.isMilestone()) {
                                 status = UserUIContext.getMessage(MilestoneStatus.class, ticket.getStatus());
                             } else {
                                 status = UserUIContext.getMessage(StatusI18nEnum.class, ticket.getStatus());
                             }
-                            rowComp.with(new ELabel(status).withStyleName(UIConstants.BLOCK).withWidthUndefined());
+                            rowComp.with(new ELabel(status).withStyleName(WebThemes.BLOCK).withUndefinedWidth());
                             String avatarLink = StorageUtils.getAvatarPath(ticket.getAssignUserAvatarId(), 16);
-                            Img img = new Img(ticket.getAssignUserFullName(), avatarLink).setCSSClass(UIConstants.CIRCLE_BOX)
+                            Img img = new Img(ticket.getAssignUserFullName(), avatarLink).setCSSClass(WebThemes.CIRCLE_BOX)
                                     .setTitle(ticket.getAssignUserFullName());
-                            rowComp.with(ELabel.html(img.write()).withWidthUndefined());
+                            rowComp.with(ELabel.html(img.write()).withUndefinedWidth());
 
                             rowComp.with(toggleTicketSummaryField).expand(toggleTicketSummaryField);
                             issueLayout.addComponent(rowComp);

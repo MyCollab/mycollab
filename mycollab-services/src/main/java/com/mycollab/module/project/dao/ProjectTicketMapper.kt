@@ -21,6 +21,7 @@ import com.mycollab.db.persistence.ISearchableDAO
 import com.mycollab.module.project.domain.ProjectTicket
 import com.mycollab.module.project.domain.criteria.ProjectTicketSearchCriteria
 import com.mycollab.module.user.domain.BillingAccount
+import org.apache.ibatis.annotations.Mapper
 import org.apache.ibatis.annotations.Param
 import org.apache.ibatis.session.RowBounds
 
@@ -28,6 +29,7 @@ import org.apache.ibatis.session.RowBounds
  * @author MyCollab Ltd.
  * @since 1.0
  */
+@Mapper
 interface ProjectTicketMapper : ISearchableDAO<ProjectTicketSearchCriteria> {
 
     fun getTotalCountFromRisk(@Param("searchCriteria") criteria: ProjectTicketSearchCriteria): Int

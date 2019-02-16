@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -22,7 +22,6 @@ import com.mycollab.db.persistence.service.ISearchableService;
 import com.mycollab.vaadin.event.PageableHandler;
 import com.mycollab.vaadin.event.SelectionOptionHandler;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -51,8 +50,8 @@ public abstract class ListSelectionPresenter<V extends IListView<S, B>, S extend
             view.getSearchHandlers().addSearchHandler(this::doSearch);
         }
 
-        if (view.getPagedBeanTable() != null) {
-            view.getPagedBeanTable().addPageableHandler(new PageableHandler() {
+        if (view.getPagedBeanGrid() != null) {
+            view.getPagedBeanGrid().addPageableHandler(new PageableHandler() {
                 private static final long serialVersionUID = 1L;
 
                 @Override
@@ -82,12 +81,12 @@ public abstract class ListSelectionPresenter<V extends IListView<S, B>, S extend
 
                 @Override
                 public void onDeSelect() {
-                    Collection<B> currentDataList = view.getPagedBeanTable().getCurrentDataList();
+                    Collection<B> currentDataList = view.getPagedBeanGrid().getItems();
                     isSelectAll = false;
                     currentDataList.forEach(item -> {
                         item.setSelected(false);
                         CheckBoxDecor checkBox = (CheckBoxDecor) item.getExtraData();
-                        checkBox.setValueWithoutNotifyListeners(false);
+                        checkBox.setValue(false);
                     });
                     checkWhetherEnableTableActionControl();
                 }
@@ -111,41 +110,34 @@ public abstract class ListSelectionPresenter<V extends IListView<S, B>, S extend
     }
 
     private void selectAllItemsInCurrentPage() {
-        Collection<B> currentDataList = view.getPagedBeanTable().getCurrentDataList();
-        currentDataList.forEach(item -> {
+        Collection<B> items = view.getPagedBeanGrid().getItems();
+        items.forEach(item -> {
             item.setSelected(true);
             CheckBoxDecor checkBox = (CheckBoxDecor) item.getExtraData();
-            checkBox.setValueWithoutNotifyListeners(true);
+            checkBox.setValue(true);
         });
     }
 
     public void doSearch(S searchCriteria) {
         this.searchCriteria = searchCriteria;
-        int totalCountItems = view.getPagedBeanTable().setSearchCriteria(searchCriteria);
+        int totalCountItems = view.getPagedBeanGrid().setSearchCriteria(searchCriteria);
         checkWhetherEnableTableActionControl();
         view.getSearchHandlers().setTotalCountNumber(totalCountItems);
     }
 
     protected void checkWhetherEnableTableActionControl() {
-        Collection<B> currentDataList = view.getPagedBeanTable().getCurrentDataList();
-        int countItems = 0;
-        for (B item : currentDataList) {
-            if (item.isSelected()) {
-                countItems++;
-            }
-        }
+        Collection<B> items = view.getPagedBeanGrid().getItems();
+        long countItems = items.stream().filter(B::isSelected).count();
         if (countItems > 0) {
-            view.enableActionControls(countItems);
+            view.enableActionControls((int) countItems);
         } else {
             view.disableActionControls();
         }
     }
 
     List<B> getSelectedItems() {
-        List<B> items = new ArrayList<>();
-        Collection<B> currentDataList = view.getPagedBeanTable().getCurrentDataList();
-        items.addAll(currentDataList.stream().filter(ValuedBean::isSelected).collect(Collectors.toList()));
-        return items;
+        Collection<B> items = view.getPagedBeanGrid().getItems();
+        return items.stream().filter(ValuedBean::isSelected).collect(Collectors.toList());
     }
 
     abstract public ISearchableService<S> getSearchService();

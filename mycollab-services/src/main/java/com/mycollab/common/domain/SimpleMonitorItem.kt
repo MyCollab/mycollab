@@ -26,7 +26,7 @@ class SimpleMonitorItem : MonitorItem() {
     var userFullname: String? = null
         get() {
             if (field == null || field!!.trim { it <= ' ' } == "") {
-                val displayName = user
+                val displayName = username
                 val index = displayName?.indexOf("@") ?: 0
                 if (index > 0) {
                     return displayName!!.substring(0, index)

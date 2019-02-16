@@ -1,0 +1,29 @@
+<!DOCTYPE dataset PUBLIC "-//MyCollab/MyCollab Database Schema//EN" "http://www.mycollab.com/mycollab.dtd">
+<dataset>
+
+    <s_account id="1" createdTime="2013-04-10 13:29:23" paymentMethod="Credit Card" status="Active"/>
+
+    <s_user username="haiphucnguyen@gmail.com" firstname="Hai" lastname="Nguyen" email="haiphucnguyen@gmail.com"/>
+
+    <s_user_account id="1" username="haiphucnguyen@gmail.com" accountId="1" isAccountOwner="true" registeredTime="2013-04-10 13:29:23"
+                    registerStatus="Active"/>
+
+    <m_prj_project id="1" name="aaa" shortName="a" status="Open" sAccountId="1"/>
+
+    <m_prj_project id="2" name="bbb" shortName="b" status="Open" sAccountId="1"/>
+
+    <m_prj_role id="1" roleName="role1" sAccountId="1" projectId="1"/>
+
+    <m_prj_role id="2" roleName="role2" sAccountId="1" projectId="1"/>
+
+    <m_prj_role id="3" roleName="role3" sAccountId="1" projectId="2"/>
+
+    <m_prj_member id="1" username="haiphucnguyen@gmail.com" projectId="1" projectRoleId="1" status="Active" sAccountId="1"/>
+
+    <m_prj_role_permission id="1" roleId="1" roleVal="a" projectId="1"/>
+
+    <m_prj_role_permission id="2" roleId="2" roleVal="a" projectId="1"/>
+
+    <m_prj_role_permission id="3" roleId="3" roleVal="a" projectId="2"/>
+
+</dataset>

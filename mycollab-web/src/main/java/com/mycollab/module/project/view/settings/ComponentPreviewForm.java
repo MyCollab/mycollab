@@ -39,7 +39,7 @@ import com.mycollab.vaadin.web.ui.field.ContainerViewField;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.CheckBox;
-import com.vaadin.ui.Field;
+import com.vaadin.data.HasValue;
 import com.vaadin.ui.Label;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
@@ -67,7 +67,7 @@ public class ComponentPreviewForm extends AdvancedPreviewBeanForm<SimpleComponen
         }
 
         @Override
-        protected Field<?> onCreateField(Object propertyId) {
+        protected HasValue<?> onCreateField(Object propertyId) {
             SimpleComponent beanItem = attachForm.getBean();
             if (Component.Field.userlead.equalTo(propertyId)) {
                 return new ProjectUserFormLinkField(beanItem.getProjectid(), beanItem.getUserlead(),
@@ -77,7 +77,7 @@ public class ComponentPreviewForm extends AdvancedPreviewBeanForm<SimpleComponen
                 containerField.addComponentField(new BugsComp(beanItem));
                 return containerField;
             } else if (Component.Field.description.equalTo(propertyId)) {
-                return new RichTextViewField(beanItem.getDescription());
+                return new RichTextViewField();
             }
             return null;
         }
@@ -103,7 +103,6 @@ public class ComponentPreviewForm extends AdvancedPreviewBeanForm<SimpleComponen
 
             bugList = new DefaultBeanPagedList(AppContextUtil.getSpringBean(BugService.class), new BugRowRenderer());
             bugList.setControlStyle("");
-            bugList.setMargin(new MarginInfo(true, true, true, false));
 
             searchCriteria = new BugSearchCriteria();
             searchCriteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));

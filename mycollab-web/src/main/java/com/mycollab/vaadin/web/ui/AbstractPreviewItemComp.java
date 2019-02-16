@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -23,10 +23,12 @@ import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.UserUIContext;
-import com.mycollab.vaadin.mvp.PageView;
+import com.mycollab.vaadin.mvp.AbstractVerticalPageView;
 import com.mycollab.vaadin.ui.ELabel;
-import com.vaadin.server.FontAwesome;
-import com.vaadin.ui.*;
+import com.vaadin.icons.VaadinIcons;
+import com.vaadin.ui.Alignment;
+import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.HorizontalLayout;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,39 +41,29 @@ import org.vaadin.viritin.layouts.MVerticalLayout;
  * @author MyCollab Ltd.
  * @since 4.3.3
  */
-public abstract class AbstractPreviewItemComp<B> extends VerticalLayout implements PageView {
+public abstract class AbstractPreviewItemComp<B> extends AbstractVerticalPageView {
     private static final long serialVersionUID = 1L;
     private static Logger LOG = LoggerFactory.getLogger(AbstractPreviewItemComp.class);
 
     protected B beanItem;
-    private boolean isDisplaySideBar = true;
 
     protected AdvancedPreviewBeanForm<B> previewForm;
     protected ReadViewLayout previewLayout;
-    protected MHorizontalLayout header;
-    private HorizontalLayout actionControls;
-    private MVerticalLayout sidebarContent;
+    protected MHorizontalLayout headerLayout;
     private MVerticalLayout bodyContent;
     private MButton favoriteBtn;
 
-    public AbstractPreviewItemComp(String headerText, FontAwesome iconResource) {
+    public AbstractPreviewItemComp(String headerText, VaadinIcons iconResource) {
         this(headerText, iconResource, null);
     }
 
-    public AbstractPreviewItemComp(MHorizontalLayout customHeader, ReadViewLayout layout) {
-        this.header = customHeader;
-        this.addComponent(header);
-        isDisplaySideBar = false;
-        this.previewLayout = layout;
-        initContent();
-    }
-
-    public AbstractPreviewItemComp(String headerText, FontAwesome iconResource, ReadViewLayout layout) {
-        ELabel headerLbl = ELabel.h2("").withWidthUndefined();
+    public AbstractPreviewItemComp(String headerText, VaadinIcons iconResource, ReadViewLayout layout) {
+        this.setMargin(true);
+        ELabel headerLbl = ELabel.h2("").withUndefinedWidth();
         this.previewLayout = layout;
 
-        header = new MHorizontalLayout().withStyleName("hdr-view").withFullWidth();
-        header.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
+        headerLayout = new MHorizontalLayout().withFullWidth();
+        headerLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
         if (iconResource != null) {
             String title = iconResource.getHtml() + " " + headerText;
@@ -81,15 +73,13 @@ public abstract class AbstractPreviewItemComp<B> extends VerticalLayout implemen
         }
 
         if (SiteConfiguration.isCommunityEdition()) {
-            header.with(headerLbl).expand(headerLbl);
+            headerLayout.with(headerLbl);
         } else {
-            favoriteBtn = new MButton("", clickEvent -> toggleFavorite()).withIcon(FontAwesome.HEART);
-
-            Label spaceLbl = new Label();
-            header.with(headerLbl, favoriteBtn, spaceLbl).expand(spaceLbl);
+            favoriteBtn = new MButton("", clickEvent -> toggleFavorite()).withIcon(VaadinIcons.HEART);
+            headerLayout.with(new MCssLayout(headerLbl, favoriteBtn));
         }
 
-        this.addComponent(header);
+        this.addComponent(headerLayout);
         ComponentContainer extraComp;
         if ((extraComp = createExtraControls()) != null) {
             this.addComponent(extraComp);
@@ -99,35 +89,20 @@ public abstract class AbstractPreviewItemComp<B> extends VerticalLayout implemen
 
     private void initContent() {
         previewForm = initPreviewForm();
-        actionControls = createButtonControls();
+        HorizontalLayout actionControls = createButtonControls();
         if (actionControls != null) {
-            header.with(actionControls).withAlign(actionControls, Alignment.TOP_RIGHT);
+            headerLayout.with(actionControls).expand(actionControls).withAlign(actionControls, Alignment.TOP_RIGHT);
         }
 
-        MCssLayout contentWrapper = new MCssLayout().withFullWidth().withStyleName(WebThemes.CONTENT_WRAPPER);
+        MCssLayout contentWrapper = new MCssLayout().withFullSize();
 
         if (previewLayout == null)
             previewLayout = new DefaultReadViewLayout("");
 
         contentWrapper.addComponent(previewLayout);
 
-        if (isDisplaySideBar) {
-            RightSidebarLayout bodyContainer = new RightSidebarLayout();
-            bodyContainer.setSizeFull();
-
-            bodyContent = new MVerticalLayout(previewForm).withSpacing(false).withMargin(false).withFullWidth();
-            bodyContainer.setContent(bodyContent);
-            sidebarContent = new MVerticalLayout().withWidth("250px").withStyleName("readview-sidebar");
-            bodyContainer.setSidebar(sidebarContent);
-            previewLayout.addBody(bodyContainer);
-        } else {
-            CssLayout bodyContainer = new CssLayout();
-            bodyContainer.setSizeFull();
-            bodyContainer.addStyleName("readview-body-wrap");
-            bodyContent = new MVerticalLayout().withSpacing(false).withFullWidth().withMargin(false).with(previewForm);
-            bodyContainer.addComponent(bodyContent);
-            previewLayout.addBody(bodyContainer);
-        }
+        bodyContent = new MVerticalLayout(previewForm).withSpacing(false).withMargin(false).withFullSize();
+        previewLayout.addBody(bodyContent);
 
         this.addComponent(contentWrapper);
     }
@@ -164,7 +139,6 @@ public abstract class AbstractPreviewItemComp<B> extends VerticalLayout implemen
             return favoriteItemService.isUserFavorite(UserUIContext.getUsername(), getType(),
                     PropertyUtils.getProperty(beanItem, "id").toString());
         } catch (Exception e) {
-            LOG.error("Error while check favorite", e);
             return false;
         }
     }
@@ -180,21 +154,14 @@ public abstract class AbstractPreviewItemComp<B> extends VerticalLayout implemen
         previewForm.setBean(item);
 
         if (favoriteBtn != null) {
-            if (isFavorite()) {
-                favoriteBtn.addStyleName("favorite-btn-selected");
-            } else {
-                favoriteBtn.addStyleName("favorite-btn");
-            }
+            String favStyle = isFavorite() ? "favorite-btn-selected" : "favorite-btn";
+            favoriteBtn.addStyleName(favStyle);
         }
 
         onPreviewItem();
     }
 
     private void initLayout() {
-        if (sidebarContent != null) {
-            sidebarContent.removeAllComponents();
-        }
-
         initRelatedComponents();
         ComponentContainer bottomPanel = createBottomPanel();
         if (bottomPanel != null) {
@@ -203,12 +170,6 @@ public abstract class AbstractPreviewItemComp<B> extends VerticalLayout implemen
             } else {
                 bodyContent.addComponent(bottomPanel);
             }
-        }
-    }
-
-    public void addToSideBar(Component... components) {
-        for (Component component : components) {
-            sidebarContent.addComponent(component);
         }
     }
 
@@ -226,11 +187,6 @@ public abstract class AbstractPreviewItemComp<B> extends VerticalLayout implemen
 
     protected void removeLayoutStyleName(String styleName) {
         previewLayout.removeTitleStyleName(styleName);
-    }
-
-    @Override
-    final public void addViewListener(ViewListener listener) {
-
     }
 
     abstract protected void onPreviewItem();

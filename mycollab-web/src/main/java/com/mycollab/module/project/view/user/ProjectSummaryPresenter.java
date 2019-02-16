@@ -16,8 +16,10 @@
  */
 package com.mycollab.module.project.view.user;
 
+import com.mycollab.module.project.view.ProjectBreadcrumb;
 import com.mycollab.vaadin.mvp.LoadPolicy;
 import com.mycollab.vaadin.mvp.ScreenData;
+import com.mycollab.vaadin.mvp.ViewManager;
 import com.mycollab.vaadin.mvp.ViewScope;
 import com.mycollab.vaadin.web.ui.AbstractPresenter;
 import com.vaadin.ui.HasComponents;
@@ -39,5 +41,8 @@ public class ProjectSummaryPresenter extends AbstractPresenter<ProjectSummaryVie
         ProjectDashboardContainer projectViewContainer = (ProjectDashboardContainer) container;
         projectViewContainer.setContent(view);
         view.lazyLoadView();
+
+        ProjectBreadcrumb breadcrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);
+        breadcrumb.gotoProjectSummary();
     }
 }

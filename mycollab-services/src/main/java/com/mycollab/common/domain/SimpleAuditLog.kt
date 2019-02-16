@@ -19,6 +19,7 @@ package com.mycollab.common.domain
 import com.fasterxml.jackson.core.type.TypeReference
 import com.mycollab.core.utils.JsonDeSerializer
 import com.mycollab.core.utils.StringUtils
+import java.time.LocalDateTime
 import java.util.*
 
 /**
@@ -35,13 +36,10 @@ class SimpleAuditLog : AuditLog() {
 
     var postedUserFullName: String? = null
         get() = if (StringUtils.isBlank(field)) {
-            StringUtils.extractNameFromEmail(posteduser)
+            StringUtils.extractNameFromEmail(createduser)
         } else field
 
     var postedUserAvatarId: String? = null
-
-    val createdtime: Date
-        get() = posteddate
 
     private fun parseChangeItems(): List<AuditChangeItem>? = JsonDeSerializer.fromJson<List<AuditChangeItem>>(
             this.changeset, object : TypeReference<List<AuditChangeItem>>() {

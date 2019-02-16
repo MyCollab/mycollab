@@ -41,6 +41,7 @@ import com.mycollab.module.user.service.RoleService
 import com.mycollab.module.user.service.UserService
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
+import java.time.LocalDateTime
 import java.util.*
 
 /**
@@ -101,30 +102,18 @@ class InviteProjectMembersCommand(private val userService: UserService,
                     } else {
                         return
                     }
-                    if (event.projectRoleId == null || event.projectRoleId!! < 0) {
-                        projectMember.isadmin = true
-                        projectMember.projectroleid = null
-                    } else {
-                        projectMember.isadmin = false
-                        projectMember.projectroleid = event.projectRoleId
-                    }
+                    projectMember.projectroleid = event.projectRoleId
                     projectMemberService.updateWithSession(projectMember, "")
                 } else {
                     val member = ProjectMember()
                     member.projectid = event.projectId
                     member.username = it
-                    member.joindate = Date()
+                    member.createdtime = LocalDateTime.now()
                     member.saccountid = event.sAccountId
                     member.billingrate = project.defaultbillingrate
                     member.overtimebillingrate = project.defaultovertimebillingrate
                     member.status = ProjectMemberStatusConstants.NOT_ACCESS_YET
-                    if (event.projectRoleId == null || event.projectRoleId!! < 0) {
-                        member.isadmin = true
-                        member.projectroleid = null
-                    } else {
-                        member.isadmin = false
-                        member.projectroleid = event.projectRoleId
-                    }
+                    member.projectroleid = event.projectRoleId
                     projectMemberService.saveWithSession(member, "")
                 }
                 contentGenerator.putVariable("copyRight", LocalizationHelper.getMessage(Locale.US, MailI18nEnum.Copyright,

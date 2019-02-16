@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -32,20 +32,14 @@ import com.mycollab.module.project.i18n.OptionI18nEnum.MilestoneStatus;
 import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.mycollab.module.project.service.MilestoneService;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
-import com.mycollab.module.project.view.UserDashboardView;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.TooltipHelper;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
-import com.mycollab.vaadin.ui.UIUtils;
-import com.mycollab.vaadin.web.ui.WebThemes;
-import com.vaadin.server.FontAwesome;
-import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.ui.Alignment;
+import com.mycollab.vaadin.web.ui.Depot;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.ui.CheckBox;
-import com.vaadin.ui.CssLayout;
-import org.vaadin.viritin.layouts.MHorizontalLayout;
-import org.vaadin.viritin.layouts.MVerticalLayout;
+import org.vaadin.viritin.layouts.MCssLayout;
 
 import java.util.Collections;
 import java.util.List;
@@ -54,46 +48,40 @@ import java.util.List;
  * @author MyCollab Ltd
  * @since 5.2.4
  */
-public class AllMilestoneTimelineWidget extends MVerticalLayout {
+public class AllMilestoneTimelineWidget extends Depot {
     private List<SimpleMilestone> milestones;
-    private CssLayout timelineContainer;
 
-    public void display() {
-        this.withMargin(new MarginInfo(false, false, true, false)).withStyleName("tm-container").withFullWidth();
+    public AllMilestoneTimelineWidget() {
+        super(UserUIContext.getMessage(MilestoneI18nEnum.OPT_TIMELINE), new MCssLayout());
+        this.setWidth("100%");
+        this.addStyleName("tm-container");
+    }
 
-        MHorizontalLayout headerLayout = new MHorizontalLayout().withMargin(new MarginInfo(false, true, false, true))
-                .withStyleName(WebThemes.PANEL_HEADER, "wrapped");
-        headerLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
-        ELabel titleLbl = ELabel.h3(UserUIContext.getMessage(MilestoneI18nEnum.OPT_TIMELINE));
-
-        final CheckBox includeNoDateSet = new CheckBox(UserUIContext.getMessage(DayI18nEnum.OPT_NO_DATE_SET));
+    public void display(List<Integer> projectIds) {
+        CheckBox includeNoDateSet = new CheckBox(UserUIContext.getMessage(DayI18nEnum.OPT_NO_DATE_SET));
         includeNoDateSet.setValue(false);
 
-        final CheckBox includeClosedMilestone = new CheckBox(UserUIContext.getMessage(MilestoneStatus.Closed));
+        CheckBox includeClosedMilestone = new CheckBox(UserUIContext.getMessage(MilestoneStatus.Closed));
         includeClosedMilestone.setValue(false);
 
         includeNoDateSet.addValueChangeListener(valueChangeEvent -> displayTimelines(includeNoDateSet.getValue(), includeClosedMilestone.getValue()));
         includeClosedMilestone.addValueChangeListener(valueChangeEvent -> displayTimelines(includeNoDateSet.getValue(), includeClosedMilestone.getValue()));
-        headerLayout.with(titleLbl, includeNoDateSet, includeClosedMilestone).expand(titleLbl).withAlign(includeNoDateSet, Alignment
-                .MIDDLE_RIGHT).withAlign(includeClosedMilestone, Alignment.MIDDLE_RIGHT);
+
+        addHeaderElement(includeNoDateSet);
+        addHeaderElement(includeClosedMilestone);
 
         MilestoneSearchCriteria searchCriteria = new MilestoneSearchCriteria();
-        UserDashboardView userDashboardView = UIUtils.getRoot(this, UserDashboardView.class);
-        searchCriteria.setProjectIds(new SetSearchField<>(userDashboardView.getInvolvedProjectKeys()));
+        searchCriteria.setProjectIds(new SetSearchField<>(projectIds));
         searchCriteria.setOrderFields(Collections.singletonList(new SearchCriteria.OrderField(Milestone.Field.enddate.name(), "ASC")));
         MilestoneService milestoneService = AppContextUtil.getSpringBean(MilestoneService.class);
         milestones = (List<SimpleMilestone>) milestoneService.findPageableListByCriteria(new BasicSearchRequest<>(searchCriteria));
 
-        this.addComponent(headerLayout);
-        timelineContainer = new CssLayout();
-        timelineContainer.setWidth("100%");
-        this.addComponent(timelineContainer);
-        timelineContainer.addStyleName("tm-wrapper");
+        bodyContent.addStyleName("tm-wrapper");
         displayTimelines(false, false);
     }
 
     private void displayTimelines(boolean includeNoDateSet, boolean includeClosedMilestone) {
-        timelineContainer.removeAllComponents();
+        bodyContent.removeAllComponents();
         Ul ul = new Ul().setCSSClass("timeline");
 
         for (SimpleMilestone milestone : milestones) {
@@ -140,7 +128,7 @@ public class AllMilestoneTimelineWidget extends MVerticalLayout {
             li.appendChild(timestampDiv);
 
             A projectDiv = new A(ProjectLinkGenerator.generateProjectLink(milestone.getProjectid())).appendText
-                    (FontAwesome.BUILDING_O.getHtml() + " " + StringUtils.trim(milestone.getProjectName(), 30, true))
+                    (VaadinIcons.BUILDING_O.getHtml() + " " + StringUtils.trim(milestone.getProjectName(), 30, true))
                     .setId("tag" + TooltipHelper.TOOLTIP_ID);
             projectDiv.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(ProjectTypeConstants.PROJECT,
                     milestone.getProjectid() + ""));
@@ -159,6 +147,6 @@ public class AllMilestoneTimelineWidget extends MVerticalLayout {
             ul.appendChild(li);
         }
 
-        timelineContainer.addComponent(ELabel.html(ul.write()).withWidthUndefined());
+        bodyContent.addComponent(ELabel.html(ul.write()).withUndefinedWidth());
     }
 }

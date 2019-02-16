@@ -30,21 +30,31 @@ public class TicketSavedFilterComboBox extends SavedFilterComboBox {
     public TicketSavedFilterComboBox() {
         super(ProjectTypeConstants.TICKET);
 
-        this.addSharedSearchQueryInfo(allTasksQuery);
-        this.addSharedSearchQueryInfo(allOpenTaskQuery);
-        this.addSharedSearchQueryInfo(overdueTaskQuery);
-        this.addSharedSearchQueryInfo(allClosedTaskQuery);
-        this.addSharedSearchQueryInfo(myTasksQuery);
-        this.addSharedSearchQueryInfo(tasksCreatedByMeQuery);
-        this.addSharedSearchQueryInfo(newTasksThisWeekQuery);
-        this.addSharedSearchQueryInfo(updateTasksThisWeekQuery);
-        this.addSharedSearchQueryInfo(newTasksLastWeekQuery);
-        this.addSharedSearchQueryInfo(updateTasksLastWeekQuery);
+        this.addSharedSearchQueryInfo(allTicketsQuery);
+        this.addSharedSearchQueryInfo(allOpenTicketsQuery);
+        this.addSharedSearchQueryInfo(overdueTicketsQuery);
+        this.addSharedSearchQueryInfo(allClosedTicketsQuery);
+        this.addSharedSearchQueryInfo(myTicketsQuery);
+        this.addSharedSearchQueryInfo(ticketsCreatedByMeQuery);
+        this.addSharedSearchQueryInfo(newTicketsThisWeekQuery);
+        this.addSharedSearchQueryInfo(updateTicketsThisWeekQuery);
+        this.addSharedSearchQueryInfo(newTicketsLastWeekQuery);
+        this.addSharedSearchQueryInfo(updateTicketsLastWeekQuery);
     }
 
     public void setTotalCountNumber(Integer countNumber) {
         componentsText.setReadOnly(false);
         componentsText.setValue(String.format("%s (%d)", selectedQueryName, countNumber));
         componentsText.setReadOnly(true);
+    }
+
+    @Override
+    protected void doSetValue(String s) {
+
+    }
+
+    @Override
+    public String getValue() {
+        return null;
     }
 }

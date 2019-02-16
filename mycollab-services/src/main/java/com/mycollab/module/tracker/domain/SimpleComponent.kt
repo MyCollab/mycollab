@@ -24,7 +24,7 @@ class SimpleComponent : Component() {
 
     var userLeadAvatarId: String? = null
 
-    lateinit var userLeadFullName: String
+    var userLeadFullName: String? = null
 
     var createdUserAvatarId: String? = null
 
@@ -35,6 +35,8 @@ class SimpleComponent : Component() {
     var numBugs: Int? = null
 
     lateinit var projectName: String
+
+    lateinit var projectShortName: String
 
     enum class Field {
         numOpenBugs, numBugs;

@@ -16,6 +16,7 @@
  */
 package com.mycollab.module.project.service
 
+import com.mycollab.core.Tuple2
 import com.mycollab.core.cache.CacheEvict
 import com.mycollab.core.cache.CacheKey
 import com.mycollab.core.cache.Cacheable
@@ -36,4 +37,10 @@ interface ProjectRoleService : IDefaultService<Int, ProjectRole, ProjectRoleSear
 
     @Cacheable
     fun findById(roleId: Int, @CacheKey sAccountId: Int): SimpleProjectRole?
+
+    @Cacheable
+    fun findProjectsPermissions(username: String?, projectIds: List<Int>?, @CacheKey sAccountId: Int): List<Tuple2<Int, PermissionMap>>
+
+    @Cacheable
+    fun findProjectsPermission(username: String?, projectId: Int, @CacheKey sAccountId: Int): PermissionMap
 }

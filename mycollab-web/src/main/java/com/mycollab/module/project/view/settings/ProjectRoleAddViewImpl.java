@@ -1,22 +1,23 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package com.mycollab.module.project.view.settings;
 
 import com.mycollab.common.i18n.SecurityI18nEnum;
+import com.mycollab.form.view.LayoutType;
 import com.mycollab.module.project.ProjectRolePermissionCollections;
 import com.mycollab.module.project.domain.ProjectRole;
 import com.mycollab.module.project.domain.SimpleProjectRole;
@@ -34,11 +35,11 @@ import com.mycollab.vaadin.ui.FormContainer;
 import com.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.mycollab.vaadin.web.ui.KeyCaptionComboBox;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
-import com.vaadin.server.FontAwesome;
+import com.vaadin.data.HasValue;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.Field;
 import com.vaadin.ui.TextArea;
-import com.vaadin.ui.TextField;
+import org.vaadin.viritin.fields.MTextField;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -66,8 +67,8 @@ public class ProjectRoleAddViewImpl extends AbstractEditItemComp<ProjectRole> im
     }
 
     @Override
-    protected FontAwesome initFormIconResource() {
-        return FontAwesome.GROUP;
+    protected VaadinIcons initFormIconResource() {
+        return VaadinIcons.CLIPBOARD_USER;
     }
 
     @Override
@@ -91,19 +92,11 @@ public class ProjectRoleAddViewImpl extends AbstractEditItemComp<ProjectRole> im
             private static final long serialVersionUID = 1L;
 
             @Override
-            protected Field<?> onCreateField(Object propertyId) {
+            protected HasValue<?> onCreateField(Object propertyId) {
                 if (propertyId.equals("description")) {
-                    final TextArea textArea = new TextArea();
-                    textArea.setNullRepresentation("");
-                    return textArea;
+                    return new TextArea();
                 } else if (propertyId.equals("rolename")) {
-                    final TextField tf = new TextField();
-                    if (isValidateForm) {
-                        tf.setNullRepresentation("");
-                        tf.setRequired(true);
-                        tf.setRequiredError("Please enter a role name");
-                    }
-                    return tf;
+                    return new MTextField().withRequiredIndicatorVisible(true);
                 }
                 return null;
             }
@@ -121,11 +114,10 @@ public class ProjectRoleAddViewImpl extends AbstractEditItemComp<ProjectRole> im
             perMap = new PermissionMap();
         }
 
-        final GridFormLayoutHelper permissionFormHelper = GridFormLayoutHelper.defaultFormLayoutHelper(
-                2, (ProjectRolePermissionCollections.PROJECT_PERMISSIONS.length + 1) / 2, "180px");
+        final GridFormLayoutHelper permissionFormHelper = GridFormLayoutHelper.defaultFormLayoutHelper(LayoutType.TWO_COLUMN);
 
         for (int i = 0; i < ProjectRolePermissionCollections.PROJECT_PERMISSIONS.length; i++) {
-            final String permissionPath = ProjectRolePermissionCollections.PROJECT_PERMISSIONS[i];
+            String permissionPath = ProjectRolePermissionCollections.PROJECT_PERMISSIONS[i];
             KeyCaptionComboBox permissionBox;
             Enum captionHelp;
             if (ProjectRolePermissionCollections.FINANCE.equals(permissionPath) ||
@@ -137,8 +129,8 @@ public class ProjectRoleAddViewImpl extends AbstractEditItemComp<ProjectRole> im
                 captionHelp = SecurityI18nEnum.ACCESS_PERMISSION_HELP;
             }
 
-            final Integer flag = perMap.getPermissionFlag(permissionPath);
-            permissionBox.setValue(flag);
+            Integer flag = perMap.getPermissionFlag(permissionPath);
+            permissionBox.setValue(KeyCaptionComboBox.Entry.of(flag));
             permissionControlsMap.put(permissionPath, permissionBox);
             permissionFormHelper.addComponent(permissionBox, UserUIContext.getMessage(RolePermissionI18nEnum.valueOf(permissionPath)),
                     UserUIContext.getMessage(captionHelp), i % 2, i / 2);
@@ -153,7 +145,7 @@ public class ProjectRoleAddViewImpl extends AbstractEditItemComp<ProjectRole> im
         PermissionMap permissionMap = new PermissionMap();
         for (Map.Entry<String, KeyCaptionComboBox> entry : permissionControlsMap.entrySet()) {
             KeyCaptionComboBox permissionBox = entry.getValue();
-            Integer perValue = (Integer) permissionBox.getValue();
+            Integer perValue = permissionBox.getValue().getKey();
             permissionMap.addPath(entry.getKey(), perValue);
         }
         return permissionMap;

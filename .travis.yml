@@ -6,11 +6,11 @@ language: java
 jdk:
   - oraclejdk8
 before_script:
-  - mysql -e 'create database mycollab_test;'
+#  - mysql -e 'create database mycollab_test;'
   - cd mycollab-deployer-community
 notifications:
   email:
-    - hainguyen@esofthead.com
+    - haiphucnguyen@gmail.com
 env:
   global:
    # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created

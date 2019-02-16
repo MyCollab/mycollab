@@ -37,6 +37,7 @@ import org.springframework.aop.framework.Advised
 import org.springframework.beans.factory.annotation.Configurable
 import org.springframework.stereotype.Component
 import java.io.Serializable
+import java.time.LocalDateTime
 import java.util.*
 
 /**
@@ -68,7 +69,7 @@ class AuditLogAspect(private var cacheService: CacheService,
                 // get old value
                 val service = advised.targetSource.target
                 val oldValue: Any
-                var findMethod = try {
+                val findMethod = try {
                     cls.getMethod("findById", Int::class.javaPrimitiveType, Int::class.javaPrimitiveType)
                 } catch (e: Exception) {
                     cls.getMethod("findByPrimaryKey", Serializable::class.java, Int::class.javaPrimitiveType)
@@ -92,37 +93,6 @@ class AuditLogAspect(private var cacheService: CacheService,
         val isSelective = "updateSelectiveWithSession" == joinPoint.signature.name
 
         try {
-            val watchableAnnotation = cls.getAnnotation(Watchable::class.java)
-            if (watchableAnnotation != null) {
-                val monitorType = ClassInfoMap.getType(cls)
-                val sAccountId = PropertyUtils.getProperty(bean, "saccountid") as Int
-                val typeId = PropertyUtils.getProperty(bean, "id") as Int
-
-                var extraTypeId: Int? = null
-                if ("" != watchableAnnotation.extraTypeId) {
-                    extraTypeId = PropertyUtils.getProperty(bean, watchableAnnotation.extraTypeId) as Int
-                }
-
-                val monitorItem = MonitorItem()
-                monitorItem.monitorDate = GregorianCalendar().time
-                monitorItem.type = monitorType
-                monitorItem.typeid = typeId
-                monitorItem.extratypeid = extraTypeId
-                monitorItem.user = username
-                monitorItem.saccountid = sAccountId
-                monitorItemService.saveWithSession(monitorItem, username)
-
-                // check whether the current user is in monitor list, if not add him in
-                if (watchableAnnotation.userFieldName != "") {
-                    val moreUser = PropertyUtils.getProperty(bean, watchableAnnotation.userFieldName) as? String
-                    if (moreUser != null && moreUser != username) {
-                        monitorItem.id = null
-                        monitorItem.user = moreUser
-                        monitorItemService.saveWithSession(monitorItem, moreUser)
-                    }
-                }
-            }
-
             val traceableAnnotation = cls.getAnnotation(Traceable::class.java)
             if (traceableAnnotation != null) {
                 try {
@@ -187,12 +157,12 @@ class AuditLogAspect(private var cacheService: CacheService,
             try {
                 val typeId = PropertyUtils.getProperty(bean, "id") as Int
                 val auditLog = AuditLog()
-                auditLog.posteduser = username
+                auditLog.createduser = username
                 auditLog.module = ClassInfoMap.getModule(targetCls)
                 auditLog.type = ClassInfoMap.getType(targetCls)
                 auditLog.typeid = typeId
                 auditLog.saccountid = sAccountId
-                auditLog.posteddate = GregorianCalendar().time
+                auditLog.createdtime = LocalDateTime.now()
                 auditLog.changeset = changeSet
                 auditLog.objectClass = bean.javaClass.name
                 if (activityStreamId != null) {

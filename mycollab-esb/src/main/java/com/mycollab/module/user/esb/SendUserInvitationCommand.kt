@@ -52,7 +52,7 @@ class SendUserInvitationCommand(private val userService: UserService,
     fun execute(event: SendUserInvitationEvent) {
         val inviteeUser = userService.findUserInAccount(event.invitee, event.sAccountId)
         if (inviteeUser != null) {
-            contentGenerator.putVariable("siteUrl", deploymentMode.getSiteUrl(inviteeUser.subdomain))
+            contentGenerator.putVariable("siteUrl", deploymentMode.getSiteUrl(inviteeUser.subDomain))
             contentGenerator.putVariable("invitee", inviteeUser)
             contentGenerator.putVariable("password", event.password)
             contentGenerator.putVariable("copyRight", LocalizationHelper.getMessage(Locale.US, MailI18nEnum.Copyright,

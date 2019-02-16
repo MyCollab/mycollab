@@ -18,12 +18,12 @@ package com.mycollab.module.project.domain
 
 import com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum
 import com.mycollab.core.arguments.ValuedBean
-import com.mycollab.core.utils.DateTimeUtils
 import com.mycollab.core.utils.StringUtils
 import com.mycollab.module.project.ProjectTypeConstants
 import com.mycollab.module.tracker.domain.SimpleBug
 import java.io.Serializable
-import java.util.*
+import java.time.LocalDate
+import java.time.LocalDateTime
 
 /**
  * @author MyCollab Ltd.
@@ -50,7 +50,7 @@ class ProjectTicket : ValuedBean(), Serializable {
 
     var createdUserAvatarId: String? = null
 
-    var dueDate: Date? = null
+    var dueDate: LocalDate? = null
 
     var projectId: Int? = null
 
@@ -68,11 +68,11 @@ class ProjectTicket : ValuedBean(), Serializable {
 
     var priority: String? = null
 
-    var createdTime: Date? = null
+    var createdTime: LocalDateTime? = null
 
-    var lastUpdatedTime: Date? = null
+    var lastUpdatedTime: LocalDateTime? = null
 
-    var sAccountId: Int? = null
+    var saccountid: Int? = null
 
     var billableHours: Double? = null
 
@@ -80,9 +80,9 @@ class ProjectTicket : ValuedBean(), Serializable {
 
     var numFollowers: Int? = null
 
-    private var startDate: Date? = null
+    private var startDate: LocalDate? = null
 
-    private var endDate: Date? = null
+    private var endDate: LocalDate? = null
 
     var milestoneId: Int? = null
 
@@ -109,8 +109,7 @@ class ProjectTicket : ValuedBean(), Serializable {
     val isOverdue: Boolean
         get() {
             if (dueDate != null && !isClosed) {
-                val currentDay = DateTimeUtils.getCurrentDateWithoutMS()
-                return currentDay.after(dueDate!!)
+                return LocalDate.now().isAfter(dueDate!!)
             }
             return false
         }
@@ -118,41 +117,40 @@ class ProjectTicket : ValuedBean(), Serializable {
     val isClosed: Boolean
         get() = StatusI18nEnum.Closed.name == status || StatusI18nEnum.Verified.name == status
 
-    val dueDatePlusOne: Date?
+    val dueDatePlusOne: LocalDate?
         get() {
-            val value = dueDate
-            return if (value != null) DateTimeUtils.subtractOrAddDayDuration(value, 1) else null
+            return dueDate?.plusDays(1)
         }
 
-    fun getStartDate(): Date? {
+    fun getStartDate(): LocalDate? {
         return if (startDate != null) {
             startDate
         } else {
             if (endDate != null && dueDate != null) {
-                if (endDate!!.before(dueDate!!)) endDate else dueDate
+                if (endDate!!.isBefore(dueDate!!)) endDate else dueDate
             } else {
                 if (endDate != null) endDate else dueDate
             }
         }
     }
 
-    fun setStartDate(startDate: Date) {
+    fun setStartDate(startDate: LocalDate) {
         this.startDate = startDate
     }
 
-    fun getEndDate(): Date? {
+    fun getEndDate(): LocalDate? {
         return if (endDate != null) {
             endDate
         } else {
             if (startDate != null && dueDate != null) {
-                if (startDate!!.before(dueDate!!)) dueDate else startDate
+                if (startDate!!.isBefore(dueDate!!)) dueDate else startDate
             } else {
                 if (startDate != null) startDate else dueDate
             }
         }
     }
 
-    fun setEndDate(endDate: Date) {
+    fun setEndDate(endDate: LocalDate) {
         this.endDate = endDate
     }
 
@@ -169,7 +167,7 @@ class ProjectTicket : ValuedBean(), Serializable {
             task.enddate = bean.getEndDate()
             task.duedate = bean.dueDate
             task.status = bean.status
-            task.saccountid = bean.sAccountId
+            task.saccountid = bean.saccountid
             task.priority = bean.priority
             task.assignuser = bean.assignUser
             task.milestoneid = bean.milestoneId
@@ -187,7 +185,7 @@ class ProjectTicket : ValuedBean(), Serializable {
             bug.duedate = bean.dueDate
             bug.status = bean.status
             bug.priority = bean.priority
-            bug.saccountid = bean.sAccountId
+            bug.saccountid = bean.saccountid
             bug.assignuser = bean.assignUser
             bug.milestoneid = bean.milestoneId
             return bug
@@ -203,7 +201,7 @@ class ProjectTicket : ValuedBean(), Serializable {
             risk.enddate = bean.getEndDate()
             risk.duedate = bean.dueDate
             risk.status = bean.status
-            risk.saccountid = bean.sAccountId
+            risk.saccountid = bean.saccountid
             risk.priority = bean.priority
             risk.assignuser = bean.assignUser
             risk.milestoneid = bean.milestoneId

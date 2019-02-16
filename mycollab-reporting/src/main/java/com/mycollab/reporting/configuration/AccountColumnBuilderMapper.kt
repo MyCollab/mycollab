@@ -63,13 +63,13 @@ class AccountColumnBuilderMapper : InitializingBean {
         val roleHrefExpr = object : AbstractSimpleExpression<String>() {
 
             override fun evaluate(reportParameters: ReportParameters): String {
-                val roleId = reportParameters.getFieldValue<Int>(SimpleUser.Field.roleid.name)
+                val roleId = reportParameters.getFieldValue<Int>(SimpleUser.Field.roleId.name)
                 val siteUrl = reportParameters.getParameterValue<String>("siteUrl")
                 return AccountLinkGenerator.generatePreviewFullRoleLink(siteUrl, roleId)
             }
         }
-        map[SimpleUser.Field.roleid.name] = HyperlinkBuilderGenerator(roleNameExpr, roleHrefExpr)
-        map[User.Field.dateofbirth.name] = SimpleExpressionBuilderGenerator(DateExpression(User.Field.dateofbirth.name))
+        map[SimpleUser.Field.roleId.name] = HyperlinkBuilderGenerator(roleNameExpr, roleHrefExpr)
+        map[User.Field.birthday.name] = SimpleExpressionBuilderGenerator(DateExpression(User.Field.birthday.name))
         return map
     }
 

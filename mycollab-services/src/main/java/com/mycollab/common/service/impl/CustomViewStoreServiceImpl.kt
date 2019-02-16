@@ -23,11 +23,8 @@ import com.mycollab.common.domain.NullCustomViewStore
 import com.mycollab.common.service.CustomViewStoreService
 import com.mycollab.db.persistence.ICrudGenericDAO
 import com.mycollab.db.persistence.service.DefaultCrudService
-import org.apache.commons.collections.CollectionUtils
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
-
-import java.util.GregorianCalendar
+import java.time.LocalDateTime
 
 /**
  * @author MyCollab Ltd.
@@ -51,7 +48,7 @@ class CustomViewStoreServiceImpl(private val customViewStoreMapper: CustomViewSt
     override fun saveOrUpdateViewLayoutDef(viewStore: CustomViewStore) {
         val viewLayoutDef = getViewLayoutDef(viewStore.saccountid, viewStore.createduser,
                 viewStore.viewid)
-        viewStore.createdtime = GregorianCalendar().time
+        viewStore.createdtime = LocalDateTime.now()
         when (viewLayoutDef) {
             !is NullCustomViewStore -> {
                 viewStore.id = viewLayoutDef.id

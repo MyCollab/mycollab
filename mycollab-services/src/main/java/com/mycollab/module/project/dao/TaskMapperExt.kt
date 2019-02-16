@@ -20,12 +20,14 @@ import com.mycollab.common.domain.GroupItem
 import com.mycollab.db.persistence.ISearchableDAO
 import com.mycollab.module.project.domain.SimpleTask
 import com.mycollab.module.project.domain.criteria.TaskSearchCriteria
+import org.apache.ibatis.annotations.Mapper
 import org.apache.ibatis.annotations.Param
 
 /**
  * @author MyCollab Ltd.
  * @since 1.0
  */
+@Mapper
 interface TaskMapperExt : ISearchableDAO<TaskSearchCriteria> {
 
     fun findTaskById(taskId: Int): SimpleTask

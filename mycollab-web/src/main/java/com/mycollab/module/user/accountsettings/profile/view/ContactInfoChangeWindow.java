@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -18,18 +18,18 @@ package com.mycollab.module.user.accountsettings.profile.view;
 
 import com.google.common.base.MoreObjects;
 import com.mycollab.common.i18n.GenericI18Enum;
+import com.mycollab.form.view.LayoutType;
 import com.mycollab.module.user.accountsettings.localization.UserI18nEnum;
 import com.mycollab.module.user.domain.User;
 import com.mycollab.module.user.service.UserService;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.UserUIContext;
+import com.mycollab.vaadin.Utils;
 import com.mycollab.vaadin.ui.NotificationUtil;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
-import com.vaadin.event.ShortcutAction;
-import com.vaadin.server.FontAwesome;
-import com.vaadin.server.Page;
-import com.vaadin.shared.ui.MarginInfo;
+import com.vaadin.event.ShortcutAction.KeyCode;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.TextField;
 import org.vaadin.viritin.button.MButton;
@@ -64,9 +64,9 @@ class ContactInfoChangeWindow extends MWindow {
     }
 
     private void initUI() {
-        MVerticalLayout mainLayout = new MVerticalLayout().withMargin(new MarginInfo(false, false, true, false)).withFullWidth();
+        MVerticalLayout mainLayout = new MVerticalLayout().withMargin(true).withFullWidth();
 
-        GridFormLayoutHelper passInfo = GridFormLayoutHelper.defaultFormLayoutHelper(1, 6);
+        GridFormLayoutHelper passInfo = GridFormLayoutHelper.defaultFormLayoutHelper(LayoutType.ONE_COLUMN);
 
         passInfo.addComponent(txtWorkPhone, UserUIContext.getMessage(UserI18nEnum.FORM_WORK_PHONE), 0, 0);
         passInfo.addComponent(txtHomePhone, UserUIContext.getMessage(UserI18nEnum.FORM_HOME_PHONE), 0, 1);
@@ -86,9 +86,9 @@ class ContactInfoChangeWindow extends MWindow {
                 .withStyleName(WebThemes.BUTTON_OPTION);
 
         MButton saveBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_SAVE), clickEvent -> changeUserInfo())
-                .withIcon(FontAwesome.SAVE).withStyleName(WebThemes.BUTTON_ACTION).withClickShortcut(ShortcutAction.KeyCode.ENTER);
+                .withIcon(VaadinIcons.CLIPBOARD).withStyleName(WebThemes.BUTTON_ACTION).withClickShortcut(KeyCode.ENTER);
 
-        MHorizontalLayout hlayoutControls = new MHorizontalLayout(cancelBtn, saveBtn).withMargin(new MarginInfo(false, true, false, true));
+        MHorizontalLayout hlayoutControls = new MHorizontalLayout(cancelBtn, saveBtn);
         mainLayout.with(hlayoutControls).withAlign(hlayoutControls, Alignment.MIDDLE_RIGHT);
         this.setContent(mainLayout);
     }
@@ -133,7 +133,7 @@ class ContactInfoChangeWindow extends MWindow {
             UserService userService = AppContextUtil.getSpringBean(UserService.class);
             userService.updateWithSession(user, UserUIContext.getUsername());
             close();
-            Page.getCurrent().getJavaScript().execute("window.location.reload();");
+            Utils.reloadPage();
         }
     }
 }

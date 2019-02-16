@@ -16,10 +16,12 @@
  */
 package com.mycollab.module.user.domain
 
+import com.google.common.base.MoreObjects
 import com.mycollab.core.arguments.NotBindable
 import com.mycollab.core.utils.StringUtils
+import com.mycollab.i18n.LocalizationHelper
 import com.mycollab.security.PermissionMap
-import com.google.common.base.MoreObjects
+import java.util.*
 
 /**
  * @author MyCollab Ltd.
@@ -27,7 +29,7 @@ import com.google.common.base.MoreObjects
  */
 class SimpleUser : User() {
 
-    var roleid: Int? = null
+    var roleId: Int? = null
 
     var roleName: String? = null
 
@@ -37,7 +39,13 @@ class SimpleUser : User() {
     @NotBindable
     var isAccountOwner: Boolean? = null
 
-    var subdomain: String? = null
+    @NotBindable
+    var locale: Locale? = null
+        get() {
+            return LocalizationHelper.getLocaleInstance(language)
+        }
+
+    var subDomain: String? = null
     var accountId: Int? = null
     var registerstatus: String? = null
     var inviteUser: String? = null
@@ -45,15 +53,12 @@ class SimpleUser : User() {
     var inviteUserFullName: String? = null
     var displayName: String? = null
         get() {
-            if (StringUtils.isBlank(field)) {
-                val result = firstname + " " + lastname
-                if (StringUtils.isBlank(result)) {
-                    val displayName = username
-                    return StringUtils.extractNameFromEmail(displayName)
-                }
-                return result
+            val result = "$firstname $lastname"
+            if (StringUtils.isBlank(result)) {
+                val displayName = username
+                return StringUtils.extractNameFromEmail(displayName)
             }
-            return field
+            return result
         }
     var dateFormat: String? = null
         get() = MoreObjects.firstNonNull(field, "MM/dd/yyyy")
@@ -67,7 +72,7 @@ class SimpleUser : User() {
     var canSendEmail: Boolean? = null
 
     enum class Field {
-        displayName, roleName, roleid;
+        displayName, roleName, roleId;
 
         fun equalTo(value: Any): Boolean = name == value
     }

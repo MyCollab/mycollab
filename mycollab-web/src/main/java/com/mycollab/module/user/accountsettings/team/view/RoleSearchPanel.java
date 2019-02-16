@@ -24,10 +24,10 @@ import com.mycollab.module.user.domain.criteria.RoleSearchCriteria;
 import com.mycollab.module.user.event.RoleEvent;
 import com.mycollab.security.RolePermissionCollections;
 import com.mycollab.vaadin.UserUIContext;
-import com.mycollab.vaadin.ui.HeaderWithFontAwesome;
+import com.mycollab.vaadin.ui.HeaderWithIcon;
 import com.mycollab.vaadin.web.ui.*;
 import com.vaadin.event.ShortcutAction;
-import com.vaadin.server.FontAwesome;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.ui.*;
 import org.apache.commons.lang3.StringUtils;
 import org.vaadin.viritin.button.MButton;
@@ -52,15 +52,15 @@ public class RoleSearchPanel extends DefaultGenericSearchPanel<RoleSearchCriteri
     }
 
     @Override
-    protected HeaderWithFontAwesome buildSearchTitle() {
-        return HeaderWithFontAwesome.h2(FontAwesome.USERS, UserUIContext.getMessage(RoleI18nEnum.LIST));
+    protected HeaderWithIcon buildSearchTitle() {
+        return HeaderWithIcon.h2(VaadinIcons.USERS, UserUIContext.getMessage(RoleI18nEnum.LIST));
     }
 
     @Override
     protected Component buildExtraControls() {
         return new MButton(UserUIContext.getMessage(RoleI18nEnum.NEW),
                 clickEvent -> EventBusFactory.getInstance().post(new RoleEvent.GotoAdd(this, null)))
-                .withIcon(FontAwesome.PLUS).withStyleName(WebThemes.BUTTON_ACTION)
+                .withIcon(VaadinIcons.PLUS).withStyleName(WebThemes.BUTTON_ACTION)
                 .withVisible(UserUIContext.canWrite(RolePermissionCollections.ACCOUNT_ROLE));
     }
 
@@ -78,12 +78,12 @@ public class RoleSearchPanel extends DefaultGenericSearchPanel<RoleSearchCriteri
             MHorizontalLayout basicSearchBody = new MHorizontalLayout().withMargin(true)
                     .with(new Label(UserUIContext.getMessage(GenericI18Enum.FORM_NAME) + ":"));
 
-            nameField = new MTextField().withInputPrompt(UserUIContext.getMessage(GenericI18Enum.ACTION_QUERY_BY_TEXT))
+            nameField = new MTextField().withPlaceholder(UserUIContext.getMessage(GenericI18Enum.ACTION_QUERY_BY_TEXT))
                     .withWidth(WebUIConstants.DEFAULT_CONTROL_WIDTH);
             basicSearchBody.addComponent(nameField);
 
             MButton searchBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_SEARCH), clickEvent -> callSearchAction())
-                    .withIcon(FontAwesome.SEARCH).withStyleName(WebThemes.BUTTON_ACTION)
+                    .withIcon(VaadinIcons.SEARCH).withStyleName(WebThemes.BUTTON_ACTION)
                     .withClickShortcut(ShortcutAction.KeyCode.ENTER);
             basicSearchBody.addComponent(searchBtn);
 

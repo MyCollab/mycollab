@@ -22,8 +22,9 @@ import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectLinkGenerator;
 import com.mycollab.vaadin.TooltipHelper;
 import com.mycollab.vaadin.ui.ELabel;
-import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.ui.UserAvatarControlFactory;
+import com.mycollab.vaadin.web.ui.WebThemes;
+import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Image;
 import com.vaadin.ui.themes.ValoTheme;
 import org.vaadin.viritin.layouts.MVerticalLayout;
@@ -36,13 +37,13 @@ public class ProjectMemberBlock extends MVerticalLayout {
     public ProjectMemberBlock(String username, String userAvatarId, String displayName) {
         withMargin(false).withWidth("80px");
         Image userAvatar = UserAvatarControlFactory.createUserAvatarEmbeddedComponent(userAvatarId, 48, displayName);
-        userAvatar.addStyleName(UIConstants.CIRCLE_BOX);
+        userAvatar.addStyleName(WebThemes.CIRCLE_BOX);
         A userLink = new A().setId("tag" + TooltipHelper.TOOLTIP_ID).
                 setHref(ProjectLinkGenerator.generateProjectMemberLink(CurrentProjectVariables.getProjectId(),
-                        username)).appendText(StringUtils.trim(displayName, 30, true));
+                        username)).appendText(StringUtils.trim(displayName, 30, true)).setTitle(displayName);
         userLink.setAttribute("onmouseover", TooltipHelper.userHoverJsFunction(username));
         userLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction());
-        ELabel userLbl = ELabel.html(userLink.write()).withStyleName(ValoTheme.LABEL_SMALL);
-        with(userAvatar, userLbl);
+        ELabel userLbl = ELabel.html(userLink.write()).withStyleName(ValoTheme.LABEL_SMALL).withFullWidth();
+        with(userAvatar, userLbl).withAlign(userAvatar, Alignment.TOP_CENTER);
     }
 }

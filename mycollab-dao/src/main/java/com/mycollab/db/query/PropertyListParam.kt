@@ -16,9 +16,9 @@
  */
 package com.mycollab.db.query
 
-import com.mycollab.db.arguments.CollectionValueSearchField
-
-import com.mycollab.common.i18n.QueryI18nEnum.CollectionI18nEnum
+import com.mycollab.common.i18n.QueryI18nEnum.IN
+import com.mycollab.common.i18n.QueryI18nEnum.NOT_IN
+import com.mycollab.db.arguments.SetValueSearchField
 
 /**
  * @author MyCollab Ltd.
@@ -26,13 +26,14 @@ import com.mycollab.common.i18n.QueryI18nEnum.CollectionI18nEnum
  */
 class PropertyListParam<in P>(id: String, table: String, column: String) : ColumnParam(id, table, column) {
 
-    fun buildPropertyParamInList(oper: String, value: Collection<P>): CollectionValueSearchField =
-            CollectionValueSearchField(oper, "$table.$column in ", value)
+    fun buildPropertyParamInList(oper: String, value: Set<P>): SetValueSearchField =
+            SetValueSearchField(oper, "$table.$column in ", value)
 
-    fun buildPropertyParamNotInList(oper: String, value: Collection<P>): CollectionValueSearchField =
-            CollectionValueSearchField(oper, "$table.$column not in ", value)
+    fun buildPropertyParamNotInList(oper: String, value: Set<P>): SetValueSearchField =
+            SetValueSearchField(oper, "$table.$column not in ", value)
 
     companion object {
-        @JvmField val OPTIONS = arrayOf(CollectionI18nEnum.IN, CollectionI18nEnum.NOT_IN)
+        @JvmField
+        val OPTIONS = arrayOf(IN, NOT_IN)
     }
 }

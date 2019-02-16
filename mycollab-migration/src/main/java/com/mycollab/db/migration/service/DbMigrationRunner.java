@@ -17,7 +17,6 @@
 package com.mycollab.db.migration.service;
 
 import com.mycollab.configuration.IDeploymentMode;
-import com.zaxxer.hikari.pool.HikariPool;
 import org.flywaydb.core.Flyway;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,25 +45,19 @@ public class DbMigrationRunner {
     @PostConstruct
     public void migrate() {
         try {
-            Flyway flyway = new Flyway();
-            flyway.setBaselineOnMigrate(true);
-            flyway.setDataSource(dataSource);
-            flyway.setValidateOnMigrate(false);
-            if (deploymentMode.isDemandEdition()) {
-                flyway.setLocations("db/migration", "db/migration2");
+            String dbProductName = dataSource.getConnection().getMetaData().getDatabaseProductName();
+            String[] locations;
+
+            if (dbProductName.equals("H2")) {
+                locations = new String[]{"db/migration/h2"};
+            } else if (dbProductName.equals("PostgreSQL")) {
+                locations = new String[]{"db/migration/postgresql"};
             } else {
-                flyway.setLocations("db/migration");
+                locations = deploymentMode.isDemandEdition() ? new String[]{"db/migration/mysql", "db/migration2"} : new String[]{"db/migration/mysql"};
             }
 
-            boolean doMigrateLoop = true;
-            while (doMigrateLoop) {
-                try {
-                    flyway.migrate();
-                    doMigrateLoop = false;
-                } catch (HikariPool.PoolInitializationException e) {
-                    LOG.info("Error: {}", e.getMessage());
-                }
-            }
+            Flyway flyway = Flyway.configure().baselineOnMigrate(true).dataSource(dataSource).validateOnMigrate(false).locations(locations).load();
+            flyway.migrate();
         } catch (Exception e) {
             LOG.error("Error while migrate database", e);
             System.exit(-1);

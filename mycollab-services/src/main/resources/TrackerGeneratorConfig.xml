@@ -6,12 +6,18 @@
     <context id="MySQL" targetRuntime="MyBatis3" >
         
         <plugin type="com.mycollab.mybatis.plugin.MyCollabModelFilePlugin" />
+        <plugin type="org.mybatis.generator.plugins.FluentBuilderMethodsPlugin" />
+        <plugin type="org.mybatis.generator.plugins.MapperAnnotationPlugin" />
 
         <jdbcConnection
             connectionURL="jdbc:mysql://localhost:3306/mycollab?verifyServerCertificate=false"
-            driverClass="com.mysql.jdbc.Driver"
+            driverClass="com.mysql.cj.jdbc.Driver"
             password="mycollab123"
             userId="root" />
+
+        <javaTypeResolver>
+            <property name="useJSR310Types" value="true"/>
+        </javaTypeResolver>
 
         <javaModelGenerator
             targetPackage="com.mycollab.module.tracker.domain"

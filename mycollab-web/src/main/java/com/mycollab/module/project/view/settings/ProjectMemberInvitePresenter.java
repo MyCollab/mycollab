@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -21,34 +21,33 @@ import com.hp.gagawa.java.elements.B;
 import com.hp.gagawa.java.elements.Div;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.i18n.ShellI18nEnum;
-import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.module.mail.service.ExtMailService;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectRolePermissionCollections;
 import com.mycollab.module.project.event.ProjectMemberEvent;
-import com.mycollab.module.project.event.ProjectMemberEvent.InviteProjectMembers;
 import com.mycollab.module.project.i18n.ProjectMemberI18nEnum;
 import com.mycollab.module.project.service.ProjectMemberService;
 import com.mycollab.module.project.view.ProjectBreadcrumb;
+import com.mycollab.module.project.view.ProjectView;
 import com.mycollab.shell.view.SystemUIChecker;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppUI;
+import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.vaadin.UserUIContext;
-import com.mycollab.vaadin.mvp.PageView.ViewListener;
-import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.event.ViewEvent;
+import com.mycollab.vaadin.mvp.PageView;
+import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.mvp.ViewManager;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.NotificationUtil;
 import com.mycollab.vaadin.web.ui.AbstractPresenter;
 import com.mycollab.vaadin.web.ui.WebThemes;
-import com.vaadin.server.FontAwesome;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.HasComponents;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.UI;
-import org.apache.commons.collections.CollectionUtils;
-import org.vaadin.jouni.restrain.Restrain;
+import org.apache.commons.collections4.CollectionUtils;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
@@ -69,12 +68,11 @@ public class ProjectMemberInvitePresenter extends AbstractPresenter<ProjectMembe
 
     @Override
     protected void postInitView() {
-        view.addViewListener(new ViewListener<ProjectMemberEvent.InviteProjectMembers>() {
-            private static final long serialVersionUID = 1L;
 
+        view.addViewListener(new PageView.ViewListener<InviteMembers>() {
             @Override
-            public void receiveEvent(ViewEvent<InviteProjectMembers> event) {
-                InviteProjectMembers inviteMembers = (InviteProjectMembers) event.getData();
+            public void receiveEvent(ViewEvent<InviteMembers> event) {
+                InviteMembers inviteMembers = event.getData();
                 ProjectMemberService projectMemberService = AppContextUtil.getSpringBean(ProjectMemberService.class);
                 Collection<String> inviteEmails = inviteMembers.getEmails();
                 if (CollectionUtils.isNotEmpty(inviteEmails)) {
@@ -99,8 +97,8 @@ public class ProjectMemberInvitePresenter extends AbstractPresenter<ProjectMembe
     @Override
     protected void onGo(HasComponents container, ScreenData<?> data) {
         if (CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.USERS)) {
-            ProjectUserContainer userGroupContainer = (ProjectUserContainer) container;
-            userGroupContainer.setContent(view);
+            ProjectView projectView = (ProjectView) container;
+            projectView.gotoSubView(ProjectView.USERS_ENTRY, view);
 
             view.display();
 
@@ -115,7 +113,7 @@ public class ProjectMemberInvitePresenter extends AbstractPresenter<ProjectMembe
     private static class CanSendEmailInstructionWindow extends MWindow {
         private MVerticalLayout contentLayout;
 
-        CanSendEmailInstructionWindow(InviteProjectMembers invitation) {
+        CanSendEmailInstructionWindow(InviteMembers invitation) {
             super(UserUIContext.getMessage(ShellI18nEnum.OPT_SMTP_INSTRUCTIONS));
             this.withResizable(false).withModal(true).withWidth("600px").withCenter();
             contentLayout = new MVerticalLayout();
@@ -123,7 +121,7 @@ public class ProjectMemberInvitePresenter extends AbstractPresenter<ProjectMembe
             displayInfo(invitation);
         }
 
-        private void displayInfo(InviteProjectMembers invitation) {
+        private void displayInfo(InviteMembers invitation) {
             Div infoDiv = new Div().appendText(UserUIContext.getMessage(ProjectMemberI18nEnum.OPT_NO_SMTP_SEND_MEMBERS))
                     .setStyle("font-weight:bold;color:red");
             contentLayout.with(ELabel.html(infoDiv.write()));
@@ -134,12 +132,12 @@ public class ProjectMemberInvitePresenter extends AbstractPresenter<ProjectMembe
             contentLayout.with(ELabel.html(introDiv.write()));
 
             MVerticalLayout linksContainer = new MVerticalLayout().withStyleName(WebThemes.SCROLLABLE_CONTAINER);
-            new Restrain(linksContainer).setMaxHeight("400px");
+//            new Restrain(linksContainer).setMaxHeight("400px");
             contentLayout.with(linksContainer);
 
             Collection<String> inviteEmails = invitation.getEmails();
             for (String inviteEmail : inviteEmails) {
-                Div userEmailDiv = new Div().appendText(String.format("&nbsp;&nbsp;&nbsp;&nbsp;%s %s: ", FontAwesome.MAIL_FORWARD.getHtml(),
+                Div userEmailDiv = new Div().appendText(String.format("&nbsp;&nbsp;&nbsp;&nbsp;%s %s: ", VaadinIcons.PAPERPLANE.getHtml(),
                         UserUIContext.getMessage(GenericI18Enum.FORM_EMAIL))).appendChild(new A().setHref("mailto:" + inviteEmail)
                         .appendText(inviteEmail));
                 linksContainer.with(ELabel.html(userEmailDiv.write()), ELabel.hr());

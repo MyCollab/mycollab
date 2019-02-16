@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -19,7 +19,7 @@ package com.mycollab.module.project.view.bug;
 import com.mycollab.common.domain.CommentWithBLOBs;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.service.CommentService;
-import com.mycollab.vaadin.EventBusFactory;
+import com.mycollab.form.view.LayoutType;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.event.BugEvent;
@@ -30,6 +30,7 @@ import com.mycollab.module.tracker.domain.SimpleBug;
 import com.mycollab.module.tracker.service.BugService;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppUI;
+import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.mycollab.vaadin.ui.AbstractFormLayoutFactory;
@@ -37,9 +38,13 @@ import com.mycollab.vaadin.ui.AdvancedEditBeanForm;
 import com.mycollab.vaadin.ui.GenericBeanForm;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
-import com.vaadin.server.FontAwesome;
+import com.vaadin.data.HasValue;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.ui.*;
+import com.vaadin.ui.AbstractComponent;
+import com.vaadin.ui.Alignment;
+import com.vaadin.ui.RichTextArea;
+import com.vaadin.ui.VerticalLayout;
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
@@ -47,7 +52,7 @@ import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MWindow;
 
-import java.util.GregorianCalendar;
+import java.time.LocalDateTime;
 
 /**
  * @author MyCollab Ltd.
@@ -82,15 +87,14 @@ class AssignBugWindow extends MWindow {
         }
 
         class FormLayoutFactory extends AbstractFormLayoutFactory {
-            private static final long serialVersionUID = 1L;
             private GridFormLayoutHelper informationLayout;
 
             @Override
             public AbstractComponent getLayout() {
-                final VerticalLayout layout = new VerticalLayout();
-                this.informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 2);
+                VerticalLayout layout = new VerticalLayout();
+                this.informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(LayoutType.ONE_COLUMN);
 
-                layout.addComponent(this.informationLayout.getLayout());
+                layout.addComponent(informationLayout.getLayout());
 
                 final MButton approveBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_ASSIGN), clickEvent -> {
                     if (EditForm.this.validateForm()) {
@@ -103,7 +107,7 @@ class AssignBugWindow extends MWindow {
                         if (StringUtils.isNotBlank(commentValue)) {
                             final CommentWithBLOBs comment = new CommentWithBLOBs();
                             comment.setComment(Jsoup.clean(commentValue, Whitelist.relaxed()));
-                            comment.setCreatedtime(new GregorianCalendar().getTime());
+                            comment.setCreatedtime(LocalDateTime.now());
                             comment.setCreateduser(UserUIContext.getUsername());
                             comment.setSaccountid(AppUI.getAccountId());
                             comment.setType(ProjectTypeConstants.BUG);
@@ -117,12 +121,12 @@ class AssignBugWindow extends MWindow {
                         close();
                         EventBusFactory.getInstance().post(new BugEvent.BugChanged(this, bug.getId()));
                     }
-                }).withStyleName(WebThemes.BUTTON_ACTION).withIcon(FontAwesome.SHARE);
+                }).withStyleName(WebThemes.BUTTON_ACTION).withIcon(VaadinIcons.SHARE);
 
                 MButton cancelBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
                         .withStyleName(WebThemes.BUTTON_OPTION);
 
-                MHorizontalLayout controlsBtn = new MHorizontalLayout(cancelBtn, approveBtn).withMargin(new MarginInfo(true, true, false, false));
+                MHorizontalLayout controlsBtn = new MHorizontalLayout(cancelBtn, approveBtn);
                 layout.addComponent(controlsBtn);
                 layout.setComponentAlignment(controlsBtn, Alignment.MIDDLE_RIGHT);
 
@@ -130,11 +134,11 @@ class AssignBugWindow extends MWindow {
             }
 
             @Override
-            protected Component onAttachField(Object propertyId, Field<?> field) {
+            protected HasValue<?> onAttachField(Object propertyId, HasValue<?> field) {
                 if (propertyId.equals("assignuser")) {
                     return informationLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.FORM_ASSIGNEE), 0, 0);
                 } else if (propertyId.equals("comment")) {
-                    return informationLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.OPT_COMMENT), 0, 1, 2, "100%");
+                    return informationLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.OPT_COMMENT), 0, 1);
                 }
                 return null;
             }
@@ -143,12 +147,12 @@ class AssignBugWindow extends MWindow {
         private class EditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<BugWithBLOBs> {
             private static final long serialVersionUID = 1L;
 
-            public EditFormFieldFactory(GenericBeanForm<BugWithBLOBs> form) {
+            EditFormFieldFactory(GenericBeanForm<BugWithBLOBs> form) {
                 super(form);
             }
 
             @Override
-            protected Field<?> onCreateField(final Object propertyId) {
+            protected HasValue<?> onCreateField(final Object propertyId) {
                 if (propertyId.equals("assignuser")) {
                     return new ProjectMemberSelectionField();
                 } else if (propertyId.equals("comment")) {

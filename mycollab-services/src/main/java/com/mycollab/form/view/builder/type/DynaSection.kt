@@ -16,9 +16,8 @@
  */
 package com.mycollab.form.view.builder.type
 
-import com.mycollab.core.MyCollabException
-
-import java.util.ArrayList
+import com.mycollab.form.view.LayoutType
+import java.util.*
 
 /**
  * @author MyCollab Ltd.
@@ -26,6 +25,7 @@ import java.util.ArrayList
  */
 class DynaSection : Comparable<DynaSection> {
     var header: Enum<*>? = null
+    var contextHelp: Enum<*>? = null
     var orderIndex: Int = 0
     var isDeletedSection = false
     lateinit var layoutType: LayoutType
@@ -45,22 +45,6 @@ class DynaSection : Comparable<DynaSection> {
     }
 
     fun getField(index: Int): AbstractDynaField = fields[index]
-
-    enum class LayoutType {
-        ONE_COLUMN, TWO_COLUMN;
-
-
-        companion object {
-
-            fun fromVal(value: Int): LayoutType = when (value) {
-                1 -> ONE_COLUMN
-                2 -> TWO_COLUMN
-                else -> throw MyCollabException("Do not convert layout type from value $value")
-            }
-
-            fun toVal(type: LayoutType): Int = if (LayoutType.ONE_COLUMN == type) 1 else 2
-        }
-    }
 
     override fun compareTo(other: DynaSection): Int = orderIndex - other.orderIndex
 }

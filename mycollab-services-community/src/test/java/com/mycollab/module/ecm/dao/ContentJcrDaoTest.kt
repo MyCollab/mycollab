@@ -41,26 +41,21 @@ import com.mycollab.module.ecm.service.ContentJcrDao
 import com.mycollab.test.spring.IntegrationServiceTest
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.tuple
-import org.junit.After
-import org.junit.Before
-import org.junit.Rule
-import org.junit.Test
-import org.junit.rules.ExpectedException
-import org.junit.runner.RunWith
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner
+import org.springframework.test.context.junit.jupiter.SpringExtension
 
-@RunWith(SpringJUnit4ClassRunner::class)
+@ExtendWith(SpringExtension::class)
 class ContentJcrDaoTest : IntegrationServiceTest() {
 
     @Autowired
     private lateinit var contentJcrDao: ContentJcrDao
 
-    @Rule
-    @JvmField
-    var thrown = ExpectedException.none()
-
-    @Before
+    @BeforeEach
     fun setup() {
         val pageContent = Content("example/a")
         pageContent.createdBy = "hainguyen"
@@ -69,7 +64,7 @@ class ContentJcrDaoTest : IntegrationServiceTest() {
         contentJcrDao.saveContent(pageContent, "hainguyen")
     }
 
-    @After
+    @AfterEach
     fun tearDown() {
         contentJcrDao.removeResource("")
     }
@@ -103,12 +98,14 @@ class ContentJcrDaoTest : IntegrationServiceTest() {
 
     @Test
     fun testSaveInvalidContentName() {
-        thrown.expect(UserInvalidInputException::class.java)
         val pageContent = Content("a/b/http-//anchoragesnowmobileclub.com/trail_report/weather-for-turnagain/")
         pageContent.createdBy = "hainguyen"
         pageContent.title = "page example"
         pageContent.description = "aaa"
-        contentJcrDao.saveContent(pageContent, "abc")
+        Assertions.assertThrows(UserInvalidInputException::class.java) {
+            contentJcrDao.saveContent(pageContent, "abc")
+        }
+
     }
 
     @Test

@@ -1,35 +1,28 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package com.mycollab.module.project.view.user;
 
+import com.jarektoro.responsivelayout.ResponsiveColumn;
+import com.jarektoro.responsivelayout.ResponsiveLayout;
+import com.jarektoro.responsivelayout.ResponsiveRow;
 import com.mycollab.module.project.view.milestone.MilestoneTimelineWidget;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.web.ui.AbstractLazyPageView;
-import com.vaadin.event.dd.DragAndDropEvent;
-import com.vaadin.event.dd.DropHandler;
-import com.vaadin.event.dd.acceptcriteria.AcceptCriterion;
-import com.vaadin.event.dd.acceptcriteria.Not;
-import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.ui.Component;
-import fi.jasoft.dragdroplayouts.DDVerticalLayout;
-import fi.jasoft.dragdroplayouts.client.ui.LayoutDragMode;
-import fi.jasoft.dragdroplayouts.events.HorizontalLocationIs;
-import fi.jasoft.dragdroplayouts.events.LayoutBoundTransferable;
-import org.vaadin.viritin.layouts.MHorizontalLayout;
+import org.vaadin.viritin.layouts.MVerticalLayout;
 
 /**
  * @author MyCollab Ltd.
@@ -40,29 +33,13 @@ public class ProjectSummaryViewImpl extends AbstractLazyPageView implements Proj
 
     @Override
     protected void displayView() {
-        MHorizontalLayout layout = new MHorizontalLayout().withMargin(true).withFullWidth();
+        ResponsiveLayout layout = new ResponsiveLayout(ResponsiveLayout.ContainerType.FIXED);
+        layout.setSizeFull();
         this.with(layout);
 
-        DDVerticalLayout leftPanel = new DDVerticalLayout();
-        leftPanel.setSpacing(true);
-        leftPanel.setMargin(new MarginInfo(true, true, false, false));
-        leftPanel.setComponentVerticalDropRatio(0.3f);
-        leftPanel.setDragMode(LayoutDragMode.CLONE_OTHER);
-        leftPanel.setDropHandler(new DropHandler() {
-            @Override
-            public void drop(DragAndDropEvent event) {
-                LayoutBoundTransferable transferable = (LayoutBoundTransferable) event.getTransferable();
+        ResponsiveRow row = layout.addRow();
 
-                DDVerticalLayout.VerticalLayoutTargetDetails details = (DDVerticalLayout.VerticalLayoutTargetDetails) event
-                        .getTargetDetails();
-                Component dragComponent = transferable.getComponent();
-            }
-
-            @Override
-            public AcceptCriterion getAcceptCriterion() {
-                return new Not(HorizontalLocationIs.CENTER);
-            }
-        });
+        ResponsiveColumn column1 = new ResponsiveColumn(12, 12, 12, 6);
 
         MilestoneTimelineWidget milestoneTimelineWidget = new MilestoneTimelineWidget();
         ProjectOverdueTicketsWidget taskOverdueWidget = new ProjectOverdueTicketsWidget();
@@ -70,37 +47,13 @@ public class ProjectSummaryViewImpl extends AbstractLazyPageView implements Proj
 
         ProjectUnresolvedTicketsWidget unresolvedAssignmentNextWeekWidget = new ProjectUnresolvedTicketsWidget();
 
-        leftPanel.addComponent(milestoneTimelineWidget);
-        leftPanel.addComponent(unresolvedAssignmentThisWeekWidget);
-        leftPanel.addComponent(unresolvedAssignmentNextWeekWidget);
-        leftPanel.addComponent(taskOverdueWidget);
+        column1.setContent(new MVerticalLayout(milestoneTimelineWidget, unresolvedAssignmentThisWeekWidget, unresolvedAssignmentNextWeekWidget, taskOverdueWidget));
 
+        ResponsiveColumn column2 = new ResponsiveColumn(12, 12, 12, 6);
 
-        DDVerticalLayout rightPanel = new DDVerticalLayout();
-        rightPanel.setWidth("500px");
-        rightPanel.setSpacing(true);
-        rightPanel.setMargin(new MarginInfo(true, false, false, false));
-        rightPanel.setComponentVerticalDropRatio(0.3f);
-        rightPanel.setDragMode(LayoutDragMode.CLONE_OTHER);
-        rightPanel.setDropHandler(new DropHandler() {
-            @Override
-            public void drop(DragAndDropEvent event) {
-                LayoutBoundTransferable transferable = (LayoutBoundTransferable) event.getTransferable();
-
-                DDVerticalLayout.VerticalLayoutTargetDetails details = (DDVerticalLayout.VerticalLayoutTargetDetails) event
-                        .getTargetDetails();
-                Component dragComponent = transferable.getComponent();
-            }
-
-            @Override
-            public AcceptCriterion getAcceptCriterion() {
-                return new Not(HorizontalLocationIs.CENTER);
-            }
-        });
         ProjectMembersWidget membersWidget = new ProjectMembersWidget();
         ProjectActivityStreamComponent activityPanel = new ProjectActivityStreamComponent();
-        rightPanel.addComponent(membersWidget);
-        rightPanel.addComponent(activityPanel);
+        column2.setContent(new MVerticalLayout(membersWidget, activityPanel));
 
         milestoneTimelineWidget.display();
         unresolvedAssignmentThisWeekWidget.displayUnresolvedAssignmentsThisWeek();
@@ -109,7 +62,8 @@ public class ProjectSummaryViewImpl extends AbstractLazyPageView implements Proj
         membersWidget.showInformation();
         taskOverdueWidget.showOpenTickets();
 
-        layout.with(leftPanel, rightPanel).expand(leftPanel);
+        row.addColumn(column1);
+        row.addColumn(column2);
     }
 
     @Override

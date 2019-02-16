@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -38,28 +38,29 @@ import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.ReloadableComponent;
 import com.mycollab.vaadin.ui.SafeHtmlLabel;
-import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.ui.formatter.DefaultFieldDisplayHandler;
 import com.mycollab.vaadin.ui.formatter.FieldGroupFormatter;
 import com.mycollab.vaadin.ui.registry.AuditLogRegistry;
 import com.mycollab.vaadin.web.ui.AttachmentDisplayComponent;
 import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.mycollab.vaadin.web.ui.WebThemes;
-import com.vaadin.server.FontAwesome;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
+import com.vaadin.ui.themes.ValoTheme;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.vaadin.viritin.button.MButton;
+import org.vaadin.viritin.layouts.MCssLayout;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MMarginInfo;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -82,8 +83,8 @@ public class ProjectActivityComponent extends MVerticalLayout implements Reloada
         @Override
         public int compare(Object o1, Object o2) {
             try {
-                Date createTime1 = (Date) PropertyUtils.getProperty(o1, "createdtime");
-                Date createTime2 = (Date) PropertyUtils.getProperty(o2, "createdtime");
+                LocalDateTime createTime1 = (LocalDateTime) PropertyUtils.getProperty(o1, "createdtime");
+                LocalDateTime createTime2 = (LocalDateTime) PropertyUtils.getProperty(o2, "createdtime");
                 return createTime1.compareTo(createTime2);
             } catch (Exception e) {
                 return 0;
@@ -92,16 +93,17 @@ public class ProjectActivityComponent extends MVerticalLayout implements Reloada
     };
 
     public ProjectActivityComponent(String type, Integer extraTypeId) {
-        withMargin(false).withStyleName("activity-comp").withFullWidth();
+        withMargin(false).withFullWidth();
         this.type = type;
         this.groupFormatter = AuditLogRegistry.getFieldGroupFormatterOfType(type);
-        headerLbl = new ELabel(UserUIContext.getMessage(GenericI18Enum.OPT_CHANGE_HISTORY, 0));
+        headerLbl = new ELabel(UserUIContext.getMessage(GenericI18Enum.OPT_CHANGE_HISTORY, 0)).withStyleName(ValoTheme.LABEL_H3);
 
-        final OptionGroup sortDirection = new OptionGroup();
-        sortDirection.addStyleName("sortDirection");
+        RadioButtonGroup<String> sortDirection = new RadioButtonGroup<>();
+        sortDirection.addStyleName(ValoTheme.OPTIONGROUP_HORIZONTAL);
+
         String oldestFirstDirection = UserUIContext.getMessage(GenericI18Enum.OPT_OLDEST_FIRST);
-        final String newestFirstDirection = UserUIContext.getMessage(GenericI18Enum.OPT_NEWEST_FIRST);
-        sortDirection.addItems(newestFirstDirection, oldestFirstDirection);
+        String newestFirstDirection = UserUIContext.getMessage(GenericI18Enum.OPT_NEWEST_FIRST);
+        sortDirection.setItems(newestFirstDirection, oldestFirstDirection);
         sortDirection.setValue(newestFirstDirection);
         sortDirection.addValueChangeListener(valueChangeEvent -> {
             Object value = sortDirection.getValue();
@@ -109,8 +111,8 @@ public class ProjectActivityComponent extends MVerticalLayout implements Reloada
             displayActivities();
         });
 
-        MHorizontalLayout headerPanel = new MHorizontalLayout().withMargin(true).withStyleName(WebThemes.FORM_SECTION)
-                .withFullWidth().with(headerLbl, sortDirection).withAlign(headerLbl, Alignment.MIDDLE_LEFT)
+        MHorizontalLayout headerPanel = new MHorizontalLayout(headerLbl, sortDirection).withMargin(false).withStyleName(WebThemes.FORM_SECTION)
+                .withFullWidth().withAlign(headerLbl, Alignment.MIDDLE_LEFT)
                 .withAlign(sortDirection, Alignment.MIDDLE_RIGHT);
 
         commentBox = new ProjectCommentInput(this, type, extraTypeId);
@@ -189,10 +191,10 @@ public class ProjectActivityComponent extends MVerticalLayout implements Reloada
         ELabel timePostLbl = ELabel.html(UserUIContext.getMessage(GenericI18Enum.EXT_ADDED_COMMENT, comment.getOwnerFullName(),
                 UserUIContext.formatPrettyTime(comment.getCreatedtime())))
                 .withDescription(UserUIContext.formatDateTime(comment.getCreatedtime()))
-                .withStyleName(UIConstants.META_INFO);
+                .withStyleName(WebThemes.META_INFO);
 
         if (hasDeletePermission(comment)) {
-            MButton msgDeleteBtn = new MButton(FontAwesome.TRASH_O).withListener(clickEvent -> {
+            MButton msgDeleteBtn = new MButton(VaadinIcons.TRASH).withListener(clickEvent -> {
                 ConfirmDialogExt.show(UI.getCurrent(),
                         UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppUI.getSiteName()),
                         UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
@@ -239,7 +241,7 @@ public class ProjectActivityComponent extends MVerticalLayout implements Reloada
             final MHorizontalLayout layout = new MHorizontalLayout().withMargin(new MarginInfo(true, false, true, false))
                     .withFullWidth();
 
-            ProjectMemberBlock memberBlock = new ProjectMemberBlock(auditLog.getPosteduser(), auditLog.getPostedUserAvatarId(),
+            ProjectMemberBlock memberBlock = new ProjectMemberBlock(auditLog.getCreateduser(), auditLog.getPostedUserAvatarId(),
                     auditLog.getPostedUserFullName());
             layout.addComponent(memberBlock);
 
@@ -249,9 +251,9 @@ public class ProjectActivityComponent extends MVerticalLayout implements Reloada
             messageHeader.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
             ELabel timePostLbl = ELabel.html(UserUIContext.getMessage(GenericI18Enum.EXT_MODIFIED_ITEM, auditLog.getPostedUserFullName(),
-                    UserUIContext.formatPrettyTime(auditLog.getPosteddate())))
-                    .withDescription(UserUIContext.formatDateTime(auditLog.getPosteddate()));
-            timePostLbl.setStyleName(UIConstants.META_INFO);
+                    UserUIContext.formatPrettyTime(auditLog.getCreatedtime())))
+                    .withDescription(UserUIContext.formatDateTime(auditLog.getCreatedtime()));
+            timePostLbl.setStyleName(WebThemes.META_INFO);
             messageHeader.with(timePostLbl).expand(timePostLbl);
 
             rowLayout.addComponent(messageHeader);
@@ -262,11 +264,11 @@ public class ProjectActivityComponent extends MVerticalLayout implements Reloada
                 DefaultFieldDisplayHandler fieldDisplayHandler = groupFormatter.getFieldDisplayHandler(fieldName);
                 if (fieldDisplayHandler != null) {
                     Span fieldBlock = new Span().appendText(UserUIContext.getMessage(fieldDisplayHandler.getDisplayName()))
-                            .setCSSClass(UIConstants.BLOCK);
+                            .setCSSClass(WebThemes.BLOCK);
                     Div historyDiv = new Div().appendChild(fieldBlock).appendText(fieldDisplayHandler.getFormat()
-                            .toString(item.getOldvalue())).appendText(" " + FontAwesome.LONG_ARROW_RIGHT.getHtml() +
+                            .toString(item.getOldvalue())).appendText(" " + VaadinIcons.ARROW_RIGHT.getHtml() +
                             " ").appendText(fieldDisplayHandler.getFormat().toString(item.getNewvalue()));
-                    rowLayout.addComponent(ELabel.html(historyDiv.write()));
+                    rowLayout.addComponent(new MCssLayout(ELabel.html(historyDiv.write()).withFullWidth()).withFullWidth());
                 }
             }
 

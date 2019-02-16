@@ -1,1 +1,0 @@
-ALTER TABLE `m_tracker_bug` ADD COLUMN `bugIndex` INT(10) UNSIGNED NULL;

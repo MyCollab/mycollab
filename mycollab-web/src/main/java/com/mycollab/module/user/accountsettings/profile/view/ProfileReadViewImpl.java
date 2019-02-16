@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -20,26 +20,28 @@ import com.hp.gagawa.java.elements.A;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.i18n.ShellI18nEnum;
 import com.mycollab.core.utils.TimezoneVal;
+import com.mycollab.form.view.LayoutType;
 import com.mycollab.i18n.LocalizationHelper;
 import com.mycollab.module.file.service.UserAvatarService;
 import com.mycollab.module.user.accountsettings.localization.UserI18nEnum;
 import com.mycollab.module.user.domain.User;
-import com.mycollab.vaadin.web.ui.ImagePreviewCropWindow;
-import com.mycollab.vaadin.web.ui.UploadImageField;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.UserUIContext;
+import com.mycollab.vaadin.Utils;
 import com.mycollab.vaadin.mvp.AbstractVerticalPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.*;
 import com.mycollab.vaadin.ui.field.CountryViewField;
-import com.mycollab.vaadin.web.ui.AdvancedPreviewBeanForm;
-import com.mycollab.vaadin.web.ui.WebThemes;
 import com.mycollab.vaadin.ui.field.UrlLinkViewField;
+import com.mycollab.vaadin.web.ui.AdvancedPreviewBeanForm;
+import com.mycollab.vaadin.web.ui.ImagePreviewCropWindow;
+import com.mycollab.vaadin.web.ui.UploadImageField;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
-import com.vaadin.server.Page;
+import com.vaadin.data.HasValue;
 import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
+import com.vaadin.ui.themes.ValoTheme;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
@@ -58,7 +60,6 @@ public class ProfileReadViewImpl extends AbstractVerticalPageView implements Pro
     private final MHorizontalLayout avatarAndPass;
 
     public ProfileReadViewImpl() {
-        super();
         this.setMargin(new MarginInfo(false, true, true, true));
         this.avatarAndPass = new MHorizontalLayout().withMargin(new MarginInfo(true, true, true, false)).withFullWidth();
 
@@ -70,7 +71,7 @@ public class ProfileReadViewImpl extends AbstractVerticalPageView implements Pro
     private void displayUserAvatar() {
         avatarAndPass.removeAllComponents();
         Image cropField = UserAvatarControlFactory.createUserAvatarEmbeddedComponent(UserUIContext.getUserAvatarId(), 100);
-        cropField.addStyleName(UIConstants.CIRCLE_BOX);
+        cropField.addStyleName(WebThemes.CIRCLE_BOX);
         CssLayout avatarWrapper = new CssLayout();
         avatarWrapper.addComponent(cropField);
         MVerticalLayout userAvatar = new MVerticalLayout().withMargin(false).with(avatarWrapper);
@@ -85,7 +86,7 @@ public class ProfileReadViewImpl extends AbstractVerticalPageView implements Pro
         User user = formItem.getBean();
         MVerticalLayout basicLayout = new MVerticalLayout().withMargin(false);
 
-        ELabel usernameLbl = ELabel.h2(UserUIContext.getUser().getDisplayName()).withWidthUndefined();
+        ELabel usernameLbl = ELabel.h2(UserUIContext.getUser().getDisplayName()).withUndefinedWidth();
 
         MButton btnChangeBasicInfo = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_EDIT),
                 clickEvent -> UI.getCurrent().addWindow(new BasicInfoChangeWindow(formItem.getBean())))
@@ -95,12 +96,12 @@ public class ProfileReadViewImpl extends AbstractVerticalPageView implements Pro
         basicLayout.addComponent(userWrapper);
         basicLayout.setComponentAlignment(userWrapper, Alignment.MIDDLE_LEFT);
 
-        GridFormLayoutHelper userFormLayout = GridFormLayoutHelper.defaultFormLayoutHelper(1, 5).withCaptionWidth("140px");
+        GridFormLayoutHelper userFormLayout = GridFormLayoutHelper.defaultFormLayoutHelper(LayoutType.ONE_COLUMN);
         userFormLayout.getLayout().addStyleName(WebThemes.GRIDFORM_BORDERLESS);
-        userFormLayout.addComponent(new Label(UserUIContext.formatDate(user.getDateofbirth())),
+        userFormLayout.addComponent(new Label(UserUIContext.formatDate(user.getBirthday())),
                 UserUIContext.getMessage(UserI18nEnum.FORM_BIRTHDAY), 0, 0);
-        userFormLayout.addComponent(new Label(new A("mailto:" + user.getEmail()).appendText(user.getEmail()).setTarget("_blank")
-                .write(), ContentMode.HTML), UserUIContext.getMessage(GenericI18Enum.FORM_EMAIL), 0, 1);
+        userFormLayout.addComponent(ELabel.html(new A("mailto:" + user.getEmail()).appendText(user.getEmail()).setTarget("_blank").write()),
+                UserUIContext.getMessage(GenericI18Enum.FORM_EMAIL), 0, 1);
         userFormLayout.addComponent(new Label(TimezoneVal.getDisplayName(UserUIContext.getUserLocale(), user.getTimezone())),
                 UserUIContext.getMessage(UserI18nEnum.FORM_TIMEZONE), 0, 2);
         userFormLayout.addComponent(new Label(LocalizationHelper.getLocaleInstance(user.getLanguage()).getDisplayLanguage(UserUIContext.getUserLocale())),
@@ -109,7 +110,7 @@ public class ProfileReadViewImpl extends AbstractVerticalPageView implements Pro
         MButton btnChangePassword = new MButton(UserUIContext.getMessage(GenericI18Enum.ACTION_CHANGE),
                 clickEvent -> UI.getCurrent().addWindow(new PasswordChangeWindow(formItem.getBean())))
                 .withStyleName(WebThemes.BUTTON_LINK);
-        userFormLayout.addComponent(new MHorizontalLayout(new Label("***********"), btnChangePassword),
+        userFormLayout.addComponent(new CssLayout(new MHorizontalLayout(new ELabel("***********"), btnChangePassword).withAlign(btnChangePassword, Alignment.TOP_RIGHT)),
                 UserUIContext.getMessage(ShellI18nEnum.FORM_PASSWORD), 0, 4);
         basicLayout.addComponent(userFormLayout.getLayout());
 
@@ -120,7 +121,7 @@ public class ProfileReadViewImpl extends AbstractVerticalPageView implements Pro
     public void process(BufferedImage image) {
         UserAvatarService userAvatarService = AppContextUtil.getSpringBean(UserAvatarService.class);
         userAvatarService.uploadAvatar(image, UserUIContext.getUsername(), UserUIContext.getUserAvatarId());
-        Page.getCurrent().getJavaScript().execute("window.location.reload();");
+        Utils.reloadPage();
     }
 
     private class PreviewForm extends AdvancedPreviewBeanForm<User> {
@@ -134,43 +135,37 @@ public class ProfileReadViewImpl extends AbstractVerticalPageView implements Pro
         }
 
         private class FormLayoutFactory extends AbstractFormLayoutFactory {
-            private static final long serialVersionUID = 1L;
 
-            private GridFormLayoutHelper contactLayout = GridFormLayoutHelper.defaultFormLayoutHelper(1, 5);
-            private GridFormLayoutHelper advancedInfoLayout = GridFormLayoutHelper.defaultFormLayoutHelper(1, 3);
+            private GridFormLayoutHelper contactLayout = GridFormLayoutHelper.defaultFormLayoutHelper(LayoutType.ONE_COLUMN);
+            private GridFormLayoutHelper advancedInfoLayout = GridFormLayoutHelper.defaultFormLayoutHelper(LayoutType.ONE_COLUMN);
 
             @Override
             public AbstractComponent getLayout() {
-                contactLayout.getLayout().setSpacing(true);
-                advancedInfoLayout.getLayout().setSpacing(true);
                 FormContainer layout = new FormContainer();
                 layout.addComponent(avatarAndPass);
-
-                MHorizontalLayout contactInformationHeader = new MHorizontalLayout();
-                contactInformationHeader.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
-                Label contactInformationHeaderLbl = new Label(UserUIContext.getMessage(UserI18nEnum.SECTION_CONTACT_INFORMATION));
 
                 MButton btnChangeContactInfo = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_EDIT),
                         clickEvent -> UI.getCurrent().addWindow(new ContactInfoChangeWindow(formItem.getBean())))
                         .withStyleName(WebThemes.BUTTON_LINK);
-                contactInformationHeader.with(contactInformationHeaderLbl, btnChangeContactInfo).alignAll(Alignment.MIDDLE_LEFT);
+
+                MHorizontalLayout contactInformationHeader = new MHorizontalLayout(new ELabel(UserUIContext.getMessage(UserI18nEnum.SECTION_CONTACT_INFORMATION))
+                        .withStyleName(ValoTheme.LABEL_H3, ValoTheme.LABEL_NO_MARGIN), btnChangeContactInfo).alignAll(Alignment.MIDDLE_LEFT);
 
                 layout.addSection(new CssLayout(contactInformationHeader), contactLayout.getLayout());
-
-                MHorizontalLayout advanceInfoHeader = new MHorizontalLayout();
-                Label advanceInfoHeaderLbl = new Label(UserUIContext.getMessage(UserI18nEnum.SECTION_ADVANCED_INFORMATION));
 
                 MButton btnChangeAdvanceInfo = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_EDIT),
                         clickEvent -> UI.getCurrent().addWindow(new AdvancedInfoChangeWindow(formItem.getBean())))
                         .withStyleName(WebThemes.BUTTON_LINK);
 
-                advanceInfoHeader.with(advanceInfoHeaderLbl, btnChangeAdvanceInfo);
+                MHorizontalLayout advanceInfoHeader = new MHorizontalLayout(new ELabel(UserUIContext.getMessage(UserI18nEnum.SECTION_ADVANCED_INFORMATION))
+                        .withStyleName(ValoTheme.LABEL_H3, ValoTheme.LABEL_NO_MARGIN), btnChangeAdvanceInfo).alignAll(Alignment.MIDDLE_LEFT);
+
                 layout.addSection(new CssLayout(advanceInfoHeader), advancedInfoLayout.getLayout());
                 return layout;
             }
 
             @Override
-            protected Component onAttachField(Object propertyId, Field<?> field) {
+            protected HasValue<?> onAttachField(Object propertyId, HasValue<?> field) {
                 if (propertyId.equals("website")) {
                     return advancedInfoLayout.addComponent(field, UserUIContext.getMessage(UserI18nEnum.FORM_WEBSITE), 0, 0);
                 } else if (propertyId.equals("company")) {
@@ -200,7 +195,7 @@ public class ProfileReadViewImpl extends AbstractVerticalPageView implements Pro
             }
 
             @Override
-            protected Field<?> onCreateField(final Object propertyId) {
+            protected HasValue<?> onCreateField(final Object propertyId) {
                 User user = formItem.getBean();
                 if (propertyId.equals("website")) {
                     return new UrlLinkViewField(user.getWebsite());
@@ -213,7 +208,7 @@ public class ProfileReadViewImpl extends AbstractVerticalPageView implements Pro
                 } else if (propertyId.equals("skypecontact")) {
                     return new UrlLinkViewField(String.format("skype:%s?chat", user.getSkypecontact()), user.getSkypecontact());
                 } else if (User.Field.country.equalTo(propertyId)) {
-                    return new CountryViewField(user.getCountry());
+                    return new CountryViewField();
                 }
                 return null;
             }

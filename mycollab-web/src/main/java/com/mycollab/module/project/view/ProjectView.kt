@@ -30,9 +30,58 @@ interface ProjectView : PageView {
 
     fun updateProjectFeatures()
 
-    fun gotoSubView(name: String): Component
+    fun gotoSubView(name: String, viewDisplay: Component): Component
 
     fun setNavigatorVisibility(visibility: Boolean)
 
-    fun displaySearchResult(value: String)
+    fun addComponentToRightBar(component: Component)
+
+    fun clearRightBar()
+
+    companion object {
+        @JvmField
+        val SUMMARY_ENTRY = "Summary"
+
+        @JvmField
+        val MESSAGE_ENTRY = "Message"
+
+        @JvmField
+        val MILESTONE_ENTRY = "Milestone"
+
+        @JvmField
+        val TICKET_ENTRY = "Ticket"
+
+        @JvmField
+        val KANBAN_ENTRY = "Kanban"
+
+        @JvmField
+        val PAGE_ENTRY = "Page"
+
+        @JvmField
+        val FINANCE_ENTRY = "Financing"
+
+        @JvmField
+        val TIME_TRACKING_ENTRY = "Time-Tracking"
+
+        @JvmField
+        val INVOICE_ENTRY = "Invoice"
+
+        @JvmField
+        val SETTING = "Setting"
+
+        @JvmField
+        val USERS_ENTRY = "Users"
+
+        @JvmField
+        val ROLE_ENTRY = "Roles"
+
+        @JvmField
+        val COMPONENT_ENTRY = "Component";
+
+        @JvmField
+        val VERSION_ENTRY = "Version";
+
+        @JvmField
+        val CUSTOM_ENTRY = "Custom"
+    }
 }

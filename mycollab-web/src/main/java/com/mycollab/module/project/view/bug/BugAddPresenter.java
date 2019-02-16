@@ -29,6 +29,7 @@ import com.mycollab.module.project.event.BugEvent;
 import com.mycollab.module.project.event.TicketEvent;
 import com.mycollab.module.project.view.ProjectBreadcrumb;
 import com.mycollab.module.project.view.ProjectGenericPresenter;
+import com.mycollab.module.project.view.ProjectView;
 import com.mycollab.module.tracker.domain.SimpleBug;
 import com.mycollab.module.tracker.service.BugRelatedItemService;
 import com.mycollab.module.tracker.service.BugService;
@@ -45,7 +46,6 @@ import com.mycollab.vaadin.web.ui.field.AttachmentUploadField;
 import com.vaadin.ui.HasComponents;
 
 import java.util.ArrayList;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 import static com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
@@ -89,19 +89,19 @@ public class BugAddPresenter extends ProjectGenericPresenter<BugAddView> {
     @Override
     protected void onGo(HasComponents container, ScreenData<?> data) {
         if (CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.BUGS)) {
-            BugContainer bugContainer = (BugContainer) container;
-            bugContainer.removeAllComponents();
-            bugContainer.addComponent(view);
+            ProjectView projectView = (ProjectView) container;
+            projectView.gotoSubView(ProjectView.TICKET_ENTRY, view);
 
             SimpleBug bug = (SimpleBug) data.getParams();
-            view.editItem(bug);
 
             ProjectBreadcrumb breadcrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);
             if (bug.getId() == null) {
                 breadcrumb.gotoBugAdd();
+                bug.setSaccountid(AppUI.getAccountId());
             } else {
                 breadcrumb.gotoBugEdit(bug);
             }
+            view.editItem(bug);
         } else {
             throw new SecureAccessException();
         }
@@ -111,6 +111,7 @@ public class BugAddPresenter extends ProjectGenericPresenter<BugAddView> {
         BugService bugService = AppContextUtil.getSpringBean(BugService.class);
         bug.setProjectid(CurrentProjectVariables.getProjectId());
         bug.setSaccountid(AppUI.getAccountId());
+
         AsyncEventBus asyncEventBus = AppContextUtil.getSpringBean(AsyncEventBus.class);
         if (bug.getId() == null) {
             bug.setStatus(StatusI18nEnum.Open.name());
@@ -133,11 +134,10 @@ public class BugAddPresenter extends ProjectGenericPresenter<BugAddView> {
                 List<MonitorItem> monitorItems = new ArrayList<>();
                 for (String follower : followers) {
                     MonitorItem monitorItem = new MonitorItem();
-                    monitorItem.setMonitorDate(new GregorianCalendar().getTime());
                     monitorItem.setSaccountid(AppUI.getAccountId());
                     monitorItem.setType(ProjectTypeConstants.BUG);
-                    monitorItem.setTypeid(bugId);
-                    monitorItem.setUser(follower);
+                    monitorItem.setTypeid(bugId + "");
+                    monitorItem.setUsername(follower);
                     monitorItem.setExtratypeid(CurrentProjectVariables.getProjectId());
                     monitorItems.add(monitorItem);
                 }

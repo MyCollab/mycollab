@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -26,18 +26,16 @@ import com.mycollab.module.project.domain.ProjectTicket;
 import com.mycollab.module.project.domain.criteria.ProjectTicketSearchCriteria;
 import com.mycollab.module.project.i18n.ProjectI18nEnum;
 import com.mycollab.module.project.service.ProjectTicketService;
-import com.mycollab.module.project.view.UserDashboardView;
 import com.mycollab.module.project.view.ticket.TicketRowDisplayHandler;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.UserUIContext;
-import com.mycollab.vaadin.ui.UIUtils;
 import com.mycollab.vaadin.web.ui.DefaultBeanPagedList;
 import com.mycollab.vaadin.web.ui.Depot;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.CssLayout;
-import org.joda.time.LocalDate;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.util.List;
 
 /**
  * @author MyCollab Ltd
@@ -74,41 +72,29 @@ public class UserUnresolvedTicketWidget extends Depot {
         this.bodyContent.addComponent(ticketList);
     }
 
-    public void displayUnresolvedAssignmentsThisWeek() {
+    public void displayUnresolvedAssignmentsThisWeek(List<Integer> projectIds) {
         title = UserUIContext.getMessage(ProjectI18nEnum.OPT_UNRESOLVED_TICKET_THIS_WEEK);
         searchCriteria = new ProjectTicketSearchCriteria();
-        searchCriteria.setOpenned(new SearchField());
-        UserDashboardView userDashboardView = UIUtils.getRoot(this, UserDashboardView.class);
-        searchCriteria.setProjectIds(new SetSearchField<>(userDashboardView.getInvolvedProjectKeys()));
-        LocalDate now = new LocalDate();
-        Date[] bounceDateOfWeek = DateTimeUtils.getBounceDatesOfWeek(now.toDate());
+        searchCriteria.setOpen(new SearchField());
+        searchCriteria.setProjectIds(new SetSearchField<>(projectIds));
+        LocalDate now = LocalDate.now();
+        LocalDate[] bounceDateOfWeek = DateTimeUtils.getBounceDatesOfWeek(now);
         RangeDateSearchField range = new RangeDateSearchField(bounceDateOfWeek[0], bounceDateOfWeek[1]);
         searchCriteria.setDateInRange(range);
         updateSearchResult();
     }
 
-    public void displayNoUnresolvedAssignmentsThisWeek() {
-        title = UserUIContext.getMessage(ProjectI18nEnum.OPT_UNRESOLVED_TICKET_THIS_WEEK);
-        this.setTitle(String.format(title, 0));
-    }
-
-    public void displayUnresolvedAssignmentsNextWeek() {
+    public void displayUnresolvedAssignmentsNextWeek(List<Integer> projectIds) {
         title = UserUIContext.getMessage(ProjectI18nEnum.OPT_UNRESOLVED_TICKET_NEXT_WEEK);
         searchCriteria = new ProjectTicketSearchCriteria();
-        UserDashboardView userDashboardView = UIUtils.getRoot(this, UserDashboardView.class);
-        searchCriteria.setOpenned(new SearchField());
-        searchCriteria.setProjectIds(new SetSearchField<>(userDashboardView.getInvolvedProjectKeys()));
-        LocalDate now = new LocalDate();
+        searchCriteria.setOpen(new SearchField());
+        searchCriteria.setProjectIds(new SetSearchField<>(projectIds));
+        LocalDate now = LocalDate.now();
         now = now.plusDays(7);
-        Date[] bounceDateOfWeek = DateTimeUtils.getBounceDatesOfWeek(now.toDate());
+        LocalDate[] bounceDateOfWeek = DateTimeUtils.getBounceDatesOfWeek(now);
         RangeDateSearchField range = new RangeDateSearchField(bounceDateOfWeek[0], bounceDateOfWeek[1]);
         searchCriteria.setDateInRange(range);
         updateSearchResult();
-    }
-
-    public void displayNoUnresolvedAssignmentsNextWeek() {
-        title = UserUIContext.getMessage(ProjectI18nEnum.OPT_UNRESOLVED_TICKET_NEXT_WEEK);
-        this.setTitle(String.format(title, 0));
     }
 
     private void updateSearchResult() {

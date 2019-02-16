@@ -24,8 +24,8 @@ import com.mycollab.module.file.StorageUtils;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectLinkGenerator;
 import com.mycollab.vaadin.TooltipHelper;
-import com.mycollab.vaadin.ui.UIConstants;
-import com.vaadin.shared.ui.label.ContentMode;
+import com.mycollab.vaadin.web.ui.WebThemes;
+import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.ui.Label;
 
 /**
@@ -44,7 +44,7 @@ public class ProjectMemberLink extends Label {
         this.setContentMode(ContentMode.HTML);
 
         DivLessFormatter div = new DivLessFormatter();
-        Img userAvatar = new Img("", StorageUtils.getAvatarPath(userAvatarId, 16)).setCSSClass(UIConstants.CIRCLE_BOX);
+        Img userAvatar = new Img("", StorageUtils.getAvatarPath(userAvatarId, 16)).setCSSClass(WebThemes.CIRCLE_BOX);
         A userLink = new A().setId("tag" + TooltipHelper.TOOLTIP_ID).
                 setHref(ProjectLinkGenerator.generateProjectMemberLink(projectId, username))
                 .appendText(StringUtils.trim(displayName, 30, true));

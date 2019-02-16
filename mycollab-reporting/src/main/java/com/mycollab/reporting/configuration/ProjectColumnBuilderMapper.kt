@@ -92,16 +92,16 @@ class ProjectColumnBuilderMapper : InitializingBean {
         }
         map[Project.Field.memlead.name] = HyperlinkBuilderGenerator(leadNameExpr, leadHrefExpr)
 
-        val accountNameExpr = PrimaryTypeFieldExpression<String>(SimpleProject.Field.clientName.name)
+        val clientNameExpr = PrimaryTypeFieldExpression<String>(SimpleProject.Field.clientName.name)
         val clientHrefExpr = object : AbstractSimpleExpression<String>() {
 
             override fun evaluate(reportParameters: ReportParameters): String {
                 val siteUrl = reportParameters.getParameterValue<String>("siteUrl")
-                val accountId = reportParameters.getParameterValue<Int>(Project.Field.accountid.name)
-                return ProjectLinkGenerator.generateClientPreviewFullLink(siteUrl, accountId!!)
+                val clientId = reportParameters.getParameterValue<Int>(Project.Field.clientid.name)
+                return ProjectLinkGenerator.generateClientPreviewFullLink(siteUrl, clientId!!)
             }
         }
-        map[Project.Field.accountid.name] = HyperlinkBuilderGenerator(accountNameExpr, clientHrefExpr)
+        map[Project.Field.clientid.name] = HyperlinkBuilderGenerator(clientNameExpr, clientHrefExpr)
 
         val homePageUrlExpr = PrimaryTypeFieldExpression<String>(Project.Field.homepage.name)
         map[Project.Field.homepage.name] = HyperlinkBuilderGenerator(homePageUrlExpr, homePageUrlExpr)

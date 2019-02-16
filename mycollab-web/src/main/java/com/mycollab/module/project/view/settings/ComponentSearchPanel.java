@@ -28,10 +28,10 @@ import com.mycollab.module.project.ui.components.ComponentUtils;
 import com.mycollab.module.tracker.domain.criteria.ComponentSearchCriteria;
 import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.vaadin.UserUIContext;
-import com.mycollab.vaadin.ui.HeaderWithFontAwesome;
+import com.mycollab.vaadin.ui.HeaderWithIcon;
 import com.mycollab.vaadin.web.ui.*;
 import com.vaadin.event.ShortcutAction;
-import com.vaadin.server.FontAwesome;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.ui.*;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.fields.MTextField;
@@ -55,7 +55,7 @@ public class ComponentSearchPanel extends DefaultGenericSearchPanel<ComponentSea
     }
 
     @Override
-    protected HeaderWithFontAwesome buildSearchTitle() {
+    protected HeaderWithIcon buildSearchTitle() {
         return ComponentUtils.headerH2(ProjectTypeConstants.BUG_COMPONENT, UserUIContext.getMessage(ComponentI18nEnum.LIST));
     }
 
@@ -63,7 +63,7 @@ public class ComponentSearchPanel extends DefaultGenericSearchPanel<ComponentSea
     protected Component buildExtraControls() {
         return new MButton(UserUIContext.getMessage(ComponentI18nEnum.NEW),
                 clickEvent -> EventBusFactory.getInstance().post(new BugComponentEvent.GotoAdd(this, null)))
-                .withIcon(FontAwesome.PLUS).withStyleName(WebThemes.BUTTON_ACTION)
+                .withIcon(VaadinIcons.PLUS).withStyleName(WebThemes.BUTTON_ACTION)
                 .withVisible(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.COMPONENTS));
     }
 
@@ -83,7 +83,7 @@ public class ComponentSearchPanel extends DefaultGenericSearchPanel<ComponentSea
             Label nameLbl = new Label(UserUIContext.getMessage(GenericI18Enum.FORM_NAME) + ":");
             basicSearchBody.with(nameLbl);
 
-            nameField = new MTextField().withInputPrompt(UserUIContext.getMessage(GenericI18Enum.ACTION_QUERY_BY_TEXT))
+            nameField = new MTextField().withPlaceholder(UserUIContext.getMessage(GenericI18Enum.ACTION_QUERY_BY_TEXT))
                     .withWidth(WebUIConstants.DEFAULT_CONTROL_WIDTH);
             basicSearchBody.with(nameField);
 
@@ -91,7 +91,7 @@ public class ComponentSearchPanel extends DefaultGenericSearchPanel<ComponentSea
             basicSearchBody.with(myItemCheckbox);
 
             MButton searchBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_SEARCH), clickEvent -> callSearchAction())
-                    .withIcon(FontAwesome.SEARCH).withStyleName(WebThemes.BUTTON_ACTION)
+                    .withIcon(VaadinIcons.SEARCH).withStyleName(WebThemes.BUTTON_ACTION)
                     .withClickShortcut(ShortcutAction.KeyCode.ENTER);
             basicSearchBody.with(searchBtn);
 

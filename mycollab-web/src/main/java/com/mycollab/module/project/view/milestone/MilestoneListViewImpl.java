@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -21,8 +21,6 @@ import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.configuration.SiteConfiguration;
 import com.mycollab.db.arguments.SetSearchField;
 import com.mycollab.db.query.LazyValueInjector;
-import com.mycollab.vaadin.ApplicationEventListener;
-import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectRolePermissionCollections;
 import com.mycollab.module.project.ProjectTypeConstants;
@@ -39,16 +37,17 @@ import com.mycollab.module.project.ui.components.ComponentUtils;
 import com.mycollab.module.project.view.service.MilestoneComponentFactory;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppUI;
+import com.mycollab.vaadin.ApplicationEventListener;
+import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.ELabel;
-import com.mycollab.vaadin.ui.HeaderWithFontAwesome;
-import com.mycollab.vaadin.ui.UIConstants;
+import com.mycollab.vaadin.ui.HeaderWithIcon;
 import com.mycollab.vaadin.web.ui.AbstractLazyPageView;
-import com.mycollab.vaadin.web.ui.ToggleButtonGroup;
+import com.mycollab.vaadin.web.ui.ButtonGroup;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.mycollab.web.CustomLayoutExt;
-import com.vaadin.server.FontAwesome;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.ui.*;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
@@ -110,9 +109,87 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
 
     @Override
     protected void displayView() {
-        initUI();
-        constructBody();
+        Component headerComp = buildHeader();
+        Component bodyComp = buildBody();
+        this.with(headerComp, bodyComp).expand(bodyComp);
         displayMilestones();
+    }
+
+    private Component buildHeader() {
+        HeaderWithIcon headerText = ComponentUtils.headerH2(ProjectTypeConstants.MILESTONE,
+                UserUIContext.getMessage(MilestoneI18nEnum.LIST));
+
+        MHorizontalLayout header = new MHorizontalLayout(headerText, createHeaderRight()).withMargin(true)
+                .withAlign(headerText, Alignment.MIDDLE_LEFT).expand(headerText);
+
+        return header;
+    }
+
+    private HorizontalLayout createHeaderRight() {
+        MHorizontalLayout layout = new MHorizontalLayout();
+
+        MButton createBtn = new MButton(UserUIContext.getMessage(MilestoneI18nEnum.NEW), clickEvent -> {
+            SimpleMilestone milestone = new SimpleMilestone();
+            milestone.setSaccountid(AppUI.getAccountId());
+            milestone.setProjectid(CurrentProjectVariables.getProjectId());
+            UI.getCurrent().addWindow(new MilestoneAddWindow(milestone));
+        }).withIcon(VaadinIcons.PLUS).withStyleName(WebThemes.BUTTON_ACTION)
+                .withVisible(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.MILESTONES));
+        layout.with(createBtn);
+
+        MButton printBtn = new MButton("", clickEvent -> UI.getCurrent().addWindow(new
+                MilestoneCustomizeReportOutputWindow(new LazyValueInjector() {
+            @Override
+            protected Object doEval() {
+                return baseCriteria;
+            }
+        }))).withIcon(VaadinIcons.PRINT).withStyleName(WebThemes.BUTTON_OPTION)
+                .withDescription(UserUIContext.getMessage(GenericI18Enum.ACTION_EXPORT));
+        layout.addComponent(printBtn);
+
+        MButton boardBtn = new MButton(UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_BOARD)).withIcon(VaadinIcons.SERVER).withWidth("100px");
+
+        MButton roadmapBtn = new MButton(UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_LIST),
+                clickEvent -> EventBusFactory.getInstance().post(new MilestoneEvent.GotoRoadmap(MilestoneListViewImpl.this)))
+                .withIcon(VaadinIcons.BULLETS).withWidth("100px");
+
+        layout.with(new ButtonGroup(roadmapBtn, boardBtn).withDefaultButton(boardBtn));
+
+        return layout;
+    }
+
+    private Component buildBody() {
+        CustomLayout bodyContent = CustomLayoutExt.createLayout("milestoneView");
+        bodyContent.setStyleName("milestone-view");
+
+        MHorizontalLayout closedHeaderLayout = new MHorizontalLayout();
+
+        closedHeader = ELabel.html("").withUndefinedWidth();
+        closedHeaderLayout.with(closedHeader).withAlign(closedHeader, Alignment.MIDDLE_CENTER);
+
+        bodyContent.addComponent(closedHeaderLayout, "closed-header");
+        closeContainer = new MVerticalLayout().withStyleName("milestone-col").withFullWidth();
+        bodyContent.addComponent(closeContainer, "closed-milestones");
+
+        MHorizontalLayout inProgressHeaderLayout = new MHorizontalLayout();
+        inProgressHeader = ELabel.html("").withUndefinedWidth();
+        inProgressHeaderLayout.addComponent(inProgressHeader);
+        inProgressHeaderLayout.setComponentAlignment(inProgressHeader, Alignment.MIDDLE_CENTER);
+
+        bodyContent.addComponent(inProgressHeaderLayout, "in-progress-header");
+        inProgressContainer = new MVerticalLayout().withStyleName("milestone-col").withFullWidth();
+        bodyContent.addComponent(this.inProgressContainer, "in-progress-milestones");
+
+        MHorizontalLayout futureHeaderLayout = new MHorizontalLayout();
+        futureHeader = ELabel.html("").withUndefinedWidth();
+        futureHeaderLayout.addComponent(futureHeader);
+        futureHeaderLayout.setComponentAlignment(futureHeader, Alignment.MIDDLE_CENTER);
+
+        bodyContent.addComponent(futureHeaderLayout, "future-header");
+        futureContainer = new MVerticalLayout().withStyleName("milestone-col").withFullWidth();
+        bodyContent.addComponent(this.futureContainer, "future-milestones");
+
+        return bodyContent;
     }
 
     private void displayMilestones() {
@@ -123,13 +200,13 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
         baseCriteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
         MilestoneService milestoneService = AppContextUtil.getSpringBean(MilestoneService.class);
         List<SimpleMilestone> milestones = (List<SimpleMilestone>) milestoneService.findAbsoluteListByCriteria(baseCriteria, 0, Integer.MAX_VALUE);
-        int totalClosedMilestones = 0, totalInprogressMilestones = 0, totalFutureMilestones = 0;
+        int totalClosedMilestones = 0, totalInProgressMilestones = 0, totalFutureMilestones = 0;
 
         for (SimpleMilestone milestone : milestones) {
             ComponentContainer componentContainer = new MilestoneBox(milestone);
             if (MilestoneStatus.InProgress.name().equals(milestone.getStatus())) {
                 inProgressContainer.addComponent(componentContainer);
-                totalInprogressMilestones++;
+                totalInProgressMilestones++;
             } else if (MilestoneStatus.Future.name().equals(milestone.getStatus())) {
                 futureContainer.addComponent(componentContainer);
                 totalFutureMilestones++;
@@ -141,95 +218,7 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
 
         updateClosedMilestoneNumber(totalClosedMilestones);
         updateFutureMilestoneNumber(totalFutureMilestones);
-        updateInProgressMilestoneNumber(totalInprogressMilestones);
-    }
-
-    private void initUI() {
-        HeaderWithFontAwesome headerText = ComponentUtils.headerH2(ProjectTypeConstants.MILESTONE,
-                UserUIContext.getMessage(MilestoneI18nEnum.LIST));
-
-        MHorizontalLayout header = new MHorizontalLayout().withStyleName("hdr-view").withFullWidth().withMargin(true)
-                .with(headerText, createHeaderRight()).withAlign(headerText, Alignment.MIDDLE_LEFT).expand(headerText);
-        this.addComponent(header);
-    }
-
-    private HorizontalLayout createHeaderRight() {
-        MHorizontalLayout layout = new MHorizontalLayout();
-
-        MButton createBtn = new MButton(UserUIContext.getMessage(MilestoneI18nEnum.NEW), clickEvent -> {
-            SimpleMilestone milestone = new SimpleMilestone();
-            milestone.setSaccountid(AppUI.getAccountId());
-            milestone.setProjectid(CurrentProjectVariables.getProjectId());
-            UI.getCurrent().addWindow(new MilestoneAddWindow(milestone));
-        }).withIcon(FontAwesome.PLUS).withStyleName(WebThemes.BUTTON_ACTION)
-                .withVisible(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.MILESTONES));
-        layout.with(createBtn);
-
-        MButton printBtn = new MButton("", clickEvent -> UI.getCurrent().addWindow(new
-                MilestoneCustomizeReportOutputWindow(new LazyValueInjector() {
-            @Override
-            protected Object doEval() {
-                return baseCriteria;
-            }
-        }))).withIcon(FontAwesome.PRINT).withStyleName(WebThemes.BUTTON_OPTION)
-                .withDescription(UserUIContext.getMessage(GenericI18Enum.ACTION_EXPORT));
-        layout.addComponent(printBtn);
-
-        MButton boardBtn = new MButton(UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_BOARD)).withIcon(FontAwesome.SERVER).withWidth("100px");
-
-        MButton roadmapBtn = new MButton(UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_LIST),
-                clickEvent -> EventBusFactory.getInstance().post(new MilestoneEvent.GotoRoadmap(MilestoneListViewImpl.this)))
-                .withIcon(FontAwesome.NAVICON).withWidth("100px");
-
-
-        ToggleButtonGroup viewButtons = new ToggleButtonGroup();
-        viewButtons.addButton(roadmapBtn);
-        viewButtons.addButton(boardBtn);
-        if (!SiteConfiguration.isCommunityEdition()) {
-            MButton kanbanBtn = new MButton(UserUIContext.getMessage(ProjectCommonI18nEnum.OPT_KANBAN),
-                    clickEvent -> EventBusFactory.getInstance().post(new MilestoneEvent.GotoKanban(MilestoneListViewImpl.this)))
-                    .withIcon(FontAwesome.TH).withWidth("100px");
-            viewButtons.addButton(kanbanBtn);
-        }
-        viewButtons.withDefaultButton(boardBtn);
-        layout.with(viewButtons);
-
-        return layout;
-    }
-
-    private void constructBody() {
-        CustomLayout bodyContent = CustomLayoutExt.createLayout("milestoneView");
-        bodyContent.setWidth("100%");
-        bodyContent.setStyleName("milestone-view");
-
-        MHorizontalLayout closedHeaderLayout = new MHorizontalLayout();
-
-        closedHeader = ELabel.html("").withWidthUndefined();
-        closedHeaderLayout.with(closedHeader).withAlign(closedHeader, Alignment.MIDDLE_CENTER);
-
-        bodyContent.addComponent(closedHeaderLayout, "closed-header");
-        closeContainer = new MVerticalLayout().withStyleName("milestone-col").withFullWidth();
-        bodyContent.addComponent(closeContainer, "closed-milestones");
-
-        MHorizontalLayout inProgressHeaderLayout = new MHorizontalLayout();
-        inProgressHeader = ELabel.html("").withWidthUndefined();
-        inProgressHeaderLayout.addComponent(inProgressHeader);
-        inProgressHeaderLayout.setComponentAlignment(inProgressHeader, Alignment.MIDDLE_CENTER);
-
-        bodyContent.addComponent(inProgressHeaderLayout, "in-progress-header");
-        inProgressContainer = new MVerticalLayout().withStyleName("milestone-col").withFullWidth();
-        bodyContent.addComponent(this.inProgressContainer, "in-progress-milestones");
-
-        MHorizontalLayout futureHeaderLayout = new MHorizontalLayout();
-        futureHeader = ELabel.html("").withWidthUndefined();
-        futureHeaderLayout.addComponent(futureHeader);
-        futureHeaderLayout.setComponentAlignment(futureHeader, Alignment.MIDDLE_CENTER);
-
-        bodyContent.addComponent(futureHeaderLayout, "future-header");
-        futureContainer = new MVerticalLayout().withStyleName("milestone-col").withFullWidth();
-        bodyContent.addComponent(this.futureContainer, "future-milestones");
-
-        this.addComponent(bodyContent);
+        updateInProgressMilestoneNumber(totalInProgressMilestones);
     }
 
     private void updateClosedMilestoneNumber(int closeMilestones) {
@@ -266,10 +255,10 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
             if (totalAssignments > 0) {
                 progressInfoLbl = new ELabel(UserUIContext.getMessage(ProjectI18nEnum.OPT_PROJECT_TICKET,
                         (totalAssignments - openAssignments), totalAssignments, (totalAssignments - openAssignments)
-                                * 100 / totalAssignments)).withStyleName(UIConstants.META_INFO);
+                                * 100 / totalAssignments)).withStyleName(WebThemes.META_INFO);
             } else {
                 progressInfoLbl = new ELabel(UserUIContext.getMessage(ProjectI18nEnum.OPT_NO_TICKET))
-                        .withStyleName(UIConstants.META_INFO);
+                        .withStyleName(WebThemes.META_INFO);
             }
             this.addComponent(progressInfoLbl);
 

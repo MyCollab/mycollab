@@ -19,12 +19,14 @@ package com.mycollab.module.tracker.dao
 import com.mycollab.db.persistence.ISearchableDAO
 import com.mycollab.module.tracker.domain.SimpleVersion
 import com.mycollab.module.tracker.domain.criteria.VersionSearchCriteria
+import org.apache.ibatis.annotations.Mapper
 import org.apache.ibatis.annotations.Param
 
 /**
  * @author MyCollab Ltd.
  * @since 1.0.0
  */
+@Mapper
 interface VersionMapperExt : ISearchableDAO<VersionSearchCriteria> {
 
     fun findVersionById(versionId: Int): SimpleVersion?

@@ -1,22 +1,23 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package com.mycollab.module.project.view.settings;
 
 import com.mycollab.common.i18n.SecurityI18nEnum;
+import com.mycollab.form.view.LayoutType;
 import com.mycollab.module.project.ProjectRolePermissionCollections;
 import com.mycollab.module.project.domain.SimpleProjectRole;
 import com.mycollab.module.project.i18n.ProjectRoleI18nEnum;
@@ -26,56 +27,51 @@ import com.mycollab.security.PermissionFlag;
 import com.mycollab.security.PermissionMap;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.event.HasPreviewFormHandlers;
+import com.mycollab.vaadin.mvp.AbstractVerticalPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.mycollab.vaadin.ui.FormContainer;
-import com.mycollab.vaadin.ui.HeaderWithFontAwesome;
+import com.mycollab.vaadin.ui.HeaderWithIcon;
 import com.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.mycollab.vaadin.web.ui.AdvancedPreviewBeanForm;
 import com.mycollab.vaadin.web.ui.DefaultReadViewLayout;
-import com.mycollab.vaadin.web.ui.WebThemes;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
-import com.vaadin.server.FontAwesome;
-import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.ui.*;
+import com.vaadin.data.HasValue;
+import com.vaadin.icons.VaadinIcons;
+import com.vaadin.ui.Alignment;
+import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.Label;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
-import org.vaadin.viritin.layouts.MVerticalLayout;
 
 /**
  * @author MyCollab Ltd.
  * @since 1.0
  */
 @ViewComponent
-public class ProjectRoleReadViewImpl extends MVerticalLayout implements ProjectRoleReadView {
+public class ProjectRoleReadViewImpl extends AbstractVerticalPageView implements ProjectRoleReadView {
     private static final long serialVersionUID = 1L;
 
     private SimpleProjectRole beanItem;
     private AdvancedPreviewBeanForm<SimpleProjectRole> previewForm;
     private DefaultReadViewLayout previewLayout;
-    private HeaderWithFontAwesome headerText;
-    private MHorizontalLayout header;
+    private HeaderWithIcon headerText;
+    private MHorizontalLayout headerLayout;
 
     private GridFormLayoutHelper projectFormHelper;
 
     public ProjectRoleReadViewImpl() {
-        withMargin(new MarginInfo(true, false, true, false));
-        headerText = HeaderWithFontAwesome.h2(FontAwesome.USERS, UserUIContext.getMessage(ProjectRoleI18nEnum.DETAIL));
-        headerText.setSizeUndefined();
-        this.addComponent(constructHeader());
+        withMargin(true);
+        headerText = HeaderWithIcon.h2(VaadinIcons.CLIPBOARD_USER, UserUIContext.getMessage(ProjectRoleI18nEnum.DETAIL));
+        headerLayout = constructHeader();
+        this.addComponent(headerLayout);
 
         previewForm = initPreviewForm();
         ComponentContainer actionControls = createButtonControls();
-
-        addHeaderRightContent(actionControls);
-
-        CssLayout contentWrapper = new CssLayout();
-        contentWrapper.setWidth("100%");
-        contentWrapper.setStyleName(WebThemes.CONTENT_WRAPPER);
+        headerLayout.with(actionControls).expand(actionControls);
 
         previewLayout = new DefaultReadViewLayout("");
-        contentWrapper.addComponent(previewLayout);
         previewLayout.addBody(previewForm);
-        this.addComponent(contentWrapper);
+        this.addComponent(previewLayout);
     }
 
     protected AdvancedPreviewBeanForm<SimpleProjectRole> initPreviewForm() {
@@ -89,7 +85,7 @@ public class ProjectRoleReadViewImpl extends MVerticalLayout implements ProjectR
     protected ComponentContainer createBottomPanel() {
         FormContainer permissionsPanel = new FormContainer();
 
-        projectFormHelper = GridFormLayoutHelper.defaultFormLayoutHelper(2, (ProjectRolePermissionCollections.PROJECT_PERMISSIONS.length + 1) / 2, "180px");
+        projectFormHelper = GridFormLayoutHelper.defaultFormLayoutHelper(LayoutType.TWO_COLUMN);
         permissionsPanel.addSection(UserUIContext.getMessage(ProjectRoleI18nEnum.SECTION_PERMISSIONS), projectFormHelper.getLayout());
 
         return permissionsPanel;
@@ -123,7 +119,7 @@ public class ProjectRoleReadViewImpl extends MVerticalLayout implements ProjectR
             private static final long serialVersionUID = 1L;
 
             @Override
-            protected Field<?> onCreateField(Object propertyId) {
+            protected HasValue<?> onCreateField(Object propertyId) {
                 return null;
             }
         };
@@ -146,14 +142,10 @@ public class ProjectRoleReadViewImpl extends MVerticalLayout implements ProjectR
         }
     }
 
-    private ComponentContainer constructHeader() {
-        header = new MHorizontalLayout().withStyleName("hdr-view").withFullWidth().withMargin(true);
-        header.with(headerText).alignAll(Alignment.MIDDLE_LEFT).expand(headerText);
-        return header;
-    }
-
-    public void addHeaderRightContent(Component c) {
-        header.addComponent(c);
+    private MHorizontalLayout constructHeader() {
+        MHorizontalLayout container = new MHorizontalLayout().withMargin(false).withFullWidth();
+        container.with(headerText).alignAll(Alignment.MIDDLE_LEFT).expand(headerText);
+        return container;
     }
 
     public void previewItem(final SimpleProjectRole item) {
@@ -174,11 +166,6 @@ public class ProjectRoleReadViewImpl extends MVerticalLayout implements ProjectR
 
     public AdvancedPreviewBeanForm<SimpleProjectRole> getPreviewForm() {
         return previewForm;
-    }
-
-    @Override
-    public void addViewListener(ViewListener listener) {
-
     }
 
 }

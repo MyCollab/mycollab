@@ -23,21 +23,20 @@ import com.mycollab.db.arguments.NumberSearchField
 import com.mycollab.db.arguments.SetSearchField
 import com.mycollab.db.arguments.StringSearchField
 import com.mycollab.module.project.domain.Project
-import com.mycollab.module.project.domain.ProjectActivityStream
 import com.mycollab.module.project.domain.SimpleProject
 import com.mycollab.module.project.domain.criteria.ProjectSearchCriteria
 import com.mycollab.test.DataSet
+import com.mycollab.test.rule.DbUnitInitializerRule
 import com.mycollab.test.spring.IntegrationServiceTest
-import org.junit.Assert
-import org.junit.Test
-import org.junit.runner.RunWith
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner
-
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.tuple
+import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.test.context.junit.jupiter.SpringExtension
 
-@RunWith(SpringJUnit4ClassRunner::class)
+@ExtendWith(SpringExtension::class, DbUnitInitializerRule::class)
 class ProjectServiceTest : IntegrationServiceTest() {
 
     @Autowired
@@ -52,7 +51,7 @@ class ProjectServiceTest : IntegrationServiceTest() {
         val project = Project()
         project.saccountid = 1
         project.name = "Example"
-        project.projectstatus = "Open"
+        project.status = "Open"
         project.shortname = "abc"
         val projectId = projectService.saveWithSession(project, "admin")
         assertThat(projectId).isGreaterThan(0)
@@ -63,8 +62,8 @@ class ProjectServiceTest : IntegrationServiceTest() {
     fun testGetListProjects() {
         val criteria = ProjectSearchCriteria()
         criteria.saccountid = NumberSearchField(1)
-        val projects = projectService.findPageableListByCriteria(BasicSearchRequest<ProjectSearchCriteria>(criteria)) as List<SimpleProject>
-        Assert.assertEquals(projects.size.toLong(), 4)
+        val projects = projectService.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<SimpleProject>
+        Assertions.assertEquals(projects.size.toLong(), 4)
         assertThat<SimpleProject>(projects).extracting("id", "name").contains(tuple(1, "A"),
                 tuple(2, "B"), tuple(3, "C"), tuple(4, "D"))
     }
@@ -98,9 +97,20 @@ class ProjectServiceTest : IntegrationServiceTest() {
     @Test
     fun testGetProjectsUserInvolved() {
         val projects = projectService.getProjectsUserInvolved("admin", 1)
-        Assert.assertEquals(2, projects.size.toLong())
         assertThat(projects.size).isEqualTo(2)
         assertThat(projects).extracting("id", "name").contains(tuple(1, "A"), tuple(2, "B"))
+    }
+
+    @DataSet
+    @Test
+    fun testGetProjectKeysUserInvolved() {
+        val keys = projectService.getProjectKeysUserInvolved("admin", 1)
+        assertThat(keys.size).isEqualTo(2)
+        assertThat(keys).contains(1, 2)
+
+        val allPrjKeys = projectService.getProjectKeysUserInvolved(null, 1)
+        assertThat(allPrjKeys.size).isEqualTo(4)
+        assertThat(allPrjKeys).contains(1, 2, 3, 4)
     }
 
     @DataSet
@@ -116,5 +126,21 @@ class ProjectServiceTest : IntegrationServiceTest() {
         assertThat(streams).extracting("type", "typeid", "itemKey").contains(
                 tuple("Project-Bug", "1", 20), tuple("Project-Task", "1", 10),
                 tuple("Project-Risk", "1", null))
+    }
+
+    @DataSet
+    @Test
+    fun testFindProjectWithCustomer() {
+        val project = projectService.findById(3, 1)
+        assertThat(project).extracting("clientName", "clientid", "leadFullName", "shortname").contains("a", 1, "Nguyen Hai", "bbb")
+    }
+
+    @DataSet
+    @Test
+    fun testFindProjectRelayEmailNotifications() {
+        val notifications = projectService.findProjectRelayEmailNotifications()
+        assertThat(notifications.size).isEqualTo(1)
+        assertThat(notifications[0].notifyUsers.size).isEqualTo(2)
+        assertThat(notifications[0].notifyUsers).extracting("username").contains("admin", "user2")
     }
 }

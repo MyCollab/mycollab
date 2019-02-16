@@ -21,9 +21,10 @@ import com.mycollab.db.arguments.NumberSearchField
 import com.mycollab.db.arguments.SetSearchField
 import com.mycollab.module.billing.RegisterStatusConstants
 import com.mycollab.module.user.accountsettings.billing.view.IBillingPresenter
-import com.mycollab.module.user.accountsettings.customize.view.AccountSettingPresenter
+import com.mycollab.module.user.accountsettings.customize.view.GeneralSettingPresenter
+import com.mycollab.module.user.accountsettings.customize.view.IThemeCustomizePresenter
 import com.mycollab.module.user.accountsettings.profile.view.ProfilePresenter
-import com.mycollab.module.user.accountsettings.team.view.UserPermissionManagementPresenter
+import com.mycollab.module.user.accountsettings.team.view.*
 import com.mycollab.module.user.accountsettings.view.event.AccountBillingEvent
 import com.mycollab.module.user.accountsettings.view.event.ProfileEvent
 import com.mycollab.module.user.accountsettings.view.event.SettingEvent
@@ -93,14 +94,14 @@ class UserAccountController(val container: AccountModule) : AbstractController()
         this.register(object : ApplicationEventListener<UserEvent.GotoAdd> {
             @Subscribe
             override fun handle(event: UserEvent.GotoAdd) {
-                val presenter = PresenterResolver.getPresenter(UserPermissionManagementPresenter::class.java)
+                val presenter = PresenterResolver.getPresenter(UserAddPresenter::class.java)
                 presenter.go(container, UserScreenData.Add(SimpleUser()))
             }
         })
         this.register(object : ApplicationEventListener<UserEvent.GotoEdit> {
             @Subscribe
             override fun handle(event: UserEvent.GotoEdit) {
-                val presenter = PresenterResolver.getPresenter(UserPermissionManagementPresenter::class.java)
+                val presenter = PresenterResolver.getPresenter(UserAddPresenter::class.java)
                 val user = event.data as SimpleUser
                 presenter.go(container, UserScreenData.Edit(user))
             }
@@ -108,17 +109,17 @@ class UserAccountController(val container: AccountModule) : AbstractController()
         this.register(object : ApplicationEventListener<UserEvent.GotoRead> {
             @Subscribe
             override fun handle(event: UserEvent.GotoRead) {
-                val presenter = PresenterResolver.getPresenter(UserPermissionManagementPresenter::class.java)
+                val presenter = PresenterResolver.getPresenter(UserReadPresenter::class.java)
                 presenter.go(container, UserScreenData.Read(event.data as String))
             }
         })
         this.register(object : ApplicationEventListener<UserEvent.GotoList> {
             @Subscribe
             override fun handle(event: UserEvent.GotoList) {
-                val presenter = PresenterResolver.getPresenter(UserPermissionManagementPresenter::class.java)
+                val presenter = PresenterResolver.getPresenter(UserListPresenter::class.java)
                 val criteria = UserSearchCriteria()
                 criteria.saccountid = NumberSearchField(AppUI.accountId)
-                criteria.registerStatuses = SetSearchField<String>(RegisterStatusConstants.ACTIVE, RegisterStatusConstants.NOT_LOG_IN_YET)
+                criteria.registerStatuses = SetSearchField(RegisterStatusConstants.ACTIVE, RegisterStatusConstants.NOT_LOG_IN_YET)
                 presenter.go(container, UserScreenData.Search(criteria))
             }
         })
@@ -128,28 +129,28 @@ class UserAccountController(val container: AccountModule) : AbstractController()
         this.register(object : ApplicationEventListener<RoleEvent.GotoAdd> {
             @Subscribe
             override fun handle(event: RoleEvent.GotoAdd) {
-                val presenter = PresenterResolver.getPresenter(UserPermissionManagementPresenter::class.java)
+                val presenter = PresenterResolver.getPresenter(RoleAddPresenter::class.java)
                 presenter.go(container, RoleScreenData.Add(Role()))
             }
         })
         this.register(object : ApplicationEventListener<RoleEvent.GotoEdit> {
             @Subscribe
             override fun handle(event: RoleEvent.GotoEdit) {
-                val presenter = PresenterResolver.getPresenter(UserPermissionManagementPresenter::class.java)
+                val presenter = PresenterResolver.getPresenter(RoleAddPresenter::class.java)
                 presenter.go(container, RoleScreenData.Edit(event.data as Role))
             }
         })
         this.register(object : ApplicationEventListener<RoleEvent.GotoRead> {
             @Subscribe
             override fun handle(event: RoleEvent.GotoRead) {
-                val presenter = PresenterResolver.getPresenter(UserPermissionManagementPresenter::class.java)
+                val presenter = PresenterResolver.getPresenter(RoleReadPresenter::class.java)
                 presenter.go(container, RoleScreenData.Read(event.data as Int))
             }
         })
         this.register(object : ApplicationEventListener<RoleEvent.GotoList> {
             @Subscribe
             override fun handle(event: RoleEvent.GotoList) {
-                val presenter = PresenterResolver.getPresenter(UserPermissionManagementPresenter::class.java)
+                val presenter = PresenterResolver.getPresenter(RoleListPresenter::class.java)
                 val criteria = RoleSearchCriteria()
                 criteria.saccountid = NumberSearchField(AppUI.accountId)
                 presenter.go(container, RoleScreenData.Search(criteria))
@@ -161,7 +162,7 @@ class UserAccountController(val container: AccountModule) : AbstractController()
         this.register(object : ApplicationEventListener<SettingEvent.GotoGeneralSetting> {
             @Subscribe
             override fun handle(event: SettingEvent.GotoGeneralSetting) {
-                val presenter = PresenterResolver.getPresenter(AccountSettingPresenter::class.java)
+                val presenter = PresenterResolver.getPresenter(GeneralSettingPresenter::class.java)
                 presenter.go(container, SettingExtScreenData.GeneralSetting())
             }
         })
@@ -169,7 +170,7 @@ class UserAccountController(val container: AccountModule) : AbstractController()
         this.register(object : ApplicationEventListener<SettingEvent.GotoTheme> {
             @Subscribe
             override fun handle(event: SettingEvent.GotoTheme) {
-                val presenter = PresenterResolver.getPresenter(AccountSettingPresenter::class.java)
+                val presenter = PresenterResolver.getPresenter(IThemeCustomizePresenter::class.java)
                 presenter.go(container, SettingExtScreenData.ThemeCustomize())
             }
         })

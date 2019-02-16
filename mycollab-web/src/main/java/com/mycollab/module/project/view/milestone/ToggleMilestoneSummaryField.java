@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -37,35 +37,35 @@ import com.mycollab.module.project.i18n.OptionI18nEnum.MilestoneStatus;
 import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.mycollab.module.project.service.MilestoneService;
 import com.mycollab.module.project.service.ProjectTicketService;
-import com.mycollab.module.project.ui.components.BlockRowRender;
+import com.mycollab.module.project.ui.components.TicketRowRender;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
-import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.ui.UIUtils;
 import com.mycollab.vaadin.web.ui.AbstractToggleSummaryField;
 import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.mycollab.vaadin.web.ui.WebThemes;
-import com.vaadin.server.FontAwesome;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.shared.ui.MarginInfo;
+import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.themes.ValoTheme;
-import org.vaadin.addons.CssCheckBox;
 import org.vaadin.viritin.button.MButton;
+import org.vaadin.viritin.fields.MTextField;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 /**
  * @author MyCollab Ltd
  * @since 5.2.3
  */
-public class ToggleMilestoneSummaryField extends AbstractToggleSummaryField {
+class ToggleMilestoneSummaryField extends AbstractToggleSummaryField {
     private boolean isRead = true;
     private SimpleMilestone milestone;
     private int maxLength;
-    private CssCheckBox toggleStatusSelect;
+    private CheckBox toggleStatusSelect;
 
     ToggleMilestoneSummaryField(final SimpleMilestone milestone, boolean toggleStatusSupport, boolean isDeleteSupport) {
         this(milestone, Integer.MAX_VALUE, toggleStatusSupport, isDeleteSupport);
@@ -77,8 +77,7 @@ public class ToggleMilestoneSummaryField extends AbstractToggleSummaryField {
         this.setWidth("100%");
         this.addStyleName("editable-field");
         if (toggleStatusSupport && CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.MILESTONES)) {
-            toggleStatusSelect = new CssCheckBox();
-            toggleStatusSelect.setSimpleMode(true);
+            toggleStatusSelect = new CheckBox();
             toggleStatusSelect.setValue(milestone.isCompleted());
             this.addComponent(toggleStatusSelect);
             this.addComponent(ELabel.EMPTY_SPACE());
@@ -100,7 +99,7 @@ public class ToggleMilestoneSummaryField extends AbstractToggleSummaryField {
                 searchCriteria.setTypes(new SetSearchField<>(ProjectTypeConstants.BUG, ProjectTypeConstants.RISK,
                         ProjectTypeConstants.TASK));
                 searchCriteria.setMilestoneId(NumberSearchField.equal(milestone.getId()));
-                searchCriteria.setOpenned(new SearchField());
+                searchCriteria.setOpen(new SearchField());
                 ProjectTicketService genericTaskService = AppContextUtil.getSpringBean(ProjectTicketService.class);
                 int openAssignmentsCount = genericTaskService.getTotalCount(searchCriteria);
                 if (openAssignmentsCount > 0) {
@@ -118,7 +117,7 @@ public class ToggleMilestoneSummaryField extends AbstractToggleSummaryField {
             });
         }
 
-        titleLinkLbl = ELabel.h3(buildMilestoneLink()).withStyleName(UIConstants.LABEL_WORD_WRAP).withWidthUndefined();
+        titleLinkLbl = ELabel.h3(buildMilestoneLink()).withStyleName(WebThemes.LABEL_WORD_WRAP).withUndefinedWidth();
         this.addComponent(titleLinkLbl);
         buttonControls = new MHorizontalLayout().withMargin(new MarginInfo(false, false, false, true)).withStyleName("toggle");
         if (CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.MILESTONES)) {
@@ -126,9 +125,7 @@ public class ToggleMilestoneSummaryField extends AbstractToggleSummaryField {
                 if (isRead) {
                     ToggleMilestoneSummaryField.this.removeComponent(titleLinkLbl);
                     ToggleMilestoneSummaryField.this.removeComponent(buttonControls);
-                    final TextField editField = new TextField();
-                    editField.setValue(milestone.getName());
-                    editField.setWidth("100%");
+                    final MTextField editField = new MTextField(milestone.getName()).withFullWidth();
                     editField.focus();
                     ToggleMilestoneSummaryField.this.addComponent(editField);
                     ToggleMilestoneSummaryField.this.removeStyleName("editable-field");
@@ -137,7 +134,7 @@ public class ToggleMilestoneSummaryField extends AbstractToggleSummaryField {
                     isRead = !isRead;
                 }
             }).withDescription(UserUIContext.getMessage(MilestoneI18nEnum.OPT_EDIT_PHASE_NAME))
-                    .withIcon(FontAwesome.EDIT).withStyleName(ValoTheme.BUTTON_ICON_ALIGN_TOP);
+                    .withIcon(VaadinIcons.EDIT).withStyleName(ValoTheme.BUTTON_ICON_ALIGN_TOP);
             buttonControls.with(instantEditBtn);
         }
         if (CurrentProjectVariables.canAccess(ProjectRolePermissionCollections.MILESTONES)) {
@@ -151,14 +148,14 @@ public class ToggleMilestoneSummaryField extends AbstractToggleSummaryField {
                             if (confirmDialog.isConfirmed()) {
                                 AppContextUtil.getSpringBean(MilestoneService.class).removeWithSession(milestone,
                                         UserUIContext.getUsername(), AppUI.getAccountId());
-                                BlockRowRender rowRenderer = UIUtils.getRoot(ToggleMilestoneSummaryField.this, BlockRowRender.class);
+                                TicketRowRender rowRenderer = UIUtils.getRoot(ToggleMilestoneSummaryField.this, TicketRowRender.class);
                                 if (rowRenderer != null) {
                                     rowRenderer.selfRemoved();
                                 }
                                 EventBusFactory.getInstance().post(new MilestoneEvent.MilestoneDeleted(this, milestone.getId()));
                             }
                         });
-            }).withIcon(FontAwesome.TRASH).withStyleName(ValoTheme.BUTTON_ICON_ALIGN_TOP);
+            }).withIcon(VaadinIcons.TRASH).withStyleName(ValoTheme.BUTTON_ICON_ALIGN_TOP);
             buttonControls.with(removeBtn);
         }
         if (buttonControls.getComponentCount() > 0) {
@@ -176,9 +173,7 @@ public class ToggleMilestoneSummaryField extends AbstractToggleSummaryField {
 
     private void updateFieldValue(TextField editField) {
         removeComponent(editField);
-        addComponent(titleLinkLbl);
-        addComponent(buttonControls);
-        addStyleName("editable-field");
+        withComponents(titleLinkLbl, buttonControls).withStyleName("editable-field");
         String newValue = editField.getValue();
         if (StringUtils.isNotBlank(newValue) && !newValue.equals(milestone.getName())) {
             milestone.setName(newValue);
@@ -197,7 +192,7 @@ public class ToggleMilestoneSummaryField extends AbstractToggleSummaryField {
         Div milestoneDiv = new Div().appendChild(milestoneLink);
         if (milestone.isOverdue()) {
             milestoneLink.setCSSClass("overdue");
-            milestoneDiv.appendChild(new Span().setCSSClass(UIConstants.META_INFO).appendText(" - " + UserUIContext
+            milestoneDiv.appendChild(new Span().setCSSClass(WebThemes.META_INFO).appendText(" - " + UserUIContext
                     .getMessage(ProjectCommonI18nEnum.OPT_DUE_IN, UserUIContext.formatDuration(milestone.getEnddate()))));
         } else if (MilestoneStatus.Closed.name().equals(milestone.getStatus())) {
             milestoneLink.setCSSClass("completed");

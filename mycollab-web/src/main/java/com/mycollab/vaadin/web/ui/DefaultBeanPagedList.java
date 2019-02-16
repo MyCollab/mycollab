@@ -41,7 +41,7 @@ public class DefaultBeanPagedList<SearchService extends ISearchableService<S>, S
     }
 
     public int setSearchCriteria(final S searchCriteria) {
-        listContainer.removeAllComponents();
+        this.removeAllComponents();
         searchRequest = new BasicSearchRequest<>(searchCriteria, currentPage, defaultNumberSearchItems);
         doSearch();
         return totalCount;

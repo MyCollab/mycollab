@@ -35,12 +35,12 @@ import com.mycollab.module.user.service.UserService;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.UserUIContext;
-import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.ui.UserAvatarControlFactory;
-import com.mycollab.vaadin.web.ui.Depot;
 import com.mycollab.vaadin.web.ui.ProgressBarIndicator;
 import com.mycollab.vaadin.web.ui.WebThemes;
+import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.ui.Alignment;
+import com.vaadin.ui.Panel;
 import com.vaadin.ui.UI;
 import org.apache.commons.collections.CollectionUtils;
 import org.vaadin.viritin.button.MButton;
@@ -54,7 +54,7 @@ import java.util.List;
  * @author MyCollab Ltd.
  * @since 4.0
  */
-public class UnresolvedTicketsByAssigneeWidget extends Depot {
+public class UnresolvedTicketsByAssigneeWidget extends Panel {
     private static final long serialVersionUID = 1L;
 
     private ProjectTicketSearchCriteria searchCriteria;
@@ -74,7 +74,7 @@ public class UnresolvedTicketsByAssigneeWidget extends Depot {
 
     public UnresolvedTicketsByAssigneeWidget() {
         super("", new MVerticalLayout());
-        setContentBorder(true);
+//        setContentBorder(true);
     }
 
     @Override
@@ -96,11 +96,12 @@ public class UnresolvedTicketsByAssigneeWidget extends Depot {
         totalCountItems = projectTicketService.getTotalCount(searchCriteria);
         groupItems = projectTicketService.getAssigneeSummary(searchCriteria);
 
-        this.setTitle(String.format("%s (%d)", UserUIContext.getMessage(TaskI18nEnum.WIDGET_UNRESOLVED_BY_ASSIGNEE_TITLE), totalCountItems));
+        this.setCaption(String.format("%s (%d)", UserUIContext.getMessage(TaskI18nEnum.WIDGET_UNRESOLVED_BY_ASSIGNEE_TITLE), totalCountItems));
         displayPlainMode();
     }
 
     private void displayPlainMode() {
+        MVerticalLayout bodyContent = (MVerticalLayout) getContent();
         bodyContent.removeAllComponents();
         int totalAssignTicketCounts = 0;
         if (CollectionUtils.isNotEmpty(groupItems)) {
@@ -156,11 +157,11 @@ public class UnresolvedTicketsByAssigneeWidget extends Depot {
                 EventBusFactory.getInstance().post(new TicketEvent.SearchRequest(UnresolvedTicketsByAssigneeWidget.this,
                         criteria));
             }).withWidth("100%").withIcon(UserAvatarControlFactory.createAvatarResource(assigneeAvatarId, 16))
-                    .withStyleName(WebThemes.BUTTON_LINK, UIConstants.TEXT_ELLIPSIS);
+                    .withStyleName(WebThemes.BUTTON_LINK, WebThemes.TEXT_ELLIPSIS);
             UserService service = AppContextUtil.getSpringBean(UserService.class);
             SimpleUser user = service.findUserByUserNameInAccount(assignee, AppUI.getAccountId());
             this.setDescription(CommonTooltipGenerator.generateTooltipUser(UserUIContext.getUserLocale(), user,
-                    AppUI.getSiteUrl(), UserUIContext.getUserTimeZone()));
+                    AppUI.getSiteUrl(), UserUIContext.getUserTimeZone()), ContentMode.HTML);
         }
     }
 }

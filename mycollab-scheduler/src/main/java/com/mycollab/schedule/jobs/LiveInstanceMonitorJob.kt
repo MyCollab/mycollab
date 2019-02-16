@@ -24,13 +24,13 @@ import com.mycollab.module.project.dao.ProjectMapper
 import com.mycollab.module.project.domain.ProjectExample
 import com.mycollab.module.user.dao.UserMapper
 import com.mycollab.module.user.domain.UserExample
-import org.joda.time.DateTime
 import org.quartz.JobExecutionContext
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.config.BeanDefinition
 import org.springframework.context.annotation.Scope
 import org.springframework.stereotype.Component
 import org.springframework.web.client.RestTemplate
+import java.time.LocalDateTime
 
 /**
  * @author MyCollab Ltd
@@ -58,7 +58,7 @@ class LiveInstanceMonitorJob : GenericQuartzJobBean() {
 
         val liveInstance = LiveInstance()
         liveInstance.appversion = Version.getVersion()
-        liveInstance.installeddate = DateTime().toDate()
+        liveInstance.installeddate = LocalDateTime.now()
         liveInstance.javaversion = System.getProperty("java.version")
         liveInstance.sysid = appPropertiesService.sysId
         liveInstance.sysproperties = "${System.getProperty("os.arch")}:${System.getProperty("os.name")}:${System.getProperty("os.name")}"

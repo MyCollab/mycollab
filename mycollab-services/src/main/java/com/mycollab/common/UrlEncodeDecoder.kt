@@ -28,7 +28,8 @@ import java.net.URLEncoder
  * @since 6.0.0
  */
 object UrlEncodeDecoder {
-    @JvmStatic fun encode(str: String?): String =
+    @JvmStatic
+    fun encode(str: String?): String =
             try {
                 if (StringUtils.isBlank(str)) "" else URLEncoder.encode(String(Base64.encodeBase64URLSafe(str?.toByteArray(Charsets.UTF_8))), "UTF-8")
             } catch (e: UnsupportedEncodingException) {
@@ -39,7 +40,8 @@ object UrlEncodeDecoder {
      * @param str
      * @return
      */
-    @JvmStatic fun decode(str: String): String =
+    @JvmStatic
+    fun decode(str: String): String =
             try {
                 val decodeStr = URLDecoder.decode(str, "UTF8")
                 String(Base64.decodeBase64(decodeStr.toByteArray(Charsets.UTF_8)))
@@ -51,5 +53,6 @@ object UrlEncodeDecoder {
      * @param str
      * @return
      */
-    @JvmStatic fun encode(str: Number?): String = encode(str?.toString())
+    @JvmStatic
+    fun encode(str: Number?): String = encode(str?.toString())
 }

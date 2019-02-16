@@ -23,6 +23,7 @@ import com.mycollab.db.persistence.ICrudGenericDAO
 import org.apache.commons.beanutils.PropertyUtils
 import java.io.Serializable
 import java.lang.reflect.Method
+import java.time.LocalDateTime
 import java.util.*
 
 /**
@@ -51,8 +52,8 @@ abstract class DefaultCrudService<K : Serializable, T> : ICrudService<K, T> {
         }
 
         try {
-            PropertyUtils.setProperty(record, "createdtime", GregorianCalendar().time)
-            PropertyUtils.setProperty(record, "lastupdatedtime", GregorianCalendar().time)
+            PropertyUtils.setProperty(record, "createdtime", LocalDateTime.now())
+            PropertyUtils.setProperty(record, "lastupdatedtime", LocalDateTime.now())
         } catch (e: Exception) {
         }
 
@@ -67,7 +68,7 @@ abstract class DefaultCrudService<K : Serializable, T> : ICrudService<K, T> {
 
     override fun updateWithSession(record: T, username: String?): Int {
         try {
-            PropertyUtils.setProperty(record, "lastupdatedtime", GregorianCalendar().time)
+            PropertyUtils.setProperty(record, "lastupdatedtime", LocalDateTime.now())
         } catch (e: Exception) {
         }
 
@@ -97,7 +98,7 @@ abstract class DefaultCrudService<K : Serializable, T> : ICrudService<K, T> {
 
     override fun updateSelectiveWithSession(@CacheKey record: T, username: String?): Int? {
         try {
-            PropertyUtils.setProperty(record, "lastupdatedtime", GregorianCalendar().time)
+            PropertyUtils.setProperty(record, "lastupdatedtime", LocalDateTime.now())
         } catch (e: Exception) {
         }
 

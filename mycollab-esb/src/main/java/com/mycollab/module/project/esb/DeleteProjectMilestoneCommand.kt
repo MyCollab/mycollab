@@ -26,8 +26,6 @@ import com.mycollab.module.ecm.service.ResourceService
 import com.mycollab.module.esb.GenericCommand
 import com.mycollab.module.file.AttachmentUtils
 import com.mycollab.module.project.ProjectTypeConstants
-import com.mycollab.module.project.dao.PredecessorMapper
-import com.mycollab.module.project.domain.PredecessorExample
 import org.springframework.stereotype.Component
 
 /**
@@ -37,7 +35,6 @@ import org.springframework.stereotype.Component
 @Component
 class DeleteProjectMilestoneCommand(private val resourceService: ResourceService,
                                     private val commentMapper: CommentMapper,
-                                    private val predecessorMapper: PredecessorMapper,
                                     private val tagService: TagService) : GenericCommand() {
 
     @AllowConcurrentEvents
@@ -45,7 +42,6 @@ class DeleteProjectMilestoneCommand(private val resourceService: ResourceService
     fun removedMilestone(event: DeleteProjectMilestoneEvent) {
         removeRelatedFiles(event.accountId, event.projectId, event.milestoneId)
         removeRelatedComments(event.milestoneId)
-        removePredecessorMilestones(event.milestoneId)
         removeRelatedTags(event.milestoneId)
     }
 
@@ -59,13 +55,6 @@ class DeleteProjectMilestoneCommand(private val resourceService: ResourceService
         val ex = CommentExample()
         ex.createCriteria().andTypeEqualTo(ProjectTypeConstants.MILESTONE).andExtratypeidEqualTo(milestoneId)
         commentMapper.deleteByExample(ex)
-    }
-
-    private fun removePredecessorMilestones(milestoneId: Int) {
-        val ex = PredecessorExample()
-        ex.or().andSourceidEqualTo(milestoneId).andSourcetypeEqualTo(ProjectTypeConstants.MILESTONE)
-        ex.or().andDescidEqualTo(milestoneId).andDesctypeEqualTo(ProjectTypeConstants.MILESTONE)
-        predecessorMapper.deleteByExample(ex)
     }
 
     private fun removeRelatedTags(milestoneId: Int) {

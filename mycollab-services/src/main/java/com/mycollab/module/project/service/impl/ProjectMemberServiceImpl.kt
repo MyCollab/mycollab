@@ -17,7 +17,6 @@
 package com.mycollab.module.project.service.impl
 
 import com.google.common.eventbus.AsyncEventBus
-import com.mycollab.core.UserInvalidInputException
 import com.mycollab.core.cache.CacheKey
 import com.mycollab.core.utils.ArrayUtils
 import com.mycollab.db.arguments.NumberSearchField
@@ -39,7 +38,7 @@ import com.mycollab.module.project.service.ProjectMemberService
 import com.mycollab.module.user.domain.SimpleUser
 import org.apache.commons.collections.CollectionUtils
 import org.springframework.stereotype.Service
-import java.util.*
+import java.time.LocalDate
 
 /**
  * @author MyCollab Ltd.
@@ -65,35 +64,11 @@ class ProjectMemberServiceImpl(private val projectMemberMapper: ProjectMemberMap
     override fun findMemberByUsername(username: String, projectId: Int, sAccountId: Int): SimpleProjectMember? =
             projectMemberMapperExt.findMemberByUsername(username, projectId)
 
-    override fun updateWithSession(record: ProjectMember, username: String?): Int {
-        val oldMember = findById(record.id, record.saccountid)
-        if (oldMember != null) {
-            if (java.lang.Boolean.FALSE == record.isadmin && java.lang.Boolean.TRUE == oldMember.isadmin) {
-                val userAccountEx = ProjectMemberExample()
-                userAccountEx.createCriteria().andUsernameNotIn(listOf(record.username)).andProjectidEqualTo(record.projectid)
-                        .andIsadminEqualTo(java.lang.Boolean.TRUE).andStatusEqualTo(ProjectMemberStatusConstants.ACTIVE)
-                if (projectMemberMapper.countByExample(userAccountEx) == 0L) {
-                    throw UserInvalidInputException("Can not change role of user ${record.username}. The reason is ${record.username} is the unique account owner of the current project.")
-                }
-            }
-        }
-
-        return super.updateWithSession(record, username)
-    }
-
     override fun massRemoveWithSession(items: List<ProjectMember>, username: String?, sAccountId: Int) {
         if (CollectionUtils.isNotEmpty(items)) {
-            val userNames = items.map { it.username }
-            var ex = ProjectMemberExample()
-            ex.createCriteria().andUsernameNotIn(userNames).andProjectidEqualTo(items[0].projectid)
-                    .andIsadminEqualTo(true).andStatusEqualTo(ProjectMemberStatusConstants.ACTIVE)
-            if (projectMemberMapper.countByExample(ex) == 0L) {
-                throw UserInvalidInputException("Can not delete users. The reason is there is no project owner in the rest users")
-            }
-
             val updateMember = ProjectMember()
             updateMember.status = ProjectMemberStatusConstants.INACTIVE
-            ex = ProjectMemberExample()
+            val ex = ProjectMemberExample()
             ex.createCriteria().andSaccountidEqualTo(sAccountId).andIdIn(ArrayUtils.extractIds(items))
             projectMemberMapper.updateByExampleSelective(updateMember, ex)
 
@@ -105,9 +80,9 @@ class ProjectMemberServiceImpl(private val projectMemberMapper: ProjectMemberMap
     override fun getActiveUsersInProject(projectId: Int?, sAccountId: Int?): List<SimpleUser> =
             projectMemberMapperExt.getActiveUsersInProject(projectId!!, sAccountId!!)
 
-    override fun inviteProjectMembers(email: Array<String>, projectId: Int, projectRoleId: Int?, inviteUser: String,
+    override fun inviteProjectMembers(emails: Array<String>, projectId: Int, projectRoleId: Int, inviteUser: String,
                                       inviteMessage: String, sAccountId: Int) {
-        val event = InviteProjectMembersEvent(email, projectId, projectRoleId, inviteUser,
+        val event = InviteProjectMembersEvent(emails, projectId, projectRoleId, inviteUser,
                 inviteMessage, sAccountId)
         asyncEventBus.post(event)
     }
@@ -128,6 +103,6 @@ class ProjectMemberServiceImpl(private val projectMemberMapper: ProjectMemberMap
     override fun getActiveUserOfProject(username: String, projectId: Int, @CacheKey sAccountId: Int): SimpleUser? =
             projectMemberMapperExt.getActiveUserOfProject(username, projectId, sAccountId)
 
-    override fun findMembersHourlyInProject(projectId: Int?, sAccountId: Int?, start: Date, end: Date): List<SimpleProjectMember> =
+    override fun findMembersHourlyInProject(projectId: Int?, sAccountId: Int?, start: LocalDate, end: LocalDate): List<SimpleProjectMember> =
             projectMemberMapperExt.findMembersHourlyInProject(projectId, sAccountId, start, end)
 }

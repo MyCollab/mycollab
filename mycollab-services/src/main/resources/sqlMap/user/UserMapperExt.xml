@@ -5,8 +5,8 @@
         id="SimpleUserResult" type="com.mycollab.module.user.domain.SimpleUser">
         <result column="displayName" jdbcType="VARCHAR" property="displayName" />
         <result column="roleName" jdbcType="VARCHAR" property="roleName" />
-        <result column="subdomain" jdbcType="VARCHAR" property="subdomain" />
-        <result column="roleid" jdbcType="INTEGER" property="roleid" />
+        <result column="subDomain" jdbcType="VARCHAR" property="subDomain" />
+        <result column="roleId" jdbcType="INTEGER" property="roleId" />
         <result column="isAccountOwner" jdbcType="BIT" property="isAccountOwner" />
         <result column="accountId" jdbcType="INTEGER" property="accountId" />
         <result column="inviteUser" jdbcType="VARCHAR" property="inviteUser" />
@@ -24,7 +24,7 @@
             #set($searchCriteria = $_parameter.searchCriteria)
             
             #ifnotnull($searchCriteria.displayName)
-                ${searchCriteria.displayName.operation} concat(s_user.firstname, ' ', LTRIM(IFNULL(s_user.middlename + ' ', '')), s_user.lastname) like '%${searchCriteria.displayName.value}%'
+                ${searchCriteria.displayName.operation} concat(s_user.firstname, ' ', s_user.lastname) like '%${searchCriteria.displayName.value}%'
             #end
             
             #ifnotnull($searchCriteria.username)
@@ -35,11 +35,11 @@
                 ${searchCriteria.saccountid.operation} s_user_account.accountId = @{searchCriteria.saccountid.value,jdbcType=NUMERIC}
             #end
             
-            #ifnotnull($searchCriteria.subdomain)
-                ${searchCriteria.subdomain.operation} 
+            #ifnotnull($searchCriteria.subDomain)
+                ${searchCriteria.subDomain.operation}
                 EXISTS (SELECT 1
                     FROM s_account, s_user_account AS user_account 
-                    WHERE s_account.subdomain=@{searchCriteria.subdomain.value} 
+                    WHERE s_account.subDomain=@{searchCriteria.subDomain.value}
                         AND  user_account.accountId=s_account.id 
                         AND user_account.username=s_user.username
                 LIMIT 1)
@@ -70,7 +70,7 @@
             #set($searchCriteria = $_parameter.searchCriteria)
             
             #ifnotnull($searchCriteria.displayName)
-                ${searchCriteria.displayName.operation} concat(s_user.firstname, ' ', LTRIM(IFNULL(s_user.middlename + ' ', '')), s_user.lastname) like '%${searchCriteria.displayName.value}%'
+                ${searchCriteria.displayName.operation} concat(s_user.firstname, ' ', s_user.lastname) like '%${searchCriteria.displayName.value}%'
             #end
             
             #ifnotnull($searchCriteria.username)
@@ -85,11 +85,11 @@
                         AND s_user_account.username=s_user.username LIMIT 1)
             #end
             
-            #ifnotnull($searchCriteria.subdomain)
-                ${searchCriteria.subdomain.operation} 
+            #ifnotnull($searchCriteria.subDomain)
+                ${searchCriteria.subDomain.operation}
                 EXISTS (SELECT 1
                     FROM s_account, s_user_account AS user_account 
-                    WHERE s_account.subdomain=@{searchCriteria.subdomain.value} 
+                    WHERE s_account.subDomain=@{searchCriteria.subDomain.value}
                         AND  user_account.accountId=s_account.id 
                         AND user_account.username=s_user.username
                 LIMIT 1)
@@ -114,20 +114,20 @@
 
     <sql id="selectUser">
         <![CDATA[
-        SELECT DISTINCT s_user.username, s_user.firstname, s_user.middlename, s_user.lastname, s_user.nickname, s_user.dateofbirth, 
+        SELECT DISTINCT s_user.username, s_user.firstname, s_user.lastname, s_user.nickname, s_user.birthday,
             s_user.email, s_user.website, s_user.company,
             s_user.timezone, s_user.language, s_user.country, s_user.workPhone, s_user.homePhone,
             s_user.facebookAccount, s_user.twitterAccount, s_user.skypeContact,
             s_user.password, s_user.avatarId, s_user.status, s_user.requestAd,
             s_user.YYMMDDFormat, s_user.humanDateFormat, s_user.MMDDFormat,
-            s_account.subdomain AS subdomain, s_account.defaultYYMMDDFormat AS dateFormat,
+            s_account.subDomain AS subDomain, s_account.defaultYYMMDDFormat AS dateFormat,
             s_account.defaultMMDDFormat AS shortDateFormat, s_account.defaultHumanDateFormat AS longDateFormat,
             s_account.displayEmailPublicly AS showEmailPublicly,
-            concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')),  s_user.lastname) AS  displayName,
-            s_roles.rolename AS roleName,  s_user_account.isAccountOwner, s_user_account.roleid, s_user_account.accountId AS accountId, 
+            concat(s_user.firstname, ' ',  s_user.lastname) AS  displayName,
+            s_roles.rolename AS roleName,  s_user_account.isAccountOwner, s_user_account.roleId, s_user_account.accountId AS accountId,
             s_user_account.registerStatus, s_user_account.registeredTime, s_user_account.inviteUser, s_user_account.lastAccessedTime,
             s_user_account.lastModuleVisit,
-            concat(inviteUser.firstname, ' ', LTRIM(concat(IFNULL(inviteUser.middlename, ''), ' ')),  inviteUser.lastname) AS  inviteUserFullName
+            concat(inviteUser.firstname, ' ', inviteUser.lastname) AS  inviteUserFullName
         FROM s_user 
                 INNER JOIN s_user_account ON (s_user.username=s_user_account.username)
                 INNER JOIN s_account ON (s_user_account.accountId = s_account.id)

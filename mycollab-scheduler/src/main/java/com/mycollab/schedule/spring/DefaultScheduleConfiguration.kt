@@ -19,8 +19,6 @@ package com.mycollab.schedule.spring
 import com.mycollab.configuration.IDeploymentMode
 import com.mycollab.module.project.schedule.email.service.OverdueProjectTicketsNotificationJob
 import com.mycollab.schedule.AutowiringSpringBeanJobFactory
-import com.mycollab.schedule.jobs.CleanupTimeTrackingCacheDataJob
-import com.mycollab.schedule.jobs.CrmSendingRelayEmailNotificationJob
 import com.mycollab.schedule.jobs.LiveInstanceMonitorJob
 import com.mycollab.schedule.jobs.ProjectSendingRelayEmailNotificationJob
 import org.quartz.CronTrigger
@@ -52,14 +50,6 @@ class DefaultScheduleConfiguration {
     private lateinit var deploymentMode: IDeploymentMode
 
     @Bean
-    fun cleanTimelineTrackingCacheJob(): JobDetailFactoryBean {
-        val bean = JobDetailFactoryBean()
-        bean.setDurability(true)
-        bean.setJobClass(CleanupTimeTrackingCacheDataJob::class.java)
-        return bean
-    }
-
-    @Bean
     fun projectSendRelayNotificationEmailJob(): JobDetailFactoryBean {
         val bean = JobDetailFactoryBean()
         bean.setDurability(true)
@@ -72,14 +62,6 @@ class DefaultScheduleConfiguration {
         val bean = JobDetailFactoryBean()
         bean.setDurability(true)
         bean.setJobClass(OverdueProjectTicketsNotificationJob::class.java)
-        return bean
-    }
-
-    @Bean
-    fun crmSendRelayNotificationEmailJob(): JobDetailFactoryBean {
-        val bean = JobDetailFactoryBean()
-        bean.setDurability(true)
-        bean.setJobClass(CrmSendingRelayEmailNotificationJob::class.java)
         return bean
     }
 
@@ -103,22 +85,6 @@ class DefaultScheduleConfiguration {
     fun projectOverdueAssignmentsNotificationEmailTrigger(): CronTriggerFactoryBean {
         val bean = CronTriggerFactoryBean()
         bean.setJobDetail(projectOverdueAssignmentsNotificationEmailJob().`object`!!)
-        bean.setCronExpression("0 0 0 * * ?")
-        return bean
-    }
-
-    @Bean
-    fun crmSendRelayNotificationEmailTrigger(): CronTriggerFactoryBean {
-        val bean = CronTriggerFactoryBean()
-        bean.setJobDetail(crmSendRelayNotificationEmailJob().`object`!!)
-        bean.setCronExpression("0 * * * * ?")
-        return bean
-    }
-
-    @Bean
-    fun cleanUpTimelineCacheDataTrigger(): CronTriggerFactoryBean {
-        val bean = CronTriggerFactoryBean()
-        bean.setJobDetail(cleanTimelineTrackingCacheJob().`object`!!)
         bean.setCronExpression("0 0 0 * * ?")
         return bean
     }
@@ -163,16 +129,16 @@ class DefaultScheduleConfiguration {
             props.setProperty("org.quartz.threadPool.threadPriority", "5")
             props.setProperty("org.quartz.threadPool.threadsInheritContextClassLoaderOfInitializingThread", "true")
 
-    //        if (deploymentMode.isDemandEdition) {
-    //            props.setProperty("org.quartz.jobStore.class", "org.quartz.impl.jdbcjobstore.JobStoreTX")
-    //            props.setProperty("org.quartz.jobStore.dataSource", "dataSource")
-    //            props.setProperty("org.quartz.jobStore.useProperties", "true")
-    //            props.setProperty("org.quartz.jobStore.tablePrefix", "QRTZ_")
-    //            props.setProperty("org.quartz.jobStore.isClustered", "true")
-    //            props.setProperty("org.quartz.jobStore.driverDelegateClass", "org.quartz.impl.jdbcjobstore.StdJDBCDelegate")
-    //        } else {
-                props.setProperty("org.quartz.jobStore.class", "org.quartz.simpl.RAMJobStore")
-    //        }
+            //        if (deploymentMode.isDemandEdition) {
+            //            props.setProperty("org.quartz.jobStore.class", "org.quartz.impl.jdbcjobstore.JobStoreTX")
+            //            props.setProperty("org.quartz.jobStore.dataSource", "dataSource")
+            //            props.setProperty("org.quartz.jobStore.useProperties", "true")
+            //            props.setProperty("org.quartz.jobStore.tablePrefix", "QRTZ_")
+            //            props.setProperty("org.quartz.jobStore.isClustered", "true")
+            //            props.setProperty("org.quartz.jobStore.driverDelegateClass", "org.quartz.impl.jdbcjobstore.StdJDBCDelegate")
+            //        } else {
+            props.setProperty("org.quartz.jobStore.class", "org.quartz.simpl.RAMJobStore")
+            //        }
             return props
         }
     }

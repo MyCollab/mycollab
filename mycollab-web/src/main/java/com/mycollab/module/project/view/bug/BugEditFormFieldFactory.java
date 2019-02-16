@@ -1,26 +1,23 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package com.mycollab.module.project.view.bug;
 
-import com.mycollab.common.i18n.ErrorI18nEnum;
 import com.mycollab.module.file.AttachmentUtils;
 import com.mycollab.module.project.ProjectTypeConstants;
-import com.mycollab.module.project.domain.SimpleProjectMember;
-import com.mycollab.module.project.i18n.BugI18nEnum;
 import com.mycollab.module.project.ui.components.PriorityComboBox;
 import com.mycollab.module.project.ui.components.ProjectSubscribersComp;
 import com.mycollab.module.project.view.milestone.MilestoneComboBox;
@@ -33,13 +30,13 @@ import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.mycollab.vaadin.ui.GenericBeanForm;
-import com.mycollab.vaadin.web.ui.DoubleField;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.mycollab.vaadin.web.ui.field.AttachmentUploadField;
-import com.mycollab.vaadin.web.ui.field.DateTimeOptionField;
-import com.vaadin.data.Property;
-import com.vaadin.ui.Field;
+import com.vaadin.data.HasValue;
+import com.vaadin.ui.DateField;
 import com.vaadin.ui.RichTextArea;
-import com.vaadin.ui.TextField;
+import org.vaadin.viritin.fields.DoubleField;
+import org.vaadin.viritin.fields.MTextField;
 
 /**
  * @author MyCollab Ltd
@@ -64,25 +61,22 @@ class BugEditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<Sim
     }
 
     @Override
-    protected Field<?> onCreateField(final Object propertyId) {
+    protected HasValue<?> onCreateField(final Object propertyId) {
         final SimpleBug beanItem = attachForm.getBean();
-        if (propertyId.equals("environment")) {
-            return new RichTextArea();
-        } else if (propertyId.equals("description")) {
+        if (BugWithBLOBs.Field.environment.equalTo(propertyId) || BugWithBLOBs.Field.description.equalTo(propertyId)) {
             return new RichTextArea();
         } else if (propertyId.equals("priority")) {
             return new PriorityComboBox();
         } else if (propertyId.equals("assignuser")) {
             ProjectMemberSelectionField field = new ProjectMemberSelectionField();
             field.addValueChangeListener(valueChangeEvent -> {
-                Property property = valueChangeEvent.getProperty();
-                SimpleProjectMember member = (SimpleProjectMember) property.getValue();
-                if (member != null) {
-                    subscribersComp.addFollower(member.getUsername());
+                String username = valueChangeEvent.getValue();
+                if (username != null) {
+                    subscribersComp.addFollower(username);
                 }
             });
             return field;
-        } else if (propertyId.equals("id")) {
+        } else if ("section-attachments".equals(propertyId)) {
             if (beanItem.getId() != null) {
                 String attachmentPath = AttachmentUtils.getProjectEntityAttachmentPath(AppUI.getAccountId(),
                         beanItem.getProjectid(), ProjectTypeConstants.BUG, "" + beanItem.getId());
@@ -103,30 +97,17 @@ class BugEditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<Sim
             fixedVersionSelect = new VersionMultiSelectField();
             return fixedVersionSelect;
         } else if (propertyId.equals("name")) {
-            final TextField tf = new TextField();
-            if (isValidateForm) {
-                tf.setNullRepresentation("");
-                tf.setRequired(true);
-                tf.setRequiredError(UserUIContext.getMessage(ErrorI18nEnum.FIELD_MUST_NOT_NULL,
-                        UserUIContext.getMessage(BugI18nEnum.FORM_SUMMARY)));
-            }
-
-            return tf;
+            return new MTextField().withRequiredIndicatorVisible(true);
         } else if (propertyId.equals("milestoneid")) {
-            final MilestoneComboBox milestoneBox = new MilestoneComboBox();
-            milestoneBox.addValueChangeListener(valueChangeEvent -> {
-                String milestoneName = milestoneBox.getItemCaption(milestoneBox.getValue());
-                beanItem.setMilestoneName(milestoneName);
-            });
-            return milestoneBox;
+            return new MilestoneComboBox();
         } else if (BugWithBLOBs.Field.originalestimate.equalTo(propertyId) ||
                 (BugWithBLOBs.Field.remainestimate.equalTo(propertyId))) {
-            return new DoubleField();
-        } else if (propertyId.equals("selected")) {
+            return new DoubleField().withWidth(WebThemes.FORM_CONTROL_WIDTH);
+        } else if ("section-followers".equals(propertyId)) {
             return subscribersComp;
         } else if (BugWithBLOBs.Field.startdate.equalTo(propertyId) || BugWithBLOBs.Field.enddate.equalTo(propertyId)
                 || BugWithBLOBs.Field.duedate.equalTo(propertyId)) {
-            return new DateTimeOptionField(true);
+            return new DateField();
         }
 
         return null;

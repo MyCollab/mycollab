@@ -1,33 +1,42 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package com.mycollab.module.project.ui.form;
 
-import com.mycollab.module.project.ui.components.ProjectAttachmentDisplayComponentFactory;
+import com.mycollab.common.i18n.GenericI18Enum;
+import com.mycollab.module.ecm.domain.Content;
+import com.mycollab.module.ecm.service.ResourceService;
+import com.mycollab.module.file.AttachmentUtils;
+import com.mycollab.spring.AppContextUtil;
+import com.mycollab.vaadin.AppUI;
+import com.mycollab.vaadin.UserUIContext;
+import com.mycollab.vaadin.ui.ELabel;
+import com.mycollab.vaadin.ui.IgnoreBindingField;
 import com.mycollab.vaadin.web.ui.AttachmentDisplayComponent;
-import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomField;
-import com.vaadin.ui.Label;
+import org.apache.commons.collections4.CollectionUtils;
+
+import java.util.List;
 
 /**
  * @author MyCollab Ltd.
  * @since 4.5.3
  */
-public class ProjectFormAttachmentDisplayField extends CustomField {
+public class ProjectFormAttachmentDisplayField extends IgnoreBindingField {
     private static final long serialVersionUID = 1L;
 
     private int projectId;
@@ -41,17 +50,25 @@ public class ProjectFormAttachmentDisplayField extends CustomField {
     }
 
     @Override
-    public Class<?> getType() {
-        return Object.class;
+    protected Component initContent() {
+        ResourceService resourceService = AppContextUtil.getSpringBean(ResourceService.class);
+        List<Content> attachments = resourceService.getContents(AttachmentUtils.
+                getProjectEntityAttachmentPath(AppUI.getAccountId(), projectId, type, "" + typeId));
+
+        if (CollectionUtils.isEmpty(attachments)) {
+            return new ELabel(UserUIContext.getMessage(GenericI18Enum.EXT_NO_ITEM));
+        } else {
+            return new AttachmentDisplayComponent(attachments);
+        }
     }
 
     @Override
-    protected Component initContent() {
-        final Component comp = ProjectAttachmentDisplayComponentFactory.getAttachmentDisplayComponent(projectId, type, typeId);
-        if (!(comp instanceof AttachmentDisplayComponent)) {
-            return new Label("&nbsp;", ContentMode.HTML);
-        } else {
-            return comp;
-        }
+    protected void doSetValue(Object o) {
+
+    }
+
+    @Override
+    public Object getValue() {
+        return null;
     }
 }

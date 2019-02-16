@@ -23,7 +23,7 @@
               m_tracker_bug.sAccountId AS related_sAccountId, m_tracker_bug.milestoneId AS related_milestoneId,
               m_tracker_bug.bugkey AS related_bugkey, m_tracker_bug.bugIndex AS related_bugIndex,
               m_tracker_bug.startDate AS related_startDate, m_tracker_bug.endDate AS related_endDate,
-              m_tracker_bug.ganttIndex AS related_ganttIndex, m_tracker_bug.percentagecomplete AS related_percentagecomplete,
+              m_tracker_bug.percentagecomplete AS related_percentagecomplete,
               m_tracker_bug.detail AS related_detail, m_tracker_bug.environment AS related_environment,
               m_tracker_bug.description AS related_description
             FROM m_tracker_bug, m_tracker_related_bug
@@ -39,7 +39,7 @@
               m_tracker_bug.sAccountId AS related_sAccountId, m_tracker_bug.milestoneId AS related_milestoneId,
               m_tracker_bug.bugkey AS related_bugkey, m_tracker_bug.bugIndex AS related_bugIndex,
               m_tracker_bug.startDate AS related_startDate, m_tracker_bug.endDate AS related_endDate,
-              m_tracker_bug.ganttIndex AS related_ganttIndex, m_tracker_bug.percentagecomplete AS related_percentagecomplete,
+              m_tracker_bug.percentagecomplete AS related_percentagecomplete,
               m_tracker_bug.detail AS related_detail, m_tracker_bug.environment AS related_environment,
               m_tracker_bug.description AS related_description
             FROM m_tracker_bug, m_tracker_related_bug

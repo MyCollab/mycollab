@@ -19,8 +19,6 @@ package com.mycollab.module.project.view.bug;
 import com.google.common.eventbus.Subscribe;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.configuration.SiteConfiguration;
-import com.mycollab.core.arguments.ValuedBean;
-import com.mycollab.core.utils.BeanUtility;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectRolePermissionCollections;
 import com.mycollab.module.project.ProjectTypeConstants;
@@ -30,6 +28,7 @@ import com.mycollab.module.project.i18n.OptionI18nEnum.BugRelation;
 import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.module.project.ui.components.*;
+import com.mycollab.module.project.view.ProjectView;
 import com.mycollab.module.tracker.domain.SimpleBug;
 import com.mycollab.module.tracker.domain.SimpleRelatedBug;
 import com.mycollab.module.tracker.service.BugRelationService;
@@ -43,20 +42,16 @@ import com.mycollab.vaadin.event.HasPreviewFormHandlers;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.mvp.ViewManager;
 import com.mycollab.vaadin.ui.ELabel;
+import com.mycollab.vaadin.ui.UIUtils;
 import com.mycollab.vaadin.ui.VerticalRemoveInlineComponentMarker;
-import com.mycollab.vaadin.web.ui.AbstractPreviewItemComp;
-import com.mycollab.vaadin.web.ui.AdvancedPreviewBeanForm;
-import com.mycollab.vaadin.web.ui.ReadViewLayout;
-import com.mycollab.vaadin.web.ui.WebThemes;
-import com.vaadin.server.FontAwesome;
+import com.mycollab.vaadin.web.ui.*;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
-import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.vaadin.peter.buttongroup.ButtonGroup;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
@@ -93,11 +88,11 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
     private BugTimeLogSheet bugTimeLogList;
     private DateInfoComp dateInfoComp;
     private PeopleInfoComp peopleInfoComp;
+    private PlanningInfoComp planningInfoComp;
     private ProjectActivityComponent activityComponent;
 
     public BugReadViewImpl() {
-        super(UserUIContext.getMessage(BugI18nEnum.DETAIL),
-                ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG), new BugPreviewFormLayout());
+        super(UserUIContext.getMessage(BugI18nEnum.DETAIL), ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG), new BugPreviewFormLayout());
     }
 
     @Override
@@ -121,19 +116,18 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
                     clickEvent -> {
                         BugService bugService = AppContextUtil.getSpringBean(BugService.class);
                         beanItem.setStatus(ReOpen.name());
-                        bugService.saveWithSession(beanItem, UserUIContext.getUsername());
+                        bugService.updateSelectiveWithSession(beanItem, UserUIContext.getUsername());
                         EventBusFactory.getInstance().post(new BugEvent.BugChanged(this, beanItem.getId()));
                     })
                     .withStyleName(WebThemes.BUTTON_ACTION);
-            navButton.addButton(openBtn);
 
             MButton resolveBtn = new MButton(UserUIContext.getMessage(BugI18nEnum.BUTTON_RESOLVED),
                     clickEvent -> UI.getCurrent().addWindow(new ResolvedInputWindow(beanItem)))
                     .withStyleName(WebThemes.BUTTON_ACTION);
-            navButton.addButton(resolveBtn);
+
+            navButton.addButtons(openBtn, resolveBtn);
             bugWorkflowControl.addComponent(navButton);
-        } else if (Open.name().equals(beanItem.getStatus()) ||
-                ReOpen.name().equals(beanItem.getStatus())) {
+        } else if (Open.name().equals(beanItem.getStatus()) || ReOpen.name().equals(beanItem.getStatus())) {
             bugWorkflowControl.removeAllComponents();
             ButtonGroup navButton = new ButtonGroup();
 
@@ -141,16 +135,16 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
                     clickEvent -> {
                         BugService bugService = AppContextUtil.getSpringBean(BugService.class);
                         beanItem.setStatus(InProgress.name());
-                        bugService.saveWithSession(beanItem, UserUIContext.getUsername());
+                        bugService.updateSelectiveWithSession(beanItem, UserUIContext.getUsername());
                         EventBusFactory.getInstance().post(new BugEvent.BugChanged(this, beanItem.getId()));
                     })
                     .withStyleName(WebThemes.BUTTON_ACTION);
-            navButton.addButton(inProgressBtn);
 
             MButton resolveBtn = new MButton(UserUIContext.getMessage(BugI18nEnum.BUTTON_RESOLVED),
                     clickEvent -> UI.getCurrent().addWindow(new ResolvedInputWindow(beanItem)))
                     .withStyleName(WebThemes.BUTTON_ACTION);
-            navButton.addButton(resolveBtn);
+
+            navButton.addButtons(inProgressBtn, resolveBtn);
             bugWorkflowControl.addComponent(navButton);
         } else if (Verified.name().equals(beanItem.getStatus())) {
             bugWorkflowControl.removeAllComponents();
@@ -166,21 +160,11 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
             MButton reopenBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_REOPEN),
                     clickEvent -> UI.getCurrent().addWindow(new ReOpenWindow(beanItem)))
                     .withStyleName(WebThemes.BUTTON_ACTION);
-            navButton.addButton(reopenBtn);
 
             MButton approveNCloseBtn = new MButton(UserUIContext.getMessage(BugI18nEnum.BUTTON_APPROVE_CLOSE),
                     clickEvent -> UI.getCurrent().addWindow(new ApproveInputWindow(beanItem)))
                     .withStyleName(WebThemes.BUTTON_ACTION);
-            navButton.addButton(approveNCloseBtn);
-            bugWorkflowControl.addComponent(navButton);
-        } else if (Resolved.name().equals(beanItem.getStatus())) {
-            bugWorkflowControl.removeAllComponents();
-            ButtonGroup navButton = new ButtonGroup();
-            MButton reopenBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_REOPEN),
-                    clickEvent -> UI.getCurrent().addWindow(new ReOpenWindow(beanItem)))
-                    .withStyleName(WebThemes.BUTTON_ACTION);
-            navButton.addButton(reopenBtn);
-
+            navButton.addButtons(reopenBtn, approveNCloseBtn);
             bugWorkflowControl.addComponent(navButton);
         }
         bugWorkflowControl.setVisible(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.BUGS));
@@ -203,14 +187,22 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
         activityComponent = new ProjectActivityComponent(ProjectTypeConstants.BUG, CurrentProjectVariables.getProjectId());
         dateInfoComp = new DateInfoComp();
         peopleInfoComp = new PeopleInfoComp();
+        planningInfoComp = new PlanningInfoComp();
         bugFollowersList = new ProjectFollowersComp<>(ProjectTypeConstants.BUG, ProjectRolePermissionCollections.BUGS);
 
+        ProjectView projectView = UIUtils.getRoot(this, ProjectView.class);
+        MVerticalLayout detailLayout = new MVerticalLayout().withMargin(new MarginInfo(false, true, true, true));
+
         if (SiteConfiguration.isCommunityEdition()) {
-            addToSideBar(dateInfoComp, peopleInfoComp, bugFollowersList);
+            detailLayout.with(peopleInfoComp, planningInfoComp, bugFollowersList, dateInfoComp);
         } else {
             bugTimeLogList = ViewManager.getCacheComponent(BugTimeLogSheet.class);
-            addToSideBar(dateInfoComp, peopleInfoComp, bugTimeLogList, bugFollowersList);
+            detailLayout.with(peopleInfoComp, planningInfoComp, bugTimeLogList, bugFollowersList, dateInfoComp);
         }
+
+        Panel detailPanel = new Panel(UserUIContext.getMessage(GenericI18Enum.OPT_DETAILS), detailLayout);
+        UIUtils.makeStackPanel(detailPanel);
+        projectView.addComponentToRightBar(detailPanel);
     }
 
     @Override
@@ -226,6 +218,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
         bugFollowersList.displayFollowers(beanItem);
         dateInfoComp.displayEntryDateTime(beanItem);
         peopleInfoComp.displayEntryPeople(beanItem);
+        planningInfoComp.displayPlanningInfo(beanItem);
     }
 
     @Override
@@ -241,27 +234,26 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
     private static class BugPreviewFormLayout extends ReadViewLayout {
         private ToggleBugSummaryField toggleBugSummaryField;
 
-        void displayBugHeader(final SimpleBug bug) {
-            MVerticalLayout header = new VerticalRemoveInlineComponentMarker().withFullWidth().withMargin(false);
+        void displayBugHeader(SimpleBug bug) {
+            MVerticalLayout header = new VerticalRemoveInlineComponentMarker().withMargin(false).withFullWidth();
             toggleBugSummaryField = new ToggleBugSummaryField(bug);
-            toggleBugSummaryField.addLabelStyleName(ValoTheme.LABEL_H3);
-            toggleBugSummaryField.addLabelStyleName(ValoTheme.LABEL_NO_MARGIN);
+            toggleBugSummaryField.addLabelStyleNames(ValoTheme.LABEL_H3, ValoTheme.LABEL_NO_MARGIN);
             header.with(toggleBugSummaryField).expand(toggleBugSummaryField);
             this.addHeader(header);
 
             if (bug.isCompleted()) {
-                toggleBugSummaryField.addLabelStyleName(WebThemes.LINK_COMPLETED);
+                toggleBugSummaryField.addLabelStyleNames(WebThemes.LINK_COMPLETED);
             } else if (bug.isOverdue()) {
-                toggleBugSummaryField.addLabelStyleName(WebThemes.LABEL_OVERDUE);
+                toggleBugSummaryField.addLabelStyleNames(WebThemes.LABEL_OVERDUE);
             }
 
             BugRelationService bugRelationService = AppContextUtil.getSpringBean(BugRelationService.class);
             List<SimpleRelatedBug> relatedBugs = bugRelationService.findRelatedBugs(bug.getId());
             if (CollectionUtils.isNotEmpty(relatedBugs)) {
-                for (final SimpleRelatedBug relatedBug : relatedBugs) {
-                    if (relatedBug.getRelated()) {
+                for (SimpleRelatedBug relatedBug : relatedBugs) {
+                    if (Boolean.TRUE.equals(relatedBug.getRelated())) {
                         ELabel relatedLink = new ELabel(UserUIContext.getMessage(BugRelation.class,
-                                relatedBug.getRelatedType())).withStyleName(WebThemes.ARROW_BTN).withWidthUndefined();
+                                relatedBug.getRelatedType())).withStyleName(WebThemes.ARROW_BTN).withUndefinedWidth();
                         ToggleBugSummaryWithDependentField toggleRelatedBugField = new ToggleBugSummaryWithDependentField(bug, relatedBug.getRelatedBug());
                         MHorizontalLayout bugContainer = new MHorizontalLayout(relatedLink, toggleRelatedBugField)
                                 .expand(toggleRelatedBugField).withFullWidth();
@@ -269,7 +261,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
                     } else {
                         Enum relatedEnum = BugRelation.valueOf(relatedBug.getRelatedType()).getReverse();
                         ELabel relatedLink = new ELabel(UserUIContext.getMessage(relatedEnum)).withStyleName(WebThemes.ARROW_BTN)
-                                .withWidthUndefined();
+                                .withUndefinedWidth();
                         ToggleBugSummaryWithDependentField toggleRelatedBugField = new ToggleBugSummaryWithDependentField(bug, relatedBug.getRelatedBug());
                         MHorizontalLayout bugContainer = new MHorizontalLayout(relatedLink, toggleRelatedBugField)
                                 .expand(toggleRelatedBugField).withFullWidth();
@@ -281,7 +273,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
 
         @Override
         public void addTitleStyleName(String styleName) {
-            toggleBugSummaryField.addLabelStyleName(styleName);
+            toggleBugSummaryField.addLabelStyleNames(styleName);
         }
 
         @Override
@@ -301,7 +293,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
         if (CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.BUGS)) {
             MButton linkBtn = new MButton(UserUIContext.getMessage(BugI18nEnum.OPT_BUG_DEPENDENCIES),
                     clickEvent -> UI.getCurrent().addWindow(new LinkIssueWindow(beanItem)))
-                    .withIcon(FontAwesome.BOLT);
+                    .withIcon(VaadinIcons.BOLT);
             bugPreviewFormControls.addOptionButton(linkBtn);
         }
 
@@ -316,8 +308,8 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
 
         MButton assignBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_ASSIGN),
                 clickEvent -> UI.getCurrent().addWindow(new AssignBugWindow(beanItem)))
-                .withIcon(FontAwesome.SHARE).withStyleName(WebThemes.BUTTON_ACTION);
-        assignBtn.setVisible(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.BUGS));
+                .withIcon(VaadinIcons.SHARE).withStyleName(WebThemes.BUTTON_ACTION)
+                .withVisible(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.BUGS));
 
         bugWorkflowControl = new CssLayout();
         bugPreviewFormControls.insertToControlBlock(bugWorkflowControl);
@@ -346,16 +338,14 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
         return this.previewForm;
     }
 
-
     private static class PeopleInfoComp extends MVerticalLayout {
         private static final long serialVersionUID = 1L;
 
-        private void displayEntryPeople(ValuedBean bean) {
+        private void displayEntryPeople(SimpleBug bug) {
             this.removeAllComponents();
             this.withMargin(false);
 
-            Label peopleInfoHeader = ELabel.html(FontAwesome.USER.getHtml() + " " +
-                    UserUIContext.getMessage(ProjectCommonI18nEnum.SUB_INFO_PEOPLE));
+            Label peopleInfoHeader = ELabel.html(VaadinIcons.USER.getHtml() + " " + UserUIContext.getMessage(ProjectCommonI18nEnum.SUB_INFO_PEOPLE));
             peopleInfoHeader.setStyleName("info-hdr");
             this.addComponent(peopleInfoHeader);
 
@@ -363,31 +353,65 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
             layout.setSpacing(true);
             layout.setWidth("100%");
             layout.setMargin(new MarginInfo(false, false, false, true));
-            try {
-                Label createdLbl = new Label(UserUIContext.getMessage(ProjectCommonI18nEnum.ITEM_CREATED_PEOPLE));
-                createdLbl.setSizeUndefined();
-                layout.addComponent(createdLbl, 0, 0);
 
-                String createdUserName = (String) PropertyUtils.getProperty(bean, "createduser");
-                String createdUserAvatarId = (String) PropertyUtils.getProperty(bean, "loguserAvatarId");
-                String createdUserDisplayName = (String) PropertyUtils.getProperty(bean, "loguserFullName");
+            ELabel createdLbl = new ELabel(UserUIContext.getMessage(ProjectCommonI18nEnum.ITEM_CREATED_PEOPLE)).withStyleName(WebThemes.META_COLOR).withUndefinedWidth();
+            layout.addComponent(createdLbl, 0, 0);
 
-                ProjectMemberLink createdUserLink = new ProjectMemberLink(createdUserName, createdUserAvatarId, createdUserDisplayName);
-                layout.addComponent(createdUserLink, 1, 0);
-                layout.setColumnExpandRatio(1, 1.0f);
+            String createdUserName = bug.getCreateduser();
+            String createdUserAvatarId = bug.getLoguserAvatarId();
+            String createdUserDisplayName = bug.getLoguserFullName();
 
-                Label assigneeLbl = new Label(UserUIContext.getMessage(ProjectCommonI18nEnum.ITEM_ASSIGN_PEOPLE));
-                assigneeLbl.setSizeUndefined();
-                layout.addComponent(assigneeLbl, 0, 1);
-                String assignUserName = (String) PropertyUtils.getProperty(bean, "assignuser");
-                String assignUserAvatarId = (String) PropertyUtils.getProperty(bean, "assignUserAvatarId");
-                String assignUserDisplayName = (String) PropertyUtils.getProperty(bean, "assignuserFullName");
+            ProjectMemberLink createdUserLink = new ProjectMemberLink(createdUserName, createdUserAvatarId, createdUserDisplayName);
+            layout.addComponent(createdUserLink, 1, 0);
+            layout.setColumnExpandRatio(1, 1.0f);
 
-                ProjectMemberLink assignUserLink = new ProjectMemberLink(assignUserName, assignUserAvatarId, assignUserDisplayName);
-                layout.addComponent(assignUserLink, 1, 1);
-            } catch (Exception e) {
-                LOG.error("Can not build user link {} ", BeanUtility.printBeanObj(bean));
-            }
+            ELabel assigneeLbl = new ELabel(UserUIContext.getMessage(ProjectCommonI18nEnum.ITEM_ASSIGN_PEOPLE)).withStyleName(WebThemes.META_COLOR).withUndefinedWidth();
+            layout.addComponent(assigneeLbl, 0, 1);
+            String assignUserName = bug.getAssignuser();
+            String assignUserAvatarId = bug.getAssignUserAvatarId();
+            String assignUserDisplayName = bug.getAssignuserFullName();
+
+            ProjectMemberLink assignUserLink = new ProjectMemberLink(assignUserName, assignUserAvatarId, assignUserDisplayName);
+            layout.addComponent(assignUserLink, 1, 1);
+
+            this.addComponent(layout);
+        }
+    }
+
+    private static class PlanningInfoComp extends MVerticalLayout {
+        private void displayPlanningInfo(SimpleBug bug) {
+            this.removeAllComponents();
+            this.withMargin(false);
+
+            Label peopleInfoHeader = ELabel.html(VaadinIcons.CALENDAR_CLOCK.getHtml() + " " + UserUIContext.getMessage(ProjectCommonI18nEnum.SUB_INFO_PLANNING));
+            peopleInfoHeader.setStyleName("info-hdr");
+            this.addComponent(peopleInfoHeader);
+
+            GridLayout layout = new GridLayout(2, 3);
+            layout.setSpacing(true);
+            layout.setWidth("100%");
+            layout.setMargin(new MarginInfo(false, false, false, true));
+
+            ELabel startDateLbl = new ELabel(UserUIContext.getMessage(GenericI18Enum.FORM_START_DATE)).withStyleName(WebThemes.META_COLOR)
+                    .withUndefinedWidth();
+            layout.addComponent(startDateLbl, 0, 0);
+
+            ELabel startDateVal = new ELabel(UserUIContext.formatDate(bug.getStartdate()));
+            layout.addComponent(startDateVal, 1, 0);
+
+            ELabel endDateLbl = new ELabel(UserUIContext.getMessage(GenericI18Enum.FORM_END_DATE)).withStyleName(WebThemes.META_COLOR).withUndefinedWidth();
+            layout.addComponent(endDateLbl, 0, 1);
+
+            ELabel endDateVal = new ELabel(UserUIContext.formatDate(bug.getEnddate()));
+            layout.addComponent(endDateVal, 1, 1);
+
+            ELabel dueDateLbl = new ELabel(UserUIContext.getMessage(GenericI18Enum.FORM_DUE_DATE)).withStyleName(WebThemes.META_COLOR).withUndefinedWidth();
+            layout.addComponent(dueDateLbl, 0, 2);
+
+            ELabel dueDateVal = new ELabel(UserUIContext.formatDate(bug.getDuedate()));
+            layout.addComponent(dueDateVal, 1, 2);
+
+            layout.setColumnExpandRatio(1, 1.0f);
 
             this.addComponent(layout);
         }

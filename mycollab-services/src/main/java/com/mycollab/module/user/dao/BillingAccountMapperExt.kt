@@ -17,7 +17,9 @@
 package com.mycollab.module.user.dao
 
 import com.mycollab.module.user.domain.SimpleBillingAccount
+import org.apache.ibatis.annotations.Mapper
 
+@Mapper
 interface BillingAccountMapperExt {
 
     val defaultAccountByDomain: SimpleBillingAccount

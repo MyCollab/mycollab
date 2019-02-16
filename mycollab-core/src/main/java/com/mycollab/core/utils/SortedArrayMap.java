@@ -21,6 +21,7 @@ import com.mycollab.core.MyCollabException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author MyCollab Ltd
@@ -73,7 +74,7 @@ public class SortedArrayMap<K extends Comparable, V> {
             if (!(o instanceof Entry)) return false;
 
             Entry<?, ?> entry = (Entry<?, ?>) o;
-            return !(key != null ? !key.equals(entry.key) : entry.key != null);
+            return !(!Objects.equals(key, entry.key));
 
         }
 

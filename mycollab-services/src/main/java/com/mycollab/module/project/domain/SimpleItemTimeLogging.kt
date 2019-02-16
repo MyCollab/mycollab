@@ -17,6 +17,7 @@
 package com.mycollab.module.project.domain
 
 import com.mycollab.core.utils.DateTimeUtils
+import java.time.LocalDateTime
 
 import java.util.Date
 
@@ -42,13 +43,13 @@ class SimpleItemTimeLogging : ItemTimeLogging() {
 
     var status: String? = null
 
-    var dueDate: Date? = null
+    var dueDate: LocalDateTime? = null
 
     var extraTypeId: Int? = null
 
     val isOverdue: Boolean
         get() = if (dueDate != null) {
-            dueDate!!.before(DateTimeUtils.getCurrentDateWithoutMS())
+            dueDate!!.isBefore(DateTimeUtils.getCurrentDateWithoutMS())
         } else false
 
     enum class Field {

@@ -19,6 +19,7 @@ package com.mycollab.module.project.domain
 import com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum
 import com.mycollab.core.utils.DateTimeUtils
 import com.mycollab.core.utils.StringUtils
+import java.time.LocalDate
 
 import java.util.Date
 
@@ -53,8 +54,7 @@ class SimpleRisk : Risk() {
 
     val isOverdue: Boolean
         get() {
-            val now = DateTimeUtils.getCurrentDateWithoutMS()
-            return StatusI18nEnum.Open.name == status && duedate != null && duedate.before(now)
+            return StatusI18nEnum.Open.name == status && duedate != null && duedate.isBefore(LocalDate.now())
         }
 
     enum class Field {

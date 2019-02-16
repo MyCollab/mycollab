@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -22,6 +22,7 @@ import com.hp.gagawa.java.elements.Div;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.i18n.ShellI18nEnum;
 import com.mycollab.core.utils.TimezoneVal;
+import com.mycollab.form.view.LayoutType;
 import com.mycollab.i18n.LocalizationHelper;
 import com.mycollab.module.user.AccountLinkGenerator;
 import com.mycollab.module.user.accountsettings.localization.RoleI18nEnum;
@@ -45,6 +46,7 @@ import com.mycollab.vaadin.web.ui.AdvancedPreviewBeanForm;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.mycollab.vaadin.web.ui.field.LinkViewField;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
+import com.vaadin.data.HasValue;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import org.apache.commons.lang3.StringUtils;
@@ -78,7 +80,7 @@ public class UserReadViewImpl extends AbstractVerticalPageView implements UserRe
         header.removeAllComponents();
         MHorizontalLayout avatarAndPass = new MHorizontalLayout().withFullWidth();
         Image cropField = UserAvatarControlFactory.createUserAvatarEmbeddedComponent(user.getAvatarid(), 100);
-        cropField.addStyleName(UIConstants.CIRCLE_BOX);
+        cropField.addStyleName(WebThemes.CIRCLE_BOX);
         CssLayout userAvatar = new CssLayout();
         userAvatar.addComponent(cropField);
         avatarAndPass.addComponent(userAvatar);
@@ -92,12 +94,7 @@ public class UserReadViewImpl extends AbstractVerticalPageView implements UserRe
         basicLayout.addComponent(userWrapper);
         basicLayout.setComponentAlignment(userWrapper, Alignment.MIDDLE_LEFT);
 
-        GridFormLayoutHelper userFormLayout;
-        if (UserUIContext.isAdmin()) {
-            userFormLayout = GridFormLayoutHelper.defaultFormLayoutHelper(1, 6).withCaptionWidth("140px");
-        } else {
-            userFormLayout = GridFormLayoutHelper.defaultFormLayoutHelper(1, 5).withCaptionWidth("140px");
-        }
+        GridFormLayoutHelper userFormLayout = GridFormLayoutHelper.defaultFormLayoutHelper(LayoutType.ONE_COLUMN);
         userFormLayout.getLayout().addStyleName(WebThemes.GRIDFORM_BORDERLESS);
         basicLayout.addComponent(userFormLayout.getLayout());
 
@@ -105,11 +102,11 @@ public class UserReadViewImpl extends AbstractVerticalPageView implements UserRe
         if (Boolean.TRUE.equals(user.isAccountOwner())) {
             roleDiv = new Div().appendText(UserUIContext.getMessage(RoleI18nEnum.OPT_ACCOUNT_OWNER));
         } else {
-            roleDiv = new A(AccountLinkGenerator.generateRoleLink(user.getRoleid())).appendText(user.getRoleName());
+            roleDiv = new A(AccountLinkGenerator.generateRoleLink(user.getRoleId())).appendText(user.getRoleName());
         }
 
         userFormLayout.addComponent(ELabel.html(roleDiv.write()), UserUIContext.getMessage(UserI18nEnum.FORM_ROLE), 0, 0);
-        userFormLayout.addComponent(new Label(UserUIContext.formatDate(user.getDateofbirth())),
+        userFormLayout.addComponent(new Label(UserUIContext.formatDate(user.getBirthday())),
                 UserUIContext.getMessage(UserI18nEnum.FORM_BIRTHDAY), 0, 1);
 
         if (Boolean.TRUE.equals(AppUI.showEmailPublicly())) {
@@ -128,7 +125,8 @@ public class UserReadViewImpl extends AbstractVerticalPageView implements UserRe
             MButton btnChangePassword = new MButton(UserUIContext.getMessage(GenericI18Enum.ACTION_CHANGE),
                     clickEvent -> UI.getCurrent().addWindow(new PasswordChangeWindow(user)))
                     .withStyleName(WebThemes.BUTTON_LINK);
-            userFormLayout.addComponent(new MHorizontalLayout(new Label("***********"), btnChangePassword),
+            ELabel label = ELabel.EMPTY_SPACE();
+            userFormLayout.addComponent(new MHorizontalLayout(new ELabel("***********"), btnChangePassword, label).expand(label),
                     UserUIContext.getMessage(ShellI18nEnum.FORM_PASSWORD), 0, 5);
         }
 
@@ -170,19 +168,19 @@ public class UserReadViewImpl extends AbstractVerticalPageView implements UserRe
                 private static final long serialVersionUID = 1L;
 
                 @Override
-                protected Field<?> onCreateField(Object propertyId) {
+                protected HasValue<?> onCreateField(Object propertyId) {
                     if (propertyId.equals("email")) {
                         return new EmailViewField(user.getEmail());
                     } else if (propertyId.equals("roleid")) {
                         if (Boolean.TRUE.equals(user.isAccountOwner())) {
                             return new DefaultViewField(UserUIContext.getMessage(RoleI18nEnum.OPT_ACCOUNT_OWNER));
                         } else {
-                            return new LinkViewField(user.getRoleName(), AccountLinkGenerator.generateRoleLink(user.getRoleid()));
+                            return new LinkViewField(user.getRoleName(), AccountLinkGenerator.generateRoleLink(user.getRoleId()));
                         }
                     } else if (propertyId.equals("website")) {
                         return new UrlLinkViewField(user.getWebsite());
-                    } else if (propertyId.equals("dateofbirth")) {
-                        return new DateViewField(user.getDateofbirth());
+                    } else if (propertyId.equals("birthday")) {
+                        return new DateViewField();
                     } else if (propertyId.equals("timezone")) {
                         return new DefaultViewField(TimezoneVal.getDisplayName(UserUIContext.getUserLocale(), user.getTimezone()));
                     } else if (propertyId.equals("facebookaccount")) {
@@ -202,8 +200,8 @@ public class UserReadViewImpl extends AbstractVerticalPageView implements UserRe
 
         private class FormLayoutFactory extends AbstractFormLayoutFactory {
 
-            private GridFormLayoutHelper contactLayout = GridFormLayoutHelper.defaultFormLayoutHelper(1, 5);
-            private GridFormLayoutHelper advancedInfoLayout = GridFormLayoutHelper.defaultFormLayoutHelper(1, 3);
+            private GridFormLayoutHelper contactLayout = GridFormLayoutHelper.defaultFormLayoutHelper(LayoutType.ONE_COLUMN);
+            private GridFormLayoutHelper advancedInfoLayout = GridFormLayoutHelper.defaultFormLayoutHelper(LayoutType.ONE_COLUMN);
 
             @Override
             public AbstractComponent getLayout() {
@@ -214,7 +212,7 @@ public class UserReadViewImpl extends AbstractVerticalPageView implements UserRe
             }
 
             @Override
-            protected Component onAttachField(Object propertyId, Field<?> field) {
+            protected HasValue<?> onAttachField(Object propertyId, HasValue<?> field) {
                 if (propertyId.equals("website")) {
                     return advancedInfoLayout.addComponent(field, UserUIContext.getMessage(UserI18nEnum.FORM_WEBSITE), 0, 0);
                 } else if (propertyId.equals("company")) {

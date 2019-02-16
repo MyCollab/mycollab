@@ -18,12 +18,13 @@ package com.mycollab.vaadin.web.ui;
 
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.web.CustomLayoutExt;
-import com.vaadin.server.FontAwesome;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Label;
+import org.vaadin.viritin.layouts.MCssLayout;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 /**
@@ -33,11 +34,11 @@ import org.vaadin.viritin.layouts.MHorizontalLayout;
 public class AddViewLayout extends CustomLayoutExt {
     private static final long serialVersionUID = 1L;
 
-    private FontAwesome viewIcon;
+    private VaadinIcons viewIcon;
     private Label titleLbl;
     private final MHorizontalLayout header;
 
-    public AddViewLayout(String viewTitle, FontAwesome viewIcon) {
+    public AddViewLayout(String viewTitle, VaadinIcons viewIcon) {
         super("addView");
 
         this.viewIcon = viewIcon;
@@ -81,9 +82,8 @@ public class AddViewLayout extends CustomLayoutExt {
 
     public void setTitle(final String title) {
         if (title != null) {
-            CssLayout titleWrap = new CssLayout();
-            titleWrap.setWidth("100%");
-            titleWrap.addComponent(ELabel.h3(title));
+            MCssLayout titleWrap = new MCssLayout().withFullWidth();
+            titleWrap.addComponent(ELabel.h3(title).withFullWidth());
             addComponent(titleWrap, "addViewTitle");
         } else {
             removeComponent("addViewTitle");

@@ -1,21 +1,22 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package com.mycollab.module.project.view.bug;
 
+import com.google.common.collect.Sets;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.db.arguments.SearchField;
@@ -37,19 +38,18 @@ import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.web.ui.*;
 import com.vaadin.event.ShortcutAction;
-import com.vaadin.server.FontAwesome;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.ui.*;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.fields.MTextField;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import static com.mycollab.common.i18n.QueryI18nEnum.CollectionI18nEnum;
-import static com.mycollab.common.i18n.QueryI18nEnum.StringI18nEnum;
+import static com.mycollab.common.i18n.QueryI18nEnum.CONTAINS;
+import static com.mycollab.common.i18n.QueryI18nEnum.IN;
 
 /**
  * @author MyCollab Ltd.
@@ -88,7 +88,7 @@ public class BugSearchPanel extends DefaultGenericSearchPanel<BugSearchCriteria>
                     EventBusFactory.getInstance().post(new ShellEvent.AddQueryParam(this, fieldInfos));
                 }
             });
-            ELabel taskIcon = ELabel.h2(ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG).getHtml()).withWidthUndefined();
+            ELabel taskIcon = ELabel.h2(ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG).getHtml()).withUndefinedWidth();
             return new MHorizontalLayout(taskIcon, savedFilterComboBox).expand(savedFilterComboBox).alignAll(Alignment.MIDDLE_LEFT);
         } else {
             return null;
@@ -136,7 +136,7 @@ public class BugSearchPanel extends DefaultGenericSearchPanel<BugSearchCriteria>
             Label nameLbl = new Label(UserUIContext.getMessage(GenericI18Enum.FORM_NAME) + ":");
             basicSearchBody.with(nameLbl).withAlign(nameLbl, Alignment.MIDDLE_LEFT);
 
-            nameField = new MTextField().withInputPrompt(UserUIContext.getMessage(GenericI18Enum.ACTION_QUERY_BY_TEXT))
+            nameField = new MTextField().withPlaceholder(UserUIContext.getMessage(GenericI18Enum.ACTION_QUERY_BY_TEXT))
                     .withWidth(WebUIConstants.DEFAULT_CONTROL_WIDTH);
             basicSearchBody.with(nameField).withAlign(nameLbl, Alignment.MIDDLE_CENTER);
 
@@ -144,7 +144,7 @@ public class BugSearchPanel extends DefaultGenericSearchPanel<BugSearchCriteria>
             basicSearchBody.with(myItemCheckbox).withAlign(myItemCheckbox, Alignment.MIDDLE_CENTER);
 
             MButton searchBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_SEARCH), clickEvent -> callSearchAction())
-                    .withIcon(FontAwesome.SEARCH).withStyleName(WebThemes.BUTTON_ACTION)
+                    .withIcon(VaadinIcons.SEARCH).withStyleName(WebThemes.BUTTON_ACTION)
                     .withClickShortcut(ShortcutAction.KeyCode.ENTER);
             basicSearchBody.with(searchBtn).withAlign(searchBtn, Alignment.MIDDLE_LEFT);
 
@@ -164,11 +164,11 @@ public class BugSearchPanel extends DefaultGenericSearchPanel<BugSearchCriteria>
         @Override
         protected BugSearchCriteria fillUpSearchCriteria() {
             List<SearchFieldInfo<BugSearchCriteria>> searchFieldInfos = new ArrayList<>();
-            searchFieldInfos.add(new SearchFieldInfo(SearchField.AND, BugSearchCriteria.p_textDesc, StringI18nEnum.CONTAINS.name(),
+            searchFieldInfos.add(new SearchFieldInfo(SearchField.AND, BugSearchCriteria.p_textDesc, CONTAINS.name(),
                     ConstantValueInjector.valueOf(nameField.getValue().trim())));
             if (myItemCheckbox.getValue()) {
-                searchFieldInfos.add(new SearchFieldInfo(SearchField.AND, BugSearchCriteria.p_assignee, CollectionI18nEnum.IN.name(),
-                        ConstantValueInjector.valueOf(Collections.singletonList(UserUIContext.getUsername()))));
+                searchFieldInfos.add(new SearchFieldInfo(SearchField.AND, BugSearchCriteria.p_assignee, IN.name(),
+                        ConstantValueInjector.valueOf(Sets.newHashSet(UserUIContext.getUsername()))));
             }
             EventBusFactory.getInstance().post(new ShellEvent.AddQueryParam(this, searchFieldInfos));
             searchCriteria = SearchFieldInfo.buildSearchCriteria(BugSearchCriteria.class,
@@ -198,7 +198,7 @@ public class BugSearchPanel extends DefaultGenericSearchPanel<BugSearchCriteria>
         @Override
         protected Component buildSelectionComp(String fieldId) {
             if ("assignuser".equals(fieldId)) {
-                return new ProjectMemberListSelect(false, Arrays.asList(CurrentProjectVariables.getProjectId()));
+                return new ProjectMemberListSelect(false, Collections.singletonList(CurrentProjectVariables.getProjectId()));
             } else if ("affected_versions".equals(fieldId)) {
                 return new VersionListSelect();
             } else if ("fixed_versions".equals(fieldId)) {
@@ -206,7 +206,8 @@ public class BugSearchPanel extends DefaultGenericSearchPanel<BugSearchCriteria>
             } else if ("components".equals(fieldId)) {
                 return new ComponentListSelect();
             } else if ("milestones".equals(fieldId)) {
-                return new MilestoneListSelect();
+                MilestoneListSelect select = new MilestoneListSelect();
+
             }
             return null;
         }

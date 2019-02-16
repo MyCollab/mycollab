@@ -1,22 +1,21 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package com.mycollab.module.project.view.milestone;
 
-import com.mycollab.common.ModuleNameConstants;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.core.MyCollabException;
 import com.mycollab.core.ResourceNotFoundException;
@@ -30,12 +29,11 @@ import com.mycollab.module.project.domain.Milestone;
 import com.mycollab.module.project.domain.SimpleMilestone;
 import com.mycollab.module.project.domain.criteria.MilestoneSearchCriteria;
 import com.mycollab.module.project.event.MilestoneEvent;
-import com.mycollab.module.project.event.UpdateNotificationItemReadStatusEvent;
 import com.mycollab.module.project.service.MilestoneService;
 import com.mycollab.module.project.view.ProjectBreadcrumb;
 import com.mycollab.module.project.view.ProjectGenericPresenter;
+import com.mycollab.module.project.view.ProjectView;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.spring.AppEventBus;
 import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.vaadin.UserUIContext;
@@ -96,7 +94,7 @@ public class MilestoneReadPresenter extends ProjectGenericPresenter<MilestoneRea
             public void onPrint(Object source, SimpleMilestone data) {
                 PrintButton btn = (PrintButton) source;
                 btn.doPrint(data, new FormReportLayout(ProjectTypeConstants.MILESTONE, Milestone.Field.name.name(),
-                        MilestoneDefaultFormLayoutFactory.getForm(), Milestone.Field.id.name(),
+                        MilestoneDefaultFormLayoutFactory.getAddForm(), Milestone.Field.id.name(),
                         Milestone.Field.saccountid.name()));
             }
 
@@ -146,20 +144,17 @@ public class MilestoneReadPresenter extends ProjectGenericPresenter<MilestoneRea
     @Override
     protected void onGo(HasComponents container, ScreenData<?> data) {
         if (CurrentProjectVariables.canRead(ProjectRolePermissionCollections.MILESTONES)) {
-            MilestoneContainer milestoneContainer = (MilestoneContainer) container;
-            milestoneContainer.navigateToContainer(ProjectTypeConstants.MILESTONE);
+            ProjectView projectView = (ProjectView) container;
+
             if (data.getParams() instanceof Integer) {
                 MilestoneService milestoneService = AppContextUtil.getSpringBean(MilestoneService.class);
                 SimpleMilestone milestone = milestoneService.findById((Integer) data.getParams(), AppUI.getAccountId());
                 if (milestone != null) {
-                    milestoneContainer.setContent(view);
+                    projectView.gotoSubView(ProjectView.MILESTONE_ENTRY, view);
                     view.previewItem(milestone);
 
                     ProjectBreadcrumb breadcrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);
                     breadcrumb.gotoMilestoneRead(milestone);
-
-                    AppEventBus.getInstance().post(new UpdateNotificationItemReadStatusEvent(UserUIContext.getUsername(),
-                            ModuleNameConstants.PRJ, ProjectTypeConstants.MILESTONE, milestone.getId().toString()));
                 } else {
                     throw new ResourceNotFoundException();
                 }

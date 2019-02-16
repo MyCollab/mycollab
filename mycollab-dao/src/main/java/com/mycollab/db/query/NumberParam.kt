@@ -16,7 +16,7 @@
  */
 package com.mycollab.db.query
 
-import com.mycollab.common.i18n.QueryI18nEnum.NumberI18nEnum.*
+import com.mycollab.common.i18n.QueryI18nEnum.*
 import com.mycollab.core.MyCollabException
 import com.mycollab.db.arguments.NoValueSearchField
 import com.mycollab.db.arguments.OneValueSearchField

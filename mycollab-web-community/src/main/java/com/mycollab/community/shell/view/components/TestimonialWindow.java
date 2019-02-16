@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -18,8 +18,8 @@ package com.mycollab.community.shell.view.components;
 
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.configuration.ServerConfiguration;
-import com.mycollab.configuration.SiteConfiguration;
 import com.mycollab.core.MyCollabException;
+import com.mycollab.form.view.LayoutType;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.support.domain.TestimonialForm;
 import com.mycollab.vaadin.UserUIContext;
@@ -29,8 +29,11 @@ import com.mycollab.vaadin.ui.AdvancedEditBeanForm;
 import com.mycollab.vaadin.ui.NotificationUtil;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
-import com.vaadin.server.FontAwesome;
-import com.vaadin.ui.*;
+import com.vaadin.data.HasValue;
+import com.vaadin.icons.VaadinIcons;
+import com.vaadin.ui.AbstractComponent;
+import com.vaadin.ui.Alignment;
+import com.vaadin.ui.TextArea;
 import org.springframework.http.converter.FormHttpMessageConverter;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -59,14 +62,14 @@ class TestimonialWindow extends MWindow {
 
             @Override
             public AbstractComponent getLayout() {
-                gridFormLayoutHelper = GridFormLayoutHelper.defaultFormLayoutHelper(2, 4);
+                gridFormLayoutHelper = GridFormLayoutHelper.defaultFormLayoutHelper(LayoutType.TWO_COLUMN);
                 return gridFormLayoutHelper.getLayout();
             }
 
             @Override
-            public Component onAttachField(Object propertyId, Field<?> field) {
+            public HasValue<?> onAttachField(Object propertyId, HasValue<?> field) {
                 if ("displayname".equals(propertyId)) {
-                    return gridFormLayoutHelper.addComponent(field, "Name", 0, 0, 2, "100%");
+                    return gridFormLayoutHelper.addComponent(field, "Name", 0, 0, 2);
                 } else if ("company".equals(propertyId)) {
                     return gridFormLayoutHelper.addComponent(field, "Company", 0, 1);
                 } else if ("jobrole".equals(propertyId)) {
@@ -76,14 +79,14 @@ class TestimonialWindow extends MWindow {
                 } else if ("email".equals(propertyId)) {
                     return gridFormLayoutHelper.addComponent(field, "Email", 1, 2);
                 } else if ("testimonial".equals(propertyId)) {
-                    return gridFormLayoutHelper.addComponent(field, "Testimonial", 0, 3, 2, "100%");
+                    return gridFormLayoutHelper.addComponent(field, "Testimonial", 0, 3, 2);
                 }
                 return null;
             }
         });
         editForm.setBeanFormFieldFactory(new AbstractBeanFieldGroupEditFieldFactory<TestimonialForm>(editForm) {
             @Override
-            protected Field<?> onCreateField(Object propertyId) {
+            protected HasValue<?> onCreateField(Object propertyId) {
                 if ("testimonial".equals(propertyId)) {
                     return new TextArea();
                 }
@@ -118,7 +121,7 @@ class TestimonialWindow extends MWindow {
                 }
                 close();
             }
-        }).withStyleName(WebThemes.BUTTON_ACTION).withIcon(FontAwesome.MAIL_FORWARD);
+        }).withStyleName(WebThemes.BUTTON_ACTION).withIcon(VaadinIcons.PAPERPLANE);
 
         MHorizontalLayout buttonControls = new MHorizontalLayout(cancelBtn, submitBtn).withMargin(true);
         content.with(buttonControls).withAlign(buttonControls, Alignment.MIDDLE_RIGHT);

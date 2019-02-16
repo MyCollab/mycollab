@@ -17,12 +17,12 @@
 package com.mycollab.module.project.view.parameters
 
 import com.mycollab.vaadin.mvp.ScreenData
-import java.util.*
+import java.time.LocalDate
 
 /**
  * @author MyCollab Ltd
  * @since 6.0.0
  */
 object StandupScreenData {
-    class Search(param: Date) : ScreenData<Date>(param)
+    class Search(param: LocalDate) : ScreenData<LocalDate>(param)
 }

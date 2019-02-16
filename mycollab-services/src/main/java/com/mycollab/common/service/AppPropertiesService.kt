@@ -16,7 +16,7 @@
  */
 package com.mycollab.common.service
 
-import java.util.Date
+import java.time.LocalDate
 
 /**
  * @author MyCollab Ltd
@@ -25,7 +25,7 @@ import java.util.Date
 interface AppPropertiesService {
     val sysId: String
 
-    val startDate: Date
+    val startDate: LocalDate
 
     val edition: String
 }

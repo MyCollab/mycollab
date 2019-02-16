@@ -35,7 +35,10 @@ interface TagService : ICrudService<Int, Tag> {
     fun findTagsInAccount(name: String, types: Array<String>, @CacheKey accountId: Int?): List<Tag>?
 
     @Cacheable
-    fun findTagsInProject(projectId: Int, @CacheKey accountId: Int): List<AggregateTag>?
+    fun findTagsInProject(projectId: Int, @CacheKey accountId: Int): List<Tag>?
+
+    @Cacheable
+    fun findAggregateTagsInProject(projectId: Int, @CacheKey accountId: Int): List<AggregateTag>?
 
     fun deleteByExample(example: TagExample): Int?
 }

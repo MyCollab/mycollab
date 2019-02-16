@@ -147,15 +147,15 @@ a {
 	background-color: #EB7F0C;
 }
 
-.v-button-greenbtn {
+.v-button-action-button {
 	background-color: #7EDA62;
 }
 
-.v-button-graybtn {
+.v-button-option-button {
 	background-color: #D1D1D1;
 	color: #777;
 }
-.v-button-graybtn span {
+.v-button-option-button span {
 	color: #777;
 }
 

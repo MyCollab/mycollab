@@ -48,7 +48,7 @@ public class DataSourceFactoryBean extends AbstractFactoryBean<DataSource> {
         TestDbConfiguration dbConf = new TestDbConfiguration();
         HikariConfig config = new HikariConfig();
         config.setMaximumPoolSize(20);
-        config.setDriverClassName(dbConf.getDriverClassName());
+//        config.setDriverClassName(dbConf.getDriverClassName());
         config.setJdbcUrl(dbConf.getJdbcUrl());
         config.addDataSourceProperty("user", dbConf.getUsername());
         config.addDataSourceProperty("password", dbConf.getPassword());

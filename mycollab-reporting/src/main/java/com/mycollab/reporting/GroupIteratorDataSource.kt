@@ -65,15 +65,16 @@ class GroupIteratorDataSource<SearchService : ISearchableService<S>, S : SearchC
     }
 
     @Throws(JRException::class)
-    override fun getFieldValue(jrField: JRField): Any = try {
+    override fun getFieldValue(jrField: JRField): Any? = try {
         val fieldName = jrField.name
         PropertyUtils.getProperty(currentItem, fieldName)
     } catch (e: Exception) {
+        LOG.error("Error will getting field ${jrField.name}", e)
         throw JRException(e)
     }
 
     companion object {
-        private val ITEMS_PER_PAGE = 20
+        private const val ITEMS_PER_PAGE = 20
         private val LOG = LoggerFactory.getLogger(GroupIteratorDataSource::class.java)
     }
 }

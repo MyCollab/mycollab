@@ -22,13 +22,14 @@ import com.mycollab.vaadin.UserUIContext
 import com.mycollab.vaadin.event.HasMassItemActionHandler
 import com.mycollab.vaadin.event.MassItemActionHandler
 import com.mycollab.vaadin.event.ViewItemAction
+import com.mycollab.vaadin.web.ui.ButtonGroup
 import com.mycollab.vaadin.web.ui.WebThemes
+import com.vaadin.icons.VaadinIcons
 import com.vaadin.server.FileDownloader
-import com.vaadin.server.FontAwesome
 import com.vaadin.server.Resource
 import com.vaadin.server.StreamResource
+import com.vaadin.shared.ui.MarginInfo
 import com.vaadin.ui.Button
-import org.vaadin.peter.buttongroup.ButtonGroup
 import org.vaadin.viritin.button.MButton
 import org.vaadin.viritin.layouts.MHorizontalLayout
 import java.io.InputStream
@@ -41,6 +42,10 @@ class DefaultMassItemActionHandlerContainer : MHorizontalLayout(), HasMassItemAc
     private var actionHandler: MassItemActionHandler? = null
     private val groupMap = mutableMapOf<String, ButtonGroup>()
 
+    init {
+        this.margin = MarginInfo(false, true, false, true)
+    }
+
     /**
      *
      * @param id
@@ -52,10 +57,10 @@ class DefaultMassItemActionHandlerContainer : MHorizontalLayout(), HasMassItemAc
         var group = groupMap[groupId]
         if (group == null) {
             group = ButtonGroup()
-            groupMap.put(groupId, group)
+            groupMap[groupId] = group
             this.addComponent(group)
         }
-        val optionBtn = MButton("", Button.ClickListener() {
+        val optionBtn = MButton("", Button.ClickListener {
         }).withIcon(resource).withStyleName(WebThemes.BUTTON_SMALL_PADDING).withDescription(description)
         when (groupId) {
             "delete" -> optionBtn.addStyleName(WebThemes.BUTTON_DANGER)
@@ -65,30 +70,30 @@ class DefaultMassItemActionHandlerContainer : MHorizontalLayout(), HasMassItemAc
     }
 
     fun addDeleteActionItem() {
-        addActionItem(ViewItemAction.DELETE_ACTION, FontAwesome.TRASH_O, "delete", UserUIContext.getMessage(GenericI18Enum.BUTTON_DELETE))
+        addActionItem(ViewItemAction.DELETE_ACTION, VaadinIcons.TRASH, "delete", UserUIContext.getMessage(GenericI18Enum.BUTTON_DELETE))
     }
 
     fun addMailActionItem() {
-        addActionItem(ViewItemAction.MAIL_ACTION, FontAwesome.ENVELOPE_O, "mail", UserUIContext.getMessage(GenericI18Enum.BUTTON_MAIL))
+        addActionItem(ViewItemAction.MAIL_ACTION, VaadinIcons.ENVELOPE_O, "mail", UserUIContext.getMessage(GenericI18Enum.BUTTON_MAIL))
     }
 
     fun addMassUpdateActionItem() {
-        addActionItem(ViewItemAction.MASS_UPDATE_ACTION, FontAwesome.DATABASE, "update",
+        addActionItem(ViewItemAction.MASS_UPDATE_ACTION, VaadinIcons.DATABASE, "update",
                 UserUIContext.getMessage(GenericI18Enum.TOOLTIP_MASS_UPDATE))
     }
 
     fun addDownloadPdfActionItem() {
-        addDownloadActionItem(ReportExportType.PDF, FontAwesome.FILE_PDF_O,
+        addDownloadActionItem(ReportExportType.PDF, VaadinIcons.FILE_O,
                 "export", "export.pdf", UserUIContext.getMessage(GenericI18Enum.BUTTON_EXPORT_PDF))
     }
 
     fun addDownloadExcelActionItem() {
-        addDownloadActionItem(ReportExportType.EXCEL, FontAwesome.FILE_EXCEL_O,
+        addDownloadActionItem(ReportExportType.EXCEL, VaadinIcons.FILE_TABLE,
                 "export", "export.xlsx", UserUIContext.getMessage(GenericI18Enum.BUTTON_EXPORT_EXCEL))
     }
 
     fun addDownloadCsvActionItem() {
-        addDownloadActionItem(ReportExportType.CSV, FontAwesome.FILE_TEXT_O,
+        addDownloadActionItem(ReportExportType.CSV, VaadinIcons.FILE_TEXT_O,
                 "export", "export.csv", UserUIContext.getMessage(GenericI18Enum.BUTTON_EXPORT_CSV))
     }
 
@@ -104,7 +109,7 @@ class DefaultMassItemActionHandlerContainer : MHorizontalLayout(), HasMassItemAc
         var group = groupMap[groupId]
         if (group == null) {
             group = ButtonGroup()
-            groupMap.put(groupId, group)
+            groupMap[groupId] = group
             this.addComponent(group)
         }
         val optionBtn = MButton("").withIcon(resource).withStyleName(WebThemes.BUTTON_ACTION, WebThemes.BUTTON_SMALL_PADDING)
@@ -134,9 +139,9 @@ class DefaultMassItemActionHandlerContainer : MHorizontalLayout(), HasMassItemAc
         actionHandler = handler
     }
 
-    inner private class DownloadStreamSource(val container: DefaultMassItemActionHandlerContainer,
+    private inner class DownloadStreamSource(val container: DefaultMassItemActionHandlerContainer,
                                              val exportType: ReportExportType) : StreamResource.StreamSource {
-        override fun getStream(): InputStream = container.buildStreamResource(exportType)!!.getStreamSource().getStream()
+        override fun getStream(): InputStream = container.buildStreamResource(exportType)!!.streamSource.stream
     }
 
 }

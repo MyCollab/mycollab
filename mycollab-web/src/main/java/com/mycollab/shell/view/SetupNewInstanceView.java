@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -19,6 +19,7 @@ package com.mycollab.shell.view;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.i18n.ShellI18nEnum;
 import com.mycollab.core.utils.StringUtils;
+import com.mycollab.form.view.LayoutType;
 import com.mycollab.module.user.accountsettings.localization.AdminI18nEnum;
 import com.mycollab.module.user.dao.BillingAccountMapper;
 import com.mycollab.module.user.domain.BillingAccount;
@@ -31,19 +32,19 @@ import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.NotificationUtil;
+import com.mycollab.vaadin.ui.field.DateFormatField;
 import com.mycollab.vaadin.web.ui.TimeZoneSelectionField;
 import com.mycollab.vaadin.web.ui.WebThemes;
-import com.mycollab.vaadin.ui.field.DateFormatField;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.mycollab.web.DesktopApplication;
 import com.vaadin.ui.*;
-import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 import org.vaadin.viritin.button.MButton;
+import org.vaadin.viritin.layouts.MCssLayout;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
@@ -52,19 +53,18 @@ import java.util.TimeZone;
  * @author MyCollab Ltd
  * @since 5.3.0
  */
-class SetupNewInstanceView extends MVerticalLayout {
+class SetupNewInstanceView extends MHorizontalLayout {
     SetupNewInstanceView() {
+        this.withFullSize().withStyleName(WebThemes.SCROLLABLE_CONTAINER);
         this.setDefaultComponentAlignment(Alignment.TOP_CENTER);
-        MHorizontalLayout content = new MHorizontalLayout().withFullHeight();
-        this.with(content);
-        content.with(new MHorizontalLayout(ELabel.html(UserUIContext.getMessage(ShellI18nEnum.OPT_SUPPORTED_LANGUAGES_INTRO))
-                .withStyleName(WebThemes.META_COLOR)).withMargin(true).withWidth("400px").withStyleName("separator"));
+        this.with(new MHorizontalLayout(ELabel.html(UserUIContext.getMessage(ShellI18nEnum.OPT_SUPPORTED_LANGUAGES_INTRO))
+                .withStyleName(WebThemes.META_COLOR).withFullWidth()).withMargin(true).withWidth("400px").withStyleName(WebThemes.ALIGN_RIGHT, "separator"));
         MVerticalLayout formLayout = new MVerticalLayout().withWidth("600px");
-        content.with(formLayout).withAlign(formLayout, Alignment.TOP_LEFT);
-        formLayout.with(ELabel.h2("Last step, you are almost there!").withWidthUndefined());
-        formLayout.with(ELabel.h3("All fields are required *").withStyleName("overdue").withWidthUndefined());
+        this.with(formLayout).withAlign(formLayout, Alignment.TOP_LEFT);
+        formLayout.with(ELabel.h2("Last step, you are almost there!").withUndefinedWidth());
+        formLayout.with(ELabel.h3("All fields are required *").withStyleName("overdue").withUndefinedWidth());
 
-        GridFormLayoutHelper formLayoutHelper = GridFormLayoutHelper.defaultFormLayoutHelper(2, 8, "200px");
+        GridFormLayoutHelper formLayoutHelper = GridFormLayoutHelper.defaultFormLayoutHelper(LayoutType.TWO_COLUMN);
         formLayoutHelper.getLayout().setWidth("600px");
         final TextField adminField = formLayoutHelper.addComponent(new TextField(), "Admin email", 0, 0);
         final PasswordField passwordField = formLayoutHelper.addComponent(new PasswordField(), "Admin password", 0, 1);
@@ -139,8 +139,8 @@ class SetupNewInstanceView extends MVerticalLayout {
 
     private boolean isValidDayPattern(String dateFormat) {
         try {
-            DateTimeFormatter formatter = DateTimeFormat.forPattern(dateFormat);
-            formatter.print(new DateTime());
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern(dateFormat);
+            formatter.format(LocalDateTime.now());
             return true;
         } catch (Exception e) {
             return false;

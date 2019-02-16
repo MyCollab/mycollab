@@ -21,6 +21,7 @@ import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.service.CommentService;
 import com.mycollab.core.UserInvalidInputException;
 import com.mycollab.core.utils.StringUtils;
+import com.mycollab.form.view.LayoutType;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.event.BugEvent;
@@ -42,14 +43,15 @@ import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.*;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
+import com.vaadin.data.HasValue;
 import com.vaadin.event.ShortcutAction.KeyCode;
-import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import org.apache.commons.collections.CollectionUtils;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
+import org.vaadin.viritin.layouts.MVerticalLayout;
 
-import java.util.GregorianCalendar;
+import java.time.LocalDateTime;
 
 import static com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 
@@ -84,8 +86,8 @@ public class ResolvedInputForm extends AdvancedEditBeanForm<SimpleBug> {
 
         @Override
         public AbstractComponent getLayout() {
-            final VerticalLayout layout = new VerticalLayout();
-            informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 6);
+            MVerticalLayout layout = new MVerticalLayout();
+            informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(LayoutType.TWO_COLUMN);
             layout.addComponent(informationLayout.getLayout());
 
             MButton resolveBtn = new MButton(UserUIContext.getMessage(BugI18nEnum.BUTTON_RESOLVED), clickEvent -> {
@@ -128,7 +130,7 @@ public class ResolvedInputForm extends AdvancedEditBeanForm<SimpleBug> {
                     if (StringUtils.isNotBlank(commentValue)) {
                         CommentWithBLOBs comment = new CommentWithBLOBs();
                         comment.setComment(commentValue);
-                        comment.setCreatedtime(new GregorianCalendar().getTime());
+                        comment.setCreatedtime(LocalDateTime.now());
                         comment.setCreateduser(UserUIContext.getUsername());
                         comment.setSaccountid(AppUI.getAccountId());
                         comment.setType(ProjectTypeConstants.BUG);
@@ -147,16 +149,15 @@ public class ResolvedInputForm extends AdvancedEditBeanForm<SimpleBug> {
             MButton cancelBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> postExecution())
                     .withStyleName(WebThemes.BUTTON_OPTION);
 
-            final MHorizontalLayout controlsBtn = new MHorizontalLayout(cancelBtn, resolveBtn).withMargin(new MarginInfo(true, true, false, false));
-            layout.addComponent(controlsBtn);
-            layout.setComponentAlignment(controlsBtn, Alignment.MIDDLE_RIGHT);
+            final MHorizontalLayout controlsBtn = new MHorizontalLayout(cancelBtn, resolveBtn);
+            layout.with(controlsBtn).withAlign(controlsBtn, Alignment.MIDDLE_RIGHT);
 
             return layout;
         }
 
         @Override
-        protected Component onAttachField(Object propertyId, Field<?> field) {
-            if (propertyId.equals("resolution")) {
+        protected HasValue<?> onAttachField(Object propertyId, HasValue<?> field) {
+            if (BugWithBLOBs.Field.resolution.equalTo(propertyId)) {
                 return informationLayout.addComponent(field, UserUIContext.getMessage(BugI18nEnum.FORM_RESOLUTION),
                         UserUIContext.getMessage(BugI18nEnum.FORM_RESOLUTION_HELP), 0, 0);
             } else if (propertyId.equals("assignuser")) {
@@ -165,7 +166,7 @@ public class ResolvedInputForm extends AdvancedEditBeanForm<SimpleBug> {
                 return informationLayout.addComponent(field, UserUIContext.getMessage(BugI18nEnum.FORM_FIXED_VERSIONS),
                         UserUIContext.getMessage(BugI18nEnum.FORM_FIXED_VERSIONS_HELP), 0, 2);
             } else if (propertyId.equals("comment")) {
-                return informationLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.OPT_COMMENT), 0, 3, 2, "100%");
+                return informationLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.OPT_COMMENT), 0, 3, 2);
             }
             return null;
         }
@@ -174,13 +175,13 @@ public class ResolvedInputForm extends AdvancedEditBeanForm<SimpleBug> {
     private class EditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<SimpleBug> {
         private static final long serialVersionUID = 1L;
 
-        public EditFormFieldFactory(GenericBeanForm<SimpleBug> form) {
+        EditFormFieldFactory(GenericBeanForm<SimpleBug> form) {
             super(form);
         }
 
         @Override
-        protected Field<?> onCreateField(final Object propertyId) {
-            if (propertyId.equals("resolution")) {
+        protected HasValue<?> onCreateField(final Object propertyId) {
+            if (BugWithBLOBs.Field.resolution.equalTo(propertyId)) {
                 if (StringUtils.isBlank(bean.getResolution()) || UserUIContext.getMessage(BugResolution.None).equals(bug.getResolution())) {
                     bean.setResolution(BugResolution.Fixed.name());
                 }
@@ -196,28 +197,27 @@ public class ResolvedInputForm extends AdvancedEditBeanForm<SimpleBug> {
                 return fixedVersionSelect;
             } else if (propertyId.equals("comment")) {
                 commentArea = new RichTextArea();
-                commentArea.setNullRepresentation("");
                 return commentArea;
             }
 
             return null;
         }
 
-        private class ResolutionField extends CompoundCustomField<BugWithBLOBs> {
+        private class ResolutionField extends CustomField<String> {
             private MHorizontalLayout layout;
             private BugResolutionComboBox resolutionComboBox;
 
             ResolutionField() {
                 resolutionComboBox = BugResolutionComboBox.getInstanceForResolvedBugWindow();
+                resolutionComboBox.setValueByString(bean.getResolution());
             }
 
             @Override
             protected Component initContent() {
                 layout = new MHorizontalLayout(resolutionComboBox);
-                fieldGroup.bind(resolutionComboBox, BugWithBLOBs.Field.resolution.name());
                 resolutionComboBox.addValueChangeListener(valueChangeEvent -> {
-                    String value = (String) resolutionComboBox.getValue();
-                    if (BugResolution.Duplicate.name().equals(value)) {
+                    BugResolution value = resolutionComboBox.getValue();
+                    if (BugResolution.Duplicate == value) {
                         bugSelectionField = new BugSelectionField();
                         layout.with(new Label(" with "), bugSelectionField);
                     } else {
@@ -231,8 +231,13 @@ public class ResolvedInputForm extends AdvancedEditBeanForm<SimpleBug> {
             }
 
             @Override
-            public Class<? extends BugWithBLOBs> getType() {
-                return BugWithBLOBs.class;
+            protected void doSetValue(String value) {
+                resolutionComboBox.setValueByString(value);
+            }
+
+            @Override
+            public String getValue() {
+                return resolutionComboBox.getValue().name();
             }
         }
     }

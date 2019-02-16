@@ -16,8 +16,8 @@
  */
 package com.mycollab.module.project.view.parameters
 
-import com.mycollab.module.crm.domain.Account
-import com.mycollab.module.crm.domain.criteria.AccountSearchCriteria
+import com.mycollab.common.domain.Client
+import com.mycollab.common.domain.criteria.ClientSearchCriteria
 import com.mycollab.vaadin.mvp.ScreenData
 
 /**
@@ -27,7 +27,9 @@ import com.mycollab.vaadin.mvp.ScreenData
 object ClientScreenData {
     class Read(params: Int) : ScreenData<Int>(params)
 
-    class Add(param: Account) : ScreenData<Account>(param)
+    class Add(param: Client) : ScreenData<Client>(param)
 
-    class Search(param: AccountSearchCriteria) : ScreenData<AccountSearchCriteria>(param)
+    class Edit(param: Client) : ScreenData<Client>(param)
+
+    class Search(param: ClientSearchCriteria?) : ScreenData<ClientSearchCriteria>(param)
 }

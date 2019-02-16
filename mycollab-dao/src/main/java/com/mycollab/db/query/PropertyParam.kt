@@ -16,9 +16,7 @@
  */
 package com.mycollab.db.query
 
-import com.mycollab.common.i18n.QueryI18nEnum.StringI18nEnum
-import com.mycollab.common.i18n.QueryI18nEnum.StringI18nEnum.IS
-import com.mycollab.common.i18n.QueryI18nEnum.StringI18nEnum.IS_NOT
+import com.mycollab.common.i18n.QueryI18nEnum.*
 import com.mycollab.core.MyCollabException
 import com.mycollab.db.arguments.OneValueSearchField
 import com.mycollab.db.arguments.SearchField
@@ -30,7 +28,7 @@ import com.mycollab.db.arguments.SearchField
 class PropertyParam(id: String, table: String, column: String) : ColumnParam(id, table, column) {
 
     fun buildSearchField(prefixOper: String, compareOper: String, value: Any): SearchField {
-        val compareValue = StringI18nEnum.valueOf(compareOper)
+        val compareValue = valueOf(compareOper)
         return when (compareValue) {
             IS -> buildPropertyIs(prefixOper, value)
             IS_NOT -> buildPropertyIsNot(prefixOper, value)

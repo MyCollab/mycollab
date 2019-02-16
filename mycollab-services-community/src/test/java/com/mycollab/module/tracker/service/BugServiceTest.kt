@@ -21,16 +21,17 @@ import com.mycollab.module.tracker.domain.BugWithBLOBs
 import com.mycollab.module.tracker.domain.SimpleBug
 import com.mycollab.module.tracker.domain.criteria.BugSearchCriteria
 import com.mycollab.test.DataSet
+import com.mycollab.test.rule.DbUnitInitializerRule
 import com.mycollab.test.spring.IntegrationServiceTest
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.tuple
-import org.junit.Test
-import org.junit.runner.RunWith
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner
-import java.util.*
+import org.springframework.test.context.junit.jupiter.SpringExtension
+import java.time.LocalDate
 
-@RunWith(SpringJUnit4ClassRunner::class)
+@ExtendWith(SpringExtension::class, DbUnitInitializerRule::class)
 class BugServiceTest : IntegrationServiceTest() {
 
     @Autowired
@@ -68,11 +69,8 @@ class BugServiceTest : IntegrationServiceTest() {
     @Test
     fun testGetExtBug() {
         val bug = bugService.findById(1, 1)
-        assertThat(bug!!.loguserFullName).isEqualTo("Nguyen Hai")
-        assertThat(bug.assignuserFullName).isEqualTo("Nguyen Hai")
-        assertThat(bug.affectedVersions!!.size).isEqualTo(1)
-        assertThat(bug.fixedVersions!!.size).isEqualTo(2)
-        assertThat(bug.components!!.size).isEqualTo(1)
+        assertThat(bug).extracting("loguserFullName", "assignuserFullName", "affectedVersions.size", "fixedVersions.size", "components.size")
+                .contains("Nguyen Hai", "Nguyen Hai", 1, 2, 1)
     }
 
     @DataSet
@@ -124,12 +122,9 @@ class BugServiceTest : IntegrationServiceTest() {
     @Test
     fun testSearchByDateCriteria2() {
         val criteria = BugSearchCriteria()
-        val date = GregorianCalendar()
-        date.set(Calendar.YEAR, 2009)
-        date.set(Calendar.MONTH, 0)
-        date.set(Calendar.DAY_OF_MONTH, 2)
+        val date = LocalDate.of(2009, 1, 2)
 
-        criteria.updatedDate = DateSearchField(date.time)
+        criteria.updatedDate = DateSearchField(date, DateSearchField.EQUAL)
 
         assertThat(bugService.findPageableListByCriteria(BasicSearchRequest(criteria, 0, Integer.MAX_VALUE)).size).isEqualTo(0)
     }
@@ -152,7 +147,8 @@ class BugServiceTest : IntegrationServiceTest() {
         bug.projectid = 1
         bug.saccountid = 1
         val bugId = bugService.saveWithSession(bug, "admin")
+
         val expectedBug = bugService.findById(bugId, 1);
-        assertThat(expectedBug!!.name).isEqualTo("summary4")
+        assertThat(expectedBug).extracting("name").contains("summary4")
     }
 }

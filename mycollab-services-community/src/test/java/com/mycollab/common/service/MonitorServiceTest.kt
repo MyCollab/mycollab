@@ -19,17 +19,18 @@ package com.mycollab.common.service
 import com.mycollab.common.domain.MonitorItem
 import com.mycollab.module.project.ProjectTypeConstants
 import com.mycollab.test.DataSet
+import com.mycollab.test.rule.DbUnitInitializerRule
 import com.mycollab.test.spring.IntegrationServiceTest
-import org.junit.Test
-import org.junit.runner.RunWith
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner
+import org.springframework.test.context.junit.jupiter.SpringExtension
+import java.time.LocalDateTime
+import java.util.*
 
-import java.util.ArrayList
-import java.util.GregorianCalendar
-
-@RunWith(SpringJUnit4ClassRunner::class)
+@ExtendWith(SpringExtension::class, DbUnitInitializerRule::class)
 class MonitorServiceTest : IntegrationServiceTest() {
+
     @Autowired
     private lateinit var monitorItemService: MonitorItemService
 
@@ -37,12 +38,12 @@ class MonitorServiceTest : IntegrationServiceTest() {
     @DataSet
     fun testSaveBatchMonitor() {
         val mon1 = MonitorItem()
-        mon1.monitorDate = GregorianCalendar().time
+        mon1.createdtime = LocalDateTime.now()
         mon1.saccountid = 1
         mon1.type = ProjectTypeConstants.BUG
-        mon1.typeid = 1
+        mon1.typeid = "1"
         mon1.extratypeid = 1
-        mon1.user = "hainguyen"
+        mon1.username = "hainguyen"
         val items = ArrayList<MonitorItem>()
         items.add(mon1)
         monitorItemService.saveMonitorItems(items)

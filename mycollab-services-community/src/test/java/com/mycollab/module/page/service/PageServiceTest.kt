@@ -21,21 +21,21 @@ import com.mycollab.module.page.domain.Page
 import com.mycollab.test.spring.IntegrationServiceTest
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.tuple
-import org.junit.After
-import org.junit.Before
-import org.junit.Test
-import org.junit.runner.RunWith
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner
+import org.springframework.test.context.junit.jupiter.SpringExtension
 import javax.jcr.RepositoryException
 
-@RunWith(SpringJUnit4ClassRunner::class)
+@ExtendWith(SpringExtension::class)
 class PageServiceTest : IntegrationServiceTest() {
 
     @Autowired
     private lateinit var pageService: PageService
 
-    @Before
+    @BeforeEach
     fun setup() {
         val page = Page()
         page.createdUser = "hainguyen@esofthead.com"
@@ -47,7 +47,7 @@ class PageServiceTest : IntegrationServiceTest() {
         pageService.savePage(page, "hainguyen@esofthead.com")
     }
 
-    @After
+    @AfterEach
     fun tearDown() {
         pageService.removeResource("")
     }

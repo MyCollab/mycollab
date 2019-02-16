@@ -19,6 +19,7 @@ package com.mycollab.module.project.domain
 import com.mycollab.core.utils.DateTimeUtils
 import com.mycollab.core.utils.StringUtils
 import com.mycollab.module.project.i18n.OptionI18nEnum.MilestoneStatus
+import java.time.LocalDate
 
 /**
  * @author MyCollab Ltd.
@@ -52,14 +53,13 @@ class SimpleMilestone : Milestone() {
     var totalBugBillableHours: Double? = null
     var totalBugNonBillableHours: Double? = null
 
-    var projectShortName: String? = null
+    lateinit var projectShortName: String
     var projectName: String? = null
 
     val isOverdue: Boolean
         get() {
             if (MilestoneStatus.Closed.name != status) {
-                val now = DateTimeUtils.getCurrentDateWithoutMS()
-                return enddate != null && enddate.before(now)
+                return enddate != null && enddate.isBefore(LocalDate.now())
             }
 
             return false

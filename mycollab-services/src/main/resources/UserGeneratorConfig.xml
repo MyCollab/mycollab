@@ -7,9 +7,15 @@
     <context id="MySQL" targetRuntime="MyBatis3">
 
         <plugin type="com.mycollab.mybatis.plugin.MyCollabModelFilePlugin"/>
+        <plugin type="org.mybatis.generator.plugins.FluentBuilderMethodsPlugin" />
+        <plugin type="org.mybatis.generator.plugins.MapperAnnotationPlugin" />
 
         <jdbcConnection connectionURL="jdbc:mysql://localhost:3306/mycollab?verifyServerCertificate=false"
-                        driverClass="com.mysql.jdbc.Driver" password="mycollab123" userId="root"/>
+                        driverClass="com.mysql.cj.jdbc.Driver" password="mycollab123" userId="root"/>
+
+        <javaTypeResolver>
+            <property name="useJSR310Types" value="true"/>
+        </javaTypeResolver>
 
         <javaModelGenerator targetPackage="com.mycollab.module.user.domain" targetProject="src/main/java">
             <property name="rootClass" value="com.mycollab.core.arguments.ValuedBean"/>
@@ -22,8 +28,6 @@
             <property name="rootInterface" value="com.mycollab.db.persistence.ICrudGenericDAO"/>
         </javaClientGenerator>
 
-        <table schema="mycollab" tableName="m_group" domainObjectName="Group"/>
-        <table schema="mycollab" tableName="m_group_user" domainObjectName="GroupUser"/>
         <table schema="mycollab" tableName="s_account" domainObjectName="BillingAccount"/>
         <table schema="mycollab" tableName="s_billing_plan" domainObjectName="BillingPlan"/>
         <table schema="mycollab" tableName="s_roles" domainObjectName="Role"/>

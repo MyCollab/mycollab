@@ -17,8 +17,6 @@
 package com.mycollab.shell.view
 
 import com.mycollab.core.utils.StringUtils
-import com.mycollab.module.crm.view.CrmUrlResolver
-import com.mycollab.module.file.view.FileUrlResolver
 import com.mycollab.module.project.view.ProjectUrlResolver
 import com.mycollab.module.user.accountsettings.view.AccountSettingUrlResolver
 import com.mycollab.vaadin.mvp.UrlResolver
@@ -34,10 +32,8 @@ class ShellUrlResolver : UrlResolver() {
     }
 
     init {
-        this.addSubResolver("crm", CrmUrlResolver().build())
         this.addSubResolver("project", ProjectUrlResolver().build())
         this.addSubResolver("account", AccountSettingUrlResolver().build())
-        this.addSubResolver("document", FileUrlResolver().build())
     }
 
     fun resolveFragment(newFragmentUrl: String) {

@@ -51,7 +51,7 @@ import com.mycollab.security.PermissionMap
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import java.util.*
+import java.time.LocalDateTime
 
 /**
  * @author MyCollab Ltd.
@@ -91,18 +91,8 @@ class ProjectServiceImpl(private val projectMapper: ProjectMapper,
         assertExistProjectShortnameInAccount(null, record.shortname, record.saccountid)
         val projectId = savePlainProject(record, username)
 
-        // Add the first user to project
-        val projectMember = ProjectMember()
-        projectMember.isadmin = java.lang.Boolean.TRUE
-        projectMember.status = ProjectMemberStatusConstants.ACTIVE
-        projectMember.joindate = GregorianCalendar().time
-        projectMember.projectid = projectId
-        projectMember.username = username
-        projectMember.saccountid = record.saccountid
-        projectMemberMapper.insert(projectMember)
-
         // add client role to project
-        val clientRole = createProjectRole(projectId, record.saccountid, "Client", "Default role for client")
+        val clientRole = createProjectRole(projectId, record.saccountid, "Client", "Default role for client", false)
 
         val clientRoleId = projectRoleService.saveWithSession(clientRole, username)
 
@@ -126,7 +116,7 @@ class ProjectServiceImpl(private val projectMapper: ProjectMapper,
         // add consultant role to project
         LOG.debug("Add consultant role to project ${record.name}")
         val consultantRole = createProjectRole(projectId, record.saccountid, "Consultant",
-                "Default role for consultant")
+                "Default role for consultant", false)
         val consultantRoleId = projectRoleService.saveWithSession(consultantRole, username)
 
         val permissionMapConsultant = PermissionMap()
@@ -152,7 +142,7 @@ class ProjectServiceImpl(private val projectMapper: ProjectMapper,
 
         // add admin role to project
         LOG.debug("Add admin role to project ${record.name}")
-        val adminRole = createProjectRole(projectId, record.saccountid, "Admin", "Default role for admin")
+        val adminRole = createProjectRole(projectId, record.saccountid, "Admin", "Default role for admin", true)
         val adminRoleId = projectRoleService.saveWithSession(adminRole, username)
 
         val permissionMapAdmin = PermissionMap()
@@ -167,6 +157,17 @@ class ProjectServiceImpl(private val projectMapper: ProjectMapper,
                     }
                 }
         projectRoleService.savePermission(projectId, adminRoleId, permissionMapAdmin, record.saccountid)
+
+        // Add the first user to project
+        val projectMember = ProjectMember()
+        projectMember.projectid = adminRoleId
+        projectMember.status = ProjectMemberStatusConstants.ACTIVE
+        projectMember.createdtime = LocalDateTime.now()
+        projectMember.projectid = projectId
+        projectMember.username = username
+        projectMember.saccountid = record.saccountid
+        projectMember.projectroleid = adminRoleId
+        projectMemberMapper.insert(projectMember)
 
         //Do async task to create some post data after project is created
         val event = AddProjectEvent(projectId, record.saccountid)
@@ -187,27 +188,34 @@ class ProjectServiceImpl(private val projectMapper: ProjectMapper,
         }
     }
 
-    private fun createProjectRole(projectId: Int?, sAccountId: Int?, roleName: String, description: String): ProjectRole {
+    private fun createProjectRole(projectId: Int?, sAccountId: Int?, roleName: String, description: String, isSystemRole: Boolean): ProjectRole {
         val projectRole = ProjectRole()
         projectRole.projectid = projectId
         projectRole.saccountid = sAccountId
         projectRole.rolename = roleName
         projectRole.description = description
+        projectRole.issystemrole = isSystemRole;
         return projectRole
     }
 
-    override fun findById(projectId: Int, sAccountId: Int): SimpleProject =
-            projectMapperExt.findProjectById(projectId)
+    override fun findById(projectId: Int, sAccountId: Int): SimpleProject = projectMapperExt.findProjectById(projectId)
 
-    override fun getProjectKeysUserInvolved(username: String, sAccountId: Int): List<Int> {
+    override fun getProjectKeysUserInvolved(username: String?, sAccountId: Int): List<Int> {
         val searchCriteria = ProjectSearchCriteria()
-        searchCriteria.involvedMember = StringSearchField.and(username)
-        searchCriteria.projectStatuses = SetSearchField(StatusI18nEnum.Open.name)
+        if (username != null) searchCriteria.involvedMember = StringSearchField.and(username)
+        searchCriteria.saccountid = NumberSearchField.equal(sAccountId)
         return projectMapperExt.getUserProjectKeys(searchCriteria)
     }
 
-    override fun getAccountInfoOfProject(projectId: Int): BillingAccount =
-            projectMapperExt.getAccountInfoOfProject(projectId)
+    override fun getOpenProjectKeysUserInvolved(username: String?, sAccountId: Int): List<Int> {
+        val searchCriteria = ProjectSearchCriteria()
+        if (username != null) searchCriteria.involvedMember = StringSearchField.and(username)
+        searchCriteria.statuses = SetSearchField(StatusI18nEnum.Open.name)
+        searchCriteria.saccountid = NumberSearchField.equal(sAccountId)
+        return projectMapperExt.getUserProjectKeys(searchCriteria)
+    }
+
+    override fun getAccountInfoOfProject(projectId: Int): BillingAccount = projectMapperExt.getAccountInfoOfProject(projectId)
 
     override fun massRemoveWithSession(projects: List<Project>, username: String?, sAccountId: Int) {
         super.massRemoveWithSession(projects, username, sAccountId)
@@ -218,20 +226,20 @@ class ProjectServiceImpl(private val projectMapper: ProjectMapper,
     override fun getTotalActiveProjectsInAccount(@CacheKey sAccountId: Int): Int {
         val criteria = ProjectSearchCriteria()
         criteria.saccountid = NumberSearchField(sAccountId)
-        criteria.projectStatuses = SetSearchField(StatusI18nEnum.Open.name)
+        criteria.statuses = SetSearchField(StatusI18nEnum.Open.name)
         return projectMapperExt.getTotalCount(criteria)
     }
 
     override fun findProjectRelayEmailNotifications(): List<ProjectRelayEmailNotification> =
             projectMapperExt.findProjectRelayEmailNotifications()
 
-    override fun getProjectsUserInvolved(username: String, sAccountId: Int): List<SimpleProject> =
+    override fun getProjectsUserInvolved(username: String?, sAccountId: Int): List<SimpleProject> =
             projectMapperExt.getProjectsUserInvolved(username, sAccountId)
 
     override fun getTotalActiveProjectsOfInvolvedUsers(username: String, @CacheKey sAccountId: Int?): Int? {
         val criteria = ProjectSearchCriteria()
         criteria.involvedMember = StringSearchField.and(username)
-        criteria.projectStatuses = SetSearchField(StatusI18nEnum.Open.name)
+        criteria.statuses = SetSearchField(StatusI18nEnum.Open.name)
         return projectMapperExt.getTotalCount(criteria)
     }
 

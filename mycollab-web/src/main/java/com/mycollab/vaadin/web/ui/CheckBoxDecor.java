@@ -30,8 +30,4 @@ public class CheckBoxDecor extends CheckBox {
         super(title, value);
         this.addStyleName(ValoTheme.CHECKBOX_SMALL);
     }
-
-    public void setValueWithoutNotifyListeners(boolean value) {
-        this.setInternalValue(value);
-    }
 }

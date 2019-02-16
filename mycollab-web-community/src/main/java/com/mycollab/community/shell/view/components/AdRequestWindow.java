@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -27,8 +27,7 @@ import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.NotificationUtil;
 import com.mycollab.vaadin.web.ui.WebThemes;
-import com.vaadin.server.FontAwesome;
-import com.vaadin.shared.ui.label.ContentMode;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.UI;
@@ -53,20 +52,20 @@ public class AdRequestWindow extends MWindow {
                 "money developing MyCollab. If you like it, please write a few words on twitter, blog or " +
                 "our testimonial form. Your kindness helps this software be continued.");
 
-        Label tweetUs = ELabel.html(new Div().appendChild(new Text("&nbsp;&nbsp;" + FontAwesome.TWITTER.getHtml()),
+        Label tweetUs = ELabel.html(new Div().appendChild(new Text("&nbsp;&nbsp;" + VaadinIcons.TWITTER.getHtml()),
                 DivLessFormatter.EMPTY_SPACE,
                 new A("https://twitter.com/intent/tweet?text=I am using MyCollab to manage all project activities, " +
                         "accounts and it works great @mycollabdotcom&source=webclient", "_blank")
                         .appendText("Share on Twitter")).setStyle("color:#006dac").write());
 
-        Label linkedIn = ELabel.html(new Div().appendChild(new Text("&nbsp;&nbsp;" + FontAwesome.LINKEDIN_SQUARE.getHtml()),
+        Label linkedIn = ELabel.html(new Div().appendChild(new Text("&nbsp;&nbsp;" + VaadinIcons.LINK.getHtml()),
                 DivLessFormatter.EMPTY_SPACE,
                 new A("https://www.linkedin.com/cws/share?url=https%3A%2F%2Fwww.mycollab.com&original_referer=https%3A%2F%2Fwww.mycollab.com&token=&isFramed=false&lang=en_US", "_blank")
                         .appendText("Share on LinkedIn")).setStyle("color:#006dac").write());
 
         Label testimonialAd = ELabel.html("A chance to get a free license of the premium MyCollab software for 10 users" +
                 ". If you execute one of the following:");
-        Label rateSourceforge = ELabel.html(new Div().appendChild(new Text("&nbsp;&nbsp;" + FontAwesome.FLAG_CHECKERED.getHtml()),
+        Label rateSourceforge = ELabel.html(new Div().appendChild(new Text("&nbsp;&nbsp;" + VaadinIcons.FLAG_CHECKERED.getHtml()),
                 DivLessFormatter.EMPTY_SPACE, new A("https://community.mycollab.com/docs/developing-mycollab/translating/", "_blank")
                         .appendText("Localize MyCollab to your language at least 20% of the phrases")).setStyle
                 ("color:#006dac").write());
@@ -75,7 +74,7 @@ public class AdRequestWindow extends MWindow {
                     close();
                     turnOffAdd(user);
                     UI.getCurrent().addWindow(new TestimonialWindow());
-                }).withIcon(FontAwesome.KEYBOARD_O).withStyleName(WebThemes.BUTTON_LINK);
+                }).withIcon(VaadinIcons.KEYBOARD_O).withStyleName(WebThemes.BUTTON_LINK);
 
         MButton ignoreBtn = new MButton("No, thanks", clickEvent -> {
             close();
@@ -86,7 +85,7 @@ public class AdRequestWindow extends MWindow {
             close();
             NotificationUtil.showNotification("We appreciate your kindness action", "Thank you for your time");
             turnOffAdd(user);
-        }).withIcon(FontAwesome.HEART).withStyleName(WebThemes.BUTTON_ACTION);
+        }).withIcon(VaadinIcons.HEART).withStyleName(WebThemes.BUTTON_ACTION);
 
         MHorizontalLayout btnControls = new MHorizontalLayout(ignoreBtn, loveBtn);
         content.with(message, rateSourceforge, tweetUs, linkedIn, testimonialAd, rateSourceforge, new

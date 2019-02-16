@@ -40,11 +40,11 @@ class AppContextUtil : ApplicationContextAware {
     }
 
     companion object {
-        private var ctx: ApplicationContext? = null
+        private lateinit var ctx: ApplicationContext
 
         @JvmStatic
         fun <T> getSpringBean(name: String, classType: Class<T>): T = try {
-            ctx!!.getBean(name, classType)
+            ctx.getBean(name, classType)
         } catch (e: Exception) {
             throw MyCollabException("Can not find service $name")
         }
@@ -55,7 +55,7 @@ class AppContextUtil : ApplicationContextAware {
 
         @JvmStatic
         fun <T> getSpringBean(classType: Class<T>): T = try {
-            ctx!!.getBean(classType)
+            ctx.getBean(classType)
         } catch (e: Exception) {
             throw MyCollabException("Can not find service $classType", e)
         }

@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mycollab.common.dao.ClientMapperExt">
+    <resultMap extends="com.mycollab.common.dao.ClientMapper.ResultMapWithBLOBs"
+               id="SimpleClientResult" type="com.mycollab.common.domain.SimpleClient">
+        <result column="createdUserAvatarId" jdbcType="VARCHAR" property="createdUserAvatarId" />
+        <result column="createdUserFullName" jdbcType="VARCHAR" property="createdUserFullName" />
+        <result column="assignUserAvatarId" jdbcType="VARCHAR" property="assignUserAvatarId" />
+        <result column="assignUserFullName" jdbcType="VARCHAR" property="assignUserFullName" />
+        <result column="numProjects" jdbcType="INTEGER" property="numProjects" />
+    </resultMap>
+
+
+    <sql id="querySearchCriteria">
+        <![CDATA[
+        #set($searchCriteria = $_parameter.searchCriteria)
+        
+        #ifnotnull($searchCriteria.name)
+            ${searchCriteria.name.operation} m_client.name LIKE '%${searchCriteria.name.value}%'
+        #end
+        
+        #ifnotnull($searchCriteria.assignUser)
+            ${searchCriteria.assignUser.operation} m_client.assignUser = @{searchCriteria.assignUser.value}
+        #end
+        
+        #ifnotnull($searchCriteria.website)
+            ${searchCriteria.website.operation} m_client.website LIKE '%${searchCriteria.website.value}%'
+        #end
+        
+        #ifnotnull($searchCriteria.anyCity)
+             ${searchCriteria.anyCity.operation} (m_client.shippingCity LIKE '%${searchCriteria.anyCity.value}%' 
+                OR m_client.city LIKE '%${searchCriteria.anyCity.value}%')
+        #end 
+        
+        #ifnotnull($searchCriteria.anyPhone)
+             ${searchCriteria.anyPhone.operation} (m_client.alternatePhone LIKE '%${searchCriteria.anyPhone.value}%' 
+                OR m_client.phoneOffice LIKE '%${searchCriteria.anyPhone.value}%')
+        #end
+        
+        #ifnotnull($searchCriteria.anyAddress)
+            ${searchCriteria.anyAddress.operation} (m_client.shippingAddress LIKE '%${searchCriteria.anyAddress.value}%'
+                OR m_client.billingAddress LIKE '%${searchCriteria.anyAddress.value}%')
+        #end
+        
+        #ifnotnull($searchCriteria.anyMail)
+            ${searchCriteria.anyMail.operation}  m_client.email LIKE '%${searchCriteria.anyMail.value}%'
+        #end
+        
+        #ifnotnull($searchCriteria.saccountid)
+            ${searchCriteria.saccountid.operation} m_client.sAccountId = @{searchCriteria.saccountid.value,jdbcType=NUMERIC}
+        #end
+        
+        #ifnotnull($searchCriteria.types)
+            ${searchCriteria.types.operation} m_client.type IN
+            #repeat(${searchCriteria.types.values} $type "," "(" ")")
+                @{type}
+            #end
+        #end
+        
+        #ifnotnull($searchCriteria.industries)
+            ${searchCriteria.industries.operation}
+            m_client.industry IN
+            #repeat(${searchCriteria.industries.values} $industry "," "(" ")")
+                @{industry}
+            #end
+        #end
+        
+        #ifnotnull($searchCriteria.assignUsers)
+            ${searchCriteria.assignUsers.operation}
+            m_client.assignUser IN
+            #repeat(${searchCriteria.assignUsers.values} $user "," "(" ")")
+                @{user}
+            #end
+        #end
+         
+         #selectExpr($searchCriteria.extraFields)
+         ]]>
+    </sql>
+
+    <sql id="queryTotalCountSearchCriteria">
+        <![CDATA[
+        #set($searchCriteria = $_parameter.searchCriteria)
+        
+        #ifnotnull($searchCriteria.id)
+            ${searchCriteria.id.operation} m_client.id ${searchCriteria.id.compareOperator} @{searchCriteria.id.value,jdbcType=NUMERIC}
+        #end
+        
+        #ifnotnull($searchCriteria.name)
+            ${searchCriteria.name.operation} m_client.name LIKE '%${searchCriteria.name.value}%'
+        #end
+        
+        #ifnotnull($_parameter.searchCriteria.assignUser)
+            ${searchCriteria.assignUser.operation} m_client.assignUser = @{searchCriteria.assignUser.value}
+        #end
+       
+        #ifnotnull($searchCriteria.website)
+            ${searchCriteria.website.operation} m_client.website LIKE '%${searchCriteria.website.value}%'
+        #end
+        
+        #ifnotnull($searchCriteria.anyCity)
+             ${searchCriteria.anyCity.operation} (m_client.shippingCity LIKE '%${searchCriteria.anyCity.value}%' 
+                OR m_client.city LIKE '%${searchCriteria.anyCity.value}%')
+        #end 
+        
+        #ifnotnull($searchCriteria.anyPhone)
+             ${searchCriteria.anyPhone.operation} (m_client.alternatePhone LIKE '%${searchCriteria.anyPhone.value}%' 
+                OR m_client.phoneOffice LIKE '%${searchCriteria.anyPhone.value}%')
+        #end
+        
+        #ifnotnull($searchCriteria.anyAddress)
+            ${searchCriteria.anyAddress.operation} (m_client.shippingAddress LIKE '%${searchCriteria.anyAddress.value}%'
+                OR m_client.billingAddress LIKE '%${searchCriteria.anyAddress.value}%')
+        #end
+        
+        #ifnotnull($searchCriteria.anyMail)
+            ${searchCriteria.anyMail.operation} m_client.email LIKE '%${searchCriteria.anyMail.value}%'
+        #end
+        
+        #ifnotnull($searchCriteria.saccountid)
+            ${searchCriteria.saccountid.operation} m_client.sAccountId = @{searchCriteria.saccountid.value,jdbcType=NUMERIC}
+        #end
+        
+        #ifnotnull($searchCriteria.types)
+            ${searchCriteria.types.operation} m_client.type IN
+            #repeat(${searchCriteria.types.values} $type "," "(" ")")
+                @{type}
+            #end
+        #end
+        
+        #ifnotnull($searchCriteria.industries)
+            ${searchCriteria.industries.operation}
+            m_client.industry IN
+            #repeat(${searchCriteria.industries.values} $industry "," "(" ")")
+                @{industry}
+            #end
+        #end
+        
+        #ifnotnull($searchCriteria.assignUsers)
+            ${searchCriteria.assignUsers.operation}
+            m_client.assignUser IN
+            #repeat(${searchCriteria.assignUsers.values} $user "," "(" ")")
+                @{user}
+            #end
+        #end
+
+        #totalCountExpr($searchCriteria.extraFields)
+        ]]>
+    </sql>
+
+    <sql id="selectSimpleAccount">
+        <![CDATA[
+        SELECT m_client.id, m_client.name, m_client.website, m_client.phoneOffice,
+               m_client.fax, m_client.alternatePhone, m_client.annualRevenue, m_client.billingAddress, 
+               m_client.city, m_client.postalCode, m_client.billingCountry, m_client.description, m_client.state, 
+               m_client.email, m_client.ownership, m_client.shippingAddress, m_client.shippingCity, m_client.shippingPostalCode, 
+               m_client.shippingCountry, m_client.shippingState, m_client.numemployees, m_client.createdTime,
+               m_client.lastUpdatedTime,
+               m_client.createdUser, m_client.sAccountId, m_client.assignUser, m_client.type, m_client.industry,
+               m_client.avatarId,
+               s_user.avatarId AS assignUserAvatarId, 
+               LTRIM(concat(s_user.firstname, ' ', s_user.lastname)) as assignUserFullName,
+               createdUserTabl.avatarId AS createdUserAvatarId,
+               LTRIM(concat(createdUserTabl.firstname, ' ', createdUserTabl.lastname)) as createdUserFullName,
+               (SELECT COUNT(*) FROM m_prj_project WHERE m_client.id=m_prj_project.clientId) AS numProjects
+        FROM m_client
+            LEFT OUTER JOIN s_user ON m_client.assignUser = s_user.username
+            LEFT OUTER JOIN s_user AS createdUserTabl ON (m_client.createdUser = createdUserTabl.username)
+        ]]>
+    </sql>
+
+    <sql id="orderStatement">
+        <![CDATA[
+        ORDER BY
+        #ifnotnull($_parameter.searchCriteria.orderFields)
+            #repeat(${_parameter.searchCriteria.orderFields} $orderField "" "" "")
+                ${orderField.field} ${orderField.direction},
+            #end
+        #end
+        m_client.lastUpdatedTime DESC, m_client.name ASC
+        ]]>
+    </sql>
+
+    <select id="findPageableListByCriteria" parameterType="com.mycollab.common.domain.criteria.ClientSearchCriteria" resultMap="SimpleClientResult" lang="velocity">
+        <include refid="selectSimpleAccount" />
+        #ifnotnull($_parameter.searchCriteria)
+            #trimext("WHERE" "AND|OR")
+                <include refid="querySearchCriteria" />
+            #end
+        #end
+        <include refid="orderStatement" />
+    </select>
+
+    <select id="getTotalCount" parameterType="com.mycollab.common.domain.criteria.ClientSearchCriteria" resultType="java.lang.Integer" lang="velocity">
+        SELECT count(*) as totalCount FROM m_client
+        #ifnotnull($_parameter.searchCriteria)
+            #trimext("WHERE" "AND|OR")
+                <include refid="queryTotalCountSearchCriteria" />
+            #end
+        #end
+    </select>
+
+    <delete id="removeByCriteria" parameterType="com.mycollab.common.domain.criteria.ClientSearchCriteria" lang="velocity">
+        DELETE FROM m_client
+        #ifnotnull($_parameter.searchCriteria)
+            #trimext("WHERE" "AND|OR")
+                <include refid="queryTotalCountSearchCriteria" />
+            #end
+        #end
+    </delete>
+
+    <select id="findById" parameterType="java.lang.Integer" resultMap="SimpleClientResult" lang="velocity">
+        <include refid="selectSimpleAccount" />
+
+        WHERE m_client.id=@{accountId, jdbcType=NUMERIC}
+    </select>
+
+    <select id="getNextItemKey" parameterType="map" resultType="java.lang.Integer" lang="velocity">
+        SELECT MIN(id) FROM m_client
+        #trimext("WHERE" "AND|OR")
+            <include refid="queryTotalCountSearchCriteria" />
+        #end
+    </select>
+
+    <select id="getPreviousItemKey" parameterType="map" resultType="java.lang.Integer" lang="velocity">
+        SELECT MAX(id) FROM m_client
+        #trimext("WHERE" "AND|OR")
+            <include refid="queryTotalCountSearchCriteria" />
+        #end
+    </select>
+
+    <!-- Here for Mass Update -->
+    <update id="updateBySearchCriteria" parameterType="map" lang="velocity">
+        <include refid="com.mycollab.common.dao.ClientMapper.massUpdateWithSessionSql" />
+        #ifnotnull($_parameter.searchCriteria)
+            #trimext("WHERE" "AND|OR")
+                <include refid="queryTotalCountSearchCriteria" />
+            #end
+        #end
+    </update>
+</mapper>

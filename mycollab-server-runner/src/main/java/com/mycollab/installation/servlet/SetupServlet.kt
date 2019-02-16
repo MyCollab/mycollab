@@ -18,9 +18,9 @@ package com.mycollab.installation.servlet
 
 import com.mycollab.template.FreemarkerFactory
 import freemarker.template.TemplateException
-import org.joda.time.LocalDate
 import java.io.IOException
 import java.io.StringWriter
+import java.time.LocalDate
 import javax.servlet.ServletException
 import javax.servlet.http.HttpServlet
 import javax.servlet.http.HttpServletRequest
@@ -43,7 +43,7 @@ class SetupServlet : HttpServlet() {
                 "twitter_url" to "https://twitter.com/mycollabdotcom")
 
         val context = mutableMapOf("postUrl" to "/install", "defaultUrls" to defaultUrls,
-                "current_year" to LocalDate().year)
+                "current_year" to LocalDate.now().year)
 
         val writer = StringWriter()
         val template = FreemarkerFactory.template("pageSetupFresh.ftl")

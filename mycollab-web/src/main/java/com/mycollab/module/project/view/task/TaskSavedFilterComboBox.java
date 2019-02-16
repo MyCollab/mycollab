@@ -16,6 +16,7 @@
  */
 package com.mycollab.module.project.view.task;
 
+import com.google.common.collect.Sets;
 import com.mycollab.common.domain.OptionVal;
 import com.mycollab.common.i18n.QueryI18nEnum;
 import com.mycollab.common.service.OptionValService;
@@ -30,13 +31,15 @@ import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.web.ui.SavedFilterComboBox;
-import org.joda.time.LocalDate;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import static com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
+import static com.mycollab.common.i18n.QueryI18nEnum.BEFORE;
+import static com.mycollab.common.i18n.QueryI18nEnum.IS_NOT;
 
 /**
  * @author MyCollab Ltd
@@ -90,19 +93,19 @@ public class TaskSavedFilterComboBox extends SavedFilterComboBox {
                 }));
 
         SearchQueryInfo overdueTaskQuery = new SearchQueryInfo(OVERDUE_TASKS, UserUIContext.getMessage(TaskI18nEnum.VAL_OVERDUE_TASKS),
-                new SearchFieldInfo(SearchField.AND, TaskSearchCriteria.p_duedate, DateParam.BEFORE, new LazyValueInjector() {
+                new SearchFieldInfo(SearchField.AND, TaskSearchCriteria.p_duedate, BEFORE.name(), new LazyValueInjector() {
                     @Override
                     protected Object doEval() {
-                        return new LocalDate().toDate();
+                        return LocalDate.now();
                     }
-                }), new SearchFieldInfo(SearchField.AND, new StringParam("id-status", "m_prj_task", "status"), QueryI18nEnum.StringI18nEnum.IS_NOT.name(),
+                }), new SearchFieldInfo(SearchField.AND, new StringParam("id-status", "m_prj_task", "status"), IS_NOT.name(),
                 ConstantValueInjector.valueOf(StatusI18nEnum.Closed.name())));
 
         SearchQueryInfo myTasksQuery = new SearchQueryInfo(MY_TASKS, UserUIContext.getMessage(TaskI18nEnum.VAL_MY_TASKS),
-                SearchFieldInfo.inCollection(TaskSearchCriteria.p_assignee, ConstantValueInjector.valueOf(Collections.singletonList(UserUIContext.getUsername()))));
+                SearchFieldInfo.inCollection(TaskSearchCriteria.p_assignee, ConstantValueInjector.valueOf(Sets.newHashSet(UserUIContext.getUsername()))));
 
         SearchQueryInfo tasksCreatedByMeQuery = new SearchQueryInfo(TASKS_CREATED_BY_ME, UserUIContext.getMessage(TaskI18nEnum.VAL_TASKS_CREATED_BY_ME),
-                SearchFieldInfo.inCollection(TaskSearchCriteria.p_createdUser, ConstantValueInjector.valueOf(Collections.singletonList(UserUIContext.getUsername()))));
+                SearchFieldInfo.inCollection(TaskSearchCriteria.p_createdUser, ConstantValueInjector.valueOf(Sets.newHashSet(UserUIContext.getUsername()))));
 
         SearchQueryInfo newTasksThisWeekQuery = new SearchQueryInfo(NEW_TASKS_THIS_WEEK, UserUIContext.getMessage(TaskI18nEnum.VAL_NEW_THIS_WEEK),
                 SearchFieldInfo.inDateRange(TaskSearchCriteria.p_createtime, VariableInjector.THIS_WEEK));
@@ -131,5 +134,15 @@ public class TaskSavedFilterComboBox extends SavedFilterComboBox {
         componentsText.setReadOnly(false);
         componentsText.setValue(selectedQueryName + " (" + countNumber + ")");
         componentsText.setReadOnly(true);
+    }
+
+    @Override
+    protected void doSetValue(String s) {
+
+    }
+
+    @Override
+    public String getValue() {
+        return null;
     }
 }

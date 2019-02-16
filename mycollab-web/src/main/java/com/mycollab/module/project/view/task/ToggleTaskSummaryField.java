@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -33,24 +33,23 @@ import com.mycollab.module.project.event.TaskEvent;
 import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.mycollab.module.project.i18n.TaskI18nEnum;
 import com.mycollab.module.project.service.ProjectTaskService;
-import com.mycollab.module.project.ui.components.BlockRowRender;
+import com.mycollab.module.project.ui.components.TicketRowRender;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.vaadin.TooltipHelper;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
-import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.ui.UIUtils;
 import com.mycollab.vaadin.web.ui.AbstractToggleSummaryField;
 import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.mycollab.vaadin.web.ui.WebThemes;
-import com.vaadin.server.FontAwesome;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.shared.ui.MarginInfo;
+import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.themes.ValoTheme;
-import org.vaadin.addons.CssCheckBox;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
@@ -58,25 +57,24 @@ import org.vaadin.viritin.layouts.MHorizontalLayout;
  * @author MyCollab Ltd
  * @since 5.2.3
  */
-public class ToggleTaskSummaryField extends AbstractToggleSummaryField {
+class ToggleTaskSummaryField extends AbstractToggleSummaryField {
     private boolean isRead = true;
     private SimpleTask task;
     private int maxLength;
-    private CssCheckBox toggleStatusSelect;
+    private CheckBox toggleStatusSelect;
 
-    public ToggleTaskSummaryField(final SimpleTask task, boolean toggleStatusSupport) {
+    ToggleTaskSummaryField(final SimpleTask task, boolean toggleStatusSupport) {
         this(task, Integer.MAX_VALUE, toggleStatusSupport, false);
     }
 
-    public ToggleTaskSummaryField(final SimpleTask task, int maxLength, boolean toggleStatusSupport, boolean canRemove) {
+    ToggleTaskSummaryField(final SimpleTask task, int maxLength, boolean toggleStatusSupport, boolean canRemove) {
         this.setWidth("100%");
         this.maxLength = maxLength;
         this.task = task;
-        titleLinkLbl = ELabel.html(buildTaskLink()).withWidthUndefined().withStyleName(UIConstants.LABEL_WORD_WRAP);
+        titleLinkLbl = ELabel.html(buildTaskLink()).withUndefinedWidth().withStyleName(WebThemes.LABEL_WORD_WRAP);
 
         if (toggleStatusSupport && CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS)) {
-            toggleStatusSelect = new CssCheckBox();
-            toggleStatusSelect.setSimpleMode(true);
+            toggleStatusSelect = new CheckBox();
             toggleStatusSelect.setValue(task.isCompleted());
             displayTooltip();
             toggleStatusSelect.addValueChangeListener(valueChangeEvent -> {
@@ -110,8 +108,7 @@ public class ToggleTaskSummaryField extends AbstractToggleSummaryField {
                     }
                 }
             });
-            this.addComponent(toggleStatusSelect);
-            this.addComponent(ELabel.EMPTY_SPACE());
+            this.withComponents(toggleStatusSelect, ELabel.EMPTY_SPACE());
         }
 
         this.addComponent(titleLinkLbl);
@@ -133,7 +130,7 @@ public class ToggleTaskSummaryField extends AbstractToggleSummaryField {
                     editField.addBlurListener(blurEvent -> updateFieldValue(editField));
                     isRead = !isRead;
                 }
-            }).withIcon(FontAwesome.EDIT).withStyleName(ValoTheme.BUTTON_ICON_ALIGN_TOP);
+            }).withIcon(VaadinIcons.EDIT).withStyleName(ValoTheme.BUTTON_ICON_ALIGN_TOP);
             instantEditBtn.setDescription(UserUIContext.getMessage(TaskI18nEnum.OPT_EDIT_TASK_NAME));
             buttonControls.with(instantEditBtn);
         }
@@ -149,14 +146,14 @@ public class ToggleTaskSummaryField extends AbstractToggleSummaryField {
                             if (confirmDialog.isConfirmed()) {
                                 AppContextUtil.getSpringBean(ProjectTaskService.class).removeWithSession(task,
                                         UserUIContext.getUsername(), AppUI.getAccountId());
-                                BlockRowRender rowRenderer = UIUtils.getRoot(ToggleTaskSummaryField.this, BlockRowRender.class);
+                                TicketRowRender rowRenderer = UIUtils.getRoot(ToggleTaskSummaryField.this, TicketRowRender.class);
                                 if (rowRenderer != null) {
                                     rowRenderer.selfRemoved();
                                 }
                                 EventBusFactory.getInstance().post(new TaskEvent.TaskDeleted(this, task.getId()));
                             }
                         });
-            }).withIcon(FontAwesome.TRASH).withStyleName(ValoTheme.BUTTON_ICON_ALIGN_TOP);
+            }).withIcon(VaadinIcons.TRASH).withStyleName(ValoTheme.BUTTON_ICON_ALIGN_TOP);
             buttonControls.with(removeBtn);
         }
         if (buttonControls.getComponentCount() > 0) {
@@ -174,9 +171,7 @@ public class ToggleTaskSummaryField extends AbstractToggleSummaryField {
 
     private void updateFieldValue(TextField editField) {
         removeComponent(editField);
-        addComponent(titleLinkLbl);
-        addComponent(buttonControls);
-        addStyleName("editable-field");
+        withComponents(titleLinkLbl, buttonControls).withStyleName("editable-field");
         String newValue = editField.getValue();
         if (StringUtils.isNotBlank(newValue) && !newValue.equals(task.getName())) {
             task.setName(newValue);
@@ -195,7 +190,7 @@ public class ToggleTaskSummaryField extends AbstractToggleSummaryField {
         Div resultDiv = new DivLessFormatter().appendChild(taskLink);
         if (task.isOverdue()) {
             taskLink.setCSSClass("overdue");
-            resultDiv.appendChild(new Span().setCSSClass(UIConstants.META_INFO).appendText(" - " + UserUIContext
+            resultDiv.appendChild(new Span().setCSSClass(WebThemes.META_INFO).appendText(" - " + UserUIContext
                     .getMessage(ProjectCommonI18nEnum.OPT_DUE_IN, UserUIContext.formatDuration(task.getDuedate()))));
         } else if (task.isCompleted()) {
             taskLink.setCSSClass("completed");

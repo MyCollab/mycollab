@@ -30,18 +30,17 @@ import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.mycollab.vaadin.ui.GenericBeanForm;
-import com.mycollab.vaadin.ui.UIConstants;
 import com.mycollab.vaadin.ui.field.DateViewField;
 import com.mycollab.vaadin.ui.field.I18nFormViewField;
 import com.mycollab.vaadin.ui.field.RichTextViewField;
 import com.mycollab.vaadin.web.ui.AdvancedPreviewBeanForm;
 import com.mycollab.vaadin.web.ui.DefaultBeanPagedList;
 import com.mycollab.vaadin.web.ui.DefaultDynaFormLayout;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.mycollab.vaadin.web.ui.field.ContainerViewField;
-import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.CheckBox;
-import com.vaadin.ui.Field;
+import com.vaadin.data.HasValue;
 import com.vaadin.ui.Label;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
@@ -67,18 +66,18 @@ public class VersionPreviewForm extends AdvancedPreviewBeanForm<Version> {
         }
 
         @Override
-        protected Field<?> onCreateField(Object propertyId) {
+        protected HasValue<?> onCreateField(Object propertyId) {
             Version beanItem = attachForm.getBean();
             if (Version.Field.duedate.equalTo(propertyId)) {
-                return new DateViewField(beanItem.getDuedate());
+                return new DateViewField();
             } else if (Version.Field.id.equalTo(propertyId)) {
                 ContainerViewField containerField = new ContainerViewField();
                 containerField.addComponentField(new BugsComp(beanItem));
                 return containerField;
             } else if (Version.Field.status.equalTo(propertyId)) {
-                return new I18nFormViewField(beanItem.getStatus(), StatusI18nEnum.class).withStyleName(UIConstants.FIELD_NOTE);
+                return new I18nFormViewField(StatusI18nEnum.class).withStyleName(WebThemes.FIELD_NOTE);
             } else if (Version.Field.description.equalTo(propertyId)) {
-                return new RichTextViewField(beanItem.getDescription());
+                return new RichTextViewField();
             }
             return null;
         }
@@ -102,7 +101,6 @@ public class VersionPreviewForm extends AdvancedPreviewBeanForm<Version> {
             header.with(openSelection, reOpenSelection, verifiedSelection, resolvedSelection, spacingLbl1).alignAll(Alignment.MIDDLE_LEFT);
 
             bugList = new DefaultBeanPagedList<>(AppContextUtil.getSpringBean(BugService.class), new BugRowRenderer());
-            bugList.setMargin(new MarginInfo(true, true, true, false));
             bugList.setControlStyle("");
 
             searchCriteria = new BugSearchCriteria();

@@ -106,7 +106,7 @@ label {
                             </table>
                         </form>
                         <div class="right" style="margin-top: 10px;">
-                            <button id="validate" class="v-button v-button-greenbtn" type="button" onclick="return databaseValidate();"><span style="font-size: 15px;">Check Connection</span></button>
+                            <button id="validate" class="v-button v-button-action-button" type="button" onclick="return databaseValidate();"><span style="font-size: 15px;">Check Connection</span></button>
                         </div>
                     </td>
                 </tr>
@@ -186,7 +186,7 @@ label {
                             </table>
                         </form>
                         <div class="right" style="margin-top: 10px;">
-                            <button id="validateEmailBtn" class="v-button v-button-greenbtn" type="button" onclick="return emailValidate();" style="width:140px"><span style="font-size: 15px;">Check Smtp</span></button>
+                            <button id="validateEmailBtn" class="v-button v-button-action-button" type="button" onclick="return emailValidate();" style="width:140px"><span style="font-size: 15px;">Check Smtp</span></button>
                             <button id="setupBtn" class="v-button v-button-orangebtn" type="button" onclick="return updateInfoAction();" style="width:140px"><span style="font-size: 15px;">Setup</span></button>
                         </div>
                     </td>

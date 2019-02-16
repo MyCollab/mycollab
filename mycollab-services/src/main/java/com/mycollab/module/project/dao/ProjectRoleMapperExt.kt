@@ -19,11 +19,13 @@ package com.mycollab.module.project.dao
 import com.mycollab.db.persistence.ISearchableDAO
 import com.mycollab.module.project.domain.SimpleProjectRole
 import com.mycollab.module.project.domain.criteria.ProjectRoleSearchCriteria
+import org.apache.ibatis.annotations.Mapper
 
 /**
  * @author MyCollab Ltd
  * @since 1.0.0
  */
+@Mapper
 interface ProjectRoleMapperExt : ISearchableDAO<ProjectRoleSearchCriteria> {
     fun findRoleById(roleId: Int): SimpleProjectRole
 }
