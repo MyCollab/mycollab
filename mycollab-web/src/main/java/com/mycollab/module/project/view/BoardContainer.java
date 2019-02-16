@@ -47,11 +47,7 @@ public class BoardContainer extends AbstractSingleContainerPageView implements P
 
     private void buildComponents() {
         tabsheet.addTab("Dashboard", UserUIContext.getMessage(GenericI18Enum.VIEW_DASHBOARD), VaadinIcons.DASHBOARD);
-
         tabsheet.addTab("Projects", UserUIContext.getMessage(ProjectI18nEnum.LIST), ProjectAssetsManager.getAsset(ProjectTypeConstants.PROJECT));
-
-        tabsheet.addTab("FollowingTickets", UserUIContext.getMessage(ProjectCommonI18nEnum.VIEW_FAVORITES), VaadinIcons.EYE);
-
         tabsheet.addTab("Reports", UserUIContext.getMessage(ProjectCommonI18nEnum.VIEW_REPORTS), VaadinIcons.RETWEET);
 
         if (!SiteConfiguration.isCommunityEdition()) {
@@ -70,9 +66,6 @@ public class BoardContainer extends AbstractSingleContainerPageView implements P
                     presenter.go(BoardContainer.this, null);
                 } else if ("Projects".equals(tabId)) {
                     ProjectListPresenter presenter = PresenterResolver.getPresenter(ProjectListPresenter.class);
-                    presenter.go(BoardContainer.this, null);
-                } else if ("FollowingTickets".equals(tabId)) {
-                    FollowingTicketPresenter presenter = PresenterResolver.getPresenter(FollowingTicketPresenter.class);
                     presenter.go(BoardContainer.this, null);
                 } else if ("Reports".equals(tabId)) {
                     IReportPresenter presenter = PresenterResolver.getPresenter(IReportPresenter.class);

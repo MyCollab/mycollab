@@ -19148,6 +19148,10 @@ div.v-csslayout.main-body {
 	font-family: Vaadin-Icons;
 }
 
+.vertical-tabsheet .v-button-tab.collapsed-tab:hover:after, .vertical-tabsheet .v-button-tab.un-collapsed-tab:hover:after {
+	background-color: transparent;
+}
+
 .vertical-tabsheet .v-button-tab .v-button-wrap {
 	background: none no-repeat 0 0 transparent;
 	background-image: none;

@@ -63,7 +63,6 @@ public class VerticalTabsheet extends CustomComponent {
     private Boolean retainVisibility = true;
 
     public VerticalTabsheet() {
-
         navigatorContainer = new MVerticalLayout().withStyleName("navigator-wrap").withSpacing(false)
                 .withMargin(new MarginInfo(true, false, true, false));
 
@@ -264,7 +263,7 @@ public class VerticalTabsheet extends CustomComponent {
                 parentGroupTab.addStyleName(GROUP_TAB_SELECTED_STYLE);
                 parentGroupTab.children.forEach(child -> child.addStyleName(GROUP_TAB_SELECTED_STYLE));
 
-                if (parentGroupTab.collapsed) {
+                if (parentGroupTab.collapsed && parentGroupTab != tab) {
                     parentGroupTab.toggleGroupTabDisplay();
                 }
             }
