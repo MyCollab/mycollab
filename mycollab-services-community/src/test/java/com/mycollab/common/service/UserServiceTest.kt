@@ -77,8 +77,5 @@ class UserServiceTest : IntegrationServiceTest() {
     fun testAuthentication() {
         val user = userService.authentication("a@mycollab.com", "aa", "b", true)
         assertThat(user).extracting("username", "subDomain", "accountId").contains("a@mycollab.com", "b", 2)
-
-        val user2 = userService.authentication("a@mycollab.com", "aa", "http://a", true)
-        assertThat(user2).isNull()
     }
 }

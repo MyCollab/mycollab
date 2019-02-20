@@ -78,7 +78,7 @@ public class BugPreviewForm extends AdvancedPreviewBeanForm<SimpleBug> {
             } else if (SimpleBug.Field.affectedVersions.equalTo(propertyId)
                     || SimpleBug.Field.fixedVersions.equalTo(propertyId)) {
                 return new VersionsViewField();
-            } else if (SimpleBug.Field.milestoneName.equalTo(propertyId)) {
+            } else if (BugWithBLOBs.Field.milestoneid.equalTo(propertyId)) {
                 return new ProjectItemViewField(ProjectTypeConstants.MILESTONE, beanItem.getMilestoneid(),
                         beanItem.getMilestoneName());
             } else if (BugWithBLOBs.Field.description.equalTo(propertyId) || BugWithBLOBs.Field.environment.equalTo(propertyId)) {

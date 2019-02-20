@@ -60,7 +60,7 @@ public class UserAddPresenter extends AbstractPresenter<UserAddView> {
             private static final long serialVersionUID = 1L;
 
             @Override
-            public void onSave(final SimpleUser item) {
+            public void onSave(SimpleUser item) {
                 save(item);
             }
 

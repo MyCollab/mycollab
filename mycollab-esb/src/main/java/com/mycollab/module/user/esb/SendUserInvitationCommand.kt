@@ -31,6 +31,8 @@ import com.mycollab.module.user.accountsettings.localization.UserI18nEnum
 import com.mycollab.module.user.service.UserService
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
+import org.springframework.transaction.event.TransactionPhase
+import org.springframework.transaction.event.TransactionalEventListener
 import java.util.*
 
 /**
@@ -49,6 +51,7 @@ class SendUserInvitationCommand(private val userService: UserService,
 
     @AllowConcurrentEvents
     @Subscribe
+    @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     fun execute(event: SendUserInvitationEvent) {
         val inviteeUser = userService.findUserInAccount(event.invitee, event.sAccountId)
         if (inviteeUser != null) {

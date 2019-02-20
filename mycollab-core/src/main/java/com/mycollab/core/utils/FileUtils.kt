@@ -90,10 +90,10 @@ object FileUtils {
         val KB_SIZE = 1024F
         return when {
             volume == null -> "0 Kb"
-            volume < KB_SIZE -> volume.toString() + " Bytes"
-            volume < MB_SIZE -> (Math.floor((volume / KB_SIZE * 100).toDouble()) / 100).toString() + " Kb"
-            volume < GB_SIZE -> (Math.floor((volume / MB_SIZE * 100).toDouble()) / 100).toString() + " Mb"
-            else -> (Math.floor((volume / GB_SIZE * 100).toDouble()) / 100).toString() + " Gb"
+            volume < KB_SIZE -> "$volume Bytes"
+            volume < MB_SIZE -> "${(Math.floor((volume / KB_SIZE * 100).toDouble()) / 100)} Kb"
+            volume < GB_SIZE -> "${(Math.floor((volume / MB_SIZE * 100).toDouble()) / 100)} Mb"
+            else -> "${(Math.floor((volume / GB_SIZE * 100).toDouble()) / 100)} Gb"
         }
     }
 

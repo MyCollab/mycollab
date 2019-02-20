@@ -89,6 +89,7 @@ class InviteProjectMembersCommand(private val userService: UserService,
                     }
 
                     val newUser = User()
+                    newUser.username = it
                     newUser.email = it
                     val password = RandomPasswordGenerator.generateRandomPassword()
                     contentGenerator.putVariable("password", password)

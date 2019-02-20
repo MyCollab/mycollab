@@ -45,7 +45,7 @@ class RoleServiceDBImpl(private val roleMapper: RoleMapper,
         get() = roleMapperExt
 
     override fun saveWithSession(record: Role, username: String?): Int {
-        if (java.lang.Boolean.TRUE == record.isdefault) {
+        if (record.isdefault) {
             setAllRoleNotDefault(record.saccountid)
         }
         return super.saveWithSession(record, username)

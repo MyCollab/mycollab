@@ -16,6 +16,7 @@
  */
 package com.mycollab.vaadin.ui.field;
 
+import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.core.utils.StringUtils;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
@@ -32,10 +33,16 @@ public class I18nFormViewField extends CustomField<String> {
     private static final long serialVersionUID = 1L;
 
     private Class<? extends Enum> enumCls;
+    private Enum defaultValue;
     private ELabel label;
 
     public I18nFormViewField(Class<? extends Enum> enumCls) {
+        this(enumCls, GenericI18Enum.OPT_UNDEFINED);
+    }
+
+    public I18nFormViewField(Class<? extends Enum> enumCls, Enum defaultValue) {
         this.enumCls = enumCls;
+        this.defaultValue = defaultValue;
         label = new ELabel("", ContentMode.TEXT).withUndefinedWidth().withStyleName(WebThemes.LABEL_WORD_WRAP);
     }
 
@@ -52,11 +59,11 @@ public class I18nFormViewField extends CustomField<String> {
     @Override
     protected void doSetValue(String value) {
         if (StringUtils.isNotBlank(value)) {
-            try {
-                label.setValue(UserUIContext.getMessage(enumCls, value));
-            } catch (Exception ignored) {
-            }
+            label.setValue(UserUIContext.getMessage(enumCls, value));
+        } else if (defaultValue != null) {
+            label.setValue(UserUIContext.getMessage(defaultValue));
         }
+
     }
 
     @Override

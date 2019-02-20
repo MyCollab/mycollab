@@ -56,7 +56,6 @@ import java.time.LocalDateTime
  * @since 1.0
  */
 @Service
-@Transactional
 class UserServiceDBImpl(private val userMapper: UserMapper,
                         private val userMapperExt: UserMapperExt,
                         private val userAccountMapper: UserAccountMapper,
@@ -72,6 +71,7 @@ class UserServiceDBImpl(private val userMapper: UserMapper,
     override val searchMapper: ISearchableDAO<UserSearchCriteria>
         get() = userMapperExt
 
+    @Transactional
     override fun saveUserAccount(record: User, roleId: Int?, subDomain: String, sAccountId: Int, inviteUser: String, isSendInvitationEmail: Boolean) {
         billingPlanCheckerService.validateAccountCanCreateNewUser(sAccountId)
 
@@ -116,6 +116,7 @@ class UserServiceDBImpl(private val userMapper: UserMapper,
         val userEx = UserExample()
         userEx.createCriteria().andUsernameEqualTo(record.username)
         if (userMapper.countByExample(userEx) == 0L) {
+            record.registeredtime = LocalDateTime.now()
             userMapper.insert(record)
             userAvatarService.uploadDefaultAvatar(record.username)
         }
@@ -174,6 +175,7 @@ class UserServiceDBImpl(private val userMapper: UserMapper,
         return userMapper.updateByExampleSelective(record, ex)
     }
 
+    @Transactional
     override fun updateUserAccount(record: SimpleUser, sAccountId: Int) {
         val oldUser = findUserByUserNameInAccount(record.username, sAccountId)
         if (oldUser != null) {
