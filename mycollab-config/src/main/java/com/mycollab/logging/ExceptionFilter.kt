@@ -20,6 +20,7 @@ import ch.qos.logback.classic.spi.ILoggingEvent
 import ch.qos.logback.classic.spi.ThrowableProxy
 import ch.qos.logback.core.filter.Filter
 import ch.qos.logback.core.spi.FilterReply
+import java.lang.IllegalStateException
 
 /**
  * @author MyCollab Ltd
@@ -50,8 +51,7 @@ class ExceptionFilter : Filter<ILoggingEvent>() {
                     Class.forName("org.apache.commons.mail.EmailException"),
                     Class.forName("java.net.SocketTimeoutException"),
                     Class.forName("java.sql.SQLTransientConnectionException"),
-                    Class.forName("com.mysql.jdbc.exceptions.jdbc4.CommunicationsException"),
-                    Class.forName("com.mysql.jdbc.exceptions.jdbc4.MySQLNonTransientConnectionException"))
+                    IllegalStateException::class.java)
         } catch (e: Exception) {
             arrayOf()
         }

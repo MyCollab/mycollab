@@ -40,8 +40,6 @@ public class ApplicationProperties {
 
     private static Properties properties;
 
-    public static final String DROPBOX_AUTH_LINK = "dropbox.callbackUrl";
-
     public static final String BI_ENDECRYPT_PASSWORD = "endecryptPassword";
 
     public static final String DEFAULT_LOCALE = "defaultLocale";

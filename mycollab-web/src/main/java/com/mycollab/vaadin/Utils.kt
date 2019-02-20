@@ -34,12 +34,11 @@ object Utils {
         }
     }
 
-    @JvmStatic fun isTablet(request: VaadinRequest): Boolean = try {
-        val userAgent = request.getHeader("user-agent").toLowerCase()
-        userAgent.contains("ipad")
-    } catch (e: Exception) {
-        false
-    }
-
     @JvmStatic fun reloadPage(): Unit = Page.getCurrent().javaScript.execute("window.location.reload();")
+}
+
+fun main(args: Array<String>) {
+    val str = "https://esofthead.mycollab.com"
+    val x = str.split("\\.".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[0]
+    System.out.println(x)
 }

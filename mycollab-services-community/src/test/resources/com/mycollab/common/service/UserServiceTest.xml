@@ -2,6 +2,7 @@
 <!DOCTYPE dataset PUBLIC "-//MyCollab/MyCollab Database Schema//EN" "http://www.mycollab.com/mycollab.dtd">
 <dataset>
     <s_account id="1" status="Active" createdTime="2013-08-08 00:00:00" subDomain="a"/>
+    <s_account id="2" status="Active" createdTime="2013-08-08 00:00:00" subDomain="b"/>
     <s_user username="hainguyen@esofthead.com" firstname="Nguyen"
             lastname="Hai" email="hainguyen@esofthead.com"/>
 
@@ -14,8 +15,12 @@
     <s_user username="test@esofthead.com" firstname="Nguyen"
             lastname="Huy" email="huynguyen@esofthead.com"/>
 
+    <s_user username="a@mycollab.com" firstname="A"
+            lastname="A" email="a@mycollab.com" password="aa"/>
+
 
     <s_roles rolename="Dev" sAccountId="1" id="1"/>
+    <s_roles rolename="Dev2" sAccountId="2" id="2"/>
 
     <s_user_account id="1" username="hainguyen@esofthead.com"
                     accountId="1" isAccountOwner="1" roleId="1" registeredTime="2013-08-08 00:00:00"
@@ -32,4 +37,8 @@
     <s_user_account id="4" username="test@esofthead.com"
                     accountId="1" isAccountOwner="1" roleId="1" registeredTime="2013-08-08 20:00:00"
                     registerStatus="Deleted"/>
+
+    <s_user_account id="5" username="a@mycollab.com"
+                    accountId="2" isAccountOwner="1" roleId="2" registeredTime="2013-08-08 20:00:00"
+                    registerStatus="Active"/>
 </dataset>

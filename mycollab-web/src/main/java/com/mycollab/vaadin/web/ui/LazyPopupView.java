@@ -26,7 +26,6 @@ import org.vaadin.viritin.layouts.MVerticalLayout;
  * @author MyCollab Ltd
  * @since 5.1.3
  */
-// TODO
 public class LazyPopupView extends PopupView {
 
     public LazyPopupView(String valueAsHtml) {

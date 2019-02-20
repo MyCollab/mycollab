@@ -77,7 +77,7 @@ public abstract class AbstractPresenter<V extends PageView> implements IPresente
                 view.addDetachListener(detachEvent -> viewDetached());
                 postInitView();
             } catch (Exception e) {
-                LOG.error("Can not init view " + implClass, e);
+                throw new MyCollabException("Can not init view " + implClass, e);
             }
         }
     }
@@ -171,7 +171,7 @@ public abstract class AbstractPresenter<V extends PageView> implements IPresente
         } else if (getExceptionType(throwable, SecureAccessException.class) != null) {
             NotificationUtil.showMessagePermissionAlert();
         } else {
-            LOG.error("Exception", throwable);
+            throw new MyCollabException(throwable);
         }
     }
 }

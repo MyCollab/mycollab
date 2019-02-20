@@ -44,4 +44,4 @@ mail.ssl=${smtpSSLEnable}
 # want to send report automatically to our team, you can
 # leave this field to empty
 #=====================================================
-error.sendTo=error@mycollab.com
+mail.errorTo=error@mycollab.com

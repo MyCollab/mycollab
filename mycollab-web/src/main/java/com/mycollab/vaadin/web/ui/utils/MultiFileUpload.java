@@ -344,9 +344,6 @@ public abstract class MultiFileUpload extends CssLayout implements DropHandler {
 
     @Override
     public AcceptCriterion getAcceptCriterion() {
-        // TODO accept only files
-        // return new And(new TargetDetailIs("verticalLocation","MIDDLE"), new
-        // TargetDetailIs("horizontalLoction", "MIDDLE"));
         return AcceptAll.get();
     }
 

@@ -28,11 +28,7 @@ import org.apache.commons.lang3.builder.ToStringStyle
  */
 object BeanUtility {
 
-    @JvmStatic fun printBeanObj(bean: Any): String {
-        return ToStringBuilder.reflectionToString(bean, ToStringStyle.SHORT_PREFIX_STYLE)
-    }
+    @JvmStatic fun printBeanObj(bean: Any): String = ToStringBuilder.reflectionToString(bean, ToStringStyle.SHORT_PREFIX_STYLE)
 
-    @JvmStatic fun <B> deepClone(b: B): B {
-        return Cloner().deepClone(b)
-    }
+    @JvmStatic fun <B> deepClone(b: B): B = Cloner().deepClone(b)
 }

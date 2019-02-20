@@ -19,6 +19,7 @@ package com.mycollab.vaadin
 import com.google.common.eventbus.EventBus
 import com.google.common.eventbus.SubscriberExceptionContext
 import com.google.common.eventbus.SubscriberExceptionHandler
+import com.mycollab.shell.event.ShellEvent
 import com.mycollab.vaadin.ui.MyCollabSession
 import org.slf4j.LoggerFactory
 
@@ -40,7 +41,7 @@ object EventBusFactory {
 
     private class SubscriberEventBusExceptionHandler : SubscriberExceptionHandler {
         override fun handleException(e: Throwable, context: SubscriberExceptionContext) {
-            LOG.error("Error", e)
+            getInstance().post(ShellEvent.NotifyErrorEvent(this, e))
         }
     }
 }

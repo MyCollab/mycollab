@@ -26,14 +26,6 @@
             <version>${project.version}</version>
         </dependency>
 
-        <!--
-        <dependency>
-            <groupId>com.mycollab</groupId>
-            <artifactId>mycollab-mobile</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        -->
-
         <dependency>
             <groupId>com.mycollab</groupId>
             <artifactId>mycollab-server-runner</artifactId>
@@ -69,25 +61,7 @@
             <artifactId>mycollab-web-community</artifactId>
             <version>${project.version}</version>
         </dependency>
-<!--
-        <dependency>
-            <groupId>com.vaadin</groupId>
-            <artifactId>vaadin-client-compiled</artifactId>
-            <scope>provided</scope>
-        </dependency>
 
-        <dependency>
-            <groupId>com.vaadin</groupId>
-            <artifactId>vaadin-client</artifactId>
-            <scope>provided</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>javax.validation</groupId>
-                    <artifactId>validation-api</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
--->
         <dependency>
             <groupId>com.vaadin</groupId>
             <artifactId>vaadin-compatibility-client</artifactId>

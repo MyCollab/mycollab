@@ -1,6 +1,6 @@
 # Free, open source Project Management software
 [![License](http://img.shields.io/badge/License-AGPLv3-orange.svg)](https://www.gnu.org/licenses/agpl-3.0.en.html) [![Project Stats](https://www.openhub.net/p/mycollab/widgets/project_thin_badge.gif)](https://www.openhub.net/p/mycollab) [![Build](https://travis-ci.org/MyCollab/mycollab.svg)](https://travis-ci.org/MyCollab/mycollab)
-[![Version](https://img.shields.io/badge/Version-6.0.0-brightgreen.svg)](https://community.mycollab.com/)
+[![Version](https://img.shields.io/badge/Version-7.0.0-brightgreen.svg)](https://community.mycollab.com/)
 [![Github](https://img.shields.io/github/downloads/MyCollab/mycollab/total.svg)](https://github.com/MyCollab/mycollab/releases)
 
 
@@ -17,7 +17,7 @@ MyCollab is the free and open source project management software. Intuitive UI, 
       <br />
       <em>Project Dashboard</em>
     </td>
-    <td align="center">
+    <td  align ="center">
       <a href="https://community.mycollab.com/wp-content/uploads/2015/12/Bug-Dashboard.png" target="_blank" title="Bug Dashboard">
         <img src="https://community.mycollab.com/wp-content/uploads/2015/12/Bug-Dashboard-300x151.png" alt="Bug Dashboard">
       </a>
@@ -90,8 +90,6 @@ MyCollab requires a running Java Runtime Environment (8 or greater), Java comman
 
 ## Installation
 
-The current MyCollab version is 6.0.0 released on 30th August, 2018. This branch focuses in monitoring, customize options for on-demand edition.
-
 1. Download MyCollab binary - https://www.mycollab.com/self-hosted/
 2. Follow installation guideline at https://community.mycollab.com/docs/hosting-mycollab-on-your-own-server/installing-mycollab/
 
@@ -112,11 +110,3 @@ Contact the MyCollab team at:
 * MyCollab community is licensed with Affero GPL v3. For license terms, see https://www.gnu.org/licenses/agpl-3.0.en.html
 
 * You can try MyCollab on-demand edition on site https://www.mycollab.com
-
-## Sponsors
-
-JProfiler supports open source projects with its full-featured Java Profiler. Click the JProfiler logo below to learn more.
-
-<a href="http://www.ej-technologies.com/products/jprofiler/overview.html" target="_blank" title="File Management">
-  <img src="http://www.ej-technologies.com/images/product_banners/jprofiler_large.png" alt="File Management">
-</a>

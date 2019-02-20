@@ -140,7 +140,7 @@ class ProjectTaskRelayEmailNotificationActionImpl : SendMailToFollowersAction<Si
                         val prjMember = projectMemberService.getActiveUserOfProject(notificationSetting.username,
                                 notificationSetting.projectid, notificationSetting.saccountid)
                         if (prjMember != null) {
-                            notifyUsers += prjMember
+                            notifyUsers = notifyUsers + prjMember
                         }
                     }
                 }
@@ -148,7 +148,7 @@ class ProjectTaskRelayEmailNotificationActionImpl : SendMailToFollowersAction<Si
                 val prjMember = projectMemberService.getActiveUserOfProject(notificationSetting.username,
                         notificationSetting.projectid, notificationSetting.saccountid)
                 if (prjMember != null) {
-                    notifyUsers += prjMember
+                    notifyUsers = notifyUsers + prjMember
                 }
             }
         }

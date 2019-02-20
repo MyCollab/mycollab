@@ -56,20 +56,28 @@ import org.springframework.beans.factory.annotation.Autowired
 abstract class SendMailToAllMembersAction<B> : SendingRelayEmailNotificationAction {
     @Autowired
     private lateinit var applicationConfiguration: ApplicationConfiguration
+
     @Autowired
     private lateinit var extMailService: ExtMailService
+
     @Autowired
     private lateinit var projectService: ProjectService
+
     @Autowired
     private lateinit var projectMemberService: ProjectMemberService
+
     @Autowired
     private lateinit var projectNotificationService: ProjectNotificationSettingService
+
     @Autowired
     private lateinit var commentService: CommentService
+
     @Autowired
     private lateinit var auditLogService: AuditLogService
+
     @Autowired
     protected lateinit var contentGenerator: IContentGenerator
+
     @Autowired
     private lateinit var eventBus: AsyncEventBus
 

@@ -22,6 +22,7 @@ import com.mycollab.common.SessionIdGenerator
 import com.mycollab.common.i18n.ErrorI18nEnum
 import com.mycollab.configuration.ApplicationConfiguration
 import com.mycollab.configuration.IDeploymentMode
+import com.mycollab.core.utils.BeanUtility
 import com.mycollab.core.utils.StringUtils
 import com.mycollab.db.arguments.GroupIdProvider
 import com.mycollab.module.billing.SubDomainNotExistException
@@ -31,6 +32,7 @@ import com.mycollab.spring.AppContextUtil
 import com.mycollab.vaadin.ui.ThemeManager
 import com.vaadin.server.Page
 import com.vaadin.server.VaadinRequest
+import com.vaadin.server.VaadinServletRequest
 import com.vaadin.ui.UI
 import org.slf4j.LoggerFactory
 import java.util.*
@@ -54,11 +56,13 @@ abstract class AppUI : UI() {
     protected fun postSetupApp(request: VaadinRequest) {
         initialSubDomain = Utils.getSubDomain(request)
         val billingService = AppContextUtil.getSpringBean(BillingAccountService::class.java)
+        LOG.info("Load account info of sub-domain $initialSubDomain from ${(request as VaadinServletRequest).serverName}")
         _billingAccount = billingService.getAccountByDomain(initialSubDomain)
 
         if (_billingAccount == null) {
             throw SubDomainNotExistException(UserUIContext.getMessage(ErrorI18nEnum.SUB_DOMAIN_IS_NOT_EXISTED, initialSubDomain))
         } else {
+            LOG.info("Billing account info ")
             val accountId = _billingAccount!!.id
             ThemeManager.loadDesktopTheme(accountId!!)
         }

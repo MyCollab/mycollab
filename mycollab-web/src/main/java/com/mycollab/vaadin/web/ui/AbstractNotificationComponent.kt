@@ -73,12 +73,6 @@ abstract class AbstractNotificationComponent : PopupButton(), PopupButton.PopupV
         notificationContainer.removeAllComponents()
 
         if (notificationItems.isNotEmpty()) {
-            val markReadButton = MButton("Mark all read").withListener {
-
-            }.withStyleName(WebThemes.BUTTON_LINK)
-            val markReadLayout = MHorizontalLayout(markReadButton).withAlign(markReadButton, Alignment.MIDDLE_RIGHT).withFullWidth()
-                    .withStyleName(WebThemes.BORDER_BOTTOM).withMargin(MarginInfo(false, true, false, false))
-            notificationContainer.add(markReadLayout)
             notificationItems.forEach { addNotificationEntry(it) }
         } else {
             val noItemLbl = Label(UserUIContext.getMessage(ShellI18nEnum.OPT_NO_NOTIFICATION))
@@ -95,7 +89,7 @@ abstract class AbstractNotificationComponent : PopupButton(), PopupButton.PopupV
         }
     }
 
-    protected fun addNotification(notification: AbstractNotification) {
+    private fun addNotification(notification: AbstractNotification) {
         notificationCount++
         notificationItems.add(notification)
         updateCaption()

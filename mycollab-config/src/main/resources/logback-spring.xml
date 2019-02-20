@@ -5,10 +5,9 @@
         <Target>System.out</Target>
         <encoder>
             <pattern>%d{"HH:mm:ss,SSS"} %5p %c:%L - %m%n</pattern>
-            <!--<pattern>%d{"HH:mm:ss,SSS"} %5p %c{1}:%L - %m%n</pattern>-->
         </encoder>
     </appender>
-    <!--
+
     <appender name="email" class="com.mycollab.logging.MailAppender">
         <layout class="ch.qos.logback.classic.PatternLayout">
             <pattern>%5p %c{1}:%L - %m%n</pattern>
@@ -16,8 +15,10 @@
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
             <level>ERROR</level>
         </filter>
+        <filter class="com.mycollab.logging.ExceptionFilter"/>
+        <filter class="com.mycollab.logging.LogFilter"/>
     </appender>
-    -->
+
     <appender name="R" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>logs/mycollab.out</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
@@ -40,5 +41,6 @@
     <root level="INFO">
         <appender-ref ref="stdout"/>
         <appender-ref ref="R"/>
+        <appender-ref ref="email"/>
     </root>
 </configuration>

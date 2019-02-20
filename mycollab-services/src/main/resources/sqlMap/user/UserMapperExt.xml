@@ -40,7 +40,7 @@
                 EXISTS (SELECT 1
                     FROM s_account, s_user_account AS user_account 
                     WHERE s_account.subDomain=@{searchCriteria.subDomain.value}
-                        AND  user_account.accountId=s_account.id 
+                        AND user_account.accountId=s_account.id
                         AND user_account.username=s_user.username
                 LIMIT 1)
             #end
@@ -129,10 +129,10 @@
             s_user_account.lastModuleVisit,
             concat(inviteUser.firstname, ' ', inviteUser.lastname) AS  inviteUserFullName
         FROM s_user 
-                INNER JOIN s_user_account ON (s_user.username=s_user_account.username)
-                INNER JOIN s_account ON (s_user_account.accountId = s_account.id)
-                LEFT OUTER JOIN s_roles ON (s_roles.id = s_user_account.roleid)
-                LEFT OUTER JOIN s_user AS inviteUser ON (inviteUser.username=s_user_account.inviteUser)
+            INNER JOIN s_user_account ON (s_user.username=s_user_account.username)
+            INNER JOIN s_account ON (s_user_account.accountId = s_account.id)
+            LEFT OUTER JOIN s_roles ON (s_roles.id = s_user_account.roleid)
+            LEFT OUTER JOIN s_user AS inviteUser ON (inviteUser.username=s_user_account.inviteUser)
         ]]>
     </sql>
 

@@ -26,7 +26,11 @@ import java.util.*
  * @since 5.3.2
  */
 class TimezoneVal(val id: String?) : Comparable<TimezoneVal> {
-    private val timezone: ZoneId = if (id != null) ZoneId.of(id) else ZoneId.systemDefault()
+    private val timezone: ZoneId = if (id != null) ZoneId.of(id) else try {
+        ZoneId.systemDefault()
+    } catch (e: Exception) {
+        ZoneId.systemDefault()
+    }
     val area: String
     val location: String
 
@@ -81,7 +85,13 @@ class TimezoneVal(val id: String?) : Comparable<TimezoneVal> {
         @JvmStatic
         fun valueOf(timeZoneId: String?): ZoneId = if (StringUtils.isBlank(timeZoneId)) {
             ZoneId.systemDefault()
-        } else ZoneId.of(timeZoneId)
+        } else {
+            try {
+                ZoneId.of(timeZoneId)
+            } catch (e: Exception) {
+                ZoneId.systemDefault()
+            }
+        }
 
         @JvmStatic
         fun getDisplayName(locale: Locale, timeZoneId: String?): String {

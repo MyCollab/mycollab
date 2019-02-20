@@ -103,14 +103,14 @@ public class MessageListViewImpl extends AbstractVerticalPageView implements Mes
 
             MVerticalLayout rowLayout = new MVerticalLayout().withFullWidth().withStyleName(WebThemes.MESSAGE_CONTAINER);
 
-            A labelLink = new A(ProjectLinkGenerator.generateMessagePreviewLink(message.getProjectid(), message.getId()),
+            A messageLink = new A(ProjectLinkGenerator.generateMessagePreviewLink(message.getProjectid(), message.getId()),
                     new Text(message.getTitle()));
 
             MHorizontalLayout messageHeader = new MHorizontalLayout().withMargin(false);
             messageHeader.setDefaultComponentAlignment(Alignment.TOP_LEFT);
 
             CssLayout leftHeader = new CssLayout();
-            leftHeader.addComponent(ELabel.h3(labelLink.write()));
+            leftHeader.addComponent(ELabel.h3(messageLink.write()));
             ELabel timePostLbl = new ELabel().prettyDateTime(message.getCreatedtime()).withStyleName(WebThemes.META_INFO);
 
             MButton deleteBtn = new MButton("", clickEvent -> ConfirmDialogExt.show(UI.getCurrent(),
@@ -124,8 +124,8 @@ public class MessageListViewImpl extends AbstractVerticalPageView implements Mes
                             messageService.removeWithSession(message, UserUIContext.getUsername(), AppUI.getAccountId());
                             messageList.setSearchCriteria(searchCriteria);
                         }
-                    })).withIcon(VaadinIcons.TRASH).withStyleName(WebThemes.BUTTON_ICON_ONLY);
-            deleteBtn.setVisible(CurrentProjectVariables.canAccess(ProjectRolePermissionCollections.MESSAGES));
+                    })).withIcon(VaadinIcons.TRASH).withStyleName(WebThemes.BUTTON_ICON_ONLY)
+                    .withVisible(CurrentProjectVariables.canAccess(ProjectRolePermissionCollections.MESSAGES));
 
             MHorizontalLayout rightHeader = new MHorizontalLayout(timePostLbl, deleteBtn).alignAll(Alignment.MIDDLE_RIGHT);
             messageHeader.with(leftHeader, rightHeader).expand(leftHeader);
@@ -159,7 +159,7 @@ public class MessageListViewImpl extends AbstractVerticalPageView implements Mes
             }
 
             if (notification.getComponentCount() > 0) {
-                MVerticalLayout messageFooter = new MVerticalLayout(notification).withSpacing(false).withFullWidth().withAlign(notification, Alignment.MIDDLE_RIGHT);
+                MVerticalLayout messageFooter = new MVerticalLayout(notification).withMargin(false).withSpacing(false).withFullWidth().withAlign(notification, Alignment.MIDDLE_RIGHT);
                 rowLayout.addComponent(messageFooter);
             }
 

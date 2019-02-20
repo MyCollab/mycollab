@@ -18335,6 +18335,7 @@ input.v-textfield-pagedtable-pagefield {
 .v-slot-notification-type {
 	padding: 10px;
 	border-bottom: 1px solid #e5e5e5;
+	min-width: 400px;
 }
 
 .v-slot-notification-type:last-child {

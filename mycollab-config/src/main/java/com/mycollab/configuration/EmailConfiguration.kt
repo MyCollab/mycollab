@@ -28,11 +28,7 @@ import org.springframework.stereotype.Component
  */
 @Component
 @ConfigurationProperties(prefix = "mail")
-class EmailConfiguration(var smtphost: String?, var username: String?,
-                         var password: String?, var port: Int,
+data class EmailConfiguration(var smtphost: String = "", var username: String = "",
+                         var password: String = "", var port: Int = -1,
                          var startTls: Boolean = false, var ssl: Boolean = false,
-                         var notifyEmail: String) : ValuedBean() {
-    constructor() : this("", "", "", -1, false, false, "")
-}
-
-
+                         var errorTo: String = "error@mycollab.com") : ValuedBean()
