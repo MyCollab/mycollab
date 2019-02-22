@@ -79,7 +79,7 @@ public class AccountModuleImpl extends AbstractSingleContainerPageView implement
 
         MButton helpBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.ACTION_HELP))
                 .withIcon(VaadinIcons.ACADEMY_CAP).withStyleName(WebThemes.BUTTON_LINK);
-        ExternalResource helpRes = new ExternalResource("https://community.mycollab.com/docs/account-management/");
+        ExternalResource helpRes = new ExternalResource("https://docs.mycollab.com/user-guide/account-management/");
         BrowserWindowOpener helpOpener = new BrowserWindowOpener(helpRes);
         helpOpener.extend(helpBtn);
 

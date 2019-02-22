@@ -96,8 +96,8 @@ class DefaultMailer(private val emailConf: EmailConfiguration) : IMailer {
     }
 
     override fun sendHTMLMail(fromEmail: String, fromName: String, toEmails: List<MailRecipientField>,
-                     ccEmails: List<MailRecipientField>?, bccEmails: List<MailRecipientField>?,
-                     subject: String, html: String, attachments: List<AttachmentSource>?) {
+                              ccEmails: List<MailRecipientField>?, bccEmails: List<MailRecipientField>?,
+                              subject: String, html: String, attachments: List<AttachmentSource>?) {
         try {
             when (attachments) {
                 null -> sendHTMLMail(fromEmail, fromName, toEmails, ccEmails, bccEmails, subject, html)

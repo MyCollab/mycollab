@@ -168,7 +168,6 @@ public abstract class AbstractBeanFieldGroupFieldFactory<B> implements IBeanFiel
 
         Set<ConstraintViolation<B>> violations = validator.validate(attachForm.getBean());
         if (violations.size() > 0) {
-            StringBuilder errorMsg = new StringBuilder();
             Ul ul = new Ul();
             for (ConstraintViolation violation : violations) {
                 Path propertyPath = violation.getPropertyPath();

@@ -75,7 +75,7 @@ abstract class AbstractNotificationComponent : PopupButton(), PopupButton.PopupV
         if (notificationItems.isNotEmpty()) {
             notificationItems.forEach { addNotificationEntry(it) }
         } else {
-            val noItemLbl = Label(UserUIContext.getMessage(ShellI18nEnum.OPT_NO_NOTIFICATION))
+            val noItemLbl = ELabel(UserUIContext.getMessage(ShellI18nEnum.OPT_NO_NOTIFICATION)).withFullWidth()
             notificationContainer.with(noItemLbl).withAlign(noItemLbl, Alignment.MIDDLE_CENTER)
         }
     }
@@ -168,15 +168,15 @@ abstract class AbstractNotificationComponent : PopupButton(), PopupButton.PopupV
                     this@AbstractNotificationComponent.isPopupVisible = false
                 }.withStyleName(WebThemes.BLOCK)
                 return MHorizontalLayout(avatarUploadLbl, uploadAvatarBtn).expand(avatarUploadLbl).withDefaultComponentAlignment(Alignment.TOP_LEFT)
+                        .withFullWidth()
             }
             is SmtpSetupNotification -> {
                 val smtpBtn = MButton(UserUIContext.getMessage(GenericI18Enum.ACTION_SETUP)) { _ ->
                     EventBusFactory.getInstance().post(ShellEvent.GotoUserAccountModule(this, arrayOf("setup")))
                     this@AbstractNotificationComponent.isPopupVisible = false
                 }.withStyleName(WebThemes.BLOCK)
-                val lbl = ELabel.html("${VaadinIcons.EXCLAMATION_CIRCLE.html} ${UserUIContext.getMessage(ShellI18nEnum.ERROR_NO_SMTP_SETTING)}")
-                val lblWrapper = MCssLayout(lbl)
-                return MHorizontalLayout(lblWrapper, smtpBtn).expand(lblWrapper).withDefaultComponentAlignment(Alignment.TOP_LEFT)
+                val lbl = ELabel.html("${VaadinIcons.EXCLAMATION_CIRCLE.html} ${UserUIContext.getMessage(ShellI18nEnum.ERROR_NO_SMTP_SETTING)}").withFullWidth()
+                return MHorizontalLayout(lbl, smtpBtn).expand(lbl).withDefaultComponentAlignment(Alignment.TOP_LEFT)
             }
             else -> return buildComponentFromNotificationExclusive(item)
         }

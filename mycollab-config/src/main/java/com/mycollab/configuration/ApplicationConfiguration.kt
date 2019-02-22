@@ -25,11 +25,10 @@ import org.springframework.stereotype.Component
  */
 @Component
 @ConfigurationProperties(prefix = "app")
-class ApplicationConfiguration(var siteName: String = "MyCollab", var description: String? = "", var facebookUrl: String? = "",
-                               var twitterUrl: String? = "", var googleUrl: String? = "",
-                               var linkedinUrl: String? = "", var notifyEmail: String) {
-
-    constructor() : this("", "", "", "", "", "", "")
+class ApplicationConfiguration(var siteName: String = "MyCollab", var description: String = "",
+                               var facebookUrl: String = "", var twitterUrl: String = "",
+                               var googleUrl: String = "", var linkedinUrl: String = "",
+                               var notifyEmail: String = "noreply@mycollab.com") {
 
     fun defaultUrls() =
             mutableMapOf("facebook_url" to (facebookUrl ?: ""),

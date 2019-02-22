@@ -2205,13 +2205,13 @@ div.v-window .v-panel {
 }
 
 .wizard .wizard-progress-bar {
-	padding: 5px 0px;
+	padding: 6px 0px;
 	border-bottom: 1px solid #e5e5e5;
 }
 
 .wizard .wizard-progress-bar .v-progressbar-indicator {
 	background: none;
-	background-color: #fdde86;
+	background-color: #46be8a;
 }
 
 .wizard .v-panel {
@@ -17045,13 +17045,13 @@ div.v-window .v-panel {
 }
 
 .wizard .wizard-progress-bar {
-	padding: 5px 0px;
+	padding: 6px 0px;
 	border-bottom: 1px solid #e5e5e5;
 }
 
 .wizard .wizard-progress-bar .v-progressbar-indicator {
 	background: none;
-	background-color: #fdde86;
+	background-color: #46be8a;
 }
 
 .wizard .v-panel {
@@ -19021,16 +19021,20 @@ div.v-csslayout.main-body {
 	margin: 0px;
 }
 
+.v-Notification {
+	text-align: left;
+}
+
 .v-Notification.v-Notification-humanized h1, .v-Notification.v-Notification-error h1, .v-Notification.v-Notification-warning h1, .v-Notification.v-Notification-tray h1 {
 	display: inline;
 	background: none;
 	border: none;
 	font-size: 18px;
-	padding: 7px 10px;
+	padding: 6px 0px;
 }
 
 .v-Notification p {
-	padding: 5px 10px;
+	padding: 6px 12px;
 	display: block;
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
@@ -19041,6 +19045,10 @@ div.v-csslayout.main-body {
 .v-Notification.tray {
 	background-color: #e6e6e6;
 	border: 1px solid #e5e5e5;
+}
+
+.v-Notification.warning {
+	background-color: #ffcc00;
 }
 
 .v-Notification.humanized {

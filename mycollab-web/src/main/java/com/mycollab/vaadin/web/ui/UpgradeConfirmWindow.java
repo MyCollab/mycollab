@@ -66,11 +66,11 @@ public class UpgradeConfirmWindow extends MWindow {
         content.with(ELabel.html(manualInstallLink.write()));
 
         Div manualUpgradeHowtoLink = new Div().appendText("&nbsp;&nbsp;&nbsp;&nbsp;" + UserUIContext.getMessage(ShellI18nEnum.OPT_MANUAL_UPGRADE) + ": ")
-                .appendChild(new A("https://community.mycollab.com/docs/hosting-mycollab-on-your-own-server/upgrade-mycollab-automatically/", "_blank").appendText("Link"));
+                .appendChild(new A("https://docs.mycollab.com/administration/upgrade-mycollab-automatically/", "_blank").appendText("Link"));
         content.with(ELabel.html(manualUpgradeHowtoLink.write()));
 
         Div releaseNoteLink = new Div().appendText("&nbsp;&nbsp;&nbsp;&nbsp;" + UserUIContext.getMessage(ShellI18nEnum.OPT_RELEASE_NOTES) + ": ")
-                .appendChild(new A("https://community.mycollab.com/docs/hosting-mycollab-on-your-own-server/releases/", "_blank").appendText("Link"));
+                .appendChild(new A("https://docs.mycollab.com/administration/hosting-mycollab-on-your-own-server/releases/", "_blank").appendText("Link"));
         content.with(ELabel.html(releaseNoteLink.write()));
 
         MButton skipBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.ACTION_SKIP), clickEvent -> close())

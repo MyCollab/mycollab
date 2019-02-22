@@ -46,6 +46,8 @@ import com.mycollab.vaadin.ui.UIUtils;
 import com.mycollab.vaadin.web.ui.AbstractToggleSummaryField;
 import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.mycollab.vaadin.web.ui.WebThemes;
+import com.vaadin.event.ShortcutAction;
+import com.vaadin.event.ShortcutListener;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.TextField;
@@ -81,18 +83,23 @@ public class ToggleTicketSummaryField extends AbstractToggleSummaryField {
                 if (isRead) {
                     removeComponent(titleLinkLbl);
                     removeComponent(buttonControls);
-                    final TextField editField = new TextField();
+                    TextField editField = new TextField();
                     editField.setValue(ticket.getName());
                     editField.setWidth("100%");
                     editField.focus();
                     addComponent(editField);
                     removeStyleName("editable-field");
-                    editField.addValueChangeListener(valueChangeEvent -> updateFieldValue(editField));
+                    editField.addShortcutListener(new ShortcutListener("enter", ShortcutAction.KeyCode.ENTER, (int[]) null) {
+                        @Override
+                        public void handleAction(Object sender, Object target) {
+                            updateFieldValue(editField);
+                        }
+                    });
                     editField.addBlurListener(blurEvent -> updateFieldValue(editField));
                     isRead = !isRead;
                 }
-            }).withIcon(VaadinIcons.EDIT).withStyleName(ValoTheme.BUTTON_ICON_ALIGN_TOP);
-            instantEditBtn.setDescription(UserUIContext.getMessage(GenericI18Enum.ACTION_CLICK_TO_EDIT));
+            }).withIcon(VaadinIcons.EDIT).withStyleName(ValoTheme.BUTTON_ICON_ALIGN_TOP)
+                    .withDescription(UserUIContext.getMessage(GenericI18Enum.ACTION_CLICK_TO_EDIT));
             buttonControls.with(instantEditBtn);
 
             if ((ticket.isRisk() && CurrentProjectVariables.canAccess(ProjectRolePermissionCollections.RISKS))

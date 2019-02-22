@@ -45,10 +45,7 @@ import com.mycollab.vaadin.ApplicationEventListener;
 import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.*;
-import com.mycollab.vaadin.ui.field.DefaultViewField;
-import com.mycollab.vaadin.ui.field.I18nFormViewField;
-import com.mycollab.vaadin.ui.field.RichTextViewField;
-import com.mycollab.vaadin.ui.field.StyleViewField;
+import com.mycollab.vaadin.ui.field.*;
 import com.mycollab.vaadin.web.ui.*;
 import com.vaadin.data.HasValue;
 import com.vaadin.icons.VaadinIcons;
@@ -103,8 +100,7 @@ public class TaskPreviewForm extends AdvancedPreviewBeanForm<SimpleTask> {
                     return field;
                 }
             } else if (Task.Field.isestimated.equalTo(propertyId)) {
-                return new DefaultViewField(Boolean.TRUE.equals(beanItem.getIsestimated()) ?
-                        UserUIContext.getMessage(GenericI18Enum.ACTION_YES) : UserUIContext.getMessage(GenericI18Enum.ACTION_NO));
+                return new BooleanViewField();
             } else if (Task.Field.description.equalTo(propertyId)) {
                 return new RichTextViewField();
             } else if ("section-subTasks".equals(propertyId)) {

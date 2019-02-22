@@ -121,19 +121,19 @@ public class MainViewImpl extends AbstractMainView {
         accountPopupContent.addSeparator();
 
         MButton helpBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.ACTION_HELP)).withIcon(VaadinIcons.ACADEMY_CAP);
-        ExternalResource helpRes = new ExternalResource("https://community.mycollab.com/meet-mycollab/");
+        ExternalResource helpRes = new ExternalResource("https://docs.mycollab.com/user-guide/");
         BrowserWindowOpener helpOpener = new BrowserWindowOpener(helpRes);
         helpOpener.extend(helpBtn);
         accountPopupContent.addOption(helpBtn);
 
         MButton supportBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_SUPPORT)).withIcon(VaadinIcons.ACADEMY_CAP);
-        ExternalResource supportRes = new ExternalResource("http://support.mycollab.com/");
+        ExternalResource supportRes = new ExternalResource("https://mycollab.userecho.com/en/");
         BrowserWindowOpener supportOpener = new BrowserWindowOpener(supportRes);
         supportOpener.extend(supportBtn);
         accountPopupContent.addOption(supportBtn);
 
         MButton translateBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.ACTION_TRANSLATE)).withIcon(VaadinIcons.PENCIL);
-        ExternalResource translateRes = new ExternalResource("https://community.mycollab.com/docs/developing-mycollab/translating/");
+        ExternalResource translateRes = new ExternalResource("https://docs.mycollab.com/development/translating/");
         BrowserWindowOpener translateOpener = new BrowserWindowOpener(translateRes);
         translateOpener.extend(translateBtn);
         accountPopupContent.addOption(translateBtn);
@@ -147,7 +147,7 @@ public class MainViewImpl extends AbstractMainView {
         accountPopupContent.addOption(aboutBtn);
 
         Button releaseNotesBtn = new Button(UserUIContext.getMessage(ShellI18nEnum.OPT_RELEASE_NOTES));
-        ExternalResource releaseNotesRes = new ExternalResource("https://community.mycollab.com/docs/hosting-mycollab-on-your-own-server/releases/");
+        ExternalResource releaseNotesRes = new ExternalResource("https://docs.mycollab.com/releases/");
         BrowserWindowOpener releaseNotesOpener = new BrowserWindowOpener(releaseNotesRes);
         releaseNotesOpener.extend(releaseNotesBtn);
 

@@ -37,6 +37,8 @@ import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.web.ui.AbstractToggleSummaryField;
 import com.mycollab.vaadin.web.ui.WebThemes;
+import com.vaadin.event.ShortcutAction;
+import com.vaadin.event.ShortcutListener;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.themes.ValoTheme;
@@ -74,7 +76,12 @@ class ToggleBugSummaryField extends AbstractToggleSummaryField {
                     editField.focus();
                     ToggleBugSummaryField.this.addComponent(editField);
                     ToggleBugSummaryField.this.removeStyleName("editable-field");
-                    editField.addValueChangeListener(valueChangeEvent -> updateFieldValue(editField));
+                    editField.addShortcutListener(new ShortcutListener("enter", ShortcutAction.KeyCode.ENTER, (int[]) null) {
+                        @Override
+                        public void handleAction(Object sender, Object target) {
+                            updateFieldValue(editField);
+                        }
+                    });
                     editField.addBlurListener(blurEvent -> updateFieldValue(editField));
                     isRead = !isRead;
                 }

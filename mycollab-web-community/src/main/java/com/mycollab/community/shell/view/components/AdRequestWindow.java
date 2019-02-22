@@ -66,7 +66,7 @@ public class AdRequestWindow extends MWindow {
         Label testimonialAd = ELabel.html("A chance to get a free license of the premium MyCollab software for 10 users" +
                 ". If you execute one of the following:");
         Label rateSourceforge = ELabel.html(new Div().appendChild(new Text("&nbsp;&nbsp;" + VaadinIcons.FLAG_CHECKERED.getHtml()),
-                DivLessFormatter.EMPTY_SPACE, new A("https://community.mycollab.com/docs/developing-mycollab/translating/", "_blank")
+                DivLessFormatter.EMPTY_SPACE, new A("https://docs.mycollab.com/docs/development/translating/", "_blank")
                         .appendText("Localize MyCollab to your language at least 20% of the phrases")).setStyle
                 ("color:#006dac").write());
         MButton testimonialBtn = new MButton("Write a testimonial which is selected to post on our website",

@@ -53,6 +53,8 @@ class SendUserInvitationCommand(private val userService: UserService,
     @Subscribe
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     fun execute(event: SendUserInvitationEvent) {
+        // Trick to make sure the saving user successfully to database
+        Thread.sleep(5000)
         val inviteeUser = userService.findUserInAccount(event.invitee, event.sAccountId)
         if (inviteeUser != null) {
             contentGenerator.putVariable("siteUrl", deploymentMode.getSiteUrl(inviteeUser.subDomain))

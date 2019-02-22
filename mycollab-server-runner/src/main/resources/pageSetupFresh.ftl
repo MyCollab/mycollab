@@ -28,7 +28,7 @@ label {
             <h4>MyCollab is well tested on various platforms include Windows, Linux and MacOS. We have been
                 spending countless hours to do the installation testing on
                 as many machines as possible. If you can not install MyCollab successfully, please raise your case in
-                 our <a href="http://support.mycollab.com/list/42580-general-help/" target="_blank">Support
+                 our <a href="https://mycollab.userecho.com/communities/3-general-help/topics/" target="_blank">Support
                  page</a></h4>
         </div>
         <hr size="1" style="margin: 20px 0 1px 0; ">
@@ -52,7 +52,7 @@ label {
                                     <tr>
                                         <td><input id="serverAddress" placeholder="Example: 192.168.1.70 or myservername.com"/></td>
                                     </tr>
-                                    <tr><td><h4>You can get this info from your web host. It could be an IP address or server name. You must not include the server port in this value. If you want to change the server port, please use <a href="https://community.mycollab.com/faq/#defaultport">this way</a></h4></td></tr>
+                                    <tr><td><h4>You can get this info from your web host. It could be an IP address or server name. You must not include the server port in this value. If you want to change the server port, please use <a href="https://docs.mycollab.com/getting-started/configuration/">this way</a></h4></td></tr>
                                 </tbody>
                             </table>
                         </form>
