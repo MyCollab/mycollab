@@ -111,10 +111,10 @@ public class MilestonePreviewForm extends AdvancedPreviewBeanForm<SimpleMileston
 
         AssignmentsComp(SimpleMilestone milestone) {
             this.beanItem = milestone;
-            withMargin(false).withFullWidth();
+            withMargin(false).withFullWidth().withStyleName(WebThemes.NO_SCROLLABLE_CONTAINER);
             MHorizontalLayout header = new MHorizontalLayout().withMargin(new MarginInfo(false, false, true, false)).withFullWidth();
 
-            final CheckBox openSelection = new CheckBox(UserUIContext.getMessage(StatusI18nEnum.Open), true);
+            CheckBox openSelection = new CheckBox(UserUIContext.getMessage(StatusI18nEnum.Open), true);
             openSelection.addValueChangeListener(valueChangeEvent -> {
                 if (openSelection.getValue()) {
                     searchCriteria.setOpen(new SearchField());
@@ -124,7 +124,7 @@ public class MilestonePreviewForm extends AdvancedPreviewBeanForm<SimpleMileston
                 updateSearchStatus();
             });
 
-            final CheckBox overdueSelection = new CheckBox(UserUIContext.getMessage(StatusI18nEnum.Overdue), false);
+            CheckBox overdueSelection = new CheckBox(UserUIContext.getMessage(StatusI18nEnum.Overdue), false);
             overdueSelection.addValueChangeListener(valueChangeEvent -> {
                 if (overdueSelection.getValue()) {
                     searchCriteria.setDueDate(new DateSearchField(DateTimeUtils.getCurrentDateWithoutMS().toLocalDate(),
@@ -137,15 +137,15 @@ public class MilestonePreviewForm extends AdvancedPreviewBeanForm<SimpleMileston
 
             Label spacingLbl1 = new Label("");
 
-            final CheckBox taskSelection = new CheckBox(UserUIContext.getMessage(TaskI18nEnum.LIST), true);
+            CheckBox taskSelection = new CheckBox(UserUIContext.getMessage(TaskI18nEnum.LIST), true);
             taskSelection.addValueChangeListener(valueChangeEvent -> updateTypeSearchStatus(taskSelection.getValue(),
                     ProjectTypeConstants.TASK));
 
-            final CheckBox bugSelection = new CheckBox(UserUIContext.getMessage(BugI18nEnum.LIST), true);
+            CheckBox bugSelection = new CheckBox(UserUIContext.getMessage(BugI18nEnum.LIST), true);
             bugSelection.addValueChangeListener(valueChangeEvent -> updateTypeSearchStatus(bugSelection.getValue(),
                     ProjectTypeConstants.BUG));
 
-            final CheckBox riskSelection = new CheckBox(UserUIContext.getMessage(RiskI18nEnum.LIST), true);
+            CheckBox riskSelection = new CheckBox(UserUIContext.getMessage(RiskI18nEnum.LIST), true);
             riskSelection.addValueChangeListener(valueChangeEvent -> updateTypeSearchStatus(riskSelection.getValue(),
                     ProjectTypeConstants.RISK));
 
@@ -186,10 +186,11 @@ public class MilestonePreviewForm extends AdvancedPreviewBeanForm<SimpleMileston
     private static class GenericTaskRowRenderer implements IBeanList.RowDisplayHandler<ProjectTicket> {
         @Override
         public Component generateRow(IBeanList<ProjectTicket> host, ProjectTicket genericTask, int rowIndex) {
-            MHorizontalLayout rowComp = new MHorizontalLayout().withStyleName(WebThemes.HOVER_EFFECT_NOT_BOX, "margin-bottom");
+            MHorizontalLayout rowComp = new MHorizontalLayout().withMargin(new MarginInfo(false, false, false, true))
+                    .withStyleName(WebThemes.HOVER_EFFECT_NOT_BOX, WebThemes.MARGIN_BOTTOM);
             rowComp.setDefaultComponentAlignment(Alignment.TOP_LEFT);
             rowComp.with(ELabel.fontIcon(ProjectAssetsManager.getAsset(genericTask.getType())).withUndefinedWidth());
-            String status = "";
+            String status;
             if (genericTask.isMilestone()) {
                 status = UserUIContext.getMessage(MilestoneStatus.class, genericTask.getStatus());
             } else {

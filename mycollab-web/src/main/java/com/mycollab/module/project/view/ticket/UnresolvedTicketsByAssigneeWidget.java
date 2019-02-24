@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -22,8 +22,6 @@ import com.mycollab.core.utils.BeanUtility;
 import com.mycollab.core.utils.StringUtils;
 import com.mycollab.db.arguments.SearchField;
 import com.mycollab.db.arguments.StringSearchField;
-import com.mycollab.vaadin.ApplicationEventListener;
-import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.domain.criteria.ProjectTicketSearchCriteria;
 import com.mycollab.module.project.event.TicketEvent;
@@ -34,6 +32,8 @@ import com.mycollab.module.user.domain.SimpleUser;
 import com.mycollab.module.user.service.UserService;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppUI;
+import com.mycollab.vaadin.ApplicationEventListener;
+import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.UserAvatarControlFactory;
 import com.mycollab.vaadin.web.ui.ProgressBarIndicator;
@@ -74,7 +74,6 @@ public class UnresolvedTicketsByAssigneeWidget extends Panel {
 
     public UnresolvedTicketsByAssigneeWidget() {
         super("", new MVerticalLayout());
-//        setContentBorder(true);
     }
 
     @Override
@@ -89,7 +88,7 @@ public class UnresolvedTicketsByAssigneeWidget extends Panel {
         super.detach();
     }
 
-    public void setSearchCriteria(final ProjectTicketSearchCriteria searchCriteria) {
+    public void setSearchCriteria(ProjectTicketSearchCriteria searchCriteria) {
         this.searchCriteria = searchCriteria;
 
         ProjectTicketService projectTicketService = AppContextUtil.getSpringBean(ProjectTicketService.class);

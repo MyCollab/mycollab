@@ -1836,6 +1836,10 @@ a.pending {
 	border-left: 1px solid #e5e5e5;
 }
 
+.border-right {
+	border-right: 1px solid #e5e5e5;
+}
+
 .border {
 	border: 1px solid #e5e5e5;
 }
@@ -16669,6 +16673,10 @@ a.pending {
 
 .border-left {
 	border-left: 1px solid #e5e5e5;
+}
+
+.border-right {
+	border-right: 1px solid #e5e5e5;
 }
 
 .border {

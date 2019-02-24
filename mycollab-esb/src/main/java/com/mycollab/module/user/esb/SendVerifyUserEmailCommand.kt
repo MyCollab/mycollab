@@ -19,6 +19,8 @@ import com.mycollab.module.user.service.BillingAccountService
 import com.mycollab.module.user.service.UserService
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
+import org.springframework.transaction.event.TransactionPhase
+import org.springframework.transaction.event.TransactionalEventListener
 import java.util.*
 
 /**
@@ -35,6 +37,7 @@ class SendVerifyUserEmailCommand(private val deploymentMode: IDeploymentMode,
 
     @AllowConcurrentEvents
     @Subscribe
+    @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     fun sendVerifyEmailRequest(event: SendUserEmailVerifyRequestEvent) {
         sendConfirmEmailToUser(event.sAccountId, event.user)
         event.user.status = UserStatusConstants.EMAIL_VERIFIED_REQUEST

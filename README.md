@@ -19,14 +19,14 @@ MyCollab is the free and open source project management software. Intuitive UI, 
     </td>
     <td  align ="center">
       <a href="https://c2.staticflickr.com/8/7918/47173080821_12241886b9_o.png" target="_blank" title="Ticket Dashboard">
-        <img src="https://c2.staticflickr.com/8/7918/47173080821_6a9ae24fb7_n.jpg" alt="Ticket Dashboard">
+        <img src="https://c2.staticflickr.com/8/7918/47173080821_f6c092822e_n.jpg" alt="Ticket Dashboard">
       </a>
       <br />
       <em>Ticket Dashboard</em>
     </td>
     <td align="center">
-    <a href="https://c2.staticflickr.com/8/7868/46259674665_3b32a73f07_o.png" target="_blank" title="Kanban Board">
-      <img src="https://c2.staticflickr.com/8/7868/46259674665_d3f532f637_n.jpg" alt="Kanban Board">
+    <a href="https://c2.staticflickr.com/8/7868/46259674665_52e5d9ec03_o.png" target="_blank" title="Kanban Board">
+      <img src="https://c2.staticflickr.com/8/7868/46259674665_c80a0c15a7_n.jpg" alt="Kanban Board">
     </a>
       <br />
       <em>Kanban Board</em>
@@ -34,15 +34,15 @@ MyCollab is the free and open source project management software. Intuitive UI, 
   </tr>
   <tr>
     <td align="center">
-    <a href="https://c2.staticflickr.com/8/7874/46259716315_480d6ea678_o.png" target="_blank" title="Task View">
-        <img src="https://c2.staticflickr.com/8/7874/46259716315_8a5d84acb4_n.jpg" alt="Task View">
+    <a href="https://c2.staticflickr.com/8/7874/46259716315_bd4269858d_o.png" target="_blank" title="Task View">
+        <img src="https://c2.staticflickr.com/8/7874/46259716315_44047af85e_n.jpg" alt="Task View">
       </a>
       <br />
       <em>Task View</em>
     </td>
     <td align="center">
-      <a href="https://c2.staticflickr.com/8/7896/47173858441_950c6757ab_o.png" target="_blank" title="Members">
-        <img src="https://c2.staticflickr.com/8/7896/47173858441_f4676175d7_n.jpg" alt="Members">
+      <a href="https://c2.staticflickr.com/8/7896/47173858441_f2395a1b7d_o.png" target="_blank" title="Members">
+        <img src="https://c2.staticflickr.com/8/7896/47173858441_3b4c77990f_n.jpg" alt="Members">
       </a>
       <br />
       <em>Members</em>

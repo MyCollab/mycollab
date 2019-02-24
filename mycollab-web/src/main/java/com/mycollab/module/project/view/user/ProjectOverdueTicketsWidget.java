@@ -53,7 +53,7 @@ public class ProjectOverdueTicketsWidget extends Depot {
         super(String.format("%s (0)", UserUIContext.getMessage(TicketI18nEnum.VAL_OVERDUE_TICKETS)), new CssLayout());
         this.setWidth("100%");
 
-        final CheckBox myItemsSelection = new CheckBox(UserUIContext.getMessage(GenericI18Enum.OPT_MY_ITEMS));
+        CheckBox myItemsSelection = new CheckBox(UserUIContext.getMessage(GenericI18Enum.OPT_MY_ITEMS));
         myItemsSelection.addValueChangeListener(valueChangeEvent -> {
             boolean isMyItemsOption = myItemsSelection.getValue();
             if (isMyItemsOption) {

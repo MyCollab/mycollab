@@ -156,7 +156,7 @@ public abstract class AbstractBeanPagedList<T> extends CssLayout implements HasP
     private Component msgWhenEmptyList() {
         String value = stringWhenEmptyList();
         if (StringUtils.isNotBlank(value)) {
-            return new MHorizontalLayout().withStyleName("panel-body").withMargin(true).withFullWidth().with(new Label(value));
+            return new MHorizontalLayout().withStyleName(WebThemes.BORDER_BOTTOM, WebThemes.BORDER_LEFT, WebThemes.BORDER_RIGHT).withMargin(true).withFullWidth().with(new Label(value));
         } else {
             return null;
         }

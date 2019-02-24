@@ -41,8 +41,7 @@ public class BugRowRenderer implements IBeanList.RowDisplayHandler<SimpleBug> {
     public Component generateRow(IBeanList<SimpleBug> host, SimpleBug bug, int rowIndex) {
         ToggleBugSummaryField toggleBugSummaryField = new ToggleBugSummaryField(bug);
 
-        MHorizontalLayout rowComp = new MHorizontalLayout().withStyleName(WebThemes.HOVER_EFFECT_NOT_BOX);
-        rowComp.addStyleName("margin-bottom");
+        MHorizontalLayout rowComp = new MHorizontalLayout().withStyleName(WebThemes.HOVER_EFFECT_NOT_BOX, WebThemes.MARGIN_BOTTOM);
         rowComp.setDefaultComponentAlignment(Alignment.TOP_LEFT);
 
         String bugPriority = bug.getPriority();

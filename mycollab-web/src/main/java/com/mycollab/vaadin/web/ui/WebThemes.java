@@ -72,6 +72,7 @@ public class WebThemes {
     public static final String BORDER_TOP = "border-top";
     public static final String BORDER_BOTTOM = "border-bottom";
     public static final String BORDER_LEFT = "border-left";
+    public static final String BORDER_RIGHT = "border-right";
     public static final String BORDER = "border";
     public static final String BORDER_LIST = "border-list";
     public static final String BORDER_LIST_ROW = "row";
