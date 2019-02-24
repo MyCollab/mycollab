@@ -489,7 +489,8 @@
         concat(changeUser.firstname, ' ', changeUser.lastname) as changeByUserFullName,
         notifier.firstname AS notifiers_firstname, notifier.lastname AS notifiers_lastname,
         notifier.username AS notifiers_username, notifier.timezone AS notifiers_timezone,
-        notifier.email AS notifiers_email, notifier.language AS notifiers_language, s_relay_email_notification.sAccountId AS notifiers_accountId
+        notifier.email AS notifiers_email, notifier.language AS notifiers_language,
+        notifier.status AS notifiers_status, s_relay_email_notification.sAccountId AS notifiers_accountId
         FROM s_relay_email_notification
             INNER JOIN m_tracker_bug ON  (s_relay_email_notification.type='Project-Bug' AND m_tracker_bug.id=s_relay_email_notification.typeId)
             INNER JOIN s_user AS changeUser ON (changeUser.username=s_relay_email_notification.changeby)
@@ -512,7 +513,8 @@
         concat(changeUser.firstname, ' ', changeUser.lastname) as changeByUserFullName,
         notifier.firstname AS notifiers_firstname, notifier.lastname AS notifiers_lastname,
         notifier.username AS notifiers_username, notifier.timezone AS notifiers_timezone,
-        notifier.email AS notifiers_email, notifier.language AS notifiers_language, s_relay_email_notification.sAccountId AS notifiers_accountId
+        notifier.email AS notifiers_email, notifier.language AS notifiers_language,
+        notifier.status AS notifiers_status, s_relay_email_notification.sAccountId AS notifiers_accountId
         FROM s_relay_email_notification
             INNER JOIN m_prj_task ON (s_relay_email_notification.type='Project-Task' AND m_prj_task.id=s_relay_email_notification.typeId)
             INNER JOIN s_user AS changeUser ON (changeUser.username=s_relay_email_notification.changeby)
@@ -535,7 +537,7 @@
         concat(changeUser.firstname, ' ', changeUser.lastname) as changeByUserFullName,
         NULL AS notifiers_firstname, NULL AS notifiers_lastname, NULL AS notifiers_username,
         NULL AS notifiers_timezone, NULL AS notifiers_email,  NULL AS notifiers_language,
-        NULL AS notifiers_accountId
+        NULL AS notifiers_status, NULL AS notifiers_accountId
         FROM s_relay_email_notification
             INNER JOIN m_prj_message ON (s_relay_email_notification.type='Project-Message' AND m_prj_message.id=s_relay_email_notification.typeId)
             INNER JOIN s_user AS changeUser ON (changeUser.username=s_relay_email_notification.changeby)
@@ -554,7 +556,7 @@
         concat(changeUser.firstname, ' ', changeUser.lastname) as changeByUserFullName,
         NULL AS notifiers_firstname, NULL AS notifiers_lastname,
         NULL AS notifiers_username, NULL AS notifiers_timezone,
-        NULL AS notifiers_email, NULL AS notifiers_language, NULL AS notifiers_accountId
+        NULL AS notifiers_email, NULL AS notifiers_language, NULL AS notifiers_status, NULL AS notifiers_accountId
         FROM s_relay_email_notification
             INNER JOIN m_prj_milestone ON (s_relay_email_notification.type='Project-Milestone' AND m_prj_milestone.id=s_relay_email_notification.typeId)
             INNER JOIN s_user AS changeUser ON (changeUser.username=s_relay_email_notification.changeby)
@@ -573,7 +575,7 @@
         concat(changeUser.firstname, ' ', changeUser.lastname) as changeByUserFullName,
         NULL AS notifiers_firstname, NULL AS notifiers_lastname,
         NULL AS notifiers_username, NULL AS notifiers_timezone,
-        NULL AS notifiers_email, NULL AS notifiers_language, NULL AS notifiers_accountId
+        NULL AS notifiers_email, NULL AS notifiers_language, NULL AS notifiers_status, NULL AS notifiers_accountId
         FROM s_relay_email_notification
             INNER JOIN m_prj_risk ON (s_relay_email_notification.type='Project-Risk' AND m_prj_risk.id=s_relay_email_notification.typeId)
             INNER JOIN s_user AS changeUser ON (changeUser.username=s_relay_email_notification.changeby)
@@ -592,7 +594,7 @@
         concat(changeUser.firstname, ' ', changeUser.lastname) as changeByUserFullName,
         NULL AS notifiers_firstname, NULL AS notifiers_lastname, NULL AS notifiers_username,
         NULL AS notifiers_timezone, NULL AS notifiers_email, NULL AS notifiers_language,
-        NULL AS notifiers_accountId
+        NULL AS notifiers_status, NULL AS notifiers_accountId
         FROM s_relay_email_notification
             INNER JOIN m_tracker_component ON (s_relay_email_notification.type='Project-Component' AND m_tracker_component.id=s_relay_email_notification.typeId)
             INNER JOIN s_user AS changeUser ON (changeUser.username=s_relay_email_notification.changeby)
@@ -611,7 +613,7 @@
         concat(changeUser.firstname, ' ', changeUser.lastname) as changeByUserFullName,
         NULL AS notifiers_firstname, NULL AS notifiers_lastname, NULL AS notifiers_username,
         NULL AS notifiers_timezone, NULL AS notifiers_email, NULL AS notifiers_language,
-        NULL AS notifiers_accountId
+        NULL AS notifiers_status, NULL AS notifiers_accountId
         FROM s_relay_email_notification
             INNER JOIN m_tracker_version ON (s_relay_email_notification.type='Project-Version' AND m_tracker_version.id=s_relay_email_notification.typeId)
             INNER JOIN s_user AS changeUser ON (changeUser.username=s_relay_email_notification.changeby)
