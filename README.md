@@ -1,6 +1,6 @@
 # Free, open source Project Management software
 [![License](http://img.shields.io/badge/License-AGPLv3-orange.svg)](https://www.gnu.org/licenses/agpl-3.0.en.html) [![Project Stats](https://www.openhub.net/p/mycollab/widgets/project_thin_badge.gif)](https://www.openhub.net/p/mycollab) [![Build](https://travis-ci.org/MyCollab/mycollab.svg)](https://travis-ci.org/MyCollab/mycollab)
-[![Version](https://img.shields.io/badge/Version-7.0.0-brightgreen.svg)](https://docs.mycollab.com/)
+[![Version](https://img.shields.io/badge/Version-7.0.1-brightgreen.svg)](https://docs.mycollab.com/)
 [![Github](https://img.shields.io/github/downloads/MyCollab/mycollab/total.svg)](https://github.com/MyCollab/mycollab/releases)
 
 
@@ -18,7 +18,7 @@ MyCollab is the free and open source project management software. Intuitive UI, 
       <em>Project Dashboard</em>
     </td>
     <td  align ="center">
-      <a href="https://c2.staticflickr.com/8/7918/47173080821_12241886b9_o.png" target="_blank" title="Ticket Dashboard">
+      <a href="https://c2.staticflickr.com/8/7918/47173080821_3352d05e2b_o.png" target="_blank" title="Ticket Dashboard">
         <img src="https://c2.staticflickr.com/8/7918/47173080821_f6c092822e_n.jpg" alt="Ticket Dashboard">
       </a>
       <br />
@@ -85,7 +85,7 @@ We use MyCollab in our daily jobs to manage our customers information, projects.
 MyCollab requires a running Java Runtime Environment (8 or greater), Java command should be presented in PATH environment and MySQL (InnoDB support recommended).
 
 * Java Runtime Environment 8+: MyCollab could run when any JVM compatible platform such as Oracle JRE or OpenJDK.
-* MySQL database, version 5.5+: the higher version is recommended
+* MySQL database, version 5.6+: the higher version is recommended
 * 1 GB RAM minimum, 2 GB RAM recommended
 
 ## Installation
