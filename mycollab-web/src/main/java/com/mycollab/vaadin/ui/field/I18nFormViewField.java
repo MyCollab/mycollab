@@ -37,7 +37,7 @@ public class I18nFormViewField extends CustomField<String> {
     private ELabel label;
 
     public I18nFormViewField(Class<? extends Enum> enumCls) {
-        this(enumCls, GenericI18Enum.OPT_UNDEFINED);
+        this(enumCls, null);
     }
 
     public I18nFormViewField(Class<? extends Enum> enumCls, Enum defaultValue) {
@@ -63,7 +63,6 @@ public class I18nFormViewField extends CustomField<String> {
         } else if (defaultValue != null) {
             label.setValue(UserUIContext.getMessage(defaultValue));
         }
-
     }
 
     @Override

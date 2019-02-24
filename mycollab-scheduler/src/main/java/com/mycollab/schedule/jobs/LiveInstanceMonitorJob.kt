@@ -30,7 +30,7 @@ import org.springframework.beans.factory.config.BeanDefinition
 import org.springframework.context.annotation.Scope
 import org.springframework.stereotype.Component
 import org.springframework.web.client.RestTemplate
-import java.time.LocalDateTime
+import java.time.LocalDate
 
 /**
  * @author MyCollab Ltd
@@ -58,7 +58,7 @@ class LiveInstanceMonitorJob : GenericQuartzJobBean() {
 
         val liveInstance = LiveInstance()
         liveInstance.appversion = Version.getVersion()
-        liveInstance.installeddate = LocalDateTime.now()
+        liveInstance.installeddate = LocalDate.now()
         liveInstance.javaversion = System.getProperty("java.version")
         liveInstance.sysid = appPropertiesService.sysId
         liveInstance.sysproperties = "${System.getProperty("os.arch")}:${System.getProperty("os.name")}:${System.getProperty("os.name")}"

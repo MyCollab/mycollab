@@ -33,6 +33,7 @@ object ProjectAssetsManager {
             ProjectTypeConstants.MILESTONE to VaadinIcons.FLAG_CHECKERED,
             ProjectTypeConstants.TASK to VaadinIcons.TASKS,
             ProjectTypeConstants.TICKET to VaadinIcons.TICKET,
+            ProjectTypeConstants.FILE to VaadinIcons.BRIEFCASE,
             ProjectTypeConstants.PAGE to VaadinIcons.FILE,
             ProjectTypeConstants.BUG to VaadinIcons.BUG,
             ProjectTypeConstants.BUG_COMPONENT to VaadinIcons.CUBE,

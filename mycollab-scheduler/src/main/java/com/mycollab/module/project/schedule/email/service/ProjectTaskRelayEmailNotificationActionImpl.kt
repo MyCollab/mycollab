@@ -26,6 +26,7 @@ import com.mycollab.core.MyCollabException
 import com.mycollab.core.utils.StringUtils
 import com.mycollab.html.FormatUtils
 import com.mycollab.html.LinkUtils
+import com.mycollab.module.billing.UserStatusConstants
 import com.mycollab.module.mail.MailUtils
 import com.mycollab.module.project.ProjectLinkGenerator
 import com.mycollab.module.project.ProjectResources
@@ -139,7 +140,7 @@ class ProjectTaskRelayEmailNotificationActionImpl : SendMailToFollowersAction<Si
                     if (task != null && notificationSetting.username == task.assignuser) {
                         val prjMember = projectMemberService.getActiveUserOfProject(notificationSetting.username,
                                 notificationSetting.projectid, notificationSetting.saccountid)
-                        if (prjMember != null) {
+                        if (prjMember != null && prjMember.status == UserStatusConstants.EMAIL_VERIFIED) {
                             notifyUsers = notifyUsers + prjMember
                         }
                     }
@@ -147,7 +148,7 @@ class ProjectTaskRelayEmailNotificationActionImpl : SendMailToFollowersAction<Si
             } else if (NotificationType.Full.name == notificationSetting.level) {
                 val prjMember = projectMemberService.getActiveUserOfProject(notificationSetting.username,
                         notificationSetting.projectid, notificationSetting.saccountid)
-                if (prjMember != null) {
+                if (prjMember != null && prjMember.status == UserStatusConstants.EMAIL_VERIFIED) {
                     notifyUsers = notifyUsers + prjMember
                 }
             }

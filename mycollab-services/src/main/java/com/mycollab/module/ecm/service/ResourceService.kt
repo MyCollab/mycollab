@@ -44,7 +44,7 @@ interface ResourceService : IService {
      * @param path
      * @return
      */
-    fun getResources(path: String): List<Resource>
+    fun getResources(path: String): List<Resource>?
 
     /**
      * @param path
@@ -56,13 +56,13 @@ interface ResourceService : IService {
      * @param path
      * @return
      */
-    fun getContents(path: String): List<Content>
+    fun getContents(path: String): List<Content>?
 
     /**
      * @param path
      * @return
      */
-    fun getSubFolders(path: String): List<Folder>
+    fun getSubFolders(path: String): List<Folder>?
 
     /**
      * @param content
@@ -102,7 +102,7 @@ interface ResourceService : IService {
      * @param resourceName
      * @return
      */
-    fun searchResourcesByName(baseFolderPath: String, resourceName: String): List<Resource>
+    fun searchResourcesByName(baseFolderPath: String, resourceName: String): List<Resource>?
 
     /**
      * @param oldPath
@@ -110,6 +110,11 @@ interface ResourceService : IService {
      * @param userMove
      */
     fun moveResource(oldPath: String, newPath: String, userMove: String)
+
+    /**
+     *
+     */
+    fun moveResource(scrRes: Resource, descRes: Resource, userMove: String, sAccountId: Int?)
 
     /**
      * @param path

@@ -30,6 +30,7 @@ import com.mycollab.html.FormatUtils.newA
 import com.mycollab.html.FormatUtils.newImg
 import com.mycollab.html.FormatUtils.newLink
 import com.mycollab.html.LinkUtils
+import com.mycollab.module.billing.UserStatusConstants
 import com.mycollab.module.mail.MailUtils
 import com.mycollab.module.project.ProjectLinkGenerator
 import com.mycollab.module.project.ProjectResources
@@ -139,14 +140,14 @@ class BugRelayEmailNotificationActionImpl(private val bugService: BugService,
                     if (bug != null && it.username == bug.assignuser) {
                         val prjMember = projectMemberService.getActiveUserOfProject(it.username,
                                 it.projectid, it.saccountid)
-                        if (prjMember != null) {
+                        if (prjMember != null && prjMember.status == UserStatusConstants.EMAIL_VERIFIED) {
                             notifyUsers = notifyUsers + prjMember
                         }
                     }
                 }
             } else if (NotificationType.Full.name == it.level) {
                 val prjMember = projectMemberService.getActiveUserOfProject(it.username, it.projectid, it.saccountid)
-                if (prjMember != null) notifyUsers = notifyUsers + prjMember
+                if (prjMember != null && prjMember.status == UserStatusConstants.EMAIL_VERIFIED) notifyUsers = notifyUsers + prjMember
             }
         }
         return notifyUsers

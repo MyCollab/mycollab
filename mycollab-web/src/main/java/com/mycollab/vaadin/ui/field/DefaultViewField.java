@@ -42,8 +42,7 @@ public final class DefaultViewField extends CustomField<Object> {
 
     public DefaultViewField(String value, ContentMode contentMode) {
         this.value = value;
-        label = new ELabel(value, contentMode).withFullWidth().withStyleName(WebThemes.LABEL_WORD_WRAP)
-                .withUndefinedWidth().withDescription(value);
+        label = new ELabel(value, contentMode).withFullWidth().withStyleName(WebThemes.LABEL_WORD_WRAP).withDescription(value);
     }
 
     public DefaultViewField withStyleName(String styleName) {

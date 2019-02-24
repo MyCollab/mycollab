@@ -39,49 +39,36 @@ interface ProjectView : PageView {
     fun clearRightBar()
 
     companion object {
-        @JvmField
-        val SUMMARY_ENTRY = "Summary"
+        const val SUMMARY_ENTRY = "Summary"
 
-        @JvmField
-        val MESSAGE_ENTRY = "Message"
+        const val MESSAGE_ENTRY = "Message"
 
-        @JvmField
-        val MILESTONE_ENTRY = "Milestone"
+        const val MILESTONE_ENTRY = "Milestone"
 
-        @JvmField
-        val TICKET_ENTRY = "Ticket"
+        const val TICKET_ENTRY = "Ticket"
 
-        @JvmField
-        val KANBAN_ENTRY = "Kanban"
+        const val KANBAN_ENTRY = "Kanban"
 
-        @JvmField
-        val PAGE_ENTRY = "Page"
+        const val FILE_ENTRY = "File"
 
-        @JvmField
-        val FINANCE_ENTRY = "Financing"
+        const val PAGE_ENTRY = "Page"
 
-        @JvmField
-        val TIME_TRACKING_ENTRY = "Time-Tracking"
+        const val FINANCE_ENTRY = "Financing"
 
-        @JvmField
-        val INVOICE_ENTRY = "Invoice"
+        const val TIME_TRACKING_ENTRY = "Time-Tracking"
 
-        @JvmField
-        val SETTING = "Setting"
+        const val INVOICE_ENTRY = "Invoice"
 
-        @JvmField
-        val USERS_ENTRY = "Users"
+        const val SETTING = "Setting"
 
-        @JvmField
-        val ROLE_ENTRY = "Roles"
+        const val USERS_ENTRY = "Users"
 
-        @JvmField
-        val COMPONENT_ENTRY = "Component";
+        const val ROLE_ENTRY = "Roles"
 
-        @JvmField
-        val VERSION_ENTRY = "Version";
+        const val COMPONENT_ENTRY = "Component";
 
-        @JvmField
-        val CUSTOM_ENTRY = "Custom"
+        const val VERSION_ENTRY = "Version";
+
+        const val CUSTOM_ENTRY = "Custom"
     }
 }

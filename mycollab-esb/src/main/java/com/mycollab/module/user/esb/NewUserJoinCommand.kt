@@ -28,6 +28,7 @@ import com.mycollab.db.arguments.*
 import com.mycollab.html.LinkUtils
 import com.mycollab.i18n.LocalizationHelper
 import com.mycollab.module.billing.RegisterStatusConstants
+import com.mycollab.module.billing.UserStatusConstants
 import com.mycollab.module.esb.GenericCommand
 import com.mycollab.module.mail.service.ExtMailService
 import com.mycollab.module.mail.service.IContentGenerator
@@ -80,6 +81,7 @@ class NewUserJoinCommand(private val billingAccountService: BillingAccountServic
         if (newUser != null) {
             val recipients = accountOwners
                     .map { it as SimpleUser }
+                    .filter { it.status == UserStatusConstants.EMAIL_VERIFIED }
                     .map { MailRecipientField(it.username, it.displayName) }
 
             val account = billingAccountService.getAccountById(sAccountId)

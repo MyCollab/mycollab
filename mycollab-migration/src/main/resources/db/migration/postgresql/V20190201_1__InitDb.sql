@@ -586,7 +586,7 @@ CREATE TABLE m_prj_customize_view (
   projectId integer NOT NULL,
   displayMessage boolean NOT NULL,
   displayMilestone boolean NOT NULL,
-  displayStandup boolean NOT NULL,
+  displayFile boolean NOT NULL,
   displayTimeLogging boolean NOT NULL,
   displayPage boolean NOT NULL,
   displayInvoice boolean NOT NULL,

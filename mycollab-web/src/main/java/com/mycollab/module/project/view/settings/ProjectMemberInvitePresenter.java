@@ -132,7 +132,6 @@ public class ProjectMemberInvitePresenter extends AbstractPresenter<ProjectMembe
             contentLayout.with(ELabel.html(introDiv.write()));
 
             MVerticalLayout linksContainer = new MVerticalLayout().withStyleName(WebThemes.SCROLLABLE_CONTAINER);
-//            new Restrain(linksContainer).setMaxHeight("400px");
             contentLayout.with(linksContainer);
 
             Collection<String> inviteEmails = invitation.getEmails();

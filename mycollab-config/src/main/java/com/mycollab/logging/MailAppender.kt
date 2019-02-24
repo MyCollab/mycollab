@@ -47,7 +47,7 @@ class MailAppender : SMTPAppender() {
     }
 
     override fun sendBuffer(cb: CyclicBuffer<ILoggingEvent>?, lastEventObject: ILoggingEvent?) {
-//        if (!isSessionCreated) {
+        if (!isSessionCreated) {
             try {
                 val emailConfiguration = AppContextUtil.getSpringBean(EmailConfiguration::class.java)
                 val props = Properties(OptionHelper.getSystemProperties())
@@ -90,8 +90,7 @@ class MailAppender : SMTPAppender() {
             } catch (e: Exception) {
                 addError("Error to get email configuration")
             }
-
-//        }
+        }
         super.sendBuffer(cb, lastEventObject)
     }
 }

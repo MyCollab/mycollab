@@ -41,6 +41,6 @@ interface BillingAccountService : ICrudService<Int, BillingAccount> {
     @Cacheable
     fun getTotalActiveUsersInAccount(@CacheKey accountId: Int): Int
 
-    fun createDefaultAccountData(username: String, password: String, timezoneId: String, language: String, isEmailVerified: Boolean?,
-                                 isCreatedDefaultData: Boolean?, sAccountId: Int)
+    fun createDefaultAccountData(username: String, password: String, timezoneId: String, language: String, isEmailVerified: Boolean,
+                                 isCreatedDefaultData: Boolean, sAccountId: Int)
 }

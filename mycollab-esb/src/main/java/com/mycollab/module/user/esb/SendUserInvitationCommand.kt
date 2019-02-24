@@ -18,6 +18,7 @@ package com.mycollab.module.user.esb
 
 import com.google.common.eventbus.AllowConcurrentEvents
 import com.google.common.eventbus.Subscribe
+import com.mycollab.common.GenericLinkUtils
 import com.mycollab.common.domain.MailRecipientField
 import com.mycollab.common.i18n.MailI18nEnum
 import com.mycollab.configuration.ApplicationConfiguration
@@ -57,7 +58,7 @@ class SendUserInvitationCommand(private val userService: UserService,
         Thread.sleep(5000)
         val inviteeUser = userService.findUserInAccount(event.invitee, event.sAccountId)
         if (inviteeUser != null) {
-            contentGenerator.putVariable("siteUrl", deploymentMode.getSiteUrl(inviteeUser.subDomain))
+            contentGenerator.putVariable("siteUrl", GenericLinkUtils.generateConfirmEmailLink(deploymentMode.getSiteUrl(inviteeUser.subDomain), event.invitee))
             contentGenerator.putVariable("invitee", inviteeUser)
             contentGenerator.putVariable("password", event.password)
             contentGenerator.putVariable("copyRight", LocalizationHelper.getMessage(Locale.US, MailI18nEnum.Copyright,

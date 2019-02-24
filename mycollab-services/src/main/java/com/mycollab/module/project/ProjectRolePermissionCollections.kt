@@ -22,55 +22,41 @@ package com.mycollab.module.project
  */
 object ProjectRolePermissionCollections {
 
-    @JvmField
-    val MESSAGES = "Message"
+    const val MESSAGES = "Message"
+
+    const val MILESTONES = "Milestone"
+
+    const val INVOICE = "Invoice"
+
+    const val TIME = "Time"
+
+    const val FINANCE = "Finance"
+
+    const val TASKS = "Task"
+
+    const val BUGS = "Bug"
+
+    const val VERSIONS = "Version"
+
+    const val COMPONENTS = "Component"
+
+    const val RISKS = "Risk"
+
+    const val SPIKE = "Spike"
+
+    const val USERS = "User"
+
+    const val ROLES = "Role"
+
+    const val FILES = "File"
+
+    const val PAGES = "Page"
+
+    const val PROJECT = "Project"
+
+    const val APPROVE_TIMESHEET = "Approve_Timesheet"
 
     @JvmField
-    val MILESTONES = "Milestone"
-
-    @JvmField
-    val INVOICE = "Invoice"
-
-    @JvmField
-    val TIME = "Time"
-
-    @JvmField
-    val FINANCE = "Finance"
-
-    @JvmField
-    val TASKS = "Task"
-
-    @JvmField
-    val BUGS = "Bug"
-
-    @JvmField
-    val VERSIONS = "Version"
-
-    @JvmField
-    val COMPONENTS = "Component"
-
-    @JvmField
-    val RISKS = "Risk"
-
-    @JvmField
-    val SPIKE = "Spike"
-
-    @JvmField
-    val USERS = "User"
-
-    @JvmField
-    val ROLES = "Role"
-
-    @JvmField
-    val PAGES = "Page"
-
-    @JvmField
-    val PROJECT = "Project"
-
-    @JvmField
-    val APPROVE_TIMESHEET = "Approve_Timesheet"
-
-    @JvmField
-    val PROJECT_PERMISSIONS = arrayOf(MESSAGES, MILESTONES, TASKS, BUGS, COMPONENTS, VERSIONS, PAGES, RISKS, TIME, INVOICE,
+    val PROJECT_PERMISSIONS = arrayOf(MESSAGES, MILESTONES, TASKS, BUGS, COMPONENTS, VERSIONS, FILES, PAGES, RISKS, TIME, INVOICE,
             USERS, ROLES, PROJECT, FINANCE, APPROVE_TIMESHEET)
 }

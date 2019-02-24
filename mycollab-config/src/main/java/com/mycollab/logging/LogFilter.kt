@@ -27,7 +27,8 @@ import ch.qos.logback.core.spi.FilterReply
 class LogFilter : Filter<ILoggingEvent>() {
 
     override fun decide(event: ILoggingEvent): FilterReply =
-            if (event.message.contains("Failed to execute SQL (stacktrace on DEBUG log level)")) {
+            if (event.message.contains("Failed to execute SQL (stacktrace on DEBUG log level)")
+                    || event.message.contains("ERROR o.j.p.CENTRAL_LOCK")) {
                 FilterReply.DENY
             } else {
                 FilterReply.NEUTRAL

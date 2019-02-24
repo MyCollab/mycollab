@@ -18,6 +18,8 @@ package com.mycollab.schedule.jobs
 
 import com.mycollab.common.MonitorTypeConstants
 import com.mycollab.common.dao.RelayEmailNotificationMapper
+import com.mycollab.common.domain.RelayEmailNotificationExample
+import com.mycollab.module.project.ProjectTypeConstants
 import com.mycollab.module.project.service.ProjectService
 import com.mycollab.spring.AppContextUtil
 import org.quartz.DisallowConcurrentExecution
@@ -60,9 +62,13 @@ class ProjectSendingRelayEmailNotificationJob : GenericQuartzJobBean() {
                 }
             } catch (e: Exception) {
                 LOG.error("Error while sending scheduler command", e)
-            } finally {
-                relayNotificationMapper.deleteByPrimaryKey(it.id)
             }
         }
+        val ex = RelayEmailNotificationExample()
+        ex.createCriteria().andTypeIn(listOf(ProjectTypeConstants.BUG, ProjectTypeConstants.TASK,
+                ProjectTypeConstants.MESSAGE, ProjectTypeConstants.MILESTONE,
+                ProjectTypeConstants.RISK, ProjectTypeConstants.BUG_COMPONENT,
+                ProjectTypeConstants.BUG_VERSION))
+        relayNotificationMapper.deleteByExample(ex)
     }
 }

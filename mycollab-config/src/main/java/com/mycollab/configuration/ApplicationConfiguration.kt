@@ -31,8 +31,8 @@ class ApplicationConfiguration(var siteName: String = "MyCollab", var descriptio
                                var notifyEmail: String = "noreply@mycollab.com") {
 
     fun defaultUrls() =
-            mutableMapOf("facebook_url" to (facebookUrl ?: ""),
-                    "google_url" to (googleUrl ?: ""),
-                    "linkedin_url" to (linkedinUrl ?: ""),
-                    "twitter_url" to (twitterUrl ?: ""))
+            mutableMapOf("facebook_url" to facebookUrl,
+                    "google_url" to googleUrl,
+                    "linkedin_url" to linkedinUrl,
+                    "twitter_url" to twitterUrl)
 }

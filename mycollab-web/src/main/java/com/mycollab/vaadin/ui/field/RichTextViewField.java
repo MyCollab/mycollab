@@ -32,7 +32,7 @@ public class RichTextViewField extends CustomField<String> {
     private ELabel label;
 
     public RichTextViewField() {
-        label = ELabel.html("").withStyleName(WebThemes.LABEL_WORD_WRAP);
+        label = ELabel.html("").withStyleName(WebThemes.LABEL_WORD_WRAP).withFullWidth();
     }
 
     @Override

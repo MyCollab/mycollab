@@ -117,6 +117,7 @@ class UserServiceDBImpl(private val userMapper: UserMapper,
         userEx.createCriteria().andUsernameEqualTo(record.username)
         if (userMapper.countByExample(userEx) == 0L) {
             record.registeredtime = LocalDateTime.now()
+            record.status = UserStatusConstants.EMAIL_VERIFIED_REQUEST
             userMapper.insert(record)
             userAvatarService.uploadDefaultAvatar(record.username)
         }
@@ -274,10 +275,6 @@ class UserServiceDBImpl(private val userMapper: UserMapper,
                 asyncEventBus.post(NewUserJoinEvent(user.username, user.accountId!!))
             }
 
-            if (user.status != UserStatusConstants.EMAIL_VERIFIED) {
-                user.status = UserStatusConstants.EMAIL_VERIFIED
-                userMapper.updateByPrimaryKeySelective(user)
-            }
             LOG.debug("User $username login to system successfully!")
 
             if (user.isAccountOwner == null || (user.isAccountOwner != null && !user.isAccountOwner!!)) {

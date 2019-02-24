@@ -39,4 +39,6 @@ object GenericLinkUtils {
         }
         return UrlEncodeDecoder.encode(paramStr.toString())
     }
+
+    @JvmStatic fun generateConfirmEmailLink(siteUrl:String, username:String): String ="${siteUrl}user/confirm_signup/${UrlEncodeDecoder.encode(username)}"
 }

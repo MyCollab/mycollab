@@ -22,6 +22,7 @@ import com.mycollab.module.billing.UserStatusConstants
 import com.mycollab.module.user.service.UserService
 import com.mycollab.servlet.GenericHttpServlet
 import freemarker.template.TemplateException
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import java.io.IOException
 import javax.servlet.ServletException
@@ -45,18 +46,22 @@ class ConfirmEmailHandler : GenericHttpServlet() {
         if (pathInfo != null) {
             val urlTokenizer = UrlTokenizer(pathInfo)
             val username = urlTokenizer.getString()
-            val accountId = urlTokenizer.getInt()
-            val user = userServices.findUserByUserNameInAccount(username, accountId)
+            val user = userServices.findUserByUserName(username)
 
             if (user != null) {
                 user.status = UserStatusConstants.EMAIL_VERIFIED
                 userServices.updateWithSession(user, username)
                 response.sendRedirect("${request.contextPath}/")
             } else {
+                LOG.error("Can not find user $username")
                 PageGeneratorUtil.responseUserNotExistPage(response, username, "${request.contextPath}/")
             }
         } else {
             throw ResourceNotFoundException("Can not find user from path $pathInfo")
         }
+    }
+
+    companion object {
+        val LOG = LoggerFactory.getLogger(ConfirmEmailHandler::class.java)
     }
 }

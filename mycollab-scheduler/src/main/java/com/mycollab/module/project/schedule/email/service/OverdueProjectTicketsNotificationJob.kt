@@ -33,6 +33,7 @@ import com.mycollab.db.arguments.SetSearchField
 import com.mycollab.html.DivLessFormatter
 import com.mycollab.html.LinkUtils
 import com.mycollab.i18n.LocalizationHelper
+import com.mycollab.module.billing.UserStatusConstants
 import com.mycollab.module.file.service.AbstractStorageService
 import com.mycollab.module.mail.service.ExtMailService
 import com.mycollab.module.mail.service.IContentGenerator
@@ -136,7 +137,7 @@ class OverdueProjectTicketsNotificationJob : GenericQuartzJobBean() {
 
 
     private fun getNotifiersOfProject(projectId: Int, accountId: Int): Set<SimpleUser> {
-        var notifyUsers = projectMemberService.getActiveUsersInProject(projectId, accountId)
+        var notifyUsers = projectMemberService.getActiveUsersInProject(projectId, accountId).filter { it.status == UserStatusConstants.EMAIL_VERIFIED }
         val notificationSettings = projectNotificationService.findNotifications(projectId, accountId)
         if (notificationSettings.isNotEmpty()) {
             notificationSettings

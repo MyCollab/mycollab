@@ -39,13 +39,13 @@ object AsyncInvoker {
                         ui.push()
                         pageCommand.postRun()
                     } catch (e: Exception) {
-                        LOG.error("Error", e)
+                        throw e
                     } finally {
                         pageCommand.cleanUp()
                         try {
                             ui.push()
                         } catch (e: Exception) {
-                            LOG.error("Error", e)
+                            throw e
                         }
 
                     }

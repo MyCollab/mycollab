@@ -160,7 +160,6 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
 
     private Component buildBody() {
         CustomLayout bodyContent = CustomLayoutExt.createLayout("milestoneView");
-        bodyContent.setStyleName("milestone-view");
 
         MHorizontalLayout closedHeaderLayout = new MHorizontalLayout();
 

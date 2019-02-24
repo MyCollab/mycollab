@@ -18,6 +18,7 @@ package com.mycollab.module.project.view
 
 import com.mycollab.module.project.view.bug.BugAddPresenter
 import com.mycollab.module.project.view.bug.BugReadPresenter
+import com.mycollab.module.project.view.file.FileDashboardPresenter
 import com.mycollab.module.project.view.finance.IInvoiceListPresenter
 import com.mycollab.module.project.view.finance.ITimeTrackingPresenter
 import com.mycollab.module.project.view.message.MessageListPresenter
@@ -57,6 +58,9 @@ object ProjectPresenterDataMapper {
     private val messageMapper = mapOf<Class<out ScreenData<Any>>, Class<out IPresenter<*>>>(
             MessageScreenData.Read::class.java to MessageReadPresenter::class.java,
             MessageScreenData.Search::class.java to MessageListPresenter::class.java)
+
+    private val fileMapper = mapOf<Class<out ScreenData<Any>>, Class<out IPresenter<*>>>(
+            FileScreenData.GotoDashboard::class.java to FileDashboardPresenter::class.java)
 
     private val pageMapper = mapOf<Class<out ScreenData<Any>>, Class<out IPresenter<*>>>(
             PageScreenData.Read::class.java to PageReadPresenter::class.java,
@@ -113,7 +117,7 @@ object ProjectPresenterDataMapper {
             ProjectScreenData.Edit::class.java to ProjectDashboardPresenter::class.java,
             ReportScreenData.GotoWeeklyTiming::class.java to ProjectDashboardPresenter::class.java)
 
-    private val allMapper = milestoneMapper + messageMapper + pageMapper + riskMapper + taskMapper +
+    private val allMapper = milestoneMapper + messageMapper + fileMapper + pageMapper + riskMapper + taskMapper +
             trackerMapper + standupMapper + userMapper + timeMapper + projectMapper
 
     @JvmStatic

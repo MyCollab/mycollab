@@ -167,7 +167,7 @@ object CurrentProjectVariables {
                 customizeView.displaymessage = true
                 customizeView.displaymilestone = true
                 customizeView.displaypage = true
-                customizeView.displaystandup = true
+                customizeView.displayfile = true
                 customizeView.displaytimelogging = true
                 customizeView.displayinvoice = true
             }
@@ -184,16 +184,16 @@ object CurrentProjectVariables {
     fun hasTicketFeature(): Boolean = MoreObjects.firstNonNull(features.displayticket, true)
 
     @JvmStatic
+    fun hasFileFeature(): Boolean = features.displayfile!!
+
+    @JvmStatic
     fun hasPageFeature(): Boolean = features.displaypage!!
 
     @JvmStatic
     fun hasTimeFeature(): Boolean = features.displaytimelogging!!
 
     @JvmStatic
-    fun hasInvoiceFeature(): Boolean = java.lang.Boolean.TRUE == features.displayinvoice
-
-    @JvmStatic
-    fun hasStandupFeature(): Boolean = features.displaystandup!!
+    fun hasInvoiceFeature(): Boolean = features.displayinvoice!!
 
     @JvmStatic
     var currentPagePath: String

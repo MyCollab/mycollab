@@ -151,7 +151,7 @@
         (SELECT COALESCE(SUM(m_prj_time_logging.logValue), 0) FROM m_prj_time_logging WHERE m_prj_time_logging.projectId = m_prj_project.id AND m_prj_time_logging.isBillable = 0) AS totalNonBillableHours,
         m_prj_customize_view.id AS view_id, m_prj_customize_view.projectId AS view_projectId,
         m_prj_customize_view.displayMessage AS view_displayMessage, m_prj_customize_view.displayMilestone AS view_displayMilestone,
-        m_prj_customize_view.displayTicket AS view_displayTicket, m_prj_customize_view.displayStandup AS view_displayStandup,
+        m_prj_customize_view.displayTicket AS view_displayTicket, m_prj_customize_view.displayFile AS view_displayFile,
         m_prj_customize_view.displayTimeLogging AS view_displayTimeLogging,
         m_prj_customize_view.displayPage AS view_displayPage,
         m_prj_customize_view.displayInvoice AS view_displayInvoice
@@ -494,7 +494,7 @@
             INNER JOIN m_tracker_bug ON  (s_relay_email_notification.type='Project-Bug' AND m_tracker_bug.id=s_relay_email_notification.typeId)
             INNER JOIN s_user AS changeUser ON (changeUser.username=s_relay_email_notification.changeby)
             INNER JOIN m_monitor_item ON (m_monitor_item.typeId=s_relay_email_notification.typeId AND s_relay_email_notification.type=m_monitor_item.type)
-            INNER JOIN s_user AS notifier ON (m_monitor_item.username=notifier.username)
+            INNER JOIN s_user AS notifier ON (m_monitor_item.username=notifier.username AND notifier.status='EmailVerified')
             INNER JOIN s_account ON (s_relay_email_notification.sAccountId=s_account.id)
             INNER JOIN s_user_account ON (s_user_account.username=notifier.username AND s_user_account.registerStatus='Active')
             )
@@ -517,7 +517,7 @@
             INNER JOIN m_prj_task ON (s_relay_email_notification.type='Project-Task' AND m_prj_task.id=s_relay_email_notification.typeId)
             INNER JOIN s_user AS changeUser ON (changeUser.username=s_relay_email_notification.changeby)
             INNER JOIN m_monitor_item ON (m_monitor_item.typeId=s_relay_email_notification.typeId AND s_relay_email_notification.type=m_monitor_item.type)
-            INNER JOIN s_user AS notifier ON (m_monitor_item.username=notifier.username)
+            INNER JOIN s_user AS notifier ON (m_monitor_item.username=notifier.username AND notifier.status='EmailVerified')
             INNER JOIN s_account ON (s_relay_email_notification.sAccountId=s_account.id)
             INNER JOIN s_user_account ON (s_user_account.username=notifier.username AND s_user_account.registerStatus='Active')
             )

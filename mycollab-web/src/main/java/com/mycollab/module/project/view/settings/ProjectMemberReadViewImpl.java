@@ -86,8 +86,9 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
         previewForm = initPreviewForm();
         previewForm.setWidth("100%");
 
-        bottomLayout = new ResponsiveLayout();
         this.addHeaderRightContent(createButtonControls());
+
+        bottomLayout = new ResponsiveLayout();
         this.with(previewForm, bottomLayout);
     }
 

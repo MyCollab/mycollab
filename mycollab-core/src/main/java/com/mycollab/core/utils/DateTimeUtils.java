@@ -53,9 +53,16 @@ public class DateTimeUtils {
         }
     }
 
-    public static String convertToStringWithUserTimeZone(String dateVal, String dateFormat, Locale locale, ZoneId userTimeZone) {
+    public static String convertDateToStringWithUserTimeZone(String dateVal, String dateFormat, Locale locale, ZoneId userTimeZone) {
+        LocalDate date = parseDate(dateVal);
+        if (date != null) {
+            return formatDate(date, dateFormat, locale, userTimeZone);
+        } else return "";
+    }
+
+    public static String convertDateTimeToStringWithUserTimeZone(String dateVal, String datetimeFormat, Locale locale, ZoneId userTimeZone) {
         LocalDateTime date = parseDateTimeWithMilisByW3C(dateVal);
-        return convertToStringWithUserTimeZone(date, dateFormat, locale, userTimeZone);
+        return convertDateTimeToStringWithUserTimeZone(date, datetimeFormat, locale, userTimeZone);
     }
 
     /**
@@ -95,7 +102,7 @@ public class DateTimeUtils {
         return "";
     }
 
-    public static String convertToStringWithUserTimeZone(LocalDateTime date, String dateFormat, Locale locale, ZoneId userTimeZone) {
+    public static String convertDateTimeToStringWithUserTimeZone(LocalDateTime date, String dateFormat, Locale locale, ZoneId userTimeZone) {
         if (date == null)
             return "";
         return formatDate(date, dateFormat, locale, userTimeZone);

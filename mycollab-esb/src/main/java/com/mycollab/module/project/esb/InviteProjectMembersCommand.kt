@@ -18,6 +18,7 @@ package com.mycollab.module.project.esb
 
 import com.google.common.eventbus.AllowConcurrentEvents
 import com.google.common.eventbus.Subscribe
+import com.mycollab.common.GenericLinkUtils
 import com.mycollab.common.domain.MailRecipientField
 import com.mycollab.common.i18n.MailI18nEnum
 import com.mycollab.configuration.ApplicationConfiguration
@@ -119,8 +120,7 @@ class InviteProjectMembersCommand(private val userService: UserService,
                 }
                 contentGenerator.putVariable("copyRight", LocalizationHelper.getMessage(Locale.US, MailI18nEnum.Copyright,
                         DateTimeUtils.getCurrentYear()))
-                contentGenerator.putVariable("urlAccept", ProjectLinkGenerator.generateProjectFullLink(deploymentMode.getSiteUrl(billingAccount.getSubdomain()),
-                        event.projectId))
+                contentGenerator.putVariable("urlAccept", GenericLinkUtils.generateConfirmEmailLink(deploymentMode.getSiteUrl(billingAccount.subdomain), it))
                 val subject = LocalizationHelper.getMessage(Locale.US, ProjectMemberI18nEnum.MAIL_INVITE_USERS_SUBJECT,
                         project.name, applicationConfiguration.siteName)
                 val content = contentGenerator.parseFile("mailMemberInvitationNotifier.ftl", Locale.US)

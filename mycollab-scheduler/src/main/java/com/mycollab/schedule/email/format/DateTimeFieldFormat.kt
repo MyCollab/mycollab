@@ -52,5 +52,5 @@ class DateTimeFieldFormat(fieldName: String, displayName: Enum<*>) : FieldFormat
 
     override fun formatField(context: MailContext<*>, value: String): String =
             if (StringUtils.isBlank(value)) Span().write() else
-                DateTimeUtils.convertToStringWithUserTimeZone(value, context.user.dateFormat, context.locale, context.timeZone)
+                DateTimeUtils.convertDateTimeToStringWithUserTimeZone(value, context.user.dateFormat, context.locale, context.timeZone)
 }

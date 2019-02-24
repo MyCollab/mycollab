@@ -25,15 +25,14 @@ import java.util.regex.Pattern;
  * @since 4.4.0
  */
 public class Version {
-    public static final String THEME_VERSION = "mycollab_20181214";
-    public static final String THEME_MOBILE_VERSION = "mycollab_20161111";
+    public static final String THEME_VERSION = "mycollab_20190223";
 
     public static String getVersion() {
-        return "7.0.0";
+        return "7.0.1";
     }
 
     public static LocalDate getReleasedDate() {
-        return LocalDate.of(2017, 5, 25);
+        return LocalDate.of(2019, 2, 22);
     }
 
     static int[] getVersionNumbers(String ver) {

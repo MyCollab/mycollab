@@ -33,6 +33,7 @@ import com.mycollab.db.arguments.BasicSearchRequest
 import com.mycollab.db.arguments.StringSearchField
 import com.mycollab.html.LinkUtils
 import com.mycollab.i18n.LocalizationHelper
+import com.mycollab.module.billing.UserStatusConstants
 import com.mycollab.module.mail.MailUtils
 import com.mycollab.module.mail.service.ExtMailService
 import com.mycollab.module.mail.service.IContentGenerator
@@ -89,7 +90,7 @@ abstract class SendMailToAllMembersAction<B> : SendingRelayEmailNotificationActi
 
     private fun getNotifyUsers(notification: ProjectRelayEmailNotification): Set<SimpleUser> {
         var notifyUsers = projectMemberService.getActiveUsersInProject(notification.projectId,
-                notification.saccountid)
+                notification.saccountid).filter { it.status == UserStatusConstants.EMAIL_VERIFIED }
         val notificationSettings = projectNotificationService.findNotifications(notification.projectId,
                 notification.saccountid)
         if (notificationSettings.isNotEmpty()) {

@@ -214,7 +214,7 @@ object ProjectTooltipGenerator {
             val dueDate = DateTimeUtils.formatDate(bug.duedate, dateFormat, locale, timeZone)
             val cell52 = buildCellValue(dueDate)
             val cell53 = buildCellName(LocalizationHelper.getMessage(locale, GenericI18Enum.FORM_CREATED_TIME))
-            val createdTime = DateTimeUtils.convertToStringWithUserTimeZone(bug.createdtime, dateFormat, locale, timeZone)
+            val createdTime = DateTimeUtils.convertDateTimeToStringWithUserTimeZone(bug.createdtime, dateFormat, locale, timeZone)
             val cell54 = buildCellValue(createdTime)
             trRow5.appendChild(cell51, cell52, cell53, cell54)
             tooltipManager.appendRow(trRow5)
@@ -521,7 +521,7 @@ object ProjectTooltipGenerator {
         try {
             val div = Div().setStyle("font: 12px Arial, Verdana, Helvetica, sans-serif !important;line-height: normal;")
             val name = H3()
-            name.appendText(Jsoup.parse(DateTimeUtils.convertToStringWithUserTimeZone(
+            name.appendText(Jsoup.parse(DateTimeUtils.convertDateTimeToStringWithUserTimeZone(
                     standup.createdtime, dateFormat, locale, timeZone)).html())
             div.appendChild(name)
 

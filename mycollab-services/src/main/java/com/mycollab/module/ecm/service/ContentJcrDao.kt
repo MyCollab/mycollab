@@ -36,13 +36,13 @@ interface ContentJcrDao {
 
     fun removeResource(path: String)
 
-    fun getResources(path: String): List<Resource>
+    fun getResources(path: String): List<Resource>?
 
-    fun getContents(path: String): List<Content>
+    fun getContents(path: String): List<Content>?
 
-    fun getSubFolders(path: String): List<Folder>
+    fun getSubFolders(path: String): List<Folder>?
 
-    fun searchResourcesByName(baseFolderPath: String, resourceName: String): List<Resource>
+    fun searchResourcesByName(baseFolderPath: String, resourceName: String): List<Resource>?
 
     fun moveResource(oldPath: String, destinationPath: String)
 }

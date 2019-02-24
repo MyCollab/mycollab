@@ -24,7 +24,6 @@ import com.mycollab.schedule.email.MailContext
 import org.apache.commons.beanutils.PropertyUtils
 import org.slf4j.LoggerFactory
 import java.time.LocalDate
-import java.time.LocalDateTime
 
 /**
  * @author MyCollab Ltd
@@ -52,5 +51,5 @@ class DateFieldFormat(fieldName: String, displayName: Enum<*>) : FieldFormat(fie
 
     override fun formatField(context: MailContext<*>, value: String): String =
             if (StringUtils.isBlank(value)) Span().write() else
-                DateTimeUtils.convertToStringWithUserTimeZone(value, context.user.dateFormat, context.locale, context.timeZone)
+                DateTimeUtils.convertDateToStringWithUserTimeZone(value, context.user.dateFormat, context.locale, context.timeZone)
 }

@@ -21,6 +21,7 @@ import com.mycollab.module.project.event.ProjectEvent
 import com.mycollab.module.project.service.ProjectService
 import com.mycollab.module.project.view.bug.BugUrlResolver
 import com.mycollab.module.project.view.client.ClientUrlResolver
+import com.mycollab.module.project.view.file.ProjectFileUrlResolver
 import com.mycollab.module.project.view.message.MessageUrlResolver
 import com.mycollab.module.project.view.milestone.MilestoneUrlResolver
 import com.mycollab.module.project.view.page.PageUrlResolver
@@ -56,6 +57,7 @@ open class ProjectUrlResolver : UrlResolver() {
         this.addSubResolver("ticket", TicketUrlResolver())
         this.addSubResolver("task", TaskUrlResolver())
         this.addSubResolver("bug", BugUrlResolver())
+        this.addSubResolver("file", ProjectFileUrlResolver())
         this.addSubResolver("page", PageUrlResolver())
         this.addSubResolver("risk", RiskUrlResolver())
         this.addSubResolver("user", UserUrlResolver())

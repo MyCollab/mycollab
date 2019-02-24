@@ -16,6 +16,7 @@
  */
 package com.mycollab.module.project.view;
 
+import com.mycollab.common.i18n.FileI18nEnum;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.configuration.SiteConfiguration;
 import com.mycollab.db.arguments.NumberSearchField;
@@ -34,6 +35,7 @@ import com.mycollab.module.project.i18n.*;
 import com.mycollab.module.project.service.ProjectMemberService;
 import com.mycollab.module.project.service.ProjectService;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
+import com.mycollab.module.project.view.file.FileDashboardPresenter;
 import com.mycollab.module.project.view.finance.IInvoiceListPresenter;
 import com.mycollab.module.project.view.finance.ITimeTrackingPresenter;
 import com.mycollab.module.project.view.message.MessageListPresenter;
@@ -137,6 +139,9 @@ public class ProjectViewImpl extends AbstractVerticalPageView implements Project
                 } else if (ProjectView.TICKET_ENTRY.equals(tabId)) {
                     TicketDashboardPresenter ticketPresenter = PresenterResolver.getPresenter(TicketDashboardPresenter.class);
                     ticketPresenter.go(ProjectViewImpl.this, null);
+                } else if (ProjectView.FILE_ENTRY.equals(tabId)) {
+                    FileDashboardPresenter filePresenter = PresenterResolver.getPresenter(FileDashboardPresenter.class);
+                    filePresenter.go(ProjectViewImpl.this, null);
                 } else if (ProjectView.PAGE_ENTRY.equals(tabId)) {
                     PageListPresenter pagePresenter = PresenterResolver.getPresenter(PageListPresenter.class);
                     pagePresenter.go(ProjectViewImpl.this,
@@ -252,6 +257,15 @@ public class ProjectViewImpl extends AbstractVerticalPageView implements Project
             } else {
                 myProjectTab.removeTab(ProjectView.TICKET_ENTRY);
                 myProjectTab.removeTab(ProjectView.KANBAN_ENTRY);
+            }
+
+            if (CurrentProjectVariables.hasFileFeature()) {
+                myProjectTab.addTab(null, ProjectView.FILE_ENTRY,
+                        UserUIContext.getMessage(FileI18nEnum.LIST),
+                        ProjectLinkGenerator.generateProjectLink(prjId),
+                        ProjectAssetsManager.getAsset(ProjectTypeConstants.FILE));
+            } else {
+                myProjectTab.removeTab(ProjectView.FILE_ENTRY);
             }
 
             if (CurrentProjectVariables.hasPageFeature()) {

@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -20,7 +20,6 @@ import com.hp.gagawa.java.elements.A;
 import com.mycollab.common.UrlEncodeDecoder;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.core.utils.StringUtils;
-import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.module.file.PathUtils;
 import com.mycollab.module.page.domain.Folder;
 import com.mycollab.module.page.domain.Page;
@@ -31,14 +30,17 @@ import com.mycollab.module.project.ProjectTooltipGenerator;
 import com.mycollab.module.project.domain.*;
 import com.mycollab.module.project.event.*;
 import com.mycollab.module.project.i18n.*;
+import com.mycollab.module.project.view.file.FileBreadcrumb;
 import com.mycollab.module.tracker.domain.Component;
 import com.mycollab.module.tracker.domain.SimpleBug;
 import com.mycollab.module.tracker.domain.Version;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppUI;
+import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.CacheableComponent;
 import com.mycollab.vaadin.mvp.ViewComponent;
+import com.mycollab.vaadin.mvp.ViewManager;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.web.ui.CommonUIFactory;
 import com.mycollab.vaadin.web.ui.WebThemes;
@@ -47,7 +49,6 @@ import com.vaadin.icons.VaadinIcons;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Label;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 /**
@@ -103,6 +104,15 @@ public class ProjectBreadcrumb extends MHorizontalLayout implements CacheableCom
                         UserUIContext.getMessage(MessageI18nEnum.SINGLE), message.getTitle()));
     }
 
+    public void gotoFileList() {
+        addSummaryLink();
+        FileBreadcrumb fileBreadcrumb = ViewManager.getCacheComponent(FileBreadcrumb.class);
+        with(ELabel.html(VaadinIcons.ANGLE_RIGHT.getHtml()), fileBreadcrumb);
+        AppUI.addFragment(ProjectLinkGenerator.generateFileDashboardLink(project.getId()),
+                UserUIContext.getMessage(BreadcrumbI18nEnum.FRA_FILES));
+    }
+
+
     public void gotoRiskRead(Risk risk) {
         addSummaryLink();
         addEnabledLink(new Button(UserUIContext.getMessage(TicketI18nEnum.LIST), new GotoTicketDashboard()));
@@ -113,7 +123,7 @@ public class ProjectBreadcrumb extends MHorizontalLayout implements CacheableCom
                         UserUIContext.getMessage(RiskI18nEnum.SINGLE), risk.getName()));
     }
 
-    public void gotoRiskEdit(final Risk risk) {
+    public void gotoRiskEdit(Risk risk) {
         addSummaryLink();
         addEnabledLink(new Button(UserUIContext.getMessage(TicketI18nEnum.LIST), new GotoTicketDashboard()));
         addLink(generateBreadcrumbLink(UserUIContext.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,

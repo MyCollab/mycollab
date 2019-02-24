@@ -96,6 +96,10 @@ object ProjectLinkGenerator {
             "${URL_PREFIX_PARAM}project/user/preview/${GenericLinkUtils.encodeParam(projectId, memberName)}"
 
     @JvmStatic
+    fun generateFileDashboardLink(projectId: Int): String =
+            "${URL_PREFIX_PARAM}project/file/dashboard/${UrlEncodeDecoder.encode(projectId)}"
+
+    @JvmStatic
     fun generateProjectMemberFullLink(siteUrl: String, projectId: Int, memberName: String?): String =
             memberName?: "$siteUrl${generateProjectMemberLink(projectId, memberName)}"
 

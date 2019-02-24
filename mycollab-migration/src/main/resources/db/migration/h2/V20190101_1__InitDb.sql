@@ -657,7 +657,7 @@ CREATE TABLE `m_prj_customize_view` (
   `projectId` int(10) unsigned NOT NULL,
   `displayMessage` bit(1) NOT NULL,
   `displayMilestone` bit(1) NOT NULL,
-  `displayStandup` bit(1) NOT NULL,
+  `displayFile` bit(1) NOT NULL,
   `displayTimeLogging` bit(1) NOT NULL,
   `displayPage` bit(1) NOT NULL,
   `displayInvoice` bit(1) NOT NULL,

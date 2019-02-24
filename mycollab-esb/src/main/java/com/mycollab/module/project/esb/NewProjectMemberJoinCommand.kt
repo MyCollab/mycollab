@@ -27,6 +27,7 @@ import com.mycollab.core.utils.DateTimeUtils
 import com.mycollab.html.DivLessFormatter
 import com.mycollab.html.LinkUtils
 import com.mycollab.i18n.LocalizationHelper
+import com.mycollab.module.billing.UserStatusConstants
 import com.mycollab.module.esb.GenericCommand
 import com.mycollab.module.mail.service.ExtMailService
 import com.mycollab.module.mail.service.IContentGenerator
@@ -67,11 +68,8 @@ class NewProjectMemberJoinCommand(private val billingAccountService: BillingAcco
                     DateTimeUtils.getCurrentYear()))
             contentGenerator.putVariable("logoPath", LinkUtils.accountLogoPath(account.id, account.logopath))
             contentGenerator.putVariable("siteUrl", deploymentMode.getSiteUrl(account.subdomain))
-            val recipients = mutableListOf<MailRecipientField>()
-            membersInProjects.forEach {
-                if (event.username != it.username)
-                    recipients.add(MailRecipientField(it.username, it.displayName))
-            }
+
+            val recipients = membersInProjects.filter { event.username != it.username }.filter { it.status == UserStatusConstants.EMAIL_VERIFIED }.map { MailRecipientField(it.username, it.displayName) }
             extMailService.sendHTMLMail(applicationConfiguration.notifyEmail, applicationConfiguration.siteName, recipients,
                     "${newMember.displayName} has just joined on project ${newMember.projectName}",
                     contentGenerator.parseFile("mailProjectNewMemberJoinProjectNotifier.ftl", Locale.US))

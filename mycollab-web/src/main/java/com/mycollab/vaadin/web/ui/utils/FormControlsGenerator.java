@@ -51,8 +51,10 @@ public class FormControlsGenerator {
                 if (editForm.validateForm()) {
                     editForm.fireSaveAndNewForm();
                 }
-            }).withIcon(VaadinIcons.CLIPBOARD_CROSS).withStyleName(WebThemes.BUTTON_ACTION)
-                    .withClickShortcut(KeyCode.ENTER);
+            }).withIcon(VaadinIcons.CLIPBOARD_CROSS).withStyleName(WebThemes.BUTTON_ACTION);
+            if (!isSaveBtnVisible) {
+                saveAndNewBtn.withClickShortcut(KeyCode.ENTER);
+            }
             layout.addComponent(saveAndNewBtn);
         }
 
@@ -61,7 +63,8 @@ public class FormControlsGenerator {
                 if (editForm.validateForm()) {
                     editForm.fireSaveForm();
                 }
-            }).withIcon(VaadinIcons.CLIPBOARD).withStyleName(WebThemes.BUTTON_ACTION);
+            }).withIcon(VaadinIcons.CLIPBOARD).withStyleName(WebThemes.BUTTON_ACTION)
+                    .withClickShortcut(KeyCode.ENTER);
             layout.addComponent(saveBtn);
         }
 

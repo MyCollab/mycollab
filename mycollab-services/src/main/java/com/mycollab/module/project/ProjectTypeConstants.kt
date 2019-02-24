@@ -41,6 +41,8 @@ object ProjectTypeConstants {
 
     const val SPIKE = "Project-Spike"
 
+    const val FILE = "Project-File"
+
     const val BUG_COMPONENT = "Project-Component"
 
     const val BUG_VERSION = "Project-Version"

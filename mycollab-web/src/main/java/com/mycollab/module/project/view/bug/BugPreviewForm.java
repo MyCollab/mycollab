@@ -16,6 +16,7 @@
  */
 package com.mycollab.module.project.view.bug;
 
+import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.core.utils.StringUtils;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.i18n.OptionI18nEnum;
@@ -102,7 +103,7 @@ public class BugPreviewForm extends AdvancedPreviewBeanForm<SimpleBug> {
                     return lbPriority;
                 }
             } else if (BugWithBLOBs.Field.resolution.equalTo(propertyId)) {
-                return new I18nFormViewField(BugResolution.class).withStyleName(WebThemes.FIELD_NOTE);
+                return new I18nFormViewField(BugResolution.class, GenericI18Enum.OPT_UNDEFINED).withStyleName(WebThemes.FIELD_NOTE);
             }
             return null;
         }

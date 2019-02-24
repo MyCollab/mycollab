@@ -127,7 +127,7 @@ class ContentJcrDaoTest : IntegrationServiceTest() {
         contentJcrDao.saveContent(pageContent, "hainguyen")
 
         val resources = contentJcrDao.getResources("example")
-        assertThat(resources.size).isEqualTo(2)
+        assertThat(resources?.size).isEqualTo(2)
         assertThat(resources).extracting("path", "title").contains(
                 tuple("example/a", "page example"),
                 tuple("example/b", "page example2"))
@@ -145,7 +145,7 @@ class ContentJcrDaoTest : IntegrationServiceTest() {
         contentJcrDao.createFolder(folder3, "abc")
 
         val subFolders = contentJcrDao.getSubFolders("a/b")
-        assertThat(subFolders.size).isEqualTo(3)
+        assertThat(subFolders?.size).isEqualTo(3)
         assertThat(subFolders).extracting("path").contains("a/b/c", "a/b/c2", "a/b/c3")
     }
 
@@ -196,7 +196,7 @@ class ContentJcrDaoTest : IntegrationServiceTest() {
         contentJcrDao.saveContent(pageContent2, "hainguyen")
 
         val contents = contentJcrDao.getContents("example/e")
-        assertThat(contents.size).isEqualTo(2)
+        assertThat(contents?.size).isEqualTo(2)
         assertThat(contents).extracting("path", "title").contains(
                 tuple("example/e/a", "page example2"),
                 tuple("example/e/b", "page example3"))

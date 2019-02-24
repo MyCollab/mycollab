@@ -84,7 +84,7 @@ class BillingAccountServiceImpl(private val billingAccountMapper: BillingAccount
         return if (accounts.isEmpty()) null else accounts[0]
     }
 
-    override fun createDefaultAccountData(username: String, password: String, timezoneId: String, language: String, isEmailVerified: Boolean?, isCreatedDefaultData: Boolean?, sAccountId: Int) {
+    override fun createDefaultAccountData(username: String, password: String, timezoneId: String, language: String, isEmailVerified: Boolean, isCreatedDefaultData: Boolean, sAccountId: Int) {
         // Check whether user has registered to the system before
         val encryptedPassword = EnDecryptHelper.encryptSaltPassword(password)
         val ex = UserExample()
@@ -94,12 +94,11 @@ class BillingAccountServiceImpl(private val billingAccountMapper: BillingAccount
         val now = LocalDateTime.now()
 
         if (CollectionUtils.isNotEmpty(users)) {
-            users
-                    .filter { encryptedPassword != it.password }
-                    .forEach {
-                        throw UserInvalidInputException("There is already user $username in the MyCollab database. If it is yours, you must enter the same password you registered to MyCollab. Otherwise " +
-                                "you must use the different email.")
-                    }
+            val existUser = users.filter { encryptedPassword != it.password }.count() > 0
+            if (existUser) {
+                throw UserInvalidInputException("There is already user $username in the MyCollab database. If it is yours, you must enter the same password you registered to MyCollab. Otherwise " +
+                        "you must use the different email.")
+            }
         } else {
             // Register the new user to this account
             val user = User()
@@ -111,7 +110,7 @@ class BillingAccountServiceImpl(private val billingAccountMapper: BillingAccount
             user.lastaccessedtime = now
             user.language = language
 
-            if (isEmailVerified!!) {
+            if (isEmailVerified) {
                 user.status = UserStatusConstants.EMAIL_VERIFIED
             } else {
                 user.status = UserStatusConstants.EMAIL_NOT_VERIFIED
@@ -125,8 +124,8 @@ class BillingAccountServiceImpl(private val billingAccountMapper: BillingAccount
                 user.lastname = StringUtils.extractNameFromEmail(username)
             }
             userMapper.insert(user)
-            if (!isEmailVerified) {
-                asyncEventBus.post(SendUserEmailVerifyRequestEvent(user))
+            if (!isEmailVerified && deploymentMode.isDemandEdition) {
+                asyncEventBus.post(SendUserEmailVerifyRequestEvent(sAccountId, user))
             }
         }
 

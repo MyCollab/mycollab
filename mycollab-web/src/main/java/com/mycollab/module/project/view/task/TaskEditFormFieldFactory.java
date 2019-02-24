@@ -87,16 +87,16 @@ class TaskEditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<Si
         } else if (Task.Field.duration.equalTo(propertyId)) {
             DurationEditField field = new DurationEditField();
             field.setWidth(WebThemes.FORM_CONTROL_WIDTH);
-            final SimpleTask beanItem = attachForm.getBean();
+            SimpleTask beanItem = attachForm.getBean();
             if (beanItem.getNumSubTasks() != null && beanItem.getNumSubTasks() > 0) {
                 field.setEnabled(false);
                 field.setDescription(UserUIContext.getMessage(TaskI18nEnum.ERROR_CAN_NOT_EDIT_PARENT_TASK_FIELD));
             }
 
             field.addValueChangeListener((HasValue.ValueChangeListener<Long>) event -> {
-                long duration = event.getValue();
+                Long duration = event.getValue();
                 LocalDate startDateVal = startDateField.getValue();
-                if (duration > 0 && startDateVal != null) {
+                if (duration!= null && startDateVal != null && duration > 0) {
                     int daysDuration = (int) (duration / DateTimeUtils.MILLISECONDS_IN_A_DAY);
                     if (daysDuration > 0) {
                         LocalDate endDateVal = BusinessDayTimeUtils.plusDays(startDateVal, daysDuration);

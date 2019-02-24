@@ -22,7 +22,6 @@ import com.vaadin.icons.VaadinIcons;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.ComponentContainer;
-import org.vaadin.viritin.layouts.MCssLayout;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 /**
@@ -33,13 +32,11 @@ public class AbstractProjectPageView extends AbstractVerticalPageView {
     private static final long serialVersionUID = 1L;
 
     protected ELabel headerText;
-    protected MCssLayout contentWrapper;
     protected MHorizontalLayout header;
 
     public AbstractProjectPageView(String headerText, VaadinIcons icon) {
         this.headerText = ELabel.h2(String.format("%s %s", icon.getHtml(), headerText));
-        contentWrapper = new MCssLayout();
-        super.with(constructHeader(), contentWrapper).expand(contentWrapper);
+        super.with(constructHeader());
     }
 
     private ComponentContainer constructHeader() {
@@ -48,11 +45,7 @@ public class AbstractProjectPageView extends AbstractVerticalPageView {
         return header;
     }
 
-    public void addHeaderRightContent(Component c) {
-        header.with(c).withAlign(c, Alignment.MIDDLE_RIGHT);
-    }
-
-    public ComponentContainer getBody() {
-        return contentWrapper;
+    public void addHeaderRightContent(Component component) {
+        header.with(component).withAlign(component, Alignment.MIDDLE_RIGHT);
     }
 }

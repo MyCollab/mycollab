@@ -104,7 +104,7 @@ class DefaultScheduleConfiguration {
             bean.setDataSource(dataSource)
         }
 
-        bean.setQuartzProperties(Companion.buildProperties())
+        bean.setQuartzProperties(buildProperties())
         bean.setOverwriteExistingJobs(true)
         val factory = AutowiringSpringBeanJobFactory()
         factory.setApplicationContext(applicationContext)

@@ -284,7 +284,7 @@ public class ContentJcrDaoImpl implements ContentJcrDao {
     }
 
     @Override
-    public List<Folder> getSubFolders(final String path) {
+    public List<Folder> getSubFolders(String path) {
         return jcrTemplate.execute(session -> {
             Node rootNode = session.getRootNode();
             Node node = getNode(rootNode, path);
