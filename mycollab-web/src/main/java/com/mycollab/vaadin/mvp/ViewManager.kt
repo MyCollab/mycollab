@@ -60,7 +60,7 @@ object ViewManager {
         val componentScannerService = AppContextUtil.getSpringBean(ComponentScannerService::class.java)
         val implCls = componentScannerService.getViewImplCls(viewClass)
         if (implCls != null) {
-            return implCls.newInstance() as T
+            return implCls.getDeclaredConstructor().newInstance() as T
         }
         throw MyCollabException("Can not find the implementation class for view $viewClass")
     }

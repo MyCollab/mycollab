@@ -41,7 +41,7 @@ public class ButtonGroup extends CssLayout {
     }
 
     public void addButton(Button button) {
-        super.addComponent(button);
+        addComponent(button);
         button.addClickListener(clickEvent -> {
             if (!clickEvent.getButton().equals(selectedBtn)) {
                 selectedBtn = clickEvent.getButton();
@@ -69,5 +69,4 @@ public class ButtonGroup extends CssLayout {
         }
         return this;
     }
-
 }

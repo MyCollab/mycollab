@@ -31,13 +31,10 @@ import com.mycollab.vaadin.AsyncInvoker
 import com.mycollab.vaadin.EventBusFactory
 import com.mycollab.vaadin.UserUIContext
 import com.mycollab.vaadin.ui.ELabel
-import com.sun.javaws.security.AppContextUtil
 import com.vaadin.icons.VaadinIcons
-import com.vaadin.shared.ui.MarginInfo
 import com.vaadin.ui.*
 import org.vaadin.hene.popupbutton.PopupButton
 import org.vaadin.viritin.button.MButton
-import org.vaadin.viritin.layouts.MCssLayout
 import org.vaadin.viritin.layouts.MHorizontalLayout
 import org.vaadin.viritin.layouts.MVerticalLayout
 

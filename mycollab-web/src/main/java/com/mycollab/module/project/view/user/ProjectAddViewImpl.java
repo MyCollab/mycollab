@@ -71,16 +71,15 @@ public class ProjectAddViewImpl extends AbstractVerticalPageView implements Proj
     class FormLayoutFactory extends WrappedFormLayoutFactory {
 
         private Layout createButtonControls() {
-            final HorizontalLayout controlPanel = new HorizontalLayout();
-            final ComponentContainer controlButtons;
+            MHorizontalLayout controlPanel = new MHorizontalLayout();
+            ComponentContainer controlButtons;
 
             if (project.getId() == null) {
                 controlButtons = generateEditFormControls(editForm);
             } else {
                 controlButtons = generateEditFormControls(editForm, true, false, true);
             }
-            controlPanel.addComponent(controlButtons);
-            controlPanel.setComponentAlignment(controlButtons, Alignment.TOP_RIGHT);
+            controlPanel.with(controlButtons).withAlign(controlButtons, Alignment.TOP_RIGHT);
             return controlPanel;
         }
 

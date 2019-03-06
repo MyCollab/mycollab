@@ -44,7 +44,6 @@ import com.mycollab.vaadin.web.ui.SortButton;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.UI;
@@ -92,12 +91,8 @@ public class PageListViewImpl extends AbstractVerticalPageView implements PageLi
     private boolean kindSortAscend = true;
 
     public PageListViewImpl() {
-        this.setMargin(new MarginInfo(false, true, true, true));
-
-        headerLayout = new MHorizontalLayout().withFullWidth()
-                .withMargin(new MarginInfo(true, false, true, false));
-        headerLayout.setHeightUndefined();
-
+        withMargin(new MarginInfo(true));
+        headerLayout = new MHorizontalLayout().withFullWidth().withMargin(false);
         this.addComponent(headerLayout);
         initHeader();
 
@@ -109,12 +104,11 @@ public class PageListViewImpl extends AbstractVerticalPageView implements PageLi
         HeaderWithIcon headerText = ComponentUtils.headerH2(ProjectTypeConstants.PAGE,
                 UserUIContext.getMessage(PageI18nEnum.LIST));
 
-        headerLayout.with(headerText).alignAll(Alignment.MIDDLE_LEFT).expand(headerText);
+        MHorizontalLayout rightLayout = new MHorizontalLayout();
+        headerLayout.with(headerText, rightLayout).expand(headerText);
 
-        Label sortLbl = new Label(UserUIContext.getMessage(PageI18nEnum.OPT_SORT_LABEL));
-        sortLbl.setSizeUndefined();
-        headerLayout.with(sortLbl).withAlign(sortLbl, Alignment.MIDDLE_RIGHT);
-
+        ELabel sortLbl = new ELabel(UserUIContext.getMessage(PageI18nEnum.OPT_SORT_LABEL)).withUndefinedWidth();
+        rightLayout.with(sortLbl);
 
         SortButton sortDateBtn = new SortButton(UserUIContext.getMessage(PageI18nEnum.OPT_SORT_BY_DATE), clickEvent -> {
             dateSourceAscend = !dateSourceAscend;
@@ -147,20 +141,19 @@ public class PageListViewImpl extends AbstractVerticalPageView implements PageLi
         });
 
         ButtonGroup sortGroup = new ButtonGroup(sortDateBtn, sortNameBtn, sortKindBtn).withDefaultButton(sortDateBtn);
-        headerLayout.with(sortGroup).withAlign(sortGroup, Alignment.MIDDLE_RIGHT);
+        rightLayout.with(sortGroup);
 
         MButton newGroupBtn = new MButton(UserUIContext.getMessage(PageI18nEnum.NEW_GROUP),
                 clickEvent -> UI.getCurrent().addWindow(new GroupPageAddWindow()))
                 .withIcon(VaadinIcons.PLUS).withStyleName(WebThemes.BUTTON_ACTION);
         newGroupBtn.setVisible(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.PAGES));
-        headerLayout.with(newGroupBtn).withAlign(newGroupBtn, Alignment.MIDDLE_RIGHT);
+        rightLayout.with(newGroupBtn);
 
         MButton newPageBtn = new MButton(UserUIContext.getMessage(PageI18nEnum.NEW),
                 clickEvent -> EventBusFactory.getInstance().post(new PageEvent.GotoAdd(this, null)))
-                .withIcon(VaadinIcons.PLUS).withStyleName(WebThemes.BUTTON_ACTION);
-        newPageBtn.setVisible(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.PAGES));
-
-        headerLayout.with(newPageBtn).withAlign(newPageBtn, Alignment.MIDDLE_RIGHT);
+                .withIcon(VaadinIcons.PLUS).withStyleName(WebThemes.BUTTON_ACTION)
+                .withVisible(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.PAGES));
+        rightLayout.with(newPageBtn);
     }
 
     private void displayPages(List<? extends PageResource> resources) {

@@ -36,9 +36,9 @@ class ShellUrlResolver : UrlResolver() {
         this.addSubResolver("account", AccountSettingUrlResolver().build())
     }
 
-    fun resolveFragment(newFragmentUrl: String) {
+    fun resolveFragment(newFragmentUrl: String?) {
         if (!StringUtils.isBlank(newFragmentUrl)) {
-            val tokens = newFragmentUrl.split("/").toTypedArray()
+            val tokens = newFragmentUrl!!.split("/").toTypedArray()
             this.handle(*tokens)
         }
     }

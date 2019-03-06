@@ -17,6 +17,7 @@
 package com.mycollab.core.utils
 
 import java.math.BigDecimal
+import java.math.RoundingMode
 
 /**
  * @author MyCollab Ltd
@@ -27,7 +28,7 @@ object NumberUtils {
     fun roundDouble(scale: Int, value: Double?): Double =
             when (value) {
                 null -> 0.0
-                else -> BigDecimal(value.toString()).setScale(scale, BigDecimal.ROUND_HALF_UP).toDouble()
+                else -> BigDecimal(value.toString()).setScale(scale, RoundingMode.HALF_UP).toDouble()
             }
 
     @JvmStatic

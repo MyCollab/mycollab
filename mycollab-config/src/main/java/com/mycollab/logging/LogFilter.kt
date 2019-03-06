@@ -28,7 +28,8 @@ class LogFilter : Filter<ILoggingEvent>() {
 
     override fun decide(event: ILoggingEvent): FilterReply =
             if (event.message.contains("Failed to execute SQL (stacktrace on DEBUG log level)")
-                    || event.message.contains("ERROR o.j.p.CENTRAL_LOCK")) {
+                    || event.message.contains("org.jgroups.protocols")
+                    || event.message.contains("member is not present in the current view")) {
                 FilterReply.DENY
             } else {
                 FilterReply.NEUTRAL

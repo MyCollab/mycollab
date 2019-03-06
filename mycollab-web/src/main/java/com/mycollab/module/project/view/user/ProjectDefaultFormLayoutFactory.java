@@ -35,6 +35,10 @@ public class ProjectDefaultFormLayoutFactory {
                 .displayName(GenericI18Enum.FORM_STATUS)
                 .fieldIndex(3).build());
 
+        mainSection.fields(new TextDynaFieldBuilder().fieldName(Project.Field.memlead)
+                .displayName(ProjectI18nEnum.FORM_LEADER)
+                .fieldIndex(4).build());
+
         return mainSection;
     }
 

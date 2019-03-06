@@ -101,8 +101,6 @@ object ThemeManager {
             //Color while hover on sidebar menu
             extraStyles.append(".vertical-tabsheet .v-button-tab .v-button-wrap:hover {color: #${accountTheme.vtabsheettextselected}!important;}")
             extraStyles.append(".vertical-tabsheet .v-button-tab:hover .v-button-wrap {color: #${accountTheme.vtabsheettextselected}!important;}")
-            //Volume text display bar in file manager
-            extraStyles.append(".v-label.volumeUsageInfo div { color: #${accountTheme.vtabsheettextselected};}")
         }
 
         /* Action Buttons */

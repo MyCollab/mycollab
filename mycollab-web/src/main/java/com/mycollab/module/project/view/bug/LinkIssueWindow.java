@@ -21,7 +21,7 @@ import com.mycollab.core.UserInvalidInputException;
 import com.mycollab.form.view.LayoutType;
 import com.mycollab.module.project.event.BugEvent;
 import com.mycollab.module.project.i18n.BugI18nEnum;
-import com.mycollab.module.project.i18n.OptionI18nEnum;
+import com.mycollab.module.project.i18n.OptionI18nEnum.BugRelation;
 import com.mycollab.module.tracker.domain.RelatedBug;
 import com.mycollab.module.tracker.domain.SimpleBug;
 import com.mycollab.module.tracker.service.BugRelationService;
@@ -64,7 +64,7 @@ class LinkIssueWindow extends MWindow {
         editForm = new RelatedBugEditForm();
         relatedBug = new RelatedBug();
         relatedBug.setBugid(bug.getId());
-        relatedBug.setRelatetype(OptionI18nEnum.BugRelation.Duplicated.name());
+        relatedBug.setRelatetype(BugRelation.Duplicated.name());
         editForm.setBean(relatedBug);
         contentLayout.add(editForm);
 
@@ -138,8 +138,8 @@ class LinkIssueWindow extends MWindow {
             @Override
             protected HasValue<?> onCreateField(Object propertyId) {
                 if (RelatedBug.Field.relatetype.equalTo(propertyId)) {
-                    I18nValueComboBox<OptionI18nEnum.BugRelation> relationSelection = new I18nValueComboBox<>(OptionI18nEnum.BugRelation.class,
-                            OptionI18nEnum.BugRelation.Block, OptionI18nEnum.BugRelation.Duplicated, OptionI18nEnum.BugRelation.Related);
+                    I18nValueComboBox<BugRelation> relationSelection = new I18nValueComboBox<>(BugRelation.class,
+                            BugRelation.Block, BugRelation.Duplicated, BugRelation.Related);
                     relationSelection.setWidth(WebThemes.FORM_CONTROL_WIDTH);
                     return relationSelection;
                 } else if (RelatedBug.Field.relatedid.equalTo(propertyId)) {

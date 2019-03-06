@@ -39,6 +39,7 @@ class SendVerifyUserEmailCommand(private val deploymentMode: IDeploymentMode,
     @Subscribe
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     fun sendVerifyEmailRequest(event: SendUserEmailVerifyRequestEvent) {
+        Thread.sleep(5000)
         sendConfirmEmailToUser(event.sAccountId, event.user)
         event.user.status = UserStatusConstants.EMAIL_VERIFIED_REQUEST
         userService.updateWithSession(event.user, event.user.username)

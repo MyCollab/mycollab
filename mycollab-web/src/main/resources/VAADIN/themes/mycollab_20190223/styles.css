@@ -16353,21 +16353,14 @@ div.v-button.button-icon-only .v-button-wrap:hover, div.v-button.button-icon-onl
 	background-color: transparent;
 }
 
-div.v-button.button-icon-only .v-button-wrap .v-icon.FontAwesome, div.v-button.button-icon-only:active .v-button-wrap .v-icon.FontAwesome, div.v-button.button-icon-only:focus .v-button-wrap .v-icon.FontAwesome, div.v-button.button-icon-only.v-pressed .v-button-wrap .v-icon.FontAwesome {
-	vertical-align: bottom;
-}
-
 div.v-button.button-icon-only .v-button-wrap .v-popup-indicator::before, div.v-button.button-icon-only:active .v-button-wrap .v-popup-indicator::before, div.v-button.button-icon-only:focus .v-button-wrap .v-popup-indicator::before, div.v-button.button-icon-only.v-pressed .v-button-wrap .v-popup-indicator::before {
 	content: "";
 }
 
 .multiselect.v-popupbutton {
-	border-left: 1px solid #e4e4e4;
-	padding: 0px 10px 0px 5px;
+	border: 1px solid #e5e5e5;
+	padding: 0px 12px 0px 6px;
 	border-radius: 0px 4px 4px 0px;
-	border-style: solid;
-	border-width: 1px;
-	border-color: #e5e5e5;
 	background-color: white;
 }
 
@@ -17641,12 +17634,6 @@ div.v-window .v-panel {
 	border-color: transparent #e8a052;
 }
 
-.projectfeed-hdr-wrapper {
-	padding: 12px 24px;
-	border-bottom: 1px solid #e5e5e5;
-	background-color: #f9f9f9;
-}
-
 div.v-csslayout.followers-container {
 	display: -webkit-box;
 	display: -moz-box;
@@ -17659,7 +17646,7 @@ div.v-csslayout.followers-container {
 }
 
 div.v-csslayout.followers-container .v-checkbox {
-	margin-right: 10px;
+	margin-right: 12px;
 }
 
 .project-tag-comp {

@@ -36,7 +36,7 @@ class VaadinResourceFactory private constructor() {
         vaadinResource = if (SiteConfiguration.isDemandEdition()) {
             try {
                 val cls = Class.forName(S3_CLS) as Class<VaadinResource>
-                cls.newInstance()
+                cls.getDeclaredConstructor().newInstance()
             } catch (e: Exception) {
                 throw MyCollabException("Exception when load s3 resource file", e)
             }

@@ -57,7 +57,7 @@ class UserCustomizeReportOutputWindow(variableInjector: VariableInjector<UserSea
     override fun getSampleMap(): Map<String, String> = mapOf(
             displayName.field to "John Adams",
             roleName.field to "Administrator",
-            email.field to "john.adam@mycollab.com",
+            email.field to "john.adams@mycollab.com",
             birthday.field to UserUIContext.formatDate(LocalDate.of(1979, 3, 13)),
             officePhone.field to "11111111",
             homePhone.field to "11111111",
