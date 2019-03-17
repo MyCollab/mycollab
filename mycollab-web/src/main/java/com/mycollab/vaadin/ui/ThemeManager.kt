@@ -159,6 +159,10 @@ object ThemeManager {
             extraStyles.append(".toggle-btn-group .v-button.btn-group-default {color:#${accountTheme.actionbtntext};}")
         }
 
+        if (accountTheme.actionbtnborder != null) {
+            extraStyles.append(".v-button.v-button-action-button, .v-button-action-button:focus { border: 1px solid #${accountTheme.actionbtnborder}; }")
+        }
+
         /* Option Buttons */
 
         if (accountTheme.optionbtn != null) {
@@ -174,6 +178,10 @@ object ThemeManager {
             extraStyles.append(".toggle-btn-group .v-button { color: #${accountTheme.optionbtntext}; }")
         }
 
+        if (accountTheme.optionbtnborder != null) {
+            extraStyles.append(".v-button.v-button-option-button, .v-button-option-button:focus { border: 1px solid #${accountTheme.optionbtnborder}; }")
+        }
+
         /* Danger Buttons */
 
         if (accountTheme.dangerbtn != null) {
@@ -187,6 +195,10 @@ object ThemeManager {
 
         if (accountTheme.dangerbtntext != null) {
             extraStyles.append(".v-button.v-button-danger-button, .v-button-danger-button:focus { color: #${accountTheme.dangerbtntext}; }")
+        }
+
+        if (accountTheme.dangerbtnborder != null) {
+            extraStyles.append(".v-button.v-button-danger-button, .v-button-danger-button:focus { border: 1px solid #${accountTheme.dangerbtnborder}; }")
         }
 
         if (extraStyles.isNotBlank()) {
@@ -248,6 +260,10 @@ object ThemeManager {
             demoExtraStyles.append(".example-block .v-button.v-button-action-button, .example-block .v-button-action-button:focus { color: #${accountTheme.actionbtntext}; }")
         }
 
+        if (accountTheme.actionbtnborder != null) {
+            demoExtraStyles.append(".example-block .v-button.v-button-action-button, .example-block .v-button-action-button:focus { border: 1px solid #${accountTheme.actionbtnborder}; }")
+        }
+
         /* Option Buttons */
 
         if (accountTheme.optionbtn != null) {
@@ -258,6 +274,10 @@ object ThemeManager {
             demoExtraStyles.append(".example-block .v-button.v-button-option-button, .example-block .v-button-option-button:focus { color: #${accountTheme.optionbtntext}; }")
         }
 
+        if (accountTheme.optionbtnborder != null) {
+            demoExtraStyles.append(".example-block .v-button.v-button-option-button, .example-block .v-button-option-button:focus { border: 1px solid #${accountTheme.optionbtnborder}; }")
+        }
+
         /* Danger Buttons */
         if (accountTheme.dangerbtn != null) {
             demoExtraStyles.append(".example-block .v-button.v-button-danger-button, .example-block .v-button-danger-button:focus { background-color: #${accountTheme.dangerbtn}; }")
@@ -265,6 +285,10 @@ object ThemeManager {
 
         if (accountTheme.dangerbtntext != null) {
             demoExtraStyles.append(".example-block .v-button.v-button-danger-button, .example-block .v-button-danger-button:focus { color: #${accountTheme.dangerbtntext}; }")
+        }
+
+        if (accountTheme.dangerbtnborder != null) {
+            demoExtraStyles.append(".example-block .v-button.v-button-danger-button, .example-block .v-button-danger-button:focus { border: 1px solid #${accountTheme.dangerbtnborder}; }")
         }
 
         if (demoExtraStyles.isNotBlank()) {

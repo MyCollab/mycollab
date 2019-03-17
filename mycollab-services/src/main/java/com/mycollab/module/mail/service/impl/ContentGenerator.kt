@@ -46,6 +46,7 @@ class ContentGenerator(private val applicationConfiguration: ApplicationConfigur
         @JvmStatic
         private val LOG = LoggerFactory.getLogger(javaClass.enclosingClass)
     }
+
     private val templateContext = mutableMapOf<String, Any>()
 
     @Throws(Exception::class)
@@ -74,6 +75,8 @@ class ContentGenerator(private val applicationConfiguration: ApplicationConfigur
     override fun parseFile(templateFilePath: String, currentLocale: Locale?): String {
         val writer = StringWriter()
         val template = templateEngine.getTemplate(templateFilePath, currentLocale)
+        template.dateFormat = "yyyy-MM-dd"
+        template.dateTimeFormat = "yyyy-MM-dd'T'HH:mm:ss"
         template.process(templateContext, writer)
         return writer.toString()
     }

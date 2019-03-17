@@ -33,7 +33,8 @@
     <sql id="selectSimpleRole">
         <![CDATA[
             SELECT s_roles.id, s_roles.rolename, s_roles.description, s_roles.sAccountId, s_roles.isSystemRole,
-                s_roles.isDefault, s_role_permission.roleVal AS permissionVal
+                s_roles.isDefault, s_role_permission.roleVal AS permissionVal,
+                (SELECT COUNT(*) FROM s_user_account WHERE s_user_account.roleId = s_roles.id AND s_user_account.registerStatus='Active') AS numMembers
             FROM s_roles
                 LEFT OUTER JOIN s_role_permission ON (s_role_permission.roleid = s_roles.id)
         ]]>

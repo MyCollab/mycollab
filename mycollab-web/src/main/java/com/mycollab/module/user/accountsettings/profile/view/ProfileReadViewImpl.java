@@ -77,7 +77,7 @@ public class ProfileReadViewImpl extends AbstractVerticalPageView implements Pro
         MVerticalLayout userAvatar = new MVerticalLayout().withMargin(false).with(avatarWrapper);
         userAvatar.setSizeUndefined();
 
-        final UploadImageField avatarUploadField = new UploadImageField(this);
+        UploadImageField avatarUploadField = new UploadImageField(this);
         avatarUploadField.setButtonCaption(UserUIContext.getMessage(UserI18nEnum.BUTTON_CHANGE_AVATAR));
         userAvatar.addComponent(avatarUploadField);
 

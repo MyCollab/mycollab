@@ -23,7 +23,6 @@ import java.util.Collection;
  * @since 5.3.1
  */
 public abstract class LazyValueInjector implements VariableInjector {
-    private boolean isEval = false;
     private boolean isArray = false;
     private boolean isCollection = false;
     private Class type;
@@ -31,7 +30,6 @@ public abstract class LazyValueInjector implements VariableInjector {
     @Override
     public Object eval() {
         Object value = doEval();
-        isEval = true;
         type = (type != null) ? type : value.getClass();
 
         if (this.type.isArray()) {

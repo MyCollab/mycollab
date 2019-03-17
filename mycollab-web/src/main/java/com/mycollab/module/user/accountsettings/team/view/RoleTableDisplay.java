@@ -42,11 +42,16 @@ class RoleTableDisplay extends DefaultPagedBeanTable<RoleService, RoleSearchCrit
         super(AppContextUtil.getSpringBean(RoleService.class), SimpleRole.class, requiredColumn, displayColumns);
 
         this.addGeneratedColumn("selected", (source, itemId, columnId) -> {
-            final SimpleRole role = getBeanByIndex(itemId);
+            SimpleRole role = getBeanByIndex(itemId);
             CheckBoxDecor cb = new CheckBoxDecor("", role.isSelected());
             cb.addValueChangeListener(valueChangeEvent -> RoleTableDisplay.this.fireSelectItemEvent(role));
             role.setExtraData(cb);
             return cb;
+        });
+
+        this.addGeneratedColumn("numMembers", (source, itemId, columnId) -> {
+            SimpleRole role = getBeanByIndex(itemId);
+            return new Label(role.getNumMembers() + "");
         });
 
         this.addGeneratedColumn("isdefault", (source, itemId, columnId) -> {

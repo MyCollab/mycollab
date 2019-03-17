@@ -30,6 +30,8 @@ class SimpleRole : Role() {
 
     var permissionVal: String? = null
 
+    var numMembers: Int? = null
+
     @NotBindable
     @NotInReport
     var permissionMap: PermissionMap? = null

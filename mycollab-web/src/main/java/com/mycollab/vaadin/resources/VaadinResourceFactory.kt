@@ -40,7 +40,6 @@ class VaadinResourceFactory private constructor() {
             } catch (e: Exception) {
                 throw MyCollabException("Exception when load s3 resource file", e)
             }
-
         } else {
             VaadinFileResource()
         }

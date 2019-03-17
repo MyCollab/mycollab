@@ -36,9 +36,3 @@ object Utils {
 
     @JvmStatic fun reloadPage(): Unit = Page.getCurrent().javaScript.execute("window.location.reload();")
 }
-
-fun main(args: Array<String>) {
-    val str = "https://esofthead.mycollab.com"
-    val x = str.split("\\.".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[0]
-    System.out.println(x)
-}

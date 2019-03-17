@@ -1093,10 +1093,13 @@ CREATE TABLE s_account_theme (
   vTabsheetTextSelected varchar(6) DEFAULT NULL,
   actionBtn varchar(6) DEFAULT NULL,
   actionBtnText varchar(6) DEFAULT NULL,
+  actionBtnBorder varchar(6) DEFAULT NULL,
   optionBtn varchar(6) DEFAULT NULL,=
   optionBtnText varchar(6) DEFAULT NULL,
+  optionBtnBorder varchar(6) DEFAULT NULL,
   dangerBtn varchar(6) DEFAULT NULL,
   dangerBtnText varchar(6) DEFAULT NULL,
+  dangerBtnBorder varchar(6) DEFAULT NULL,
   isDefault boolean DEFAULT FALSE,
   sAccountId integer DEFAULT NULL,
   PRIMARY KEY (id),

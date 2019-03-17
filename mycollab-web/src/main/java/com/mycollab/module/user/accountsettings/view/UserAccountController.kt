@@ -98,6 +98,15 @@ class UserAccountController(val container: AccountModule) : AbstractController()
                 presenter.go(container, UserScreenData.Add(SimpleUser()))
             }
         })
+
+        this.register(object : ApplicationEventListener<UserEvent.GotoBulkInvite> {
+            @Subscribe
+            override fun handle(event: UserEvent.GotoBulkInvite) {
+                val presenter = PresenterResolver.getPresenter(UserBulkInvitePresenter::class.java)
+                presenter.go(container, null)
+            }
+        })
+
         this.register(object : ApplicationEventListener<UserEvent.GotoEdit> {
             @Subscribe
             override fun handle(event: UserEvent.GotoEdit) {

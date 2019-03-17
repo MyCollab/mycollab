@@ -33,6 +33,9 @@ object RoleTableFieldDef {
     val rolename = TableViewField(GenericI18Enum.FORM_NAME, "rolename", WebUIConstants.TABLE_EX_LABEL_WIDTH)
 
     @JvmField
+    val members = TableViewField(RoleI18nEnum.OPT_NUM_MEMBERS, "numMembers", WebUIConstants.TABLE_EX_LABEL_WIDTH)
+
+    @JvmField
     val isDefault = TableViewField(RoleI18nEnum.FORM_IS_DEFAULT, "isdefault", WebUIConstants.TABLE_M_LABEL_WIDTH)
 
     @JvmField

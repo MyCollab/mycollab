@@ -103,6 +103,16 @@ public class AccountSettingBreadcrumb extends MHorizontalLayout implements Cache
         AppUI.addFragment("account/user/list", UserUIContext.getMessage(UserI18nEnum.LIST));
     }
 
+    public void gotoUserBulkInvite() {
+        removeAllComponents();
+        this.addComponent(ELabel.html(VaadinIcons.HOME.getHtml()));
+        this.addComponent(ELabel.html(VaadinIcons.ANGLE_RIGHT.getHtml()));
+        this.addComponent(new MButton(UserUIContext.getMessage(UserI18nEnum.LIST), new GotoUserListListener()).withStyleName(WebThemes.BUTTON_LINK));
+        this.addComponent(ELabel.html(VaadinIcons.ANGLE_RIGHT.getHtml()));
+        this.addComponent(new MButton(UserUIContext.getMessage(UserI18nEnum.BULK_INVITE)).withStyleName(WebThemes.BUTTON_LINK));
+        AppUI.addFragment("account/user/bulkInvite", UserUIContext.getMessage(UserI18nEnum.BULK_INVITE));
+    }
+
     public void gotoUserRead(SimpleUser user) {
         removeAllComponents();
         this.addComponent(ELabel.html(VaadinIcons.HOME.getHtml()));

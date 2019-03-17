@@ -59,7 +59,5 @@ object ProjectTypeConstants {
 
     const val FINANCE = "Project-Finance"
 
-    const val REPORTS = "Project-Reports"
-
     const val MEMBER = "Project-Member"
 }

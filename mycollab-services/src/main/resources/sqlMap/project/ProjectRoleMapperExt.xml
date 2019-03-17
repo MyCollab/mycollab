@@ -6,6 +6,7 @@
         id="SimpleRoleResult"
         type="com.mycollab.module.project.domain.SimpleProjectRole">
         <result column="permissionVal" jdbcType="LONGVARCHAR" property="permissionVal" />
+        <result column="numMembers" jdbcType="INTEGER" property="numMembers" />
     </resultMap>
 
     <sql id="querySearchCriteria">

@@ -22,6 +22,7 @@ import com.mycollab.schedule.AutowiringSpringBeanJobFactory
 import com.mycollab.schedule.jobs.LiveInstanceMonitorJob
 import com.mycollab.schedule.jobs.ProjectSendingRelayEmailNotificationJob
 import org.quartz.CronTrigger
+import org.quartz.Scheduler
 import org.quartz.Trigger
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.ApplicationContext
@@ -38,16 +39,9 @@ import javax.sql.DataSource
  * @since 4.6.0
  */
 @Configuration
-class DefaultScheduleConfiguration {
-
-    @Autowired
-    private lateinit var dataSource: DataSource
-
-    @Autowired
-    private lateinit var applicationContext: ApplicationContext
-
-    @Autowired
-    private lateinit var deploymentMode: IDeploymentMode
+class DefaultScheduleConfiguration(private val dataSource: DataSource,
+                                   private val applicationContext: ApplicationContext,
+                                   private val deploymentMode: IDeploymentMode) {
 
     @Bean
     fun projectSendRelayNotificationEmailJob(): JobDetailFactoryBean {
@@ -95,51 +89,5 @@ class DefaultScheduleConfiguration {
         bean.setJobDetail(liveInstanceMonitorJobBean().`object`!!)
         bean.setCronExpression("0 0 6 * * ?")
         return bean
-    }
-
-    @Bean("scheduler")
-    fun quartzScheduler(): SchedulerFactoryBean {
-        val bean = SchedulerFactoryBean()
-        if (deploymentMode.isDemandEdition) {
-            bean.setDataSource(dataSource)
-        }
-
-        bean.setQuartzProperties(buildProperties())
-        bean.setOverwriteExistingJobs(true)
-        val factory = AutowiringSpringBeanJobFactory()
-        factory.setApplicationContext(applicationContext)
-        bean.setJobFactory(factory)
-        bean.setApplicationContextSchedulerContextKey("applicationContextSchedulerContextKey")
-
-        val triggersMap = applicationContext.getBeansOfType(CronTrigger::class.java)
-        val triggers = triggersMap.values
-        bean.setTriggers(*triggers.toTypedArray<Trigger>())
-        return bean
-    }
-
-    companion object {
-        fun buildProperties(): Properties {
-            val props = Properties()
-            props.setProperty("org.quartz.scheduler.instanceId", "AUTO")
-            props.setProperty("org.quartz.scheduler.instanceName", "MYCOLLAB_SCHEDULER")
-            props.setProperty("org.quartz.scheduler.rmi.export", "false")
-            props.setProperty("org.quartz.scheduler.rmi.proxy", "false")
-            props.setProperty("org.quartz.threadPool.class", "org.quartz.simpl.SimpleThreadPool")
-            props.setProperty("org.quartz.threadPool.threadCount", "10")
-            props.setProperty("org.quartz.threadPool.threadPriority", "5")
-            props.setProperty("org.quartz.threadPool.threadsInheritContextClassLoaderOfInitializingThread", "true")
-
-            //        if (deploymentMode.isDemandEdition) {
-            //            props.setProperty("org.quartz.jobStore.class", "org.quartz.impl.jdbcjobstore.JobStoreTX")
-            //            props.setProperty("org.quartz.jobStore.dataSource", "dataSource")
-            //            props.setProperty("org.quartz.jobStore.useProperties", "true")
-            //            props.setProperty("org.quartz.jobStore.tablePrefix", "QRTZ_")
-            //            props.setProperty("org.quartz.jobStore.isClustered", "true")
-            //            props.setProperty("org.quartz.jobStore.driverDelegateClass", "org.quartz.impl.jdbcjobstore.StdJDBCDelegate")
-            //        } else {
-            props.setProperty("org.quartz.jobStore.class", "org.quartz.simpl.RAMJobStore")
-            //        }
-            return props
-        }
     }
 }

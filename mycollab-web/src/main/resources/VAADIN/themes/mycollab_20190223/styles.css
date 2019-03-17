@@ -1704,10 +1704,6 @@ a.pending {
 	font-size: 35px;
 }
 
-.v-window-header {
-	font-size: 18px !important;
-}
-
 .v-tabsheet-tabitemcell .v-tabsheet-tabitem-selected .v-caption.v-caption, .v-tabsheet-tabitemcell .v-caption:hover {
 	color: #0083ce;
 }
@@ -2059,7 +2055,7 @@ a.pending {
 	text-overflow: ellipsis;
 }
 
-.optionPopupContent .action-wrap .v-disabled.v-button-action {
+.optionPopupContent .action-wrap .v-disabled.v-button-action, .optionPopupContent .action-wrap .danger-button {
 	border: none;
 }
 
@@ -2068,7 +2064,7 @@ a.pending {
 }
 
 .optionPopupContent .v-label.section-header {
-	padding: 5px 0px 5px 10px;
+	padding: 6px 0px 6px 12px;
 	font-weight: 600;
 }
 
@@ -2353,11 +2349,13 @@ div.v-window .v-panel {
 }
 
 .v-window-header {
-	font-size: 16px;
+	font-size: 24px;
+	color: black;
+	margin-top: 12px;
 }
 
 .v-window-header .v-icon {
-	margin-right: 10px;
+	margin-right: 12px;
 }
 
 .v-textfield.v-readonly {
@@ -16395,6 +16393,10 @@ div.v-button.button-icon-only .v-button-wrap .v-popup-indicator::before, div.v-b
 	border-bottom-right-radius: 4px;
 }
 
+.toggle-btn-group .v-button:not(:last-child) {
+	border-right: none;
+}
+
 .v-icon .black {
 	color: black;
 }
@@ -16534,10 +16536,6 @@ a.pending {
 
 .v-window-closebox:before {
 	font-size: 35px;
-}
-
-.v-window-header {
-	font-size: 18px !important;
 }
 
 .v-tabsheet-tabitemcell .v-tabsheet-tabitem-selected .v-caption.v-caption, .v-tabsheet-tabitemcell .v-caption:hover {
@@ -16891,7 +16889,7 @@ a.pending {
 	text-overflow: ellipsis;
 }
 
-.optionPopupContent .action-wrap .v-disabled.v-button-action {
+.optionPopupContent .action-wrap .v-disabled.v-button-action, .optionPopupContent .action-wrap .danger-button {
 	border: none;
 }
 
@@ -16900,7 +16898,7 @@ a.pending {
 }
 
 .optionPopupContent .v-label.section-header {
-	padding: 5px 0px 5px 10px;
+	padding: 6px 0px 6px 12px;
 	font-weight: 600;
 }
 
@@ -17185,11 +17183,13 @@ div.v-window .v-panel {
 }
 
 .v-window-header {
-	font-size: 16px;
+	font-size: 24px;
+	color: black;
+	margin-top: 12px;
 }
 
 .v-window-header .v-icon {
-	margin-right: 10px;
+	margin-right: 12px;
 }
 
 .v-textfield.v-readonly {
@@ -17510,20 +17510,6 @@ div.v-window .v-panel {
 
 .section .v-label-h3 {
 	color: #0083ce;
-}
-
-.v-label.volumeUsageInfo {
-	border-left: 12px solid transparent;
-	border-right: 12px solid transparent;
-	border-top: 25px solid gray;
-	height: 0;
-	overflow: visible;
-}
-
-.v-label.volumeUsageInfo div {
-	position: relative;
-	margin-top: -20px;
-	text-align: center;
 }
 
 .project-view .main-content {

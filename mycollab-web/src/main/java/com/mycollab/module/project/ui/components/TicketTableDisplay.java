@@ -47,27 +47,27 @@ public class TicketTableDisplay extends DefaultPagedBeanTable<ProjectTicketServi
         super(AppContextUtil.getSpringBean(ProjectTicketService.class), ProjectTicket.class, displayColumns);
 
         addGeneratedColumn("name", (source, itemId, columnId) -> {
-            final ProjectTicket task = getBeanByIndex(itemId);
+            ProjectTicket ticket = getBeanByIndex(itemId);
 
             Div div = new DivLessFormatter();
-            Text image = new Text(ProjectAssetsManager.getAsset(task.getType()).getHtml());
+            Text image = new Text(ProjectAssetsManager.getAsset(ticket.getType()).getHtml());
             A itemLink = new A().setId("tag" + TooltipHelper.TOOLTIP_ID);
-            if (ProjectTypeConstants.TASK.equals(task.getType()) || ProjectTypeConstants.BUG.equals(task.getType())) {
-                itemLink.setHref(ProjectLinkGenerator.generateProjectItemLink(task.getProjectShortName(),
-                        task.getProjectId(), task.getType(), task.getExtraTypeId() + ""));
+            if (ProjectTypeConstants.TASK.equals(ticket.getType()) || ProjectTypeConstants.BUG.equals(ticket.getType())) {
+                itemLink.setHref(ProjectLinkGenerator.generateProjectItemLink(ticket.getProjectShortName(),
+                        ticket.getProjectId(), ticket.getType(), ticket.getExtraTypeId() + ""));
             } else {
-                itemLink.setHref(ProjectLinkGenerator.generateProjectItemLink(task.getProjectShortName(),
-                        task.getProjectId(), task.getType(), task.getTypeId() + ""));
+                itemLink.setHref(ProjectLinkGenerator.generateProjectItemLink(ticket.getProjectShortName(),
+                        ticket.getProjectId(), ticket.getType(), ticket.getTypeId() + ""));
             }
 
-            itemLink.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(task.getType(), task.getTypeId() + ""));
+            itemLink.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(ticket.getType(), ticket.getTypeId() + ""));
             itemLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction());
-            itemLink.appendText(task.getName());
+            itemLink.appendText(ticket.getName());
 
             div.appendChild(image, DivLessFormatter.EMPTY_SPACE, itemLink);
 
             MButton assignmentLink = new MButton(div.write(),
-                    clickEvent -> fireTableEvent(new TableClickEvent(TicketTableDisplay.this, task, "name")))
+                    clickEvent -> fireTableEvent(new TableClickEvent(TicketTableDisplay.this, ticket, "name")))
                     .withStyleName(WebThemes.BUTTON_LINK);
             assignmentLink.setCaptionAsHtml(true);
             return assignmentLink;

@@ -27,6 +27,7 @@ public enum UserI18nEnum {
     LIST,
     DETAIL,
     NEW,
+    BULK_INVITE,
 
     MAIL_RECOVERY_PASSWORD_SUBJECT,
     MAIL_INVITE_USER_SUBJECT,

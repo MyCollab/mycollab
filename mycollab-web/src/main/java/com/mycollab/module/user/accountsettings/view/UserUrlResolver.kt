@@ -31,6 +31,7 @@ class UserUrlResolver : AccountSettingUrlResolver() {
     init {
         this.addSubResolver("list", ListUrlResolver())
         this.addSubResolver("add", AddUrlResolver())
+        this.addSubResolver("bulkInvite", BulkInviteUrlResolver())
         this.addSubResolver("edit", EditUrlResolver())
         this.addSubResolver("preview", PreviewUrlResolver())
     }
@@ -38,6 +39,11 @@ class UserUrlResolver : AccountSettingUrlResolver() {
     private class ListUrlResolver : AccountSettingUrlResolver() {
         override fun handlePage(vararg params: String) =
                 EventBusFactory.getInstance().post(UserEvent.GotoList(this, null))
+    }
+
+    private class BulkInviteUrlResolver : AccountSettingUrlResolver() {
+        override fun handlePage(vararg params: String) =
+                EventBusFactory.getInstance().post(UserEvent.GotoBulkInvite(this, null))
     }
 
     private class AddUrlResolver : AccountSettingUrlResolver() {

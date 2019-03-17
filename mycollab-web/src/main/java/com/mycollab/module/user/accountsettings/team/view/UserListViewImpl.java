@@ -82,6 +82,11 @@ public class UserListViewImpl extends AbstractVerticalPageView implements UserLi
                 .withIcon(VaadinIcons.PLUS).withStyleName(WebThemes.BUTTON_ACTION)
                 .withVisible(UserUIContext.canWrite(RolePermissionCollections.ACCOUNT_USER));
 
+        MButton bulkInviteBtn = new MButton(UserUIContext.getMessage(UserI18nEnum.BULK_INVITE),
+                clickEvent -> EventBusFactory.getInstance().post(new UserEvent.GotoBulkInvite(this, null)))
+                .withIcon(VaadinIcons.PLUS).withStyleName(WebThemes.BUTTON_ACTION)
+                .withVisible(UserUIContext.canWrite(RolePermissionCollections.ACCOUNT_USER));
+
         headerText = HeaderWithIcon.h2(VaadinIcons.USERS, UserUIContext.getMessage(UserI18nEnum.LIST) + " " +
                 UserUIContext.getMessage(GenericI18Enum.OPT_TOTAL_VALUE, 0));
 
@@ -98,7 +103,7 @@ public class UserListViewImpl extends AbstractVerticalPageView implements UserLi
         });
         header.addComponent(sortBtn);
 
-        final SearchTextField searchTextField = new SearchTextField() {
+        SearchTextField searchTextField = new SearchTextField() {
             @Override
             public void doSearch(String value) {
                 searchCriteria.setDisplayName(StringSearchField.and(value));

@@ -121,7 +121,6 @@ public class DateTimeUtils {
         return Date.from(localDT.atZone(zoneId).toInstant());
     }
 
-
     public static String formatDate(TemporalAccessor date, String dateFormat, Locale locale) {
         return formatDate(date, dateFormat, locale, null);
     }

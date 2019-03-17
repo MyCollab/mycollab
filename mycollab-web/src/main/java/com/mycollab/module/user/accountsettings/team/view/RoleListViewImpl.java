@@ -69,7 +69,8 @@ public class RoleListViewImpl extends AbstractVerticalPageView implements RoleLi
 
     private void generateDisplayTable() {
         tableItem = new RoleTableDisplay(RoleTableFieldDef.selected,
-                Arrays.asList(RoleTableFieldDef.rolename, RoleTableFieldDef.isDefault, RoleTableFieldDef.description));
+                Arrays.asList(RoleTableFieldDef.rolename, RoleTableFieldDef.members,
+                        RoleTableFieldDef.isDefault, RoleTableFieldDef.description));
         listLayout.addComponent(constructTableActionControls());
         listLayout.addComponent(tableItem);
     }
@@ -99,7 +100,7 @@ public class RoleListViewImpl extends AbstractVerticalPageView implements RoleLi
     }
 
     @Override
-    public void enableActionControls(final int numOfSelectedItems) {
+    public void enableActionControls(int numOfSelectedItems) {
         tableActionControls.setVisible(true);
         selectedItemsNumberLabel.setValue(UserUIContext.getMessage(GenericI18Enum.TABLE_SELECTED_ITEM_TITLE, numOfSelectedItems));
     }
