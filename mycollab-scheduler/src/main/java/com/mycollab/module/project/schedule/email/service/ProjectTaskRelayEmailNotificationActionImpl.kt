@@ -72,8 +72,8 @@ class ProjectTaskRelayEmailNotificationActionImpl : SendMailToFollowersAction<Si
     override fun buildExtraTemplateVariables(context: MailContext<SimpleTask>) {
         val emailNotification = context.emailNotification
 
-        val summary = "#${bean!!.taskkey} - ${bean!!.name}"
-        val summaryLink = ProjectLinkGenerator.generateTaskPreviewFullLink(siteUrl, bean!!.taskkey, bean!!.projectShortname!!)
+        val summary = "#${bean!!.key} - ${bean!!.name}"
+        val summaryLink = ProjectLinkGenerator.generateTaskPreviewFullLink(siteUrl, bean!!.key, bean!!.projectShortname!!)
 
         val avatarId = if (projectMember != null) projectMember!!.memberAvatarId else ""
         val userAvatar = LinkUtils.newAvatar(avatarId)
@@ -122,7 +122,7 @@ class ProjectTaskRelayEmailNotificationActionImpl : SendMailToFollowersAction<Si
 
     private fun userLink(context: MailContext<SimpleTask>) = A(AccountLinkGenerator.generateUserLink(context.user.username)).appendText(context.changeByUserFullName).write()
 
-    private fun taskLink() = A(ProjectLinkGenerator.generateTaskPreviewLink(bean!!.taskkey, bean!!.projectShortname!!)).appendText(getItemName()).write()
+    private fun taskLink() = A(ProjectLinkGenerator.generateTaskPreviewLink(bean!!.key, bean!!.projectShortname!!)).appendText(getItemName()).write()
 
     override fun getItemFieldMapper(): ItemFieldMapper = mapper
 
@@ -232,7 +232,7 @@ class ProjectTaskRelayEmailNotificationActionImpl : SendMailToFollowersAction<Si
             val task = taskService.findById(taskId, context.saccountid)
             return if (task != null) {
                 val img = Text(ProjectResources.getFontIconHtml(ProjectTypeConstants.TASK))
-                val taskListLink = ProjectLinkGenerator.generateTaskPreviewFullLink(context.siteUrl, task.taskkey, task.projectShortname!!)
+                val taskListLink = ProjectLinkGenerator.generateTaskPreviewFullLink(context.siteUrl, task.key, task.projectShortname!!)
                 val link = FormatUtils.newA(taskListLink, task.name)
                 return FormatUtils.newLink(img, link).write()
             } else value

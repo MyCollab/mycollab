@@ -38,7 +38,7 @@ import com.mycollab.module.project.service.MessageService
 import com.mycollab.module.project.service.ProjectTaskService
 import com.mycollab.module.project.service.ProjectTicketService
 import com.mycollab.module.project.service.RiskService
-import com.mycollab.module.tracker.service.BugService
+import com.mycollab.module.project.service.BugService
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 

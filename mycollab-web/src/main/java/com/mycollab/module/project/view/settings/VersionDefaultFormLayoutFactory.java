@@ -23,7 +23,7 @@ import com.mycollab.form.view.builder.TextDynaFieldBuilder;
 import com.mycollab.form.view.builder.type.DynaForm;
 import com.mycollab.form.view.builder.type.DynaSection;
 import com.mycollab.module.project.i18n.BugI18nEnum;
-import com.mycollab.module.tracker.domain.Version;
+import com.mycollab.module.project.domain.Version;
 
 /**
  * @author MyCollab Ltd.

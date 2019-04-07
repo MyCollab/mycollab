@@ -29,7 +29,7 @@ import com.mycollab.module.project.domain.criteria.ProjectTicketSearchCriteria
 import com.mycollab.module.project.service.ProjectTaskService
 import com.mycollab.module.project.service.ProjectTicketService
 import com.mycollab.module.project.service.RiskService
-import com.mycollab.module.tracker.service.BugService
+import com.mycollab.module.project.service.BugService
 import com.mycollab.spring.AppContextUtil
 import org.apache.ibatis.session.RowBounds
 import org.springframework.beans.factory.annotation.Autowired

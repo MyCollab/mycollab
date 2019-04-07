@@ -20,7 +20,6 @@ import com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum
 import com.mycollab.core.arguments.ValuedBean
 import com.mycollab.core.utils.StringUtils
 import com.mycollab.module.project.ProjectTypeConstants
-import com.mycollab.module.tracker.domain.SimpleBug
 import java.io.Serializable
 import java.time.LocalDate
 import java.time.LocalDateTime

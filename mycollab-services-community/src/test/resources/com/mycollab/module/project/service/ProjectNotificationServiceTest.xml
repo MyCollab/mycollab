@@ -25,14 +25,20 @@
                    status="Open" homePage="http://esofthead.com" memLead="admin"
                    sAccountId="1"/>
 
-    <m_prj_task id="1" projectId="1" taskindex="1" taskkey="1" priority="Medium"
+    <m_prj_task id="1" projectId="1" priority="Medium"
                 name="taskname1" sAccountId="1" percentagecomplete="20"/>
 
-    <m_prj_task id="2" projectId="1" taskindex="1" taskkey="2" priority="Medium"
+    <m_prj_task id="2" projectId="1" priority="Medium"
                 name="taskname2" sAccountId="1" percentagecomplete="20"/>
 
-    <m_tracker_bug status="Open" sAccountId="1" id="1" priority="Medium"
-                   projectId="2" name="AAA" bugkey="20"/>
+    <m_prj_bug status="Open" sAccountId="1" id="1" priority="Medium"
+                   projectId="2" name="AAA"/>
+
+    <m_prj_ticket_key id="1" projectId="1" ticketId="1" ticketType="Project-Task" ticketKey="1"/>
+
+    <m_prj_ticket_key id="2" projectId="1" ticketId="2" ticketType="Project-Task" ticketKey="2"/>
+
+    <m_prj_ticket_key id="3" projectId="2" ticketId="1" ticketType="Project-Bug" ticketKey="20"/>
 
     <m_monitor_item id="1" createdTime="2013-04-10 13:29:23" type="Project-Task" typeId="1" sAccountId="1"
                     username="admin"/>

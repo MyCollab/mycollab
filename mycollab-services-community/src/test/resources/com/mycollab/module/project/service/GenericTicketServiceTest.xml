@@ -18,6 +18,6 @@
                 status="Closed"/>
 
     <m_prj_risk id="1" name="Risk 1" projectId="1" sAccountId="1" priority="0" status="Open"/>
-    <m_tracker_bug id="1" name="Bug 1" priority="0" status="Open" projectId="1" sAccountId="1"/>
+    <m_prj_bug id="1" name="Bug 1" priority="0" status="Open" projectId="1" sAccountId="1"/>
 
 </dataset>

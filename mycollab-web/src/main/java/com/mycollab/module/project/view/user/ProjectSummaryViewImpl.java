@@ -65,9 +65,4 @@ public class ProjectSummaryViewImpl extends AbstractLazyPageView implements Proj
         row.addColumn(column1);
         row.addColumn(column2);
     }
-
-    @Override
-    public void displaySearchResult(String value) {
-        removeAllComponents();
-    }
 }

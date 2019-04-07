@@ -52,7 +52,7 @@ public class ProjectMemberEditPresenter extends AbstractPresenter<ProjectMemberE
             private static final long serialVersionUID = 1L;
 
             @Override
-            public void onSave(final SimpleProjectMember projectMember) {
+            public void onSave(SimpleProjectMember projectMember) {
                 saveProjectMember(projectMember);
                 EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoList(this, projectMember.getProjectid()));
             }
@@ -60,11 +60,6 @@ public class ProjectMemberEditPresenter extends AbstractPresenter<ProjectMemberE
             @Override
             public void onCancel() {
                 EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoList(this, CurrentProjectVariables.getProjectId()));
-            }
-
-            @Override
-            public void onSaveAndNew(final SimpleProjectMember projectMember) {
-
             }
         });
     }

@@ -124,7 +124,7 @@ public class TaskReadPresenter extends AbstractPresenter<TaskReadView> {
                 TaskSearchCriteria criteria = new TaskSearchCriteria();
                 criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
                 criteria.addExtraField(TaskSearchCriteria.p_taskkey.buildSearchField(SearchField.AND, GREATER_THAN.name(),
-                        task.getTaskkey()));
+                        task.getKey()));
                 Integer nextId = taskService.getNextItemKey(criteria);
                 if (nextId != null) {
                     EventBusFactory.getInstance().post(new TaskEvent.GotoRead(this, nextId));
@@ -140,7 +140,7 @@ public class TaskReadPresenter extends AbstractPresenter<TaskReadView> {
                 TaskSearchCriteria criteria = new TaskSearchCriteria();
                 criteria.setProjectId(new NumberSearchField(task.getProjectid()));
                 criteria.addExtraField(TaskSearchCriteria.p_taskkey.buildSearchField(SearchField.AND, LESS_THAN.name(),
-                        task.getTaskkey()));
+                        task.getKey()));
                 Integer nextId = taskService.getPreviousItemKey(criteria);
                 if (nextId != null) {
                     EventBusFactory.getInstance().post(new TaskEvent.GotoRead(this, nextId));

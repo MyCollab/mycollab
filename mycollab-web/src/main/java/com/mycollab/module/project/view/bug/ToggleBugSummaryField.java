@@ -26,11 +26,10 @@ import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectLinkGenerator;
 import com.mycollab.module.project.ProjectRolePermissionCollections;
 import com.mycollab.module.project.ProjectTypeConstants;
+import com.mycollab.module.project.domain.SimpleBug;
 import com.mycollab.module.project.i18n.BugI18nEnum;
 import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
-import com.mycollab.module.tracker.domain.BugWithBLOBs;
-import com.mycollab.module.tracker.domain.SimpleBug;
-import com.mycollab.module.tracker.service.BugService;
+import com.mycollab.module.project.service.BugService;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.TooltipHelper;
 import com.mycollab.vaadin.UserUIContext;
@@ -51,14 +50,14 @@ import org.vaadin.viritin.layouts.MHorizontalLayout;
  */
 class ToggleBugSummaryField extends AbstractToggleSummaryField {
     private boolean isRead = true;
-    private BugWithBLOBs bug;
+    private SimpleBug bug;
     private int maxLength;
 
-    ToggleBugSummaryField(final BugWithBLOBs bug) {
+    ToggleBugSummaryField(SimpleBug bug) {
         this(bug, Integer.MAX_VALUE);
     }
 
-    ToggleBugSummaryField(final BugWithBLOBs bug, int trimCharacters) {
+    ToggleBugSummaryField(SimpleBug bug, int trimCharacters) {
         this.bug = bug;
         this.maxLength = trimCharacters;
         titleLinkLbl = ELabel.html(buildBugLink()).withStyleName(WebThemes.LABEL_WORD_WRAP).withUndefinedWidth();
@@ -111,7 +110,7 @@ class ToggleBugSummaryField extends AbstractToggleSummaryField {
     private String buildBugLink() {
         String linkName = StringUtils.trim(bug.getName(), maxLength, true);
         A bugLink = new A().setId("tag" + TooltipHelper.TOOLTIP_ID).
-                setHref(ProjectLinkGenerator.generateBugPreviewLink(bug.getBugkey(),
+                setHref(ProjectLinkGenerator.generateBugPreviewLink(bug.getKey(),
                         CurrentProjectVariables.getShortName())).appendText(linkName).setStyle("display:inline");
         Div resultDiv = new DivLessFormatter().appendChild(bugLink);
         if (SimpleBug.isOverdue(bug)) {

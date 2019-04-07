@@ -1,186 +1,153 @@
-DROP TABLE IF EXISTS  qrtz_fired_triggers;
-DROP TABLE IF EXISTS  QRTZ_PAUSED_TRIGGER_GRPS;
-DROP TABLE IF EXISTS  QRTZ_SCHEDULER_STATE;
-DROP TABLE IF EXISTS  QRTZ_LOCKS;
-DROP TABLE IF EXISTS  qrtz_simple_triggers;
-DROP TABLE IF EXISTS  qrtz_cron_triggers;
-DROP TABLE IF EXISTS  qrtz_simprop_triggers;
-DROP TABLE IF EXISTS  QRTZ_BLOB_TRIGGERS;
-DROP TABLE IF EXISTS  qrtz_triggers;
-DROP TABLE IF EXISTS  qrtz_job_details;
-DROP TABLE IF EXISTS  qrtz_calendars;
+CREATE TABLE `ECM_JOURNALGLOBAL_REVISION` (
+  `REVISION_ID` bigint(20) NOT NULL,
+  UNIQUE KEY `ECM_JOURNALGLOBAL_REVISION_IDX` (`REVISION_ID`)
+) ;
 
-CREATE TABLE qrtz_job_details
-  (
-    SCHED_NAME VARCHAR(120) NOT NULL,
-    JOB_NAME  VARCHAR(200) NOT NULL,
-    JOB_GROUP VARCHAR(200) NOT NULL,
-    DESCRIPTION VARCHAR(250) NULL,
-    JOB_CLASS_NAME   VARCHAR(250) NOT NULL,
-    IS_DURABLE BOOL NOT NULL,
-    IS_NONCONCURRENT BOOL NOT NULL,
-    IS_UPDATE_DATA BOOL NOT NULL,
-    REQUESTS_RECOVERY BOOL NOT NULL,
-    JOB_DATA BYTEA NULL,
-    PRIMARY KEY (SCHED_NAME,JOB_NAME,JOB_GROUP)
-);
+CREATE TABLE `ECM_JOURNALJOURNAL` (
+  `REVISION_ID` bigint(20) NOT NULL,
+  `JOURNAL_ID` varchar(255)  DEFAULT NULL,
+  `PRODUCER_ID` varchar(255)  DEFAULT NULL,
+  `REVISION_DATA` longblob,
+  UNIQUE KEY `ECM_JOURNALJOURNAL_IDX` (`REVISION_ID`)
+) ;
 
-CREATE TABLE qrtz_triggers
-  (
-    SCHED_NAME VARCHAR(120) NOT NULL,
-    TRIGGER_NAME VARCHAR(200) NOT NULL,
-    TRIGGER_GROUP VARCHAR(200) NOT NULL,
-    JOB_NAME  VARCHAR(200) NOT NULL,
-    JOB_GROUP VARCHAR(200) NOT NULL,
-    DESCRIPTION VARCHAR(250) NULL,
-    NEXT_FIRE_TIME BIGINT NULL,
-    PREV_FIRE_TIME BIGINT NULL,
-    PRIORITY INTEGER NULL,
-    TRIGGER_STATE VARCHAR(16) NOT NULL,
-    TRIGGER_TYPE VARCHAR(8) NOT NULL,
-    START_TIME BIGINT NOT NULL,
-    END_TIME BIGINT NULL,
-    CALENDAR_NAME VARCHAR(200) NULL,
-    MISFIRE_INSTR SMALLINT NULL,
-    JOB_DATA BYTEA NULL,
-    PRIMARY KEY (SCHED_NAME,TRIGGER_NAME,TRIGGER_GROUP),
-    FOREIGN KEY (SCHED_NAME,JOB_NAME,JOB_GROUP)
-	REFERENCES QRTZ_JOB_DETAILS(SCHED_NAME,JOB_NAME,JOB_GROUP)
-);
+CREATE TABLE `ECM_JOURNALLOCAL_REVISIONS` (
+  `JOURNAL_ID` varchar(255)  NOT NULL,
+  `REVISION_ID` bigint(20) NOT NULL
+) ;
 
-CREATE TABLE qrtz_simple_triggers
-  (
-    SCHED_NAME VARCHAR(120) NOT NULL,
-    TRIGGER_NAME VARCHAR(200) NOT NULL,
-    TRIGGER_GROUP VARCHAR(200) NOT NULL,
-    REPEAT_COUNT BIGINT NOT NULL,
-    REPEAT_INTERVAL BIGINT NOT NULL,
-    TIMES_TRIGGERED BIGINT NOT NULL,
-    PRIMARY KEY (SCHED_NAME,TRIGGER_NAME,TRIGGER_GROUP),
-    FOREIGN KEY (SCHED_NAME,TRIGGER_NAME,TRIGGER_GROUP)
-	REFERENCES QRTZ_TRIGGERS(SCHED_NAME,TRIGGER_NAME,TRIGGER_GROUP)
-);
+CREATE TABLE `ECM_P_VERSIONBINVAL` (
+  `BINVAL_ID` varchar(64)  NOT NULL,
+  `BINVAL_DATA` longblob NOT NULL,
+  UNIQUE KEY `ECM_P_VERSIONBINVAL_IDX` (`BINVAL_ID`)
+) ;
 
-CREATE TABLE qrtz_cron_triggers
-  (
-    SCHED_NAME VARCHAR(120) NOT NULL,
-    TRIGGER_NAME VARCHAR(200) NOT NULL,
-    TRIGGER_GROUP VARCHAR(200) NOT NULL,
-    CRON_EXPRESSION VARCHAR(120) NOT NULL,
-    TIME_ZONE_ID VARCHAR(80),
-    PRIMARY KEY (SCHED_NAME,TRIGGER_NAME,TRIGGER_GROUP),
-    FOREIGN KEY (SCHED_NAME,TRIGGER_NAME,TRIGGER_GROUP)
-	REFERENCES QRTZ_TRIGGERS(SCHED_NAME,TRIGGER_NAME,TRIGGER_GROUP)
-);
+CREATE TABLE `ECM_P_VERSIONBUNDLE` (
+  `NODE_ID` varbinary(16) NOT NULL,
+  `BUNDLE_DATA` longblob NOT NULL,
+  UNIQUE KEY `ECM_P_VERSIONBUNDLE_IDX` (`NODE_ID`)
+) ;
 
-CREATE TABLE qrtz_simprop_triggers
-  (
-    SCHED_NAME VARCHAR(120) NOT NULL,
-    TRIGGER_NAME VARCHAR(200) NOT NULL,
-    TRIGGER_GROUP VARCHAR(200) NOT NULL,
-    STR_PROP_1 VARCHAR(512) NULL,
-    STR_PROP_2 VARCHAR(512) NULL,
-    STR_PROP_3 VARCHAR(512) NULL,
-    INT_PROP_1 INT NULL,
-    INT_PROP_2 INT NULL,
-    LONG_PROP_1 BIGINT NULL,
-    LONG_PROP_2 BIGINT NULL,
-    DEC_PROP_1 NUMERIC(13,4) NULL,
-    DEC_PROP_2 NUMERIC(13,4) NULL,
-    BOOL_PROP_1 BOOL NULL,
-    BOOL_PROP_2 BOOL NULL,
-    PRIMARY KEY (SCHED_NAME,TRIGGER_NAME,TRIGGER_GROUP),
-    FOREIGN KEY (SCHED_NAME,TRIGGER_NAME,TRIGGER_GROUP)
-    REFERENCES QRTZ_TRIGGERS(SCHED_NAME,TRIGGER_NAME,TRIGGER_GROUP)
-);
+CREATE TABLE `ECM_P_VERSIONNAMES` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `NAME` varchar(255)  NOT NULL,
+  PRIMARY KEY (`ID`)
+) ;
 
-CREATE TABLE qrtz_blob_triggers
-  (
-    SCHED_NAME VARCHAR(120) NOT NULL,
-    TRIGGER_NAME VARCHAR(200) NOT NULL,
-    TRIGGER_GROUP VARCHAR(200) NOT NULL,
-    BLOB_DATA BYTEA NULL,
-    PRIMARY KEY (SCHED_NAME,TRIGGER_NAME,TRIGGER_GROUP),
-    FOREIGN KEY (SCHED_NAME,TRIGGER_NAME,TRIGGER_GROUP)
-        REFERENCES QRTZ_TRIGGERS(SCHED_NAME,TRIGGER_NAME,TRIGGER_GROUP)
-);
+CREATE TABLE `ECM_P_VERSIONREFS` (
+  `NODE_ID` varbinary(16) NOT NULL,
+  `REFS_DATA` longblob NOT NULL,
+  UNIQUE KEY `ECM_P_VERSIONREFS_IDX` (`NODE_ID`)
+) ;
 
-CREATE TABLE qrtz_calendars
-  (
-    SCHED_NAME VARCHAR(120) NOT NULL,
-    CALENDAR_NAME  VARCHAR(200) NOT NULL,
-    CALENDAR BYTEA NOT NULL,
-    PRIMARY KEY (SCHED_NAME,CALENDAR_NAME)
-);
+CREATE TABLE `ECM_P_WORKSPACEBINVAL` (
+  `BINVAL_ID` varchar(64)  NOT NULL,
+  `BINVAL_DATA` longblob NOT NULL,
+  UNIQUE KEY `ECM_P_WORKSPACEBINVAL_IDX` (`BINVAL_ID`)
+) ;
+
+CREATE TABLE `ECM_P_WORKSPACEBUNDLE` (
+  `NODE_ID` varbinary(16) NOT NULL,
+  `BUNDLE_DATA` longblob NOT NULL,
+  UNIQUE KEY `ECM_P_WORKSPACEBUNDLE_IDX` (`NODE_ID`)
+) ;
+
+CREATE TABLE `ECM_P_WORKSPACENAMES` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `NAME` varchar(255)  NOT NULL,
+  PRIMARY KEY (`ID`)
+) ;
+
+CREATE TABLE `ECM_P_WORKSPACEREFS` (
+  `NODE_ID` varbinary(16) NOT NULL,
+  `REFS_DATA` longblob NOT NULL,
+  UNIQUE KEY `ECM_P_WORKSPACEREFS_IDX` (`NODE_ID`)
+) ;
+
+CREATE TABLE `ECM_S_FSENTRY` (
+  `FSENTRY_PATH` varbinary NOT NULL,
+  `FSENTRY_NAME` varchar(255) NOT NULL,
+  `FSENTRY_DATA` longblob,
+  `FSENTRY_LASTMOD` bigint(20) NOT NULL,
+  `FSENTRY_LENGTH` bigint(20) NOT NULL,
+  UNIQUE KEY `ECM_S_FSENTRY_IDX` (`FSENTRY_PATH`,`FSENTRY_NAME`)
+) ;
 
 
-CREATE TABLE qrtz_paused_trigger_grps
-  (
-    SCHED_NAME VARCHAR(120) NOT NULL,
-    TRIGGER_GROUP  VARCHAR(200) NOT NULL,
-    PRIMARY KEY (SCHED_NAME,TRIGGER_GROUP)
-);
+CREATE TABLE `WIKI_JOURNALGLOBAL_REVISION` (
+  `REVISION_ID` bigint(20) NOT NULL,
+  UNIQUE KEY `WIKI_JOURNALGLOBAL_REVISION_IDX` (`REVISION_ID`)
+) ;
 
-CREATE TABLE qrtz_fired_triggers
-  (
-    SCHED_NAME VARCHAR(120) NOT NULL,
-    ENTRY_ID VARCHAR(95) NOT NULL,
-    TRIGGER_NAME VARCHAR(200) NOT NULL,
-    TRIGGER_GROUP VARCHAR(200) NOT NULL,
-    INSTANCE_NAME VARCHAR(200) NOT NULL,
-    FIRED_TIME BIGINT NOT NULL,
-    SCHED_TIME BIGINT NOT NULL,
-    PRIORITY INTEGER NOT NULL,
-    STATE VARCHAR(16) NOT NULL,
-    JOB_NAME VARCHAR(200) NULL,
-    JOB_GROUP VARCHAR(200) NULL,
-    IS_NONCONCURRENT BOOL NULL,
-    REQUESTS_RECOVERY BOOL NULL,
-    PRIMARY KEY (SCHED_NAME,ENTRY_ID)
-);
+CREATE TABLE `WIKI_JOURNALJOURNAL` (
+  `REVISION_ID` bigint(20) NOT NULL,
+  `JOURNAL_ID` varchar(255)  DEFAULT NULL,
+  `PRODUCER_ID` varchar(255)  DEFAULT NULL,
+  `REVISION_DATA` longblob,
+  UNIQUE KEY `WIKI_JOURNALJOURNAL_IDX` (`REVISION_ID`)
+) ;
 
-CREATE TABLE qrtz_scheduler_state
-  (
-    SCHED_NAME VARCHAR(120) NOT NULL,
-    INSTANCE_NAME VARCHAR(200) NOT NULL,
-    LAST_CHECKIN_TIME BIGINT NOT NULL,
-    CHECKIN_INTERVAL BIGINT NOT NULL,
-    PRIMARY KEY (SCHED_NAME,INSTANCE_NAME)
-);
+CREATE TABLE `WIKI_JOURNALLOCAL_REVISIONS` (
+  `JOURNAL_ID` varchar(255)  NOT NULL,
+  `REVISION_ID` bigint(20) NOT NULL
+) ;
 
-CREATE TABLE qrtz_locks
-  (
-    SCHED_NAME VARCHAR(120) NOT NULL,
-    LOCK_NAME  VARCHAR(40) NOT NULL,
-    PRIMARY KEY (SCHED_NAME,LOCK_NAME)
-);
+CREATE TABLE `WIKI_P_VERSIONBINVAL` (
+  `BINVAL_ID` varchar(64)  NOT NULL,
+  `BINVAL_DATA` longblob NOT NULL,
+  UNIQUE KEY `WIKI_P_VERSIONBINVAL_IDX` (`BINVAL_ID`)
+) ;
 
-create index idx_qrtz_j_req_recovery on qrtz_job_details(SCHED_NAME,REQUESTS_RECOVERY);
-create index idx_qrtz_j_grp on qrtz_job_details(SCHED_NAME,JOB_GROUP);
+CREATE TABLE `WIKI_P_VERSIONBUNDLE` (
+  `NODE_ID` varbinary(16) NOT NULL,
+  `BUNDLE_DATA` longblob NOT NULL,
+  UNIQUE KEY `WIKI_P_VERSIONBUNDLE_IDX` (`NODE_ID`)
+) ;
 
-create index idx_qrtz_t_j on qrtz_triggers(SCHED_NAME,JOB_NAME,JOB_GROUP);
-create index idx_qrtz_t_jg on qrtz_triggers(SCHED_NAME,JOB_GROUP);
-create index idx_qrtz_t_c on qrtz_triggers(SCHED_NAME,CALENDAR_NAME);
-create index idx_qrtz_t_g on qrtz_triggers(SCHED_NAME,TRIGGER_GROUP);
-create index idx_qrtz_t_state on qrtz_triggers(SCHED_NAME,TRIGGER_STATE);
-create index idx_qrtz_t_n_state on qrtz_triggers(SCHED_NAME,TRIGGER_NAME,TRIGGER_GROUP,TRIGGER_STATE);
-create index idx_qrtz_t_n_g_state on qrtz_triggers(SCHED_NAME,TRIGGER_GROUP,TRIGGER_STATE);
-create index idx_qrtz_t_next_fire_time on qrtz_triggers(SCHED_NAME,NEXT_FIRE_TIME);
-create index idx_qrtz_t_nft_st on qrtz_triggers(SCHED_NAME,TRIGGER_STATE,NEXT_FIRE_TIME);
-create index idx_qrtz_t_nft_misfire on qrtz_triggers(SCHED_NAME,MISFIRE_INSTR,NEXT_FIRE_TIME);
-create index idx_qrtz_t_nft_st_misfire on qrtz_triggers(SCHED_NAME,MISFIRE_INSTR,NEXT_FIRE_TIME,TRIGGER_STATE);
-create index idx_qrtz_t_nft_st_misfire_grp on qrtz_triggers(SCHED_NAME,MISFIRE_INSTR,NEXT_FIRE_TIME,TRIGGER_GROUP,TRIGGER_STATE);
+CREATE TABLE `WIKI_P_VERSIONNAMES` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `NAME` varchar(255)  NOT NULL,
+  PRIMARY KEY (`ID`)
+) ;
 
-create index idx_qrtz_ft_trig_inst_name on qrtz_fired_triggers(SCHED_NAME,INSTANCE_NAME);
-create index idx_qrtz_ft_inst_job_req_rcvry on qrtz_fired_triggers(SCHED_NAME,INSTANCE_NAME,REQUESTS_RECOVERY);
-create index idx_qrtz_ft_j_g on qrtz_fired_triggers(SCHED_NAME,JOB_NAME,JOB_GROUP);
-create index idx_qrtz_ft_jg on qrtz_fired_triggers(SCHED_NAME,JOB_GROUP);
-create index idx_qrtz_ft_t_g on qrtz_fired_triggers(SCHED_NAME,TRIGGER_NAME,TRIGGER_GROUP);
-create index idx_qrtz_ft_tg on qrtz_fired_triggers(SCHED_NAME,TRIGGER_GROUP);
+CREATE TABLE `WIKI_P_VERSIONREFS` (
+  `NODE_ID` varbinary(16) NOT NULL,
+  `REFS_DATA` longblob NOT NULL,
+  UNIQUE KEY `WIKI_P_VERSIONREFS_IDX` (`NODE_ID`)
+) ;
 
+CREATE TABLE `WIKI_P_WORKSPACEBINVAL` (
+  `BINVAL_ID` varchar(64)  NOT NULL,
+  `BINVAL_DATA` longblob NOT NULL,
+  UNIQUE KEY `WIKI_P_WORKSPACEBINVAL_IDX` (`BINVAL_ID`)
+) ;
 
-commit;
+CREATE TABLE `WIKI_P_WORKSPACEBUNDLE` (
+  `NODE_ID` varbinary(16) NOT NULL,
+  `BUNDLE_DATA` longblob NOT NULL,
+  UNIQUE KEY `WIKI_P_WORKSPACEBUNDLE_IDX` (`NODE_ID`)
+) ;
 
+CREATE TABLE `WIKI_P_WORKSPACENAMES` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `NAME` varchar(255)  NOT NULL,
+  PRIMARY KEY (`ID`)
+) ;
+
+CREATE TABLE `WIKI_P_WORKSPACEREFS` (
+  `NODE_ID` varbinary(16) NOT NULL,
+  `REFS_DATA` longblob NOT NULL,
+  UNIQUE KEY `WIKI_P_WORKSPACEREFS_IDX` (`NODE_ID`)
+) ;
+
+CREATE TABLE `WIKI_S_FSENTRY` (
+  `FSENTRY_PATH` varbinary  NOT NULL,
+  `FSENTRY_NAME` varchar(255) NOT NULL,
+  `FSENTRY_DATA` longblob,
+  `FSENTRY_LASTMOD` bigint(20) NOT NULL,
+  `FSENTRY_LENGTH` bigint(20) NOT NULL,
+  UNIQUE KEY `WIKI_S_FSENTRY_IDX` (`FSENTRY_PATH`,`FSENTRY_NAME`)
+) ;
 
 --
 -- Table structure for table s_user
@@ -870,7 +837,6 @@ CREATE TABLE m_prj_task (
   sAccountId integer NOT NULL,
   status varchar(45) DEFAULT NULL,
   createdUser varchar(45) DEFAULT NULL,
-  taskkey integer DEFAULT NULL,
   originalEstimate numeric DEFAULT NULL,
   remainEstimate numeric DEFAULT NULL,
   parentTaskId integer DEFAULT NULL,
@@ -920,13 +886,13 @@ CREATE TABLE m_prj_time_logging (
 
 
 --
--- Table structure for table m_tracker_bug
+-- Table structure for table m_prj_bug
 --
 
-DROP TABLE IF EXISTS m_tracker_bug;
+DROP TABLE IF EXISTS m_prj_bug;
 
 
-CREATE TABLE m_tracker_bug (
+CREATE TABLE m_prj_bug (
   id serial,
   name varchar(4000) NOT NULL,
   detail text,
@@ -940,28 +906,6 @@ CREATE TABLE m_tracker_bug (
   dueDate date DEFAULT NULL,
   environment varchar(4000) DEFAULT NULL,
   resolution varchar(45) DEFAULT NULL,
-  cus_int_01 integer DEFAULT NULL,
-  cus_int_02 integer DEFAULT NULL,
-  cus_int_03 integer DEFAULT NULL,
-  cus_int_04 integer DEFAULT NULL,
-  cus_int_05 integer DEFAULT NULL,
-  cus_int_06 integer DEFAULT NULL,
-  cus_int_07 integer DEFAULT NULL,
-  cus_int_08 integer DEFAULT NULL,
-  cus_int_09 integer DEFAULT NULL,
-  cus_int_10 integer DEFAULT NULL,
-  cus_str_01 varchar(255) DEFAULT NULL,
-  cus_str_02 varchar(255) DEFAULT NULL,
-  cus_str_03 varchar(255) DEFAULT NULL,
-  cus_str_04 varchar(255) DEFAULT NULL,
-  cus_str_05 varchar(255) DEFAULT NULL,
-  cus_time_01 timestamp DEFAULT NULL,
-  cus_time_02 timestamp DEFAULT NULL,
-  cus_time_03 timestamp DEFAULT NULL,
-  cus_time_04 timestamp DEFAULT NULL,
-  cus_dbl_01 numeric DEFAULT NULL,
-  cus_dbl_02 numeric DEFAULT NULL,
-  cus_dbl_03 numeric DEFAULT NULL,
   projectId integer NOT NULL,
   resolveddate timestamp DEFAULT NULL,
   description text,
@@ -969,46 +913,50 @@ CREATE TABLE m_tracker_bug (
   remainEstimate numeric DEFAULT NULL,
   sAccountId integer NOT NULL,
   milestoneId integer DEFAULT NULL,
-  bugkey integer DEFAULT NULL,
-  bugIndex integer DEFAULT NULL,
   startDate date DEFAULT NULL,
   endDate date DEFAULT NULL,
   percentagecomplete numeric DEFAULT NULL,
   PRIMARY KEY (id),
-  CONSTRAINT FK_m_tracker_bug_1 FOREIGN KEY (createdUser) REFERENCES s_user (username) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT FK_m_tracker_bug_2 FOREIGN KEY (assignUser) REFERENCES s_user (username) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT FK_m_tracker_bug_3 FOREIGN KEY (projectId) REFERENCES m_prj_project (id) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT FK_m_tracker_bug_4 FOREIGN KEY (milestoneId) REFERENCES m_prj_milestone (id) ON DELETE SET NULL ON UPDATE CASCADE,
-  CONSTRAINT FK_m_tracker_bug_5 FOREIGN KEY (sAccountId) REFERENCES s_account (id) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT FK_m_prj_bug_1 FOREIGN KEY (createdUser) REFERENCES s_user (username) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT FK_m_prj_bug_2 FOREIGN KEY (assignUser) REFERENCES s_user (username) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT FK_m_prj_bug_3 FOREIGN KEY (projectId) REFERENCES m_prj_project (id) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT FK_m_prj_bug_4 FOREIGN KEY (milestoneId) REFERENCES m_prj_milestone (id) ON DELETE SET NULL ON UPDATE CASCADE,
+  CONSTRAINT FK_m_prj_bug_5 FOREIGN KEY (sAccountId) REFERENCES s_account (id) ON DELETE CASCADE ON UPDATE CASCADE
 ) ;
 
 
 
 --
--- Table structure for table m_tracker_bug_related_item
+-- Table structure for table m_prj_bug_related_item
 --
 
-DROP TABLE IF EXISTS m_tracker_bug_related_item;
+--
+-- Table structure for table `m_prj_bug_related_item`
+--
+
+DROP TABLE IF EXISTS m_prj_ticket_relation;
 
 
-CREATE TABLE m_tracker_bug_related_item (
-  id serial,
-  bugId integer NOT NULL,
+CREATE TABLE m_prj_ticket_relation (
+  id int(11) NOT NULL AUTO_INCREMENT,
+  ticketId int(10) unsigned NOT NULL,
   type varchar(45) NOT NULL,
-  typeId integer NOT NULL,
-  PRIMARY KEY (id),
-  CONSTRAINT FK_m_tracker_bug_related_item_1 FOREIGN KEY (bugId) REFERENCES m_tracker_bug (id) ON DELETE CASCADE ON UPDATE CASCADE
+  typeId int(11) NOT NULL,
+  ticketType varchar(45) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `INDEX_m_prj_ticket_relation_item_2` (type) USING BTREE,
+  KEY `INDEX_m_prj_ticket_relation_item_3` (typeId) USING BTREE
 ) ;
 
 
 --
--- Table structure for table m_tracker_component
+-- Table structure for table m_prj_component
 --
 
-DROP TABLE IF EXISTS m_tracker_component;
+DROP TABLE IF EXISTS m_prj_component;
 
 
-CREATE TABLE m_tracker_component (
+CREATE TABLE m_prj_component (
   id serial,
   projectId integer NOT NULL,
   name varchar(1000) NOT NULL,
@@ -1021,10 +969,10 @@ CREATE TABLE m_tracker_component (
   status varchar(45) DEFAULT NULL,
   prjKey integer DEFAULT NULL,
   PRIMARY KEY (id),
-  CONSTRAINT FK_m_tracker_component_1 FOREIGN KEY (projectId) REFERENCES m_prj_project (id) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT FK_m_tracker_component_2 FOREIGN KEY (userlead) REFERENCES s_user (username) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT FK_m_tracker_component_3 FOREIGN KEY (createdUser) REFERENCES s_user (username) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT FK_m_tracker_component_4 FOREIGN KEY (sAccountId) REFERENCES s_account (id) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT FK_m_prj_component_1 FOREIGN KEY (projectId) REFERENCES m_prj_project (id) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT FK_m_prj_component_2 FOREIGN KEY (userlead) REFERENCES s_user (username) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT FK_m_prj_component_3 FOREIGN KEY (createdUser) REFERENCES s_user (username) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT FK_m_prj_component_4 FOREIGN KEY (sAccountId) REFERENCES s_account (id) ON DELETE CASCADE ON UPDATE CASCADE
 ) ;
 
 
@@ -1043,20 +991,20 @@ CREATE TABLE m_tracker_related_bug (
   relatetype varchar(45) NOT NULL,
   comment varchar(4000) DEFAULT NULL,
   PRIMARY KEY (id),
-  CONSTRAINT FK_m_tracker_related_bug_1 FOREIGN KEY (bugid) REFERENCES m_tracker_bug (id) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT FK_m_tracker_related_bug_2 FOREIGN KEY (relatedid) REFERENCES m_tracker_bug (id) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT FK_m_tracker_related_bug_1 FOREIGN KEY (bugid) REFERENCES m_prj_bug (id) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT FK_m_tracker_related_bug_2 FOREIGN KEY (relatedid) REFERENCES m_prj_bug (id) ON DELETE CASCADE ON UPDATE CASCADE
 ) ;
 
 
 
 --
--- Table structure for table m_tracker_version
+-- Table structure for table m_prj_version
 --
 
-DROP TABLE IF EXISTS m_tracker_version;
+DROP TABLE IF EXISTS m_prj_version;
 
 
-CREATE TABLE m_tracker_version (
+CREATE TABLE m_prj_version (
   id serial,
   projectId integer NOT NULL,
   description text,
@@ -1069,10 +1017,24 @@ CREATE TABLE m_tracker_version (
   status varchar(45) DEFAULT NULL,
   prjKey integer DEFAULT NULL,
   PRIMARY KEY (id),
-  CONSTRAINT FK_m_tracker_version_1 FOREIGN KEY (projectId) REFERENCES m_prj_project (id) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT FK_m_tracker_version_2 FOREIGN KEY (createdUser) REFERENCES s_user (username) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT FK_m_tracker_version_3 FOREIGN KEY (sAccountId) REFERENCES s_account (id) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT FK_m_prj_version_1 FOREIGN KEY (projectId) REFERENCES m_prj_project (id) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT FK_m_prj_version_2 FOREIGN KEY (createdUser) REFERENCES s_user (username) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT FK_m_prj_version_3 FOREIGN KEY (sAccountId) REFERENCES s_account (id) ON DELETE CASCADE ON UPDATE CASCADE
 ) ;
+
+CREATE TABLE m_prj_ticket_key (
+  id integer UNSIGNED NOT NULL AUTO_INCREMENT,
+  projectId integer UNSIGNED NOT NULL,
+  ticketId integer UNSIGNED NOT NULL,
+  ticketType varchar(45) NOT NULL,
+  ticketKey integer UNSIGNED NOT NULL,
+  PRIMARY KEY (id),
+  INDEX PK_m_prj_ticket_id_1_idx (projectId ASC) VISIBLE,
+  CONSTRAINT PK_m_prj_ticket_id_1
+    FOREIGN KEY (projectId)
+    REFERENCES m_prj_project (id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE);
 
 --
 -- Table structure for table s_account_theme
@@ -1111,7 +1073,7 @@ CREATE TABLE s_account_theme (
 -- Dumping data for table s_account_theme
 --
 
-INSERT INTO s_account_theme(id, topMenuBg, topMenuBgSelected, topMenuText, topMenuTextSelected, vTabsheetBg, vTabsheetBgSelected, vTabsheetText, vTabsheetTextSelected, actionBtn, actionBtnText, optionBtn, optionBtnText, dangerBtn, dangerBtnText, isDefault, sAccountId) VALUES (4, 'FFFFFF', '3F5166', '000000', 'F1F1F1', '001529', '0190FE', 'B8BECA', 'FFFFFF', '1F9DFE', 'FFFFFF', 'CCCCCC', 'FFFFFF', 'D32F2F', 'FFFFFF', TRUE, NULL);
+INSERT INTO s_account_theme(id, topMenuBg, topMenuBgSelected, topMenuText, topMenuTextSelected, vTabsheetBg, vTabsheetBgSelected, vTabsheetText, vTabsheetTextSelected, actionBtn, actionBtnText, optionBtn, optionBtnText, clearBtn, clearBtnText, controlBtn, controlBtnText, dangerBtn, dangerBtnText, toggleBtn, toggleBtnSelected, toggleBtnText, toggleBtnTextSelected, isDefault, sAccountId, actionBtnBorder, optionBtnBorder, dangerBtnBorder) VALUES ('1', 'FFFFFF', '3F5166', '000000', 'F1F1F1', '001529', '0190FE', 'B8BECA', 'FFFFFF', '1F9DFE', 'f7f7f7', 'ffffff', '1f9dfe', NULL, NULL, NULL, NULL, 'D32F2F', 'f7f7f7', NULL, NULL, NULL, NULL, '1', NULL, '1F9DFE', 'CCCCCC', 'D32F2F');
 
 
 

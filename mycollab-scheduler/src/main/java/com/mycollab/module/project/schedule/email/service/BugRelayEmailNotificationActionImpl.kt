@@ -41,9 +41,9 @@ import com.mycollab.module.project.i18n.MilestoneI18nEnum
 import com.mycollab.module.project.i18n.OptionI18nEnum.*
 import com.mycollab.module.project.service.MilestoneService
 import com.mycollab.module.project.service.ProjectNotificationSettingService
-import com.mycollab.module.tracker.domain.BugWithBLOBs
-import com.mycollab.module.tracker.domain.SimpleBug
-import com.mycollab.module.tracker.service.BugService
+import com.mycollab.module.project.domain.BugWithBLOBs
+import com.mycollab.module.project.domain.SimpleBug
+import com.mycollab.module.project.service.BugService
 import com.mycollab.module.user.AccountLinkGenerator
 import com.mycollab.module.user.domain.SimpleUser
 import com.mycollab.module.user.service.UserService
@@ -72,8 +72,8 @@ class BugRelayEmailNotificationActionImpl(private val bugService: BugService,
     override fun buildExtraTemplateVariables(context: MailContext<SimpleBug>) {
         val emailNotification = context.emailNotification
 
-        val summary = "#${bean!!.bugkey} - ${bean!!.name}"
-        val summaryLink = ProjectLinkGenerator.generateBugPreviewFullLink(siteUrl, bean!!.bugkey, bean!!.projectShortName!!)
+        val summary = "#${bean!!.key} - ${bean!!.name}"
+        val summaryLink = ProjectLinkGenerator.generateBugPreviewFullLink(siteUrl, bean!!.key, bean!!.projectShortName!!)
 
         val avatarId = if (projectMember != null) projectMember!!.memberAvatarId else ""
         val userAvatar = LinkUtils.newAvatar(avatarId)
@@ -122,7 +122,7 @@ class BugRelayEmailNotificationActionImpl(private val bugService: BugService,
 
     private fun userLink(context: MailContext<SimpleBug>) = A(AccountLinkGenerator.generateUserLink(context.user.username)).appendText(context.changeByUserFullName).write()
 
-    private fun bugLink() = A(ProjectLinkGenerator.generateBugPreviewLink(bean!!.bugkey, bean!!.projectShortName!!)).appendText(getItemName()).write()
+    private fun bugLink() = A(ProjectLinkGenerator.generateBugPreviewLink(bean!!.key, bean!!.projectShortName!!)).appendText(getItemName()).write()
 
     override fun getItemFieldMapper(): ItemFieldMapper = mapper
 

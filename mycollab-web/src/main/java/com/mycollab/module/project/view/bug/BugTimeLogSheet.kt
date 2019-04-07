@@ -17,7 +17,7 @@
 package com.mycollab.module.project.view.bug
 
 import com.mycollab.module.project.ui.components.TimeLogComp
-import com.mycollab.module.tracker.domain.SimpleBug
+import com.mycollab.module.project.domain.SimpleBug
 import com.mycollab.vaadin.mvp.CacheableComponent
 
 /**

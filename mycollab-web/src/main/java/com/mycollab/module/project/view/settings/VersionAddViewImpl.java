@@ -21,7 +21,7 @@ import com.mycollab.module.project.i18n.VersionI18nEnum;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.module.project.ui.components.AbstractEditItemComp;
 import com.mycollab.module.project.view.settings.component.VersionEditFormFieldFactory;
-import com.mycollab.module.tracker.domain.Version;
+import com.mycollab.module.project.domain.Version;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.event.HasEditFormHandlers;
 import com.mycollab.vaadin.mvp.ViewComponent;

@@ -12,7 +12,7 @@
     <m_prj_risk id="1" description="aaa" name="b" projectId="1" sAccountId="1" dueDate="2013-05-30 15:01:52"
                 priority="Medium"/>
 
-    <m_tracker_bug name="name 1" id="1" projectId="1"
+    <m_prj_bug name="name 1" id="1" projectId="1"
                    detail="detail 1" status="1" resolution="1" assignUser="user1" createdUser="user1"
                    createdTime="2009-01-01 00:00:00" sAccountId="1" dueDate="2015-05-30 15:01:52"
                    priority="Medium"/>

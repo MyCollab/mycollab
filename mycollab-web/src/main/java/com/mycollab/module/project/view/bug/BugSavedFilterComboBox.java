@@ -23,7 +23,7 @@ import com.mycollab.db.query.*;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.i18n.BugI18nEnum;
 import com.mycollab.module.project.query.CurrentProjectIdInjector;
-import com.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
+import com.mycollab.module.project.domain.criteria.BugSearchCriteria;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.web.ui.SavedFilterComboBox;
 
@@ -84,7 +84,7 @@ public class BugSavedFilterComboBox extends SavedFilterComboBox {
                             }
                         }),
                 new SearchFieldInfo(SearchField.AND, new StringParam("id-status",
-                        "m_tracker_bug", "status"), IS_NOT.name(),
+                        "m_prj_bug", "status"), IS_NOT.name(),
                         ConstantValueInjector.valueOf(StatusI18nEnum.Verified.name())));
 
         SearchQueryInfo myBugsQuery = new SearchQueryInfo(MY_BUGS, UserUIContext.getMessage(BugI18nEnum.VAL_MY_BUGS),

@@ -24,9 +24,9 @@ import com.mycollab.module.project.event.ProjectEvent
 import com.mycollab.module.project.view.ProjectUrlResolver
 import com.mycollab.module.project.view.parameters.ComponentScreenData
 import com.mycollab.module.project.view.parameters.ProjectScreenData
-import com.mycollab.module.tracker.domain.Component
-import com.mycollab.module.tracker.domain.criteria.ComponentSearchCriteria
-import com.mycollab.module.tracker.service.ComponentService
+import com.mycollab.module.project.domain.Component
+import com.mycollab.module.project.domain.criteria.ComponentSearchCriteria
+import com.mycollab.module.project.service.ComponentService
 import com.mycollab.spring.AppContextUtil
 import com.mycollab.vaadin.AppUI
 import com.mycollab.vaadin.mvp.PageActionChain

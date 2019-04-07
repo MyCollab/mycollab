@@ -154,32 +154,32 @@
         #set($searchCriteria = $_parameter.searchCriteria)
 
         #ifnotnull($searchCriteria.prjKeys)
-            m_tracker_bug.projectId IN
+            m_prj_bug.projectId IN
             #repeat(${searchCriteria.prjKeys.values} $projectId "," "(" ")")
                 @{projectId}
             #end
         #end
         #ifnotnull($searchCriteria.txtValue)
-            ${searchCriteria.txtValue.operation} (m_tracker_bug.name LIKE '%${searchCriteria.txtValue.value}%'
-                OR m_tracker_bug.environment LIKE '%${searchCriteria.txtValue.value}%'
-                OR m_tracker_bug.description LIKE '%${searchCriteria.txtValue.value}%')
+            ${searchCriteria.txtValue.operation} (m_prj_bug.name LIKE '%${searchCriteria.txtValue.value}%'
+                OR m_prj_bug.environment LIKE '%${searchCriteria.txtValue.value}%'
+                OR m_prj_bug.description LIKE '%${searchCriteria.txtValue.value}%')
         #end
         #ifnotnull($searchCriteria.monitorProjectIds)
             ${searchCriteria.monitorProjectIds.operation}
             EXISTS(
                 SELECT 1 FROM s_favorite
-                WHERE m_tracker_bug.projectId IN
+                WHERE m_prj_bug.projectId IN
                     #repeat(${searchCriteria.monitorProjectIds.values} $extraId "," "(" ")")
                         @{extraId}
                     #end
-                    AND s_favorite.extraTypeId = m_tracker_bug.projectId AND s_favorite.type='Project-Bug' AND s_favorite.typeid=m_tracker_bug.id
+                    AND s_favorite.extraTypeId = m_prj_bug.projectId AND s_favorite.type='Project-Bug' AND s_favorite.typeid=m_prj_bug.id
                     LIMIT 1)
         #end
         #ifnotnull($searchCriteria.tagNames)
             ${searchCriteria.tagNames.operation}
             EXISTS(
                 SELECT 1 FROM s_tag
-                WHERE s_tag.extraTypeId=m_tracker_bug.projectId AND s_tag.type='Project-Bug' AND s_tag.typeid=m_tracker_bug.id AND
+                WHERE s_tag.extraTypeId=m_prj_bug.projectId AND s_tag.type='Project-Bug' AND s_tag.typeid=m_prj_bug.id AND
                     s_tag.name IN
                 #repeat(${searchCriteria.tagNames.values} $tagName "," "(" ")")
                     @{tagName}
@@ -200,31 +200,31 @@
         #set($searchCriteria = $_parameter.searchCriteria)
 
         #ifnotnull($searchCriteria.prjKeys)
-            m_tracker_component.projectId IN
+            m_prj_component.projectId IN
             #repeat(${searchCriteria.prjKeys.values} $projectId "," "(" ")")
                 @{projectId}
             #end
         #end
         #ifnotnull($searchCriteria.txtValue)
-            ${searchCriteria.txtValue.operation} (m_tracker_component.name LIKE '%${searchCriteria.txtValue.value}%'
-                OR m_tracker_component.description LIKE '%${searchCriteria.txtValue.value}%')
+            ${searchCriteria.txtValue.operation} (m_prj_component.name LIKE '%${searchCriteria.txtValue.value}%'
+                OR m_prj_component.description LIKE '%${searchCriteria.txtValue.value}%')
         #end
         #ifnotnull($searchCriteria.monitorProjectIds)
             ${searchCriteria.monitorProjectIds.operation}
             EXISTS(
                 SELECT 1 FROM s_favorite
-                WHERE m_tracker_component.projectId IN
+                WHERE m_prj_component.projectId IN
                     #repeat(${searchCriteria.monitorProjectIds.values} $extraId "," "(" ")")
                         @{extraId}
                     #end
-                    AND s_favorite.extraTypeId = m_tracker_component.projectId AND s_favorite.type='Project-Component' AND s_favorite.typeid=m_tracker_component.id
+                    AND s_favorite.extraTypeId = m_prj_component.projectId AND s_favorite.type='Project-Component' AND s_favorite.typeid=m_prj_component.id
                     LIMIT 1)
         #end
         #ifnotnull($searchCriteria.tagNames)
             ${searchCriteria.tagNames.operation}
             EXISTS(
                 SELECT 1 FROM s_tag
-                WHERE s_tag.extraTypeId=m_tracker_component.projectId AND s_tag.type='Project-Component' AND s_tag.typeid=m_tracker_component.id AND
+                WHERE s_tag.extraTypeId=m_prj_component.projectId AND s_tag.type='Project-Component' AND s_tag.typeid=m_prj_component.id AND
                     s_tag.name IN
                 #repeat(${searchCriteria.tagNames.values} $tagName "," "(" ")")
                     @{tagName}
@@ -245,31 +245,31 @@
         #set($searchCriteria = $_parameter.searchCriteria)
 
         #ifnotnull($searchCriteria.prjKeys)
-            m_tracker_version.projectId IN
+            m_prj_version.projectId IN
             #repeat(${searchCriteria.prjKeys.values} $projectId "," "(" ")")
                 @{projectId}
             #end
         #end
         #ifnotnull($searchCriteria.txtValue)
-            ${searchCriteria.txtValue.operation} (m_tracker_version.name LIKE '%${searchCriteria.txtValue.value}%'
-                OR m_tracker_version.description LIKE '%${searchCriteria.txtValue.value}%')
+            ${searchCriteria.txtValue.operation} (m_prj_version.name LIKE '%${searchCriteria.txtValue.value}%'
+                OR m_prj_version.description LIKE '%${searchCriteria.txtValue.value}%')
         #end
         #ifnotnull($searchCriteria.monitorProjectIds)
             ${searchCriteria.monitorProjectIds.operation}
             EXISTS(
                 SELECT 1 FROM s_favorite
-                WHERE m_tracker_version.projectId IN
+                WHERE m_prj_version.projectId IN
                     #repeat(${searchCriteria.monitorProjectIds.values} $extraId "," "(" ")")
                         @{extraId}
                     #end
-                    AND s_favorite.extraTypeId = m_tracker_version.projectId AND s_favorite.type='Project-Version' AND s_favorite.typeid=m_tracker_version.id
+                    AND s_favorite.extraTypeId = m_prj_version.projectId AND s_favorite.type='Project-Version' AND s_favorite.typeid=m_prj_version.id
                     LIMIT 1)
         #end
         #ifnotnull($searchCriteria.tagNames)
             ${searchCriteria.tagNames.operation}
             EXISTS(
                 SELECT 1 FROM s_tag
-                WHERE s_tag.extraTypeId=m_tracker_version.projectId AND s_tag.type='Project-Version' AND s_tag.typeid=m_tracker_version.id AND
+                WHERE s_tag.extraTypeId=m_prj_version.projectId AND s_tag.type='Project-Version' AND s_tag.typeid=m_prj_version.id AND
                     s_tag.name IN
                 #repeat(${searchCriteria.tagNames.values} $tagName "," "(" ")")
                     @{tagName}
@@ -347,10 +347,11 @@
         concat(s_user.firstname, ' ', s_user.lastname) AS createdUserDisplayName,
         m_prj_task.createdTime, m_prj_task.lastUpdatedTime, m_prj_task.name, m_prj_task.description
         AS description, m_prj_project.id AS projectId, m_prj_project.name AS projectName,
-        m_prj_project.shortname AS projectShortName, m_prj_task.taskkey AS extraTypeId
+        m_prj_project.shortname AS projectShortName, m_prj_ticket_key.ticketKey AS extraTypeId
         FROM m_prj_task
-        LEFT OUTER JOIN s_user ON (m_prj_task.createdUser = s_user.username)
-        INNER JOIN m_prj_project ON (m_prj_task.projectId = m_prj_project.id)
+            LEFT OUTER JOIN s_user ON (m_prj_task.createdUser = s_user.username)
+            INNER JOIN m_prj_project ON (m_prj_task.projectId = m_prj_project.id)
+            LEFT OUTER JOIN m_prj_ticket_key ON (m_prj_ticket_key.ticketId = m_prj_task.id AND m_prj_ticket_key.ticketType = 'Project-Task')
     </sql>
 
     <sql id="selectMessageItem">
@@ -361,8 +362,8 @@
         m_prj_message.message AS description, m_prj_project.id AS projectId, m_prj_project.name AS projectName,
         m_prj_project.shortname AS projectShortName, NULL AS extraTypeId
         FROM m_prj_message
-        LEFT OUTER JOIN s_user ON (m_prj_message.createdUser = s_user.username)
-        INNER JOIN m_prj_project ON (m_prj_message.projectId = m_prj_project.id)
+            LEFT OUTER JOIN s_user ON (m_prj_message.createdUser = s_user.username)
+            INNER JOIN m_prj_project ON (m_prj_message.projectId = m_prj_project.id)
     </sql>
 
     <sql id="selectMilestoneItem">
@@ -373,46 +374,47 @@
         m_prj_milestone.description, m_prj_project.id AS projectId, m_prj_project.name AS projectName,
         m_prj_project.shortname AS projectShortName, NULL AS extraTypeId
         FROM m_prj_milestone
-        LEFT OUTER JOIN s_user ON (m_prj_milestone.createduser = s_user.username)
-        INNER JOIN m_prj_project ON (m_prj_milestone.projectId = m_prj_project.id)
+            LEFT OUTER JOIN s_user ON (m_prj_milestone.createduser = s_user.username)
+            INNER JOIN m_prj_project ON (m_prj_milestone.projectId = m_prj_project.id)
     </sql>
 
     <sql id="selectBugItem">
-        SELECT 'Project-Bug' AS type, m_tracker_bug.id AS typeId, s_user.username AS createdUser,
+        SELECT 'Project-Bug' AS type, m_prj_bug.id AS typeId, s_user.username AS createdUser,
           s_user.avatarId AS createdUserAvatarId,
           concat(s_user.firstname, ' ', s_user.lastname) AS
         createdUserDisplayName,
-          m_tracker_bug.createdTime, m_tracker_bug.lastUpdatedTime, m_tracker_bug.name,
-          m_tracker_bug.description, m_prj_project.id AS projectId, m_prj_project.name AS projectName,
-          m_prj_project.shortname AS projectShortName, m_tracker_bug.bugkey AS extraTypeId
-        FROM m_tracker_bug
-          LEFT OUTER JOIN s_user ON (m_tracker_bug.createdUser = s_user.username)
-          INNER JOIN m_prj_project ON (m_tracker_bug.projectId = m_prj_project.id)
+          m_prj_bug.createdTime, m_prj_bug.lastUpdatedTime, m_prj_bug.name,
+          m_prj_bug.description, m_prj_project.id AS projectId, m_prj_project.name AS projectName,
+          m_prj_project.shortname AS projectShortName, m_prj_ticket_key.ticketKey AS extraTypeId
+        FROM m_prj_bug
+            LEFT OUTER JOIN s_user ON (m_prj_bug.createdUser = s_user.username)
+            INNER JOIN m_prj_project ON (m_prj_bug.projectId = m_prj_project.id)
+            LEFT OUTER JOIN m_prj_ticket_key ON (m_prj_ticket_key.ticketId = m_prj_bug.id AND m_prj_ticket_key.ticketType = 'Project-Bug')
     </sql>
 
     <sql id="selectComponentItem">
-        SELECT 'Project-Component' AS type, m_tracker_component.id AS typeId, s_user.username AS createdUser,
+        SELECT 'Project-Component' AS type, m_prj_component.id AS typeId, s_user.username AS createdUser,
           s_user.avatarId AS createdUserAvatarId,
           concat(s_user.firstname, ' ', s_user.lastname) AS
         createdUserDisplayName,
-          m_tracker_component.createdTime, m_tracker_component.lastUpdatedTime, m_tracker_component.name,
-        m_tracker_component.description, m_prj_project.id AS projectId, m_prj_project.name AS projectName,
+          m_prj_component.createdTime, m_prj_component.lastUpdatedTime, m_prj_component.name,
+        m_prj_component.description, m_prj_project.id AS projectId, m_prj_project.name AS projectName,
         m_prj_project.shortname AS projectShortName, NULL AS extraTypeId
-        FROM m_tracker_component
-        LEFT OUTER JOIN s_user ON (m_tracker_component.createdUser = s_user.username)
-        INNER JOIN m_prj_project ON (m_tracker_component.projectId = m_prj_project.id)
+        FROM m_prj_component
+            LEFT OUTER JOIN s_user ON (m_prj_component.createdUser = s_user.username)
+            INNER JOIN m_prj_project ON (m_prj_component.projectId = m_prj_project.id)
     </sql>
 
     <sql id="selectVersionItem">
-        SELECT 'Project-Version' AS type, m_tracker_version.id AS typeId, s_user.username AS createdUser,
+        SELECT 'Project-Version' AS type, m_prj_version.id AS typeId, s_user.username AS createdUser,
         s_user.avatarId AS createdUserAvatarId,
         concat(s_user.firstname, ' ', s_user.lastname) AS createdUserDisplayName,
-        m_tracker_version.createdTime, m_tracker_version.lastUpdatedTime, m_tracker_version.name,
-        m_tracker_version.description, m_prj_project.id AS projectId, m_prj_project.name AS projectName,
+        m_prj_version.createdTime, m_prj_version.lastUpdatedTime, m_prj_version.name,
+        m_prj_version.description, m_prj_project.id AS projectId, m_prj_project.name AS projectName,
         m_prj_project.shortname AS projectShortName, NULL AS extraTypeId
-        FROM m_tracker_version
-            LEFT OUTER JOIN s_user ON (m_tracker_version.createdUser = s_user.username)
-            INNER JOIN m_prj_project ON (m_tracker_version.projectId = m_prj_project.id)
+        FROM m_prj_version
+            LEFT OUTER JOIN s_user ON (m_prj_version.createdUser = s_user.username)
+            INNER JOIN m_prj_project ON (m_prj_version.projectId = m_prj_project.id)
     </sql>
 
     <sql id="selectRiskItem">
@@ -524,7 +526,7 @@
     </select>
     <select id="getTotalCountFromBug" parameterType="com.mycollab.module.project.domain.criteria.ProjectGenericItemSearchCriteria" resultType="int" lang="velocity">
         SELECT count(*) as totalCount
-        FROM m_tracker_bug
+        FROM m_prj_bug
         #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")
                 <include refid="queryBugSearchCriteria" />
@@ -534,7 +536,7 @@
     <select id="getTotalCountFromComponent" parameterType="com.mycollab.module.project.domain.criteria.ProjectGenericItemSearchCriteria"
             resultType="int" lang="velocity">
         SELECT count(*) as totalCount
-        FROM m_tracker_component
+        FROM m_prj_component
         #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")
                 <include refid="queryComponentSearchCriteria" />
@@ -544,7 +546,7 @@
     <select id="getTotalCountFromVersion" parameterType="com.mycollab.module.project.domain.criteria.ProjectGenericItemSearchCriteria"
             resultType="int" lang="velocity">
         SELECT count(*) as totalCount
-        FROM m_tracker_version
+        FROM m_prj_version
         #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")
                 <include refid="queryVersionSearchCriteria" />

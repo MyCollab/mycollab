@@ -16,7 +16,7 @@
  */
 package com.mycollab.module.project.esb
 
-import com.mycollab.module.tracker.domain.BugWithBLOBs
+import com.mycollab.module.project.domain.BugWithBLOBs
 
 /**
  * @author MyCollab Ltd

@@ -106,11 +106,12 @@ public class ProjectMemberEditViewImpl extends AbstractEditItemComp<SimpleProjec
 
         @Override
         protected HasValue<?> onCreateField(final Object propertyId) {
-            if (propertyId.equals("memberFullName")) {
+            if (SimpleProjectMember.Field.memberFullName.equalTo(propertyId)) {
                 return new DefaultViewField(beanItem.getMemberFullName());
-            } else if (propertyId.equals("projectroleid")) {
+            } else if (ProjectMember.Field.projectroleid.equalTo(propertyId)) {
                 return new ProjectRoleSelectionField();
-            } else if (ProjectMember.Field.billingrate.equalTo(propertyId) || ProjectMember.Field.overtimebillingrate.equalTo(propertyId)) {
+            } else if (ProjectMember.Field.billingrate.equalTo(propertyId) ||
+                    ProjectMember.Field.overtimebillingrate.equalTo(propertyId)) {
                 return new DoubleField().withWidth(WebThemes.FORM_CONTROL_WIDTH);
             }
             return null;
@@ -144,9 +145,9 @@ public class ProjectMemberEditViewImpl extends AbstractEditItemComp<SimpleProjec
             ProjectRoleService roleService = AppContextUtil.getSpringBean(ProjectRoleService.class);
             SimpleProjectRole role = roleService.findById(roleId, AppUI.getAccountId());
             if (role != null) {
-                final PermissionMap permissionMap = role.getPermissionMap();
+                PermissionMap permissionMap = role.getPermissionMap();
                 for (int i = 0; i < ProjectRolePermissionCollections.PROJECT_PERMISSIONS.length; i++) {
-                    final String permissionPath = ProjectRolePermissionCollections.PROJECT_PERMISSIONS[i];
+                    String permissionPath = ProjectRolePermissionCollections.PROJECT_PERMISSIONS[i];
                     Enum permissionKey = RolePermissionI18nEnum.valueOf(permissionPath);
                     Integer perVal = permissionMap.get(permissionKey.name());
                     SecurityI18nEnum permissionVal = PermissionFlag.toVal(perVal);
@@ -174,7 +175,6 @@ public class ProjectMemberEditViewImpl extends AbstractEditItemComp<SimpleProjec
                 }
             });
         }
-
 
         @Override
         protected Component initContent() {

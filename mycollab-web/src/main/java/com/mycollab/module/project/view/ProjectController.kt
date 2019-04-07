@@ -51,11 +51,11 @@ import com.mycollab.module.project.view.task.TaskReadPresenter
 import com.mycollab.module.project.view.ticket.ITicketKanbanPresenter
 import com.mycollab.module.project.view.ticket.TicketDashboardPresenter
 import com.mycollab.module.project.view.user.ProjectDashboardPresenter
-import com.mycollab.module.tracker.domain.Component
-import com.mycollab.module.tracker.domain.SimpleBug
-import com.mycollab.module.tracker.domain.Version
-import com.mycollab.module.tracker.domain.criteria.ComponentSearchCriteria
-import com.mycollab.module.tracker.domain.criteria.VersionSearchCriteria
+import com.mycollab.module.project.domain.Component
+import com.mycollab.module.project.domain.SimpleBug
+import com.mycollab.module.project.domain.Version
+import com.mycollab.module.project.domain.criteria.ComponentSearchCriteria
+import com.mycollab.module.project.domain.criteria.VersionSearchCriteria
 import com.mycollab.vaadin.AppUI
 import com.mycollab.vaadin.ApplicationEventListener
 import com.mycollab.vaadin.mvp.AbstractController

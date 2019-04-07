@@ -22,9 +22,9 @@ import com.mycollab.i18n.LocalizationHelper
 import com.mycollab.module.project.ProjectTooltipGenerator
 import com.mycollab.module.project.ProjectTypeConstants
 import com.mycollab.module.project.service.*
-import com.mycollab.module.tracker.service.BugService
-import com.mycollab.module.tracker.service.ComponentService
-import com.mycollab.module.tracker.service.VersionService
+import com.mycollab.module.project.service.BugService
+import com.mycollab.module.project.service.ComponentService
+import com.mycollab.module.project.service.VersionService
 import com.mycollab.module.user.AdminTypeConstants
 import com.mycollab.module.user.CommonTooltipGenerator
 import com.mycollab.module.user.service.UserService

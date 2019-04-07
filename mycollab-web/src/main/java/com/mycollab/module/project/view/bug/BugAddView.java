@@ -16,9 +16,9 @@
  */
 package com.mycollab.module.project.view.bug;
 
-import com.mycollab.module.tracker.domain.Component;
-import com.mycollab.module.tracker.domain.SimpleBug;
-import com.mycollab.module.tracker.domain.Version;
+import com.mycollab.module.project.domain.Component;
+import com.mycollab.module.project.domain.SimpleBug;
+import com.mycollab.module.project.domain.Version;
 import com.mycollab.vaadin.event.HasEditFormHandlers;
 import com.mycollab.vaadin.mvp.IFormAddView;
 import com.mycollab.vaadin.web.ui.field.AttachmentUploadField;

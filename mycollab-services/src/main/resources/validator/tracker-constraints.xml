@@ -6,24 +6,6 @@
         version="2.0">
     <default-package>com.mycollab.module.tracker.domain</default-package>
 
-    <bean class="Bug" ignore-annotations="false">
-        <class>
-            <constraint annotation="com.mycollab.validator.constraints.DateComparison">
-                <message>Start date must be less than end date</message>
-                <element name="firstDateField">startdate</element>
-                <element name="lastDateField">enddate</element>
-            </constraint>
-            <constraint annotation="com.mycollab.validator.constraints.DateComparison">
-                <message>Start date must be less than deadline date</message>
-                <element name="firstDateField">startdate</element>
-                <element name="lastDateField">duedate</element>
-            </constraint>
-            <constraint annotation="com.mycollab.validator.constraints.DateComparison">
-                <message>End date must be less than deadline date</message>
-                <element name="firstDateField">enddate</element>
-                <element name="lastDateField">duedate</element>
-            </constraint>
-        </class>
-    </bean>
+
 
 </constraint-mappings>

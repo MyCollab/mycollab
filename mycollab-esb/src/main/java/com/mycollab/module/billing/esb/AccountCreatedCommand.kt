@@ -29,15 +29,16 @@ import com.mycollab.module.file.PathUtils
 import com.mycollab.module.page.domain.Folder
 import com.mycollab.module.page.domain.Page
 import com.mycollab.module.page.service.PageService
+import com.mycollab.module.project.ProjectTypeConstants
 import com.mycollab.module.project.domain.*
 import com.mycollab.module.project.i18n.OptionI18nEnum.*
 import com.mycollab.module.project.service.*
-import com.mycollab.module.tracker.domain.BugWithBLOBs
-import com.mycollab.module.tracker.domain.Version
-import com.mycollab.module.tracker.service.BugRelatedItemService
-import com.mycollab.module.tracker.service.BugService
-import com.mycollab.module.tracker.service.ComponentService
-import com.mycollab.module.tracker.service.VersionService
+import com.mycollab.module.project.domain.BugWithBLOBs
+import com.mycollab.module.project.domain.Version
+import com.mycollab.module.project.service.TicketRelationService
+import com.mycollab.module.project.service.BugService
+import com.mycollab.module.project.service.ComponentService
+import com.mycollab.module.project.service.VersionService
 import org.springframework.stereotype.Component
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -54,7 +55,7 @@ class AccountCreatedCommand(private val optionValService: OptionValService,
                             private val milestoneService: MilestoneService,
                             private val taskService: ProjectTaskService,
                             private val bugService: BugService,
-                            private val bugRelatedService: BugRelatedItemService,
+                            private val bugRelatedService: TicketRelationService,
                             private val componentService: ComponentService,
                             private val versionService: VersionService,
                             private val pageService: PageService,
@@ -151,7 +152,7 @@ class AccountCreatedCommand(private val optionValService: OptionValService,
         taskD.enddate = nowDate.plusDays(2)
         taskService.saveWithSession(taskD, initialUser)
 
-        val component = com.mycollab.module.tracker.domain.Component()
+        val component = com.mycollab.module.project.domain.Component()
         component.name = "Component 1"
         component.createduser = initialUser
         component.description = "Sample Component 1"
@@ -193,8 +194,8 @@ class AccountCreatedCommand(private val optionValService: OptionValService,
         bugB.priority = Priority.Low.name
         bugService.saveWithSession(bugB, initialUser)
 
-        bugRelatedService.saveAffectedVersionsOfBug(bugAId, listOf(version))
-        bugRelatedService.saveComponentsOfBug(bugAId, listOf(component))
+        bugRelatedService.saveAffectedVersionsOfTicket(bugAId, ProjectTypeConstants.BUG, listOf(version))
+        bugRelatedService.saveComponentsOfTicket(bugAId, ProjectTypeConstants.BUG, listOf(component))
 
         val page = Page()
         page.subject = "Welcome to sample workspace"

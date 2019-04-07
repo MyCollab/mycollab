@@ -28,10 +28,10 @@ import com.mycollab.module.project.i18n.BugI18nEnum;
 import com.mycollab.module.project.i18n.OptionI18nEnum.BugResolution;
 import com.mycollab.module.project.view.settings.component.ProjectMemberSelectionField;
 import com.mycollab.module.project.view.settings.component.VersionMultiSelectField;
-import com.mycollab.module.tracker.domain.SimpleBug;
-import com.mycollab.module.tracker.service.BugRelatedItemService;
+import com.mycollab.module.project.domain.SimpleBug;
+import com.mycollab.module.project.service.TicketRelationService;
 import com.mycollab.module.tracker.service.BugRelationService;
-import com.mycollab.module.tracker.service.BugService;
+import com.mycollab.module.project.service.BugService;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.EventBusFactory;
@@ -47,7 +47,6 @@ import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.RichTextArea;
-import com.vaadin.ui.VerticalLayout;
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
@@ -109,9 +108,9 @@ public class ReOpenWindow extends MWindow {
                         BugService bugService = AppContextUtil.getSpringBean(BugService.class);
                         bugService.updateSelectiveWithSession(bug, UserUIContext.getUsername());
 
-                        BugRelatedItemService bugRelatedItemService = AppContextUtil.getSpringBean(BugRelatedItemService.class);
-                        bugRelatedItemService.updateAffectedVersionsOfBug(bug.getId(), affectedVersionsSelect.getSelectedItems());
-                        bugRelatedItemService.updateFixedVersionsOfBug(bug.getId(), null);
+                        TicketRelationService ticketRelationService = AppContextUtil.getSpringBean(TicketRelationService.class);
+                        ticketRelationService.updateAffectedVersionsOfTicket(bug.getId(), ProjectTypeConstants.BUG, affectedVersionsSelect.getSelectedItems());
+                        ticketRelationService.updateFixedVersionsOfTicket(bug.getId(),ProjectTypeConstants.BUG , null);
 
                         BugRelationService bugRelationService = AppContextUtil.getSpringBean(BugRelationService.class);
                         bugRelationService.removeDuplicatedBugs(bug.getId());

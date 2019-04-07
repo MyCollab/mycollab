@@ -21,10 +21,10 @@ import com.mycollab.module.project.ProjectLinkGenerator
 import com.mycollab.module.project.ProjectTypeConstants
 import com.mycollab.module.project.domain.*
 import com.mycollab.module.project.i18n.OptionI18nEnum.*
-import com.mycollab.module.tracker.domain.SimpleBug
-import com.mycollab.module.tracker.domain.SimpleComponent
-import com.mycollab.module.tracker.domain.SimpleVersion
-import com.mycollab.module.tracker.domain.Version
+import com.mycollab.module.project.domain.SimpleBug
+import com.mycollab.module.project.domain.SimpleComponent
+import com.mycollab.module.project.domain.SimpleVersion
+import com.mycollab.module.project.domain.Version
 import com.mycollab.reporting.ColumnBuilderClassMapper
 import com.mycollab.reporting.ReportStyles
 import com.mycollab.reporting.expression.DateExpression
@@ -262,7 +262,7 @@ class ProjectColumnBuilderMapper : InitializingBean {
         val taskNameHrefExpr = object : AbstractSimpleExpression<String>() {
 
             override fun evaluate(reportParameters: ReportParameters): String {
-                val taskKey = reportParameters.getFieldValue<Int>(Task.Field.taskkey.name)
+                val taskKey = reportParameters.getFieldValue<Int>("key")
                 val projectShortName = reportParameters.getFieldValue<String>("projectShortname")
                 val siteUrl = reportParameters.getParameterValue<String>("siteUrl")
                 return ProjectLinkGenerator.generateTaskPreviewFullLink(siteUrl, taskKey, projectShortName)
@@ -330,7 +330,7 @@ class ProjectColumnBuilderMapper : InitializingBean {
     private fun buildBugMap(): Map<String, ComponentBuilderGenerator> {
         LOG.debug("Build report mapper for project::bug module")
 
-        val map = HashMap<String, ComponentBuilderGenerator>()
+        val map = mutableMapOf<String, ComponentBuilderGenerator>()
         val summaryTitleExpr = PrimaryTypeFieldExpression<String>("name")
         val summaryHrefExpr = object : AbstractSimpleExpression<String>() {
 
@@ -341,7 +341,7 @@ class ProjectColumnBuilderMapper : InitializingBean {
                 return ProjectLinkGenerator.generateBugPreviewFullLink(siteUrl, bugKey, projectShortName)
             }
         }
-        map.put("name", HyperlinkBuilderGenerator(summaryTitleExpr, summaryHrefExpr))
+        map["name"] = HyperlinkBuilderGenerator(summaryTitleExpr, summaryHrefExpr)
 
         val assigneeTitleExpr = PrimaryTypeFieldExpression<String>("assignuserFullName")
         val assigneeHrefExpr = object : AbstractSimpleExpression<String>() {
@@ -385,28 +385,26 @@ class ProjectColumnBuilderMapper : InitializingBean {
 
             }
         }
-        map.put(SimpleBug.Field.milestoneName.name, HyperlinkBuilderGenerator(milestoneTitleExpr, milestoneHrefExpr))
-
-        map.put("severity", SimpleExpressionBuilderGenerator(I18nExpression("severity", BugSeverity::class.java)))
-        map.put("priority", SimpleExpressionBuilderGenerator(I18nExpression("priority", Priority::class.java)))
-        map.put("status", SimpleExpressionBuilderGenerator(I18nExpression("status", StatusI18nEnum::class.java)))
-        map.put("resolution", SimpleExpressionBuilderGenerator(I18nExpression("resolution", BugResolution::class.java)))
-        map.put("assignuserFullName", HyperlinkBuilderGenerator(assigneeTitleExpr, assigneeHrefExpr))
-        map.put("loguserFullName", HyperlinkBuilderGenerator(logUserTitleExpr, logUserHrefExpr))
-        map.put("duedate", SimpleExpressionBuilderGenerator(DateExpression("duedate")))
-        map.put("startdate", SimpleExpressionBuilderGenerator(DateExpression("startdate")))
-        map.put("enddate", SimpleExpressionBuilderGenerator(DateExpression("enddate")))
-        map.put("billableHours", SimpleExpressionBuilderGenerator(HumanTimeExpression("billableHours")))
-        map.put("nonBillableHours", SimpleExpressionBuilderGenerator(HumanTimeExpression("nonBillableHours")))
+        map[SimpleBug.Field.milestoneName.name] = HyperlinkBuilderGenerator(milestoneTitleExpr, milestoneHrefExpr)
+        map["severity"] = SimpleExpressionBuilderGenerator(I18nExpression("severity", BugSeverity::class.java))
+        map["priority"] = SimpleExpressionBuilderGenerator(I18nExpression("priority", Priority::class.java))
+        map["status"] = SimpleExpressionBuilderGenerator(I18nExpression("status", StatusI18nEnum::class.java))
+        map["resolution"] = SimpleExpressionBuilderGenerator(I18nExpression("resolution", BugResolution::class.java))
+        map["assignuserFullName"] = HyperlinkBuilderGenerator(assigneeTitleExpr, assigneeHrefExpr)
+        map["loguserFullName"] = HyperlinkBuilderGenerator(logUserTitleExpr, logUserHrefExpr)
+        map["duedate"] = SimpleExpressionBuilderGenerator(DateExpression("duedate"))
+        map["startdate"] = SimpleExpressionBuilderGenerator(DateExpression("startdate"))
+        map["enddate"] = SimpleExpressionBuilderGenerator(DateExpression("enddate"))
+        map["billableHours"] = SimpleExpressionBuilderGenerator(HumanTimeExpression("billableHours"))
+        map["nonBillableHours"] = SimpleExpressionBuilderGenerator(HumanTimeExpression("nonBillableHours"))
         return map
     }
 
     private fun buildComponentMap(): Map<String, ComponentBuilderGenerator> {
         LOG.debug("Build report mapper for project::component module")
 
-        val map = HashMap<String, ComponentBuilderGenerator>()
-        val summaryTitleExpr = PrimaryTypeFieldExpression<String>(com.mycollab.module.tracker.domain
-                .Component.Field.name.name)
+        val map = mutableMapOf<String, ComponentBuilderGenerator>()
+        val summaryTitleExpr = PrimaryTypeFieldExpression<String>(com.mycollab.module.project.domain.Component.Field.name.name)
         val summaryHrefExpr = object : AbstractSimpleExpression<String>() {
 
             override fun evaluate(reportParameters: ReportParameters): String {
@@ -416,7 +414,7 @@ class ProjectColumnBuilderMapper : InitializingBean {
                 return ProjectLinkGenerator.generateBugComponentPreviewFullLink(siteUrl, projectId!!, componentId!!)
             }
         }
-        map.put("name", HyperlinkBuilderGenerator(summaryTitleExpr, summaryHrefExpr))
+        map["name"] = HyperlinkBuilderGenerator(summaryTitleExpr, summaryHrefExpr)
 
         val assigneeTitleExpr = PrimaryTypeFieldExpression<String>("userLeadFullName")
         val assigneeHrefExpr = object : AbstractSimpleExpression<String>() {
@@ -433,7 +431,7 @@ class ProjectColumnBuilderMapper : InitializingBean {
             }
         }
 
-        map.put("userLeadFullName", HyperlinkBuilderGenerator(assigneeTitleExpr, assigneeHrefExpr))
+        map["userLeadFullName"] = HyperlinkBuilderGenerator(assigneeTitleExpr, assigneeHrefExpr)
         val progressExpr = object : AbstractSimpleExpression<Double>() {
             override fun evaluate(reportParameters: ReportParameters): Double {
                 val numOpenBugs = reportParameters.getFieldValue<Int>(SimpleComponent.Field.numOpenBugs.name)
@@ -441,7 +439,7 @@ class ProjectColumnBuilderMapper : InitializingBean {
                 return if (numBugs != null && numBugs != 0) (numBugs - numOpenBugs!!) * 1.0 / numBugs * 100.0 else 100.0
             }
         }
-        map.put("id", SimpleExpressionBuilderGenerator(progressExpr))
+        map["id"] = SimpleExpressionBuilderGenerator(progressExpr)
         return map
     }
 
@@ -475,7 +473,7 @@ class ProjectColumnBuilderMapper : InitializingBean {
     private fun buildRiskMap(): Map<String, ComponentBuilderGenerator> {
         LOG.debug("Build report mapper for project::risk module")
 
-        val map = HashMap<String, ComponentBuilderGenerator>()
+        val map = mutableMapOf<String, ComponentBuilderGenerator>()
         val summaryTitleExpr = PrimaryTypeFieldExpression<String>(Risk.Field.name.name)
         val summaryHrefExpr = object : AbstractSimpleExpression<String>() {
 
@@ -486,7 +484,7 @@ class ProjectColumnBuilderMapper : InitializingBean {
                 return ProjectLinkGenerator.generateRiskPreviewFullLink(siteUrl, projectId!!, riskId!!)
             }
         }
-        map.put(Risk.Field.name.name, HyperlinkBuilderGenerator(summaryTitleExpr, summaryHrefExpr))
+        map[Risk.Field.name.name] = HyperlinkBuilderGenerator(summaryTitleExpr, summaryHrefExpr)
 
         val assigneeTitleExpr = PrimaryTypeFieldExpression<String>(SimpleRisk.Field.assignedToUserFullName.name)
         val assigneeHrefExpr = object : AbstractSimpleExpression<String>() {
@@ -501,16 +499,16 @@ class ProjectColumnBuilderMapper : InitializingBean {
             }
         }
 
-        map.put(SimpleRisk.Field.assignedToUserFullName.name, HyperlinkBuilderGenerator(assigneeTitleExpr, assigneeHrefExpr))
-        map.put(Risk.Field.status.name, SimpleExpressionBuilderGenerator(I18nExpression("status", StatusI18nEnum::class.java)))
-        map.put(Risk.Field.priority.name, SimpleExpressionBuilderGenerator(I18nExpression("priority", Priority::class.java)))
-        map.put(Risk.Field.duedate.name, SimpleExpressionBuilderGenerator(DateExpression(Risk.Field.duedate.name)))
+        map[SimpleRisk.Field.assignedToUserFullName.name] = HyperlinkBuilderGenerator(assigneeTitleExpr, assigneeHrefExpr)
+        map[Risk.Field.status.name] = SimpleExpressionBuilderGenerator(I18nExpression("status", StatusI18nEnum::class.java))
+        map[Risk.Field.priority.name] = SimpleExpressionBuilderGenerator(I18nExpression("priority", Priority::class.java))
+        map[Risk.Field.duedate.name] = SimpleExpressionBuilderGenerator(DateExpression(Risk.Field.duedate.name))
 
         return map
     }
 
     private fun buildProjectMemberMap(): Map<String, ComponentBuilderGenerator> {
-        val map = HashMap<String, ComponentBuilderGenerator>()
+        val map = mutableMapOf<String, ComponentBuilderGenerator>()
         val memberNameExpr = PrimaryTypeFieldExpression<String>(SimpleProjectMember.Field.memberFullName.name)
         val memberHrefExpr = object : AbstractSimpleExpression<String>() {
 
@@ -533,14 +531,14 @@ class ProjectColumnBuilderMapper : InitializingBean {
                 return ProjectLinkGenerator.generateRolePreviewFullLink(siteUrl, projectId!!, roleId)
             }
         }
-        map.put(ProjectMember.Field.projectroleid.name, HyperlinkBuilderGenerator(roleNameExpr, roleHrefExpr))
+        map[ProjectMember.Field.projectroleid.name] = HyperlinkBuilderGenerator(roleNameExpr, roleHrefExpr)
         return map
     }
 
     private fun buildRoleMap(): Map<String, ComponentBuilderGenerator> {
         LOG.debug("Build report mapper for project::role module")
 
-        val map = HashMap<String, ComponentBuilderGenerator>()
+        val map = mutableMapOf<String, ComponentBuilderGenerator>()
         val summaryTitleExpr = PrimaryTypeFieldExpression<String>("rolename")
         val summaryHrefExpr = object : AbstractSimpleExpression<String>() {
 
@@ -551,14 +549,14 @@ class ProjectColumnBuilderMapper : InitializingBean {
                 return ProjectLinkGenerator.generateRolePreviewFullLink(siteUrl, projectId!!, roleId)
             }
         }
-        map.put("rolename", HyperlinkBuilderGenerator(summaryTitleExpr, summaryHrefExpr))
+        map["rolename"] = HyperlinkBuilderGenerator(summaryTitleExpr, summaryHrefExpr)
         return map
     }
 
     private fun buildTimeTrackingMap(): Map<String, ComponentBuilderGenerator> {
         LOG.debug("Build report mapper for project::timetracking module")
 
-        val map = HashMap<String, ComponentBuilderGenerator>()
+        val map = mutableMapOf<String, ComponentBuilderGenerator>()
         val logUserTitleExpr = PrimaryTypeFieldExpression<String>("logUserFullName")
         val logUserHrefExpr = object : AbstractSimpleExpression<String>() {
 
@@ -572,7 +570,7 @@ class ProjectColumnBuilderMapper : InitializingBean {
             }
         }
 
-        map.put(SimpleItemTimeLogging.Field.logUserFullName.name, HyperlinkBuilderGenerator(logUserTitleExpr, logUserHrefExpr))
+        map[SimpleItemTimeLogging.Field.logUserFullName.name] = HyperlinkBuilderGenerator(logUserTitleExpr, logUserHrefExpr)
 
         val projectTitleExpr = PrimaryTypeFieldExpression<String>("projectName")
         val projectHrefExpr = object : AbstractSimpleExpression<String>() {
@@ -586,8 +584,8 @@ class ProjectColumnBuilderMapper : InitializingBean {
             }
         }
 
-        map.put(SimpleItemTimeLogging.Field.projectName.name, HyperlinkBuilderGenerator(projectTitleExpr, projectHrefExpr))
-        map.put(ItemTimeLogging.Field.logforday.name, SimpleExpressionBuilderGenerator(DateExpression(ItemTimeLogging.Field.logforday.name)))
+        map[SimpleItemTimeLogging.Field.projectName.name] = HyperlinkBuilderGenerator(projectTitleExpr, projectHrefExpr)
+        map[ItemTimeLogging.Field.logforday.name] = SimpleExpressionBuilderGenerator(DateExpression(ItemTimeLogging.Field.logforday.name))
 
         val overtimeExpr = object : AbstractSimpleExpression<String>() {
 
@@ -596,7 +594,7 @@ class ProjectColumnBuilderMapper : InitializingBean {
                 return if (java.lang.Boolean.TRUE == level) "Yes" else "No"
             }
         }
-        map.put(ItemTimeLogging.Field.isovertime.name, SimpleExpressionBuilderGenerator(overtimeExpr))
+        map[ItemTimeLogging.Field.isovertime.name] = SimpleExpressionBuilderGenerator(overtimeExpr)
 
         val billingExpr = object : AbstractSimpleExpression<String>() {
 
@@ -605,7 +603,7 @@ class ProjectColumnBuilderMapper : InitializingBean {
                 return if (java.lang.Boolean.TRUE == level) "Yes" else "No"
             }
         }
-        map.put(ItemTimeLogging.Field.isbillable.name, SimpleExpressionBuilderGenerator(billingExpr))
+        map[ItemTimeLogging.Field.isbillable.name] = SimpleExpressionBuilderGenerator(billingExpr)
 
         val summaryTitleExpr = PrimaryTypeFieldExpression<String>(SimpleItemTimeLogging.Field.summary.name)
         val summaryHrefExpr = object : AbstractSimpleExpression<String>() {
@@ -629,11 +627,11 @@ class ProjectColumnBuilderMapper : InitializingBean {
 
         val noteExpr = PrimaryTypeFieldExpression<String>(ItemTimeLogging.Field.note.name)
 
-        map.put(SimpleItemTimeLogging.Field.summary.name, object : ComponentBuilderGenerator {
+        map[SimpleItemTimeLogging.Field.summary.name] = object : ComponentBuilderGenerator {
             override fun getCompBuilder(reportStyles: ReportStyles): ComponentBuilder<*, *> =
                     cmp.verticalList(HyperlinkBuilderGenerator(summaryTitleExpr, summaryHrefExpr)
                             .getCompBuilder(reportStyles), cmp.text(noteExpr))
-        })
+        }
         return map
     }
 

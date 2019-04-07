@@ -4,7 +4,7 @@ import com.hp.gagawa.java.elements.A
 import com.mycollab.common.i18n.OptionI18nEnum
 import com.mycollab.core.utils.StringUtils
 import com.mycollab.module.project.ProjectLinkGenerator
-import com.mycollab.module.tracker.domain.Version
+import com.mycollab.module.project.domain.Version
 import com.mycollab.vaadin.ui.ELabel
 import com.mycollab.vaadin.web.ui.WebThemes
 import com.vaadin.ui.Component

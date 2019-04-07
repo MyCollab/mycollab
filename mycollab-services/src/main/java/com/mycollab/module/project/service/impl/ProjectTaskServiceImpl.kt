@@ -65,6 +65,7 @@ import javax.sql.DataSource
 @Traceable(nameField = "name", extraFieldName = "projectid")
 class ProjectTaskServiceImpl(private val taskMapper: TaskMapper,
                              private val taskMapperExt: TaskMapperExt,
+                             private val ticketKeyService: TicketKeyService,
                              private val asyncEventBus: AsyncEventBus,
                              private val dataSource: DataSource) : DefaultService<Int, Task, TaskSearchCriteria>(), ProjectTaskService {
     override val crudMapper: ICrudGenericDAO<Int, Task>
@@ -93,10 +94,12 @@ class ProjectTaskServiceImpl(private val taskMapper: TaskMapper,
 
         try {
             if (lock.tryLock(120, TimeUnit.SECONDS)) {
-                val key = taskMapperExt.getMaxKey(record.projectid!!)
-                record.taskkey = if (key == null) 1 else key + 1
+                val key = ticketKeyService.getMaxKey(record.projectid!!)
+                val taskKey = if (key == null) 1 else key + 1
 
-                return super.saveWithSession(record, username)
+                val taskId =  super.saveWithSession(record, username)
+                ticketKeyService.saveKey(record.projectid!!, taskId, ProjectTypeConstants.TASK, taskKey)
+                return taskId
             } else {
                 throw MyCollabException("Timeout operation.")
             }
@@ -200,7 +203,6 @@ class ProjectTaskServiceImpl(private val taskMapper: TaskMapper,
     companion object {
         init {
             val taskInfo = ClassInfo(ModuleNameConstants.PRJ, ProjectTypeConstants.TASK)
-            taskInfo.addExcludeHistoryField(Task.Field.taskindex.name)
             ClassInfoMap.put(ProjectTaskServiceImpl::class.java, taskInfo)
         }
     }

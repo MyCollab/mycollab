@@ -16,7 +16,7 @@
  */
 package com.mycollab.module.project.view.bug;
 
-import com.mycollab.module.tracker.domain.SimpleBug;
+import com.mycollab.module.project.domain.SimpleBug;
 import com.mycollab.vaadin.ui.FieldSelection;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.icons.VaadinIcons;

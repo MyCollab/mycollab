@@ -17,7 +17,7 @@
 package com.mycollab.module.project.event
 
 import com.mycollab.vaadin.event.ApplicationEvent
-import com.mycollab.module.tracker.domain.criteria.BugSearchCriteria
+import com.mycollab.module.project.domain.criteria.BugSearchCriteria
 
 /**
  * @author MyCollab Ltd

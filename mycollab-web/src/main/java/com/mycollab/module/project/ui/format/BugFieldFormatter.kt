@@ -21,7 +21,7 @@ import com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum
 import com.mycollab.module.project.i18n.BugI18nEnum
 import com.mycollab.module.project.i18n.MilestoneI18nEnum
 import com.mycollab.module.project.i18n.OptionI18nEnum.*
-import com.mycollab.module.tracker.domain.BugWithBLOBs
+import com.mycollab.module.project.domain.BugWithBLOBs
 import com.mycollab.vaadin.ui.formatter.FieldGroupFormatter
 import com.mycollab.vaadin.ui.formatter.I18nHistoryFieldFormat
 

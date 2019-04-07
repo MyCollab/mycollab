@@ -30,9 +30,7 @@ import org.apache.ibatis.annotations.Param
 @Mapper
 interface TaskMapperExt : ISearchableDAO<TaskSearchCriteria> {
 
-    fun findTaskById(taskId: Int): SimpleTask
-
-    fun getMaxKey(projectId: Int): Int?
+    fun findTaskById(taskId: Int): SimpleTask?
 
     fun getPrioritySummary(@Param("searchCriteria") criteria: TaskSearchCriteria): List<GroupItem>
 
@@ -40,7 +38,7 @@ interface TaskMapperExt : ISearchableDAO<TaskSearchCriteria> {
 
     fun getAssignedDefectsSummary(@Param("searchCriteria") criteria: TaskSearchCriteria): List<GroupItem>
 
-    fun findByProjectAndTaskKey(@Param("taskkey") taskkey: Int, @Param("prjShortName") projectShortName: String,
+    fun findByProjectAndTaskKey(@Param("key") key: Int, @Param("prjShortName") projectShortName: String,
                                 @Param("sAccountId") sAccountId: Int): SimpleTask
 
 }

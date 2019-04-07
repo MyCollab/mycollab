@@ -21,7 +21,7 @@ import com.hp.gagawa.java.elements.Span;
 import com.mycollab.module.file.StorageUtils;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
-import com.mycollab.module.tracker.domain.SimpleBug;
+import com.mycollab.module.project.domain.SimpleBug;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.IBeanList;

@@ -23,7 +23,7 @@ import com.mycollab.module.project.event.BugEvent;
 import com.mycollab.module.project.i18n.BugI18nEnum;
 import com.mycollab.module.project.i18n.OptionI18nEnum.BugRelation;
 import com.mycollab.module.tracker.domain.RelatedBug;
-import com.mycollab.module.tracker.domain.SimpleBug;
+import com.mycollab.module.project.domain.SimpleBug;
 import com.mycollab.module.tracker.service.BugRelationService;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.EventBusFactory;

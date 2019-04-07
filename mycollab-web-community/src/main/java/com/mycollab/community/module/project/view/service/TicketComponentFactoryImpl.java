@@ -42,7 +42,7 @@ import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.module.project.view.bug.BugEditForm;
 import com.mycollab.module.project.view.service.TicketComponentFactory;
 import com.mycollab.module.project.view.task.TaskEditForm;
-import com.mycollab.module.tracker.domain.SimpleBug;
+import com.mycollab.module.project.domain.SimpleBug;
 import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.web.ui.WebThemes;

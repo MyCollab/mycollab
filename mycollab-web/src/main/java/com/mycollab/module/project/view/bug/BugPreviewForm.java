@@ -28,8 +28,8 @@ import com.mycollab.module.project.ui.form.ProjectItemViewField;
 import com.mycollab.module.project.view.bug.field.ComponentsViewField;
 import com.mycollab.module.project.view.bug.field.VersionsViewField;
 import com.mycollab.module.project.view.settings.component.ProjectUserFormLinkField;
-import com.mycollab.module.tracker.domain.BugWithBLOBs;
-import com.mycollab.module.tracker.domain.SimpleBug;
+import com.mycollab.module.project.domain.BugWithBLOBs;
+import com.mycollab.module.project.domain.SimpleBug;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.mycollab.vaadin.ui.GenericBeanForm;
@@ -39,7 +39,6 @@ import com.mycollab.vaadin.web.ui.DefaultDynaFormLayout;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.data.HasValue;
 import com.vaadin.icons.VaadinIcons;
-import com.vaadin.shared.ui.ContentMode;
 
 import static com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 

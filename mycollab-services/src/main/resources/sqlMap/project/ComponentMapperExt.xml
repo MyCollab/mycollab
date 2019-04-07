@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mycollab.module.project.dao.ComponentMapperExt">
+    <resultMap type="com.mycollab.module.project.domain.SimpleComponent"
+        extends="com.mycollab.module.project.dao.ComponentMapper.ResultMapWithBLOBs"
+        id="SimpleComponentResult">
+        <result column="userLeadAvatarId" jdbcType="VARCHAR" property="userLeadAvatarId" />
+        <result column="userLeadFullName" jdbcType="VARCHAR" property="userLeadFullName" />
+        <result column="createdUserAvatarId" jdbcType="VARCHAR" property="createdUserAvatarId" />
+        <result column="createdUserFullName" jdbcType="VARCHAR" property="createdUserFullName" />
+        <result column="numOpenBugs" jdbcType="INTEGER" property="numOpenBugs" />
+        <result column="numBugs" jdbcType="INTEGER" property="numBugs" />
+        <result column="projectName" jdbcType="VARCHAR" property="projectName" />
+        <result column="projectShortName" jdbcType="VARCHAR" property="projectShortName" />
+    </resultMap>
+
+    <sql id="querySearchCriteria">
+        <![CDATA[
+        #set($searchCriteria = $_parameter.searchCriteria)
+         
+        #ifnotnull($searchCriteria.projectId)
+            ${searchCriteria.projectId.operation} m_prj_component.projectId = @{searchCriteria.projectId.value,jdbcType=NUMERIC}
+        #end
+        
+        #ifnotnull($searchCriteria.userlead)
+            ${searchCriteria.userlead.operation} m_prj_component.userlead = @{searchCriteria.userlead.value,jdbcType=VARCHAR}
+        #end
+        
+        
+        #ifnotnull($searchCriteria.componentName)
+            ${searchCriteria.componentName.operation} m_prj_component.name like '%${searchCriteria.componentName.value}%'
+        #end
+        
+        #ifnotnull($searchCriteria.status)
+            ${searchCriteria.status.operation} m_prj_component.status = @{searchCriteria.status.value}
+        #end
+        
+        #ifnotnull($searchCriteria.id)
+            ${searchCriteria.id.operation} m_prj_component.id ${searchCriteria.id.compareOperator} @{searchCriteria.id.value,jdbcType=NUMERIC}
+        #end
+        ]]>
+    </sql>
+    <sql id="selectComponents">
+        <![CDATA[
+          SELECT m_prj_component.id, m_prj_component.projectId, m_prj_component.name,
+                m_prj_component.userlead, m_prj_component.description,
+                m_prj_component.sAccountId, m_prj_component.lastUpdatedTime, m_prj_component.createdTime, m_prj_component.status,
+                m_prj_component.createduser, createdUserTbl.avatarId AS createdUserAvatarId,
+                concat(createdUserTbl.firstname,' ', createdUserTbl.lastname) AS createdUserFullName,
+                s_user.avatarId AS userLeadAvatarId,
+               concat(s_user.firstname, ' ', s_user.lastname) AS userLeadFullName,
+               (SELECT COUNT(*) 
+                        FROM m_prj_bug, m_prj_ticket_relation
+                        WHERE m_prj_bug.id=m_prj_ticket_relation.ticketId
+                            AND m_prj_ticket_relation.ticketType='Project-Bug'
+                            AND m_prj_ticket_relation.type IN ('Component')
+                            AND m_prj_ticket_relation.typeId=m_prj_component.id) AS numBugs,
+                (SELECT COUNT(*) 
+                        FROM m_prj_bug, m_prj_ticket_relation
+                        WHERE m_prj_bug.id=m_prj_ticket_relation.ticketId
+                            AND m_prj_ticket_relation.ticketType='Project-Bug'
+                            AND m_prj_bug.status IN ('Open', 'InProgress', 'Reopenned')
+                            AND m_prj_ticket_relation.type IN ('Component')
+                            AND m_prj_ticket_relation.typeId=m_prj_component.id) AS numOpenBugs,
+                m_prj_project.name AS projectName, m_prj_project.shortName AS projectShortName
+        FROM m_prj_component
+        LEFT OUTER JOIN s_user ON (m_prj_component.userlead=s_user.username)
+        LEFT OUTER JOIN s_user AS createdUserTbl ON (m_prj_component.createduser=createdUserTbl.username)
+        LEFT OUTER JOIN m_prj_project ON (m_prj_component.projectId=m_prj_project.id)
+        ]]>
+    </sql>
+    
+    <sql id="orderStatement">
+        ORDER BY
+        #ifnotnull($_parameter.searchCriteria.orderFields)
+            #repeat(${_parameter.searchCriteria.orderFields} $orderField "" "" "")
+                ${orderField.field} ${orderField.direction},
+            #end
+        #end
+        m_prj_component.lastUpdatedTime DESC
+    </sql>
+
+    <select id="getTotalCount" resultType="int" parameterType="com.mycollab.module.project.domain.criteria.ComponentSearchCriteria" lang="velocity">
+        SELECT count(*) as totalCount FROM m_prj_component
+        #ifnotnull($_parameter.searchCriteria)
+            #trimext("WHERE" "AND|OR")
+                <include refid="querySearchCriteria" />
+            #end
+        #end
+    </select>
+
+    <select id="findPageableListByCriteria" resultMap="SimpleComponentResult" parameterType="com.mycollab.module.project.domain.criteria.ComponentSearchCriteria" lang="velocity">
+        <include refid="selectComponents" />
+        #ifnotnull($_parameter.searchCriteria)
+            #trimext("WHERE" "AND|OR")
+                <include refid="querySearchCriteria" />
+            #end
+        #end    
+        <include refid="orderStatement" />
+    </select>
+
+    <select id="findComponentById" parameterType="java.lang.Integer" resultMap="SimpleComponentResult" lang="velocity">
+        <include refid="selectComponents" />
+        WHERE m_prj_component.id=@{componentId, jdbcType=NUMERIC}
+    </select>
+
+    <select id="getNextItemKey" parameterType="map" resultType="java.lang.Integer" lang="velocity">
+        SELECT MIN(id) FROM m_prj_component
+        #ifnotnull($_parameter.searchCriteria)
+            #trimext("WHERE" "AND|OR")
+                <include refid="querySearchCriteria" />
+            #end
+        #end
+    </select>
+
+    <select id="getPreviousItemKey" parameterType="map" resultType="java.lang.Integer" lang="velocity">
+        SELECT MAX(id) FROM m_prj_component
+        #ifnotnull($_parameter.searchCriteria)
+            #trimext("WHERE" "AND|OR")
+                <include refid="querySearchCriteria" />
+            #end
+        #end    
+    </select>
+
+    <select id="getTotalBillableHours" parameterType="int" resultType="double" lang="velocity">
+        SELECT COALESCE(SUM(m_prj_time_logging.logValue), 0)
+            FROM m_prj_component, m_prj_bug, m_prj_ticket_relation, m_prj_time_logging
+            WHERE m_prj_component.id = @{componentid} AND m_prj_component.id = m_prj_ticket_relation.typeId
+                AND m_prj_ticket_relation.ticketType='Project-Bug'
+                AND m_prj_ticket_relation.type = 'Component'
+                AND m_prj_ticket_relation.ticketId = m_prj_bug.id
+                AND m_prj_time_logging.typeId =  m_prj_bug.id
+                AND m_prj_time_logging.type = 'Project-Bug'
+                AND m_prj_time_logging.isBillable = '1'
+    </select>
+
+    <select id="getTotalNonBillableHours" parameterType="int" resultType="double" lang="velocity">
+        SELECT COALESCE(SUM(m_prj_time_logging.logValue), 0)
+            FROM m_prj_component, m_prj_bug, m_prj_ticket_relation, m_prj_time_logging
+            WHERE m_prj_component.id = @{componentid}
+                AND m_prj_component.id = m_prj_ticket_relation.typeId
+                AND m_prj_ticket_relation.ticketType = 'Project-Bug'
+                AND m_prj_ticket_relation.type = 'Component'
+                AND m_prj_ticket_relation.ticketId = m_prj_bug.id
+                AND m_prj_time_logging.typeId =  m_prj_bug.id
+                AND m_prj_time_logging.type = 'Project-Bug'
+                AND m_prj_time_logging.isBillable = '0'
+    </select>
+
+    <select id="getRemainHours" parameterType="int" resultType="double" lang="velocity">
+        SELECT COALESCE(SUM(m_prj_bug.remainEstimate), 0)
+            FROM m_prj_bug, m_prj_ticket_relation
+            WHERE m_prj_ticket_relation.typeId = @{componentid}
+                AND m_prj_ticket_relation.ticketType='Project-Bug'
+                AND m_prj_ticket_relation.type = 'Component'
+                AND m_prj_ticket_relation.ticketId = m_prj_bug.id
+    </select>
+</mapper>

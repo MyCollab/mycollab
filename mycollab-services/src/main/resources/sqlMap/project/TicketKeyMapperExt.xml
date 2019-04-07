@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mycollab.module.project.dao.TicketKeyMapperExt">
+    <select id="getMaxKey" parameterType="java.lang.Integer" resultType="java.lang.Integer" lang="velocity">
+        <![CDATA[
+        SELECT MAX(ticketKey)
+            FROM m_prj_ticket_key
+            WHERE m_prj_ticket_key.projectId=@{projectId, jdbcType=NUMERIC}
+        ]]>
+    </select>
+</mapper>

@@ -16,7 +16,7 @@
  */
 package com.mycollab.module.project.view.settings;
 
-import com.mycollab.module.tracker.domain.Version;
+import com.mycollab.module.project.domain.Version;
 import com.mycollab.vaadin.event.HasPreviewFormHandlers;
 import com.mycollab.vaadin.mvp.IPreviewView;
 

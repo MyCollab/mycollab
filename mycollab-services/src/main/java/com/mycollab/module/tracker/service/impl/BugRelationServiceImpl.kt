@@ -19,7 +19,6 @@ package com.mycollab.module.tracker.service.impl
 import com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum
 import com.mycollab.db.persistence.ICrudGenericDAO
 import com.mycollab.db.persistence.service.DefaultCrudService
-import com.mycollab.module.project.i18n.OptionI18nEnum
 import com.mycollab.module.project.i18n.OptionI18nEnum.*
 import com.mycollab.module.tracker.dao.RelatedBugMapper
 import com.mycollab.module.tracker.dao.RelatedBugMapperExt
@@ -27,7 +26,7 @@ import com.mycollab.module.tracker.domain.RelatedBug
 import com.mycollab.module.tracker.domain.RelatedBugExample
 import com.mycollab.module.tracker.domain.SimpleRelatedBug
 import com.mycollab.module.tracker.service.BugRelationService
-import com.mycollab.module.tracker.service.BugService
+import com.mycollab.module.project.service.BugService
 import org.springframework.stereotype.Service
 
 /**

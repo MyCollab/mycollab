@@ -16,16 +16,14 @@
  */
 package com.mycollab.module.project.view.settings;
 
-import com.mycollab.common.i18n.OptionI18nEnum;
 import com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectRolePermissionCollections;
-import com.mycollab.module.project.domain.SimpleProject;
 import com.mycollab.module.project.event.BugComponentEvent;
 import com.mycollab.module.project.view.ProjectBreadcrumb;
 import com.mycollab.module.project.view.ProjectView;
-import com.mycollab.module.tracker.domain.Component;
-import com.mycollab.module.tracker.service.ComponentService;
+import com.mycollab.module.project.domain.Component;
+import com.mycollab.module.project.service.ComponentService;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.EventBusFactory;

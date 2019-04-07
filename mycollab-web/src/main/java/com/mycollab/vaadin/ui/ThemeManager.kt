@@ -160,6 +160,7 @@ object ThemeManager {
         }
 
         if (accountTheme.actionbtnborder != null) {
+            extraStyles.append(".toggle-btn-group .v-button.btn-group-default {border: 1px solid #${accountTheme.actionbtnborder};}")
             extraStyles.append(".v-button.v-button-action-button, .v-button-action-button:focus { border: 1px solid #${accountTheme.actionbtnborder}; }")
         }
 
@@ -179,6 +180,7 @@ object ThemeManager {
         }
 
         if (accountTheme.optionbtnborder != null) {
+            extraStyles.append(".toggle-btn-group .v-button { border: 1px solid #${accountTheme.optionbtnborder};}")
             extraStyles.append(".v-button.v-button-option-button, .v-button-option-button:focus { border: 1px solid #${accountTheme.optionbtnborder}; }")
         }
 

@@ -18,7 +18,7 @@ package com.mycollab.module.project.view.settings;
 
 import com.mycollab.module.project.service.ItemTimeLoggingService;
 import com.mycollab.module.project.ui.components.TimeLogComp;
-import com.mycollab.module.tracker.domain.Version;
+import com.mycollab.module.project.domain.Version;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppUI;
 

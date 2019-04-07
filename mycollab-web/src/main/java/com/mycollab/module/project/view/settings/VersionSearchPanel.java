@@ -25,7 +25,7 @@ import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.event.BugVersionEvent;
 import com.mycollab.module.project.i18n.VersionI18nEnum;
 import com.mycollab.module.project.ui.components.ComponentUtils;
-import com.mycollab.module.tracker.domain.criteria.VersionSearchCriteria;
+import com.mycollab.module.project.domain.criteria.VersionSearchCriteria;
 import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.HeaderWithIcon;

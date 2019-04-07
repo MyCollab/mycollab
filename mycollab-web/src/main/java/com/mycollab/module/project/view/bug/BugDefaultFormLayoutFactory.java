@@ -25,8 +25,8 @@ import com.mycollab.form.view.builder.type.DynaForm;
 import com.mycollab.form.view.builder.type.DynaSection;
 import com.mycollab.module.project.i18n.BugI18nEnum;
 import com.mycollab.module.project.i18n.MilestoneI18nEnum;
-import com.mycollab.module.tracker.domain.BugWithBLOBs;
-import com.mycollab.module.tracker.domain.SimpleBug;
+import com.mycollab.module.project.domain.BugWithBLOBs;
+import com.mycollab.module.project.domain.SimpleBug;
 
 /**
  * @author MyCollab Ltd.

@@ -147,12 +147,12 @@
                  m_prj_task.originalEstimate, m_prj_task.remainEstimate,
                  m_prj_task.milestoneId, m_prj_task.createdTime, m_prj_task.lastUpdatedTime, m_prj_task.assignUser, m_prj_task.sAccountId, m_prj_task.parentTaskId,
                  m_prj_milestone.name AS milestoneName, m_prj_project.name AS projectName, m_prj_project.shortname AS projectShortname, m_prj_task.status,
-                 m_prj_task.createdUser, m_prj_task.taskkey,
+                 m_prj_task.createdUser, m_prj_ticket_key.ticketKey AS key,
                  s_user.avatarId AS assignUserAvatarId,
                  concat(s_user.firstname, ' ', s_user.lastname) AS assignUserFullName,
                  log_user.avatarId AS logByAvatarId,
                  concat(log_user.firstname, ' ', log_user.lastname) AS logByFullName,
-                 parentTask.name AS parentTaskName, parentTask.taskkey AS parentTaskKey,
+                 parentTask.name AS parentTaskName, NULL AS parentTaskKey,
                  (SELECT count(*)
                     FROM m_comment
                     WHERE m_comment.type='Project-Task' AND m_comment.typeId=m_prj_task.id) AS numComments,
@@ -170,6 +170,7 @@
               LEFT OUTER JOIN m_prj_milestone ON (m_prj_milestone.id = m_prj_task.milestoneId)
               LEFT OUTER JOIN s_user ON (s_user.username = m_prj_task.assignUser)
               LEFT OUTER JOIN s_user AS log_user ON (log_user.username = m_prj_task.createdUser)
+              LEFT OUTER JOIN m_prj_ticket_key ON (m_prj_task.id = m_prj_ticket_key.ticketId AND m_prj_ticket_key.ticketType = 'Project-Task')
               LEFT OUTER JOIN m_prj_task AS parentTask ON (m_prj_task.parentTaskId = parentTask.id)
         ]]>
     </sql>
@@ -189,7 +190,7 @@
     <select id="findByProjectAndTaskKey" parameterType="map" resultMap="TaskResult" lang="velocity">
         <include refid="selectTask"/>
         WHERE m_prj_project.shortname = @{prjShortName}
-            AND m_prj_task.taskkey = @{taskkey}
+            AND m_prj_ticket_key.ticketKey = @{key}
             AND m_prj_task.sAccountId = @{sAccountId}
     </select>
 
@@ -229,12 +230,6 @@
         #trimext("WHERE" "AND|OR")
             <include refid="querySearchCriteria"/>
         #end
-    </select>
-
-    <select id="getMaxKey" parameterType="java.lang.Integer" resultType="java.lang.Integer" lang="velocity">
-        SELECT MAX(taskkey)
-        FROM m_prj_task
-        WHERE m_prj_task.projectId=@{projectId,jdbcType=NUMERIC}
     </select>
 
     <select id="getPrioritySummary" parameterType="com.mycollab.module.project.domain.criteria.TaskSearchCriteria"

@@ -27,9 +27,9 @@ import com.mycollab.module.project.ProjectLinkGenerator
 import com.mycollab.module.project.ProjectTypeConstants
 import com.mycollab.module.project.domain.ProjectRelayEmailNotification
 import com.mycollab.module.project.i18n.VersionI18nEnum
-import com.mycollab.module.tracker.domain.SimpleVersion
-import com.mycollab.module.tracker.domain.Version
-import com.mycollab.module.tracker.service.VersionService
+import com.mycollab.module.project.domain.SimpleVersion
+import com.mycollab.module.project.domain.Version
+import com.mycollab.module.project.service.VersionService
 import com.mycollab.module.user.AccountLinkGenerator
 import com.mycollab.schedule.email.ItemFieldMapper
 import com.mycollab.schedule.email.MailContext

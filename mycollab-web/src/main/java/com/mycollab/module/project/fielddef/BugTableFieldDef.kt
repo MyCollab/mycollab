@@ -21,7 +21,7 @@ import com.mycollab.common.i18n.GenericI18Enum
 import com.mycollab.module.project.i18n.BugI18nEnum
 import com.mycollab.module.project.i18n.MilestoneI18nEnum
 import com.mycollab.module.project.i18n.TimeTrackingI18nEnum
-import com.mycollab.module.tracker.domain.BugWithBLOBs
+import com.mycollab.module.project.domain.BugWithBLOBs
 import com.mycollab.vaadin.web.ui.WebUIConstants
 
 /**

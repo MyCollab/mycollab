@@ -30,9 +30,9 @@ import com.mycollab.module.project.ProjectLinkGenerator
 import com.mycollab.module.project.ProjectTypeConstants
 import com.mycollab.module.project.domain.ProjectRelayEmailNotification
 import com.mycollab.module.project.i18n.ComponentI18nEnum
-import com.mycollab.module.tracker.domain.Component.Field
-import com.mycollab.module.tracker.domain.SimpleComponent
-import com.mycollab.module.tracker.service.ComponentService
+import com.mycollab.module.project.domain.Component.Field
+import com.mycollab.module.project.domain.SimpleComponent
+import com.mycollab.module.project.service.ComponentService
 import com.mycollab.module.user.AccountLinkGenerator
 import com.mycollab.module.user.service.UserService
 import com.mycollab.schedule.email.ItemFieldMapper

@@ -39,9 +39,7 @@ import javax.sql.DataSource
  * @since 4.6.0
  */
 @Configuration
-class DefaultScheduleConfiguration(private val dataSource: DataSource,
-                                   private val applicationContext: ApplicationContext,
-                                   private val deploymentMode: IDeploymentMode) {
+class DefaultScheduleConfiguration {
 
     @Bean
     fun projectSendRelayNotificationEmailJob(): JobDetailFactoryBean {

@@ -16,8 +16,7 @@
  */
 package com.mycollab.module.project.view.service
 
-import com.mycollab.module.tracker.domain.SimpleBug
-import com.mycollab.vaadin.mvp.CacheableComponent
+import com.mycollab.module.project.domain.SimpleBug
 import com.vaadin.ui.AbstractComponent
 
 /**

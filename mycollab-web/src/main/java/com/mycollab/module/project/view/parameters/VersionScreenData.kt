@@ -16,8 +16,8 @@
  */
 package com.mycollab.module.project.view.parameters
 
-import com.mycollab.module.tracker.domain.Version
-import com.mycollab.module.tracker.domain.criteria.VersionSearchCriteria
+import com.mycollab.module.project.domain.Version
+import com.mycollab.module.project.domain.criteria.VersionSearchCriteria
 import com.mycollab.vaadin.mvp.ScreenData
 
 /**

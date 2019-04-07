@@ -31,7 +31,7 @@ import com.mycollab.module.project.view.milestone.MilestoneListSelect;
 import com.mycollab.module.project.view.settings.component.ComponentListSelect;
 import com.mycollab.module.project.view.settings.component.ProjectMemberListSelect;
 import com.mycollab.module.project.view.settings.component.VersionListSelect;
-import com.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
+import com.mycollab.module.project.domain.criteria.BugSearchCriteria;
 import com.mycollab.shell.event.ShellEvent;
 import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.vaadin.UserUIContext;

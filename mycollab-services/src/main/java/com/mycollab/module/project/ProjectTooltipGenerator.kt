@@ -32,13 +32,10 @@ import com.mycollab.module.page.domain.Page
 import com.mycollab.module.project.domain.*
 import com.mycollab.module.project.i18n.*
 import com.mycollab.module.project.i18n.OptionI18nEnum.*
+import com.mycollab.module.project.service.BugService
 import com.mycollab.module.project.service.MilestoneService
 import com.mycollab.module.project.service.ProjectTaskService
 import com.mycollab.module.project.service.RiskService
-import com.mycollab.module.tracker.domain.SimpleBug
-import com.mycollab.module.tracker.domain.SimpleComponent
-import com.mycollab.module.tracker.domain.Version
-import com.mycollab.module.tracker.service.BugService
 import com.mycollab.module.user.AccountLinkGenerator
 import com.mycollab.spring.AppContextUtil
 import org.jsoup.Jsoup

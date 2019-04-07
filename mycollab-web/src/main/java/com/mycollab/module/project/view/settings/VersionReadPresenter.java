@@ -16,7 +16,6 @@
  */
 package com.mycollab.module.project.view.settings;
 
-import com.mycollab.common.ModuleNameConstants;
 import com.mycollab.core.MyCollabException;
 import com.mycollab.db.arguments.NumberSearchField;
 import com.mycollab.module.project.CurrentProjectVariables;
@@ -25,11 +24,10 @@ import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.event.BugVersionEvent;
 import com.mycollab.module.project.view.ProjectBreadcrumb;
 import com.mycollab.module.project.view.ProjectView;
-import com.mycollab.module.tracker.domain.Version;
-import com.mycollab.module.tracker.domain.criteria.VersionSearchCriteria;
-import com.mycollab.module.tracker.service.VersionService;
+import com.mycollab.module.project.domain.Version;
+import com.mycollab.module.project.domain.criteria.VersionSearchCriteria;
+import com.mycollab.module.project.service.VersionService;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.spring.AppEventBus;
 import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.vaadin.UserUIContext;

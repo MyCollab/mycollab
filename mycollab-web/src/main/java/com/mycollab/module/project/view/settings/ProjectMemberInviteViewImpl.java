@@ -93,6 +93,8 @@ public class ProjectMemberInviteViewImpl extends AbstractVerticalPageView implem
         userAddLayout.addBody(informationLayout.getLayout());
         userAddLayout.addBottom(createBottomPanel());
         this.addComponent(userAddLayout);
+
+        roleComboBox.setDefaultValue();
     }
 
     private Layout createButtonControls() {

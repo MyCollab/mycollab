@@ -16,7 +16,7 @@
  */
 package com.mycollab.module.project.view.settings.component;
 
-import com.mycollab.module.tracker.domain.Version;
+import com.mycollab.module.project.domain.Version;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.mycollab.vaadin.ui.GenericBeanForm;
 import com.vaadin.data.HasValue;

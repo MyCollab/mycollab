@@ -21,7 +21,7 @@ import com.mycollab.module.project.i18n.ComponentI18nEnum;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.module.project.ui.components.AbstractEditItemComp;
 import com.mycollab.module.project.view.settings.component.ComponentEditFormFieldFactory;
-import com.mycollab.module.tracker.domain.Component;
+import com.mycollab.module.project.domain.Component;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.event.HasEditFormHandlers;
 import com.mycollab.vaadin.mvp.ViewComponent;

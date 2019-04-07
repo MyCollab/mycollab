@@ -169,7 +169,7 @@ public abstract class MultiSelectComp<T> extends CustomField<List<T>> {
     }
 
     public void setSelectedItems(List<T> selectedValues) {
-        this.selectedItems = selectedValues;
+        this.selectedItems =  (selectedValues!= null) ? selectedValues : new ArrayList<>();
         displaySelectedItems();
     }
 

@@ -29,10 +29,10 @@ import com.mycollab.module.project.event.TicketEvent;
 import com.mycollab.module.project.view.ProjectBreadcrumb;
 import com.mycollab.module.project.view.ProjectGenericPresenter;
 import com.mycollab.module.project.view.ProjectView;
-import com.mycollab.module.tracker.domain.BugWithBLOBs;
-import com.mycollab.module.tracker.domain.SimpleBug;
-import com.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
-import com.mycollab.module.tracker.service.BugService;
+import com.mycollab.module.project.domain.BugWithBLOBs;
+import com.mycollab.module.project.domain.SimpleBug;
+import com.mycollab.module.project.domain.criteria.BugSearchCriteria;
+import com.mycollab.module.project.service.BugService;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.EventBusFactory;
@@ -115,7 +115,7 @@ public class BugReadPresenter extends ProjectGenericPresenter<BugReadView> {
                 BugSearchCriteria searchCriteria = new BugSearchCriteria();
                 searchCriteria.setProjectId(NumberSearchField.equal(data.getProjectid()));
                 searchCriteria.addExtraField(BugSearchCriteria.p_bugkey.buildSearchField(SearchField.AND, GREATER_THAN.name(),
-                        data.getBugkey()));
+                        data.getKey()));
                 Integer nextId = bugService.getNextItemKey(searchCriteria);
                 if (nextId != null) {
                     EventBusFactory.getInstance().post(new BugEvent.GotoRead(this, nextId));
@@ -130,7 +130,7 @@ public class BugReadPresenter extends ProjectGenericPresenter<BugReadView> {
                 BugSearchCriteria searchCriteria = new BugSearchCriteria();
                 searchCriteria.setProjectId(NumberSearchField.equal(data.getProjectid()));
                 searchCriteria.addExtraField(BugSearchCriteria.p_bugkey.buildSearchField(SearchField.AND, LESS_THAN.name(),
-                        data.getBugkey()));
+                        data.getKey()));
                 Integer previousId = bugService.getPreviousItemKey(searchCriteria);
                 if (previousId != null) {
                     EventBusFactory.getInstance().post(new BugEvent.GotoRead(this, previousId));
