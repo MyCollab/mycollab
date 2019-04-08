@@ -115,7 +115,7 @@ public class BugReadPresenter extends ProjectGenericPresenter<BugReadView> {
                 BugSearchCriteria searchCriteria = new BugSearchCriteria();
                 searchCriteria.setProjectId(NumberSearchField.equal(data.getProjectid()));
                 searchCriteria.addExtraField(BugSearchCriteria.p_bugkey.buildSearchField(SearchField.AND, GREATER_THAN.name(),
-                        data.getKey()));
+                        data.getTicketKey()));
                 Integer nextId = bugService.getNextItemKey(searchCriteria);
                 if (nextId != null) {
                     EventBusFactory.getInstance().post(new BugEvent.GotoRead(this, nextId));
@@ -130,7 +130,7 @@ public class BugReadPresenter extends ProjectGenericPresenter<BugReadView> {
                 BugSearchCriteria searchCriteria = new BugSearchCriteria();
                 searchCriteria.setProjectId(NumberSearchField.equal(data.getProjectid()));
                 searchCriteria.addExtraField(BugSearchCriteria.p_bugkey.buildSearchField(SearchField.AND, LESS_THAN.name(),
-                        data.getKey()));
+                        data.getTicketKey()));
                 Integer previousId = bugService.getPreviousItemKey(searchCriteria);
                 if (previousId != null) {
                     EventBusFactory.getInstance().post(new BugEvent.GotoRead(this, previousId));

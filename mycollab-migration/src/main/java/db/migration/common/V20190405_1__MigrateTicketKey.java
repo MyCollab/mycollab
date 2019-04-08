@@ -16,9 +16,10 @@ public class V20190405_1__MigrateTicketKey extends BaseJavaMigration {
         JdbcTemplate jdbcTemplate = new JdbcTemplate(new SingleConnectionDataSource(context.getConnection(), true));
         SimpleJdbcInsert insertOp = new SimpleJdbcInsert(jdbcTemplate).withTableName("m_prj_ticket_key");
         List<Integer> projectIds = jdbcTemplate.queryForList("SELECT id FROM m_prj_project", Integer.class);
-        for (Integer projectId: projectIds) {
+        for (Integer projectId : projectIds) {
             AtomicInteger key = new AtomicInteger(1);
-            List<Integer> bugIds = jdbcTemplate.queryForList("SELECT id FROM m_prj_bug", Integer.class);
+            List<Integer> bugIds = jdbcTemplate.queryForList("SELECT id FROM m_prj_bug WHERE projectId=?",
+                    new Object[]{projectId}, Integer.class);
 
             bugIds.forEach(bugId -> {
                 Map<String, Object> parameters = new HashMap<>(3);
@@ -29,7 +30,8 @@ public class V20190405_1__MigrateTicketKey extends BaseJavaMigration {
                 insertOp.execute(parameters);
             });
 
-            List<Integer> taskIds = jdbcTemplate.queryForList("SELECT id FROM m_prj_task", Integer.class);
+            List<Integer> taskIds = jdbcTemplate.queryForList("SELECT id FROM m_prj_task WHERE projectId=?",
+                    new Object[]{projectId}, Integer.class);
             taskIds.forEach(taskId -> {
                 Map<String, Object> parameters = new HashMap<>(3);
                 parameters.put("projectId", projectId);

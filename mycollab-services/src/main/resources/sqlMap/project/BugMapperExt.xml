@@ -348,7 +348,7 @@
                  (SELECT count(*)
                     FROM m_comment
                     WHERE m_comment.type='Project-Bug' AND m_comment.typeId=m_prj_bug.id) AS numComments,
-                 m_prj_bug.remainEstimate, m_prj_bug.milestoneId, m_prj_ticket_key.ticketKey AS key, milestone.name as milestoneName,
+                 m_prj_bug.remainEstimate, m_prj_bug.milestoneId, m_prj_ticket_key.ticketKey AS ticketKey, milestone.name as milestoneName,
                  concat(assignuserTbl.firstname, ' ', assignuserTbl.lastname) as assignuserFullName,
                  assignuserTbl.avatarId AS assignUserAvatarId,
                  concat(loguserTbl.firstname, ' ', loguserTbl.lastname) as loguserFullName,

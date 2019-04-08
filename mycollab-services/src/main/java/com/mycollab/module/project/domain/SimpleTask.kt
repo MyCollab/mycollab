@@ -42,7 +42,7 @@ data class SimpleTask(var projectName: String? = null,
                       var numComments: Int? = null,
                       var comment: String? = null) : Task() {
 
-    var key:Int? = null
+    var ticketKey:Int? = null
 
     var assignUserFullName: String = ""
         get() = if (StringUtils.isBlank(field)) {

@@ -67,7 +67,7 @@ class SimpleBug : BugWithBLOBs() {
     val isOverdue: Boolean
         get() = isOverdue(this)
 
-    var key:Int? = null
+    var ticketKey:Int? = null
 
     val dueDateRoundPlusOne: LocalDate?
         get() {

@@ -143,15 +143,13 @@
     <sql id="selectTask">
         <![CDATA[
             SELECT m_prj_task.id, m_prj_task.name, m_prj_task.percentagecomplete, m_prj_task.startDate, m_prj_task.endDate, m_prj_task.priority,
-                 m_prj_task.duration, m_prj_task.isestimated, m_prj_task.projectId, m_prj_task.dueDate, m_prj_task.description, m_prj_task.taskindex,
+                 m_prj_task.duration, m_prj_task.isestimated, m_prj_task.projectId, m_prj_task.dueDate, m_prj_task.description,
                  m_prj_task.originalEstimate, m_prj_task.remainEstimate,
                  m_prj_task.milestoneId, m_prj_task.createdTime, m_prj_task.lastUpdatedTime, m_prj_task.assignUser, m_prj_task.sAccountId, m_prj_task.parentTaskId,
                  m_prj_milestone.name AS milestoneName, m_prj_project.name AS projectName, m_prj_project.shortname AS projectShortname, m_prj_task.status,
-                 m_prj_task.createdUser, m_prj_ticket_key.ticketKey AS key,
-                 s_user.avatarId AS assignUserAvatarId,
+                 m_prj_task.createdUser, m_prj_ticket_key.ticketKey AS ticketKey, s_user.avatarId AS assignUserAvatarId,
                  concat(s_user.firstname, ' ', s_user.lastname) AS assignUserFullName,
-                 log_user.avatarId AS logByAvatarId,
-                 concat(log_user.firstname, ' ', log_user.lastname) AS logByFullName,
+                 log_user.avatarId AS logByAvatarId, concat(log_user.firstname, ' ', log_user.lastname) AS logByFullName,
                  parentTask.name AS parentTaskName, NULL AS parentTaskKey,
                  (SELECT count(*)
                     FROM m_comment
@@ -160,11 +158,17 @@
                     FROM m_prj_task AS subtask_tbl
                     WHERE subtask_tbl.parentTaskId = m_prj_task.id
                  ) AS numSubTasks,
-                 (SELECT COALESCE(SUM(m_prj_time_logging.logValue), 0) FROM m_prj_time_logging WHERE m_prj_time_logging.projectId = m_prj_task.projectId
-                     AND m_prj_time_logging.type='Project-Task' AND m_prj_time_logging.typeId=m_prj_task.id AND m_prj_time_logging.isBillable = 1) AS billableHours,
-                 (SELECT COALESCE(SUM(m_prj_time_logging.logValue), 0) FROM m_prj_time_logging WHERE m_prj_time_logging.projectId = m_prj_task.projectId
-                     AND m_prj_time_logging.type='Project-Task' AND m_prj_time_logging.typeId=m_prj_task.id AND m_prj_time_logging.isBillable = 0) AS nonBillableHours,
-                 (SELECT COUNT(*) FROM m_monitor_item WHERE m_monitor_item.typeId = m_prj_task.id AND m_monitor_item.type = 'Project-Task') AS numFollowers
+                 (SELECT COALESCE(SUM(m_prj_time_logging.logValue), 0)
+                     FROM m_prj_time_logging
+                     WHERE m_prj_time_logging.projectId = m_prj_task.projectId
+                         AND m_prj_time_logging.type='Project-Task' AND m_prj_time_logging.typeId=m_prj_task.id AND m_prj_time_logging.isBillable = 1) AS billableHours,
+                 (SELECT COALESCE(SUM(m_prj_time_logging.logValue), 0)
+                     FROM m_prj_time_logging
+                     WHERE m_prj_time_logging.projectId = m_prj_task.projectId
+                         AND m_prj_time_logging.type='Project-Task' AND m_prj_time_logging.typeId=m_prj_task.id AND m_prj_time_logging.isBillable = 0) AS nonBillableHours,
+                 (SELECT COUNT(*)
+                     FROM m_monitor_item
+                     WHERE m_monitor_item.typeId = m_prj_task.id AND m_monitor_item.type = 'Project-Task') AS numFollowers
             FROM m_prj_task
               LEFT OUTER JOIN m_prj_project ON (m_prj_task.projectId = m_prj_project.id)
               LEFT OUTER JOIN m_prj_milestone ON (m_prj_milestone.id = m_prj_task.milestoneId)

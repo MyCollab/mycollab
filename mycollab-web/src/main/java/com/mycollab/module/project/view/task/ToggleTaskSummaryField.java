@@ -192,7 +192,7 @@ class ToggleTaskSummaryField extends AbstractToggleSummaryField {
 
     private String buildTaskLink() {
         String linkName = StringUtils.trim(task.getName(), maxLength, true);
-        A taskLink = new A().setId("tag" + TooltipHelper.TOOLTIP_ID).setHref(ProjectLinkGenerator.generateTaskPreviewLink(task.getKey(),
+        A taskLink = new A().setId("tag" + TooltipHelper.TOOLTIP_ID).setHref(ProjectLinkGenerator.generateTaskPreviewLink(task.getTicketKey(),
                 CurrentProjectVariables.getShortName())).appendText(linkName).setStyle("display:inline");
         Div resultDiv = new DivLessFormatter().appendChild(taskLink);
         if (task.isOverdue()) {
