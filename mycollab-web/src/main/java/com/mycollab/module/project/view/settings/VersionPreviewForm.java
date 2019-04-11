@@ -52,7 +52,7 @@ import org.vaadin.viritin.layouts.MVerticalLayout;
 public class VersionPreviewForm extends AdvancedPreviewBeanForm<Version> {
     @Override
     public void setBean(Version bean) {
-        setFormLayoutFactory(new DefaultDynaFormLayout(ProjectTypeConstants.BUG_VERSION,
+        setFormLayoutFactory(new DefaultDynaFormLayout(ProjectTypeConstants.VERSION,
                 VersionDefaultFormLayoutFactory.getForm(), Version.Field.name.name()));
         setBeanFormFieldFactory(new ReadFormFieldFactory(this));
         super.setBean(bean);

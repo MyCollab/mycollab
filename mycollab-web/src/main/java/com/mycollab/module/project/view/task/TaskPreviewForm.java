@@ -34,7 +34,7 @@ import com.mycollab.module.project.domain.criteria.TaskSearchCriteria;
 import com.mycollab.module.project.event.TaskEvent;
 import com.mycollab.module.project.i18n.OptionI18nEnum.Priority;
 import com.mycollab.module.project.i18n.TaskI18nEnum;
-import com.mycollab.module.project.service.ProjectTaskService;
+import com.mycollab.module.project.service.TaskService;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.module.project.ui.form.ProjectFormAttachmentDisplayField;
 import com.mycollab.module.project.ui.form.ProjectItemViewField;
@@ -120,8 +120,8 @@ public class TaskPreviewForm extends AdvancedPreviewBeanForm<SimpleTask> {
                     @Override
                     @Subscribe
                     public void handle(TaskEvent.NewTaskAdded event) {
-                        final ProjectTaskService projectTaskService = AppContextUtil.getSpringBean(ProjectTaskService.class);
-                        SimpleTask task = projectTaskService.findById(event.getData(), AppUI.getAccountId());
+                        final TaskService taskService = AppContextUtil.getSpringBean(TaskService.class);
+                        SimpleTask task = taskService.findById(event.getData(), AppUI.getAccountId());
                         if (task != null && tasksLayout != null) {
                             tasksLayout.addComponent(generateSubTaskContent(task), 0);
                         }
@@ -178,7 +178,7 @@ public class TaskPreviewForm extends AdvancedPreviewBeanForm<SimpleTask> {
                 contentLayout.addComponent(splitButton);
             }
 
-            ProjectTaskService taskService = AppContextUtil.getSpringBean(ProjectTaskService.class);
+            TaskService taskService = AppContextUtil.getSpringBean(TaskService.class);
             List<SimpleTask> subTasks = taskService.findSubTasks(beanItem.getId(), AppUI.getAccountId(),
                     new SearchCriteria.OrderField("createdTime", SearchCriteria.DESC));
             if (CollectionUtils.isNotEmpty(subTasks)) {
@@ -225,7 +225,7 @@ public class TaskPreviewForm extends AdvancedPreviewBeanForm<SimpleTask> {
 
             checkBox.addValueChangeListener(valueChangeEvent -> {
                 Boolean selectedFlag = checkBox.getValue();
-                ProjectTaskService taskService = AppContextUtil.getSpringBean(ProjectTaskService.class);
+                TaskService taskService = AppContextUtil.getSpringBean(TaskService.class);
                 if (selectedFlag) {
                     statusLbl.setValue(UserUIContext.getMessage(StatusI18nEnum.class, StatusI18nEnum.Closed.name()));
                     subTask.setStatus(StatusI18nEnum.Closed.name());
@@ -262,8 +262,8 @@ public class TaskPreviewForm extends AdvancedPreviewBeanForm<SimpleTask> {
             baseSearchCriteria.setHasParentTask(new BooleanSearchField(false));
 
             taskSearchPanel = new TaskSearchPanel(false);
-            DefaultBeanPagedList<ProjectTaskService, TaskSearchCriteria, SimpleTask> taskList = new DefaultBeanPagedList<>(
-                    AppContextUtil.getSpringBean(ProjectTaskService.class), new TaskRowRenderer(), 10);
+            DefaultBeanPagedList<TaskService, TaskSearchCriteria, SimpleTask> taskList = new DefaultBeanPagedList<>(
+                    AppContextUtil.getSpringBean(TaskService.class), new TaskRowRenderer(), 10);
             taskSearchPanel.addSearchHandler(criteria -> {
                 criteria.setProjectId(NumberSearchField.equal(CurrentProjectVariables.getProjectId()));
                 criteria.setHasParentTask(new BooleanSearchField(false));
@@ -282,8 +282,8 @@ public class TaskPreviewForm extends AdvancedPreviewBeanForm<SimpleTask> {
                         NotificationUtil.showErrorNotification(UserUIContext.getMessage(TaskI18nEnum.ERROR_CAN_NOT_ASSIGN_PARENT_TASK_TO_ITSELF));
                     } else {
                         item.setParenttaskid(parentTask.getId());
-                        ProjectTaskService projectTaskService = AppContextUtil.getSpringBean(ProjectTaskService.class);
-                        projectTaskService.updateWithSession(item, UserUIContext.getUsername());
+                        TaskService taskService = AppContextUtil.getSpringBean(TaskService.class);
+                        taskService.updateWithSession(item, UserUIContext.getUsername());
                         EventBusFactory.getInstance().post(new TaskEvent.NewTaskAdded(this, item.getId()));
                     }
 

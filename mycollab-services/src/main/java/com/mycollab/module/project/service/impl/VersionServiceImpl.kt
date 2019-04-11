@@ -54,7 +54,7 @@ class VersionServiceImpl(private val versionMapper: VersionMapper,
 
     companion object {
         init {
-            ClassInfoMap.put(VersionServiceImpl::class.java, ClassInfo(ModuleNameConstants.PRJ, ProjectTypeConstants.BUG_VERSION))
+            ClassInfoMap.put(VersionServiceImpl::class.java, ClassInfo(ModuleNameConstants.PRJ, ProjectTypeConstants.VERSION))
         }
     }
 }

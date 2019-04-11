@@ -38,7 +38,6 @@
     m_prj_ticket_relation*,
     m_prj_time_logging*,
     m_prj_version*,
-    m_tracker_related_bug*,
     s_account*,
     s_account_theme*,
     s_activitystream*,
@@ -631,9 +630,11 @@
 <!ATTLIST m_prj_ticket_relation
     id CDATA #REQUIRED
     ticketId CDATA #REQUIRED
+    ticketType CDATA #REQUIRED
     type CDATA #REQUIRED
     typeId CDATA #REQUIRED
-    ticketType CDATA #REQUIRED
+    rel CDATA #REQUIRED
+    comment CDATA #IMPLIED
 >
 
 <!ELEMENT m_prj_time_logging EMPTY>
@@ -670,15 +671,6 @@
     createdTime CDATA #IMPLIED
     status CDATA #IMPLIED
     prjKey CDATA #IMPLIED
->
-
-<!ELEMENT m_tracker_related_bug EMPTY>
-<!ATTLIST m_tracker_related_bug
-    id CDATA #REQUIRED
-    bugid CDATA #REQUIRED
-    relatedid CDATA #REQUIRED
-    relatetype CDATA #REQUIRED
-    comment CDATA #IMPLIED
 >
 
 <!ELEMENT s_account EMPTY>

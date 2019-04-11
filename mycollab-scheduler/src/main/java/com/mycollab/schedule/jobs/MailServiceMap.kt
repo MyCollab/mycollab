@@ -28,8 +28,8 @@ import com.mycollab.schedule.email.project.*
 object MailServiceMap {
     private val serviceMap2 = mapOf(
             ProjectTypeConstants.BUG to BugRelayEmailNotificationAction::class.java,
-            ProjectTypeConstants.BUG_COMPONENT to ComponentRelayEmailNotificationAction::class.java,
-            ProjectTypeConstants.BUG_VERSION to VersionRelayEmailNotificationAction::class.java,
+            ProjectTypeConstants.COMPONENT to ComponentRelayEmailNotificationAction::class.java,
+            ProjectTypeConstants.VERSION to VersionRelayEmailNotificationAction::class.java,
             ProjectTypeConstants.MESSAGE to MessageRelayEmailNotificationAction::class.java,
             ProjectTypeConstants.MILESTONE to ProjectMilestoneRelayEmailNotificationAction::class.java,
             ProjectTypeConstants.PAGE to ProjectPageRelayEmailNotificationAction::class.java,

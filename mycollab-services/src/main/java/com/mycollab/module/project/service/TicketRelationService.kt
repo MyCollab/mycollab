@@ -17,8 +17,11 @@
 package com.mycollab.module.project.service
 
 import com.mycollab.cache.IgnoreCacheClass
+import com.mycollab.db.persistence.service.ICrudService
 import com.mycollab.db.persistence.service.IService
 import com.mycollab.module.project.domain.Component
+import com.mycollab.module.project.domain.SimpleTicketRelation
+import com.mycollab.module.project.domain.TicketRelation
 import com.mycollab.module.project.domain.Version
 
 /**
@@ -26,7 +29,7 @@ import com.mycollab.module.project.domain.Version
  * @since 1.0
  */
 @IgnoreCacheClass
-interface TicketRelationService : IService {
+interface TicketRelationService : ICrudService<Int, TicketRelation>, IService {
 
     fun saveAffectedVersionsOfTicket(ticketId: Int, ticketType: String, versions: List<Version>?)
 
@@ -39,4 +42,8 @@ interface TicketRelationService : IService {
     fun updateFixedVersionsOfTicket(ticketId: Int, ticketType: String, versions: List<Version>?)
 
     fun updateComponentsOfTicket(ticketId: Int, ticketType: String, components: List<Component>?)
+
+    fun findRelatedTickets(ticketId:Int, ticketType:String): List<SimpleTicketRelation>
+
+    fun removeRelationsByRel(ticketId: Int, ticketType: String, rel:String)
 }

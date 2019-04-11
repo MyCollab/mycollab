@@ -63,7 +63,7 @@ public class VersionReadViewImpl extends AbstractPreviewItemComp<Version> implem
 
     public VersionReadViewImpl() {
         super(UserUIContext.getMessage(VersionI18nEnum.DETAIL),
-                ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG_VERSION));
+                ProjectAssetsManager.getAsset(ProjectTypeConstants.VERSION));
     }
 
     @Override
@@ -73,7 +73,7 @@ public class VersionReadViewImpl extends AbstractPreviewItemComp<Version> implem
 
     @Override
     protected void initRelatedComponents() {
-        activityComponent = new ProjectActivityComponent(ProjectTypeConstants.BUG_VERSION,
+        activityComponent = new ProjectActivityComponent(ProjectTypeConstants.VERSION,
                 CurrentProjectVariables.getProjectId());
 
         ProjectView projectView = UIUtils.getRoot(this, ProjectView.class);
@@ -98,7 +98,7 @@ public class VersionReadViewImpl extends AbstractPreviewItemComp<Version> implem
         dateInfoComp.displayEntryDateTime(beanItem);
 
         if (tagViewComponent != null) {
-            tagViewComponent.display(ProjectTypeConstants.BUG_VERSION, beanItem.getId());
+            tagViewComponent.display(ProjectTypeConstants.VERSION, beanItem.getId());
         }
 
         if (versionTimeLogComp != null) {
@@ -174,7 +174,7 @@ public class VersionReadViewImpl extends AbstractPreviewItemComp<Version> implem
 
     @Override
     protected String getType() {
-        return ProjectTypeConstants.BUG_VERSION;
+        return ProjectTypeConstants.VERSION;
     }
 
 }

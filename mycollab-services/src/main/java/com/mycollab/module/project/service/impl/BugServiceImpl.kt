@@ -130,14 +130,9 @@ class BugServiceImpl(private val bugMapper: BugMapper,
     override fun getComponentDefectsSummary(criteria: BugSearchCriteria): List<GroupItem> =
             bugMapperExt.getComponentDefectsSummary(criteria)
 
-    override fun getVersionDefectsSummary(criteria: BugSearchCriteria): List<GroupItem> =
-            bugMapperExt.getVersionDefectsSummary(criteria)
+    override fun getVersionDefectsSummary(criteria: BugSearchCriteria): List<GroupItem> = bugMapperExt.getVersionDefectsSummary(criteria)
 
-    override fun findById(bugId: Int, sAccountId: Int): SimpleBug? =
-            bugMapperExt.getBugById(bugId)
-
-    override fun findByProjectAndBugKey(bugKey: Int, projectShortName: String, sAccountId: Int): SimpleBug? =
-            bugMapperExt.findByProjectAndBugKey(bugKey, projectShortName, sAccountId)
+    override fun findById(bugId: Int, sAccountId: Int): SimpleBug? = bugMapperExt.getBugById(bugId)
 
     override fun massUpdateBugIndexes(mapIndexes: List<Map<String, Int>>, @CacheKey sAccountId: Int) {
         val jdbcTemplate = JdbcTemplate(dataSource)

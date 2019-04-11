@@ -17,18 +17,15 @@
 package com.mycollab.module.project.ui.format
 
 import com.mycollab.common.i18n.GenericI18Enum
-import com.mycollab.module.project.CurrentProjectVariables
 import com.mycollab.module.project.ProjectLinkBuilder
 import com.mycollab.module.project.ProjectTypeConstants
-import com.mycollab.module.project.domain.SimpleTask
-import com.mycollab.module.project.service.ProjectTaskService
+import com.mycollab.module.project.service.TaskService
 import com.mycollab.module.user.domain.SimpleUser
 import com.mycollab.spring.AppContextUtil
 import com.mycollab.vaadin.AppUI
 import com.mycollab.vaadin.UserUIContext
 import com.mycollab.vaadin.ui.formatter.HistoryFieldFormat
 import org.apache.commons.lang3.StringUtils
-import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
 /**
@@ -47,7 +44,7 @@ class TaskHistoryFieldFormat : HistoryFieldFormat {
 
         try {
             val taskId = Integer.parseInt(value)
-            val taskService = AppContextUtil.getSpringBean(ProjectTaskService::class.java)
+            val taskService = AppContextUtil.getSpringBean(TaskService::class.java)
             val task = taskService.findById(taskId, AppUI.accountId)
 
             return if (task != null) {

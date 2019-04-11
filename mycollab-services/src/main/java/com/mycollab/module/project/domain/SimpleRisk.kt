@@ -57,6 +57,8 @@ class SimpleRisk : Risk() {
             return StatusI18nEnum.Open.name == status && duedate != null && duedate.isBefore(LocalDate.now())
         }
 
+    var ticketKey: Int? = null
+
     enum class Field {
         assignedToUserFullName;
 

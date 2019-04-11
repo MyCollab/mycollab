@@ -23,15 +23,14 @@ import com.mycollab.core.utils.BeanUtility;
 import com.mycollab.form.view.LayoutType;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectTypeConstants;
+import com.mycollab.module.project.domain.SimpleBug;
 import com.mycollab.module.project.event.BugEvent;
 import com.mycollab.module.project.i18n.BugI18nEnum;
 import com.mycollab.module.project.i18n.OptionI18nEnum.BugResolution;
+import com.mycollab.module.project.service.BugService;
+import com.mycollab.module.project.service.TicketRelationService;
 import com.mycollab.module.project.view.settings.component.ProjectMemberSelectionField;
 import com.mycollab.module.project.view.settings.component.VersionMultiSelectField;
-import com.mycollab.module.project.domain.SimpleBug;
-import com.mycollab.module.project.service.TicketRelationService;
-import com.mycollab.module.tracker.service.BugRelationService;
-import com.mycollab.module.project.service.BugService;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.EventBusFactory;
@@ -58,13 +57,14 @@ import org.vaadin.viritin.layouts.MWindow;
 import java.time.LocalDateTime;
 
 import static com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
+import static com.mycollab.module.project.i18n.OptionI18nEnum.BugRelation.Duplicated;
 
 /**
  * @author MyCollab Ltd.
  * @since 1.0
  */
 public class ReOpenWindow extends MWindow {
-    private final SimpleBug bug;
+    private SimpleBug bug;
     private VersionMultiSelectField affectedVersionsSelect;
 
     public ReOpenWindow(final SimpleBug bugValue) {
@@ -110,10 +110,9 @@ public class ReOpenWindow extends MWindow {
 
                         TicketRelationService ticketRelationService = AppContextUtil.getSpringBean(TicketRelationService.class);
                         ticketRelationService.updateAffectedVersionsOfTicket(bug.getId(), ProjectTypeConstants.BUG, affectedVersionsSelect.getSelectedItems());
-                        ticketRelationService.updateFixedVersionsOfTicket(bug.getId(),ProjectTypeConstants.BUG , null);
+                        ticketRelationService.updateFixedVersionsOfTicket(bug.getId(), ProjectTypeConstants.BUG, null);
 
-                        BugRelationService bugRelationService = AppContextUtil.getSpringBean(BugRelationService.class);
-                        bugRelationService.removeDuplicatedBugs(bug.getId());
+                        ticketRelationService.removeRelationsByRel(bug.getId(), ProjectTypeConstants.BUG, Duplicated.name());
 
                         // Save comment
                         String commentValue = commentArea.getValue();

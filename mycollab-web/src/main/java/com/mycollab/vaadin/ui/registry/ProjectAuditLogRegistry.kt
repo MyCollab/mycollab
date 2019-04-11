@@ -34,8 +34,8 @@ class ProjectAuditLogRegistry(private val auditLogRegistry: AuditLogRegistry) : 
         auditLogRegistry.registerAuditLogHandler(ProjectTypeConstants.TASK, TaskFieldFormatter.instance())
         auditLogRegistry.registerAuditLogHandler(ProjectTypeConstants.MILESTONE, MilestoneFieldFormatter.instance())
         auditLogRegistry.registerAuditLogHandler(ProjectTypeConstants.RISK, RiskFieldFormatter.instance())
-        auditLogRegistry.registerAuditLogHandler(ProjectTypeConstants.BUG_COMPONENT, ComponentFieldFormatter.instance())
-        auditLogRegistry.registerAuditLogHandler(ProjectTypeConstants.BUG_VERSION, VersionFieldFormatter.instance())
+        auditLogRegistry.registerAuditLogHandler(ProjectTypeConstants.COMPONENT, ComponentFieldFormatter.instance())
+        auditLogRegistry.registerAuditLogHandler(ProjectTypeConstants.VERSION, VersionFieldFormatter.instance())
         auditLogRegistry.registerAuditLogHandler(ProjectTypeConstants.INVOICE, InvoiceFieldFormatter.instance())
     }
 }

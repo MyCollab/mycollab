@@ -67,8 +67,8 @@ class ProjectSendingRelayEmailNotificationJob : GenericQuartzJobBean() {
         val ex = RelayEmailNotificationExample()
         ex.createCriteria().andTypeIn(listOf(ProjectTypeConstants.BUG, ProjectTypeConstants.TASK,
                 ProjectTypeConstants.MESSAGE, ProjectTypeConstants.MILESTONE,
-                ProjectTypeConstants.RISK, ProjectTypeConstants.BUG_COMPONENT,
-                ProjectTypeConstants.BUG_VERSION))
+                ProjectTypeConstants.RISK, ProjectTypeConstants.COMPONENT,
+                ProjectTypeConstants.VERSION))
         relayNotificationMapper.deleteByExample(ex)
     }
 }

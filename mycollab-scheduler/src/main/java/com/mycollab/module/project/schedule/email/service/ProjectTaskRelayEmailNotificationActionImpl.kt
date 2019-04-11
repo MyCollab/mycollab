@@ -39,7 +39,7 @@ import com.mycollab.module.project.i18n.OptionI18nEnum.Priority
 import com.mycollab.module.project.i18n.TaskI18nEnum
 import com.mycollab.module.project.service.MilestoneService
 import com.mycollab.module.project.service.ProjectNotificationSettingService
-import com.mycollab.module.project.service.ProjectTaskService
+import com.mycollab.module.project.service.TaskService
 import com.mycollab.module.user.AccountLinkGenerator
 import com.mycollab.module.user.domain.SimpleUser
 import com.mycollab.module.user.service.UserService
@@ -63,7 +63,7 @@ import org.springframework.stereotype.Component
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
 class ProjectTaskRelayEmailNotificationActionImpl : SendMailToFollowersAction<SimpleTask>(), ProjectTaskRelayEmailNotificationAction {
 
-    @Autowired private lateinit var projectTaskService: ProjectTaskService
+    @Autowired private lateinit var projectTaskService: TaskService
 
     @Autowired private lateinit var projectNotificationService: ProjectNotificationSettingService
 
@@ -73,7 +73,7 @@ class ProjectTaskRelayEmailNotificationActionImpl : SendMailToFollowersAction<Si
         val emailNotification = context.emailNotification
 
         val summary = "#${bean!!.ticketKey} - ${bean!!.name}"
-        val summaryLink = ProjectLinkGenerator.generateTaskPreviewFullLink(siteUrl, bean!!.ticketKey, bean!!.projectShortname!!)
+        val summaryLink = ProjectLinkGenerator.generateTaskPreviewFullLink(siteUrl, bean!!.projectShortname!!, bean!!.ticketKey)
 
         val avatarId = if (projectMember != null) projectMember!!.memberAvatarId else ""
         val userAvatar = LinkUtils.newAvatar(avatarId)
@@ -122,7 +122,7 @@ class ProjectTaskRelayEmailNotificationActionImpl : SendMailToFollowersAction<Si
 
     private fun userLink(context: MailContext<SimpleTask>) = A(AccountLinkGenerator.generateUserLink(context.user.username)).appendText(context.changeByUserFullName).write()
 
-    private fun taskLink() = A(ProjectLinkGenerator.generateTaskPreviewLink(bean!!.ticketKey, bean!!.projectShortname!!)).appendText(getItemName()).write()
+    private fun taskLink() = A(ProjectLinkGenerator.generateTaskPreviewLink(bean!!.projectShortname!!, bean!!.ticketKey)).appendText(getItemName()).write()
 
     override fun getItemFieldMapper(): ItemFieldMapper = mapper
 
@@ -215,8 +215,7 @@ class ProjectTaskRelayEmailNotificationActionImpl : SendMailToFollowersAction<Si
             val task = context.wrappedBean as SimpleTask
             return if (task.parenttaskid != null) {
                 val img = Text(ProjectResources.getFontIconHtml(ProjectTypeConstants.TASK))
-                val parentTaskLink = ProjectLinkGenerator.generateTaskPreviewFullLink(context.siteUrl, task.parentTaskKey,
-                        task.projectShortname!!)
+                val parentTaskLink = ProjectLinkGenerator.generateTaskPreviewFullLink(context.siteUrl, task.projectShortname!!, task.parentTaskKey)
                 val link = FormatUtils.newA(parentTaskLink, task.name)
                 FormatUtils.newLink(img, link).write()
             } else Span().write()
@@ -228,11 +227,11 @@ class ProjectTaskRelayEmailNotificationActionImpl : SendMailToFollowersAction<Si
             }
 
             val taskId = value.toInt()
-            val taskService = AppContextUtil.getSpringBean(ProjectTaskService::class.java)
+            val taskService = AppContextUtil.getSpringBean(TaskService::class.java)
             val task = taskService.findById(taskId, context.saccountid)
             return if (task != null) {
                 val img = Text(ProjectResources.getFontIconHtml(ProjectTypeConstants.TASK))
-                val taskListLink = ProjectLinkGenerator.generateTaskPreviewFullLink(context.siteUrl, task.ticketKey, task.projectShortname!!)
+                val taskListLink = ProjectLinkGenerator.generateTaskPreviewFullLink(context.siteUrl, task.projectShortname!!, task.ticketKey)
                 val link = FormatUtils.newA(taskListLink, task.name)
                 return FormatUtils.newLink(img, link).write()
             } else value

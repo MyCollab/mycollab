@@ -39,7 +39,7 @@ public class VersionListNoItemView extends ProjectListNoItemView {
 
     @Override
     protected VaadinIcons viewIcon() {
-        return ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG_VERSION);
+        return ProjectAssetsManager.getAsset(ProjectTypeConstants.VERSION);
     }
 
     @Override

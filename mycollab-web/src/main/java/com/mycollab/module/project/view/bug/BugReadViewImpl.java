@@ -22,17 +22,17 @@ import com.mycollab.configuration.SiteConfiguration;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectRolePermissionCollections;
 import com.mycollab.module.project.ProjectTypeConstants;
+import com.mycollab.module.project.domain.SimpleBug;
+import com.mycollab.module.project.domain.SimpleTicketRelation;
 import com.mycollab.module.project.event.BugEvent;
 import com.mycollab.module.project.i18n.BugI18nEnum;
 import com.mycollab.module.project.i18n.OptionI18nEnum.BugRelation;
 import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
+import com.mycollab.module.project.service.BugService;
+import com.mycollab.module.project.service.TicketRelationService;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.module.project.ui.components.*;
 import com.mycollab.module.project.view.ProjectView;
-import com.mycollab.module.project.domain.SimpleBug;
-import com.mycollab.module.tracker.domain.SimpleRelatedBug;
-import com.mycollab.module.tracker.service.BugRelationService;
-import com.mycollab.module.project.service.BugService;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.ApplicationEventListener;
@@ -50,8 +50,6 @@ import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
 import org.apache.commons.collections.CollectionUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
@@ -64,11 +62,10 @@ import static com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum.*;
  * @author MyCollab Ltd.
  * @since 1.0
  */
+// TODO: Revise the ticket relation
 @ViewComponent
 public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implements BugReadView {
     private static final long serialVersionUID = 1L;
-
-    private static final Logger LOG = LoggerFactory.getLogger(BugReadViewImpl.class);
 
     private ApplicationEventListener<BugEvent.BugChanged> bugChangedHandler = new
             ApplicationEventListener<BugEvent.BugChanged>() {
@@ -247,28 +244,28 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
                 toggleBugSummaryField.addLabelStyleNames(WebThemes.LABEL_OVERDUE);
             }
 
-            BugRelationService bugRelationService = AppContextUtil.getSpringBean(BugRelationService.class);
-            List<SimpleRelatedBug> relatedBugs = bugRelationService.findRelatedBugs(bug.getId());
-            if (CollectionUtils.isNotEmpty(relatedBugs)) {
-                for (SimpleRelatedBug relatedBug : relatedBugs) {
-                    if (Boolean.TRUE.equals(relatedBug.getRelated())) {
-                        ELabel relatedLink = new ELabel(UserUIContext.getMessage(BugRelation.class,
-                                relatedBug.getRelatedType())).withStyleName(WebThemes.ARROW_BTN).withUndefinedWidth();
-                        ToggleBugSummaryWithDependentField toggleRelatedBugField = new ToggleBugSummaryWithDependentField(bug, relatedBug.getRelatedBug());
-                        MHorizontalLayout bugContainer = new MHorizontalLayout(relatedLink, toggleRelatedBugField)
-                                .expand(toggleRelatedBugField).withFullWidth();
-                        header.with(bugContainer);
-                    } else {
-                        Enum relatedEnum = BugRelation.valueOf(relatedBug.getRelatedType()).getReverse();
-                        ELabel relatedLink = new ELabel(UserUIContext.getMessage(relatedEnum)).withStyleName(WebThemes.ARROW_BTN)
-                                .withUndefinedWidth();
-                        ToggleBugSummaryWithDependentField toggleRelatedBugField = new ToggleBugSummaryWithDependentField(bug, relatedBug.getRelatedBug());
-                        MHorizontalLayout bugContainer = new MHorizontalLayout(relatedLink, toggleRelatedBugField)
-                                .expand(toggleRelatedBugField).withFullWidth();
-                        header.with(bugContainer);
-                    }
-                }
-            }
+//            TicketRelationService ticketRelationService = AppContextUtil.getSpringBean(TicketRelationService.class);
+//            List<SimpleTicketRelation> relatedTickets = ticketRelationService.findRelatedTickets(bug.getId(), ProjectTypeConstants.BUG);
+//            if (CollectionUtils.isNotEmpty(relatedTickets)) {
+//                for (SimpleTicketRelation relatedTicket : relatedTickets) {
+//                    if (Boolean.TRUE.equals(relatedTicket.getLtr())) {
+//                        ELabel relatedLink = new ELabel(UserUIContext.getMessage(BugRelation.class,
+//                                relatedTicket.getRel())).withStyleName(WebThemes.ARROW_BTN).withUndefinedWidth();
+//                        ToggleBugSummaryWithDependentField toggleRelatedBugField = new ToggleBugSummaryWithDependentField(bug, relatedTicket.getRelatedBug());
+//                        MHorizontalLayout bugContainer = new MHorizontalLayout(relatedLink, toggleRelatedBugField)
+//                                .expand(toggleRelatedBugField).withFullWidth();
+//                        header.with(bugContainer);
+//                    } else {
+//                        Enum relatedEnum = BugRelation.valueOf(relatedTicket.getRelatedType()).getReverse();
+//                        ELabel relatedLink = new ELabel(UserUIContext.getMessage(relatedEnum)).withStyleName(WebThemes.ARROW_BTN)
+//                                .withUndefinedWidth();
+//                        ToggleBugSummaryWithDependentField toggleRelatedBugField = new ToggleBugSummaryWithDependentField(bug, relatedTicket.getRelatedBug());
+//                        MHorizontalLayout bugContainer = new MHorizontalLayout(relatedLink, toggleRelatedBugField)
+//                                .expand(toggleRelatedBugField).withFullWidth();
+//                        header.with(bugContainer);
+//                    }
+//                }
+//            }
         }
 
         @Override

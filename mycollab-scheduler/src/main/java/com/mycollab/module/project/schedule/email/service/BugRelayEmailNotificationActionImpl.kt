@@ -73,7 +73,7 @@ class BugRelayEmailNotificationActionImpl(private val bugService: BugService,
         val emailNotification = context.emailNotification
 
         val summary = "#${bean!!.ticketKey} - ${bean!!.name}"
-        val summaryLink = ProjectLinkGenerator.generateBugPreviewFullLink(siteUrl, bean!!.ticketKey, bean!!.projectShortName!!)
+        val summaryLink = ProjectLinkGenerator.generateBugPreviewFullLink(siteUrl, bean!!.projectShortName, bean!!.ticketKey!!)
 
         val avatarId = if (projectMember != null) projectMember!!.memberAvatarId else ""
         val userAvatar = LinkUtils.newAvatar(avatarId)
@@ -122,7 +122,7 @@ class BugRelayEmailNotificationActionImpl(private val bugService: BugService,
 
     private fun userLink(context: MailContext<SimpleBug>) = A(AccountLinkGenerator.generateUserLink(context.user.username)).appendText(context.changeByUserFullName).write()
 
-    private fun bugLink() = A(ProjectLinkGenerator.generateBugPreviewLink(bean!!.ticketKey, bean!!.projectShortName!!)).appendText(getItemName()).write()
+    private fun bugLink() = A(ProjectLinkGenerator.generateBugPreviewLink(bean!!.projectShortName, bean!!.ticketKey!!)).appendText(getItemName()).write()
 
     override fun getItemFieldMapper(): ItemFieldMapper = mapper
 

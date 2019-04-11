@@ -38,7 +38,4 @@ interface TaskMapperExt : ISearchableDAO<TaskSearchCriteria> {
 
     fun getAssignedDefectsSummary(@Param("searchCriteria") criteria: TaskSearchCriteria): List<GroupItem>
 
-    fun findByProjectAndTaskKey(@Param("key") key: Int, @Param("prjShortName") projectShortName: String,
-                                @Param("sAccountId") sAccountId: Int): SimpleTask
-
 }

@@ -18,7 +18,7 @@ package com.mycollab.module.project.view.task;
 
 import com.mycollab.module.project.domain.SimpleTask;
 import com.mycollab.module.project.i18n.TaskI18nEnum;
-import com.mycollab.module.project.service.ProjectTaskService;
+import com.mycollab.module.project.service.TaskService;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.RemoveInlineComponentMarker;
@@ -40,7 +40,7 @@ public class ToggleTaskSummaryWithParentRelationshipField extends CustomField<Si
         toggleTaskSummaryField = new ToggleTaskSummaryField(task, false);
         MButton unlinkBtn = new MButton("", clickEvent -> {
             task.setParenttaskid(null);
-            ProjectTaskService taskService = AppContextUtil.getSpringBean(ProjectTaskService.class);
+            TaskService taskService = AppContextUtil.getSpringBean(TaskService.class);
             taskService.updateWithSession(task, UserUIContext.getUsername());
             UIUtils.removeChildAssociate(ToggleTaskSummaryWithParentRelationshipField.this, RemoveInlineComponentMarker.class);
         }).withIcon(VaadinIcons.UNLINK).withStyleName(ValoTheme.BUTTON_ICON_ALIGN_TOP, ValoTheme.BUTTON_ICON_ONLY)

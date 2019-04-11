@@ -19,20 +19,18 @@ package com.mycollab.module.project.view.bug;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.core.ResourceNotFoundException;
 import com.mycollab.core.SecureAccessException;
-import com.mycollab.db.arguments.NumberSearchField;
-import com.mycollab.db.arguments.SearchField;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectRolePermissionCollections;
 import com.mycollab.module.project.ProjectTypeConstants;
+import com.mycollab.module.project.domain.BugWithBLOBs;
+import com.mycollab.module.project.domain.SimpleBug;
 import com.mycollab.module.project.event.BugEvent;
 import com.mycollab.module.project.event.TicketEvent;
+import com.mycollab.module.project.service.BugService;
+import com.mycollab.module.project.service.TicketKeyService;
 import com.mycollab.module.project.view.ProjectBreadcrumb;
 import com.mycollab.module.project.view.ProjectGenericPresenter;
 import com.mycollab.module.project.view.ProjectView;
-import com.mycollab.module.project.domain.BugWithBLOBs;
-import com.mycollab.module.project.domain.SimpleBug;
-import com.mycollab.module.project.domain.criteria.BugSearchCriteria;
-import com.mycollab.module.project.service.BugService;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.EventBusFactory;
@@ -48,9 +46,6 @@ import com.mycollab.vaadin.ui.NotificationUtil;
 import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.vaadin.ui.HasComponents;
 import com.vaadin.ui.UI;
-
-import static com.mycollab.common.i18n.QueryI18nEnum.GREATER_THAN;
-import static com.mycollab.common.i18n.QueryI18nEnum.LESS_THAN;
 
 /**
  * @author MyCollab Ltd.
@@ -78,7 +73,7 @@ public class BugReadPresenter extends ProjectGenericPresenter<BugReadView> {
             }
 
             @Override
-            public void onDelete(final SimpleBug data) {
+            public void onDelete(SimpleBug data) {
                 ConfirmDialogExt.show(UI.getCurrent(),
                         UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppUI.getSiteName()),
                         UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
@@ -111,14 +106,10 @@ public class BugReadPresenter extends ProjectGenericPresenter<BugReadView> {
 
             @Override
             public void gotoNext(SimpleBug data) {
-                BugService bugService = AppContextUtil.getSpringBean(BugService.class);
-                BugSearchCriteria searchCriteria = new BugSearchCriteria();
-                searchCriteria.setProjectId(NumberSearchField.equal(data.getProjectid()));
-                searchCriteria.addExtraField(BugSearchCriteria.p_bugkey.buildSearchField(SearchField.AND, GREATER_THAN.name(),
-                        data.getTicketKey()));
-                Integer nextId = bugService.getNextItemKey(searchCriteria);
+                TicketKeyService ticketKeyService = AppContextUtil.getSpringBean(TicketKeyService.class);
+                Integer nextId = ticketKeyService.getNextKey(data.getProjectid(), data.getTicketKey());
                 if (nextId != null) {
-                    EventBusFactory.getInstance().post(new BugEvent.GotoRead(this, nextId));
+                    EventBusFactory.getInstance().post(new TicketEvent.GotoRead(this, data.getProjectid(), nextId));
                 } else {
                     NotificationUtil.showGotoLastRecordNotification();
                 }
@@ -126,14 +117,10 @@ public class BugReadPresenter extends ProjectGenericPresenter<BugReadView> {
 
             @Override
             public void gotoPrevious(SimpleBug data) {
-                BugService bugService = AppContextUtil.getSpringBean(BugService.class);
-                BugSearchCriteria searchCriteria = new BugSearchCriteria();
-                searchCriteria.setProjectId(NumberSearchField.equal(data.getProjectid()));
-                searchCriteria.addExtraField(BugSearchCriteria.p_bugkey.buildSearchField(SearchField.AND, LESS_THAN.name(),
-                        data.getTicketKey()));
-                Integer previousId = bugService.getPreviousItemKey(searchCriteria);
+                TicketKeyService ticketKeyService = AppContextUtil.getSpringBean(TicketKeyService.class);
+                Integer previousId = ticketKeyService.getPreviousKey(data.getProjectid(), data.getTicketKey());
                 if (previousId != null) {
-                    EventBusFactory.getInstance().post(new BugEvent.GotoRead(this, previousId));
+                    EventBusFactory.getInstance().post(new TicketEvent.GotoRead(this, data.getProjectid(), previousId));
                 } else {
                     NotificationUtil.showGotoLastRecordNotification();
                 }
@@ -149,19 +136,22 @@ public class BugReadPresenter extends ProjectGenericPresenter<BugReadView> {
     @Override
     protected void onGo(HasComponents container, ScreenData<?> data) {
         if (CurrentProjectVariables.canRead(ProjectRolePermissionCollections.BUGS)) {
+            SimpleBug bug = null;
             if (data.getParams() instanceof Integer) {
                 BugService bugService = AppContextUtil.getSpringBean(BugService.class);
-                SimpleBug bug = bugService.findById((Integer) data.getParams(), AppUI.getAccountId());
-                if (bug != null) {
-                    ProjectView projectView = (ProjectView) container;
-                    projectView.gotoSubView(ProjectView.TICKET_ENTRY, view);
-                    view.previewItem(bug);
+                bug = bugService.findById((Integer) data.getParams(), AppUI.getAccountId());
+            } else if (data.getParams() instanceof SimpleBug) {
+                bug = (SimpleBug) data.getParams();
+            }
+            if (bug != null) {
+                ProjectView projectView = (ProjectView) container;
+                projectView.gotoSubView(ProjectView.TICKET_ENTRY, view);
+                view.previewItem(bug);
 
-                    ProjectBreadcrumb breadcrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);
-                    breadcrumb.gotoBugRead(bug);
-                } else {
-                    throw new ResourceNotFoundException();
-                }
+                ProjectBreadcrumb breadcrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);
+                breadcrumb.gotoBugRead(bug);
+            } else {
+                throw new ResourceNotFoundException();
             }
         } else {
             throw new SecureAccessException();

@@ -29,7 +29,7 @@ class ComponentsViewField : CustomField<Collection<Component>>() {
     }
 
     private fun buildComponentLink(component: Component): Label {
-        val componentLink = A(ProjectLinkGenerator.generateBugComponentPreviewLink(component.projectid!!, component.id!!))
+        val componentLink = A(ProjectLinkGenerator.generateComponentPreviewLink(component.projectid!!, component.id!!))
                 .appendText(StringUtils.trim(component.name, 25, true))
 
         val lbl = ELabel.html(componentLink.write()).withStyleName(WebThemes.FIELD_NOTE)

@@ -31,4 +31,6 @@ object TicketEvent {
     class SearchRequest(source: Any, val searchCriteria: ProjectTicketSearchCriteria) : ApplicationEvent(source)
 
     class HasTicketPropertyChanged(source: Any, val data: String) : ApplicationEvent(source)
+
+    class GotoRead(source: Any, val projectId: Int, val ticketKey: Int) : ApplicationEvent(source)
 }

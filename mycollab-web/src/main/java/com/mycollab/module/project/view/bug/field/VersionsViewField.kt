@@ -29,7 +29,7 @@ class VersionsViewField : CustomField<Collection<Version>>() {
     }
 
     private fun buildVersionLink(version: Version): ELabel {
-        val componentLink = A(ProjectLinkGenerator.generateBugVersionPreviewLink(version.projectid!!, version.id!!))
+        val componentLink = A(ProjectLinkGenerator.generateVersionPreviewLink(version.projectid!!, version.id!!))
                 .appendText(StringUtils.trim(version.name, 25, true))
 
         val lbl = ELabel.html(componentLink.write()).withStyleName(WebThemes.FIELD_NOTE)

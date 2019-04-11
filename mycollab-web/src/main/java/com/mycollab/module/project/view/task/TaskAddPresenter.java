@@ -28,7 +28,7 @@ import com.mycollab.module.project.domain.SimpleTask;
 import com.mycollab.module.project.domain.Task;
 import com.mycollab.module.project.event.TaskEvent;
 import com.mycollab.module.project.event.TicketEvent;
-import com.mycollab.module.project.service.ProjectTaskService;
+import com.mycollab.module.project.service.TaskService;
 import com.mycollab.module.project.view.ProjectBreadcrumb;
 import com.mycollab.module.project.view.ProjectGenericPresenter;
 import com.mycollab.module.project.view.ProjectView;
@@ -104,7 +104,7 @@ public class TaskAddPresenter extends ProjectGenericPresenter<TaskAddView> {
     }
 
     private int save(Task item) {
-        ProjectTaskService taskService = AppContextUtil.getSpringBean(ProjectTaskService.class);
+        TaskService taskService = AppContextUtil.getSpringBean(TaskService.class);
 
         item.setSaccountid(AppUI.getAccountId());
         item.setProjectid(CurrentProjectVariables.getProjectId());

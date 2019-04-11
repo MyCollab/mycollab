@@ -63,11 +63,11 @@ import javax.sql.DataSource
 @Service
 @Transactional
 @Traceable(nameField = "name", extraFieldName = "projectid")
-class ProjectTaskServiceImpl(private val taskMapper: TaskMapper,
-                             private val taskMapperExt: TaskMapperExt,
-                             private val ticketKeyService: TicketKeyService,
-                             private val asyncEventBus: AsyncEventBus,
-                             private val dataSource: DataSource) : DefaultService<Int, Task, TaskSearchCriteria>(), ProjectTaskService {
+class TaskServiceImpl(private val taskMapper: TaskMapper,
+                      private val taskMapperExt: TaskMapperExt,
+                      private val ticketKeyService: TicketKeyService,
+                      private val asyncEventBus: AsyncEventBus,
+                      private val dataSource: DataSource) : DefaultService<Int, Task, TaskSearchCriteria>(), TaskService {
     override val crudMapper: ICrudGenericDAO<Int, Task>
         get() = taskMapper as ICrudGenericDAO<Int, Task>
 
@@ -152,9 +152,6 @@ class ProjectTaskServiceImpl(private val taskMapper: TaskMapper,
     override fun getAssignedTasksSummary(criteria: TaskSearchCriteria): List<GroupItem> =
             taskMapperExt.getAssignedDefectsSummary(criteria)
 
-    override fun findByProjectAndTaskKey(taskKey: Int, projectShortName: String, sAccountId: Int): SimpleTask? =
-            taskMapperExt.findByProjectAndTaskKey(taskKey, projectShortName, sAccountId)
-
     override fun findSubTasks(parentTaskId: Int, sAccountId: Int, orderField: SearchCriteria.OrderField): List<SimpleTask> {
         val searchCriteria = TaskSearchCriteria()
         searchCriteria.saccountid = NumberSearchField(sAccountId)
@@ -184,8 +181,8 @@ class ProjectTaskServiceImpl(private val taskMapper: TaskMapper,
         jdbcTemplate.batchUpdate("UPDATE `m_prj_task` SET `taskindex`=? WHERE `id`=?", object : BatchPreparedStatementSetter {
             @Throws(SQLException::class)
             override fun setValues(preparedStatement: PreparedStatement, i: Int) {
-                preparedStatement.setInt(1, mapIndexes[i]["index"]!!)
-                preparedStatement.setInt(2, mapIndexes[i]["id"]!!)
+                preparedStatement.setInt(1, mapIndexes[i].getValue("index"))
+                preparedStatement.setInt(2, mapIndexes[i].getValue("id"))
             }
 
             override fun getBatchSize(): Int = mapIndexes.size
@@ -203,7 +200,7 @@ class ProjectTaskServiceImpl(private val taskMapper: TaskMapper,
     companion object {
         init {
             val taskInfo = ClassInfo(ModuleNameConstants.PRJ, ProjectTypeConstants.TASK)
-            ClassInfoMap.put(ProjectTaskServiceImpl::class.java, taskInfo)
+            ClassInfoMap.put(TaskServiceImpl::class.java, taskInfo)
         }
     }
 }

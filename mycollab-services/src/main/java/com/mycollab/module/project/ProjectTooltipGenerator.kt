@@ -34,7 +34,7 @@ import com.mycollab.module.project.i18n.*
 import com.mycollab.module.project.i18n.OptionI18nEnum.*
 import com.mycollab.module.project.service.BugService
 import com.mycollab.module.project.service.MilestoneService
-import com.mycollab.module.project.service.ProjectTaskService
+import com.mycollab.module.project.service.TaskService
 import com.mycollab.module.project.service.RiskService
 import com.mycollab.module.user.AccountLinkGenerator
 import com.mycollab.spring.AppContextUtil
@@ -73,7 +73,7 @@ object ProjectTooltipGenerator {
                 generateToolTipBug(locale, dateFormat, bug, siteUrl, timeZone, showProject)
             }
             ProjectTypeConstants.TASK -> {
-                val taskService = AppContextUtil.getSpringBean(ProjectTaskService::class.java)
+                val taskService = AppContextUtil.getSpringBean(TaskService::class.java)
                 val task = taskService.findById(typeId, sAccountId)
                 generateToolTipTask(locale, dateFormat, task, siteUrl, timeZone, showProject)
             }

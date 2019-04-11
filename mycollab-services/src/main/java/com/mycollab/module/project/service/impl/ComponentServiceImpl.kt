@@ -69,7 +69,7 @@ class ComponentServiceImpl(private val componentMapper: ComponentMapper,
 
     companion object {
         init {
-            ClassInfoMap.put(ComponentServiceImpl::class.java, ClassInfo(ModuleNameConstants.PRJ, ProjectTypeConstants.BUG_COMPONENT))
+            ClassInfoMap.put(ComponentServiceImpl::class.java, ClassInfo(ModuleNameConstants.PRJ, ProjectTypeConstants.COMPONENT))
         }
     }
 }

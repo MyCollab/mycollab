@@ -323,7 +323,7 @@
         #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")
                 <include refid="com.mycollab.common.dao.ActivityStreamMapperExt.querySearchCriteria" />
-                AND s_activitystream.type NOT IN ('Project-Task', 'Project-Bug')
+                AND s_activitystream.type NOT IN ('Project-Task', 'Project-Bug', 'Project-Risk')
                 AND s_activitystream.action != 'comment'
             #end
         #end)
@@ -401,7 +401,7 @@
         )
         UNION
         (
-        SELECT s_activitystream.id, s_activitystream.sAccountId, s_activitystream.type, s_activitystream.typeId, null AS itemKey,
+        SELECT s_activitystream.id, s_activitystream.sAccountId, s_activitystream.type, s_activitystream.typeId, m_prj_ticket_key.ticketKey AS itemKey,
                s_activitystream.createdTime, s_activitystream.action, s_activitystream.createdUser, m_prj_risk.name AS nameField, s_activitystream.extraTypeId,
                s_activitystream.module, concat(s_user.firstname, ' ', s_user.lastname) as createdUserFullName,
                s_user.avatarId AS createdUserAvatarId,
@@ -414,6 +414,7 @@
         LEFT OUTER JOIN s_user ON (s_user.username = s_activitystream.createdUser)
         LEFT OUTER JOIN m_prj_project ON (m_prj_project.id=s_activitystream.extraTypeId)
         LEFT OUTER JOIN m_audit_log ON (s_activitystream.id=m_audit_log.activityLogId)
+        LEFT OUTER JOIN m_prj_ticket_key ON (s_activitystream.typeId = m_prj_ticket_key.ticketId AND m_prj_ticket_key.ticketType = 'Project-Risk')
         #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")
                 <include refid="com.mycollab.common.dao.ActivityStreamMapperExt.querySearchCriteria" />
@@ -424,7 +425,7 @@
         )
         UNION
         (
-        SELECT s_activitystream.id, s_activitystream.sAccountId, s_activitystream.type, s_activitystream.typeId, null AS itemKey,
+        SELECT s_activitystream.id, s_activitystream.sAccountId, s_activitystream.type, s_activitystream.typeId, m_prj_ticket_key.ticketKey AS itemKey,
                s_activitystream.createdTime, s_activitystream.action, s_activitystream.createdUser, NULL AS nameField, s_activitystream.extraTypeId,
                s_activitystream.module, concat(s_user.firstname, ' ', s_user.lastname) as createdUserFullName,
                s_user.avatarId AS createdUserAvatarId,
@@ -436,6 +437,7 @@
         LEFT OUTER JOIN s_user ON (s_user.username = s_activitystream.createdUser)
         LEFT OUTER JOIN m_prj_project ON (m_prj_project.id=s_activitystream.extraTypeId)
         LEFT OUTER JOIN m_audit_log ON (s_activitystream.id=m_audit_log.activityLogId)
+        LEFT OUTER JOIN m_prj_ticket_key ON (s_activitystream.typeId = m_prj_ticket_key.ticketId AND m_prj_ticket_key.ticketType = 'Project-Risk')
         #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")
                 <include refid="com.mycollab.common.dao.ActivityStreamMapperExt.querySearchCriteria" />

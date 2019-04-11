@@ -25,7 +25,7 @@ import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.domain.SimpleTask;
 import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.mycollab.module.project.i18n.TaskI18nEnum;
-import com.mycollab.module.project.service.ProjectTaskService;
+import com.mycollab.module.project.service.TaskService;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.module.project.ui.components.*;
 import com.mycollab.module.project.view.ProjectView;
@@ -209,7 +209,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
             ELabel titleLbl = new ELabel(UserUIContext.getMessage(TaskI18nEnum.FORM_PARENT_TASK)).withStyleName(WebThemes.ARROW_BTN)
                     .withUndefinedWidth();
             with(titleLbl);
-            ProjectTaskService taskService = AppContextUtil.getSpringBean(ProjectTaskService.class);
+            TaskService taskService = AppContextUtil.getSpringBean(TaskService.class);
             SimpleTask parentTask = taskService.findById(parentTaskId, AppUI.getAccountId());
             if (parentTask != null) {
                 with(new ToggleTaskSummaryWithChildRelationshipField(parentTask, childTask));

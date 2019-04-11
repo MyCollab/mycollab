@@ -43,13 +43,13 @@ class DeleteProjectComponentCommand(private val resourceService: ResourceService
 
     private fun removeRelatedFiles(accountId: Int, projectId: Int, componentId: Int) {
         val attachmentPath = AttachmentUtils.getProjectEntityAttachmentPath(accountId, projectId,
-                ProjectTypeConstants.BUG_COMPONENT, "$componentId")
+                ProjectTypeConstants.COMPONENT, "$componentId")
         resourceService.removeResource(attachmentPath, "", true, accountId)
     }
 
     private fun removeRelatedComments(bugId: Int) {
         val ex = CommentExample()
-        ex.createCriteria().andTypeEqualTo(ProjectTypeConstants.BUG_COMPONENT).andExtratypeidEqualTo(bugId)
+        ex.createCriteria().andTypeEqualTo(ProjectTypeConstants.COMPONENT).andExtratypeidEqualTo(bugId)
         commentMapper.deleteByExample(ex)
     }
 }

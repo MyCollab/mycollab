@@ -56,7 +56,7 @@ public class ComponentSearchPanel extends DefaultGenericSearchPanel<ComponentSea
 
     @Override
     protected HeaderWithIcon buildSearchTitle() {
-        return ComponentUtils.headerH2(ProjectTypeConstants.BUG_COMPONENT, UserUIContext.getMessage(ComponentI18nEnum.LIST));
+        return ComponentUtils.headerH2(ProjectTypeConstants.COMPONENT, UserUIContext.getMessage(ComponentI18nEnum.LIST));
     }
 
     @Override

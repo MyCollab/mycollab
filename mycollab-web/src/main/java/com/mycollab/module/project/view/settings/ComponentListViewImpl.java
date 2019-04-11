@@ -100,7 +100,7 @@ public class ComponentListViewImpl extends AbstractVerticalPageView implements C
         tableItem.addGeneratedColumn("name", (source, itemId, columnId) -> {
             SimpleComponent bugComponent = tableItem.getBeanByIndex(itemId);
             LabelLink b = new LabelLink(bugComponent.getName(), ProjectLinkGenerator
-                    .generateBugComponentPreviewLink(bugComponent.getProjectid(), bugComponent.getId()));
+                    .generateComponentPreviewLink(bugComponent.getProjectid(), bugComponent.getId()));
             if (bugComponent.getStatus() != null && bugComponent.getStatus().equals(StatusI18nEnum.Closed.name())) {
                 b.addStyleName(WebThemes.LINK_COMPLETED);
             }

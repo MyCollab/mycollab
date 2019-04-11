@@ -40,7 +40,7 @@ object AttachmentUtils {
                     ProjectTypeConstants.MILESTONE == type
                     || ProjectTypeConstants.RISK == type || ProjectTypeConstants.TASK == type
                     || ProjectTypeConstants.PAGE == type
-                    || ProjectTypeConstants.BUG_COMPONENT == type || ProjectTypeConstants.BUG_VERSION == type
+                    || ProjectTypeConstants.COMPONENT == type || ProjectTypeConstants.VERSION == type
                     || ProjectTypeConstants.INVOICE == type) {
                 getProjectEntityCommentAttachmentPath(accountId, extraTypeId, type, typeId, commentId)
             } else {

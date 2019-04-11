@@ -35,7 +35,7 @@ import com.mycollab.db.persistence.ISearchableDAO
 import com.mycollab.db.persistence.service.DefaultService
 import com.mycollab.module.project.ProjectTypeConstants
 import com.mycollab.module.project.service.MessageService
-import com.mycollab.module.project.service.ProjectTaskService
+import com.mycollab.module.project.service.TaskService
 import com.mycollab.module.project.service.ProjectTicketService
 import com.mycollab.module.project.service.RiskService
 import com.mycollab.module.project.service.BugService
@@ -65,7 +65,7 @@ class CommentServiceImpl(private val commentMapper: CommentMapper,
         when {
             ProjectTypeConstants.MESSAGE == record.type -> asyncEventBus.post(CleanCacheEvent(record.saccountid, arrayOf<Class<*>>(MessageService::class.java)))
             ProjectTypeConstants.RISK == record.type -> asyncEventBus.post(CleanCacheEvent(record.saccountid, arrayOf<Class<*>>(RiskService::class.java, ProjectTicketService::class.java)))
-            ProjectTypeConstants.TASK == record.type -> asyncEventBus.post(CleanCacheEvent(record.saccountid, arrayOf<Class<*>>(ProjectTaskService::class.java, ProjectTicketService::class.java)))
+            ProjectTypeConstants.TASK == record.type -> asyncEventBus.post(CleanCacheEvent(record.saccountid, arrayOf<Class<*>>(TaskService::class.java, ProjectTicketService::class.java)))
             ProjectTypeConstants.BUG == record.type -> asyncEventBus.post(CleanCacheEvent(record.saccountid, arrayOf<Class<*>>(BugService::class.java, ProjectTicketService::class.java)))
         }
 

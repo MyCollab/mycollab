@@ -60,7 +60,7 @@ class ComponentRelayEmailNotificationActionImpl : SendMailToAllMembersAction<Sim
         val emailNotification = context.emailNotification
 
         val summary = bean!!.name
-        val summaryLink = ProjectLinkGenerator.generateBugComponentPreviewFullLink(siteUrl, bean!!.projectid, bean!!.id)
+        val summaryLink = ProjectLinkGenerator.generateComponentPreviewFullLink(siteUrl, bean!!.projectid, bean!!.id)
 
         val avatarId = if (projectMember != null) projectMember!!.memberAvatarId else ""
         val userAvatar = LinkUtils.newAvatar(avatarId)
@@ -109,11 +109,11 @@ class ComponentRelayEmailNotificationActionImpl : SendMailToAllMembersAction<Sim
 
     private fun userLink(context: MailContext<SimpleComponent>) = A(AccountLinkGenerator.generateUserLink(context.user.username)).appendText(context.changeByUserFullName).write()
 
-    private fun componentLink() = A(ProjectLinkGenerator.generateBugComponentPreviewLink(bean!!.projectid, bean!!.id)).appendText(getItemName()).write()
+    private fun componentLink() = A(ProjectLinkGenerator.generateComponentPreviewLink(bean!!.projectid, bean!!.id)).appendText(getItemName()).write()
 
     override fun getItemFieldMapper(): ItemFieldMapper = mapper
 
-    override fun getType(): String = ProjectTypeConstants.BUG_COMPONENT
+    override fun getType(): String = ProjectTypeConstants.COMPONENT
 
     override fun getTypeId(): String = "${bean!!.id}"
 

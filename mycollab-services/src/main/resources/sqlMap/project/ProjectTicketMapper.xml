@@ -297,7 +297,7 @@
             createdUserTbl.username AS createdUser, createdUserTbl.avatarId as createdUserAvatarId,
             concat(createdUserTbl.firstname, ' ', createdUserTbl.lastname) AS createdUserFullName,
             mainTbl.dueDate, mainTbl.projectId, m_prj_project.name AS projectName,
-            m_prj_project.shortname AS projectShortName, NULL AS extraTypeId, mainTbl.status,
+            m_prj_project.shortname AS projectShortName, m_prj_ticket_key.ticketKey AS extraTypeId, mainTbl.status,
             'Project-Risk' AS type, mainTbl.id AS typeId, mainTbl.createdTime, mainTbl.lastUpdatedTime,
             (SELECT count(*)
                     FROM m_comment
@@ -315,6 +315,7 @@
               LEFT OUTER JOIN s_user assignUserTbl ON (mainTbl.assignUser=assignUserTbl.username)
               LEFT OUTER JOIN s_user createdUserTbl ON (mainTbl.createdUser=createdUserTbl.username)
               LEFT OUTER JOIN m_prj_milestone ON (mainTbl.milestoneId=m_prj_milestone.id)
+              LEFT OUTER JOIN m_prj_ticket_key ON (mainTbl.id = m_prj_ticket_key.ticketId AND m_prj_ticket_key.ticketType = 'Project-Risk')
         ]]>
     </sql>
 

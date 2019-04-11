@@ -260,10 +260,10 @@ object CurrentProjectVariables {
                 types.addValue(ProjectTypeConstants.RISK)
             }
             if (canRead(ProjectRolePermissionCollections.COMPONENTS)) {
-                types.addValue(ProjectTypeConstants.BUG_COMPONENT)
+                types.addValue(ProjectTypeConstants.COMPONENT)
             }
             if (canRead(ProjectRolePermissionCollections.VERSIONS)) {
-                types.addValue(ProjectTypeConstants.BUG_VERSION)
+                types.addValue(ProjectTypeConstants.VERSION)
             }
             return types
         }

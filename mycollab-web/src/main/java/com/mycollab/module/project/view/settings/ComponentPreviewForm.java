@@ -52,7 +52,7 @@ import static com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 public class ComponentPreviewForm extends AdvancedPreviewBeanForm<SimpleComponent> {
     @Override
     public void setBean(SimpleComponent bean) {
-        setFormLayoutFactory(new DefaultDynaFormLayout(ProjectTypeConstants.BUG_COMPONENT, ComponentDefaultFormLayoutFactory.getForm(),
+        setFormLayoutFactory(new DefaultDynaFormLayout(ProjectTypeConstants.COMPONENT, ComponentDefaultFormLayoutFactory.getForm(),
                 Component.Field.name.name()));
         setBeanFormFieldFactory(new ReadFormFieldFactory(this));
         super.setBean(bean);

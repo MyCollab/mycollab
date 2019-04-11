@@ -14,6 +14,7 @@
         <result column="billableHours" property="billableHours" jdbcType="DOUBLE" />
         <result column="nonBillableHours" property="nonBillableHours" jdbcType="DOUBLE" />
         <result column="numFollowers" property="numFollowers" jdbcType="INTEGER"/>
+        <result column="ticketKey" property="ticketKey" jdbcType="INTEGER"/>
         <collection columnPrefix="affectedversion_" notNullColumn="id"
             ofType="com.mycollab.module.project.domain.Version"
             property="affectedVersions"
@@ -389,13 +390,6 @@
     <select id="getBugById" resultMap="SimpleBugResult" resultType="int" lang="velocity">
         <include refid="selectBug" />
         WHERE m_prj_bug.id = @{bugid,jdbcType=NUMERIC}
-    </select>
-    
-    <select id="findByProjectAndBugKey" resultMap="SimpleBugResult" parameterType="map" lang="velocity">
-        <include refid="selectBug" />
-        WHERE m_prj_bug.sAccountId = @{sAccountId,jdbcType=NUMERIC}
-            AND m_prj_ticket_key.ticketKey = @{key}
-            AND m_prj_project.shortname = @{prjShortName}
     </select>
 
     <select id="getTotalCount" parameterType="com.mycollab.module.project.domain.criteria.BugSearchCriteria" resultType="int" lang="velocity">

@@ -17,10 +17,11 @@
 package com.mycollab.module.project.view.bug;
 
 import com.mycollab.common.i18n.GenericI18Enum;
+import com.mycollab.module.project.ProjectTypeConstants;
+import com.mycollab.module.project.dao.TicketRelationMapper;
 import com.mycollab.module.project.domain.SimpleBug;
+import com.mycollab.module.project.domain.TicketRelationExample;
 import com.mycollab.module.project.i18n.BugI18nEnum;
-import com.mycollab.module.tracker.dao.RelatedBugMapper;
-import com.mycollab.module.tracker.domain.RelatedBugExample;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.UserUIContext;
@@ -50,12 +51,12 @@ public class ToggleBugSummaryWithDependentField extends CustomField<SimpleBug> {
                     UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
                     UserUIContext.getMessage(GenericI18Enum.ACTION_YES),
                     UserUIContext.getMessage(GenericI18Enum.ACTION_NO), confirmDialog -> {
-                        RelatedBugExample ex = new RelatedBugExample();
-                        ex.or().andBugidEqualTo(hostBug.getId()).andRelatedidEqualTo(relatedBug.getId());
-                        ex.or().andRelatedidEqualTo(hostBug.getId()).andBugidEqualTo(relatedBug.getId());
+                        TicketRelationExample ex = new TicketRelationExample();
+                        ex.or().andTicketidEqualTo(hostBug.getId()).andTickettypeEqualTo(ProjectTypeConstants.BUG).andTypeidEqualTo(relatedBug.getId());
+                        ex.or().andTicketidEqualTo(relatedBug.getId()).andTypeidEqualTo(hostBug.getId()).andTypeEqualTo(ProjectTypeConstants.BUG);
 
-                        RelatedBugMapper bugMapper = AppContextUtil.getSpringBean(RelatedBugMapper.class);
-                        bugMapper.deleteByExample(ex);
+                        TicketRelationMapper ticketRelationMapper = AppContextUtil.getSpringBean(TicketRelationMapper.class);
+                        ticketRelationMapper.deleteByExample(ex);
                         UIUtils.removeChildAssociate(toggleBugSummaryField, RemoveInlineComponentMarker.class);
                     });
         }).withIcon(VaadinIcons.UNLINK).withStyleName(ValoTheme.BUTTON_ICON_ALIGN_TOP, ValoTheme.BUTTON_ICON_ONLY)

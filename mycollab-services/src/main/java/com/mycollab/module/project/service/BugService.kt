@@ -35,9 +35,6 @@ interface BugService : IDefaultService<Int, BugWithBLOBs, BugSearchCriteria> {
     fun findById(bugId: Int, @CacheKey sAccountId: Int): SimpleBug?
 
     @Cacheable
-    fun findByProjectAndBugKey(bugKey: Int, projectShortName: String, @CacheKey sAccountId: Int): SimpleBug?
-
-    @Cacheable
     fun getStatusSummary(@CacheKey criteria: BugSearchCriteria): List<GroupItem>
 
     @Cacheable

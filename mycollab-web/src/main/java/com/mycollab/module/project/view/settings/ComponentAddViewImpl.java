@@ -54,7 +54,7 @@ public class ComponentAddViewImpl extends AbstractEditItemComp<Component> implem
 
     @Override
     protected VaadinIcons initFormIconResource() {
-        return ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG_COMPONENT);
+        return ProjectAssetsManager.getAsset(ProjectTypeConstants.COMPONENT);
     }
 
     @Override
@@ -69,7 +69,7 @@ public class ComponentAddViewImpl extends AbstractEditItemComp<Component> implem
 
     @Override
     protected IFormLayoutFactory initFormLayoutFactory() {
-        return new DefaultDynaFormLayout(ProjectTypeConstants.BUG_COMPONENT, ComponentDefaultFormLayoutFactory.getForm(), "id");
+        return new DefaultDynaFormLayout(ProjectTypeConstants.COMPONENT, ComponentDefaultFormLayoutFactory.getForm(), "id");
     }
 
     @Override

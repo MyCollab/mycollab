@@ -69,7 +69,7 @@ public class ComponentReadViewImpl extends AbstractPreviewItemComp<SimpleCompone
 
     public ComponentReadViewImpl() {
         super(UserUIContext.getMessage(ComponentI18nEnum.DETAIL),
-                ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG_COMPONENT));
+                ProjectAssetsManager.getAsset(ProjectTypeConstants.COMPONENT));
     }
 
     @Override
@@ -89,7 +89,7 @@ public class ComponentReadViewImpl extends AbstractPreviewItemComp<SimpleCompone
 
     @Override
     protected void initRelatedComponents() {
-        activityComponent = new ProjectActivityComponent(ProjectTypeConstants.BUG_COMPONENT, CurrentProjectVariables.getProjectId());
+        activityComponent = new ProjectActivityComponent(ProjectTypeConstants.COMPONENT, CurrentProjectVariables.getProjectId());
         dateInfoComp = new DateInfoComp();
         peopleInfoComp = new PeopleInfoComp();
 
@@ -115,7 +115,7 @@ public class ComponentReadViewImpl extends AbstractPreviewItemComp<SimpleCompone
         peopleInfoComp.displayEntryPeople(beanItem);
 
         if (tagViewComponent != null) {
-            tagViewComponent.display(ProjectTypeConstants.BUG_COMPONENT, beanItem.getId());
+            tagViewComponent.display(ProjectTypeConstants.COMPONENT, beanItem.getId());
         }
 
         if (componentTimeLogComp != null) {
@@ -181,7 +181,7 @@ public class ComponentReadViewImpl extends AbstractPreviewItemComp<SimpleCompone
 
     @Override
     protected String getType() {
-        return ProjectTypeConstants.BUG_COMPONENT;
+        return ProjectTypeConstants.COMPONENT;
     }
 
     private static class PeopleInfoComp extends MVerticalLayout {

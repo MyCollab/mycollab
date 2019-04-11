@@ -26,7 +26,7 @@ import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.domain.Task;
 import com.mycollab.module.project.event.TaskEvent;
 import com.mycollab.module.project.i18n.TaskI18nEnum;
-import com.mycollab.module.project.service.ProjectTaskService;
+import com.mycollab.module.project.service.TaskService;
 import com.mycollab.module.project.view.settings.component.ProjectMemberSelectionField;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppUI;
@@ -96,7 +96,7 @@ class AssignTaskWindow extends MWindow {
                 MButton approveBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_ASSIGN), clickEvent -> {
                     if (EditForm.this.validateForm()) {
                         // Save task status and assignee
-                        ProjectTaskService taskService = AppContextUtil.getSpringBean(ProjectTaskService.class);
+                        TaskService taskService = AppContextUtil.getSpringBean(TaskService.class);
                         taskService.updateWithSession(task, UserUIContext.getUsername());
 
                         // Save comment

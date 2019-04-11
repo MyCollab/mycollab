@@ -46,7 +46,7 @@ class VersionAddWindow extends MWindow implements IEditFormHandler<Version> {
         super(UserUIContext.getMessage(VersionI18nEnum.NEW));
         AdvancedEditBeanForm<Version> editForm = new AdvancedEditBeanForm<>();
         editForm.addFormHandler(this);
-        editForm.setFormLayoutFactory(new DefaultDynaFormLayout(ProjectTypeConstants.BUG_VERSION,
+        editForm.setFormLayoutFactory(new DefaultDynaFormLayout(ProjectTypeConstants.VERSION,
                 VersionDefaultFormLayoutFactory.getForm(), "id"));
         editForm.setBeanFormFieldFactory(new VersionEditFormFieldFactory(editForm));
         Version version = new Version();

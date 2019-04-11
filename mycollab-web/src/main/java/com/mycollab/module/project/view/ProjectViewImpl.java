@@ -320,14 +320,14 @@ public class ProjectViewImpl extends AbstractVerticalPageView implements Project
                 myProjectTab.addTab(ProjectView.SETTING, ProjectView.COMPONENT_ENTRY,
                         UserUIContext.getMessage(ComponentI18nEnum.LIST),
                         ProjectLinkGenerator.generateUsersLink(prjId),
-                        ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG_COMPONENT));
+                        ProjectAssetsManager.getAsset(ProjectTypeConstants.COMPONENT));
             }
 
             if (CurrentProjectVariables.canRead(ProjectRolePermissionCollections.VERSIONS)) {
                 myProjectTab.addTab(ProjectView.SETTING, ProjectView.VERSION_ENTRY,
                         UserUIContext.getMessage(VersionI18nEnum.LIST),
                         ProjectLinkGenerator.generateUsersLink(prjId),
-                        ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG_VERSION));
+                        ProjectAssetsManager.getAsset(ProjectTypeConstants.VERSION));
             }
 
             myProjectTab.addTab(ProjectView.SETTING, ProjectView.CUSTOM_ENTRY,

@@ -39,48 +39,6 @@ import java.util.*
 class BugUrlResolver : ProjectUrlResolver() {
     init {
         this.addSubResolver("add", AddUrlResolver())
-        this.addSubResolver("edit", EditUrlResolver())
-        this.addSubResolver("preview", PreviewUrlResolver())
-    }
-
-    private class PreviewUrlResolver : ProjectUrlResolver() {
-        override fun handlePage(vararg params: String) {
-            if (ProjectLinkParams.isValidParam(params[0])) {
-                val prjShortName = ProjectLinkParams.getProjectShortName(params[0])
-                val itemKey = ProjectLinkParams.getItemKey(params[0])
-                val bugService = AppContextUtil.getSpringBean(BugService::class.java)
-                val bug = bugService.findByProjectAndBugKey(itemKey, prjShortName, AppUI.accountId)
-                when {
-                    bug != null -> {
-                        val chain = PageActionChain(ProjectScreenData.Goto(bug.projectid), BugScreenData.Read(bug.id))
-                        EventBusFactory.getInstance().post(ProjectEvent.GotoMyProject(this, chain))
-                    }
-                    else -> throw ResourceNotFoundException("Can not get bug with bugkey $itemKey and project short name $prjShortName")
-                }
-            } else {
-                throw MyCollabException("Invalid bug link $params[0]")
-            }
-        }
-    }
-
-    private class EditUrlResolver : ProjectUrlResolver() {
-        override fun handlePage(vararg params: String) {
-            if (ProjectLinkParams.isValidParam(params[0])) {
-                val prjShortName = ProjectLinkParams.getProjectShortName(params[0])
-                val itemKey = ProjectLinkParams.getItemKey(params[0])
-                val bugService = AppContextUtil.getSpringBean(BugService::class.java)
-                val bug = bugService.findByProjectAndBugKey(itemKey, prjShortName, AppUI.accountId)
-                when (bug) {
-                    null -> throw ResourceNotFoundException("Can not edit bug with path ${Arrays.toString(params)}")
-                    else -> {
-                        val chain = PageActionChain(ProjectScreenData.Goto(bug.projectid), BugScreenData.Edit(bug))
-                        EventBusFactory.getInstance().post(ProjectEvent.GotoMyProject(this, chain))
-                    }
-                }
-            } else {
-                throw MyCollabException("Invalid bug link: " + params[0])
-            }
-        }
     }
 
     private class AddUrlResolver : ProjectUrlResolver() {

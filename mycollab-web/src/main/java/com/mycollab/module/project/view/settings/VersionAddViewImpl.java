@@ -59,7 +59,7 @@ public class VersionAddViewImpl extends AbstractEditItemComp<Version> implements
 
     @Override
     protected VaadinIcons initFormIconResource() {
-        return ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG_VERSION);
+        return ProjectAssetsManager.getAsset(ProjectTypeConstants.VERSION);
     }
 
     @Override
@@ -74,7 +74,7 @@ public class VersionAddViewImpl extends AbstractEditItemComp<Version> implements
 
     @Override
     protected IFormLayoutFactory initFormLayoutFactory() {
-        return new DefaultDynaFormLayout(ProjectTypeConstants.BUG_VERSION, VersionDefaultFormLayoutFactory.getForm(), "id");
+        return new DefaultDynaFormLayout(ProjectTypeConstants.VERSION, VersionDefaultFormLayoutFactory.getForm(), "id");
     }
 
     @Override

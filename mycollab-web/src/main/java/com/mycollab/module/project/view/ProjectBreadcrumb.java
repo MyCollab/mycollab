@@ -113,24 +113,24 @@ public class ProjectBreadcrumb extends MHorizontalLayout implements CacheableCom
     }
 
 
-    public void gotoRiskRead(Risk risk) {
+    public void gotoRiskRead(SimpleRisk risk) {
         addSummaryLink();
         addEnabledLink(new Button(UserUIContext.getMessage(TicketI18nEnum.LIST), new GotoTicketDashboard()));
         addLink(generateBreadcrumbLink(UserUIContext.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,
                 UserUIContext.getMessage(RiskI18nEnum.SINGLE), risk.getName())));
-        AppUI.addFragment(ProjectLinkGenerator.generateRiskPreviewLink(project.getId(), risk.getId()),
+        AppUI.addFragment(ProjectLinkGenerator.generateRiskPreviewLink(project.getShortname(), risk.getTicketKey()),
                 UserUIContext.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,
                         UserUIContext.getMessage(RiskI18nEnum.SINGLE), risk.getName()));
     }
 
-    public void gotoRiskEdit(Risk risk) {
+    public void gotoRiskEdit(SimpleRisk risk) {
         addSummaryLink();
         addEnabledLink(new Button(UserUIContext.getMessage(TicketI18nEnum.LIST), new GotoTicketDashboard()));
         addLink(generateBreadcrumbLink(UserUIContext.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,
                 UserUIContext.getMessage(RiskI18nEnum.SINGLE), risk.getName()),
                 clickEvent -> EventBusFactory.getInstance().post(new RiskEvent.GotoRead(this, risk.getId()))));
         addLink(new Button(UserUIContext.getMessage(GenericI18Enum.BUTTON_EDIT)));
-        AppUI.addFragment(ProjectLinkGenerator.generateRiskEditLink(project.getId(), risk.getId()),
+        AppUI.addFragment(ProjectLinkGenerator.generateRiskEditLink(project.getShortname(), risk.getTicketKey()),
                 UserUIContext.getMessage(GenericI18Enum.BROWSER_EDIT_ITEM_TITLE,
                         UserUIContext.getMessage(RiskI18nEnum.SINGLE), risk.getName()));
     }
@@ -298,7 +298,7 @@ public class ProjectBreadcrumb extends MHorizontalLayout implements CacheableCom
         addEnabledLink(new Button(UserUIContext.getMessage(TicketI18nEnum.LIST), new GotoTicketDashboard()));
         addLink(generateBreadcrumbLink(UserUIContext.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,
                 UserUIContext.getMessage(TaskI18nEnum.SINGLE), task.getName())));
-        AppUI.addFragment(ProjectLinkGenerator.generateTaskPreviewLink(task.getTicketKey(), task.getProjectShortname()),
+        AppUI.addFragment(ProjectLinkGenerator.generateTaskPreviewLink(task.getProjectShortname(), task.getTicketKey()),
                 UserUIContext.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,
                         UserUIContext.getMessage(TaskI18nEnum.SINGLE), task.getName()));
     }
@@ -355,7 +355,7 @@ public class ProjectBreadcrumb extends MHorizontalLayout implements CacheableCom
 
         addLink(generateBreadcrumbLink(UserUIContext.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,
                 UserUIContext.getMessage(BugI18nEnum.SINGLE), bug.getName())));
-        AppUI.addFragment(ProjectLinkGenerator.generateBugPreviewLink(bug.getTicketKey(), bug.getProjectShortName()),
+        AppUI.addFragment(ProjectLinkGenerator.generateBugPreviewLink(bug.getProjectShortName(), bug.getTicketKey()),
                 UserUIContext.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,
                         UserUIContext.getMessage(BugI18nEnum.SINGLE), bug.getName()));
     }
@@ -390,7 +390,7 @@ public class ProjectBreadcrumb extends MHorizontalLayout implements CacheableCom
         addSummaryLink();
         addEnabledLink(new Button(UserUIContext.getMessage(VersionI18nEnum.LIST), new GotoVersionListener()));
         addLink(generateBreadcrumbLink(version.getName()));
-        AppUI.addFragment(ProjectLinkGenerator.generateBugVersionPreviewLink(project.getId(), version.getId()),
+        AppUI.addFragment(ProjectLinkGenerator.generateVersionPreviewLink(project.getId(), version.getId()),
                 UserUIContext.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,
                         UserUIContext.getMessage(VersionI18nEnum.SINGLE), version.getName()));
     }
@@ -448,7 +448,7 @@ public class ProjectBreadcrumb extends MHorizontalLayout implements CacheableCom
         addSummaryLink();
         addLink(new Button(UserUIContext.getMessage(ComponentI18nEnum.LIST), new GotoComponentListener()));
         addLink(generateBreadcrumbLink(component.getName()));
-        AppUI.addFragment(ProjectLinkGenerator.generateBugComponentPreviewLink(project.getId(), component.getId()),
+        AppUI.addFragment(ProjectLinkGenerator.generateComponentPreviewLink(project.getId(), component.getId()),
                 UserUIContext.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,
                         UserUIContext.getMessage(ComponentI18nEnum.SINGLE), component.getName()));
     }

@@ -24,18 +24,17 @@ import com.mycollab.core.utils.StringUtils;
 import com.mycollab.form.view.LayoutType;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectTypeConstants;
+import com.mycollab.module.project.domain.TicketRelation;
 import com.mycollab.module.project.event.BugEvent;
 import com.mycollab.module.project.i18n.BugI18nEnum;
 import com.mycollab.module.project.i18n.OptionI18nEnum;
 import com.mycollab.module.project.i18n.OptionI18nEnum.BugResolution;
+import com.mycollab.module.project.service.BugService;
 import com.mycollab.module.project.view.settings.component.ProjectMemberSelectionField;
 import com.mycollab.module.project.view.settings.component.VersionMultiSelectField;
 import com.mycollab.module.project.domain.BugWithBLOBs;
-import com.mycollab.module.tracker.domain.RelatedBug;
 import com.mycollab.module.project.domain.SimpleBug;
 import com.mycollab.module.project.service.TicketRelationService;
-import com.mycollab.module.tracker.service.BugRelationService;
-import com.mycollab.module.project.service.BugService;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.EventBusFactory;
@@ -99,12 +98,15 @@ public class ResolvedInputForm extends AdvancedEditBeanForm<SimpleBug> {
                             if (selectedBug.getId().equals(bug.getId())) {
                                 throw new UserInvalidInputException("The relation is invalid since the both entries are the same");
                             }
-                            BugRelationService relatedBugService = AppContextUtil.getSpringBean(BugRelationService.class);
-                            RelatedBug relatedBug = new RelatedBug();
-                            relatedBug.setBugid(bug.getId());
-                            relatedBug.setRelatetype(OptionI18nEnum.BugRelation.Duplicated.name());
-                            relatedBug.setRelatedid(selectedBug.getId());
-                            relatedBugService.saveWithSession(relatedBug, UserUIContext.getUsername());
+
+                            TicketRelationService relatedBugService = AppContextUtil.getSpringBean(TicketRelationService.class);
+                            TicketRelation relatedTicket = new TicketRelation();
+                            relatedTicket.setTicketid(bug.getId());
+                            relatedTicket.setTickettype(ProjectTypeConstants.BUG);
+                            relatedTicket.setRel(OptionI18nEnum.BugRelation.Duplicated.name());
+                            relatedTicket.setTypeid(selectedBug.getId());
+                            relatedTicket.setType(ProjectTypeConstants.BUG);
+                            relatedBugService.saveWithSession(relatedTicket, UserUIContext.getUsername());
                         } else {
                             NotificationUtil.showErrorNotification(UserUIContext.getMessage(BugI18nEnum.ERROR_DUPLICATE_BUG_SELECT));
                             return;

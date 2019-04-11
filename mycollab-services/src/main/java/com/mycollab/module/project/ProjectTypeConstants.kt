@@ -43,9 +43,9 @@ object ProjectTypeConstants {
 
     const val FILE = "Project-File"
 
-    const val BUG_COMPONENT = "Project-Component"
+    const val COMPONENT = "Project-Component"
 
-    const val BUG_VERSION = "Project-Version"
+    const val VERSION = "Project-Version"
 
     const val STANDUP = "Project-StandUp"
 

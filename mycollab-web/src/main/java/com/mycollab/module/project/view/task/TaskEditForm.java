@@ -25,7 +25,7 @@ import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.domain.SimpleTask;
 import com.mycollab.module.project.event.TaskEvent;
 import com.mycollab.module.project.event.TicketEvent;
-import com.mycollab.module.project.service.ProjectTaskService;
+import com.mycollab.module.project.service.TaskService;
 import com.mycollab.module.project.ui.components.ProjectSubscribersComp;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppUI;
@@ -36,7 +36,6 @@ import com.mycollab.vaadin.ui.WrappedFormLayoutFactory;
 import com.mycollab.vaadin.web.ui.DefaultDynaFormLayout;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.mycollab.vaadin.web.ui.field.AttachmentUploadField;
-import com.vaadin.event.ShortcutAction;
 import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.shared.ui.MarginInfo;
@@ -80,7 +79,7 @@ public class TaskEditForm extends AdvancedEditBeanForm<SimpleTask> {
 
             MButton saveBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_SAVE), clickEvent -> {
                 if (validateForm()) {
-                    ProjectTaskService taskService = AppContextUtil.getSpringBean(ProjectTaskService.class);
+                    TaskService taskService = AppContextUtil.getSpringBean(TaskService.class);
                     Integer taskId;
                     if (bean.getId() == null) {
                         taskId = taskService.saveWithSession(bean, UserUIContext.getUsername());

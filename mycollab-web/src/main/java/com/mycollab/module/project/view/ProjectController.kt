@@ -18,18 +18,22 @@ package com.mycollab.module.project.view
 
 import com.google.common.eventbus.Subscribe
 import com.mycollab.common.domain.Tag
+import com.mycollab.core.MyCollabException
+import com.mycollab.core.ResourceNotFoundException
 import com.mycollab.core.utils.StringUtils
 import com.mycollab.db.arguments.NumberSearchField
 import com.mycollab.db.arguments.SetSearchField
 import com.mycollab.module.page.domain.Page
 import com.mycollab.module.project.CurrentProjectVariables
 import com.mycollab.module.project.ProjectMemberStatusConstants
+import com.mycollab.module.project.ProjectTypeConstants
+import com.mycollab.module.project.dao.TicketKeyMapper
 import com.mycollab.module.project.domain.*
-import com.mycollab.module.project.domain.criteria.MessageSearchCriteria
-import com.mycollab.module.project.domain.criteria.MilestoneSearchCriteria
-import com.mycollab.module.project.domain.criteria.ProjectMemberSearchCriteria
-import com.mycollab.module.project.domain.criteria.ProjectRoleSearchCriteria
+import com.mycollab.module.project.domain.criteria.*
 import com.mycollab.module.project.event.*
+import com.mycollab.module.project.service.BugService
+import com.mycollab.module.project.service.TaskService
+import com.mycollab.module.project.service.RiskService
 import com.mycollab.module.project.view.bug.BugAddPresenter
 import com.mycollab.module.project.view.bug.BugReadPresenter
 import com.mycollab.module.project.view.finance.IInvoiceListPresenter
@@ -51,11 +55,7 @@ import com.mycollab.module.project.view.task.TaskReadPresenter
 import com.mycollab.module.project.view.ticket.ITicketKanbanPresenter
 import com.mycollab.module.project.view.ticket.TicketDashboardPresenter
 import com.mycollab.module.project.view.user.ProjectDashboardPresenter
-import com.mycollab.module.project.domain.Component
-import com.mycollab.module.project.domain.SimpleBug
-import com.mycollab.module.project.domain.Version
-import com.mycollab.module.project.domain.criteria.ComponentSearchCriteria
-import com.mycollab.module.project.domain.criteria.VersionSearchCriteria
+import com.mycollab.spring.AppContextUtil
 import com.mycollab.vaadin.AppUI
 import com.mycollab.vaadin.ApplicationEventListener
 import com.mycollab.vaadin.mvp.AbstractController
@@ -123,6 +123,51 @@ class ProjectController(val projectView: ProjectView) : AbstractController() {
                 val data = TicketScreenData.GotoDashboard(event.data)
                 val presenter = PresenterResolver.getPresenter(TicketDashboardPresenter::class.java)
                 presenter.go(projectView, data)
+            }
+        })
+
+        this.register(object : ApplicationEventListener<TicketEvent.GotoRead> {
+            @Subscribe
+            override fun handle(event: TicketEvent.GotoRead) {
+                val ticketKeyMapper = AppContextUtil.getSpringBean(TicketKeyMapper::class.java)
+                val ex = TicketKeyExample()
+                ex.createCriteria().andProjectidEqualTo(event.projectId).andTicketkeyEqualTo(event.ticketKey)
+                val ticketKeys = ticketKeyMapper.selectByExample(ex)
+                when (ticketKeys.size) {
+                    0 -> throw ResourceNotFoundException("Not found ticketKey with projectId=${event.projectId} and ticketKey=${event.ticketKey}")
+                    1 -> {
+                        val ticketKey = ticketKeys[0]
+                        when (ticketKey.tickettype) {
+                            ProjectTypeConstants.RISK -> {
+                                val riskService = AppContextUtil.getSpringBean(RiskService::class.java)
+                                val risk = riskService.findById(ticketKey.ticketid, AppUI.accountId)
+                                if (risk != null) {
+                                    val presenter = PresenterResolver.getPresenter(IRiskReadPresenter::class.java)
+                                    presenter.go(projectView, RiskScreenData.Read(risk))
+                                } else throw ResourceNotFoundException("Can not find risk with id = ${ticketKey.ticketid} in account ${AppUI.accountId}")
+                            }
+                            ProjectTypeConstants.TASK -> {
+                                val taskService = AppContextUtil.getSpringBean(TaskService::class.java)
+                                val task = taskService.findById(ticketKey.ticketid, AppUI.accountId)
+                                if (task != null) {
+                                    val presenter = PresenterResolver.getPresenter(TaskReadPresenter::class.java)
+                                    presenter.go(projectView, TaskScreenData.Read(task))
+                                } else throw ResourceNotFoundException("Can not find task with id = ${ticketKey.ticketid} in account ${AppUI.accountId}")
+                            }
+                            ProjectTypeConstants.BUG -> {
+                                val bugService = AppContextUtil.getSpringBean(BugService::class.java)
+                                val bug = bugService.findById(ticketKey.ticketid, AppUI.accountId)
+                                if (bug != null) {
+                                    val presenter = PresenterResolver.getPresenter(BugReadPresenter::class.java)
+                                    presenter.go(projectView, BugScreenData.Read(bug))
+                                } else throw ResourceNotFoundException("Can not find bug with id = ${ticketKey.ticketid} in account ${AppUI.accountId}")
+                            }
+                            else -> throw MyCollabException("Not support ticket type ${ticketKey.tickettype}")
+                        }
+                    }
+                    else -> throw MyCollabException("Find more than one ticketKeys with projectId=${event.projectId} and ticketKey=${event.ticketKey}")
+                }
+
             }
         })
     }

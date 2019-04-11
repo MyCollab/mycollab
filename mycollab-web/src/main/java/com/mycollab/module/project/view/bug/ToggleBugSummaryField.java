@@ -69,7 +69,7 @@ class ToggleBugSummaryField extends AbstractToggleSummaryField {
                 if (isRead) {
                     ToggleBugSummaryField.this.removeComponent(titleLinkLbl);
                     ToggleBugSummaryField.this.removeComponent(buttonControls);
-                    final TextField editField = new TextField();
+                    TextField editField = new TextField();
                     editField.setValue(bug.getName());
                     editField.setWidth("100%");
                     editField.focus();
@@ -110,8 +110,8 @@ class ToggleBugSummaryField extends AbstractToggleSummaryField {
     private String buildBugLink() {
         String linkName = StringUtils.trim(bug.getName(), maxLength, true);
         A bugLink = new A().setId("tag" + TooltipHelper.TOOLTIP_ID).
-                setHref(ProjectLinkGenerator.generateBugPreviewLink(bug.getTicketKey(),
-                        CurrentProjectVariables.getShortName())).appendText(linkName).setStyle("display:inline");
+                setHref(ProjectLinkGenerator.generateBugPreviewLink(CurrentProjectVariables.getShortName(),
+                        bug.getTicketKey())).appendText(linkName).setStyle("display:inline");
         Div resultDiv = new DivLessFormatter().appendChild(bugLink);
         if (SimpleBug.isOverdue(bug)) {
             bugLink.setCSSClass("overdue");

@@ -55,7 +55,7 @@ class VersionRelayEmailNotificationActionImpl : SendMailToAllMembersAction<Simpl
         val emailNotification = context.emailNotification
 
         val summary = bean!!.name
-        val summaryLink = ProjectLinkGenerator.generateBugComponentPreviewFullLink(siteUrl, bean!!.projectid, bean!!.id)
+        val summaryLink = ProjectLinkGenerator.generateComponentPreviewFullLink(siteUrl, bean!!.projectid, bean!!.id)
 
         val avatarId = if (projectMember != null) projectMember!!.memberAvatarId else ""
         val userAvatar = LinkUtils.newAvatar(avatarId)
@@ -101,14 +101,14 @@ class VersionRelayEmailNotificationActionImpl : SendMailToAllMembersAction<Simpl
 
     private fun userLink(context: MailContext<SimpleVersion>) = A(AccountLinkGenerator.generateUserLink(context.user.username)).appendText(context.changeByUserFullName).write()
 
-    private fun versionLink() = A(ProjectLinkGenerator.generateBugVersionPreviewLink(bean!!.projectid, bean!!.id)).appendText(getItemName()).write()
+    private fun versionLink() = A(ProjectLinkGenerator.generateVersionPreviewLink(bean!!.projectid, bean!!.id)).appendText(getItemName()).write()
 
     override fun getItemFieldMapper(): ItemFieldMapper = mapper
 
     override fun getBeanInContext(notification: ProjectRelayEmailNotification): SimpleVersion? =
             versionService.findById(notification.typeid.toInt(), notification.saccountid)
 
-    override fun getType(): String = ProjectTypeConstants.BUG_VERSION
+    override fun getType(): String = ProjectTypeConstants.VERSION
 
     override fun getTypeId(): String = "${bean!!.id}"
 

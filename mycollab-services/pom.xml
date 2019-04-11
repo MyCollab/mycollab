@@ -100,7 +100,7 @@
                     </dependency>
                 </dependencies>
                 <executions>
-<!--
+
                     <execution>
                         <id>Project Artifacts Generator</id>
                         <phase>validate</phase>
@@ -112,7 +112,7 @@
                             <overwrite>true</overwrite>
                         </configuration>
                     </execution>
-
+<!--
                     <execution>
                         <id>User Artifacts Generator</id>
                         <phase>validate</phase>
@@ -157,18 +157,6 @@
                         </goals>
                         <configuration>
                             <configurationFile>${basedir}/src/main/resources/ProjectGeneratorPremiumConfig.xml</configurationFile>
-                            <overwrite>true</overwrite>
-                        </configuration>
-                    </execution>
-
-                    <execution>
-                        <id>Tracker Artifacts Generator</id>
-                        <phase>validate</phase>
-                        <goals>
-                            <goal>generate</goal>
-                        </goals>
-                        <configuration>
-                            <configurationFile>${basedir}/src/main/resources/TrackerGeneratorConfig.xml</configurationFile>
                             <overwrite>true</overwrite>
                         </configuration>
                     </execution>

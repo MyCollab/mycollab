@@ -32,7 +32,7 @@ import com.mycollab.module.project.domain.SimpleTask;
 import com.mycollab.module.project.event.TaskEvent;
 import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.mycollab.module.project.i18n.TaskI18nEnum;
-import com.mycollab.module.project.service.ProjectTaskService;
+import com.mycollab.module.project.service.TaskService;
 import com.mycollab.module.project.ui.components.TicketRowRender;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppUI;
@@ -90,11 +90,11 @@ class ToggleTaskSummaryField extends AbstractToggleSummaryField {
                     titleLinkLbl.addStyleName(WebThemes.LINK_COMPLETED);
                 }
                 displayTooltip();
-                ProjectTaskService projectTaskService = AppContextUtil.getSpringBean(ProjectTaskService.class);
-                projectTaskService.updateWithSession(task, UserUIContext.getUsername());
+                TaskService taskService = AppContextUtil.getSpringBean(TaskService.class);
+                taskService.updateWithSession(task, UserUIContext.getUsername());
 
                 if (StatusI18nEnum.Closed.name().equals(task.getStatus())) {
-                    Integer countOfOpenSubTasks = projectTaskService.getCountOfOpenSubTasks(task.getId());
+                    Integer countOfOpenSubTasks = taskService.getCountOfOpenSubTasks(task.getId());
                     if (countOfOpenSubTasks > 0) {
                         ConfirmDialogExt.show(UI.getCurrent(),
                                 UserUIContext.getMessage(GenericI18Enum.OPT_QUESTION, AppUI.getSiteName()),
@@ -103,7 +103,7 @@ class ToggleTaskSummaryField extends AbstractToggleSummaryField {
                                 UserUIContext.getMessage(GenericI18Enum.ACTION_NO),
                                 confirmDialog -> {
                                     if (confirmDialog.isConfirmed()) {
-                                        projectTaskService.massUpdateTaskStatuses(task.getId(), StatusI18nEnum.Closed.name(),
+                                        taskService.massUpdateTaskStatuses(task.getId(), StatusI18nEnum.Closed.name(),
                                                 AppUI.getAccountId());
                                     }
                                 });
@@ -151,7 +151,7 @@ class ToggleTaskSummaryField extends AbstractToggleSummaryField {
                         UserUIContext.getMessage(GenericI18Enum.ACTION_NO),
                         confirmDialog -> {
                             if (confirmDialog.isConfirmed()) {
-                                AppContextUtil.getSpringBean(ProjectTaskService.class).removeWithSession(task,
+                                AppContextUtil.getSpringBean(TaskService.class).removeWithSession(task,
                                         UserUIContext.getUsername(), AppUI.getAccountId());
                                 TicketRowRender rowRenderer = UIUtils.getRoot(ToggleTaskSummaryField.this, TicketRowRender.class);
                                 if (rowRenderer != null) {
@@ -183,7 +183,7 @@ class ToggleTaskSummaryField extends AbstractToggleSummaryField {
         if (StringUtils.isNotBlank(newValue) && !newValue.equals(task.getName())) {
             task.setName(newValue);
             titleLinkLbl.setValue(buildTaskLink());
-            ProjectTaskService taskService = AppContextUtil.getSpringBean(ProjectTaskService.class);
+            TaskService taskService = AppContextUtil.getSpringBean(TaskService.class);
             taskService.updateSelectiveWithSession(BeanUtility.deepClone(task), UserUIContext.getUsername());
         }
 
@@ -192,8 +192,9 @@ class ToggleTaskSummaryField extends AbstractToggleSummaryField {
 
     private String buildTaskLink() {
         String linkName = StringUtils.trim(task.getName(), maxLength, true);
-        A taskLink = new A().setId("tag" + TooltipHelper.TOOLTIP_ID).setHref(ProjectLinkGenerator.generateTaskPreviewLink(task.getTicketKey(),
-                CurrentProjectVariables.getShortName())).appendText(linkName).setStyle("display:inline");
+        A taskLink = new A().setId("tag" + TooltipHelper.TOOLTIP_ID).setHref(ProjectLinkGenerator.
+                generateTaskPreviewLink(CurrentProjectVariables.getShortName(), task.getTicketKey())).
+                appendText(linkName).setStyle("display:inline");
         Div resultDiv = new DivLessFormatter().appendChild(taskLink);
         if (task.isOverdue()) {
             taskLink.setCSSClass("overdue");

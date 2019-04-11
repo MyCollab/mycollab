@@ -25,7 +25,7 @@ import com.mycollab.module.project.i18n.RiskI18nEnum;
 import com.mycollab.module.project.i18n.TaskI18nEnum;
 import com.mycollab.module.project.query.TicketQueryInfo;
 import com.mycollab.module.project.service.ProjectMemberService;
-import com.mycollab.module.project.service.ProjectTaskService;
+import com.mycollab.module.project.service.TaskService;
 import com.mycollab.module.project.service.ProjectTicketService;
 import com.mycollab.module.project.service.RiskService;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
@@ -339,7 +339,7 @@ public class TicketKanbanBoardViewImpl extends AbstractVerticalPageView implemen
                             Task task = ProjectTicket.buildTask(ticket);
                             task.setStatus(stage);
                             task.setAssignuser(assignee);
-                            ProjectTaskService taskService = AppContextUtil.getSpringBean(ProjectTaskService.class);
+                            TaskService taskService = AppContextUtil.getSpringBean(TaskService.class);
                             taskService.updateSelectiveWithSession(task, UserUIContext.getUsername());
                         } else if (ticket.isRisk()) {
                             Risk risk = ProjectTicket.buildRisk(ticket);

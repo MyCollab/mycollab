@@ -29,19 +29,12 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
 class ProjectTaskServiceTest : IntegrationServiceTest() {
 
     @Autowired
-    private lateinit var projectTaskService: ProjectTaskService
+    private lateinit var projectTaskService: TaskService
 
     @DataSet
     @Test
     fun testFindById() {
         val task = projectTaskService.findById(1, 1)
-        assertThat(task).extracting("name", "projectShortname").contains("task1", "aaa")
-    }
-
-    @DataSet
-    @Test
-    fun testFindByProjectAndTaskKey() {
-        val task = projectTaskService.findByProjectAndTaskKey(1, "aaa", 1)
         assertThat(task).extracting("name", "projectShortname").contains("task1", "aaa")
     }
 }

@@ -35,19 +35,7 @@ import com.mycollab.vaadin.mvp.PageActionChain
  */
 class RiskUrlResolver : ProjectUrlResolver() {
     init {
-        this.addSubResolver("preview", PreviewUrlResolver())
         this.addSubResolver("add", AddUrlResolver())
-        this.addSubResolver("edit", EditUrlResolver())
-    }
-
-    private class PreviewUrlResolver : ProjectUrlResolver() {
-        override fun handlePage(vararg params: String) {
-            val token = UrlTokenizer(params[0])
-            val projectId = token.getInt()
-            val riskId = token.getInt()
-            val chain = PageActionChain(ProjectScreenData.Goto(projectId), RiskScreenData.Read(riskId))
-            EventBusFactory.getInstance().post(ProjectEvent.GotoMyProject(this, chain))
-        }
     }
 
     private class AddUrlResolver : ProjectUrlResolver() {
@@ -55,22 +43,6 @@ class RiskUrlResolver : ProjectUrlResolver() {
             val projectId = UrlTokenizer(params[0]).getInt()
             val chain = PageActionChain(ProjectScreenData.Goto(projectId), RiskScreenData.Add(SimpleRisk()))
             EventBusFactory.getInstance().post(ProjectEvent.GotoMyProject(this, chain))
-        }
-    }
-
-    private class EditUrlResolver : ProjectUrlResolver() {
-        override fun handlePage(vararg params: String) {
-            val token = UrlTokenizer(params[0])
-            val projectId = token.getInt()
-            val riskId = token.getInt()
-            val riskService = AppContextUtil.getSpringBean(RiskService::class.java)
-            val risk = riskService.findById(riskId, AppUI.accountId)
-            if (risk != null) {
-                val chain = PageActionChain(ProjectScreenData.Goto(projectId), RiskScreenData.Edit(risk))
-                EventBusFactory.getInstance().post(ProjectEvent.GotoMyProject(this, chain))
-            } else {
-                throw ResourceNotFoundException("Can not find risk $params")
-            }
         }
     }
 

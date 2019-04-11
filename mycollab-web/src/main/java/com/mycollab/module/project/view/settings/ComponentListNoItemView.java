@@ -39,7 +39,7 @@ public class ComponentListNoItemView extends ProjectListNoItemView {
 
     @Override
     protected VaadinIcons viewIcon() {
-        return ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG_COMPONENT);
+        return ProjectAssetsManager.getAsset(ProjectTypeConstants.COMPONENT);
     }
 
     @Override

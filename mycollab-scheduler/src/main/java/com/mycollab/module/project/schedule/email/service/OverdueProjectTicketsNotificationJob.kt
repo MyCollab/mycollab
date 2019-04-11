@@ -157,13 +157,17 @@ class OverdueProjectTicketsNotificationJob : GenericQuartzJobBean() {
             fun formatLink(siteUrl: String, assignment: ProjectTicket): String {
                 try {
                     return when (assignment.type) {
-                        ProjectTypeConstants.BUG -> Div().appendText(ProjectResources.getFontIconHtml(ProjectTypeConstants.BUG)).appendChild(DivLessFormatter.EMPTY_SPACE, A(ProjectLinkGenerator.generateBugPreviewFullLink(siteUrl,
-                                assignment.extraTypeId, assignment.projectShortName)).appendText(assignment.name)).write()
-                        ProjectTypeConstants.TASK -> Div().appendText(ProjectResources.getFontIconHtml(ProjectTypeConstants.TASK)).appendChild(DivLessFormatter.EMPTY_SPACE, A(ProjectLinkGenerator.generateTaskPreviewFullLink(siteUrl,
-                                assignment.extraTypeId, assignment.projectShortName)).appendText(assignment.name)).write()
-                        ProjectTypeConstants.RISK -> Div().appendText(ProjectResources.getFontIconHtml(ProjectTypeConstants.RISK)).appendChild(DivLessFormatter.EMPTY_SPACE, A(ProjectLinkGenerator.generateRiskPreviewFullLink(siteUrl,
-                                assignment.projectId!!, assignment.typeId!!)).appendText(assignment.name)).write()
-                        ProjectTypeConstants.MILESTONE -> Div().appendText(ProjectResources.getFontIconHtml(ProjectTypeConstants.MILESTONE)).appendChild(DivLessFormatter.EMPTY_SPACE, A(ProjectLinkGenerator.generateMilestonePreviewFullLink(siteUrl,
+                        ProjectTypeConstants.BUG -> Div().appendText(ProjectResources.getFontIconHtml(ProjectTypeConstants.BUG)).
+                                appendChild(DivLessFormatter.EMPTY_SPACE, A(ProjectLinkGenerator.generateBugPreviewFullLink(siteUrl,
+                                assignment.projectShortName, assignment.extraTypeId)).appendText(assignment.name)).write()
+                        ProjectTypeConstants.TASK -> Div().appendText(ProjectResources.getFontIconHtml(ProjectTypeConstants.TASK)).
+                                appendChild(DivLessFormatter.EMPTY_SPACE, A(ProjectLinkGenerator.generateTaskPreviewFullLink(siteUrl,
+                                assignment.projectShortName, assignment.extraTypeId)).appendText(assignment.name)).write()
+                        ProjectTypeConstants.RISK -> Div().appendText(ProjectResources.getFontIconHtml(ProjectTypeConstants.RISK)).
+                                appendChild(DivLessFormatter.EMPTY_SPACE, A(ProjectLinkGenerator.generateRiskPreviewFullLink(siteUrl,
+                                assignment.projectShortName, assignment.extraTypeId)).appendText(assignment.name)).write()
+                        ProjectTypeConstants.MILESTONE -> Div().appendText(ProjectResources.getFontIconHtml(ProjectTypeConstants.MILESTONE)).
+                                appendChild(DivLessFormatter.EMPTY_SPACE, A(ProjectLinkGenerator.generateMilestonePreviewFullLink(siteUrl,
                                 assignment.projectId!!, assignment.typeId!!)).appendText(assignment.name)).write()
                         else -> throw  MyCollabException("Do not support type $assignment.type")
                     }
@@ -175,7 +179,8 @@ class OverdueProjectTicketsNotificationJob : GenericQuartzJobBean() {
 
             fun formatAssignUser(siteUrl: String, assignment: ProjectTicket): String =
                     Div().appendChild(Img("", storageService().getAvatarPath(assignment.assignUserAvatarId, 16)),
-                            A(AccountLinkGenerator.generatePreviewFullUserLink(siteUrl, assignment.assignUser)).appendText(assignment.assignUserFullName)).write()
+                            A(AccountLinkGenerator.generatePreviewFullUserLink(siteUrl, assignment.assignUser)).
+                                    appendText(assignment.assignUserFullName)).write()
 
             private fun storageService() = AppContextUtil.getSpringBean(AbstractStorageService::class.java)
         }

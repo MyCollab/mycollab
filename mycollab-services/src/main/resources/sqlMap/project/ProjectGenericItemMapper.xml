@@ -423,10 +423,11 @@
         concat(s_user.firstname, ' ', s_user.lastname) AS createdUserDisplayName,
         m_prj_risk.createdTime, m_prj_risk.lastUpdatedTime, m_prj_risk.name,
         m_prj_risk.description, m_prj_project.id AS projectId, m_prj_project.name AS projectName,
-        m_prj_project.shortname AS projectShortName, NULL AS extraTypeId
+        m_prj_project.shortname AS projectShortName, m_prj_ticket_key.ticketKey AS extraTypeId
         FROM m_prj_risk
             LEFT OUTER JOIN s_user ON (m_prj_risk.createdUser = s_user.username)
             INNER JOIN m_prj_project ON (m_prj_risk.projectId = m_prj_project.id)
+            LEFT OUTER JOIN m_prj_ticket_key ON (m_prj_ticket_key.ticketId = m_prj_bug.id AND m_prj_ticket_key.ticketType = 'Project-Risk')
     </sql>
 
     <select id="findPageableListByCriteria" parameterType="com.mycollab.module.project.domain.criteria.ProjectGenericItemSearchCriteria"

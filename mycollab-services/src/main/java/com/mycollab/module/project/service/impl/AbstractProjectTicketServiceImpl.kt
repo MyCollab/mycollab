@@ -26,7 +26,7 @@ import com.mycollab.module.project.ProjectTypeConstants
 import com.mycollab.module.project.dao.ProjectTicketMapper
 import com.mycollab.module.project.domain.ProjectTicket
 import com.mycollab.module.project.domain.criteria.ProjectTicketSearchCriteria
-import com.mycollab.module.project.service.ProjectTaskService
+import com.mycollab.module.project.service.TaskService
 import com.mycollab.module.project.service.ProjectTicketService
 import com.mycollab.module.project.service.RiskService
 import com.mycollab.module.project.service.BugService
@@ -98,7 +98,7 @@ abstract class AbstractProjectTicketServiceImpl : DefaultSearchService<ProjectTi
         when {
             ticket.isTask -> {
                 val task = ProjectTicket.buildTask(ticket)
-                AppContextUtil.getSpringBean(ProjectTaskService::class.java).updateSelectiveWithSession(task, username)
+                AppContextUtil.getSpringBean(TaskService::class.java).updateSelectiveWithSession(task, username)
             }
             ticket.isBug -> {
                 val bug = ProjectTicket.buildBug(ticket)
@@ -118,7 +118,7 @@ abstract class AbstractProjectTicketServiceImpl : DefaultSearchService<ProjectTi
         when {
             ticket.isTask -> {
                 val task = ProjectTicket.buildTask(ticket)
-                AppContextUtil.getSpringBean(ProjectTaskService::class.java).removeWithSession(task, username, ticket.saccountid!!)
+                AppContextUtil.getSpringBean(TaskService::class.java).removeWithSession(task, username, ticket.saccountid!!)
             }
             ticket.isBug -> {
                 val bug = ProjectTicket.buildBug(ticket)

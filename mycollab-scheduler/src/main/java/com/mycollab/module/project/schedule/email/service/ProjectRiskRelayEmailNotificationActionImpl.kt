@@ -92,7 +92,7 @@ class ProjectRiskRelayEmailNotificationActionImpl : SendMailToAllMembersAction<S
     private fun userLink(context: MailContext<SimpleRisk>) = A(AccountLinkGenerator.generateUserLink(context.user.username)).
             appendText(StringUtils.trim(context.changeByUserFullName, 50)).write()
 
-    private fun riskLink() = A(ProjectLinkGenerator.generateRiskPreviewLink(bean!!.projectid, bean!!.id)).appendText(getItemName()).write()
+    private fun riskLink() = A(ProjectLinkGenerator.generateRiskPreviewLink(bean!!.projectShortName, bean!!.ticketKey)).appendText(getItemName()).write()
 
     override fun getItemFieldMapper(): ItemFieldMapper = mapper
 
@@ -106,7 +106,7 @@ class ProjectRiskRelayEmailNotificationActionImpl : SendMailToAllMembersAction<S
     override fun buildExtraTemplateVariables(context: MailContext<SimpleRisk>) {
         val emailNotification = context.emailNotification
         val summary = bean!!.name
-        val summaryLink = ProjectLinkGenerator.generateRiskPreviewFullLink(siteUrl, bean!!.projectid, bean!!.id)
+        val summaryLink = ProjectLinkGenerator.generateRiskPreviewFullLink(siteUrl, bean!!.projectShortName, bean!!.ticketKey)
 
         val avatarId = if (projectMember != null) projectMember!!.memberAvatarId else ""
         val userAvatar = LinkUtils.newAvatar(avatarId)

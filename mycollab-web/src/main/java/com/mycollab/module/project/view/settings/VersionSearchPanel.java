@@ -56,7 +56,7 @@ public class VersionSearchPanel extends DefaultGenericSearchPanel<VersionSearchC
 
     @Override
     protected HeaderWithIcon buildSearchTitle() {
-        return ComponentUtils.headerH2(ProjectTypeConstants.BUG_VERSION, UserUIContext.getMessage(VersionI18nEnum.LIST));
+        return ComponentUtils.headerH2(ProjectTypeConstants.VERSION, UserUIContext.getMessage(VersionI18nEnum.LIST));
     }
 
     @Override

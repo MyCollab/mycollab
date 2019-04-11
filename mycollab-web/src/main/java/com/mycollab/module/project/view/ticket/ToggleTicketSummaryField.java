@@ -25,17 +25,17 @@ import com.mycollab.core.utils.StringUtils;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectLinkGenerator;
 import com.mycollab.module.project.ProjectRolePermissionCollections;
+import com.mycollab.module.project.domain.BugWithBLOBs;
 import com.mycollab.module.project.domain.ProjectTicket;
 import com.mycollab.module.project.domain.Risk;
 import com.mycollab.module.project.domain.Task;
 import com.mycollab.module.project.event.TicketEvent;
 import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
-import com.mycollab.module.project.service.ProjectTaskService;
+import com.mycollab.module.project.service.BugService;
+import com.mycollab.module.project.service.TaskService;
 import com.mycollab.module.project.service.ProjectTicketService;
 import com.mycollab.module.project.service.RiskService;
 import com.mycollab.module.project.ui.components.TicketRowRender;
-import com.mycollab.module.project.domain.BugWithBLOBs;
-import com.mycollab.module.project.service.BugService;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.EventBusFactory;
@@ -145,7 +145,7 @@ public class ToggleTicketSummaryField extends AbstractToggleSummaryField {
                 bugService.updateSelectiveWithSession(bug, UserUIContext.getUsername());
             } else if (ticket.isTask()) {
                 Task task = ProjectTicket.buildTask(ticket);
-                ProjectTaskService taskService = AppContextUtil.getSpringBean(ProjectTaskService.class);
+                TaskService taskService = AppContextUtil.getSpringBean(TaskService.class);
                 taskService.updateSelectiveWithSession(task, UserUIContext.getUsername());
             } else if (ticket.isRisk()) {
                 Risk risk = ProjectTicket.buildRisk(ticket);
@@ -161,12 +161,9 @@ public class ToggleTicketSummaryField extends AbstractToggleSummaryField {
         Div issueDiv = new Div();
 
         A ticketLink = new A().setId(String.format("tag%s", TooltipHelper.TOOLTIP_ID));
-        if (ticket.isBug() || ticket.isTask()) {
+        if (ticket.isBug() || ticket.isTask() || ticket.isRisk()) {
             ticketLink.setHref(ProjectLinkGenerator.generateProjectItemLink(ticket.getProjectShortName(),
                     ticket.getProjectId(), ticket.getType(), ticket.getExtraTypeId() + ""));
-        } else if (ticket.isRisk()) {
-            ticketLink.setHref(ProjectLinkGenerator.generateProjectItemLink(ticket.getProjectShortName(),
-                    ticket.getProjectId(), ticket.getType(), ticket.getTypeId() + ""));
         } else {
             throw new IgnoreException(String.format("Not support type: %s", ticket.getType()));
         }
