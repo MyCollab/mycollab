@@ -106,6 +106,12 @@ class BugServiceImpl(private val bugMapper: BugMapper,
                 TagService::class.java, ProjectTicketService::class.java)))
     }
 
+    override fun removeWithSession(item: BugWithBLOBs, username: String?, sAccountId: Int) {
+        super.removeWithSession(item, username, sAccountId)
+        val event = DeleteProjectBugEvent(arrayOf(item), username, sAccountId)
+        asyncEventBus.post(event)
+    }
+
     override fun massRemoveWithSession(items: List<BugWithBLOBs>, username: String?, sAccountId: Int) {
         super.massRemoveWithSession(items, username, sAccountId)
         val event = DeleteProjectBugEvent(items.toTypedArray(), username, sAccountId)
@@ -133,19 +139,6 @@ class BugServiceImpl(private val bugMapper: BugMapper,
     override fun getVersionDefectsSummary(criteria: BugSearchCriteria): List<GroupItem> = bugMapperExt.getVersionDefectsSummary(criteria)
 
     override fun findById(bugId: Int, sAccountId: Int): SimpleBug? = bugMapperExt.getBugById(bugId)
-
-    override fun massUpdateBugIndexes(mapIndexes: List<Map<String, Int>>, @CacheKey sAccountId: Int) {
-        val jdbcTemplate = JdbcTemplate(dataSource)
-        jdbcTemplate.batchUpdate("UPDATE `m_prj_bug` SET `bugIndex`=? WHERE `id`=?", object : BatchPreparedStatementSetter {
-            @Throws(SQLException::class)
-            override fun setValues(preparedStatement: PreparedStatement, i: Int) {
-                preparedStatement.setInt(1, mapIndexes[i].getValue("index"))
-                preparedStatement.setInt(2, mapIndexes[i].getValue("id"))
-            }
-
-            override fun getBatchSize(): Int = mapIndexes.size
-        })
-    }
 
     companion object {
         init {

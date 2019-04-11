@@ -137,6 +137,12 @@ class TaskServiceImpl(private val taskMapper: TaskMapper,
                 ProjectMemberService::class.java, MilestoneService::class.java, ItemTimeLoggingService::class.java)))
     }
 
+    override fun removeWithSession(item: Task, username: String?, sAccountId: Int) {
+        super.removeWithSession(item, username, sAccountId)
+        val event = DeleteProjectTaskEvent(arrayOf(item), username, sAccountId)
+        asyncEventBus.post(event)
+    }
+
     override fun massRemoveWithSession(items: List<Task>, username: String?, sAccountId: Int) {
         super.massRemoveWithSession(items, username, sAccountId)
         val event = DeleteProjectTaskEvent(items.toTypedArray(), username, sAccountId)
@@ -174,19 +180,6 @@ class TaskServiceImpl(private val taskMapper: TaskMapper,
         searchCriteria.saccountid = NumberSearchField(sAccountId)
         val jdbcTemplate = JdbcTemplate(dataSource)
         jdbcTemplate.update("UPDATE `m_prj_task` SET `status`=? WHERE `parentTaskId`=?", status, parentTaskId)
-    }
-
-    override fun massUpdateTaskIndexes(mapIndexes: List<Map<String, Int>>, @CacheKey sAccountId: Int) {
-        val jdbcTemplate = JdbcTemplate(dataSource)
-        jdbcTemplate.batchUpdate("UPDATE `m_prj_task` SET `taskindex`=? WHERE `id`=?", object : BatchPreparedStatementSetter {
-            @Throws(SQLException::class)
-            override fun setValues(preparedStatement: PreparedStatement, i: Int) {
-                preparedStatement.setInt(1, mapIndexes[i].getValue("index"))
-                preparedStatement.setInt(2, mapIndexes[i].getValue("id"))
-            }
-
-            override fun getBatchSize(): Int = mapIndexes.size
-        })
     }
 
     override fun massUpdateStatuses(oldStatus: String, newStatus: String, projectId: Int, @CacheKey sAccountId: Int) {

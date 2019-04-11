@@ -54,7 +54,4 @@ interface BugService : IDefaultService<Int, BugWithBLOBs, BugSearchCriteria> {
 
     @Cacheable
     fun getComponentDefectsSummary(@CacheKey criteria: BugSearchCriteria): List<GroupItem>
-
-    @CacheEvict
-    fun massUpdateBugIndexes(mapIndexes: List<Map<String, Int>>, @CacheKey sAccountId: Int)
 }

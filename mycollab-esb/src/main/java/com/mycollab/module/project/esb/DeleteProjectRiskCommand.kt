@@ -26,6 +26,8 @@ import com.mycollab.module.ecm.service.ResourceService
 import com.mycollab.module.esb.GenericCommand
 import com.mycollab.module.file.AttachmentUtils
 import com.mycollab.module.project.ProjectTypeConstants
+import com.mycollab.module.project.dao.TicketKeyMapper
+import com.mycollab.module.project.domain.TicketKeyExample
 import org.springframework.stereotype.Component
 
 /**
@@ -35,16 +37,19 @@ import org.springframework.stereotype.Component
 @Component
 class DeleteProjectRiskCommand(private val resourceService: ResourceService,
                                private val commentMapper: CommentMapper,
-                               private val tagService: TagService) : GenericCommand() {
+                               private val tagService: TagService,
+                               private val ticketKeyMapper: TicketKeyMapper) : GenericCommand() {
 
     @AllowConcurrentEvents
     @Subscribe
     fun removeRisk(event: DeleteProjectRiskEvent) {
+        val riskIds = event.risks.map { it.id }.toCollection(mutableListOf())
         event.risks.forEach {
             removeRelatedFiles(event.accountId, it.projectid, it.id)
-            removeRelatedComments(it.id)
             removeRelatedTags(it.id)
         }
+        removeRelatedComments(riskIds)
+        removeTicketKeys(riskIds)
     }
 
     private fun removeRelatedFiles(accountId: Int, projectId: Int, riskId: Int) {
@@ -53,10 +58,16 @@ class DeleteProjectRiskCommand(private val resourceService: ResourceService,
         resourceService.removeResource(attachmentPath, "", true, accountId)
     }
 
-    private fun removeRelatedComments(riskId: Int) {
+    private fun removeRelatedComments(riskIds: MutableList<Int>) {
         val ex = CommentExample()
-        ex.createCriteria().andTypeEqualTo(ProjectTypeConstants.RISK).andExtratypeidEqualTo(riskId)
+        ex.createCriteria().andTypeEqualTo(ProjectTypeConstants.RISK).andExtratypeidIn(riskIds)
         commentMapper.deleteByExample(ex)
+    }
+
+    private fun removeTicketKeys(riskIds: MutableList<Int>) {
+        val ex = TicketKeyExample()
+        ex.createCriteria().andTicketidIn(riskIds).andTickettypeEqualTo(ProjectTypeConstants.RISK)
+        ticketKeyMapper.deleteByExample(ex)
     }
 
     private fun removeRelatedTags(riskId: Int) {

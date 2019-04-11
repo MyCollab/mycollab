@@ -26,6 +26,8 @@ import com.mycollab.module.ecm.service.ResourceService
 import com.mycollab.module.esb.GenericCommand
 import com.mycollab.module.file.AttachmentUtils
 import com.mycollab.module.project.ProjectTypeConstants
+import com.mycollab.module.project.dao.TicketKeyMapper
+import com.mycollab.module.project.domain.TicketKeyExample
 import org.springframework.stereotype.Component
 
 /**
@@ -35,16 +37,19 @@ import org.springframework.stereotype.Component
 @Component
 class DeleteProjectTaskCommand(private val resourceService: ResourceService,
                                private val commentMapper: CommentMapper,
-                               private val tagService: TagService) : GenericCommand() {
+                               private val tagService: TagService,
+                               private val ticketKeyMapper: TicketKeyMapper) : GenericCommand() {
 
     @AllowConcurrentEvents
     @Subscribe
     fun removedTask(event: DeleteProjectTaskEvent) {
+        val taskIds = event.tasks.map { it.id }.toCollection(mutableListOf())
         event.tasks.forEach {
             removeRelatedFiles(event.accountId, it.projectid, it.id)
-            removeRelatedComments(it.id)
             removeRelatedTags(it.id)
         }
+        removeRelatedComments(taskIds)
+        removeTicketKeys(taskIds)
     }
 
     private fun removeRelatedFiles(accountId: Int, projectId: Int, taskId: Int) {
@@ -53,10 +58,16 @@ class DeleteProjectTaskCommand(private val resourceService: ResourceService,
         resourceService.removeResource(attachmentPath, "", true, accountId)
     }
 
-    private fun removeRelatedComments(taskId: Int) {
+    private fun removeRelatedComments(taskIds: MutableList<Int>) {
         val ex = CommentExample()
-        ex.createCriteria().andTypeEqualTo(ProjectTypeConstants.TASK).andExtratypeidEqualTo(taskId)
+        ex.createCriteria().andTypeEqualTo(ProjectTypeConstants.TASK).andExtratypeidIn(taskIds)
         commentMapper.deleteByExample(ex)
+    }
+
+    private fun removeTicketKeys(taskIds: MutableList<Int>) {
+        val ex = TicketKeyExample()
+        ex.createCriteria().andTicketidIn(taskIds).andTickettypeEqualTo(ProjectTypeConstants.TASK)
+        ticketKeyMapper.deleteByExample(ex)
     }
 
     private fun removeRelatedTags(taskId: Int) {

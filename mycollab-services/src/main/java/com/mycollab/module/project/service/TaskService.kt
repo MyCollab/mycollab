@@ -53,8 +53,5 @@ interface TaskService : IDefaultService<Int, Task, TaskSearchCriteria> {
     @Cacheable
     fun getAssignedTasksSummary(@CacheKey criteria: TaskSearchCriteria): List<GroupItem>
 
-    @CacheEvict
-    fun massUpdateTaskIndexes(mapIndexes: List<Map<String, Int>>, @CacheKey sAccountId: Int)
-
     fun massUpdateStatuses(oldStatus: String, newStatus: String, projectId: Int, @CacheKey sAccountId: Int)
 }
