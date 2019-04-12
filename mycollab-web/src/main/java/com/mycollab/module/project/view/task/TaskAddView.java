@@ -16,7 +16,9 @@
  */
 package com.mycollab.module.project.view.task;
 
+import com.mycollab.module.project.domain.Component;
 import com.mycollab.module.project.domain.SimpleTask;
+import com.mycollab.module.project.domain.Version;
 import com.mycollab.vaadin.event.HasEditFormHandlers;
 import com.mycollab.vaadin.mvp.IFormAddView;
 import com.mycollab.vaadin.web.ui.field.AttachmentUploadField;
@@ -34,4 +36,8 @@ public interface TaskAddView extends IFormAddView<SimpleTask> {
     AttachmentUploadField getAttachUploadField();
 
     List<String> getFollowers();
+
+    List<Component> getComponents();
+
+    List<Version> getAffectedVersions();
 }

@@ -1,4 +1,4 @@
-package com.mycollab.module.project.view.bug.field
+package com.mycollab.module.project.ui.form
 
 import com.hp.gagawa.java.elements.A
 import com.mycollab.common.i18n.OptionI18nEnum

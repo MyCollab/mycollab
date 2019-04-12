@@ -23,9 +23,11 @@ import com.mycollab.form.view.builder.DynaSectionBuilder;
 import com.mycollab.form.view.builder.TextDynaFieldBuilder;
 import com.mycollab.form.view.builder.type.DynaForm;
 import com.mycollab.form.view.builder.type.DynaSection;
+import com.mycollab.module.project.domain.SimpleTask;
 import com.mycollab.module.project.domain.Task;
 import com.mycollab.module.project.i18n.MilestoneI18nEnum;
 import com.mycollab.module.project.i18n.TaskI18nEnum;
+import com.mycollab.module.project.i18n.TicketI18nEnum;
 
 /**
  * @author MyCollab Ltd.
@@ -87,13 +89,21 @@ public class TaskDefaultFormLayoutFactory {
                 .displayName(TaskI18nEnum.FORM_ORIGINAL_ESTIMATE)
                 .contextHelp(TaskI18nEnum.FORM_ORIGINAL_ESTIMATE_HELP).fieldIndex(11).build());
 
+        mainSection.fields(new TextDynaFieldBuilder().fieldName(SimpleTask.Field.components)
+                .displayName(TicketI18nEnum.FORM_COMPONENTS)
+                .contextHelp(TicketI18nEnum.FORM_COMPONENTS_HELP).fieldIndex(12).build());
+
         mainSection.fields(new TextDynaFieldBuilder().fieldName(Task.Field.remainestimate)
                 .displayName(TaskI18nEnum.FORM_REMAIN_ESTIMATE)
-                .contextHelp(TaskI18nEnum.FORM_REMAIN_ESTIMATE_HELP).fieldIndex(12).build());
+                .contextHelp(TaskI18nEnum.FORM_REMAIN_ESTIMATE_HELP).fieldIndex(13).build());
+
+        mainSection.fields(new TextDynaFieldBuilder().fieldName(SimpleTask.Field.affectedVersions)
+                .displayName(TicketI18nEnum.FORM_AFFECTED_VERSIONS)
+                .contextHelp(TicketI18nEnum.FORM_AFFECTED_VERSIONS_HELP).fieldIndex(14).build());
 
         mainSection.fields(new TextDynaFieldBuilder().fieldName(Task.Field.description)
                 .displayName(GenericI18Enum.FORM_DESCRIPTION)
-                .colSpan(true).fieldIndex(13).build());
+                .colSpan(true).fieldIndex(15).build());
         return mainSection;
     }
 
@@ -131,13 +141,21 @@ public class TaskDefaultFormLayoutFactory {
                 .displayName(TaskI18nEnum.FORM_ORIGINAL_ESTIMATE)
                 .contextHelp(TaskI18nEnum.FORM_ORIGINAL_ESTIMATE_HELP).fieldIndex(11).build());
 
+        mainSection.fields(new TextDynaFieldBuilder().fieldName(SimpleTask.Field.components)
+                .displayName(TicketI18nEnum.FORM_COMPONENTS)
+                .contextHelp(TicketI18nEnum.FORM_COMPONENTS_HELP).fieldIndex(12).build());
+
         mainSection.fields(new TextDynaFieldBuilder().fieldName(Task.Field.remainestimate)
                 .displayName(TaskI18nEnum.FORM_REMAIN_ESTIMATE)
-                .contextHelp(TaskI18nEnum.FORM_REMAIN_ESTIMATE_HELP).fieldIndex(12).build());
+                .contextHelp(TaskI18nEnum.FORM_REMAIN_ESTIMATE_HELP).fieldIndex(13).build());
+
+        mainSection.fields(new TextDynaFieldBuilder().fieldName(SimpleTask.Field.affectedVersions)
+                .displayName(TicketI18nEnum.FORM_AFFECTED_VERSIONS)
+                .contextHelp(TicketI18nEnum.FORM_AFFECTED_VERSIONS_HELP).fieldIndex(14).build());
 
         mainSection.fields(new TextDynaFieldBuilder().fieldName(Task.Field.description)
                 .displayName(GenericI18Enum.FORM_DESCRIPTION)
-                .colSpan(true).fieldIndex(13).build());
+                .colSpan(true).fieldIndex(15).build());
         return mainSection;
     }
 

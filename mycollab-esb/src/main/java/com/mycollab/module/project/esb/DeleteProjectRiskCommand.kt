@@ -27,7 +27,9 @@ import com.mycollab.module.esb.GenericCommand
 import com.mycollab.module.file.AttachmentUtils
 import com.mycollab.module.project.ProjectTypeConstants
 import com.mycollab.module.project.dao.TicketKeyMapper
+import com.mycollab.module.project.dao.TicketRelationMapper
 import com.mycollab.module.project.domain.TicketKeyExample
+import com.mycollab.module.project.domain.TicketRelationExample
 import org.springframework.stereotype.Component
 
 /**
@@ -38,7 +40,8 @@ import org.springframework.stereotype.Component
 class DeleteProjectRiskCommand(private val resourceService: ResourceService,
                                private val commentMapper: CommentMapper,
                                private val tagService: TagService,
-                               private val ticketKeyMapper: TicketKeyMapper) : GenericCommand() {
+                               private val ticketKeyMapper: TicketKeyMapper,
+                               private val ticketRelationMapper: TicketRelationMapper) : GenericCommand() {
 
     @AllowConcurrentEvents
     @Subscribe
@@ -50,6 +53,7 @@ class DeleteProjectRiskCommand(private val resourceService: ResourceService,
         }
         removeRelatedComments(riskIds)
         removeTicketKeys(riskIds)
+        removeTicketRelations(riskIds)
     }
 
     private fun removeRelatedFiles(accountId: Int, projectId: Int, riskId: Int) {
@@ -68,6 +72,12 @@ class DeleteProjectRiskCommand(private val resourceService: ResourceService,
         val ex = TicketKeyExample()
         ex.createCriteria().andTicketidIn(riskIds).andTickettypeEqualTo(ProjectTypeConstants.RISK)
         ticketKeyMapper.deleteByExample(ex)
+    }
+
+    private fun removeTicketRelations(riskIds: MutableList<Int>) {
+        val ex = TicketRelationExample()
+        ex.createCriteria().andTicketidIn(riskIds).andTickettypeEqualTo(ProjectTypeConstants.RISK)
+        ticketRelationMapper.deleteByExample(ex)
     }
 
     private fun removeRelatedTags(riskId: Int) {

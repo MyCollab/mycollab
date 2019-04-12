@@ -20,10 +20,10 @@
                    assignUser="nghiemle" createdTime="2014-10-01 06:45:22"
                    sAccountId="1"/>
 
-    <m_prj_ticket_relation id="1" ticketId="1" ticketType="Project-Bug" type="Component" typeId="1"/>
-    <m_prj_ticket_relation id="2" ticketId="2" ticketType="Project-Bug" type="Component" typeId="2"/>
-    <m_prj_ticket_relation id="3" ticketId="3" ticketType="Project-Bug" type="Component" typeId="3"/>
-    <m_prj_ticket_relation id="4" ticketId="4" ticketType="Project-Bug" type="Component" typeId="2"/>
+    <m_prj_ticket_relation id="1" ticketId="1" ticketType="Project-Bug" type="Component" typeId="1" rel="Component"/>
+    <m_prj_ticket_relation id="2" ticketId="2" ticketType="Project-Bug" type="Component" typeId="2" rel="Component"/>
+    <m_prj_ticket_relation id="3" ticketId="3" ticketType="Project-Bug" type="Component" typeId="3" rel="Component"/>
+    <m_prj_ticket_relation id="4" ticketId="4" ticketType="Project-Bug" type="Component" typeId="2" rel="Component"/>
 
     <m_prj_component id="1" name="com 1"
                          projectId="1" sAccountId="1" status="Open" userlead="hai79"

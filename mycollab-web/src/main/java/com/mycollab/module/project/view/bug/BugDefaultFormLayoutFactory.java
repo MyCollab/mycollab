@@ -27,6 +27,7 @@ import com.mycollab.module.project.i18n.BugI18nEnum;
 import com.mycollab.module.project.i18n.MilestoneI18nEnum;
 import com.mycollab.module.project.domain.BugWithBLOBs;
 import com.mycollab.module.project.domain.SimpleBug;
+import com.mycollab.module.project.i18n.TicketI18nEnum;
 
 /**
  * @author MyCollab Ltd.
@@ -59,8 +60,8 @@ public class BugDefaultFormLayoutFactory {
                 .fieldIndex(3).build());
 
         mainSection.fields(new TextDynaFieldBuilder().fieldName(SimpleBug.Field.components)
-                .displayName(BugI18nEnum.FORM_COMPONENTS)
-                .contextHelp(BugI18nEnum.FORM_COMPONENTS_HELP)
+                .displayName(TicketI18nEnum.FORM_COMPONENTS)
+                .contextHelp(TicketI18nEnum.FORM_COMPONENTS_HELP)
                 .fieldIndex(4).build());
 
         //Row 4
@@ -68,8 +69,8 @@ public class BugDefaultFormLayoutFactory {
                 .displayName(GenericI18Enum.FORM_START_DATE).fieldIndex(5).build());
 
         mainSection.fields(new TextDynaFieldBuilder().fieldName(SimpleBug.Field.affectedVersions)
-                .displayName(BugI18nEnum.FORM_AFFECTED_VERSIONS)
-                .contextHelp(BugI18nEnum.FORM_AFFECTED_VERSIONS_HELP)
+                .displayName(TicketI18nEnum.FORM_AFFECTED_VERSIONS)
+                .contextHelp(TicketI18nEnum.FORM_AFFECTED_VERSIONS_HELP)
                 .fieldIndex(6).build());
 
 
@@ -142,13 +143,13 @@ public class BugDefaultFormLayoutFactory {
                 .fieldIndex(4).build());
 
         mainSection.fields(new TextDynaFieldBuilder().fieldName(SimpleBug.Field.components)
-                .displayName(BugI18nEnum.FORM_COMPONENTS)
-                .contextHelp(BugI18nEnum.FORM_COMPONENTS_HELP)
+                .displayName(TicketI18nEnum.FORM_COMPONENTS)
+                .contextHelp(TicketI18nEnum.FORM_COMPONENTS_HELP)
                 .fieldIndex(5).build());
 
         mainSection.fields(new TextDynaFieldBuilder().fieldName(SimpleBug.Field.affectedVersions)
-                .displayName(BugI18nEnum.FORM_AFFECTED_VERSIONS)
-                .contextHelp(BugI18nEnum.FORM_AFFECTED_VERSIONS_HELP)
+                .displayName(TicketI18nEnum.FORM_AFFECTED_VERSIONS)
+                .contextHelp(TicketI18nEnum.FORM_AFFECTED_VERSIONS_HELP)
                 .fieldIndex(6).build());
 
         mainSection.fields(new TextDynaFieldBuilder().fieldName(SimpleBug.Field.fixedVersions)

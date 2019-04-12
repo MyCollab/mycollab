@@ -1,16 +1,16 @@
 /**
  * Copyright © MyCollab
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -22,8 +22,8 @@ import com.mycollab.form.view.builder.DynaSectionBuilder;
 import com.mycollab.form.view.builder.TextDynaFieldBuilder;
 import com.mycollab.form.view.builder.type.DynaForm;
 import com.mycollab.form.view.builder.type.DynaSection;
-import com.mycollab.module.project.i18n.BugI18nEnum;
 import com.mycollab.module.project.domain.Version;
+import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 
 /**
  * @author MyCollab Ltd.
@@ -31,10 +31,7 @@ import com.mycollab.module.project.domain.Version;
  */
 public class VersionDefaultFormLayoutFactory {
 
-    private static final DynaForm defaultForm;
-
-    static {
-        defaultForm = new DynaForm();
+    private static DynaSection mainSection() {
         DynaSection mainSection = new DynaSectionBuilder().layoutType(LayoutType.TWO_COLUMN).build();
 
         mainSection.fields(new TextDynaFieldBuilder().fieldName(Version.Field.name)
@@ -48,14 +45,21 @@ public class VersionDefaultFormLayoutFactory {
         mainSection.fields(new TextDynaFieldBuilder().fieldName(Version.Field.duedate)
                 .displayName(GenericI18Enum.FORM_DUE_DATE)
                 .fieldIndex(2).build());
-
-        mainSection.fields(new TextDynaFieldBuilder().fieldName(Version.Field.id).displayName(BugI18nEnum.LIST)
-                .colSpan(true).fieldIndex(3).build());
-
-        defaultForm.sections(mainSection);
+        return mainSection;
     }
 
-    public static DynaForm getForm() {
-        return defaultForm;
+    private static DynaSection assignmentSection() {
+        DynaSection assignmentSection = new DynaSectionBuilder().layoutType(LayoutType.ONE_COLUMN).header(ProjectCommonI18nEnum.OPT_ASSIGNMENT_LIST).build();
+        assignmentSection.fields(new TextDynaFieldBuilder().fieldName("section-assignments")
+                .fieldIndex(6).colSpan(true).build());
+        return assignmentSection;
+    }
+
+    public static DynaForm getAddForm() {
+        return new DynaForm(mainSection());
+    }
+
+    public static DynaForm getReadForm() {
+        return new DynaForm(mainSection(), assignmentSection());
     }
 }

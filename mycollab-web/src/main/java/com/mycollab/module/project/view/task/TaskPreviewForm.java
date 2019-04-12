@@ -36,8 +36,10 @@ import com.mycollab.module.project.i18n.OptionI18nEnum.Priority;
 import com.mycollab.module.project.i18n.TaskI18nEnum;
 import com.mycollab.module.project.service.TaskService;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
+import com.mycollab.module.project.ui.form.ComponentsViewField;
 import com.mycollab.module.project.ui.form.ProjectFormAttachmentDisplayField;
 import com.mycollab.module.project.ui.form.ProjectItemViewField;
+import com.mycollab.module.project.ui.form.VersionsViewField;
 import com.mycollab.module.project.view.settings.component.ProjectUserFormLinkField;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppUI;
@@ -45,7 +47,10 @@ import com.mycollab.vaadin.ApplicationEventListener;
 import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.*;
-import com.mycollab.vaadin.ui.field.*;
+import com.mycollab.vaadin.ui.field.BooleanViewField;
+import com.mycollab.vaadin.ui.field.I18nFormViewField;
+import com.mycollab.vaadin.ui.field.RichTextViewField;
+import com.mycollab.vaadin.ui.field.StyleViewField;
 import com.mycollab.vaadin.web.ui.*;
 import com.vaadin.data.HasValue;
 import com.vaadin.icons.VaadinIcons;
@@ -91,6 +96,10 @@ public class TaskPreviewForm extends AdvancedPreviewBeanForm<SimpleTask> {
                 return new ProjectItemViewField(ProjectTypeConstants.MILESTONE, beanItem.getMilestoneid(), beanItem.getMilestoneName());
             } else if ("section-attachments".equals(propertyId)) {
                 return new ProjectFormAttachmentDisplayField(beanItem.getProjectid(), ProjectTypeConstants.TASK, beanItem.getId());
+            } else if (SimpleTask.Field.components.equalTo(propertyId)) {
+                return new ComponentsViewField();
+            } else if (SimpleTask.Field.affectedVersions.equalTo(propertyId)) {
+                return new VersionsViewField();
             } else if (Task.Field.priority.equalTo(propertyId)) {
                 if (StringUtils.isNotBlank(beanItem.getPriority())) {
                     VaadinIcons fontPriority = ProjectAssetsManager.getPriority(beanItem.getPriority());

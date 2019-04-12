@@ -26,6 +26,7 @@ import com.mycollab.module.project.i18n.MilestoneI18nEnum
 import com.mycollab.module.project.i18n.OptionI18nEnum.BugSeverity
 import com.mycollab.module.project.i18n.OptionI18nEnum.Priority
 import com.mycollab.module.project.i18n.ProjectCommonI18nEnum
+import com.mycollab.module.project.i18n.TicketI18nEnum
 import org.apache.ibatis.jdbc.SQL
 
 /**
@@ -45,10 +46,6 @@ class BugSearchCriteria : SearchCriteria() {
     var resolutions: SetSearchField<String>? = null
 
     var componentids: SetSearchField<Int>? = null
-    var affectedversionids: SetSearchField<Int>? = null
-    var fixedversionids: SetSearchField<Int>? = null
-    var versionids: SetSearchField<Int>? = null
-    var priorities: SetSearchField<String>? = null
     var statuses: SetSearchField<String>? = null
     var projectId: NumberSearchField? = null
 
@@ -178,7 +175,7 @@ class BugSearchCriteria : SearchCriteria() {
                         setOf(StatusI18nEnum.Verified, StatusI18nEnum.Open, StatusI18nEnum.ReOpen, StatusI18nEnum.Resolved)))
 
         @JvmField
-        val p_affectedVersions = CacheParamMapper.register(ProjectTypeConstants.BUG, BugI18nEnum.FORM_AFFECTED_VERSIONS,
+        val p_affectedVersions = CacheParamMapper.register(ProjectTypeConstants.BUG, TicketI18nEnum.FORM_AFFECTED_VERSIONS,
                 BugTypeCustomSqlParam("affected_versions", "AffVersion"))
 
         @JvmField
@@ -186,7 +183,7 @@ class BugSearchCriteria : SearchCriteria() {
                 BugTypeCustomSqlParam("fixed_versions", "FixVersion"))
 
         @JvmField
-        val p_components = CacheParamMapper.register(ProjectTypeConstants.BUG, BugI18nEnum.FORM_COMPONENTS,
+        val p_components = CacheParamMapper.register(ProjectTypeConstants.BUG, TicketI18nEnum.FORM_COMPONENTS,
                 BugTypeCustomSqlParam("components", "Component"))
 
         @JvmField

@@ -90,7 +90,7 @@ public class VersionReadPresenter extends AbstractPresenter<VersionReadView> {
             public void onPrint(Object source, Version data) {
                 PrintButton btn = (PrintButton) source;
                 btn.doPrint(data, new FormReportLayout(ProjectTypeConstants.VERSION, Version.Field.name.name(),
-                        VersionDefaultFormLayoutFactory.getForm(), Version.Field.id.name()));
+                        VersionDefaultFormLayoutFactory.getAddForm(), Version.Field.id.name()));
             }
 
             @Override

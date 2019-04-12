@@ -22,6 +22,10 @@ class SimpleVersion : Version() {
 
     var numBugs: Int? = null
 
+    var numOpenTasks: Int? = null
+
+    var numTasks: Int? = null
+
     lateinit var projectName: String
 
     lateinit var projectShortName: String

@@ -27,7 +27,9 @@ import com.mycollab.module.esb.GenericCommand
 import com.mycollab.module.file.AttachmentUtils
 import com.mycollab.module.project.ProjectTypeConstants
 import com.mycollab.module.project.dao.TicketKeyMapper
+import com.mycollab.module.project.dao.TicketRelationMapper
 import com.mycollab.module.project.domain.TicketKeyExample
+import com.mycollab.module.project.domain.TicketRelationExample
 import org.springframework.stereotype.Component
 
 /**
@@ -38,7 +40,8 @@ import org.springframework.stereotype.Component
 class DeleteProjectTaskCommand(private val resourceService: ResourceService,
                                private val commentMapper: CommentMapper,
                                private val tagService: TagService,
-                               private val ticketKeyMapper: TicketKeyMapper) : GenericCommand() {
+                               private val ticketKeyMapper: TicketKeyMapper,
+                               private val ticketRelationMapper: TicketRelationMapper) : GenericCommand() {
 
     @AllowConcurrentEvents
     @Subscribe
@@ -50,6 +53,7 @@ class DeleteProjectTaskCommand(private val resourceService: ResourceService,
         }
         removeRelatedComments(taskIds)
         removeTicketKeys(taskIds)
+        removeTicketRelations(taskIds)
     }
 
     private fun removeRelatedFiles(accountId: Int, projectId: Int, taskId: Int) {
@@ -68,6 +72,12 @@ class DeleteProjectTaskCommand(private val resourceService: ResourceService,
         val ex = TicketKeyExample()
         ex.createCriteria().andTicketidIn(taskIds).andTickettypeEqualTo(ProjectTypeConstants.TASK)
         ticketKeyMapper.deleteByExample(ex)
+    }
+
+    private fun removeTicketRelations(taskIds: MutableList<Int>) {
+        val ex = TicketRelationExample()
+        ex.createCriteria().andTicketidIn(taskIds).andTickettypeEqualTo(ProjectTypeConstants.TASK)
+        ticketRelationMapper.deleteByExample(ex)
     }
 
     private fun removeRelatedTags(taskId: Int) {

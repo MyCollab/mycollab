@@ -61,7 +61,7 @@ class TicketRelationServiceImpl(private val ticketRelationMapper: TicketRelation
         versions?.forEach {
             val relatedItem = TicketRelation()
             relatedItem.ticketid = ticketId
-            relatedItem.tickettype=ticketType
+            relatedItem.tickettype = ticketType
             relatedItem.typeid = it.id
             relatedItem.type = ProjectTypeConstants.VERSION
             relatedItem.rel = TicketRelationConstants.FIX_VERSION

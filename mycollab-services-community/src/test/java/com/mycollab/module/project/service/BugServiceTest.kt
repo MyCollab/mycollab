@@ -97,19 +97,6 @@ class BugServiceTest : IntegrationServiceTest() {
 
     @DataSet
     @Test
-    fun testSearchByVersions() {
-        val criteria = BugSearchCriteria()
-        criteria.fixedversionids = SetSearchField(1, 2, 3)
-        criteria.affectedversionids = SetSearchField(1, 2, 3)
-
-        val bugs = bugService.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<SimpleBug>
-
-        assertThat(bugs.size).isEqualTo(1)
-        assertThat<SimpleBug>(bugs).extracting("id", "detail", "name").contains(tuple(1, "detail 1", "name 1"))
-    }
-
-    @DataSet
-    @Test
     fun testSearchByAssignedUser() {
         val criteria = BugSearchCriteria()
         val assignedDefectsSummary = bugService.getAssignedDefectsSummary(criteria)

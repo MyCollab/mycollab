@@ -58,16 +58,13 @@ class MailAppender : SMTPAppender() {
                 props["mail.smtp.host"] = emailConfiguration.smtphost
                 props["mail.smtp.port"] = emailConfiguration.port
 
-                var loginAuthenticator: Authenticator? = null
-
-                if (emailConfiguration.username != null) {
-                    loginAuthenticator = object : Authenticator() {
-                        override fun getPasswordAuthentication(): PasswordAuthentication? {
-                            return PasswordAuthentication(emailConfiguration.username, emailConfiguration.password)
-                        }
+                val loginAuthenticator: Authenticator = object : Authenticator() {
+                    override fun getPasswordAuthentication(): PasswordAuthentication? {
+                        return PasswordAuthentication(emailConfiguration.username, emailConfiguration.password)
                     }
-                    props["mail.smtp.auth"] = "true"
                 }
+                props["mail.smtp.auth"] = "true"
+
 
                 if (emailConfiguration.ssl && emailConfiguration.startTls) {
                     addError("Both SSL and StartTLS cannot be enabled simultaneously")

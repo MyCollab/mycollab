@@ -17,6 +17,7 @@
 package com.mycollab.module.project.domain
 
 import com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum
+import com.mycollab.core.arguments.NotBindable
 import com.mycollab.core.utils.DateTimeUtils
 import com.mycollab.core.utils.StringUtils
 import java.time.LocalDate
@@ -75,8 +76,14 @@ data class SimpleTask(var projectName: String? = null,
             return if (value != null) value.plusDays(1) else null
         }
 
+    @NotBindable
+    var components: List<Component>? = null
+
+    @NotBindable
+    var affectedVersions: List<Version>? = null
+
     enum class Field {
-        selected, logByFullName, assignUserFullName, milestoneName;
+        selected, logByFullName, assignUserFullName, milestoneName, components, affectedVersions;
 
         fun equalTo(value: Any): Boolean = name == value
     }

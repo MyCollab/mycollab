@@ -22,10 +22,10 @@
                    detail="detail 4" status="Closed" resolution="1" createdUser="nghiemle"
                    assignUser="nghiemle" createdTime="2014-10-01 06:45:22" sAccountId="1"/>
 
-    <m_prj_ticket_relation id="1" ticketId="1" ticketType="Project-Bug" type="AffVersion" typeId="1"/>
-    <m_prj_ticket_relation id="2" ticketId="2" ticketType="Project-Bug" type="Fix Version" typeId="2"/>
-    <m_prj_ticket_relation id="3" ticketId="3" ticketType="Project-Bug" type="Fix Version" typeId="3"/>
-    <m_prj_ticket_relation id="4" ticketId="4" ticketType="Project-Bug" type="AffVersion" typeId="2"/>
+    <m_prj_ticket_relation id="1" ticketId="1" ticketType="Project-Bug" type="Project-Version" typeId="1" rel="AffVersion"/>
+    <m_prj_ticket_relation id="2" ticketId="2" ticketType="Project-Bug" type="Project-Version" typeId="2" rel="FixVersion"/>
+    <m_prj_ticket_relation id="3" ticketId="3" ticketType="Project-Bug" type="Project-Version" typeId="3" rel="FixVersion"/>
+    <m_prj_ticket_relation id="4" ticketId="4" ticketType="Project-Bug" type="Project-Version" typeId="2" rel="AffVersion"/>
 
     <m_prj_version id="1" projectId="1" sAccountId="1"
                        name="1.0.0" createdTime="2014-06-10 10:10:10" lastUpdatedTime="2014-06-10 10:10:10"

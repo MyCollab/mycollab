@@ -74,7 +74,7 @@ public class VersionAddViewImpl extends AbstractEditItemComp<Version> implements
 
     @Override
     protected IFormLayoutFactory initFormLayoutFactory() {
-        return new DefaultDynaFormLayout(ProjectTypeConstants.VERSION, VersionDefaultFormLayoutFactory.getForm(), "id");
+        return new DefaultDynaFormLayout(ProjectTypeConstants.VERSION, VersionDefaultFormLayoutFactory.getAddForm(), "id");
     }
 
     @Override

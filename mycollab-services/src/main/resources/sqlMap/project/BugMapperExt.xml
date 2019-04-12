@@ -97,53 +97,6 @@
             ${searchCriteria.projectId.operation} m_prj_bug.projectId=@{searchCriteria.projectId.value,jdbcType=NUMERIC}
         #end
         
-        #ifnotnull($searchCriteria.affectedversionids)
-            ${searchCriteria.affectedversionids.operation}
-            #repeat(${searchCriteria.affectedversionids.values} $affectedversion "OR" "(" ")")
-                EXISTS (SELECT 1
-                FROM m_prj_ticket_relation
-                WHERE m_prj_ticket_relation.type='AffVersion'
-                    AND m_prj_ticket_relation.typeId=@{affectedversion,jdbcType=NUMERIC}
-                    AND m_prj_ticket_relation.ticketId=m_prj_bug.id
-                    AND m_prj_ticket_relation.ticketType='Project-Bug'
-                    LIMIT 1)
-            #end
-        #end
-        
-        #ifnotnull($searchCriteria.fixedversionids)
-            ${searchCriteria.fixedversionids.operation}
-            #repeat(${searchCriteria.fixedversionids.values} $fixedversion "OR" "(" ")")
-                EXISTS (SELECT 1
-                    FROM m_prj_ticket_relation
-                    WHERE m_prj_ticket_relation.type='FixVersion'
-                        AND m_prj_ticket_relation.typeId=@{fixedversion,jdbcType=NUMERIC}
-                        AND m_prj_ticket_relation.ticketId=m_prj_bug.id
-                        AND m_prj_ticket_relation.ticketType='Project-Bug'
-                        LIMIT 1)
-            #end
-        #end
-        
-        #ifnotnull($searchCriteria.versionids)
-            ${searchCriteria.versionids.operation}
-            #repeat(${searchCriteria.versionids.values} $versionid "OR" "(" ")")
-                EXISTS (SELECT 1
-                FROM m_prj_ticket_relation
-                WHERE m_prj_ticket_relation.type='AffVersion'
-                    AND m_prj_ticket_relation.typeId=@{versionid,jdbcType=NUMERIC}
-                    AND m_prj_ticket_relation.ticketId=m_prj_bug.id
-                    AND m_prj_ticket_relation.ticketType='Project-Bug'
-                    LIMIT 1)
-                  OR 
-                EXISTS  (SELECT 1
-                    FROM m_prj_ticket_relation
-                    WHERE m_prj_ticket_relation.type='FixVersion'
-                        AND m_prj_ticket_relation.typeId=@{versionid,jdbcType=NUMERIC}
-                        AND m_prj_ticket_relation.ticketId=m_prj_bug.id
-                        AND m_prj_ticket_relation.ticketType='Project-Bug'
-                        LIMIT 1)
-            #end
-        #end
-        
         #ifnotnull($searchCriteria.componentids)
             ${searchCriteria.componentids.operation}
             #repeat(${searchCriteria.componentids.values} $componentid "OR" "(" ")")
@@ -252,53 +205,6 @@
             ${searchCriteria.projectId.operation} m_prj_bug.projectId = @{searchCriteria.projectId.value}
         #end
         
-        #ifnotnull($searchCriteria.affectedversionids)
-            ${searchCriteria.affectedversionids.operation}
-            #repeat(${searchCriteria.affectedversionids.values} $affectedversion "OR" "(" ")")
-                EXISTS (SELECT 1
-                FROM m_prj_ticket_relation
-                WHERE m_prj_ticket_relation.type='AffVersion'
-                    AND m_prj_ticket_relation.typeId=@{affectedversion,jdbcType=NUMERIC}
-                    AND m_prj_ticket_relation.ticketId=m_prj_bug.id
-                    AND m_prj_ticket_relation.ticketType='Project-Bug'
-                    LIMIT 1)
-            #end
-        #end
-        
-        #ifnotnull($searchCriteria.fixedversionids)
-            ${searchCriteria.fixedversionids.operation}
-            #repeat(${searchCriteria.fixedversionids.values} $fixedversion "OR" "(" ")")
-                EXISTS (SELECT 1
-                    FROM m_prj_ticket_relation
-                    WHERE m_prj_ticket_relation.type='FixVersion'
-                        AND m_prj_ticket_relation.typeId=@{fixedversion,jdbcType=NUMERIC}
-                        AND m_prj_ticket_relation.ticketId=m_prj_bug.id
-                        AND m_prj_ticket_relation.ticketType='Project-Bug'
-                        LIMIT 1)
-            #end
-        #end
-        
-        #ifnotnull($searchCriteria.versionids)
-            ${searchCriteria.versionids.operation}
-            #repeat(${searchCriteria.versionids.values} $versionid "OR" "(" ")")
-                EXISTS (SELECT 1
-                FROM m_prj_ticket_relation
-                WHERE m_prj_ticket_relation.type='AffVersion'
-                    AND m_prj_ticket_relation.typeId=@{versionid,jdbcType=NUMERIC}
-                    AND m_prj_ticket_relation.ticketId=m_prj_bug.id
-                    AND m_prj_ticket_relation.ticketType='Project-Bug'
-                    LIMIT 1)
-                  OR 
-                EXISTS (SELECT 1
-                    FROM m_prj_ticket_relation
-                    WHERE m_prj_ticket_relation.type='FixVersion'
-                        AND m_prj_ticket_relation.typeId=@{versionid,jdbcType=NUMERIC}
-                        AND m_prj_ticket_relation.ticketId=m_prj_bug.id
-                        AND m_prj_ticket_relation.ticketType='Project-Bug'
-                        LIMIT 1)
-            #end
-        #end
-        
         #ifnotnull($searchCriteria.componentids)
             ${searchCriteria.componentids.operation}
             #repeat(${searchCriteria.componentids.values} $componentid "OR" "(" ")")
@@ -375,13 +281,13 @@
                 LEFT OUTER JOIN m_prj_project ON (m_prj_bug.projectId = m_prj_project.id)
                 LEFT OUTER JOIN s_user AS assignuserTbl ON (m_prj_bug.assignUser=assignuserTbl.username)
                 LEFT OUTER JOIN s_user AS loguserTbl ON (m_prj_bug.createdUser=loguserTbl.username)
-                LEFT OUTER JOIN m_prj_ticket_relation AS relatedItem1 ON (relatedItem1.ticketId = m_prj_bug.id AND relatedItem1.type='AffVersion' AND relatedItem1.ticketType='Project-Bug')
-                LEFT OUTER JOIN m_prj_version AS affectedversion ON (affectedversion.id = relatedItem1.typeId)
-                LEFT OUTER JOIN m_prj_ticket_relation AS relatedItem2 ON (relatedItem2.ticketId = m_prj_bug.id AND relatedItem2.type='FixVersion' AND relatedItem2.ticketType='Project-Bug')
-                LEFT OUTER JOIN m_prj_version AS fixedversion ON (fixedversion.id = relatedItem2.typeId)
-                LEFT OUTER JOIN m_prj_ticket_relation AS relatedItem3 ON (relatedItem3.ticketId = m_prj_bug.id AND relatedItem3.type='Component' AND relatedItem3.ticketType='Project-Bug')
-                LEFT OUTER JOIN m_prj_component AS component ON (component.id = relatedItem3.typeId)
-                LEFT OUTER JOIN m_prj_milestone AS milestone ON (m_prj_bug.milestoneId=milestone.id)
+                LEFT OUTER JOIN m_prj_ticket_relation AS relatedItem1 ON (relatedItem1.ticketId = m_prj_bug.id AND relatedItem1.ticketType='Project-Bug' AND relatedItem1.rel='AffVersion')
+                LEFT OUTER JOIN m_prj_version AS affectedversion ON (affectedversion.id = relatedItem1.typeId AND relatedItem1.type = 'Project-Version')
+                LEFT OUTER JOIN m_prj_ticket_relation AS relatedItem2 ON (relatedItem2.ticketId = m_prj_bug.id AND relatedItem2.ticketType='Project-Bug' AND relatedItem2.rel='FixVersion')
+                LEFT OUTER JOIN m_prj_version AS fixedversion ON (fixedversion.id = relatedItem2.typeId AND relatedItem2.type = 'Project-Version')
+                LEFT OUTER JOIN m_prj_ticket_relation AS relatedItem3 ON (relatedItem3.ticketId = m_prj_bug.id AND relatedItem3.ticketType='Project-Bug' AND relatedItem3.rel='Component')
+                LEFT OUTER JOIN m_prj_component AS component ON (component.id = relatedItem3.typeId AND relatedItem3.type = 'Project-Component')
+                LEFT OUTER JOIN m_prj_milestone AS milestone ON (m_prj_bug.milestoneId = milestone.id)
                 LEFT OUTER JOIN m_prj_ticket_key ON (m_prj_ticket_key.ticketId = m_prj_bug.id AND m_prj_ticket_key.ticketType = 'Project-Bug')
                
         ]]>

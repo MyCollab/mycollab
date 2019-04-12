@@ -17,15 +17,17 @@
 package com.mycollab.module.project.view.settings;
 
 import com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
-import com.mycollab.db.arguments.NumberSearchField;
+import com.mycollab.core.utils.DateTimeUtils;
+import com.mycollab.db.arguments.DateSearchField;
+import com.mycollab.db.arguments.SearchField;
 import com.mycollab.db.arguments.SetSearchField;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectTypeConstants;
-import com.mycollab.module.project.view.bug.BugRowRenderer;
-import com.mycollab.module.project.domain.SimpleBug;
+import com.mycollab.module.project.domain.ProjectTicket;
+import com.mycollab.module.project.domain.criteria.ProjectTicketSearchCriteria;
+import com.mycollab.module.project.service.ProjectTicketService;
 import com.mycollab.module.project.domain.Version;
-import com.mycollab.module.project.domain.criteria.BugSearchCriteria;
-import com.mycollab.module.project.service.BugService;
+import com.mycollab.module.project.view.ticket.TicketRowRenderer;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
@@ -53,7 +55,7 @@ public class VersionPreviewForm extends AdvancedPreviewBeanForm<Version> {
     @Override
     public void setBean(Version bean) {
         setFormLayoutFactory(new DefaultDynaFormLayout(ProjectTypeConstants.VERSION,
-                VersionDefaultFormLayoutFactory.getForm(), Version.Field.name.name()));
+                VersionDefaultFormLayoutFactory.getReadForm(), Version.Field.name.name()));
         setBeanFormFieldFactory(new ReadFormFieldFactory(this));
         super.setBean(bean);
     }
@@ -70,9 +72,9 @@ public class VersionPreviewForm extends AdvancedPreviewBeanForm<Version> {
             Version beanItem = attachForm.getBean();
             if (Version.Field.duedate.equalTo(propertyId)) {
                 return new DateViewField();
-            } else if (Version.Field.id.equalTo(propertyId)) {
+            } else if ("section-assignments".equals(propertyId)) {
                 ContainerViewField containerField = new ContainerViewField();
-                containerField.addComponentField(new BugsComp(beanItem));
+                containerField.addComponentField(new TicketsComp(beanItem));
                 return containerField;
             } else if (Version.Field.status.equalTo(propertyId)) {
                 return new I18nFormViewField(StatusI18nEnum.class).withStyleName(WebThemes.FIELD_NOTE);
@@ -83,59 +85,54 @@ public class VersionPreviewForm extends AdvancedPreviewBeanForm<Version> {
         }
     }
 
-    private static class BugsComp extends MVerticalLayout {
-        private BugSearchCriteria searchCriteria;
-        private DefaultBeanPagedList<BugService, BugSearchCriteria, SimpleBug> bugList;
+    private static class TicketsComp extends MVerticalLayout {
+        private ProjectTicketSearchCriteria searchCriteria;
+        private DefaultBeanPagedList<ProjectTicketService, ProjectTicketSearchCriteria, ProjectTicket> ticketList;
 
-        BugsComp(Version beanItem) {
+        TicketsComp(Version beanItem) {
             withMargin(false).withFullWidth();
             MHorizontalLayout header = new MHorizontalLayout();
 
-            final CheckBox openSelection = new BugStatusCheckbox(StatusI18nEnum.Open, true);
-            CheckBox reOpenSelection = new BugStatusCheckbox(StatusI18nEnum.ReOpen, true);
-            CheckBox verifiedSelection = new BugStatusCheckbox(StatusI18nEnum.Verified, true);
-            CheckBox resolvedSelection = new BugStatusCheckbox(StatusI18nEnum.Resolved, true);
+            CheckBox openSelection = new CheckBox(UserUIContext.getMessage(StatusI18nEnum.Open), true);
+            openSelection.addValueChangeListener(valueChangeEvent -> {
+                if (openSelection.getValue()) {
+                    searchCriteria.setOpen(new SearchField());
+                } else {
+                    searchCriteria.setOpen(null);
+                }
+                updateSearchStatus();
+            });
+
+            CheckBox overdueSelection = new CheckBox(UserUIContext.getMessage(StatusI18nEnum.Overdue), false);
+            overdueSelection.addValueChangeListener(valueChangeEvent -> {
+                if (overdueSelection.getValue()) {
+                    searchCriteria.setDueDate(new DateSearchField(DateTimeUtils.getCurrentDateWithoutMS().toLocalDate(),
+                            DateSearchField.LESS_THAN));
+                } else {
+                    searchCriteria.setDueDate(null);
+                }
+                updateSearchStatus();
+            });
 
             Label spacingLbl1 = new Label("");
 
-            header.with(openSelection, reOpenSelection, verifiedSelection, resolvedSelection, spacingLbl1).alignAll(Alignment.MIDDLE_LEFT);
+            header.with(openSelection, overdueSelection, spacingLbl1).alignAll(Alignment.MIDDLE_LEFT);
 
-            bugList = new DefaultBeanPagedList<>(AppContextUtil.getSpringBean(BugService.class), new BugRowRenderer());
-            bugList.setControlStyle("");
+            ticketList = new DefaultBeanPagedList<>(AppContextUtil.getSpringBean(ProjectTicketService.class), new TicketRowRenderer());
+            ticketList.setControlStyle("");
 
-            searchCriteria = new BugSearchCriteria();
-            searchCriteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
-            searchCriteria.setVersionids(new SetSearchField<>(beanItem.getId()));
-            searchCriteria.setStatuses(new SetSearchField<>(StatusI18nEnum.Open.name(), StatusI18nEnum.ReOpen.name(),
-                    StatusI18nEnum.Verified.name(), StatusI18nEnum.Resolved.name()));
+            searchCriteria = new ProjectTicketSearchCriteria();
+            searchCriteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
+//            searchCriteria.setVersionids(new SetSearchField<>(beanItem.getId()));
+//            searchCriteria.setStatuses(new SetSearchField<>(StatusI18nEnum.Open.name(), StatusI18nEnum.ReOpen.name(),
+//                    StatusI18nEnum.Verified.name(), StatusI18nEnum.Resolved.name()));
             updateSearchStatus();
 
-            this.with(header, bugList);
-        }
-
-        private void updateTypeSearchStatus(boolean selection, String type) {
-            SetSearchField<String> types = searchCriteria.getStatuses();
-            if (types == null) {
-                types = new SetSearchField<>();
-            }
-            if (selection) {
-                types.addValue(type);
-            } else {
-                types.removeValue(type);
-            }
-            searchCriteria.setStatuses(types);
-            updateSearchStatus();
+            this.with(header, ticketList);
         }
 
         private void updateSearchStatus() {
-            bugList.setSearchCriteria(searchCriteria);
-        }
-
-        private class BugStatusCheckbox extends CheckBox {
-            BugStatusCheckbox(final Enum name, boolean defaultValue) {
-                super(UserUIContext.getMessage(name), defaultValue);
-                this.addValueChangeListener(event -> updateTypeSearchStatus(getValue(), name.name()));
-            }
+            ticketList.setSearchCriteria(searchCriteria);
         }
     }
 }

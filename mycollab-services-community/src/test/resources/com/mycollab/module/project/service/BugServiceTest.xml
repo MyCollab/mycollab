@@ -25,14 +25,14 @@
     <m_prj_version id="2" projectId="1" name="version2" sAccountId="1"/>
 
     <!--FIXED version -->
-    <m_prj_ticket_relation ticketId="1" ticketType="Project-Bug" type="FixVersion" typeId="1" id="1"/>
+    <m_prj_ticket_relation ticketId="1" ticketType="Project-Bug" type="Project-Version" typeId="1" id="1" rel="FixVersion"/>
 
     <!--FIXED version -->
-    <m_prj_ticket_relation ticketId="1" ticketType="Project-Bug" type="FixVersion" typeId="2" id="2"/>
+    <m_prj_ticket_relation ticketId="1" ticketType="Project-Bug" type="Project-Version" typeId="2" id="2" rel="FixVersion"/>
 
     <!--AFFECTED VERSION -->
-    <m_prj_ticket_relation ticketId="1" ticketType="Project-Bug" type="AffVersion" typeId="2" id="3"/>
+    <m_prj_ticket_relation ticketId="1" ticketType="Project-Bug" type="Project-Version" typeId="2" id="3" rel="AffVersion"/>
 
     <!--COMPONENT -->
-    <m_prj_ticket_relation ticketId="1" ticketType="Project-Bug" type="Component" typeId="1" id="4"/>
+    <m_prj_ticket_relation ticketId="1" ticketType="Project-Bug" type="Project-Component" typeId="1" id="4" rel="Component"/>
 </dataset>

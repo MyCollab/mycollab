@@ -19,6 +19,14 @@
         <result column="nonBillableHours" property="nonBillableHours" jdbcType="DOUBLE"/>
         <result column="numFollowers" property="numFollowers" jdbcType="INTEGER"/>
         <result column="ticketKey" property="ticketKey" jdbcType="INTEGER"/>
+        <collection columnPrefix="affectedversion_" notNullColumn="id"
+                    ofType="com.mycollab.module.project.domain.Version"
+                    property="affectedVersions"
+                    resultMap="com.mycollab.module.project.dao.VersionMapper.BaseResultMap" />
+        <collection columnPrefix="component_" notNullColumn="id"
+                    ofType="com.mycollab.module.project.domain.Component"
+                    property="components"
+                    resultMap="com.mycollab.module.project.dao.ComponentMapper.BaseResultMap" />
     </resultMap>
 
     <sql id="querySearchCriteria">
@@ -151,6 +159,13 @@
                  m_prj_task.createdUser, m_prj_ticket_key.ticketKey AS ticketKey, s_user.avatarId AS assignUserAvatarId,
                  concat(s_user.firstname, ' ', s_user.lastname) AS assignUserFullName,
                  log_user.avatarId AS logByAvatarId, concat(log_user.firstname, ' ', log_user.lastname) AS logByFullName,
+                 affectedversion.id as affectedversion_id, affectedversion.projectId as affectedversion_projectid,
+                 affectedversion.description as affectedversion_description, affectedversion.duedate as affectedversion_duedate,
+                 affectedversion.name as affectedversion_name, affectedversion.createdUser as affectedversion_createdUser,
+                 affectedversion.createdTime as affectedversion_createdTime, affectedversion.lastUpdatedTime as affectedversion_lastUpdatedTime,
+                 component.id as component_id, component.projectId as component_projectid, component.name as component_name,
+                 component.userlead as component_userlead, component.description as component_description, component.createdUser as component_createdUser,
+                 component.createdTime as component_createdTime, component.lastUpdatedTime as component_lastUpdatedTime,
                  parentTask.name AS parentTaskName, NULL AS parentTaskKey,
                  (SELECT count(*)
                     FROM m_comment
@@ -177,6 +192,10 @@
               LEFT OUTER JOIN s_user AS log_user ON (log_user.username = m_prj_task.createdUser)
               LEFT OUTER JOIN m_prj_ticket_key ON (m_prj_task.id = m_prj_ticket_key.ticketId AND m_prj_ticket_key.ticketType = 'Project-Task')
               LEFT OUTER JOIN m_prj_task AS parentTask ON (m_prj_task.parentTaskId = parentTask.id)
+              LEFT OUTER JOIN m_prj_ticket_relation AS relatedItem1 ON (relatedItem1.ticketId = m_prj_task.id AND relatedItem1.ticketType='Project-Task' AND relatedItem1.rel='AffVersion')
+              LEFT OUTER JOIN m_prj_version AS affectedversion ON (affectedversion.id = relatedItem1.typeId AND relatedItem1.type='Project-Version')
+              LEFT OUTER JOIN m_prj_ticket_relation AS relatedItem2 ON (relatedItem2.ticketId = m_prj_task.id AND relatedItem2.ticketType='Project-Task' AND relatedItem2.rel='Component')
+              LEFT OUTER JOIN m_prj_component AS component ON (component.id = relatedItem2.typeId AND relatedItem2.type = 'Project-Component')
         ]]>
     </sql>
 

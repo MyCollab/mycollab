@@ -27,6 +27,7 @@ import com.mycollab.module.project.domain.SimpleBug;
 import com.mycollab.module.project.event.BugEvent;
 import com.mycollab.module.project.i18n.BugI18nEnum;
 import com.mycollab.module.project.i18n.OptionI18nEnum.BugResolution;
+import com.mycollab.module.project.i18n.TicketI18nEnum;
 import com.mycollab.module.project.service.BugService;
 import com.mycollab.module.project.service.TicketRelationService;
 import com.mycollab.module.project.view.settings.component.ProjectMemberSelectionField;
@@ -149,8 +150,8 @@ public class ReOpenWindow extends MWindow {
                 if (propertyId.equals("assignuser")) {
                     return informationLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.FORM_ASSIGNEE), 0, 0);
                 } else if (SimpleBug.Field.affectedVersions.equalTo(propertyId)) {
-                    return informationLayout.addComponent(field, UserUIContext.getMessage(BugI18nEnum.FORM_AFFECTED_VERSIONS),
-                            UserUIContext.getMessage(BugI18nEnum.FORM_AFFECTED_VERSIONS_HELP), 0, 1);
+                    return informationLayout.addComponent(field, UserUIContext.getMessage(TicketI18nEnum.FORM_AFFECTED_VERSIONS),
+                            UserUIContext.getMessage(TicketI18nEnum.FORM_AFFECTED_VERSIONS_HELP), 0, 1);
                 } else if (propertyId.equals("comment")) {
                     return informationLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.OPT_COMMENT), 0, 2, 2);
                 }
