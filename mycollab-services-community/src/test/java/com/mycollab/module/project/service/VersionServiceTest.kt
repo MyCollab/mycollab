@@ -19,6 +19,7 @@ package com.mycollab.module.project.service
 import com.mycollab.db.arguments.BasicSearchRequest
 import com.mycollab.db.arguments.NumberSearchField
 import com.mycollab.db.arguments.StringSearchField
+import com.mycollab.module.project.dao.VersionMapperExt
 import com.mycollab.module.project.domain.SimpleVersion
 import com.mycollab.module.project.domain.Version
 import com.mycollab.module.project.domain.criteria.VersionSearchCriteria
@@ -40,6 +41,9 @@ class VersionServiceTest : IntegrationServiceTest() {
 
     @Autowired
     private lateinit var versionService: VersionService
+
+    @Autowired
+    private lateinit var versionMapperExt: VersionMapperExt
 
     private val criteria: VersionSearchCriteria
         get() {
@@ -113,5 +117,23 @@ class VersionServiceTest : IntegrationServiceTest() {
 
         val versionId = versionService.saveWithSession(version, "hai79")
         assertThat(versionId > 0).isEqualTo(true)
+    }
+
+    @DataSet
+    @Test
+    fun testGetTotalBillableHours() {
+        assertThat(versionMapperExt.getTotalBillableHours(1)).isEqualTo(5.0)
+    }
+
+    @DataSet
+    @Test
+    fun testGetTotalNonBillableHours() {
+        assertThat(versionMapperExt.getTotalNonBillableHours(1)).isEqualTo(3.0)
+    }
+
+    @DataSet
+    @Test
+    fun testGetRemainEstimate() {
+        assertThat(versionMapperExt.getRemainHours(1)).isEqualTo(6.0)
     }
 }

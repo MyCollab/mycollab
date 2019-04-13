@@ -17,6 +17,7 @@
 package com.mycollab.module.user.service
 
 import com.mycollab.cache.IgnoreCacheClass
+import com.mycollab.core.Tuple2
 import com.mycollab.core.cache.CacheEvict
 import com.mycollab.core.cache.CacheKey
 import com.mycollab.core.cache.Cacheable
@@ -57,4 +58,6 @@ interface UserService : IDefaultService<String, User, UserSearchCriteria> {
     fun findUserByUserName(username: String): User?
 
     fun requestToResetPassword(username: String)
+
+    fun bulkInviteUsers(users: List<Tuple2<String, String>>, roleId: Int?, subDomain: String, @CacheKey sAccountId: Int, inviteUser: String, isSendInvitationEmail: Boolean)
 }

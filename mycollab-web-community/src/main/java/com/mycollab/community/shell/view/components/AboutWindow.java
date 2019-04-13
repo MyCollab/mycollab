@@ -45,7 +45,6 @@ import java.time.LocalDate;
 @ViewComponent
 public class AboutWindow extends AbstractAboutWindow {
     public AboutWindow() {
-
         MHorizontalLayout content = new MHorizontalLayout().withMargin(true).withFullWidth();
         this.setContent(content);
 

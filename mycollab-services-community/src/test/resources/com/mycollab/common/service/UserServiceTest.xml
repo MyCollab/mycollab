@@ -3,17 +3,17 @@
 <dataset>
     <s_account id="1" status="Active" createdTime="2013-08-08 00:00:00" subDomain="a"/>
     <s_account id="2" status="Active" createdTime="2013-08-08 00:00:00" subDomain="b"/>
-    <s_user username="hainguyen@esofthead.com" firstname="Nguyen"
-            lastname="Hai" email="hainguyen@esofthead.com"/>
+    <s_user username="hainguyen@mycollab.com" firstname="Nguyen"
+            lastname="Hai" email="hainguyen@mycollab.com"/>
 
-    <s_user username="linhduong@esofthead.com" firstname="Duong"
-            lastname="Linh" email="linhduong@esofthead.com"/>
+    <s_user username="linhduong@mycollab.com" firstname="Duong"
+            lastname="Linh" email="linhduong@mycollab.com"/>
 
-    <s_user username="huynguyen@esofthead.com" firstname="Nguyen"
-            lastname="Huy" email="huynguyen@esofthead.com"/>
+    <s_user username="huynguyen@mycollab.com" firstname="Nguyen"
+            lastname="Huy" email="huynguyen@mycollab.com"/>
 
-    <s_user username="test@esofthead.com" firstname="Nguyen"
-            lastname="Huy" email="huynguyen@esofthead.com"/>
+    <s_user username="test@mycollab.com" firstname="Nguyen"
+            lastname="Huy" email="huynguyen@mycollab.com"/>
 
     <s_user username="a@mycollab.com" firstname="A"
             lastname="A" email="a@mycollab.com" password="aa"/>
@@ -22,19 +22,19 @@
     <s_roles rolename="Dev" sAccountId="1" id="1"/>
     <s_roles rolename="Dev2" sAccountId="2" id="2"/>
 
-    <s_user_account id="1" username="hainguyen@esofthead.com"
+    <s_user_account id="1" username="hainguyen@mycollab.com"
                     accountId="1" isAccountOwner="1" roleId="1" registeredTime="2013-08-08 00:00:00"
                     registerStatus="Active"/>
 
-    <s_user_account id="2" username="linhduong@esofthead.com"
+    <s_user_account id="2" username="linhduong@mycollab.com"
                     accountId="1" isAccountOwner="1" roleId="1" registeredTime="2013-08-08 20:00:00"
                     registerStatus="Active"/>
 
     <s_user_account id="3" isAccountOwner="1" roleId="1"
-                    registerStatus="Active" username="huynguyen@esofthead.com"
+                    registerStatus="Active" username="huynguyen@mycollab.com"
                     accountId="1" registeredTime="2013-08-08 00:00:00"/>
 
-    <s_user_account id="4" username="test@esofthead.com"
+    <s_user_account id="4" username="test@mycollab.com"
                     accountId="1" isAccountOwner="1" roleId="1" registeredTime="2013-08-08 20:00:00"
                     registerStatus="Deleted"/>
 

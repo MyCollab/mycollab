@@ -125,38 +125,81 @@
     </select>
 
     <select id="getTotalBillableHours" parameterType="int" resultType="double" lang="velocity">
-        SELECT COALESCE(SUM(m_prj_time_logging.logValue), 0)
+        SELECT COALESCE(SUM(timeTable.logValue), 0)
+        FROM
+        ((SELECT DISTINCT m_prj_bug.id AS id, m_prj_time_logging.logValue AS logValue
             FROM m_prj_version, m_prj_bug, m_prj_ticket_relation, m_prj_time_logging
             WHERE m_prj_version.id = @{versionid}
                 AND m_prj_version.id = m_prj_ticket_relation.typeId
+                AND m_prj_ticket_relation.type = 'Project-Version'
                 AND m_prj_ticket_relation.ticketType='Project-Bug'
-                AND m_prj_ticket_relation.type = 'FixVersion'
+                AND m_prj_ticket_relation.rel IN ('FixVersion', 'AffVersion')
                 AND m_prj_ticket_relation.ticketId = m_prj_bug.id
-                AND m_prj_time_logging.typeId =  m_prj_bug.id
+                AND m_prj_time_logging.typeId = m_prj_bug.id
                 AND m_prj_time_logging.type = 'Project-Bug'
-                AND m_prj_time_logging.isBillable = '1'
+                AND m_prj_time_logging.isBillable = '1')
+        UNION
+        (SELECT DISTINCT m_prj_task.id AS id, m_prj_time_logging.logValue AS logValue
+            FROM m_prj_version, m_prj_task, m_prj_ticket_relation, m_prj_time_logging
+            WHERE m_prj_version.id = @{versionid}
+                AND m_prj_version.id = m_prj_ticket_relation.typeId
+                AND m_prj_ticket_relation.type = 'Project-Version'
+                AND m_prj_ticket_relation.ticketType = 'Project-Task'
+                AND m_prj_ticket_relation.rel IN ('AffVersion')
+                AND m_prj_ticket_relation.ticketId = m_prj_task.id
+                AND m_prj_time_logging.typeId = m_prj_task.id
+                AND m_prj_time_logging.type = 'Project-Task'
+                AND m_prj_time_logging.isBillable = '1')) AS timeTable
     </select>
 
     <select id="getTotalNonBillableHours" parameterType="int"
             resultType="double" lang="velocity">
-        SELECT COALESCE(SUM(m_prj_time_logging.logValue), 0)
+        SELECT COALESCE(SUM(timeTable.logValue), 0)
+        FROM
+        ((SELECT DISTINCT m_prj_bug.id AS id, m_prj_time_logging.logValue AS logValue
             FROM m_prj_version, m_prj_bug, m_prj_ticket_relation, m_prj_time_logging
             WHERE m_prj_version.id = @{versionid}
                 AND m_prj_version.id = m_prj_ticket_relation.typeId
+                AND m_prj_ticket_relation.type = 'Project-Version'
                 AND m_prj_ticket_relation.ticketType='Project-Bug'
-                AND m_prj_ticket_relation.type = 'FixVersion'
+                AND m_prj_ticket_relation.rel IN ('FixVersion', 'AffVersion')
                 AND m_prj_ticket_relation.ticketId = m_prj_bug.id
-                AND m_prj_time_logging.typeId =  m_prj_bug.id
+                AND m_prj_time_logging.typeId = m_prj_bug.id
                 AND m_prj_time_logging.type = 'Project-Bug'
+                AND m_prj_time_logging.isBillable = '0')
+        UNION
+        (SELECT DISTINCT m_prj_task.id AS id, m_prj_time_logging.logValue AS logValue
+            FROM m_prj_version, m_prj_task, m_prj_ticket_relation, m_prj_time_logging
+            WHERE m_prj_version.id = @{versionid}
+                AND m_prj_version.id = m_prj_ticket_relation.typeId
+                AND m_prj_ticket_relation.type = 'Project-Version'
+                AND m_prj_ticket_relation.ticketType = 'Project-Task'
+                AND m_prj_ticket_relation.rel IN ('AffVersion')
+                AND m_prj_ticket_relation.ticketId = m_prj_task.id
+                AND m_prj_time_logging.typeId = m_prj_task.id
+                AND m_prj_time_logging.type = 'Project-Task'
                 AND m_prj_time_logging.isBillable = '0'
+        )) AS timeTable
     </select>
 
     <select id="getRemainHours" parameterType="int" resultType="double" lang="velocity">
-        SELECT COALESCE(SUM(m_prj_bug.remainEstimate), 0)
+        SELECT COALESCE(SUM(timeTable.remainEstimate), 0)
+        FROM
+        ((SELECT m_prj_bug.remainEstimate
             FROM m_prj_bug, m_prj_ticket_relation
             WHERE m_prj_ticket_relation.typeId = @{versionid}
+                AND m_prj_ticket_relation.type = 'Project-Version'
                 AND m_prj_ticket_relation.ticketType='Project-Bug'
-                AND m_prj_ticket_relation.type = 'FixVersion'
-                AND m_prj_ticket_relation.ticketId = m_prj_bug.id
+                AND m_prj_ticket_relation.rel IN ('FixVersion', 'AffVersion')
+                AND m_prj_ticket_relation.ticketId = m_prj_bug.id)
+        UNION
+        (SELECT m_prj_task.remainEstimate
+            FROM m_prj_task, m_prj_ticket_relation
+            WHERE m_prj_ticket_relation.typeId = @{versionid}
+                AND m_prj_ticket_relation.type = 'Project-Version'
+                AND m_prj_ticket_relation.ticketType='Project-Task'
+                AND m_prj_ticket_relation.rel IN ('AffVersion')
+                AND m_prj_ticket_relation.ticketId = m_prj_task.id
+        )) AS timeTable
     </select>
 </mapper>

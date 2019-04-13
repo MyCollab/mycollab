@@ -46,8 +46,8 @@ class UserServiceTest : IntegrationServiceTest() {
         val users = userService.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<SimpleUser>
         assertThat(users.size).isEqualTo(4)
         assertThat<SimpleUser>(users).extracting("username").contains(
-                "hainguyen@esofthead.com", "linhduong@esofthead.com",
-                "huynguyen@esofthead.com", "test@esofthead.com")
+                "hainguyen@mycollab.com", "linhduong@mycollab.com",
+                "huynguyen@mycollab.com", "test@mycollab.com")
 
         assertThat(userService.getTotalCount(criteria)).isEqualTo(4)
     }
@@ -55,21 +55,21 @@ class UserServiceTest : IntegrationServiceTest() {
     @DataSet
     @Test
     fun updateUserEmail() {
-        val user = userService.findUserByUserNameInAccount("hainguyen@esofthead.com", 1)
-        assertThat(user!!.email).isEqualTo("hainguyen@esofthead.com")
+        val user = userService.findUserByUserNameInAccount("hainguyen@mycollab.com", 1)
+        assertThat(user!!.email).isEqualTo("hainguyen@mycollab.com")
 
-        user.email = "hannguyen@esofthead.com"
+        user.email = "hannguyen@mycollab.com"
         userService.updateUserAccount(user, 1)
 
-        val anotherUser = userService.findUserByUserNameInAccount("hannguyen@esofthead.com", 1)
-        assertThat(anotherUser).extracting("email", "lastname").contains("hannguyen@esofthead.com", "Hai")
+        val anotherUser = userService.findUserByUserNameInAccount("hannguyen@mycollab.com", 1)
+        assertThat(anotherUser).extracting("email", "lastname").contains("hannguyen@mycollab.com", "Hai")
     }
 
     @DataSet
     @Test
     fun testFindUserByUsernameInAccount() {
-        val user = userService.findUserByUserNameInAccount("hainguyen@esofthead.com", 1)
-        assertThat(user).extracting("username", "accountId", "firstname", "lastname").contains("hainguyen@esofthead.com", 1, "Nguyen", "Hai")
+        val user = userService.findUserByUserNameInAccount("hainguyen@mycollab.com", 1)
+        assertThat(user).extracting("username", "accountId", "firstname", "lastname").contains("hainguyen@mycollab.com", 1, "Nguyen", "Hai")
     }
 
     @Test

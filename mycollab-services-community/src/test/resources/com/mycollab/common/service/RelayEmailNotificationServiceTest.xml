@@ -5,7 +5,7 @@
 
     <s_account id="1" status="Active" paymentMethod="Credit Card" createdTime="2013-04-10 13:29:23" billingPlanId="1" />
 
-    <s_user username="hainguyen" firstname="Nguyen" lastname="Hai" email="hainguyen@esofthead.com" avatarId="1"
+    <s_user username="hainguyen" firstname="Nguyen" lastname="Hai" email="hainguyen@mycollab.com" avatarId="1"
     status="EmailVerified"/>
 
     <s_user_account id="1" isAccountOwner="1"

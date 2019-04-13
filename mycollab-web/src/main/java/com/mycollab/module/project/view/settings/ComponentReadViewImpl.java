@@ -94,7 +94,7 @@ public class ComponentReadViewImpl extends AbstractPreviewItemComp<SimpleCompone
         peopleInfoComp = new PeopleInfoComp();
 
         ProjectView projectView = UIUtils.getRoot(this, ProjectView.class);
-        MVerticalLayout detailLayout = new MVerticalLayout().withMargin(new MarginInfo(false, true, false, true));
+        MVerticalLayout detailLayout = new MVerticalLayout().withMargin(new MarginInfo(false, true, true, true));
 
         if (SiteConfiguration.isCommunityEdition()) {
             detailLayout.with(dateInfoComp, peopleInfoComp);

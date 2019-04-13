@@ -1,6 +1,6 @@
 <!DOCTYPE dataset PUBLIC "-//MyCollab/MyCollab Database Schema//EN" "http://www.mycollab.com/mycollab.dtd">
 <dataset>
-    <s_user username="hai79" firstname="Nguyen" lastname="Hai" email="hainguyen@esofthead.com"/>
+    <s_user username="hai79" firstname="Nguyen" lastname="Hai" email="hainguyen@mycollab.com"/>
     <s_user username="linhduong" firstname="Duong" lastname="Linh" email="linhduong@esofthead" avatarId="linh123"/>
 
     <s_account id="1" status="Active" paymentMethod="Credit" subDomain="a" createdTime="2013-04-10 00:00:00"/>

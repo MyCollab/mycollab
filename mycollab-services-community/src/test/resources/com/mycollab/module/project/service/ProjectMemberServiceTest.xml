@@ -7,13 +7,13 @@
 
     <m_prj_project id="2" name="b" sAccountId="1" shortName="bbb" status="Open"/>
 
-    <s_user firstname="a1" lastname="b1" username="user1" email="hainguyen@esofthead.com"/>
+    <s_user firstname="a1" lastname="b1" username="user1" email="hainguyen@mycollab.com"/>
 
-    <s_user firstname="a2" lastname="b2" username="user2" email="linhduong@esofthead.com"/>
+    <s_user firstname="a2" lastname="b2" username="user2" email="linhduong@mycollab.com"/>
 
-    <s_user firstname="a3" lastname="b3" username="user3" email="baohan@esofthead.com"/>
+    <s_user firstname="a3" lastname="b3" username="user3" email="baohan@mycollab.com"/>
 
-    <s_user firstname="a4" lastname="b4" username="user4" email="test@esofthead.com"/>
+    <s_user firstname="a4" lastname="b4" username="user4" email="test@mycollab.com"/>
 
     <s_user_account id="1" isAccountOwner="1" registerStatus="Active" username="user1" accountId="1"
                     registeredTime="2013-04-10 13:29:23"/>

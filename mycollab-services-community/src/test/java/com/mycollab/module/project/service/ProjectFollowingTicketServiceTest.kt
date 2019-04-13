@@ -44,7 +44,7 @@ class ProjectFollowingTicketServiceTest : IntegrationServiceTest() {
             val criteria = FollowingTicketSearchCriteria()
             criteria.extraTypeIds = SetSearchField(1, 2)
             criteria.saccountid = NumberSearchField(1)
-            criteria.user = StringSearchField.and("hainguyen@esofthead.com")
+            criteria.user = StringSearchField.and("hainguyen@mycollab.com")
             return criteria
         }
 

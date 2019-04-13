@@ -54,18 +54,18 @@
                (SELECT COUNT(DISTINCT m_prj_bug.id)
                         FROM m_prj_bug, m_prj_ticket_relation
                         WHERE m_prj_bug.id=m_prj_ticket_relation.ticketId
-                            AND m_prj_ticket_relation.ticketType='Project-Bug'
+                            AND m_prj_ticket_relation.ticketType = 'Project-Bug'
                             AND m_prj_ticket_relation.type = 'Project-Component'
                             AND m_prj_ticket_relation.rel IN ('Component')
-                            AND m_prj_ticket_relation.typeId=m_prj_component.id) AS numBugs,
+                            AND m_prj_ticket_relation.typeId = m_prj_component.id) AS numBugs,
                (SELECT COUNT(DISTINCT m_prj_bug.id)
                         FROM m_prj_bug, m_prj_ticket_relation
                         WHERE m_prj_bug.id=m_prj_ticket_relation.ticketId
-                            AND m_prj_ticket_relation.ticketType='Project-Bug'
+                            AND m_prj_ticket_relation.ticketType = 'Project-Bug'
                             AND m_prj_bug.status IN ('Open', 'InProgress', 'Reopenned')
                             AND m_prj_ticket_relation.type = 'Project-Component'
                             AND m_prj_ticket_relation.rel IN ('Component')
-                            AND m_prj_ticket_relation.typeId=m_prj_component.id) AS numOpenBugs,
+                            AND m_prj_ticket_relation.typeId = m_prj_component.id) AS numOpenBugs,
                (SELECT COUNT(DISTINCT m_prj_task.id)
                         FROM m_prj_task, m_prj_ticket_relation
                         WHERE m_prj_task.id = m_prj_ticket_relation.ticketId
@@ -83,9 +83,9 @@
                             AND m_prj_ticket_relation.typeId = m_prj_component.id) AS numOpenTasks,
                m_prj_project.name AS projectName, m_prj_project.shortName AS projectShortName
         FROM m_prj_component
-        LEFT OUTER JOIN s_user ON (m_prj_component.userlead=s_user.username)
-        LEFT OUTER JOIN s_user AS createdUserTbl ON (m_prj_component.createduser=createdUserTbl.username)
-        LEFT OUTER JOIN m_prj_project ON (m_prj_component.projectId=m_prj_project.id)
+            LEFT OUTER JOIN s_user ON (m_prj_component.userlead = s_user.username)
+            LEFT OUTER JOIN s_user AS createdUserTbl ON (m_prj_component.createduser= createdUserTbl.username)
+            LEFT OUTER JOIN m_prj_project ON (m_prj_component.projectId = m_prj_project.id)
         ]]>
     </sql>
     
@@ -142,36 +142,80 @@
     </select>
 
     <select id="getTotalBillableHours" parameterType="int" resultType="double" lang="velocity">
-        SELECT COALESCE(SUM(m_prj_time_logging.logValue), 0)
-            FROM m_prj_component, m_prj_bug, m_prj_ticket_relation, m_prj_time_logging
-            WHERE m_prj_component.id = @{componentid} AND m_prj_component.id = m_prj_ticket_relation.typeId
-                AND m_prj_ticket_relation.ticketType='Project-Bug'
-                AND m_prj_ticket_relation.type = 'Component'
-                AND m_prj_ticket_relation.ticketId = m_prj_bug.id
-                AND m_prj_time_logging.typeId =  m_prj_bug.id
-                AND m_prj_time_logging.type = 'Project-Bug'
-                AND m_prj_time_logging.isBillable = '1'
-    </select>
-
-    <select id="getTotalNonBillableHours" parameterType="int" resultType="double" lang="velocity">
-        SELECT COALESCE(SUM(m_prj_time_logging.logValue), 0)
+        SELECT COALESCE(SUM(timeTable.logValue), 0)
+        FROM
+        ((SELECT DISTINCT m_prj_bug.id AS id, m_prj_time_logging.logValue AS logValue
             FROM m_prj_component, m_prj_bug, m_prj_ticket_relation, m_prj_time_logging
             WHERE m_prj_component.id = @{componentid}
                 AND m_prj_component.id = m_prj_ticket_relation.typeId
-                AND m_prj_ticket_relation.ticketType = 'Project-Bug'
-                AND m_prj_ticket_relation.type = 'Component'
+                AND m_prj_ticket_relation.type = 'Project-Component'
                 AND m_prj_ticket_relation.ticketId = m_prj_bug.id
-                AND m_prj_time_logging.typeId =  m_prj_bug.id
+                AND m_prj_ticket_relation.ticketType='Project-Bug'
+                AND m_prj_ticket_relation.rel IN ('Component')
+                AND m_prj_time_logging.typeId = m_prj_bug.id
                 AND m_prj_time_logging.type = 'Project-Bug'
+                AND m_prj_time_logging.isBillable = '1')
+        UNION
+        (SELECT DISTINCT m_prj_task.id AS id, m_prj_time_logging.logValue AS logValue
+            FROM m_prj_component, m_prj_task, m_prj_ticket_relation, m_prj_time_logging
+            WHERE m_prj_component.id = @{componentid}
+                AND m_prj_component.id = m_prj_ticket_relation.typeId
+                AND m_prj_ticket_relation.type = 'Project-Component'
+                AND m_prj_ticket_relation.ticketId = m_prj_task.id
+                AND m_prj_ticket_relation.ticketType = 'Project-Task'
+                AND m_prj_ticket_relation.rel IN ('Component')
+                AND m_prj_time_logging.typeId = m_prj_task.id
+                AND m_prj_time_logging.type = 'Project-Task'
+                AND m_prj_time_logging.isBillable = '1')) AS timeTable
+    </select>
+
+    <select id="getTotalNonBillableHours" parameterType="int" resultType="double" lang="velocity">
+        SELECT COALESCE(SUM(timeTable.logValue), 0)
+        FROM
+        ((SELECT DISTINCT m_prj_bug.id AS id, m_prj_time_logging.logValue AS logValue
+            FROM m_prj_component, m_prj_bug, m_prj_ticket_relation, m_prj_time_logging
+            WHERE m_prj_component.id = @{componentid}
+                AND m_prj_component.id = m_prj_ticket_relation.typeId
+                AND m_prj_ticket_relation.type = 'Project-Component'
+                AND m_prj_ticket_relation.ticketType='Project-Bug'
+                AND m_prj_ticket_relation.rel IN ('Component')
+                AND m_prj_ticket_relation.ticketId = m_prj_bug.id
+                AND m_prj_time_logging.typeId = m_prj_bug.id
+                AND m_prj_time_logging.type = 'Project-Bug'
+                AND m_prj_time_logging.isBillable = '0')
+        UNION
+        (SELECT DISTINCT m_prj_task.id AS id, m_prj_time_logging.logValue AS logValue
+            FROM m_prj_component, m_prj_task, m_prj_ticket_relation, m_prj_time_logging
+            WHERE m_prj_component.id = @{componentid}
+                AND m_prj_component.id = m_prj_ticket_relation.typeId
+                AND m_prj_ticket_relation.type = 'Project-Component'
+                AND m_prj_ticket_relation.ticketType = 'Project-Task'
+                AND m_prj_ticket_relation.rel IN ('Component')
+                AND m_prj_ticket_relation.ticketId = m_prj_task.id
+                AND m_prj_time_logging.typeId = m_prj_task.id
+                AND m_prj_time_logging.type = 'Project-Task'
                 AND m_prj_time_logging.isBillable = '0'
+        )) AS timeTable
     </select>
 
     <select id="getRemainHours" parameterType="int" resultType="double" lang="velocity">
-        SELECT COALESCE(SUM(m_prj_bug.remainEstimate), 0)
+        SELECT COALESCE(SUM(timeTable.remainEstimate), 0)
+        FROM
+        ((SELECT m_prj_bug.remainEstimate
             FROM m_prj_bug, m_prj_ticket_relation
             WHERE m_prj_ticket_relation.typeId = @{componentid}
+                AND m_prj_ticket_relation.type = 'Project-Component'
                 AND m_prj_ticket_relation.ticketType='Project-Bug'
-                AND m_prj_ticket_relation.type = 'Component'
-                AND m_prj_ticket_relation.ticketId = m_prj_bug.id
+                AND m_prj_ticket_relation.rel IN ('Component')
+                AND m_prj_ticket_relation.ticketId = m_prj_bug.id)
+        UNION
+        (SELECT m_prj_task.remainEstimate
+            FROM m_prj_task, m_prj_ticket_relation
+            WHERE m_prj_ticket_relation.typeId = @{componentid}
+                AND m_prj_ticket_relation.type = 'Project-Component'
+                AND m_prj_ticket_relation.ticketType='Project-Task'
+                AND m_prj_ticket_relation.rel IN ('Component')
+                AND m_prj_ticket_relation.ticketId = m_prj_task.id
+        )) AS timeTable
     </select>
 </mapper>

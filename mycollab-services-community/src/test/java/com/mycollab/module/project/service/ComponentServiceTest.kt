@@ -19,6 +19,7 @@ package com.mycollab.module.project.service
 import com.mycollab.db.arguments.BasicSearchRequest
 import com.mycollab.db.arguments.NumberSearchField
 import com.mycollab.db.arguments.StringSearchField
+import com.mycollab.module.project.dao.ComponentMapperExt
 import com.mycollab.module.project.domain.SimpleComponent
 import com.mycollab.module.project.domain.criteria.ComponentSearchCriteria
 import com.mycollab.module.project.service.ComponentService
@@ -37,6 +38,9 @@ class ComponentServiceTest : IntegrationServiceTest() {
 
     @Autowired
     private lateinit var componentService: ComponentService
+
+    @Autowired
+    private lateinit var componentMapperExt: ComponentMapperExt
 
     private val criteria: ComponentSearchCriteria
         get() {
@@ -95,5 +99,23 @@ class ComponentServiceTest : IntegrationServiceTest() {
         assertThat<SimpleComponent>(components).extracting("id", "description", "status",
                 "name", "numBugs", "numOpenBugs").contains(
                 tuple(2, "bbbbbbb", "Closed", "com 2", 2, 1))
+    }
+
+    @DataSet
+    @Test
+    fun testGetTotalBillableHours() {
+        assertThat(componentMapperExt.getTotalBillableHours(1)).isEqualTo(3.0)
+    }
+
+    @DataSet
+    @Test
+    fun testGetTotalNonBillableHours() {
+        assertThat(componentMapperExt.getTotalNonBillableHours(1)).isEqualTo(7.0)
+    }
+
+    @DataSet
+    @Test
+    fun testGetRemainEstimate() {
+        assertThat(componentMapperExt.getRemainHours(1)).isEqualTo(5.0)
     }
 }

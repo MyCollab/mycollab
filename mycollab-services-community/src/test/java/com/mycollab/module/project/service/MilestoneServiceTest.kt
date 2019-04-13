@@ -20,6 +20,7 @@ import com.mycollab.db.arguments.BasicSearchRequest
 import com.mycollab.db.arguments.NumberSearchField
 import com.mycollab.db.arguments.SetSearchField
 import com.mycollab.db.arguments.StringSearchField
+import com.mycollab.module.project.dao.MilestoneMapperExt
 import com.mycollab.module.project.domain.SimpleMilestone
 import com.mycollab.module.project.domain.criteria.MilestoneSearchCriteria
 import com.mycollab.test.DataSet
@@ -38,6 +39,9 @@ class MilestoneServiceTest : IntegrationServiceTest() {
 
     @Autowired
     private lateinit var milestoneService: MilestoneService
+
+    @Autowired
+    private lateinit var milestoneMapperExt: MilestoneMapperExt
 
     private val criteria: MilestoneSearchCriteria
         get() {
@@ -85,7 +89,7 @@ class MilestoneServiceTest : IntegrationServiceTest() {
     @Throws(ParseException::class)
     fun testFindMilestoneById() {
         val milestone = milestoneService.findById(1, 1)
-        assertThat(milestone).extracting("createdUserFullName", "numOpenBugs").contains("Hai Nguyen", 2)
+        assertThat(milestone).extracting("createdUserFullName", "numOpenBugs", "totalTaskBillableHours", "totalBugBillableHours", "totalTaskNonBillableHours", "totalBugNonBillableHours").contains("Hai Nguyen", 2, 2.0, 3.0, 4.0, 5.0)
     }
 
     @DataSet
@@ -93,5 +97,17 @@ class MilestoneServiceTest : IntegrationServiceTest() {
     fun testGetTotalCount() {
         val milestoneSize = milestoneService.getTotalCount(criteria)
         assertThat(milestoneSize).isEqualTo(4)
+    }
+
+    @DataSet
+    @Test
+    fun testGetTotalBillableHours() {
+        assertThat(milestoneMapperExt.getTotalBillableHours(1)).isEqualTo(5.0)
+    }
+
+    @DataSet
+    @Test
+    fun testGetNonTotalBillableHours() {
+        assertThat(milestoneMapperExt.getTotalNonBillableHours(1)).isEqualTo(9.0)
     }
 }

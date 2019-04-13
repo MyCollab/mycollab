@@ -19,6 +19,7 @@ package com.mycollab.module.user.service.mybatis
 import com.google.common.eventbus.AsyncEventBus
 import com.mycollab.configuration.EnDecryptHelper
 import com.mycollab.configuration.IDeploymentMode
+import com.mycollab.core.Tuple2
 import com.mycollab.core.UserInvalidInputException
 import com.mycollab.core.utils.StringUtils
 import com.mycollab.db.arguments.BasicSearchRequest
@@ -78,6 +79,14 @@ class UserServiceDBImpl(private val userMapper: UserMapper,
         // check if user email has already in this account yet
         var userAccountEx = UserAccountExample()
 
+        if (StringUtils.isBlank(record.email)) {
+            record.email = record.username
+        }
+
+        if(StringUtils.isBlank(record.username)) {
+            record.username = record.email
+        }
+
         if (deploymentMode.isDemandEdition) {
             userAccountEx.createCriteria().andUsernameEqualTo(record.username).andAccountidEqualTo(sAccountId)
                     .andRegisterstatusEqualTo(RegisterStatusConstants.ACTIVE)
@@ -92,10 +101,6 @@ class UserServiceDBImpl(private val userMapper: UserMapper,
         val password = record.password
         if (password != null) {
             record.password = EnDecryptHelper.encryptSaltPassword(password)
-        }
-
-        if (StringUtils.isBlank(record.email)) {
-            record.email = record.username
         }
 
         if (StringUtils.isBlank(record.lastname)) {
@@ -155,6 +160,22 @@ class UserServiceDBImpl(private val userMapper: UserMapper,
         if (isSendInvitationEmail) {
             val invitationEvent = SendUserInvitationEvent(record.username, password, inviteUser, subDomain, sAccountId)
             asyncEventBus.post(invitationEvent)
+        }
+    }
+
+    override fun bulkInviteUsers(users: List<Tuple2<String, String>>, roleId: Int?, subDomain: String, sAccountId: Int, inviteUser: String, isSendInvitationEmail: Boolean) {
+        val usersList = users.map {
+            val user = User()
+            user.email = it.item1
+            user.password = it.item2
+            user
+        }.toCollection(mutableListOf())
+        usersList.forEach {
+            try {
+                saveUserAccount(it, roleId, subDomain, sAccountId, inviteUser, isSendInvitationEmail)
+            } catch (e: Exception) {
+                LOG.debug("Error in save user $e")
+            }
         }
     }
 

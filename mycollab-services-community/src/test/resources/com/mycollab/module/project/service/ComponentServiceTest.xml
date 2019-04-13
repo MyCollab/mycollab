@@ -2,13 +2,13 @@
 <!DOCTYPE dataset PUBLIC "-//MyCollab/MyCollab Database Schema//EN" "http://www.mycollab.com/mycollab.dtd">
 <dataset>
     <s_account id="1" createdTime="2013-04-10 13:29:23" paymentMethod="Credit Card" status="Active"/>
-    <s_user username="hai79" firstname="Nguyen" lastname="Hai" email="hainguyen@esofthead.com"/>
-    <s_user username="nghiemle" firstname="Nghiem" lastname="Le" email="nghiemle@esofthead.com"/>
+    <s_user username="hai79" firstname="Nguyen" lastname="Hai" email="hainguyen@mycollab.com"/>
+    <s_user username="nghiemle" firstname="Nghiem" lastname="Le" email="nghiemle@mycollab.com"/>
     <m_prj_project id="1" name="aaa" sAccountId="1" shortName="aaa" status="Open"/>
 
     <m_prj_bug name="name 1" id="1" projectId="1" priority="Medium"
                    detail="detail 1" status="Open" resolution="1" assignUser="hai79"
-                   createdUser="hai79" createdTime="2014-10-02 06:45:22" sAccountId="1"/>
+                   createdUser="hai79" createdTime="2014-10-02 06:45:22" sAccountId="1" remainEstimate="2"/>
     <m_prj_bug name="name 2" id="2" projectId="1" priority="Medium"
                    detail="detail 2" status="InProgress" resolution="1" assignUser="nghiemle"
                    createdUser="nghiemle" createdTime="2014-10-02 07:45:22" sAccountId="1"/>
@@ -20,25 +20,35 @@
                    assignUser="nghiemle" createdTime="2014-10-01 06:45:22"
                    sAccountId="1"/>
 
-    <m_prj_ticket_relation id="1" ticketId="1" ticketType="Project-Bug" type="Component" typeId="1" rel="Component"/>
-    <m_prj_ticket_relation id="2" ticketId="2" ticketType="Project-Bug" type="Component" typeId="2" rel="Component"/>
-    <m_prj_ticket_relation id="3" ticketId="3" ticketType="Project-Bug" type="Component" typeId="3" rel="Component"/>
-    <m_prj_ticket_relation id="4" ticketId="4" ticketType="Project-Bug" type="Component" typeId="2" rel="Component"/>
+    <m_prj_task id="1" name="Task 1" percentagecomplete="0" priority="High" projectId="1" sAccountId="1" status="Open" remainEstimate="3"/>
+    <m_prj_task id="2" name="Task 2" percentagecomplete="100" priority="High" projectId="1" sAccountId="1" status="Closed"/>
+
+    <m_prj_ticket_relation id="1" ticketId="1" ticketType="Project-Bug" type="Project-Component" typeId="1" rel="Component"/>
+    <m_prj_ticket_relation id="2" ticketId="2" ticketType="Project-Bug" type="Project-Component" typeId="2" rel="Component"/>
+    <m_prj_ticket_relation id="3" ticketId="3" ticketType="Project-Bug" type="Project-Component" typeId="3" rel="Component"/>
+    <m_prj_ticket_relation id="4" ticketId="4" ticketType="Project-Bug" type="Project-Component" typeId="2" rel="Component"/>
+    <m_prj_ticket_relation id="5" ticketId="1" ticketType="Project-Task" type="Project-Component" typeId="1" rel="Component"/>
+    <m_prj_ticket_relation id="6" ticketId="2" ticketType="Project-Task" type="Project-Component" typeId="1" rel="Component"/>
 
     <m_prj_component id="1" name="com 1"
                          projectId="1" sAccountId="1" status="Open" userlead="hai79"
                          createdUser="hai79" description="aaaaaaa" lastUpdatedTime="2014-10-02 06:45:22"
-                         createdTime="2014-10-02 06:45:22" prjKey="1"/>
+                         createdTime="2014-10-02 06:45:22"/>
     <m_prj_component id="2" name="com 2"
                          projectId="1" sAccountId="1" status="Closed" userlead="nghiemle"
                          createdUser="nghiemle" description="bbbbbbb" lastUpdatedTime="2014-10-02 07:45:22"
-                         createdTime="2014-10-02 07:45:22" prjKey="1"/>
+                         createdTime="2014-10-02 07:45:22"/>
     <m_prj_component id="3" name="com 3"
                          projectId="1" sAccountId="1" status="Closed" userlead="hai79"
                          createdUser="hai79" description="ccccccc" lastUpdatedTime="2014-10-03 06:45:22"
-                         createdTime="2014-10-03 06:45:22" prjKey="1"/>
+                         createdTime="2014-10-03 06:45:22"/>
     <m_prj_component id="4" name="com 4"
                          projectId="1" sAccountId="1" status="Open" userlead="nghiemle"
                          createdUser="nghiemle" description="ddddddd" lastUpdatedTime="2014-10-02 06:32:22"
-                         createdTime="2014-10-02 06:32:22" prjKey="1"/>
+                         createdTime="2014-10-02 06:32:22"/>
+
+    <m_prj_time_logging id="1" projectId="1" logValue="1" sAccountId="1" logForDay="2014-10-02 06:32:22" isBillable="1" typeId="1" type="Project-Bug"/>
+    <m_prj_time_logging id="2" projectId="1" logValue="2" sAccountId="1" logForDay="2014-10-02 06:32:22" isBillable="1" typeId="1" type="Project-Task"/>
+    <m_prj_time_logging id="3" projectId="1" logValue="3" sAccountId="1" logForDay="2014-10-02 06:32:22" isBillable="0" typeId="1" type="Project-Bug"/>
+    <m_prj_time_logging id="4" projectId="1" logValue="4" sAccountId="1" logForDay="2014-10-02 06:32:22" isBillable="0" typeId="1" type="Project-Task"/>
 </dataset>

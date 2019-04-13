@@ -127,7 +127,7 @@ public class UserListViewImpl extends AbstractVerticalPageView implements UserLi
                 }))).withIcon(VaadinIcons.PRINT).withStyleName(WebThemes.BUTTON_OPTION)
                 .withDescription(UserUIContext.getMessage(GenericI18Enum.ACTION_EXPORT));
 
-        header.with(headerText, sortBtn, searchTextField, printBtn, createBtn).alignAll(Alignment.MIDDLE_LEFT).expand(headerText);
+        header.with(headerText, sortBtn, searchTextField, printBtn, createBtn, bulkInviteBtn).alignAll(Alignment.MIDDLE_LEFT).expand(headerText);
         this.addComponent(header);
 
         contentLayout = new CssLayout();

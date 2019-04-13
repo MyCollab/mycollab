@@ -77,7 +77,7 @@ public class VersionReadViewImpl extends AbstractPreviewItemComp<Version> implem
                 CurrentProjectVariables.getProjectId());
 
         ProjectView projectView = UIUtils.getRoot(this, ProjectView.class);
-        MVerticalLayout detailLayout = new MVerticalLayout().withMargin(new MarginInfo(false, true, false, true));
+        MVerticalLayout detailLayout = new MVerticalLayout().withMargin(new MarginInfo(false, true, true, true));
 
         dateInfoComp = new DateInfoComp();
         if (SiteConfiguration.isCommunityEdition()) {

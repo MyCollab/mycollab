@@ -5,7 +5,7 @@
                paymentMethod="Credit Card" status="Active"/>
 
     <s_user username="admin" firstname="Nguyen" lastname="Hai"
-            email="hainguyen@esofthead.com" status="EmailVerified"/>
+            email="hainguyen@mycollab.com" status="EmailVerified"/>
 
     <s_user username="user2" firstname="A" lastname="B"
             email="user2@esofthead.com" status="EmailVerified"/>

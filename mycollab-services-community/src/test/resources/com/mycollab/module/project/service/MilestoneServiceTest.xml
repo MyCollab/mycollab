@@ -5,9 +5,9 @@
 
     <m_prj_project id="1" name="a" sAccountId="1" shortName="aaa" status="Open"/>
 
-    <s_user firstname="Hai" lastname="Nguyen" username="hai79" email="hainguyen@esofthead.com"/>
+    <s_user firstname="Hai" lastname="Nguyen" username="hai79" email="hainguyen@mycollab.com"/>
 
-    <s_user firstname="Nghiem" lastname="Le" username="nghiemle" email="nghiemle@esofthead.com"/>
+    <s_user firstname="Nghiem" lastname="Le" username="nghiemle" email="nghiemle@mycollab.com"/>
 
     <m_prj_milestone id="1" name="milestone 1" status="Open"
                      projectId="1" prjKey="111" sAccountId="1" description="milestone no1"
@@ -46,5 +46,10 @@
     <m_prj_bug status="Open" sAccountId="1" id="4" milestoneId="1" projectId="1" name="sum 4" priority="Medium"/>
     <m_prj_bug status="Open" sAccountId="1" id="5" milestoneId="1" projectId="1" name="sum 5" priority="Medium"/>
     <m_prj_bug status="Open" sAccountId="1" id="6" milestoneId="3" projectId="1" name="sum 6" priority="Medium"/>
+
+    <m_prj_time_logging id="1" projectId="1" logValue="2" sAccountId="1" logForDay="2014-10-04 00:00:00" isBillable="1" type="Project-Task" typeId="3"/>
+    <m_prj_time_logging id="2" projectId="1" logValue="3" sAccountId="1" logForDay="2014-10-04 00:00:00" isBillable="1" type="Project-Bug" typeId="4"/>
+    <m_prj_time_logging id="3" projectId="1" logValue="4" sAccountId="1" logForDay="2014-10-04 00:00:00" isBillable="0" type="Project-Task" typeId="3"/>
+    <m_prj_time_logging id="4" projectId="1" logValue="5" sAccountId="1" logForDay="2014-10-04 00:00:00" isBillable="0" type="Project-Bug" typeId="4"/>
 
 </dataset>

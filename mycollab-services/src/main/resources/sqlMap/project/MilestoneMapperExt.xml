@@ -195,17 +195,17 @@
     </select>
 
     <select id="getTotalBillableHours" parameterType="int" resultType="double" lang="velocity">
-        SELECT COALESCE(SUM(timeValue), 0)
+        SELECT COALESCE(SUM(T.timeValue), 0)
         FROM
         (
-        (SELECT m_prj_time_logging.logValue AS timeValue
+        (SELECT m_prj_time_logging.id, m_prj_time_logging.logValue AS timeValue
             FROM m_prj_milestone, m_prj_task, m_prj_time_logging
             WHERE m_prj_milestone.id = @{milestoneid} AND m_prj_task.milestoneId = m_prj_milestone.id
                 AND m_prj_task.id = m_prj_time_logging.typeId
                 AND m_prj_time_logging.type = 'Project-Task'
                 AND m_prj_time_logging.isBillable = '1')
         UNION
-        (SELECT m_prj_time_logging.logValue AS timeValue
+        (SELECT m_prj_time_logging.id, m_prj_time_logging.logValue AS timeValue
             FROM m_prj_milestone, m_prj_bug, m_prj_time_logging
             WHERE m_prj_milestone.id = @{milestoneid} AND m_prj_bug.milestoneId = m_prj_milestone.id
                 AND m_prj_bug.id = m_prj_time_logging.typeId
@@ -217,14 +217,14 @@
         SELECT COALESCE(SUM(timeValue), 0)
         FROM
         (
-        (SELECT m_prj_time_logging.logValue AS timeValue
+        (SELECT m_prj_time_logging.id, m_prj_time_logging.logValue AS timeValue
             FROM m_prj_milestone, m_prj_task, m_prj_time_logging
             WHERE m_prj_milestone.id = @{milestoneid} AND m_prj_task.milestoneId = m_prj_milestone.id
                 AND m_prj_task.id = m_prj_time_logging.typeId
                 AND m_prj_time_logging.type = 'Project-Task'
                 AND m_prj_time_logging.isBillable = '0')
         UNION
-        (SELECT m_prj_time_logging.logValue AS timeValue
+        (SELECT m_prj_time_logging.id, m_prj_time_logging.logValue AS timeValue
             FROM m_prj_milestone, m_prj_bug, m_prj_time_logging
             WHERE m_prj_milestone.id = @{milestoneid} AND m_prj_bug.milestoneId = m_prj_milestone.id
             AND m_prj_bug.id = m_prj_time_logging.typeId
@@ -235,11 +235,11 @@
     <select id="getRemainHours" parameterType="int" resultType="double" lang="velocity">
         SELECT COALESCE(SUM(timeValue), 0)
         FROM
-        ((SELECT m_prj_task.remainEstimate AS timeValue
+        ((SELECT m_prj_task.id, m_prj_task.remainEstimate AS timeValue
             FROM m_prj_milestone, m_prj_task
             WHERE m_prj_milestone.id = @{milestoneid} AND m_prj_task.milestoneId = m_prj_milestone.id)
         UNION
-        (SELECT m_prj_bug.remainEstimate AS timeValue
+        (SELECT m_prj_bug.id, m_prj_bug.remainEstimate AS timeValue
             FROM m_prj_milestone, m_prj_bug
             WHERE m_prj_milestone.id = @{milestoneid} AND m_prj_bug.milestoneId = m_prj_milestone.id)) AS T
     </select>

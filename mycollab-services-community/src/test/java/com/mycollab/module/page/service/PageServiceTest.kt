@@ -38,13 +38,13 @@ class PageServiceTest : IntegrationServiceTest() {
     @BeforeEach
     fun setup() {
         val page = Page()
-        page.createdUser = "hainguyen@esofthead.com"
+        page.createdUser = "hainguyen@mycollab.com"
         page.category = "abc"
         page.path = "1/page/document_1"
         page.status = WikiI18nEnum.status_public.name
         page.subject = "Hello world"
         page.content = "My name is <b>Hai Nguyen</b>"
-        pageService.savePage(page, "hainguyen@esofthead.com")
+        pageService.savePage(page, "hainguyen@mycollab.com")
     }
 
     @AfterEach
@@ -54,30 +54,30 @@ class PageServiceTest : IntegrationServiceTest() {
 
     @Test
     fun testGetWikiPages() {
-        val pages = pageService.getPages("1/page", "hainguyen@esofthead.com")
+        val pages = pageService.getPages("1/page", "hainguyen@mycollab.com")
         assertThat(pages.size).isEqualTo(1)
         assertThat(pages[0].category).isEqualTo("abc")
     }
 
     private fun savePage2() {
         val page = Page()
-        page.createdUser = "hainguyen@esofthead.com"
+        page.createdUser = "hainguyen@mycollab.com"
         page.category = "abc"
         page.path = "1/page/document_2"
         page.status = WikiI18nEnum.status_public.name
         page.subject = "Hello world 2"
         page.content = "My name is <b>Bao Han</b>"
         page.status = WikiI18nEnum.status_private.name
-        pageService.savePage(page, "hainguyen@esofthead.com")
+        pageService.savePage(page, "hainguyen@mycollab.com")
 
-        val expectedPage = pageService.getPage("1/page/document_2", "hainguyen@esofthead.com")
+        val expectedPage = pageService.getPage("1/page/document_2", "hainguyen@mycollab.com")
         assertThat(expectedPage!!.subject).isEqualTo("Hello world 2")
     }
 
     @Test
     fun testGetResources() {
         savePage2()
-        val pages = pageService.getPages("1/page", "hainguyen@esofthead.com")
+        val pages = pageService.getPages("1/page", "hainguyen@mycollab.com")
         assertThat(pages.size).isEqualTo(2)
         assertThat(pages).extracting("subject", "status").contains(
                 tuple("Hello world", "status_public"),
@@ -88,15 +88,15 @@ class PageServiceTest : IntegrationServiceTest() {
     @Throws(RepositoryException::class)
     fun testUpdatePage() {
         val page = Page()
-        page.createdUser = "hainguyen@esofthead.com"
+        page.createdUser = "hainguyen@mycollab.com"
         page.category = "abc"
         page.path = "1/page/document_1"
         page.status = WikiI18nEnum.status_public.name
         page.subject = "Hello world 2"
         page.content = "My name is <b>Bao Han</b>"
 
-        pageService.savePage(page, "hainguyen@esofthead.com")
-        val pages = pageService.getPages("1/page", "hainguyen@esofthead.com")
+        pageService.savePage(page, "hainguyen@mycollab.com")
+        val pages = pageService.getPages("1/page", "hainguyen@mycollab.com")
         assertThat(pages.size).isEqualTo(1)
         assertThat(pages[0].subject).isEqualTo("Hello world 2")
     }
@@ -104,16 +104,16 @@ class PageServiceTest : IntegrationServiceTest() {
     @Test
     fun testGetVersions() {
         var page = Page()
-        page.createdUser = "hainguyen@esofthead.com"
+        page.createdUser = "hainguyen@mycollab.com"
         page.category = "abc"
         page.path = "1/page/document_1"
         page.status = WikiI18nEnum.status_public.name
         page.subject = "Hello world 2"
         page.content = "My name is <b>Bao Han</b>"
-        pageService.savePage(page, "hainguyen@esofthead.com")
+        pageService.savePage(page, "hainguyen@mycollab.com")
 
         page.subject = "Hello world 3"
-        pageService.savePage(page, "hainguyen@esofthead.com")
+        pageService.savePage(page, "hainguyen@mycollab.com")
 
         val versions = pageService.getPageVersions("1/page/document_1")
         assertThat(versions.size).isEqualTo(2)
@@ -123,7 +123,7 @@ class PageServiceTest : IntegrationServiceTest() {
 
         val restorePage = pageService.restorePage("1/page/document_1", "1.0")
         assertThat(restorePage.subject).isEqualTo("Hello world 2")
-        val page2 = pageService.getPage("1/page/document_1", "hainguyen@esofthead.com")
+        val page2 = pageService.getPage("1/page/document_1", "hainguyen@mycollab.com")
         assertThat(page2!!.subject).isEqualTo("Hello world 2")
     }
 }

@@ -6,8 +6,8 @@
     <m_prj_project id="1" name="a" sAccountId="1" shortName="aaa" status="Open"/>
 
 
-    <s_user firstname="a1" lastname="b1" username="user1" email="hainguyen@esofthead.com"/>
-    <s_user firstname="a2" lastname="b2" username="user2" email="linhduong@esofthead.com"/>
+    <s_user firstname="a1" lastname="b1" username="user1" email="hainguyen@mycollab.com"/>
+    <s_user firstname="a2" lastname="b2" username="user2" email="linhduong@mycollab.com"/>
 
     <m_prj_risk id="1" description="aaa" name="b" projectId="1" sAccountId="1" dueDate="2013-05-30 15:01:52"
                 priority="Medium"/>

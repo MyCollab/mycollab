@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class CacheServiceImpl : CacheService {
-    private val map = mutableMapOf<String, MutableMap<String, Any>>();
+    private val map = mutableMapOf<String, MutableMap<String, Any>>()
 
     override fun getValue(group: String, key: String): Any? = map[group]?.get(key)
 

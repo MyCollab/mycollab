@@ -118,7 +118,7 @@ public class DateTimeUtils {
     }
 
     public static Date convertLocalDateTimeToDate(LocalDateTime localDT, ZoneId zoneId) {
-        return Date.from(localDT.atZone(zoneId).toInstant());
+        return Date.from(localDT.atZone(ZoneId.of("UTC")).withZoneSameInstant(zoneId).toInstant());
     }
 
     public static String formatDate(TemporalAccessor date, String dateFormat, Locale locale) {
