@@ -255,7 +255,7 @@
             LEFT OUTER JOIN s_user ON (s_user.username = s_activitystream.createdUser)
             LEFT OUTER JOIN m_prj_project ON (m_prj_project.id=s_activitystream.extraTypeId)
             LEFT OUTER JOIN m_prj_ticket_key ON (m_prj_ticket_key.ticketId = m_prj_bug.id AND m_prj_ticket_key.ticketType = 'Project-Bug')
-         #ifnotnull($_parameter.searchCriteria)
+        #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")
                 <include refid="com.mycollab.common.dao.ActivityStreamMapperExt.querySearchCriteria" />
                 AND s_activitystream.type = 'Project-Bug'
@@ -284,7 +284,8 @@
                 AND s_activitystream.type = 'Project-Task'
                 AND s_activitystream.action != 'comment'
             #end
-        #end)
+        #end
+        )
         UNION
         (SELECT s_activitystream.id, s_activitystream.sAccountId, s_activitystream.type, s_activitystream.typeId, m_prj_ticket_key.ticketKey AS itemKey,
                s_activitystream.createdTime, s_activitystream.action, s_activitystream.createdUser, m_prj_task.name AS nameField, s_activitystream.extraTypeId,
@@ -306,6 +307,53 @@
                 AND s_activitystream.action = 'comment'
             #end
         #end
+        )
+        UNION
+        (
+        SELECT s_activitystream.id, s_activitystream.sAccountId, s_activitystream.type, s_activitystream.typeId, null AS itemKey,
+                s_activitystream.createdTime, s_activitystream.action, s_activitystream.createdUser,
+                m_prj_version.name AS nameField, s_activitystream.extraTypeId,
+                s_activitystream.module, concat(s_user.firstname, ' ', s_user.lastname) as createdUserFullName,
+                s_user.avatarId AS createdUserAvatarId, s_activitystream.extraTypeId AS projectId,
+                m_prj_project.name AS projectName, m_prj_project.shortname AS projectShortName,
+                m_audit_log.id AS log_id, m_audit_log.object_class AS log_object_class, m_audit_log.createdTime AS log_createdTime, m_audit_log.createdUser AS log_createdUser,
+                m_audit_log.sAccountId AS log_sAccountId, m_audit_log.type AS log_type, m_audit_log.typeId AS log_typeid, m_audit_log.module AS log_module,
+                m_audit_log.changeset AS log_changeset
+            FROM s_activitystream
+                LEFT OUTER JOIN m_prj_version ON (s_activitystream.typeId=m_prj_version.id)
+                LEFT OUTER JOIN s_user ON (s_user.username = s_activitystream.createdUser)
+                LEFT OUTER JOIN m_prj_project ON (m_prj_project.id=s_activitystream.extraTypeId)
+                LEFT OUTER JOIN m_audit_log ON (s_activitystream.id=m_audit_log.activityLogId)
+            #ifnotnull($_parameter.searchCriteria)
+                #trimext("WHERE" "AND|OR")
+                     <include refid="com.mycollab.common.dao.ActivityStreamMapperExt.querySearchCriteria" />
+                     AND s_activitystream.type = 'Project-Version'
+                     AND s_activitystream.action != 'comment'
+                #end
+            #end
+        )
+        UNION
+        (
+        SELECT s_activitystream.id, s_activitystream.sAccountId, s_activitystream.type, s_activitystream.typeId, m_prj_ticket_key.ticketKey AS itemKey,
+                s_activitystream.createdTime, s_activitystream.action, s_activitystream.createdUser, m_prj_risk.name AS nameField, s_activitystream.extraTypeId,
+                s_activitystream.module, concat(s_user.firstname, ' ', s_user.lastname) as createdUserFullName,
+                s_user.avatarId AS createdUserAvatarId,
+                s_activitystream.extraTypeId AS projectId, m_prj_project.name AS projectName, m_prj_project.shortname AS projectShortName,
+                NULL AS log_id, NULL AS log_object_class, NULL AS log_posteddate, NULL AS log_posteduser,
+                NULL AS log_sAccountId, NULL AS log_type, NULL AS log_typeid, NULL AS log_module,
+                s_activitystream.nameField AS log_changeset
+            FROM s_activitystream
+                LEFT OUTER JOIN m_prj_risk ON (s_activitystream.typeId=m_prj_risk.id)
+                LEFT OUTER JOIN s_user ON (s_user.username = s_activitystream.createdUser)
+                LEFT OUTER JOIN m_prj_project ON (m_prj_project.id=s_activitystream.extraTypeId)
+                LEFT OUTER JOIN m_prj_ticket_key ON (s_activitystream.typeId = m_prj_ticket_key.ticketId AND m_prj_ticket_key.ticketType = 'Project-Risk')
+            #ifnotnull($_parameter.searchCriteria)
+                #trimext("WHERE" "AND|OR")
+                    <include refid="com.mycollab.common.dao.ActivityStreamMapperExt.querySearchCriteria" />
+                    AND s_activitystream.type = 'Project-Risk'
+                    AND s_activitystream.action !='comment'
+                #end
+            #end
         )
         UNION
         (SELECT s_activitystream.id, s_activitystream.sAccountId, s_activitystream.type, s_activitystream.typeId, null AS itemKey,
@@ -373,30 +421,6 @@
                 AND s_activitystream.type = 'Project-Component'
                 AND s_activitystream.action = 'comment'
             #end
-        #end
-        )
-        UNION
-        (
-        SELECT s_activitystream.id, s_activitystream.sAccountId, s_activitystream.type, s_activitystream.typeId, null AS itemKey,
-          s_activitystream.createdTime, s_activitystream.action, s_activitystream.createdUser,
-          m_prj_version.name AS nameField, s_activitystream.extraTypeId,
-          s_activitystream.module, concat(s_user.firstname, ' ', s_user.lastname) as createdUserFullName,
-          s_user.avatarId AS createdUserAvatarId, s_activitystream.extraTypeId AS projectId,
-          m_prj_project.name AS projectName, m_prj_project.shortname AS projectShortName,
-          NULL AS log_id, NULL AS log_object_class, NULL AS log_posteddate, NULL AS log_posteduser,
-          NULL AS log_sAccountId, NULL AS log_type, NULL AS log_typeid, NULL AS log_module,
-          s_activitystream.nameField AS log_changeset
-        FROM s_activitystream
-          LEFT OUTER JOIN m_prj_version ON (s_activitystream.typeId=m_prj_version.id)
-          LEFT OUTER JOIN s_user ON (s_user.username = s_activitystream.createdUser)
-          LEFT OUTER JOIN m_prj_project ON (m_prj_project.id=s_activitystream.extraTypeId)
-          LEFT OUTER JOIN m_audit_log ON (s_activitystream.id=m_audit_log.activityLogId)
-        #ifnotnull($_parameter.searchCriteria)
-          #trimext("WHERE" "AND|OR")
-            <include refid="com.mycollab.common.dao.ActivityStreamMapperExt.querySearchCriteria" />
-              AND s_activitystream.type = 'Project-Version'
-              AND s_activitystream.action = 'comment'
-          #end
         #end
         )
         UNION

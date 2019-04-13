@@ -58,10 +58,10 @@
                 (SELECT COUNT(m_prj_task.id)
                         FROM m_prj_task, m_prj_ticket_relation
                         WHERE m_prj_task.id = m_prj_ticket_relation.ticketId
+                            AND m_prj_ticket_relation.typeId = m_prj_version.id
                             AND m_prj_ticket_relation.ticketType = 'Project-Task'
                             AND m_prj_ticket_relation.type = 'Project-Version'
-                            AND m_prj_ticket_relation.rel IN ('AffVersion')
-                            AND m_prj_ticket_relation.typeId = m_prj_version.id) AS numTasks,
+                            AND m_prj_ticket_relation.rel IN ('AffVersion')) AS numTasks,
                 (SELECT COUNT(m_prj_task.id)
                         FROM m_prj_task, m_prj_ticket_relation
                         WHERE m_prj_task.id = m_prj_ticket_relation.ticketId
@@ -72,7 +72,7 @@
                             AND m_prj_ticket_relation.typeId = m_prj_version.id) AS numOpenTasks,
                 m_prj_project.name AS projectName, m_prj_project.shortName AS projectShortName
         FROM m_prj_version
-            LEFT OUTER JOIN m_prj_project ON (m_prj_version.projectId = m_prj_project.id)
+            INNER JOIN m_prj_project ON (m_prj_version.projectId = m_prj_project.id)
     ]]>
     </sql>
 

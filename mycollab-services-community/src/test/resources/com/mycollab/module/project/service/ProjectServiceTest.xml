@@ -50,16 +50,20 @@
 
     <m_prj_ticket_key id="2" projectId="4" ticketId="1" ticketType="Project-Bug" ticketKey="20"/>
 
-    <s_activitystream typeId="1" id="2" type="Project-Task" module="Project"
+    <m_prj_ticket_key id="3" projectId="4" ticketId="1" ticketType="Project-Risk" ticketKey="30"/>
+
+    <s_activitystream id="1" typeId="1" type="Project-Task" module="Project"
                       sAccountId="1" extraTypeId="4" createdUser="admin" action="create"/>
 
-    <s_activitystream typeId="1" id="1" type="Project-Bug" module="Project"
+    <s_activitystream id="2" typeId="1" type="Project-Bug" module="Project"
                       sAccountId="1" extraTypeId="4" createdUser="admin" action="create"/>
 
-    <s_activitystream typeId="1" id="3" type="Project-Risk" module="Project"
+    <s_activitystream id="3" typeId="1" type="Project-Risk" module="Project"
                       sAccountId="1" extraTypeId="4" createdUser="admin" action="create"/>
 
     <s_relay_email_notification id="1" sAccountId="1" type="Project-Bug" typeId="1" action="AddComment" changeBy="admin"/>
+
     <m_monitor_item id="1" username="admin" createdTime="2013-04-10 13:29:23" type="Project-Bug" typeId="1" sAccountId="1"/>
     <m_monitor_item id="2" username="user2" createdTime="2013-04-10 13:29:23" type="Project-Bug" typeId="1" sAccountId="1"/>
+
 </dataset>

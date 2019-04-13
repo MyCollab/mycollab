@@ -76,19 +76,6 @@ class BugServiceTest : IntegrationServiceTest() {
 
     @DataSet
     @Test
-    fun testSearchByComponents() {
-        val criteria = BugSearchCriteria()
-        criteria.componentids = SetSearchField(1, 2)
-
-        val bugs = bugService.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<SimpleBug>
-
-        assertThat(bugs.size).isEqualTo(1)
-        assertThat<SimpleBug>(bugs).extracting("id", "detail", "name").contains(
-                tuple(1, "detail 1", "name 1"))
-    }
-
-    @DataSet
-    @Test
     fun testGetComponentDefectsSummary() {
         val criteria = BugSearchCriteria()
         criteria.projectId = NumberSearchField(1)

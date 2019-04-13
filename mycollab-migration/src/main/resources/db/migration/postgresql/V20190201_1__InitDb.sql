@@ -943,6 +943,8 @@ CREATE TABLE m_prj_ticket_relation (
   type varchar(45) NOT NULL,
   typeId int(11) NOT NULL,
   ticketType varchar(45) NOT NULL,
+  rel varchar(45) NOT NULL,
+  comment text,
   PRIMARY KEY (`id`),
   KEY `INDEX_m_prj_ticket_relation_item_2` (type) USING BTREE,
   KEY `INDEX_m_prj_ticket_relation_item_3` (typeId) USING BTREE

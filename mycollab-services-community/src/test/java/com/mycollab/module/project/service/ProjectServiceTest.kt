@@ -125,7 +125,7 @@ class ProjectServiceTest : IntegrationServiceTest() {
         assertThat(streams.size).isEqualTo(3)
         assertThat(streams).extracting("type", "typeid", "itemKey").contains(
                 tuple("Project-Bug", "1", 20), tuple("Project-Task", "1", 10),
-                tuple("Project-Risk", "1", null))
+                tuple("Project-Risk", "1", 30))
     }
 
     @DataSet

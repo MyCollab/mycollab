@@ -97,19 +97,6 @@
             ${searchCriteria.projectId.operation} m_prj_bug.projectId=@{searchCriteria.projectId.value,jdbcType=NUMERIC}
         #end
         
-        #ifnotnull($searchCriteria.componentids)
-            ${searchCriteria.componentids.operation}
-            #repeat(${searchCriteria.componentids.values} $componentid "OR" "(" ")")
-                EXISTS (SELECT 1
-                    FROM m_prj_ticket_relation
-                    WHERE m_prj_ticket_relation.type='Component'
-                        AND m_prj_ticket_relation.typeId=@{componentid,jdbcType=NUMERIC}
-                        AND m_prj_ticket_relation.ticketId=m_prj_bug.id
-                        AND m_prj_ticket_relation.ticketType='Project-Bug'
-                        LIMIT 1)
-            #end
-        #end
-        
         #ifnotnull($searchCriteria.priorities)
             ${searchCriteria.priorities.operation}
             m_prj_bug.priority IN
@@ -203,19 +190,6 @@
         
         #ifnotnull($searchCriteria.projectId)
             ${searchCriteria.projectId.operation} m_prj_bug.projectId = @{searchCriteria.projectId.value}
-        #end
-        
-        #ifnotnull($searchCriteria.componentids)
-            ${searchCriteria.componentids.operation}
-            #repeat(${searchCriteria.componentids.values} $componentid "OR" "(" ")")
-                EXISTS (SELECT 1
-                    FROM m_prj_ticket_relation
-                    WHERE m_prj_ticket_relation.type='Component'
-                        AND m_prj_ticket_relation.typeId=@{componentid,jdbcType=NUMERIC}
-                        AND m_prj_ticket_relation.ticketId=m_prj_bug.id
-                        AND m_prj_ticket_relation.ticketType='Project-Bug'
-                        LIMIT 1)
-            #end
         #end
         
         #ifnotnull($searchCriteria.priorities)
