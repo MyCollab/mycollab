@@ -195,4 +195,6 @@ ALTER TABLE `m_prj_ticket_relation`
 CHANGE COLUMN `rel` `rel` VARCHAR(45) NOT NULL ;
 
 
-
+ALTER TABLE `m_prj_version` DROP COLUMN `prjKey`;
+ALTER TABLE `m_prj_message` DROP COLUMN `prjKey`;
+ALTER TABLE `m_prj_component` DROP COLUMN `prjKey`;

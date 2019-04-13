@@ -44,13 +44,13 @@ public class ProgressBarIndicator extends CustomLayoutExt {
         this.addComponent(this.progressStatusLabel, "progressbar-status");
     }
 
-    public ProgressBarIndicator(int total, int remaining) {
-        this(total, remaining, true);
+    public ProgressBarIndicator(int total, int gaining) {
+        this(total, gaining, true);
     }
 
-    public ProgressBarIndicator(int total, int remaining, Boolean displayPercentage) {
+    public ProgressBarIndicator(int total, int gaining, Boolean displayPercentage) {
         this();
-        float value = (total != 0) ? ((float) (total - remaining) / total) : 0;
+        float value = (total != 0) ? ((float) (gaining) / total) : 0;
         progressIndicator.setValue(value);
         if (displayPercentage) {
             if (total > 0) {
@@ -59,15 +59,7 @@ public class ProgressBarIndicator extends CustomLayoutExt {
                 this.progressStatusLabel = new Label("100%");
             }
         } else {
-            this.progressStatusLabel.setValue(String.valueOf(total - remaining) + " / " + String.valueOf(total));
+            this.progressStatusLabel.setValue((gaining) + " / " + total);
         }
-    }
-
-    public void setProgressValue(float value) {
-        Lock lock = UI.getCurrent().getSession().getLockInstance();
-        lock.lock();
-        this.progressIndicator.setValue(value);
-        this.progressStatusLabel.setValue(String.format("%.0f", value * 100) + "%");
-        lock.unlock();
     }
 }

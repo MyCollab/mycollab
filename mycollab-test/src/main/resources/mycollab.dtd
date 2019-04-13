@@ -393,7 +393,6 @@
     lastUpdatedTime CDATA #IMPLIED
     createdTime CDATA #IMPLIED
     status CDATA #IMPLIED
-    prjKey CDATA #IMPLIED
 >
 
 <!ELEMENT m_prj_customize_view EMPTY>
@@ -467,7 +466,6 @@
     lastUpdatedTime CDATA #IMPLIED
     sAccountId CDATA #REQUIRED
     isStick CDATA #IMPLIED
-    prjKey CDATA #IMPLIED
 >
 
 <!ELEMENT m_prj_milestone EMPTY>
@@ -670,7 +668,6 @@
     lastUpdatedTime CDATA #IMPLIED
     createdTime CDATA #IMPLIED
     status CDATA #IMPLIED
-    prjKey CDATA #IMPLIED
 >
 
 <!ELEMENT s_account EMPTY>

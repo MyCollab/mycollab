@@ -41,9 +41,7 @@ import com.mycollab.vaadin.web.ui.DefaultDynaFormLayout;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.mycollab.vaadin.web.ui.field.ContainerViewField;
 import com.vaadin.data.HasValue;
-import com.vaadin.ui.Alignment;
 import com.vaadin.ui.CheckBox;
-import com.vaadin.ui.Label;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
@@ -90,7 +88,7 @@ public class VersionPreviewForm extends AdvancedPreviewBeanForm<Version> {
         private DefaultBeanPagedList<ProjectTicketService, ProjectTicketSearchCriteria, ProjectTicket> ticketList;
 
         TicketsComp(Version beanItem) {
-            withMargin(false).withSpacing(true).withFullWidth();
+            withMargin(false).withFullWidth().withStyleName(WebThemes.NO_SCROLLABLE_CONTAINER);
 
             CheckBox openSelection = new CheckBox(UserUIContext.getMessage(StatusI18nEnum.Open), true);
             openSelection.addValueChangeListener(valueChangeEvent -> {
@@ -113,17 +111,15 @@ public class VersionPreviewForm extends AdvancedPreviewBeanForm<Version> {
                 updateSearchStatus();
             });
 
-            Label spacingLbl1 = new Label("");
-
-            MHorizontalLayout header = new MHorizontalLayout(openSelection, overdueSelection, spacingLbl1).alignAll(Alignment.MIDDLE_LEFT);
+            MHorizontalLayout header = new MHorizontalLayout(openSelection, overdueSelection);
 
             ticketList = new DefaultBeanPagedList<>(AppContextUtil.getSpringBean(ProjectTicketService.class), new TicketRowRenderer());
-            ticketList.setControlStyle("");
 
             searchCriteria = new ProjectTicketSearchCriteria();
             searchCriteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
             searchCriteria.setTypes(new SetSearchField<>(ProjectTypeConstants.BUG, ProjectTypeConstants.TASK));
             searchCriteria.setVersionIds(new SetSearchField<>(beanItem.getId()));
+            searchCriteria.setOpen(new SearchField());
             updateSearchStatus();
 
             this.with(header, ticketList);

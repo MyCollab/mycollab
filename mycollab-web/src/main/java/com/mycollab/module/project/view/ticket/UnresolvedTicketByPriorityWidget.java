@@ -114,7 +114,7 @@ public class UnresolvedTicketByPriorityWidget extends Panel {
                                 .withWidth("110px");
 
                         priorityLayout.addComponent(priorityLink);
-                        ProgressBarIndicator indicator = new ProgressBarIndicator(totalCount, totalCount - item.getValue().intValue(), false);
+                        ProgressBarIndicator indicator = new ProgressBarIndicator(totalCount, item.getValue().intValue(), false);
                         indicator.setWidth("100%");
                         priorityLayout.with(indicator).expand(indicator);
 
@@ -130,7 +130,7 @@ public class UnresolvedTicketByPriorityWidget extends Panel {
                             .withStyleName(WebThemes.BUTTON_LINK, "priority-" + priority.name().toLowerCase())
                             .withWidth("110px");
                     priorityLayout.addComponent(priorityLink);
-                    ProgressBarIndicator indicator = new ProgressBarIndicator(totalCount, totalCount, false);
+                    ProgressBarIndicator indicator = new ProgressBarIndicator(totalCount, 0, false);
                     indicator.setWidth("100%");
                     priorityLayout.with(indicator).expand(indicator);
                     bodyContent.addComponent(priorityLayout);

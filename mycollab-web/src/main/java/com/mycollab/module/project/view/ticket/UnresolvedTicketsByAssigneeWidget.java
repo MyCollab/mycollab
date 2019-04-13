@@ -117,7 +117,7 @@ public class UnresolvedTicketsByAssigneeWidget extends Panel {
 
                 TicketAssigneeLink ticketAssigneeLink = new TicketAssigneeLink(assignUser, item.getExtraValue(), assignUserFullName);
                 assigneeLayout.addComponent(new MCssLayout(ticketAssigneeLink).withWidth("110px"));
-                ProgressBarIndicator indicator = new ProgressBarIndicator(totalCountItems, totalCountItems - item.getValue().intValue(), false);
+                ProgressBarIndicator indicator = new ProgressBarIndicator(totalCountItems, item.getValue().intValue(), false);
                 indicator.setWidth("100%");
                 assigneeLayout.with(indicator).expand(indicator);
                 bodyContent.addComponent(assigneeLayout);
@@ -136,7 +136,7 @@ public class UnresolvedTicketsByAssigneeWidget extends Panel {
             MHorizontalLayout assigneeLayout = new MHorizontalLayout().withFullWidth();
             assigneeLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
             assigneeLayout.addComponent(new MCssLayout(unassignLink).withWidth("110px"));
-            ProgressBarIndicator indicator = new ProgressBarIndicator(totalCountItems, totalCountItems - totalUnassignTicketsCount, false);
+            ProgressBarIndicator indicator = new ProgressBarIndicator(totalCountItems, totalUnassignTicketsCount, false);
             indicator.setWidth("100%");
             assigneeLayout.with(indicator).expand(indicator);
             bodyContent.addComponent(assigneeLayout);

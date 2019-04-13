@@ -23,7 +23,6 @@ import java.io.File
 import java.io.IOException
 import java.nio.charset.Charset
 import java.nio.file.Files
-import java.nio.file.StandardCopyOption.REPLACE_EXISTING
 import java.util.*
 import java.util.regex.Pattern
 
@@ -32,35 +31,6 @@ import java.util.regex.Pattern
  * @since 5.0.4
  */
 object FileUtils {
-
-    private var _homeFolder: File
-
-    init {
-        val userFolder = System.getProperty("user.dir")
-        val homeDir = File("$userFolder/.mycollab")
-        val userHomeDir = File(System.getProperty("user.home") + "/.mycollab")
-        if (userHomeDir.exists()) {
-            _homeFolder = try {
-                Files.move(userHomeDir.toPath(), homeDir.toPath(), REPLACE_EXISTING)
-                homeDir
-            } catch (e: Exception) {
-                userHomeDir
-            }
-
-        } else {
-            _homeFolder = when {
-                homeDir.exists() -> homeDir
-                else -> {
-                    FileUtils.mkdirs(homeDir)
-                    homeDir
-                }
-            }
-        }
-    }
-
-    @JvmStatic
-    val homeFolder
-        get() = _homeFolder
 
     @JvmStatic
     val userFolder: File
@@ -72,7 +42,7 @@ object FileUtils {
     @JvmStatic
     fun readFileAsPlainString(fileName: String): String {
         try {
-            val pricingFile = FileUtils.getDesireFile(userFolder, fileName, "src/main/conf/$fileName")
+            val pricingFile = getDesireFile(userFolder, fileName, "src/main/conf/$fileName")
             return when {
                 pricingFile != null -> String(Files.readAllBytes(pricingFile.toPath()), Charset.forName("UTF-8"))
                 else -> ""

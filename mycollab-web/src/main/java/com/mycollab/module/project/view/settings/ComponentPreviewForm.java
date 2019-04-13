@@ -37,11 +37,10 @@ import com.mycollab.vaadin.ui.field.RichTextViewField;
 import com.mycollab.vaadin.web.ui.AdvancedPreviewBeanForm;
 import com.mycollab.vaadin.web.ui.DefaultBeanPagedList;
 import com.mycollab.vaadin.web.ui.DefaultDynaFormLayout;
+import com.mycollab.vaadin.web.ui.WebThemes;
 import com.mycollab.vaadin.web.ui.field.ContainerViewField;
 import com.vaadin.data.HasValue;
-import com.vaadin.ui.Alignment;
 import com.vaadin.ui.CheckBox;
-import com.vaadin.ui.Label;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
@@ -89,8 +88,7 @@ public class ComponentPreviewForm extends AdvancedPreviewBeanForm<SimpleComponen
         private DefaultBeanPagedList<ProjectTicketService, ProjectTicketSearchCriteria, ProjectTicket> ticketList;
 
         TicketsComp(SimpleComponent beanItem) {
-            withMargin(false).withFullWidth();
-            MHorizontalLayout header = new MHorizontalLayout().withFullWidth();
+            withMargin(false).withFullWidth().withStyleName(WebThemes.NO_SCROLLABLE_CONTAINER);
 
             CheckBox openSelection = new CheckBox(UserUIContext.getMessage(StatusI18nEnum.Open), true);
             openSelection.addValueChangeListener(valueChangeEvent -> {
@@ -113,17 +111,15 @@ public class ComponentPreviewForm extends AdvancedPreviewBeanForm<SimpleComponen
                 updateSearchStatus();
             });
 
-            Label spacingLbl1 = new Label("");
-
-            header.with(openSelection, overdueSelection, spacingLbl1).alignAll(Alignment.MIDDLE_LEFT).expand(spacingLbl1);
+            MHorizontalLayout header = new MHorizontalLayout(openSelection, overdueSelection);
 
             ticketList = new DefaultBeanPagedList(AppContextUtil.getSpringBean(ProjectTicketService.class), new TicketRowRenderer());
-            ticketList.setControlStyle("");
 
             searchCriteria = new ProjectTicketSearchCriteria();
             searchCriteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
             searchCriteria.setComponentIds(new SetSearchField<>(beanItem.getId()));
             searchCriteria.setTypes(new SetSearchField<>(ProjectTypeConstants.BUG, ProjectTypeConstants.TASK));
+            searchCriteria.setOpen(new SearchField());
             updateSearchStatus();
 
             this.with(header, ticketList);

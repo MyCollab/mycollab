@@ -19,9 +19,10 @@ package com.mycollab.community.shell.view.components;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Div;
 import com.hp.gagawa.java.elements.Text;
+import com.mycollab.configuration.ServerConfiguration;
 import com.mycollab.core.Version;
-import com.mycollab.core.utils.FileUtils;
 import com.mycollab.module.file.StorageUtils;
+import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.web.ui.AbstractAboutWindow;
@@ -54,7 +55,7 @@ public class AboutWindow extends AbstractAboutWindow {
         ELabel versionLbl = ELabel.h2(String.format("MyCollab Community Edition %s", Version.getVersion())).withFullWidth();
         ELabel javaNameLbl = new ELabel(String.format("%s, %s", System.getProperty("java.vm.name"),
                 System.getProperty("java.runtime.version"))).withFullWidth();
-        Label homeFolderLbl = new Label("Home folder: " + FileUtils.getHomeFolder().getAbsolutePath());
+        Label homeFolderLbl = new Label("Home folder: " + AppContextUtil.getSpringBean(ServerConfiguration.class).getHomeDir().getAbsolutePath());
         WebBrowser browser = Page.getCurrent().getWebBrowser();
         ELabel osLbl = new ELabel(String.format("%s, %s", System.getProperty("os.name"), browser.getBrowserApplication())).withFullWidth();
         Div licenseDiv = new Div().appendChild(new Text("Powered by: "))

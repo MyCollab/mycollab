@@ -113,7 +113,7 @@ public class VersionListViewImpl extends AbstractVerticalPageView implements Ver
         tableItem.addGeneratedColumn("id", (source, itemId, columnId) -> {
             SimpleVersion version = tableItem.getBeanByIndex(itemId);
             return new ProgressBarIndicator(version.getNumBugs() + version.getNumTasks(),
-                    version.getNumOpenBugs() + version.getNumOpenTasks(), false);
+                    version.getNumBugs() + version.getNumTasks() - (version.getNumOpenBugs() + version.getNumOpenTasks()), false);
         });
 
         tableItem.addGeneratedColumn("status", (source, itemId, columnId) -> {

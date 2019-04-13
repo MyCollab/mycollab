@@ -61,7 +61,7 @@ class VersionServiceTest : IntegrationServiceTest() {
                 tuple(4, "Version 4.0.0", "Open", "4.0.0", 0, 0),
                 tuple(3, "Version 3.0.0", "Closed", "3.0.0", 1, 1),
                 tuple(2, "Version 2.0.0", "Closed", "2.0.0", 2, 1),
-                tuple(1, "Version 1.0.0", "Open", "1.0.0", 1, 1))
+                tuple(1, "Version 1.0.0", "Open", "1.0.0", 2, 1))
     }
 
     @DataSet
@@ -80,8 +80,8 @@ class VersionServiceTest : IntegrationServiceTest() {
         val versions = versionService.findPageableListByCriteria(BasicSearchRequest(criteria)) as List<SimpleVersion>
         assertThat(versions.size).isEqualTo(1)
         assertThat<SimpleVersion>(versions).extracting("id", "description", "status",
-                "name", "numBugs", "numOpenBugs").contains(
-                tuple(1, "Version 1.0.0", "Open", "1.0.0", 1, 1))
+                "name", "numBugs", "numOpenBugs", "numTasks", "numOpenTasks").contains(
+                tuple(1, "Version 1.0.0", "Open", "1.0.0", 2, 1, 2, 1))
     }
 
     @DataSet

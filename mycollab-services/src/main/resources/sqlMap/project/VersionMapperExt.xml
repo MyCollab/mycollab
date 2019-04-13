@@ -40,14 +40,14 @@
                 m_prj_version.duedate, m_prj_version.name, m_prj_version.createdUser,
                 m_prj_version.sAccountId, m_prj_version.lastUpdatedTime,
                 m_prj_version.createdTime, m_prj_version.status,
-                (SELECT COUNT(m_prj_bug.id)
+                (SELECT COUNT(DISTINCT m_prj_bug.id)
                         FROM m_prj_bug, m_prj_ticket_relation
                         WHERE m_prj_bug.id = m_prj_ticket_relation.ticketId
                             AND m_prj_ticket_relation.ticketType = 'Project-Bug'
                             AND m_prj_ticket_relation.type = 'Project-Version'
                             AND m_prj_ticket_relation.rel IN ('AffVersion','FixVersion')
                             AND m_prj_ticket_relation.typeId = m_prj_version.id) AS numBugs,
-                (SELECT COUNT(m_prj_bug.id)
+                (SELECT COUNT(DISTINCT m_prj_bug.id)
                         FROM m_prj_bug, m_prj_ticket_relation
                         WHERE m_prj_bug.id = m_prj_ticket_relation.ticketId
                             AND m_prj_ticket_relation.ticketType = 'Project-Bug'
@@ -55,14 +55,14 @@
                             AND m_prj_ticket_relation.type = 'Project-Version'
                             AND m_prj_ticket_relation.rel IN ('AffVersion','FixVersion')
                             AND m_prj_ticket_relation.typeId = m_prj_version.id) AS numOpenBugs,
-                (SELECT COUNT(m_prj_task.id)
+                (SELECT COUNT(DISTINCT m_prj_task.id)
                         FROM m_prj_task, m_prj_ticket_relation
                         WHERE m_prj_task.id = m_prj_ticket_relation.ticketId
                             AND m_prj_ticket_relation.typeId = m_prj_version.id
                             AND m_prj_ticket_relation.ticketType = 'Project-Task'
                             AND m_prj_ticket_relation.type = 'Project-Version'
                             AND m_prj_ticket_relation.rel IN ('AffVersion')) AS numTasks,
-                (SELECT COUNT(m_prj_task.id)
+                (SELECT COUNT(DISTINCT m_prj_task.id)
                         FROM m_prj_task, m_prj_ticket_relation
                         WHERE m_prj_task.id = m_prj_ticket_relation.ticketId
                             AND m_prj_ticket_relation.ticketType = 'Project-Task'

@@ -34,12 +34,16 @@ class SimpleComponent : Component() {
 
     var numBugs: Int? = null
 
+    var numOpenTasks: Int? = null
+
+    var numTasks: Int? = null
+
     lateinit var projectName: String
 
     lateinit var projectShortName: String
 
     enum class Field {
-        numOpenBugs, numBugs;
+        numOpenBugs, numBugs, numOpenTasks, NumTasks;
 
         fun equalTo(value: Any): Boolean = name == value
     }

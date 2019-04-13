@@ -90,7 +90,7 @@ public class ComponentListViewImpl extends AbstractVerticalPageView implements C
                         new TableViewField(GenericI18Enum.FORM_PROGRESS, "id", WebUIConstants.TABLE_M_LABEL_WIDTH)));
 
         tableItem.addGeneratedColumn("selected", (source, itemId, columnId) -> {
-            final SimpleComponent component = tableItem.getBeanByIndex(itemId);
+            SimpleComponent component = tableItem.getBeanByIndex(itemId);
             CheckBoxDecor cb = new CheckBoxDecor("", component.isSelected());
             cb.addValueChangeListener(valueChangeEvent -> tableItem.fireSelectItemEvent(component));
             component.setExtraData(cb);
@@ -116,18 +116,19 @@ public class ComponentListViewImpl extends AbstractVerticalPageView implements C
         });
 
         tableItem.addGeneratedColumn("id", (source, itemId, columnId) -> {
-            SimpleComponent bugComponent = tableItem.getBeanByIndex(itemId);
-            return new ProgressBarIndicator(bugComponent.getNumBugs(), bugComponent.getNumOpenBugs(), false);
+            SimpleComponent component = tableItem.getBeanByIndex(itemId);
+            return new ProgressBarIndicator(component.getNumBugs() + component.getNumTasks(),
+                    component.getNumBugs() + component.getNumTasks() - (component.getNumOpenBugs() + component.getNumOpenTasks()), false);
         });
 
         tableItem.addGeneratedColumn("status", (source, itemId, columnId) -> {
-            SimpleComponent bugComponent = tableItem.getBeanByIndex(itemId);
-            return ELabel.i18n(bugComponent.getStatus(), StatusI18nEnum.class);
+            SimpleComponent component = tableItem.getBeanByIndex(itemId);
+            return ELabel.i18n(component.getStatus(), StatusI18nEnum.class);
         });
 
         tableItem.addGeneratedColumn("description", (source, itemId, columnId) -> {
-            SimpleComponent version = tableItem.getBeanByIndex(itemId);
-            return ELabel.richText(version.getDescription());
+            SimpleComponent component = tableItem.getBeanByIndex(itemId);
+            return ELabel.richText(component.getDescription());
         });
 
         tableItem.setWidth("100%");

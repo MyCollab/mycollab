@@ -9,7 +9,9 @@
         <result column="createdUserAvatarId" jdbcType="VARCHAR" property="createdUserAvatarId" />
         <result column="createdUserFullName" jdbcType="VARCHAR" property="createdUserFullName" />
         <result column="numOpenBugs" jdbcType="INTEGER" property="numOpenBugs" />
+        <result column="numOpenTasks" jdbcType="INTEGER" property="numOpenTasks" />
         <result column="numBugs" jdbcType="INTEGER" property="numBugs" />
+        <result column="numTasks" jdbcType="INTEGER" property="numTasks" />
         <result column="projectName" jdbcType="VARCHAR" property="projectName" />
         <result column="projectShortName" jdbcType="VARCHAR" property="projectShortName" />
     </resultMap>
@@ -42,27 +44,44 @@
     </sql>
     <sql id="selectComponents">
         <![CDATA[
-          SELECT m_prj_component.id, m_prj_component.projectId, m_prj_component.name,
+        SELECT m_prj_component.id, m_prj_component.projectId, m_prj_component.name,
                 m_prj_component.userlead, m_prj_component.description,
                 m_prj_component.sAccountId, m_prj_component.lastUpdatedTime, m_prj_component.createdTime, m_prj_component.status,
                 m_prj_component.createduser, createdUserTbl.avatarId AS createdUserAvatarId,
                 concat(createdUserTbl.firstname,' ', createdUserTbl.lastname) AS createdUserFullName,
                 s_user.avatarId AS userLeadAvatarId,
                concat(s_user.firstname, ' ', s_user.lastname) AS userLeadFullName,
-               (SELECT COUNT(*) 
+               (SELECT COUNT(DISTINCT m_prj_bug.id)
                         FROM m_prj_bug, m_prj_ticket_relation
                         WHERE m_prj_bug.id=m_prj_ticket_relation.ticketId
                             AND m_prj_ticket_relation.ticketType='Project-Bug'
-                            AND m_prj_ticket_relation.type IN ('Component')
+                            AND m_prj_ticket_relation.type = 'Project-Component'
+                            AND m_prj_ticket_relation.rel IN ('Component')
                             AND m_prj_ticket_relation.typeId=m_prj_component.id) AS numBugs,
-                (SELECT COUNT(*) 
+               (SELECT COUNT(DISTINCT m_prj_bug.id)
                         FROM m_prj_bug, m_prj_ticket_relation
                         WHERE m_prj_bug.id=m_prj_ticket_relation.ticketId
                             AND m_prj_ticket_relation.ticketType='Project-Bug'
                             AND m_prj_bug.status IN ('Open', 'InProgress', 'Reopenned')
-                            AND m_prj_ticket_relation.type IN ('Component')
+                            AND m_prj_ticket_relation.type = 'Project-Component'
+                            AND m_prj_ticket_relation.rel IN ('Component')
                             AND m_prj_ticket_relation.typeId=m_prj_component.id) AS numOpenBugs,
-                m_prj_project.name AS projectName, m_prj_project.shortName AS projectShortName
+               (SELECT COUNT(DISTINCT m_prj_task.id)
+                        FROM m_prj_task, m_prj_ticket_relation
+                        WHERE m_prj_task.id = m_prj_ticket_relation.ticketId
+                            AND m_prj_ticket_relation.typeId = m_prj_component.id
+                            AND m_prj_ticket_relation.ticketType = 'Project-Task'
+                            AND m_prj_ticket_relation.type = 'Project-Component'
+                            AND m_prj_ticket_relation.rel IN ('Component')) AS numTasks,
+               (SELECT COUNT(DISTINCT m_prj_task.id)
+                        FROM m_prj_task, m_prj_ticket_relation
+                        WHERE m_prj_task.id = m_prj_ticket_relation.ticketId
+                            AND m_prj_ticket_relation.ticketType = 'Project-Task'
+                            AND m_prj_task.status IN ('Open')
+                            AND m_prj_ticket_relation.type = 'Project-Component'
+                            AND m_prj_ticket_relation.rel IN ('Component')
+                            AND m_prj_ticket_relation.typeId = m_prj_component.id) AS numOpenTasks,
+               m_prj_project.name AS projectName, m_prj_project.shortName AS projectShortName
         FROM m_prj_component
         LEFT OUTER JOIN s_user ON (m_prj_component.userlead=s_user.username)
         LEFT OUTER JOIN s_user AS createdUserTbl ON (m_prj_component.createduser=createdUserTbl.username)

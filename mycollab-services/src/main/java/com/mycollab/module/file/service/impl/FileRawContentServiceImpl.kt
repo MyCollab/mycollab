@@ -16,12 +16,13 @@
  */
 package com.mycollab.module.file.service.impl
 
+import com.mycollab.configuration.ServerConfiguration
 import com.mycollab.core.MyCollabException
 import com.mycollab.core.ResourceNotFoundException
 import com.mycollab.module.file.service.RawContentService
+import com.mycollab.spring.AppContextUtil
 import org.apache.commons.io.FileUtils
 import org.slf4j.LoggerFactory
-
 import java.io.*
 
 /**
@@ -30,7 +31,10 @@ import java.io.*
  */
 class FileRawContentServiceImpl : RawContentService {
 
-    private val baseFolder: File = com.mycollab.core.utils.FileUtils.homeFolder
+    private fun baseFolder(): File {
+        val serverConfiguration = AppContextUtil.getSpringBean(ServerConfiguration::class.java)
+        return serverConfiguration.getHomeDir()
+    }
 
     override fun saveContent(objectPath: String, stream: InputStream) {
         val startFileNameIndex = objectPath.lastIndexOf("/")
@@ -39,14 +43,14 @@ class FileRawContentServiceImpl : RawContentService {
              * make sure the directory exist
 			 */
             val folderPath = objectPath.substring(0, startFileNameIndex)
-            val file = File(baseFolder, folderPath)
+            val file = File(baseFolder(), folderPath)
             if (!file.exists() && !file.mkdirs()) {
                 throw MyCollabException("Create directory failed")
             }
         }
 
         try {
-            BufferedOutputStream(FileOutputStream(File(baseFolder, objectPath))).use { outStream ->
+            BufferedOutputStream(FileOutputStream(File(baseFolder(), objectPath))).use { outStream ->
                 val buffer = ByteArray(BUFFER_SIZE)
                 var byteRead = stream.read(buffer)
 
@@ -63,7 +67,7 @@ class FileRawContentServiceImpl : RawContentService {
 
     override fun getContentStream(objectPath: String): InputStream {
         try {
-            val file = File(baseFolder, objectPath)
+            val file = File(baseFolder(), objectPath)
             return FileInputStream(file)
         } catch (e: FileNotFoundException) {
             throw ResourceNotFoundException(e)
@@ -73,7 +77,7 @@ class FileRawContentServiceImpl : RawContentService {
 
     override fun removePath(objectPath: String) {
         try {
-            val file = File(baseFolder, objectPath)
+            val file = File(baseFolder(), objectPath)
             if (file.exists()) {
                 if (file.isDirectory) {
                     FileUtils.deleteDirectory(file)
@@ -88,9 +92,9 @@ class FileRawContentServiceImpl : RawContentService {
     }
 
     override fun renamePath(oldPath: String, newPath: String) {
-        val file = File(baseFolder, oldPath)
+        val file = File(baseFolder(), oldPath)
         if (file.exists()) {
-            val result = file.renameTo(File("$baseFolder/$newPath"))
+            val result = file.renameTo(File("${baseFolder()}/$newPath"))
             if (!result) {
                 LOG.error("Can not rename old path $oldPath to new path $newPath")
             }
@@ -101,8 +105,8 @@ class FileRawContentServiceImpl : RawContentService {
 
     override fun movePath(oldPath: String, destinationPath: String) {
         try {
-            val src = File("$baseFolder/$oldPath")
-            val dest = File("$baseFolder/$destinationPath")
+            val src = File("${baseFolder()}/$oldPath")
+            val dest = File("${baseFolder()}/$destinationPath")
 
             if (!src.exists()) {
                 LOG.debug("Source: ${src.path} is not existed")
@@ -125,7 +129,7 @@ class FileRawContentServiceImpl : RawContentService {
     }
 
     override fun getSize(objectPath: String): Long {
-        val file = File("$baseFolder/$objectPath")
+        val file = File("${baseFolder()}/$objectPath")
         return if (file.exists()) {
             when {
                 file.isFile -> FileUtils.sizeOf(file)

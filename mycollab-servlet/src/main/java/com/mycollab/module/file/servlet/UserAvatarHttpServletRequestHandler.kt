@@ -16,12 +16,14 @@
  */
 package com.mycollab.module.file.servlet
 
+import com.mycollab.configuration.ServerConfiguration
 import com.mycollab.configuration.SiteConfiguration
 import com.mycollab.core.MyCollabException
 import com.mycollab.core.ResourceNotFoundException
 import com.mycollab.core.utils.FileUtils
 import com.mycollab.servlet.GenericHttpServlet
 import org.apache.commons.io.FilenameUtils
+import org.springframework.beans.factory.annotation.Autowired
 import java.io.*
 import javax.servlet.ServletException
 import javax.servlet.annotation.WebServlet
@@ -34,6 +36,8 @@ import javax.servlet.http.HttpServletResponse
  */
 @WebServlet(urlPatterns = ["/file/avatar/*"], name = "userAvatarFSServlet")
 class UserAvatarHttpServletRequestHandler : GenericHttpServlet() {
+    @Autowired
+    private lateinit var serverConfiguration: ServerConfiguration
 
     @Throws(ServletException::class, IOException::class)
     override fun onHandleRequest(request: HttpServletRequest, response: HttpServletResponse) {
@@ -50,7 +54,7 @@ class UserAvatarHttpServletRequestHandler : GenericHttpServlet() {
                 val username = path.substring(0, lastIndex)
                 val size = Integer.valueOf(path.substring(lastIndex + 1, path.length))!!
 
-                val userAvatarFile = File(FileUtils.homeFolder, "/avatar/${username}_$size.png")
+                val userAvatarFile = File(serverConfiguration.getHomeDir(), "/avatar/${username}_$size.png")
                 val avatarInputStream = FileInputStream(userAvatarFile)
 
                 response.setHeader("Content-Type", "image/png")
