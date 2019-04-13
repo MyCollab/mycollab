@@ -46,7 +46,7 @@ class ComponentAddWindow extends MWindow implements IEditFormHandler<Component> 
         AdvancedEditBeanForm<Component> editForm = new AdvancedEditBeanForm<>();
         editForm.addFormHandler(this);
         editForm.setFormLayoutFactory(new DefaultDynaFormLayout(ProjectTypeConstants.COMPONENT,
-                ComponentDefaultFormLayoutFactory.getForm(), "id"));
+                ComponentDefaultFormLayoutFactory.getAddForm(), "id"));
         editForm.setBeanFormFieldFactory(new ComponentEditFormFieldFactory(editForm));
         Component component = new Component();
         component.setProjectid(CurrentProjectVariables.getProjectId());

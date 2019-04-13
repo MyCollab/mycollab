@@ -49,16 +49,16 @@ class BugSearchCriteria : SearchCriteria() {
     var statuses: SetSearchField<String>? = null
     var projectId: NumberSearchField? = null
 
-    class BugTypeCustomSqlParam internal constructor(id: String, private val type: String) : CustomSqlParam(id) {
+    class BugTypeCustomSqlParam internal constructor(id: String, private val type: String) : CustomSqlParam<Int>(id) {
 
-        override fun buildPropertyParamInList(oper: String, values: Collection<String>?): NoValueSearchField? {
+        override fun buildPropertyParamInList(oper: String, values: Collection<Int>?): NoValueSearchField? {
             if (values == null || values.isEmpty()) {
                 return null
             }
             val sqlResult = StringBuilder()
             val array = values.toTypedArray()
             for (i in array.indices) {
-                val affectedVersion = Integer.parseInt(array[i])
+                val affectedVersion = array[i]
                 val result = object : SQL() {
                     init {
                         SELECT("COUNT(*)")
@@ -86,14 +86,14 @@ class BugSearchCriteria : SearchCriteria() {
             return NoValueSearchField(oper, sqlResult.toString())
         }
 
-        override fun buildPropertyParamNotInList(oper: String, values: Collection<String>?): NoValueSearchField? {
+        override fun buildPropertyParamNotInList(oper: String, values: Collection<Int>?): NoValueSearchField? {
             if (values == null || values.isEmpty()) {
                 return null
             }
             val sqlResult = StringBuilder()
             val array = values.toTypedArray()
             for (i in array.indices) {
-                val affectedVersion = Integer.parseInt(array[i])
+                val affectedVersion = array[i]
                 val result = object : SQL() {
                     init {
                         SELECT("COUNT(*)")

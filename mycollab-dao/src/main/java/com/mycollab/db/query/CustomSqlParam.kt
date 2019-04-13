@@ -22,9 +22,9 @@ import com.mycollab.db.arguments.NoValueSearchField
  * @author MyCollab Ltd.
  * @since 4.5.0
  */
-abstract class CustomSqlParam(id: String) : Param(id) {
+abstract class CustomSqlParam<V>(id: String) : Param(id) {
 
-    abstract fun buildPropertyParamInList(oper: String, value: Collection<String>?): NoValueSearchField?
+    abstract fun buildPropertyParamInList(oper: String, value: Collection<V>?): NoValueSearchField?
 
-    abstract fun buildPropertyParamNotInList(oper: String, value: Collection<String>?): NoValueSearchField?
+    abstract fun buildPropertyParamNotInList(oper: String, value: Collection<V>?): NoValueSearchField?
 }

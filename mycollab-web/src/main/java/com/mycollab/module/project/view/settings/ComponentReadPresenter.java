@@ -92,7 +92,7 @@ public class ComponentReadPresenter extends AbstractPresenter<ComponentReadView>
             public void onPrint(Object source, SimpleComponent data) {
                 PrintButton btn = (PrintButton) source;
                 btn.doPrint(data, new FormReportLayout(ProjectTypeConstants.COMPONENT, Component.Field.name.name(),
-                        ComponentDefaultFormLayoutFactory.getForm(), Component.Field.id.name()));
+                        ComponentDefaultFormLayoutFactory.getAddForm(), Component.Field.id.name()));
             }
 
             @Override

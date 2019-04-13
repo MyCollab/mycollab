@@ -25,16 +25,15 @@ import com.mycollab.form.view.builder.type.DynaSection;
 import com.mycollab.module.project.i18n.BugI18nEnum;
 import com.mycollab.module.project.i18n.ComponentI18nEnum;
 import com.mycollab.module.project.domain.Component;
+import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 
 /**
  * @author MyCollab Ltd.
  * @since 4.5.4
  */
 public class ComponentDefaultFormLayoutFactory {
-    private static final DynaForm defaultForm;
 
-    static {
-        defaultForm = new DynaForm();
+    private static DynaSection mainSection() {
         DynaSection mainSection = new DynaSectionBuilder().layoutType(LayoutType.ONE_COLUMN).build();
 
         mainSection.fields(new TextDynaFieldBuilder().fieldName(Component.Field.name)
@@ -48,13 +47,21 @@ public class ComponentDefaultFormLayoutFactory {
         mainSection.fields(new TextDynaFieldBuilder().fieldName(Component.Field.userlead)
                 .displayName(ComponentI18nEnum.FORM_LEAD)
                 .fieldIndex(2).build());
-
-        mainSection.fields(new TextDynaFieldBuilder().fieldName(Component.Field.id).displayName(BugI18nEnum.LIST).fieldIndex(3).build());
-
-        defaultForm.sections(mainSection);
+        return mainSection;
     }
 
-    public static DynaForm getForm() {
-        return defaultForm;
+    private static DynaSection assignmentSection() {
+        DynaSection assignmentSection = new DynaSectionBuilder().layoutType(LayoutType.ONE_COLUMN).header(ProjectCommonI18nEnum.OPT_ASSIGNMENT_LIST).build();
+        assignmentSection.fields(new TextDynaFieldBuilder().fieldName("section-assignments")
+                .fieldIndex(6).colSpan(true).build());
+        return assignmentSection;
+    }
+
+    public static DynaForm getAddForm() {
+        return new DynaForm(mainSection());
+    }
+
+    public static DynaForm getReadForm() {
+        return new DynaForm(mainSection(), assignmentSection());
     }
 }

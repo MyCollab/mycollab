@@ -153,6 +153,7 @@ public class DesktopApplication extends AppUI {
     private void handleException(VaadinRequest request, Throwable e) {
         IgnoreException ignoreException = getExceptionType(e, IgnoreException.class);
         if (ignoreException != null) {
+            LOG.error("Exception should not happen", ignoreException);
             return;
         }
 

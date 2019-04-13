@@ -23,6 +23,8 @@ import com.mycollab.module.project.ProjectTypeConstants
 import com.mycollab.module.project.i18n.MilestoneI18nEnum
 import com.mycollab.module.project.i18n.OptionI18nEnum.Priority
 import com.mycollab.module.project.i18n.ProjectI18nEnum
+import com.mycollab.module.project.i18n.TicketI18nEnum
+import org.apache.ibatis.jdbc.SQL
 
 /**
  * @author MyCollab Ltd.
@@ -49,6 +51,10 @@ class ProjectTicketSearchCriteria : SearchCriteria() {
     var types: SetSearchField<String>? = null
 
     var typeIds: SetSearchField<Int>? = null
+
+    var versionIds: SetSearchField<Int>? = null
+
+    var componentIds: SetSearchField<Int>? = null
 
     companion object {
         private const val serialVersionUID = 1L
@@ -115,5 +121,6 @@ class ProjectTicketSearchCriteria : SearchCriteria() {
         @JvmField
         val p_projectIds = CacheParamMapper.register(ProjectTypeConstants.TICKET, ProjectI18nEnum.LIST,
                 PropertyListParam<Int>("projectid", "mainTbl", "projectId"))
+
     }
 }

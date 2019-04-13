@@ -24,9 +24,9 @@ import com.mycollab.db.arguments.SetSearchField;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.domain.ProjectTicket;
+import com.mycollab.module.project.domain.Version;
 import com.mycollab.module.project.domain.criteria.ProjectTicketSearchCriteria;
 import com.mycollab.module.project.service.ProjectTicketService;
-import com.mycollab.module.project.domain.Version;
 import com.mycollab.module.project.view.ticket.TicketRowRenderer;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.UserUIContext;
@@ -40,9 +40,9 @@ import com.mycollab.vaadin.web.ui.DefaultBeanPagedList;
 import com.mycollab.vaadin.web.ui.DefaultDynaFormLayout;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.mycollab.vaadin.web.ui.field.ContainerViewField;
+import com.vaadin.data.HasValue;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.CheckBox;
-import com.vaadin.data.HasValue;
 import com.vaadin.ui.Label;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
@@ -90,8 +90,7 @@ public class VersionPreviewForm extends AdvancedPreviewBeanForm<Version> {
         private DefaultBeanPagedList<ProjectTicketService, ProjectTicketSearchCriteria, ProjectTicket> ticketList;
 
         TicketsComp(Version beanItem) {
-            withMargin(false).withFullWidth();
-            MHorizontalLayout header = new MHorizontalLayout();
+            withMargin(false).withSpacing(true).withFullWidth();
 
             CheckBox openSelection = new CheckBox(UserUIContext.getMessage(StatusI18nEnum.Open), true);
             openSelection.addValueChangeListener(valueChangeEvent -> {
@@ -116,16 +115,15 @@ public class VersionPreviewForm extends AdvancedPreviewBeanForm<Version> {
 
             Label spacingLbl1 = new Label("");
 
-            header.with(openSelection, overdueSelection, spacingLbl1).alignAll(Alignment.MIDDLE_LEFT);
+            MHorizontalLayout header = new MHorizontalLayout(openSelection, overdueSelection, spacingLbl1).alignAll(Alignment.MIDDLE_LEFT);
 
             ticketList = new DefaultBeanPagedList<>(AppContextUtil.getSpringBean(ProjectTicketService.class), new TicketRowRenderer());
             ticketList.setControlStyle("");
 
             searchCriteria = new ProjectTicketSearchCriteria();
             searchCriteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
-//            searchCriteria.setVersionids(new SetSearchField<>(beanItem.getId()));
-//            searchCriteria.setStatuses(new SetSearchField<>(StatusI18nEnum.Open.name(), StatusI18nEnum.ReOpen.name(),
-//                    StatusI18nEnum.Verified.name(), StatusI18nEnum.Resolved.name()));
+            searchCriteria.setTypes(new SetSearchField<>(ProjectTypeConstants.BUG, ProjectTypeConstants.TASK));
+            searchCriteria.setVersionIds(new SetSearchField<>(beanItem.getId()));
             updateSearchStatus();
 
             this.with(header, ticketList);
