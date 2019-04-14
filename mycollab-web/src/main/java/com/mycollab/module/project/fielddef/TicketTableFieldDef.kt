@@ -29,6 +29,9 @@ import com.mycollab.vaadin.web.ui.WebUIConstants
  */
 object TicketTableFieldDef {
     @JvmField
+    val id = TableViewField(null, "id", WebUIConstants.TABLE_S_LABEL_WIDTH)
+
+    @JvmField
     val name = TableViewField(GenericI18Enum.FORM_NAME, "name", WebUIConstants.TABLE_X_LABEL_WIDTH)
 
     @JvmField

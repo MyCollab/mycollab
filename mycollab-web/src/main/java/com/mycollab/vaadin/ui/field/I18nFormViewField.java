@@ -43,7 +43,7 @@ public class I18nFormViewField extends CustomField<String> {
     public I18nFormViewField(Class<? extends Enum> enumCls, Enum defaultValue) {
         this.enumCls = enumCls;
         this.defaultValue = defaultValue;
-        label = new ELabel("", ContentMode.TEXT).withUndefinedWidth().withStyleName(WebThemes.LABEL_WORD_WRAP);
+        label = new ELabel(UserUIContext.getMessage(defaultValue), ContentMode.TEXT).withUndefinedWidth().withStyleName(WebThemes.LABEL_WORD_WRAP);
     }
 
     public I18nFormViewField withStyleName(String styleName) {

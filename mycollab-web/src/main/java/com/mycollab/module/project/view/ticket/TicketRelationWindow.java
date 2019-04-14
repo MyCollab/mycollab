@@ -14,20 +14,17 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.mycollab.module.project.view.bug;
+package com.mycollab.module.project.view.ticket;
 
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.core.UserInvalidInputException;
 import com.mycollab.form.view.LayoutType;
-import com.mycollab.module.project.ProjectTypeConstants;
-import com.mycollab.module.project.domain.SimpleBug;
+import com.mycollab.module.project.domain.ProjectTicket;
 import com.mycollab.module.project.domain.TicketRelation;
-import com.mycollab.module.project.event.BugEvent;
-import com.mycollab.module.project.i18n.BugI18nEnum;
-import com.mycollab.module.project.i18n.OptionI18nEnum.BugRelation;
+import com.mycollab.module.project.i18n.OptionI18nEnum.TicketRel;
+import com.mycollab.module.project.i18n.TicketI18nEnum;
 import com.mycollab.module.project.service.TicketRelationService;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.mycollab.vaadin.ui.AbstractFormLayoutFactory;
@@ -41,7 +38,6 @@ import com.vaadin.icons.VaadinIcons;
 import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.RichTextArea;
-import com.vaadin.ui.VerticalLayout;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
@@ -51,23 +47,23 @@ import org.vaadin.viritin.layouts.MWindow;
  * @author MyCollab Ltd.
  * @since 4.6.0
  */
-class LinkIssueWindow extends MWindow {
+public class TicketRelationWindow extends MWindow {
     private RelatedBugEditForm editForm;
-    private BugSelectionField bugSelectionField;
-    private SimpleBug hostedBug;
-    private TicketRelation relatedBug;
+    private TicketRelationSelectField ticketRelationSelectField;
+    private ProjectTicket hostedTicket;
+    private TicketRelation ticketRelation;
 
-    LinkIssueWindow(SimpleBug bug) {
-        super("Dependencies");
-        this.hostedBug = bug;
+    public TicketRelationWindow(ProjectTicket ticket) {
+        super(UserUIContext.getMessage(TicketI18nEnum.OPT_DEPENDENCIES));
+        this.hostedTicket = ticket;
         MVerticalLayout contentLayout = new MVerticalLayout().withMargin(false).withFullWidth();
 
         editForm = new RelatedBugEditForm();
-        relatedBug = new TicketRelation();
-        relatedBug.setTicketid(bug.getId());
-        relatedBug.setTickettype(ProjectTypeConstants.BUG);
-        relatedBug.setRel(BugRelation.Duplicated.name());
-        editForm.setBean(relatedBug);
+        ticketRelation = new TicketRelation();
+        ticketRelation.setTicketid(ticket.getTypeId());
+        ticketRelation.setTickettype(ticket.getType());
+        ticketRelation.setRel(TicketRel.Duplicated.name());
+        editForm.setBean(ticketRelation);
         contentLayout.add(editForm);
 
         this.withWidth("750px").withModal(true).withResizable(false).withContent(contentLayout).withCenter();
@@ -86,46 +82,50 @@ class LinkIssueWindow extends MWindow {
 
             @Override
             public AbstractComponent getLayout() {
-                VerticalLayout layout = new VerticalLayout();
+                MVerticalLayout layout = new MVerticalLayout();
                 informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(LayoutType.ONE_COLUMN);
                 layout.addComponent(informationLayout.getLayout());
 
                 MButton saveBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_SAVE), clickEvent -> {
+                    ProjectTicket relatedTicket = ticketRelationSelectField.getSelectedTicket();
+                    ticketRelation.setType(relatedTicket.getType());
+                    ticketRelation.setTypeid(relatedTicket.getTypeId());
+
                     if (editForm.validateForm()) {
                         TicketRelationService relatedBugService = AppContextUtil.getSpringBean(TicketRelationService.class);
 
-                        SimpleBug selectedBug = bugSelectionField.getSelectedBug();
-                        if (selectedBug == null) {
-                            throw new UserInvalidInputException("The related bug must be not null");
+                        ProjectTicket relationTicket = ticketRelationSelectField.getSelectedTicket();
+                        if (relationTicket == null) {
+                            throw new UserInvalidInputException("The related ticket must be not null");
                         }
 
-                        if (selectedBug.getId().equals(hostedBug.getId())) {
+                        if (relationTicket.getTypeId().equals(hostedTicket.getTypeId()) && relationTicket.getType().equals(hostedTicket.getType())) {
                             throw new UserInvalidInputException("The relation is invalid since the both entries are the same");
                         }
 
-                        relatedBug.setTypeid(selectedBug.getId());
-                        relatedBug.setType(ProjectTypeConstants.BUG);
-                        relatedBugService.saveWithSession(relatedBug, UserUIContext.getUsername());
+                        ticketRelation.setTypeid(relationTicket.getTypeId());
+                        ticketRelation.setType(relationTicket.getType());
+                        relatedBugService.saveWithSession(ticketRelation, UserUIContext.getUsername());
                         close();
-                        EventBusFactory.getInstance().post(new BugEvent.BugChanged(this, hostedBug.getId()));
+                        // TODO handle change event
+//                        EventBusFactory.getInstance().post(new BugEvent.BugChanged(this, hostedTicket.getId()));
                     }
                 }).withIcon(VaadinIcons.CLIPBOARD).withStyleName(WebThemes.BUTTON_ACTION);
 
                 MButton cancelBtn = new MButton(UserUIContext.getMessage(GenericI18Enum.BUTTON_CANCEL), clickEvent -> close())
                         .withStyleName(WebThemes.BUTTON_OPTION);
 
-                final MHorizontalLayout controlsBtn = new MHorizontalLayout(cancelBtn, saveBtn).withMargin(false);
-                layout.addComponent(controlsBtn);
-                layout.setComponentAlignment(controlsBtn, Alignment.MIDDLE_RIGHT);
+                MHorizontalLayout controlsBtn = new MHorizontalLayout(cancelBtn, saveBtn).withMargin(false);
+                layout.with(controlsBtn).withAlign(controlsBtn, Alignment.MIDDLE_RIGHT);
                 return layout;
             }
 
             @Override
             protected HasValue<?> onAttachField(Object propertyId, HasValue<?> field) {
                 if (TicketRelation.Field.rel.equalTo(propertyId)) {
-                    return informationLayout.addComponent(field, "This bug", 0, 0);
+                    return informationLayout.addComponent(field, "This ticket", 0, 0);
                 } else if (TicketRelation.Field.typeid.equalTo(propertyId)) {
-                    return informationLayout.addComponent(field, UserUIContext.getMessage(BugI18nEnum.SINGLE), 0, 1);
+                    return informationLayout.addComponent(field, UserUIContext.getMessage(TicketI18nEnum.SINGLE), 0, 1);
                 } else if (TicketRelation.Field.comment.equalTo(propertyId)) {
                     return informationLayout.addComponent(field, UserUIContext.getMessage(GenericI18Enum.OPT_COMMENT), 0, 2);
                 }
@@ -141,13 +141,13 @@ class LinkIssueWindow extends MWindow {
             @Override
             protected HasValue<?> onCreateField(Object propertyId) {
                 if (TicketRelation.Field.rel.equalTo(propertyId)) {
-                    I18nValueComboBox<BugRelation> relationSelection = new I18nValueComboBox<>(BugRelation.class,
-                            BugRelation.Block, BugRelation.Duplicated, BugRelation.Related);
+                    I18nValueComboBox<TicketRel> relationSelection = new I18nValueComboBox<>(TicketRel.class,
+                            TicketRel.Block, TicketRel.Duplicated, TicketRel.Related);
                     relationSelection.setWidth(WebThemes.FORM_CONTROL_WIDTH);
                     return relationSelection;
                 } else if (TicketRelation.Field.typeid.equalTo(propertyId)) {
-                    bugSelectionField = new BugSelectionField();
-                    return bugSelectionField;
+                    ticketRelationSelectField = new TicketRelationSelectField();
+                    return ticketRelationSelectField;
                 } else if (TicketRelation.Field.comment.equalTo(propertyId)) {
                     return new RichTextArea();
                 }

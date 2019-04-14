@@ -68,9 +68,9 @@ public class OptionI18nEnum {
         None
     }
 
-    @BaseName("project-bug-related")
+    @BaseName("project-ticket-relation")
     @LocaleData(value = {@Locale("en-US")}, defaultCharset = "UTF-8")
-    public enum BugRelation {
+    public enum TicketRel {
         Related, Duplicated, Block, DependsOn, Duplicate, Relation;
 
         public Enum getReverse() {

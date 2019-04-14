@@ -22,13 +22,20 @@ import com.mycollab.core.utils.HumanTime;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectRolePermissionCollections;
 import com.mycollab.module.project.ProjectTypeConstants;
+import com.mycollab.module.project.domain.ProjectTicket;
 import com.mycollab.module.project.domain.SimpleTask;
+import com.mycollab.module.project.domain.SimpleTicketRelation;
+import com.mycollab.module.project.i18n.OptionI18nEnum;
 import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.mycollab.module.project.i18n.TaskI18nEnum;
+import com.mycollab.module.project.i18n.TicketI18nEnum;
 import com.mycollab.module.project.service.TaskService;
+import com.mycollab.module.project.service.TicketRelationService;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.module.project.ui.components.*;
 import com.mycollab.module.project.view.ProjectView;
+import com.mycollab.module.project.view.ticket.TicketRelationComp;
+import com.mycollab.module.project.view.ticket.TicketRelationWindow;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.UserUIContext;
@@ -46,10 +53,14 @@ import com.vaadin.icons.VaadinIcons;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
+import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
+
+import java.util.List;
 
 /**
  * @author MyCollab Ltd.
@@ -136,8 +147,15 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
 
     @Override
     protected HorizontalLayout createButtonControls() {
-        ProjectPreviewFormControlsGenerator<SimpleTask> taskPreviewForm = new ProjectPreviewFormControlsGenerator<>(previewForm);
-        return taskPreviewForm.createButtonControls(
+        ProjectPreviewFormControlsGenerator<SimpleTask> taskPreviewFormControls = new ProjectPreviewFormControlsGenerator<>(previewForm);
+        if (CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS)) {
+            MButton linkBtn = new MButton(UserUIContext.getMessage(TicketI18nEnum.OPT_DEPENDENCIES),
+                    clickEvent -> UI.getCurrent().addWindow(new TicketRelationWindow(ProjectTicket.buildTicketByTask(beanItem))))
+                    .withIcon(VaadinIcons.BOLT);
+            taskPreviewFormControls.addOptionButton(linkBtn);
+        }
+
+        return taskPreviewFormControls.createButtonControls(
                 ProjectPreviewFormControlsGenerator.ADD_BTN_PRESENTED
                         | ProjectPreviewFormControlsGenerator.ASSIGN_BTN_PRESENTED
                         | ProjectPreviewFormControlsGenerator.CLONE_BTN_PRESENTED
@@ -174,13 +192,11 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
         void displayTaskHeader(SimpleTask task) {
             toggleTaskSummaryField = new ToggleTaskSummaryField(task, true);
             toggleTaskSummaryField.addLabelStyleNames(ValoTheme.LABEL_H3, ValoTheme.LABEL_NO_MARGIN);
+            MVerticalLayout header = new VerticalRemoveInlineComponentMarker().withMargin(false).withFullWidth();
             if (task.getParenttaskid() == null) {
-                MHorizontalLayout header = new MHorizontalLayout().withFullWidth();
                 header.with(toggleTaskSummaryField);
                 this.addHeader(header);
             } else {
-                VerticalRemoveInlineComponentMarker header = new VerticalRemoveInlineComponentMarker();
-                header.setMargin(false);
                 ParentTaskComp parentTaskComp = new ParentTaskComp(task.getParenttaskid(), task);
                 header.with(parentTaskComp, toggleTaskSummaryField);
                 this.addHeader(header);
@@ -190,6 +206,29 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
                 toggleTaskSummaryField.closeTask();
             } else if (task.isOverdue()) {
                 toggleTaskSummaryField.overdueTask();
+            }
+
+            TicketRelationService ticketRelationService = AppContextUtil.getSpringBean(TicketRelationService.class);
+            List<SimpleTicketRelation> ticketsRelation = ticketRelationService.findRelatedTickets(task.getId(), ProjectTypeConstants.TASK);
+            if (CollectionUtils.isNotEmpty(ticketsRelation)) {
+                for (SimpleTicketRelation ticketRelation : ticketsRelation) {
+                    if (Boolean.TRUE.equals(ticketRelation.getLtr())) {
+                        ELabel relatedLink = new ELabel(UserUIContext.getMessage(OptionI18nEnum.TicketRel.class,
+                                ticketRelation.getRel())).withStyleName(WebThemes.ARROW_BTN).withUndefinedWidth();
+                        TicketRelationComp toggleRelatedBugField = new TicketRelationComp(ticketRelation);
+                        MHorizontalLayout bugContainer = new MHorizontalLayout(relatedLink, toggleRelatedBugField)
+                                .expand(toggleRelatedBugField).withFullWidth();
+                        header.with(bugContainer);
+                    } else {
+                        Enum relatedEnum = OptionI18nEnum.TicketRel.valueOf(ticketRelation.getRel()).getReverse();
+                        ELabel relatedLink = new ELabel(UserUIContext.getMessage(relatedEnum)).withStyleName(WebThemes.ARROW_BTN)
+                                .withUndefinedWidth();
+                        TicketRelationComp toggleRelatedBugField = new TicketRelationComp(ticketRelation);
+                        MHorizontalLayout bugContainer = new MHorizontalLayout(relatedLink, toggleRelatedBugField)
+                                .expand(toggleRelatedBugField).withFullWidth();
+                        header.with(bugContainer);
+                    }
+                }
             }
         }
 

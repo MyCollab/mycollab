@@ -127,24 +127,25 @@ public abstract class AbstractBeanFieldGroupFieldFactory<B> implements IBeanFiel
                         }
                     }
                 }
-                if (formField instanceof IgnoreBindingField) {
-                    attachForm.attachField(field.getName(), formField);
-                    continue;
-                } else {
-                    Binder.BindingBuilder<B, ?> bindingBuilder = binder.forField(formField);
-
-                    if (formField instanceof Converter) {
-                        bindingBuilder.withConverter((Converter) formField);
-                    }
-                    bindingBuilder.bind(field.getName());
-                }
-
                 if (formField instanceof DateField) {
                     ((DateField) formField).setZoneId(UserUIContext.getUserTimeZone());
                     ((DateField) formField).setDateFormat(AppUI.getDateFormat());
                 }
 
-                attachForm.attachField(field.getName(), formField);
+                if (formField instanceof IgnoreBindingField) {
+                    attachForm.attachField(field.getName(), formField);
+                    continue;
+                } else {
+                    HasValue<?> hasValue = attachForm.attachField(field.getName(), formField);
+                    if (hasValue != null) {
+                        Binder.BindingBuilder<B, ?> bindingBuilder = binder.forField(formField);
+
+                        if (formField instanceof Converter) {
+                            bindingBuilder.withConverter((Converter) formField);
+                        }
+                        bindingBuilder.bind(field.getName());
+                    }
+                }
             }
         }
         binder.readBean(bean);

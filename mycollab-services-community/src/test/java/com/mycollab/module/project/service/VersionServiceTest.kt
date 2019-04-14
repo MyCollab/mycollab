@@ -23,7 +23,6 @@ import com.mycollab.module.project.dao.VersionMapperExt
 import com.mycollab.module.project.domain.SimpleVersion
 import com.mycollab.module.project.domain.Version
 import com.mycollab.module.project.domain.criteria.VersionSearchCriteria
-import com.mycollab.module.project.service.VersionService
 import com.mycollab.test.DataSet
 import com.mycollab.test.rule.DbUnitInitializerRule
 import com.mycollab.test.spring.IntegrationServiceTest

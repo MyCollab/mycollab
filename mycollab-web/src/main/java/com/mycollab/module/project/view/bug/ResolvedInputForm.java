@@ -24,7 +24,7 @@ import com.mycollab.core.utils.StringUtils;
 import com.mycollab.form.view.LayoutType;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectTypeConstants;
-import com.mycollab.module.project.domain.TicketRelation;
+import com.mycollab.module.project.domain.ProjectTicket;
 import com.mycollab.module.project.event.BugEvent;
 import com.mycollab.module.project.i18n.BugI18nEnum;
 import com.mycollab.module.project.i18n.OptionI18nEnum;
@@ -35,6 +35,7 @@ import com.mycollab.module.project.view.settings.component.VersionMultiSelectFie
 import com.mycollab.module.project.domain.BugWithBLOBs;
 import com.mycollab.module.project.domain.SimpleBug;
 import com.mycollab.module.project.service.TicketRelationService;
+import com.mycollab.module.project.view.ticket.TicketRelationSelectField;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.EventBusFactory;
@@ -62,7 +63,7 @@ public class ResolvedInputForm extends AdvancedEditBeanForm<SimpleBug> {
     private static final long serialVersionUID = 1L;
     private SimpleBug bug;
     private RichTextArea commentArea;
-    private BugSelectionField bugSelectionField;
+    private TicketRelationSelectField ticketRelationSelectField;
     private VersionMultiSelectField fixedVersionSelect;
 
     ResolvedInputForm(SimpleBug bugValue) {
@@ -93,19 +94,19 @@ public class ResolvedInputForm extends AdvancedEditBeanForm<SimpleBug> {
                 if (validateForm()) {
                     String commentValue = commentArea.getValue();
                     if (BugResolution.Duplicate.name().equals(bug.getResolution())) {
-                        if (bugSelectionField != null && bugSelectionField.getSelectedBug() != null) {
-                            SimpleBug selectedBug = bugSelectionField.getSelectedBug();
-                            if (selectedBug.getId().equals(bug.getId())) {
+                        if (ticketRelationSelectField != null && ticketRelationSelectField.getSelectedTicket() != null) {
+                            ProjectTicket relationTicket = ticketRelationSelectField.getSelectedTicket();
+                            if (relationTicket.getTypeId().equals(bug.getId()) && relationTicket.getType().equals(ProjectTypeConstants.BUG)) {
                                 throw new UserInvalidInputException("The relation is invalid since the both entries are the same");
                             }
 
                             TicketRelationService relatedBugService = AppContextUtil.getSpringBean(TicketRelationService.class);
-                            TicketRelation relatedTicket = new TicketRelation();
+                            com.mycollab.module.project.domain.TicketRelation relatedTicket = new com.mycollab.module.project.domain.TicketRelation();
                             relatedTicket.setTicketid(bug.getId());
                             relatedTicket.setTickettype(ProjectTypeConstants.BUG);
-                            relatedTicket.setRel(OptionI18nEnum.BugRelation.Duplicated.name());
-                            relatedTicket.setTypeid(selectedBug.getId());
-                            relatedTicket.setType(ProjectTypeConstants.BUG);
+                            relatedTicket.setRel(OptionI18nEnum.TicketRel.Duplicated.name());
+                            relatedTicket.setTypeid(relationTicket.getTypeId());
+                            relatedTicket.setType(relatedTicket.getType());
                             relatedBugService.saveWithSession(relatedTicket, UserUIContext.getUsername());
                         } else {
                             NotificationUtil.showErrorNotification(UserUIContext.getMessage(BugI18nEnum.ERROR_DUPLICATE_BUG_SELECT));
@@ -220,8 +221,8 @@ public class ResolvedInputForm extends AdvancedEditBeanForm<SimpleBug> {
                 resolutionComboBox.addValueChangeListener(valueChangeEvent -> {
                     BugResolution value = resolutionComboBox.getValue();
                     if (BugResolution.Duplicate == value) {
-                        bugSelectionField = new BugSelectionField();
-                        layout.with(new Label(" with "), bugSelectionField);
+                        ticketRelationSelectField = new TicketRelationSelectField();
+                        layout.with(new Label(" with "), ticketRelationSelectField);
                     } else {
                         if (layout.getComponentCount() > 1) {
                             layout.removeComponent(layout.getComponent(1));

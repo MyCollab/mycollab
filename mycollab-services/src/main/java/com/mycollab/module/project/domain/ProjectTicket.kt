@@ -157,6 +157,23 @@ class ProjectTicket : ValuedBean(), Serializable {
         private const val serialVersionUID = 1L
 
         @JvmStatic
+        fun buildTicketByTask(task: SimpleTask): ProjectTicket {
+            val ticket = ProjectTicket()
+            ticket.typeId = task.id
+            ticket.type = ProjectTypeConstants.TASK
+            ticket.projectId = task.projectid
+            ticket.name = task.name
+            ticket.saccountid = task.saccountid
+            ticket.startDate = task.startdate
+            ticket.endDate = task.enddate
+            ticket.dueDate = task.duedate
+            ticket.milestoneId = task.milestoneid
+            ticket.assignUser = task.assignuser
+            ticket.priority = task.priority
+            return ticket
+        }
+
+        @JvmStatic
         fun buildTask(bean: ProjectTicket): Task {
             val task = Task()
             task.id = bean.typeId
@@ -171,6 +188,23 @@ class ProjectTicket : ValuedBean(), Serializable {
             task.assignuser = bean.assignUser
             task.milestoneid = bean.milestoneId
             return task
+        }
+
+        @JvmStatic
+        fun buildTicketByBug(bug: SimpleBug): ProjectTicket {
+            val ticket = ProjectTicket()
+            ticket.typeId = bug.id
+            ticket.type = ProjectTypeConstants.BUG
+            ticket.projectId = bug.projectid
+            ticket.name = bug.name
+            ticket.saccountid = bug.saccountid
+            ticket.startDate = bug.startdate
+            ticket.endDate = bug.enddate
+            ticket.dueDate = bug.duedate
+            ticket.milestoneId = bug.milestoneid
+            ticket.assignUser = bug.assignuser
+            ticket.priority = bug.priority
+            return ticket
         }
 
         @JvmStatic

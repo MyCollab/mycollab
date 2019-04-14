@@ -176,7 +176,7 @@ public class ProjectActivityComponent extends MVerticalLayout implements Reloada
     }
 
     private Component buildCommentBlock(final SimpleComment comment) {
-        final MHorizontalLayout layout = new MHorizontalLayout().withMargin(new MarginInfo(true, false, true, false))
+        MHorizontalLayout layout = new MHorizontalLayout().withMargin(new MarginInfo(true, false, true, false))
                 .withFullWidth();
 
         ProjectMemberBlock memberBlock = new ProjectMemberBlock(comment.getCreateduser(), comment.getOwnerAvatarId(),
@@ -238,7 +238,7 @@ public class ProjectActivityComponent extends MVerticalLayout implements Reloada
     private Component buildAuditBlock(SimpleAuditLog auditLog) {
         List<AuditChangeItem> changeItems = auditLog.getChangeItems();
         if (CollectionUtils.isNotEmpty(changeItems)) {
-            final MHorizontalLayout layout = new MHorizontalLayout().withMargin(new MarginInfo(true, false, true, false))
+            MHorizontalLayout layout = new MHorizontalLayout().withMargin(new MarginInfo(true, false, true, false))
                     .withFullWidth();
 
             ProjectMemberBlock memberBlock = new ProjectMemberBlock(auditLog.getCreateduser(), auditLog.getPostedUserAvatarId(),

@@ -58,7 +58,7 @@ import org.vaadin.viritin.layouts.MWindow;
 import java.time.LocalDateTime;
 
 import static com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
-import static com.mycollab.module.project.i18n.OptionI18nEnum.BugRelation.Duplicated;
+import static com.mycollab.module.project.i18n.OptionI18nEnum.TicketRel.Duplicated;
 
 /**
  * @author MyCollab Ltd.

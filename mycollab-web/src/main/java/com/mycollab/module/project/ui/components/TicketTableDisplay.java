@@ -52,7 +52,7 @@ public class TicketTableDisplay extends DefaultPagedBeanTable<ProjectTicketServi
             Div div = new DivLessFormatter();
             Text image = new Text(ProjectAssetsManager.getAsset(ticket.getType()).getHtml());
             A itemLink = new A().setId("tag" + TooltipHelper.TOOLTIP_ID);
-            if (ProjectTypeConstants.TASK.equals(ticket.getType()) || ProjectTypeConstants.BUG.equals(ticket.getType())) {
+            if (ProjectTypeConstants.TASK.equals(ticket.getType()) || ProjectTypeConstants.BUG.equals(ticket.getType()) || ProjectTypeConstants.RISK.equals(ticket.getType())) {
                 itemLink.setHref(ProjectLinkGenerator.generateProjectItemLink(ticket.getProjectShortName(),
                         ticket.getProjectId(), ticket.getType(), ticket.getExtraTypeId() + ""));
             } else {
@@ -62,7 +62,7 @@ public class TicketTableDisplay extends DefaultPagedBeanTable<ProjectTicketServi
 
             itemLink.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(ticket.getType(), ticket.getTypeId() + ""));
             itemLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction());
-            itemLink.appendText(ticket.getName());
+            itemLink.appendText(ProjectAssetsManager.getAsset(ticket.getType()).getHtml() + " " + ticket.getName());
 
             div.appendChild(image, DivLessFormatter.EMPTY_SPACE, itemLink);
 

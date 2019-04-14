@@ -74,7 +74,7 @@ public class GenericBeanForm<B> extends MCssLayout {
         fieldFactory.commit();
     }
 
-    public void attachField(Object propertyId, HasValue<?> field) {
-        layoutFactory.attachField(propertyId, field);
+    public HasValue<?> attachField(Object propertyId, HasValue<?> field) {
+        return layoutFactory.attachField(propertyId, field);
     }
 }

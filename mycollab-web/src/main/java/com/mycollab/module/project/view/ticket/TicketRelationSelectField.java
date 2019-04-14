@@ -14,9 +14,9 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.mycollab.module.project.view.bug;
+package com.mycollab.module.project.view.ticket;
 
-import com.mycollab.module.project.domain.SimpleBug;
+import com.mycollab.module.project.domain.ProjectTicket;
 import com.mycollab.vaadin.ui.FieldSelection;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.vaadin.icons.VaadinIcons;
@@ -32,38 +32,38 @@ import org.vaadin.viritin.layouts.MHorizontalLayout;
  * @author MyCollab Ltd
  * @since 5.2.12
  */
-public class BugSelectionField extends CustomField<Integer> implements FieldSelection<SimpleBug> {
-    private SimpleBug selectedBug;
-    private TextField bugField;
+public class TicketRelationSelectField extends CustomField<Integer> implements FieldSelection<ProjectTicket> {
+    private ProjectTicket selectedTicket;
+    private TextField ticketField;
 
-    public SimpleBug getSelectedBug() {
-        return selectedBug;
+    public ProjectTicket getSelectedTicket() {
+        return selectedTicket;
     }
 
     @Override
     protected Component initContent() {
-        bugField = new MTextField().withReadOnly(true).withWidth(WebThemes.FORM_CONTROL_WIDTH);
+        ticketField = new MTextField().withReadOnly(true).withWidth(WebThemes.FORM_CONTROL_WIDTH);
         MHorizontalLayout layout = new MHorizontalLayout();
         MButton browseBtn = new MButton(VaadinIcons.ELLIPSIS_H)
-                .withListener(clickEvent -> UI.getCurrent().addWindow(new BugSelectionWindow(BugSelectionField.this)))
+                .withListener(clickEvent -> UI.getCurrent().addWindow(new TicketSelectionWindow(TicketRelationSelectField.this)))
                 .withStyleName(WebThemes.BUTTON_OPTION, WebThemes.BUTTON_SMALL_PADDING);
-        layout.with(bugField, browseBtn);
+        layout.with(ticketField, browseBtn);
         return layout;
     }
 
     @Override
-    protected void doSetValue(Integer simpleBug) {
+    protected void doSetValue(Integer ticketId) {
 
     }
 
     @Override
     public Integer getValue() {
-        return (selectedBug != null) ? selectedBug.getId() : null;
+        return (selectedTicket != null) ? selectedTicket.getTypeId() : null;
     }
 
     @Override
-    public void fireValueChange(SimpleBug data) {
-        selectedBug = data;
-        bugField.setValue(selectedBug.getName());
+    public void fireValueChange(ProjectTicket data) {
+        selectedTicket = data;
+        ticketField.setValue(selectedTicket.getName());
     }
 }

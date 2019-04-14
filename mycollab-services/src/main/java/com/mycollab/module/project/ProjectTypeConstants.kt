@@ -23,7 +23,7 @@ package com.mycollab.module.project
 object ProjectTypeConstants {
     const val PROJECT = "Project"
 
-    const val PROJECT_ROLE = "project_role"
+    const val PROJECT_ROLE = "Project-Role"
 
     const val CLIENT = "Project-Client"
 

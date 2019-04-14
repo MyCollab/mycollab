@@ -22,17 +22,21 @@ import com.mycollab.configuration.SiteConfiguration;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectRolePermissionCollections;
 import com.mycollab.module.project.ProjectTypeConstants;
+import com.mycollab.module.project.domain.ProjectTicket;
 import com.mycollab.module.project.domain.SimpleBug;
 import com.mycollab.module.project.domain.SimpleTicketRelation;
 import com.mycollab.module.project.event.BugEvent;
 import com.mycollab.module.project.i18n.BugI18nEnum;
-import com.mycollab.module.project.i18n.OptionI18nEnum.BugRelation;
+import com.mycollab.module.project.i18n.OptionI18nEnum.TicketRel;
 import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
+import com.mycollab.module.project.i18n.TicketI18nEnum;
 import com.mycollab.module.project.service.BugService;
 import com.mycollab.module.project.service.TicketRelationService;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.module.project.ui.components.*;
 import com.mycollab.module.project.view.ProjectView;
+import com.mycollab.module.project.view.ticket.TicketRelationWindow;
+import com.mycollab.module.project.view.ticket.TicketRelationComp;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.ApplicationEventListener;
@@ -244,28 +248,28 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
                 toggleBugSummaryField.addLabelStyleNames(WebThemes.LABEL_OVERDUE);
             }
 
-//            TicketRelationService ticketRelationService = AppContextUtil.getSpringBean(TicketRelationService.class);
-//            List<SimpleTicketRelation> relatedTickets = ticketRelationService.findRelatedTickets(bug.getId(), ProjectTypeConstants.BUG);
-//            if (CollectionUtils.isNotEmpty(relatedTickets)) {
-//                for (SimpleTicketRelation relatedTicket : relatedTickets) {
-//                    if (Boolean.TRUE.equals(relatedTicket.getLtr())) {
-//                        ELabel relatedLink = new ELabel(UserUIContext.getMessage(BugRelation.class,
-//                                relatedTicket.getRel())).withStyleName(WebThemes.ARROW_BTN).withUndefinedWidth();
-//                        ToggleBugSummaryWithDependentField toggleRelatedBugField = new ToggleBugSummaryWithDependentField(bug, relatedTicket.getRelatedBug());
-//                        MHorizontalLayout bugContainer = new MHorizontalLayout(relatedLink, toggleRelatedBugField)
-//                                .expand(toggleRelatedBugField).withFullWidth();
-//                        header.with(bugContainer);
-//                    } else {
-//                        Enum relatedEnum = BugRelation.valueOf(relatedTicket.getRelatedType()).getReverse();
-//                        ELabel relatedLink = new ELabel(UserUIContext.getMessage(relatedEnum)).withStyleName(WebThemes.ARROW_BTN)
-//                                .withUndefinedWidth();
-//                        ToggleBugSummaryWithDependentField toggleRelatedBugField = new ToggleBugSummaryWithDependentField(bug, relatedTicket.getRelatedBug());
-//                        MHorizontalLayout bugContainer = new MHorizontalLayout(relatedLink, toggleRelatedBugField)
-//                                .expand(toggleRelatedBugField).withFullWidth();
-//                        header.with(bugContainer);
-//                    }
-//                }
-//            }
+            TicketRelationService ticketRelationService = AppContextUtil.getSpringBean(TicketRelationService.class);
+            List<SimpleTicketRelation> ticketsRelation = ticketRelationService.findRelatedTickets(bug.getId(), ProjectTypeConstants.BUG);
+            if (CollectionUtils.isNotEmpty(ticketsRelation)) {
+                for (SimpleTicketRelation ticketRelation : ticketsRelation) {
+                    if (Boolean.TRUE.equals(ticketRelation.getLtr())) {
+                        ELabel relatedLink = new ELabel(UserUIContext.getMessage(TicketRel.class,
+                                ticketRelation.getRel())).withStyleName(WebThemes.ARROW_BTN).withUndefinedWidth();
+                        TicketRelationComp toggleRelatedBugField = new TicketRelationComp(ticketRelation);
+                        MHorizontalLayout bugContainer = new MHorizontalLayout(relatedLink, toggleRelatedBugField)
+                                .expand(toggleRelatedBugField).withFullWidth();
+                        header.with(bugContainer);
+                    } else {
+                        Enum relatedEnum = TicketRel.valueOf(ticketRelation.getRel()).getReverse();
+                        ELabel relatedLink = new ELabel(UserUIContext.getMessage(relatedEnum)).withStyleName(WebThemes.ARROW_BTN)
+                                .withUndefinedWidth();
+                        TicketRelationComp toggleRelatedBugField = new TicketRelationComp(ticketRelation);
+                        MHorizontalLayout bugContainer = new MHorizontalLayout(relatedLink, toggleRelatedBugField)
+                                .expand(toggleRelatedBugField).withFullWidth();
+                        header.with(bugContainer);
+                    }
+                }
+            }
         }
 
         @Override
@@ -288,8 +292,8 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
     protected HorizontalLayout createButtonControls() {
         ProjectPreviewFormControlsGenerator<SimpleBug> bugPreviewFormControls = new ProjectPreviewFormControlsGenerator<>(previewForm);
         if (CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.BUGS)) {
-            MButton linkBtn = new MButton(UserUIContext.getMessage(BugI18nEnum.OPT_BUG_DEPENDENCIES),
-                    clickEvent -> UI.getCurrent().addWindow(new LinkIssueWindow(beanItem)))
+            MButton linkBtn = new MButton(UserUIContext.getMessage(TicketI18nEnum.OPT_DEPENDENCIES),
+                    clickEvent -> UI.getCurrent().addWindow(new TicketRelationWindow(ProjectTicket.buildTicketByBug(beanItem))))
                     .withIcon(VaadinIcons.BOLT);
             bugPreviewFormControls.addOptionButton(linkBtn);
         }

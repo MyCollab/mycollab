@@ -1077,7 +1077,7 @@
  */
 
 .v-vaadin-version:after {
-	content: "8.7.0";
+	content: "8.7.2";
 }
 
 .v-widget {
@@ -16216,6 +16216,7 @@ button {
 	border: none;
 	padding: 0;
 	background-image: none;
+	background-color: white;
 }
 
 .v-button:after {
