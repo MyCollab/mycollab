@@ -114,7 +114,7 @@ class ProjectTicket : ValuedBean(), Serializable {
         }
 
     val isClosed: Boolean
-        get() = StatusI18nEnum.Closed.name == status || StatusI18nEnum.Verified.name == status
+        get() = StatusI18nEnum.isClosedStatus(status)
 
     val dueDatePlusOne: LocalDate?
         get() {

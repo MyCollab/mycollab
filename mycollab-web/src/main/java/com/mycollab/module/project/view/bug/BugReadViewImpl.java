@@ -26,6 +26,7 @@ import com.mycollab.module.project.domain.ProjectTicket;
 import com.mycollab.module.project.domain.SimpleBug;
 import com.mycollab.module.project.domain.SimpleTicketRelation;
 import com.mycollab.module.project.event.BugEvent;
+import com.mycollab.module.project.event.TicketEvent;
 import com.mycollab.module.project.i18n.BugI18nEnum;
 import com.mycollab.module.project.i18n.OptionI18nEnum.TicketRel;
 import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
@@ -66,7 +67,6 @@ import static com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum.*;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-// TODO: Revise the ticket relation
 @ViewComponent
 public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implements BugReadView {
     private static final long serialVersionUID = 1L;
@@ -77,6 +77,18 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
                 @Subscribe
                 public void handle(BugEvent.BugChanged event) {
                     Integer bugChangeId = event.getData();
+                    BugService bugService = AppContextUtil.getSpringBean(BugService.class);
+                    SimpleBug bugChange = bugService.findById(bugChangeId, AppUI.getAccountId());
+                    previewItem(bugChange);
+                }
+            };
+
+    private ApplicationEventListener<TicketEvent.DependencyChange> ticketRelationChangeHandler = new
+            ApplicationEventListener<TicketEvent.DependencyChange>() {
+                @Override
+                @Subscribe
+                public void handle(TicketEvent.DependencyChange event) {
+                    Integer bugChangeId = event.getTicketId();
                     BugService bugService = AppContextUtil.getSpringBean(BugService.class);
                     SimpleBug bugChange = bugService.findById(bugChangeId, AppUI.getAccountId());
                     previewItem(bugChange);
@@ -99,12 +111,14 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
     @Override
     public void attach() {
         EventBusFactory.getInstance().register(bugChangedHandler);
+        EventBusFactory.getInstance().register(ticketRelationChangeHandler);
         super.attach();
     }
 
     @Override
     public void detach() {
         EventBusFactory.getInstance().unregister(bugChangedHandler);
+        EventBusFactory.getInstance().unregister(ticketRelationChangeHandler);
         super.detach();
     }
 

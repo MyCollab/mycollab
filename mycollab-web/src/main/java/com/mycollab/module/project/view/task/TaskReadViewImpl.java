@@ -16,6 +16,7 @@
  */
 package com.mycollab.module.project.view.task;
 
+import com.google.common.eventbus.Subscribe;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.configuration.SiteConfiguration;
 import com.mycollab.core.utils.HumanTime;
@@ -23,12 +24,15 @@ import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectRolePermissionCollections;
 import com.mycollab.module.project.ProjectTypeConstants;
 import com.mycollab.module.project.domain.ProjectTicket;
+import com.mycollab.module.project.domain.SimpleBug;
 import com.mycollab.module.project.domain.SimpleTask;
 import com.mycollab.module.project.domain.SimpleTicketRelation;
+import com.mycollab.module.project.event.TicketEvent;
 import com.mycollab.module.project.i18n.OptionI18nEnum;
 import com.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.mycollab.module.project.i18n.TaskI18nEnum;
 import com.mycollab.module.project.i18n.TicketI18nEnum;
+import com.mycollab.module.project.service.BugService;
 import com.mycollab.module.project.service.TaskService;
 import com.mycollab.module.project.service.TicketRelationService;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
@@ -38,6 +42,8 @@ import com.mycollab.module.project.view.ticket.TicketRelationComp;
 import com.mycollab.module.project.view.ticket.TicketRelationWindow;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppUI;
+import com.mycollab.vaadin.ApplicationEventListener;
+import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.event.HasPreviewFormHandlers;
 import com.mycollab.vaadin.mvp.ViewComponent;
@@ -69,7 +75,6 @@ import java.util.List;
 @ViewComponent
 public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implements TaskReadView {
     private static final long serialVersionUID = 1L;
-    private static final Logger LOG = LoggerFactory.getLogger(TaskReadViewImpl.class);
 
     private ProjectActivityComponent activityComponent;
     private TagViewComponent tagViewComponent;
@@ -79,9 +84,33 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
     private PlanningInfoComp planningInfoComp;
     private PeopleInfoComp peopleInfoComp;
 
+    private ApplicationEventListener<TicketEvent.DependencyChange> ticketRelationChangeHandler = new
+            ApplicationEventListener<TicketEvent.DependencyChange>() {
+                @Override
+                @Subscribe
+                public void handle(TicketEvent.DependencyChange event) {
+                    Integer bugChangeId = event.getTicketId();
+                    TaskService taskService = AppContextUtil.getSpringBean(TaskService.class);
+                    SimpleTask taskChange = taskService.findById(bugChangeId, AppUI.getAccountId());
+                    previewItem(taskChange);
+                }
+            };
+
     public TaskReadViewImpl() {
         super(UserUIContext.getMessage(TaskI18nEnum.DETAIL),
                 ProjectAssetsManager.getAsset(ProjectTypeConstants.TASK), new TaskPreviewFormLayout());
+    }
+
+    @Override
+    public void attach() {
+        EventBusFactory.getInstance().register(ticketRelationChangeHandler);
+        super.attach();
+    }
+
+    @Override
+    public void detach() {
+        EventBusFactory.getInstance().unregister(ticketRelationChangeHandler);
+        super.detach();
     }
 
     @Override

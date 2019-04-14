@@ -39,6 +39,10 @@ public class OptionI18nEnum {
     @BaseName("common-generic-status")
     @LocaleData(value = {@Locale("en-US")}, defaultCharset = "UTF-8")
     public enum StatusI18nEnum {
-        Open, Overdue, Archived, Pending, InProgress, Unresolved, Verified, Resolved, ReOpen, Closed
+        Open, Overdue, Archived, Pending, InProgress, Unresolved, Verified, Resolved, ReOpen, Closed;
+
+        public static boolean isClosedStatus(String status) {
+            return Verified.name().equals(status) || Closed.name().equals(status);
+        }
     }
 }

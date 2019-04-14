@@ -7,11 +7,11 @@
 
     <m_prj_project id="1" name="Project 1" sAccountId="1" shortName="aaa" status="Open"/>
 
-    <m_prj_bug id="1" name="Bug 1" priority="High" status="Open" projectId="1" sAccountId="1"/>
+    <m_prj_bug id="1" name="Bug 1" priority="High" status="ReOpen" projectId="1" sAccountId="1"/>
     <m_prj_bug id="2" name="Bug 2" priority="High" status="Open" projectId="1" sAccountId="1"/>
 
-    <m_prj_task id="1" name="Task 1" percentagecomplete="10" priority="High" projectId="1" sAccountId="1"/>
-    <m_prj_task id="2" name="Task 2" percentagecomplete="10" priority="High" projectId="1" sAccountId="1"/>
+    <m_prj_task id="1" name="Task 1" percentagecomplete="10" status="Open" priority="High" projectId="1" sAccountId="1"/>
+    <m_prj_task id="2" name="Task 2" percentagecomplete="10" status="Closed" priority="High" projectId="1" sAccountId="1"/>
 
     <m_prj_ticket_relation id="1" ticketId="1" ticketType="Project-Bug" type="Project-Task" typeId="1" rel="Duplicated"/>
     <m_prj_ticket_relation id="2" ticketId="2" ticketType="Project-Task" type="Project-Bug" typeId="1" rel="Block"/>

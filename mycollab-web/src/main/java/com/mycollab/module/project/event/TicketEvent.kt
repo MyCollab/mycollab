@@ -33,4 +33,6 @@ object TicketEvent {
     class HasTicketPropertyChanged(source: Any, val data: String) : ApplicationEvent(source)
 
     class GotoRead(source: Any, val projectId: Int, val ticketKey: Int) : ApplicationEvent(source)
+
+    class DependencyChange(source: Any, val ticketId: Int): ApplicationEvent(source)
 }

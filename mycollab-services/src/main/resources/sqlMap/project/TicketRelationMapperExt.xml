@@ -6,8 +6,10 @@
                extends="com.mycollab.module.project.dao.TicketRelationMapper.ResultMapWithBLOBs" id="SimpleTicketRelationResult">
         <result column="ticketKey" jdbcType="INTEGER" property="ticketKey" />
         <result column="ticketName" jdbcType="VARCHAR" property="ticketName" />
+        <result column="ticketStatus" jdbcType="VARCHAR" property="ticketStatus" />
         <result column="typeKey" jdbcType="INTEGER" property="typeKey" />
         <result column="typeName" jdbcType="VARCHAR" property="typeName" />
+        <result column="typeStatus" jdbcType="VARCHAR" property="typeStatus" />
         <result column="ltr" jdbcType="BOOLEAN" property="ltr" />
     </resultMap>
 
@@ -39,7 +41,8 @@
 
         (SELECT m_prj_ticket_relation.id, m_prj_ticket_relation.ticketId, m_prj_ticket_relation.ticketType,
             m_prj_ticket_relation.type, m_prj_ticket_relation.typeId, m_prj_ticket_relation.rel, m_prj_ticket_relation.comment,
-            tempTbl1.name AS ticketName, tempTbl2.ticketKey, tempTbl3.name AS typeName, tempTbl4.ticketKey AS typeKey, TRUE AS ltr
+            tempTbl1.name AS ticketName, tempTbl1.status AS ticketStatus, tempTbl2.ticketKey, tempTbl3.name AS typeName, tempTbl3.status AS typeStatus,
+            tempTbl4.ticketKey AS typeKey, TRUE AS ltr
             FROM m_prj_ticket_relation
                 <include refid = "selectTicketNameAndKeyLtr" />
                 INNER JOIN m_prj_bug AS tempTbl3 ON (tempTbl3.id = m_prj_ticket_relation.typeId AND m_prj_ticket_relation.type = 'Project-Bug')
@@ -48,7 +51,8 @@
         UNION
         (SELECT m_prj_ticket_relation.id, m_prj_ticket_relation.ticketId, m_prj_ticket_relation.ticketType,
             m_prj_ticket_relation.type, m_prj_ticket_relation.typeId, m_prj_ticket_relation.rel, m_prj_ticket_relation.comment,
-            tempTbl1.name AS ticketName, tempTbl2.ticketKey, tempTbl3.name AS typeName, tempTbl4.ticketKey AS typeKey, TRUE AS ltr
+            tempTbl1.name AS ticketName, tempTbl1.status AS ticketStatus, tempTbl2.ticketKey, tempTbl3.name AS typeName, tempTbl3.status AS typeStatus,
+            tempTbl4.ticketKey AS typeKey, TRUE AS ltr
             FROM m_prj_ticket_relation
                 <include refid = "selectTicketNameAndKeyLtr" />
                 INNER JOIN m_prj_task AS tempTbl3 ON (tempTbl3.id = m_prj_ticket_relation.typeId AND m_prj_ticket_relation.type = 'Project-Task')
@@ -57,7 +61,8 @@
         UNION
         (SELECT m_prj_ticket_relation.id, m_prj_ticket_relation.ticketId, m_prj_ticket_relation.ticketType,
             m_prj_ticket_relation.type, m_prj_ticket_relation.typeId, m_prj_ticket_relation.rel, m_prj_ticket_relation.comment,
-            tempTbl1.name AS ticketName, tempTbl2.ticketKey, tempTbl3.name AS typeName, tempTbl4.ticketKey AS typeKey, FALSE AS ltr
+            tempTbl1.name AS ticketName, tempTbl1.status AS ticketStatus, tempTbl2.ticketKey, tempTbl3.name AS typeName, tempTbl3.status AS typeStatus,
+            tempTbl4.ticketKey AS typeKey, FALSE AS ltr
             FROM m_prj_ticket_relation
                 INNER JOIN m_prj_bug AS tempTbl1 ON (tempTbl1.id = m_prj_ticket_relation.ticketId AND m_prj_ticket_relation.ticketType = 'Project-Bug')
                 INNER JOIN m_prj_ticket_key AS tempTbl2 ON (tempTbl2.ticketId = tempTbl1.id AND tempTbl2.ticketType = 'Project-Bug')
@@ -66,7 +71,8 @@
         UNION
         (SELECT m_prj_ticket_relation.id, m_prj_ticket_relation.ticketId, m_prj_ticket_relation.ticketType,
             m_prj_ticket_relation.type, m_prj_ticket_relation.typeId, m_prj_ticket_relation.rel, m_prj_ticket_relation.comment,
-            tempTbl1.name AS ticketName, tempTbl2.ticketKey, tempTbl3.name AS typeName, tempTbl4.ticketKey AS typeKey, FALSE AS ltr
+            tempTbl1.name AS ticketName, tempTbl1.status AS ticketStatus, tempTbl2.ticketKey, tempTbl3.name AS typeName, tempTbl3.status AS typeStatus,
+            tempTbl4.ticketKey AS typeKey, FALSE AS ltr
             FROM m_prj_ticket_relation
                 INNER JOIN m_prj_task AS tempTbl1 ON (tempTbl1.id = m_prj_ticket_relation.ticketId AND m_prj_ticket_relation.ticketType = 'Project-Task')
                 INNER JOIN m_prj_ticket_key AS tempTbl2 ON (tempTbl2.ticketId = tempTbl1.id AND tempTbl2.ticketType = 'Project-Task')

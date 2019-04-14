@@ -70,16 +70,13 @@ public class TicketSearchPanel extends DefaultGenericSearchPanel<ProjectTicketSe
     protected ComponentContainer buildSearchTitle() {
         if (canSwitchToAdvanceLayout) {
             savedFilterComboBox = new TicketSavedFilterComboBox();
-            savedFilterComboBox.addQuerySelectListener(new SavedFilterComboBox.QuerySelectListener() {
-                @Override
-                public void querySelect(SavedFilterComboBox.QuerySelectEvent querySelectEvent) {
-                    List<SearchFieldInfo<ProjectTicketSearchCriteria>> fieldInfos = querySelectEvent.getSearchFieldInfos();
-                    ProjectTicketSearchCriteria criteria = SearchFieldInfo.buildSearchCriteria(ProjectTicketSearchCriteria.class,
-                            fieldInfos);
-                    criteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
-                    EventBusFactory.getInstance().post(new TicketEvent.SearchRequest(TicketSearchPanel.this, criteria));
-                    EventBusFactory.getInstance().post(new ShellEvent.AddQueryParam(this, fieldInfos));
-                }
+            savedFilterComboBox.addQuerySelectListener((SavedFilterComboBox.QuerySelectListener) querySelectEvent -> {
+                List<SearchFieldInfo<ProjectTicketSearchCriteria>> fieldInfos = querySelectEvent.getSearchFieldInfos();
+                ProjectTicketSearchCriteria criteria = SearchFieldInfo.buildSearchCriteria(ProjectTicketSearchCriteria.class,
+                        fieldInfos);
+                criteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
+                EventBusFactory.getInstance().post(new TicketEvent.SearchRequest(TicketSearchPanel.this, criteria));
+//                    EventBusFactory.getInstance().post(new ShellEvent.AddQueryParam(this, fieldInfos));
             });
             ELabel taskIcon = ELabel.h2(ProjectAssetsManager.getAsset(ProjectTypeConstants.TICKET).getHtml()).withUndefinedWidth();
             return new MHorizontalLayout(taskIcon, savedFilterComboBox).withUndefinedWidth();

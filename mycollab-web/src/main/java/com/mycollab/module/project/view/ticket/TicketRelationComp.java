@@ -18,6 +18,7 @@ package com.mycollab.module.project.view.ticket;
 
 import com.hp.gagawa.java.elements.A;
 import com.mycollab.common.i18n.GenericI18Enum;
+import com.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectLinkGenerator;
 import com.mycollab.module.project.dao.TicketRelationMapper;
@@ -48,9 +49,10 @@ import org.vaadin.viritin.layouts.MHorizontalLayout;
 public class TicketRelationComp extends AbstractToggleSummaryField {
 
     public TicketRelationComp(SimpleTicketRelation ticketRelation) {
-        titleLinkLbl = ELabel.html(buildTicketLink(ticketRelation)).withStyleName(WebThemes.LABEL_WORD_WRAP).withUndefinedWidth();
+        buildTicketLink(ticketRelation);
         this.addComponent(titleLinkLbl);
         this.addStyleName("editable-field");
+        // TODO: may check the permission here?
         buttonControls = new MHorizontalLayout().withStyleName("toggle").withSpacing(false);
         MButton unlinkBtn = new MButton("", clickEvent -> {
             ConfirmDialogExt.show(UI.getCurrent(), UserUIContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE,
@@ -72,21 +74,28 @@ public class TicketRelationComp extends AbstractToggleSummaryField {
         this.addComponent(buttonControls);
     }
 
-    private String buildTicketLink(SimpleTicketRelation ticketRelation) {
+    private void buildTicketLink(SimpleTicketRelation ticketRelation) {
+        titleLinkLbl = ELabel.html("").withStyleName(WebThemes.LABEL_WORD_WRAP).withUndefinedWidth();
         if (ticketRelation.getLtr()) {
             A ticketLink = new A(ProjectLinkGenerator.generateProjectItemLink(CurrentProjectVariables.getShortName(),
                     CurrentProjectVariables.getProjectId(), ticketRelation.getType(), ticketRelation.getTypeKey() + ""))
                     .appendText(ProjectAssetsManager.getAsset(ticketRelation.getType()).getHtml() + " " + ticketRelation.getTypeName()).setId("tag" + TooltipHelper.TOOLTIP_ID);
             ticketLink.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(ticketRelation.getType(), "" + ticketRelation.getTypeid()));
             ticketLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction());
-            return ticketLink.write();
+            titleLinkLbl.setValue(ticketLink.write());
+            if (StatusI18nEnum.isClosedStatus(ticketRelation.getTypeStatus())) {
+                titleLinkLbl.addStyleName(WebThemes.LINK_COMPLETED);
+            }
         } else {
             A ticketLink = new A(ProjectLinkGenerator.generateProjectItemLink(CurrentProjectVariables.getShortName(),
                     CurrentProjectVariables.getProjectId(), ticketRelation.getTickettype(), ticketRelation.getTicketKey() + ""))
                     .appendText(ProjectAssetsManager.getAsset(ticketRelation.getTickettype()).getHtml() + " " + ticketRelation.getTicketName()).setId("tag" + TooltipHelper.TOOLTIP_ID);
             ticketLink.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(ticketRelation.getTickettype(), "" + ticketRelation.getTicketid()));
             ticketLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction());
-            return ticketLink.write();
+            titleLinkLbl.setValue(ticketLink.write());
+            if (StatusI18nEnum.isClosedStatus(ticketRelation.getTicketStatus())) {
+                titleLinkLbl.addStyleName(WebThemes.LINK_COMPLETED);
+            }
         }
     }
 }

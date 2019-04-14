@@ -21,10 +21,12 @@ import com.mycollab.core.UserInvalidInputException;
 import com.mycollab.form.view.LayoutType;
 import com.mycollab.module.project.domain.ProjectTicket;
 import com.mycollab.module.project.domain.TicketRelation;
+import com.mycollab.module.project.event.TicketEvent;
 import com.mycollab.module.project.i18n.OptionI18nEnum.TicketRel;
 import com.mycollab.module.project.i18n.TicketI18nEnum;
 import com.mycollab.module.project.service.TicketRelationService;
 import com.mycollab.spring.AppContextUtil;
+import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.mycollab.vaadin.ui.AbstractFormLayoutFactory;
@@ -107,8 +109,8 @@ public class TicketRelationWindow extends MWindow {
                         ticketRelation.setType(relationTicket.getType());
                         relatedBugService.saveWithSession(ticketRelation, UserUIContext.getUsername());
                         close();
-                        // TODO handle change event
-//                        EventBusFactory.getInstance().post(new BugEvent.BugChanged(this, hostedTicket.getId()));
+
+                        EventBusFactory.getInstance().post(new TicketEvent.DependencyChange(this, hostedTicket.getTypeId()));
                     }
                 }).withIcon(VaadinIcons.CLIPBOARD).withStyleName(WebThemes.BUTTON_ACTION);
 
@@ -142,7 +144,7 @@ public class TicketRelationWindow extends MWindow {
             protected HasValue<?> onCreateField(Object propertyId) {
                 if (TicketRelation.Field.rel.equalTo(propertyId)) {
                     I18nValueComboBox<TicketRel> relationSelection = new I18nValueComboBox<>(TicketRel.class,
-                            TicketRel.Block, TicketRel.Duplicated, TicketRel.Related);
+                            TicketRel.Block, TicketRel.Duplicated, TicketRel.DependsOn, TicketRel.Relation, TicketRel.Duplicate);
                     relationSelection.setWidth(WebThemes.FORM_CONTROL_WIDTH);
                     return relationSelection;
                 } else if (TicketRelation.Field.typeid.equalTo(propertyId)) {

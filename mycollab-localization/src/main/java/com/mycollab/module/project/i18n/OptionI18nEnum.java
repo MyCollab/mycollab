@@ -71,17 +71,21 @@ public class OptionI18nEnum {
     @BaseName("project-ticket-relation")
     @LocaleData(value = {@Locale("en-US")}, defaultCharset = "UTF-8")
     public enum TicketRel {
-        Related, Duplicated, Block, DependsOn, Duplicate, Relation;
+        Duplicated, Block, DependsOn, Duplicate, Relation;
 
         public Enum getReverse() {
             if (this == Duplicated) {
                 return Duplicate;
-            } else if (this == Related) {
-                return Relation;
             } else if (this == Block) {
                 return DependsOn;
+            } else if (this == DependsOn) {
+                return Block;
+            } else if (this == Duplicate) {
+                return Duplicated;
+            } else if (this == Relation) {
+                return Relation;
             } else {
-                throw new MyCollabException("Not support");
+                throw new MyCollabException("Not support relation type " + this);
             }
         }
     }
