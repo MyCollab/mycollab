@@ -8,7 +8,7 @@ import com.mycollab.module.project.domain.TicketKey
  */
 interface TicketKeyService {
 
-    fun getTicketKeyByPrjShortNameAndKey(prjShortName:String, key:Int): TicketKey?
+    fun getTicketKeyByPrjShortNameAndKey(sAccountId: Int, prjShortName:String, key:Int): TicketKey?
 
     fun getMaxKey(projectId: Int): Int?
 

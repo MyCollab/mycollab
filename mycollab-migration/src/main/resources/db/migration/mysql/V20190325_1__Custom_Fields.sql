@@ -186,10 +186,10 @@ ADD COLUMN `rel` VARCHAR(45) NULL AFTER `typeId`,
 ADD COLUMN `comment` TEXT NULL AFTER `rel`,
 CHANGE COLUMN `ticketType` `ticketType` VARCHAR(45) NOT NULL AFTER `ticketId`;
 
-UPDATE m_prj_ticket_relation SET rel=type WHERE id > 0
+UPDATE m_prj_ticket_relation SET rel=type WHERE id > 0;
 
-UPDATE m_prj_ticket_relation SET type='Project-Version' WHERE rel IN ('AffVersion', 'FixVersion') AND id > 0
-UPDATE m_prj_ticket_relation SET type='Project-Component' WHERE rel IN ('Component') AND id > 0
+UPDATE m_prj_ticket_relation SET type='Project-Version' WHERE rel IN ('AffVersion', 'FixVersion') AND id > 0;
+UPDATE m_prj_ticket_relation SET type='Project-Component' WHERE rel IN ('Component') AND id > 0;
 
 ALTER TABLE `m_prj_ticket_relation`
 CHANGE COLUMN `rel` `rel` VARCHAR(45) NOT NULL ;

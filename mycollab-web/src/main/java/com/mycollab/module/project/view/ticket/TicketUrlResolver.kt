@@ -73,7 +73,7 @@ class TicketUrlResolver : ProjectUrlResolver() {
                 val prjShortName = ProjectLinkParams.getProjectShortName(params[0])
                 val itemKey = ProjectLinkParams.getItemKey(params[0])
                 val ticketKeyService = AppContextUtil.getSpringBean(TicketKeyService::class.java)
-                val ticketKey = ticketKeyService.getTicketKeyByPrjShortNameAndKey(prjShortName, itemKey)
+                val ticketKey = ticketKeyService.getTicketKeyByPrjShortNameAndKey(AppUI.accountId, prjShortName, itemKey)
                 if (ticketKey != null) {
                     when(ticketKey.tickettype) {
                         ProjectTypeConstants.TASK -> {
@@ -125,13 +125,12 @@ class TicketUrlResolver : ProjectUrlResolver() {
                 val prjShortName = ProjectLinkParams.getProjectShortName(params[0])
                 val itemKey = ProjectLinkParams.getItemKey(params[0])
                 val ticketKeyService = AppContextUtil.getSpringBean(TicketKeyService::class.java)
-                val ticketKey = ticketKeyService.getTicketKeyByPrjShortNameAndKey(prjShortName, itemKey)
+                val ticketKey = ticketKeyService.getTicketKeyByPrjShortNameAndKey(AppUI.accountId, prjShortName, itemKey)
                 if (ticketKey != null) {
                     when(ticketKey.tickettype) {
                         ProjectTypeConstants.TASK -> {
                             val taskService = AppContextUtil.getSpringBean(TaskService::class.java)
-                            val task = taskService.findById(ticketKey.ticketid, AppUI.accountId) ?: throw ResourceNotFoundException("Can not find task with path ${Arrays.toString(params)}")
-                            when (task) {
+                            when (val task = taskService.findById(ticketKey.ticketid, AppUI.accountId) ?: throw ResourceNotFoundException("Can not find task with path ${Arrays.toString(params)}")) {
                                 null -> throw ResourceNotFoundException("Can not edit task with path ${Arrays.toString(params)}")
                                 else -> {
                                     val chain = PageActionChain(ProjectScreenData.Goto(task.projectid), TaskScreenData.Edit(task))

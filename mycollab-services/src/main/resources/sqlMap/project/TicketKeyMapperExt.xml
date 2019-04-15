@@ -33,7 +33,8 @@
         SELECT m_prj_ticket_key.id, m_prj_ticket_key.projectId, m_prj_ticket_key.ticketId,
             m_prj_ticket_key.ticketType, m_prj_ticket_key.ticketKey
             FROM m_prj_ticket_key, m_prj_project
-            WHERE m_prj_project.shortName = @{prjShortName, jdbcType=VARCHAR}
+            WHERE m_prj_project.sAccountId = @{sAccountId, jdbcType=NUMERIC}
+                AND m_prj_project.shortName = @{prjShortName, jdbcType=VARCHAR}
                 AND m_prj_ticket_key.projectId = m_prj_project.id
                 AND m_prj_ticket_key.ticketKey = @{ticketKey, jdbcType=NUMERIC}
         ]]>

@@ -13,5 +13,5 @@ interface TicketKeyMapperExt {
 
     fun getPreviousKey(projectId: Int, currentKey: Int): Int?
 
-    fun getTicketKeyByPrjShortNameAndKey(prjShortName:String, ticketKey:Int): TicketKey
+    fun getTicketKeyByPrjShortNameAndKey(sAccountId: Int, prjShortName:String, ticketKey:Int): TicketKey
 }

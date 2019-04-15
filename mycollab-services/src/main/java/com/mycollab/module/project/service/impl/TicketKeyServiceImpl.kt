@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service
  */
 @Service
 class TicketKeyServiceImpl(private val ticketKeyMapper: TicketKeyMapper,
-                           private val ticketKeyMapperExt: TicketKeyMapperExt): TicketKeyService {
+                           private val ticketKeyMapperExt: TicketKeyMapperExt) : TicketKeyService {
     override fun getMaxKey(projectId: Int): Int? = ticketKeyMapperExt.getMaxKey(projectId)
 
     override fun saveKey(projectId: Int, ticketId: Int, ticketType: String, ticketKey: Int) {
@@ -28,5 +28,6 @@ class TicketKeyServiceImpl(private val ticketKeyMapper: TicketKeyMapper,
 
     override fun getPreviousKey(projectId: Int, currentKey: Int): Int? = ticketKeyMapperExt.getPreviousKey(projectId, currentKey)
 
-    override fun getTicketKeyByPrjShortNameAndKey(prjShortName: String, ticketKey: Int): TicketKey = ticketKeyMapperExt.getTicketKeyByPrjShortNameAndKey(prjShortName, ticketKey)
+    override fun getTicketKeyByPrjShortNameAndKey(sAccountId: Int, prjShortName: String, ticketKey: Int): TicketKey =
+            ticketKeyMapperExt.getTicketKeyByPrjShortNameAndKey(sAccountId, prjShortName, ticketKey)
 }
