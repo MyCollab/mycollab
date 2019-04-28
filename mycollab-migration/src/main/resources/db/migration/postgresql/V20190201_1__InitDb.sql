@@ -829,7 +829,6 @@ CREATE TABLE m_prj_task (
   projectId integer NOT NULL,
   dueDate date DEFAULT NULL,
   description text,
-  taskindex integer DEFAULT NULL,
   createdTime timestamp DEFAULT NULL,
   lastUpdatedTime timestamp DEFAULT NULL,
   assignUser varchar(45) DEFAULT NULL,
@@ -838,18 +837,29 @@ CREATE TABLE m_prj_task (
   createdUser varchar(45) DEFAULT NULL,
   originalEstimate numeric DEFAULT NULL,
   remainEstimate numeric DEFAULT NULL,
-  parentTaskId integer DEFAULT NULL,
   milestoneId integer DEFAULT NULL,
   PRIMARY KEY (id),
   CONSTRAINT FK_m_prj_task_1 FOREIGN KEY (projectId) REFERENCES m_prj_project (id) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT FK_m_prj_task_3 FOREIGN KEY (assignUser) REFERENCES s_user (username) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT FK_m_prj_task_4 FOREIGN KEY (sAccountId) REFERENCES s_account (id) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT FK_m_prj_task_5 FOREIGN KEY (createdUser) REFERENCES s_user (username) ON DELETE SET NULL ON UPDATE CASCADE,
-  CONSTRAINT FK_m_prj_task_6 FOREIGN KEY (parentTaskId) REFERENCES m_prj_task (id) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT FK_m_prj_task_7 FOREIGN KEY (milestoneId) REFERENCES m_prj_milestone (id) ON DELETE SET NULL ON UPDATE CASCADE
 ) ;
 
-
+CREATE TABLE m_prj_ticket_hierarchy (
+  id serial,
+  parentId INT(10) NOT NULL,
+  parentType VARCHAR(45) NOT NULL,
+  ticketId INT(10) NOT NULL,
+  ticketType VARCHAR(45) NOT NULL,
+  projectId INT(10) UNSIGNED NOT NULL,
+  PRIMARY KEY (id),
+  INDEX FK_1_idx (projectId ASC) VISIBLE,
+  CONSTRAINT FK_m_prj_ticket_hierarchy
+    FOREIGN KEY (projectId)
+    REFERENCES m_prj_project (id)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
 
 --
 -- Table structure for table m_prj_time_logging

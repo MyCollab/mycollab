@@ -37,9 +37,6 @@ interface TaskService : IDefaultService<Int, Task, TaskSearchCriteria> {
     fun findById(taskId: Int, @CacheKey sAccountId: Int): SimpleTask?
 
     @Cacheable
-    fun findSubTasks(parentTaskId: Int, @CacheKey sAccountId: Int, orderField: SearchCriteria.OrderField): List<SimpleTask>
-
-    @Cacheable
     fun getPrioritySummary(@CacheKey criteria: TaskSearchCriteria): List<GroupItem>
 
     fun getCountOfOpenSubTasks(taskId: Int): Int

@@ -166,11 +166,11 @@ public class TaskDefaultFormLayoutFactory {
         return attachmentSection;
     }
 
-    private static DynaSection subTasksSection() {
-        DynaSection subTasksSection = new DynaSectionBuilder().layoutType(LayoutType.ONE_COLUMN).header(TaskI18nEnum.FORM_SUB_TASKS)
-                .contextHelp(TaskI18nEnum.FORM_SUB_TASKS_HELP).build();
-        subTasksSection.fields(new TextDynaFieldBuilder().fieldName("section-subTasks").fieldIndex(0).build());
-        return subTasksSection;
+    private static DynaSection subTicketSections() {
+        DynaSection subTicketsSection = new DynaSectionBuilder().layoutType(LayoutType.ONE_COLUMN).header(TicketI18nEnum.FORM_SUB_TICKETS)
+                .contextHelp(TicketI18nEnum.FORM_SUB_TICKETS_HELP).build();
+        subTicketsSection.fields(new TextDynaFieldBuilder().fieldName("section-subTickets").fieldIndex(0).build());
+        return subTicketsSection;
     }
 
     private static DynaSection followersSection() {
@@ -185,6 +185,6 @@ public class TaskDefaultFormLayoutFactory {
     }
 
     public static DynaForm getReadForm() {
-        return new DynaForm(mainReadSection(), subTasksSection(), attachmentSection());
+        return new DynaForm(mainReadSection(), subTicketSections(), attachmentSection());
     }
 }

@@ -89,9 +89,9 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
                 @Override
                 @Subscribe
                 public void handle(TicketEvent.DependencyChange event) {
-                    Integer bugChangeId = event.getTicketId();
+                    Integer ticketId = event.getTicketId();
                     TaskService taskService = AppContextUtil.getSpringBean(TaskService.class);
-                    SimpleTask taskChange = taskService.findById(bugChangeId, AppUI.getAccountId());
+                    SimpleTask taskChange = taskService.findById(ticketId, AppUI.getAccountId());
                     previewItem(taskChange);
                 }
             };
@@ -222,14 +222,16 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
             toggleTaskSummaryField = new ToggleTaskSummaryField(task, true);
             toggleTaskSummaryField.addLabelStyleNames(ValoTheme.LABEL_H3, ValoTheme.LABEL_NO_MARGIN);
             MVerticalLayout header = new VerticalRemoveInlineComponentMarker().withMargin(false).withFullWidth();
-            if (task.getParenttaskid() == null) {
-                header.with(toggleTaskSummaryField);
-                this.addHeader(header);
-            } else {
-                ParentTaskComp parentTaskComp = new ParentTaskComp(task.getParenttaskid(), task);
-                header.with(parentTaskComp, toggleTaskSummaryField);
-                this.addHeader(header);
-            }
+
+            // TODO
+//            if (task.getParenttaskid() == null) {
+//                header.with(toggleTaskSummaryField);
+//                this.addHeader(header);
+//            } else {
+//                ParentTaskComp parentTaskComp = new ParentTaskComp(task.getParenttaskid(), task);
+//                header.with(parentTaskComp, toggleTaskSummaryField);
+//                this.addHeader(header);
+//            }
 
             if (task.isCompleted()) {
                 toggleTaskSummaryField.closeTask();
@@ -286,7 +288,6 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
     }
 
     private static class PeopleInfoComp extends MVerticalLayout {
-        private static final long serialVersionUID = 1L;
 
         private PeopleInfoComp() {
             this.withMargin(false);

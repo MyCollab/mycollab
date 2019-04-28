@@ -52,8 +52,7 @@ class TaskFieldFormatter private constructor() : FieldGroupFormatter() {
         generateFieldDisplayHandler(Task.Field.assignuser.name, GenericI18Enum.FORM_ASSIGNEE, ProjectMemberHistoryFieldFormat())
         generateFieldDisplayHandler(Task.Field.milestoneid.name, MilestoneI18nEnum.SINGLE, MilestoneHistoryFieldFormat())
         generateFieldDisplayHandler(Task.Field.percentagecomplete.name, TaskI18nEnum.FORM_PERCENTAGE_COMPLETE)
-        generateFieldDisplayHandler(Task.Field.parenttaskid.name, TaskI18nEnum.FORM_PARENT_TASK, TaskHistoryFieldFormat())
-        generateFieldDisplayHandler(Task.Field.description.name, GenericI18Enum.FORM_DESCRIPTION, FieldGroupFormatter.TRIM_HTMLS)
+        generateFieldDisplayHandler(Task.Field.description.name, GenericI18Enum.FORM_DESCRIPTION, TRIM_HTMLS)
         generateFieldDisplayHandler(Task.Field.duration.name, GenericI18Enum.FORM_DURATION, DurationFieldFormat())
     }
 

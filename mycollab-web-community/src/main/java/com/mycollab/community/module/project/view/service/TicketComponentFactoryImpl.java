@@ -23,26 +23,21 @@ import com.mycollab.common.i18n.FollowerI18nEnum;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.common.i18n.ShellI18nEnum;
 import com.mycollab.community.vaadin.web.ui.field.MetaFieldBuilder;
-import com.mycollab.core.MyCollabException;
-import com.mycollab.core.SecureAccessException;
 import com.mycollab.core.utils.NumberUtils;
 import com.mycollab.form.view.LayoutType;
 import com.mycollab.module.file.StorageUtils;
-import com.mycollab.module.project.CurrentProjectVariables;
 import com.mycollab.module.project.ProjectRolePermissionCollections;
 import com.mycollab.module.project.ProjectTypeConstants;
-import com.mycollab.module.project.domain.ProjectTicket;
-import com.mycollab.module.project.domain.SimpleTask;
-import com.mycollab.module.project.i18n.BugI18nEnum;
-import com.mycollab.module.project.i18n.MilestoneI18nEnum;
+import com.mycollab.module.project.domain.*;
+import com.mycollab.module.project.i18n.*;
 import com.mycollab.module.project.i18n.OptionI18nEnum.Priority;
-import com.mycollab.module.project.i18n.TaskI18nEnum;
-import com.mycollab.module.project.i18n.TicketI18nEnum;
+import com.mycollab.module.project.service.ProjectMemberService;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
+import com.mycollab.module.project.ui.components.UserProjectComboBox;
 import com.mycollab.module.project.view.bug.BugEditForm;
 import com.mycollab.module.project.view.service.TicketComponentFactory;
 import com.mycollab.module.project.view.task.TaskEditForm;
-import com.mycollab.module.project.domain.SimpleBug;
+import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.web.ui.WebThemes;
@@ -50,10 +45,9 @@ import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.ComboBox;
-import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.IconGenerator;
-import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
+import org.vaadin.viritin.layouts.MCssLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 import org.vaadin.viritin.layouts.MWindow;
 
@@ -118,26 +112,26 @@ public class TicketComponentFactoryImpl implements TicketComponentFactory {
     }
 
     @Override
-    public AbstractComponent createPriorityPopupField(ProjectTicket assignment) {
-        return new MetaFieldBuilder().withCaption(ProjectAssetsManager.getPriorityHtml(assignment.getPriority()) + " " +
-                UserUIContext.getMessage(Priority.class, assignment.getPriority()))
+    public AbstractComponent createPriorityPopupField(ProjectTicket ticket) {
+        return new MetaFieldBuilder().withCaption(ProjectAssetsManager.getPriorityHtml(ticket.getPriority()) + " " +
+                UserUIContext.getMessage(Priority.class, ticket.getPriority()))
                 .withDescription(UserUIContext.getMessage(ShellI18nEnum.OPT_UPGRADE_PRO_INTRO,
                         UserUIContext.getMessage(GenericI18Enum.FORM_PRIORITY))).build();
     }
 
     @Override
-    public AbstractComponent createBillableHoursPopupField(ProjectTicket task) {
+    public AbstractComponent createBillableHoursPopupField(ProjectTicket ticket) {
         return null;
     }
 
     @Override
-    public AbstractComponent createNonBillableHoursPopupField(ProjectTicket task) {
+    public AbstractComponent createNonBillableHoursPopupField(ProjectTicket ticket) {
         return null;
     }
 
     @Override
-    public AbstractComponent createFollowersPopupField(ProjectTicket assignment) {
-        return new MetaFieldBuilder().withCaptionAndIcon(VaadinIcons.EYE, "" + NumberUtils.zeroIfNull(assignment.getNumFollowers()))
+    public AbstractComponent createFollowersPopupField(ProjectTicket ticket) {
+        return new MetaFieldBuilder().withCaptionAndIcon(VaadinIcons.EYE, "" + NumberUtils.zeroIfNull(ticket.getNumFollowers()))
                 .withDescription(UserUIContext.getMessage(ShellI18nEnum.OPT_UPGRADE_PRO_INTRO,
                         UserUIContext.getMessage(FollowerI18nEnum.OPT_SUB_INFO_WATCHERS))).build();
     }
@@ -172,63 +166,98 @@ public class TicketComponentFactoryImpl implements TicketComponentFactory {
     }
 
     private static class NewTicketWindow extends MWindow {
+        private ComboBox<String> typeSelection;
+        private MCssLayout formLayout;
+        private boolean isIncludeMilestone;
+        private SimpleProject selectedProject;
 
-        private ComboBox typeSelection;
-        private CssLayout formLayout;
-
-        NewTicketWindow(LocalDate date, final Integer prjId, final Integer milestoneId, boolean isIncludeMilestone) {
+        NewTicketWindow(LocalDate date, Integer projectId, Integer milestoneId, boolean isIncludeMilestone) {
             super(UserUIContext.getMessage(TicketI18nEnum.NEW));
+            this.isIncludeMilestone = isIncludeMilestone;
+            this.addStyleName(WebThemes.NO_SCROLLABLE_CONTAINER);
             MVerticalLayout content = new MVerticalLayout();
-            withModal(true).withResizable(false).withCenter().withWidth("1200px").withContent(content);
+            withModal(true).withResizable(false).withCenter().withWidth(WebThemes.WINDOW_FORM_WIDTH).withContent(content);
 
-            typeSelection = new ComboBox();
-            List<String> types = new ArrayList<>();
-            if (CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS)) {
-                types.add(UserUIContext.getMessage(TaskI18nEnum.SINGLE));
-            }
+            UserProjectComboBox projectListSelect = new UserProjectComboBox();
+            projectListSelect.setEmptySelectionAllowed(false);
+            selectedProject = projectListSelect.setSelectedProjectById(projectId);
 
-            if (CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.BUGS)) {
-                types.add(UserUIContext.getMessage(BugI18nEnum.SINGLE));
-            }
-
-            if (isIncludeMilestone && CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.MILESTONES)) {
-                types.add(UserUIContext.getMessage(MilestoneI18nEnum.SINGLE));
-            }
-
-            if (CollectionUtils.isNotEmpty(types)) {
-                typeSelection.setItems(types);
-                typeSelection.setItemIconGenerator((IconGenerator<String>) value -> {
-                    if (value.equals(UserUIContext.getMessage(TaskI18nEnum.SINGLE))) {
-                        return ProjectAssetsManager.getAsset(ProjectTypeConstants.TASK);
-                    } else if (value.equals(UserUIContext.getMessage(BugI18nEnum.SINGLE))) {
-                        return ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG);
-                    } else if (value.equals(UserUIContext.getMessage(MilestoneI18nEnum.SINGLE))) {
-                        return ProjectAssetsManager.getAsset(ProjectTypeConstants.MILESTONE);
-                    } else {
-                        throw new MyCollabException("Not support type " + value);
-                    }
-                });
-            } else {
-                throw new SecureAccessException();
-            }
-
+            typeSelection = new ComboBox<>();
+            typeSelection.setWidth(WebThemes.FORM_CONTROL_WIDTH);
             typeSelection.setEmptySelectionAllowed(false);
-            typeSelection.addValueChangeListener(valueChangeEvent -> doChange(date, prjId, milestoneId));
 
-            GridFormLayoutHelper formLayoutHelper = GridFormLayoutHelper.defaultFormLayoutHelper(LayoutType.ONE_COLUMN);
-            formLayoutHelper.addComponent(typeSelection, UserUIContext.getMessage(GenericI18Enum.FORM_TYPE), 0, 0);
-            formLayout = new CssLayout();
-            formLayout.setWidth("100%");
+            projectListSelect.addValueChangeListener(valueChangeEvent -> {
+                selectedProject = projectListSelect.getValue();
+                loadAssociateTicketTypePerProject();
+            });
+
+            loadAssociateTicketTypePerProject();
+            typeSelection.addValueChangeListener(event -> doChange(date, milestoneId));
+
+            GridFormLayoutHelper formLayoutHelper = GridFormLayoutHelper.defaultFormLayoutHelper(LayoutType.TWO_COLUMN);
+            formLayoutHelper.addComponent(projectListSelect, UserUIContext.getMessage(ProjectI18nEnum.SINGLE), 0, 0);
+            formLayoutHelper.addComponent(typeSelection, UserUIContext.getMessage(GenericI18Enum.FORM_TYPE), 1, 0);
+            formLayoutHelper.getLayout().addStyleName(WebThemes.BORDER_BOTTOM);
+
+            formLayout = new MCssLayout().withFullWidth();
             content.with(formLayoutHelper.getLayout(), formLayout);
-            typeSelection.setSelectedItem(types.get(0));
+            doChange(date, milestoneId);
         }
 
-        private void doChange(LocalDate dateValue, final Integer prjId, final Integer milestoneId) {
+        private void loadAssociateTicketTypePerProject() {
+            typeSelection.clear();
+            List<String> ticketTypes = new ArrayList<>();
+
+            if (UserUIContext.isAdmin()) {
+                if (isIncludeMilestone) {
+                    ticketTypes.add(UserUIContext.getMessage(MilestoneI18nEnum.SINGLE));
+                }
+                ticketTypes.add(UserUIContext.getMessage(TaskI18nEnum.SINGLE));
+                ticketTypes.add(UserUIContext.getMessage(BugI18nEnum.SINGLE));
+
+            } else {
+                ProjectMemberService projectMemberService = AppContextUtil.getSpringBean(ProjectMemberService.class);
+                SimpleProjectMember member = projectMemberService.findMemberByUsername(UserUIContext.getUsername(), selectedProject.getId(), AppUI.getAccountId());
+
+                if (member != null) {
+                    if (isIncludeMilestone && (member.canWrite(ProjectRolePermissionCollections.MILESTONES))) {
+                        ticketTypes.add(UserUIContext.getMessage(MilestoneI18nEnum.SINGLE));
+                    }
+
+                    if (member.canWrite(ProjectRolePermissionCollections.TASKS)) {
+                        ticketTypes.add(UserUIContext.getMessage(TaskI18nEnum.SINGLE));
+                    }
+
+                    if (member.canWrite(ProjectRolePermissionCollections.BUGS)) {
+                        ticketTypes.add(UserUIContext.getMessage(BugI18nEnum.SINGLE));
+                    }
+                }
+            }
+
+
+            if (ticketTypes.size() > 0) {
+                typeSelection.setItems(ticketTypes);
+                typeSelection.setValue(ticketTypes.get(0));
+                typeSelection.setItemIconGenerator((IconGenerator<String>) item -> {
+                    if (item.equals(UserUIContext.getMessage(TaskI18nEnum.SINGLE))) {
+                        return ProjectAssetsManager.getAsset(ProjectTypeConstants.TASK);
+                    } else if (item.equals(UserUIContext.getMessage(BugI18nEnum.SINGLE))) {
+                        return ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG);
+                    } else if (item.equals(UserUIContext.getMessage(MilestoneI18nEnum.SINGLE))) {
+                        return ProjectAssetsManager.getAsset(ProjectTypeConstants.MILESTONE);
+                    } else {
+                        throw new IllegalArgumentException();
+                    }
+                });
+            }
+        }
+
+        private void doChange(LocalDate dateValue, Integer milestoneId) {
             formLayout.removeAllComponents();
-            String value = (String) typeSelection.getValue();
+            String value = typeSelection.getValue();
             if (UserUIContext.getMessage(TaskI18nEnum.SINGLE).equals(value)) {
                 SimpleTask task = new SimpleTask();
-                task.setProjectid(prjId);
+                task.setProjectid(selectedProject.getId());
                 task.setMilestoneid(milestoneId);
                 task.setSaccountid(AppUI.getAccountId());
                 task.setCreateduser(UserUIContext.getUsername());
@@ -243,7 +272,7 @@ public class TicketComponentFactoryImpl implements TicketComponentFactory {
                 formLayout.addComponent(editForm);
             } else if (UserUIContext.getMessage(BugI18nEnum.SINGLE).equals(value)) {
                 SimpleBug bug = new SimpleBug();
-                bug.setProjectid(prjId);
+                bug.setProjectid(selectedProject.getId());
                 bug.setSaccountid(AppUI.getAccountId());
                 bug.setStartdate(dateValue);
                 bug.setMilestoneid(milestoneId);

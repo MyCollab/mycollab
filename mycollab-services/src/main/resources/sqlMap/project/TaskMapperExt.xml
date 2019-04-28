@@ -12,9 +12,6 @@
         <result column="assignUserFullName" property="assignUserFullName" jdbcType="VARCHAR"/>
         <result column="logByAvatarId" property="logByAvatarId" jdbcType="VARCHAR"/>
         <result column="logByFullName" property="logByFullName" jdbcType="VARCHAR"/>
-        <result column="numSubTasks" property="numSubTasks" jdbcType="INTEGER"/>
-        <result column="parentTaskKey" property="parentTaskKey" jdbcType="INTEGER"/>
-        <result column="parentTaskName" property="parentTaskName" jdbcType="VARCHAR"/>
         <result column="billableHours" property="billableHours" jdbcType="DOUBLE"/>
         <result column="nonBillableHours" property="nonBillableHours" jdbcType="DOUBLE"/>
         <result column="numFollowers" property="numFollowers" jdbcType="INTEGER"/>
@@ -57,11 +54,6 @@
         
         #ifnotnull($searchCriteria.milestoneId)
             ${searchCriteria.milestoneId.operation} m_prj_task.milestoneId = @{searchCriteria.milestoneId.value,jdbcType=NUMERIC}
-            AND m_prj_task.parentTaskId IS NULL
-        #end
-        
-        #ifnotnull($searchCriteria.parentTaskId)
-             ${searchCriteria.parentTaskId.operation} m_prj_task.parentTaskId = @{searchCriteria.parentTaskId.value,jdbcType=NUMERIC}
         #end
         
         #ifnotnull($searchCriteria.assignUser)
@@ -80,10 +72,6 @@
 
         #ifnotnull($searchCriteria.dueDate)
             ${searchCriteria.dueDate.operation} CAST(m_prj_task.dueDate AS DATE ) ${searchCriteria.dueDate.comparison} @{searchCriteria.dueDate.value}
-        #end
-
-        #ifnotnull($searchCriteria.hasParentTask)
-            ${searchCriteria.hasParentTask.operation} m_prj_task.parentTaskId IS NULL
         #end
 
         #ifnotnull($searchCriteria.saccountid)
@@ -122,11 +110,6 @@
         
         #ifnotnull($searchCriteria.milestoneId)
             ${searchCriteria.milestoneId.operation} m_prj_task.milestoneId = @{searchCriteria.milestoneId.value,jdbcType=NUMERIC}
-            AND m_prj_task.parentTaskId IS NULL
-        #end
-        
-        #ifnotnull($searchCriteria.parentTaskId)
-             ${searchCriteria.parentTaskId.operation} m_prj_task.parentTaskId = @{searchCriteria.parentTaskId.value,jdbcType=NUMERIC}
         #end
         
         #ifnotnull($searchCriteria.assignUser)
@@ -135,10 +118,6 @@
         
         #ifnotnull($searchCriteria.milestoneId)
             ${searchCriteria.milestoneId.operation} m_prj_task.milestoneId=@{searchCriteria.milestoneId.value,jdbcType=NUMERIC}
-        #end
-
-        #ifnotnull($searchCriteria.hasParentTask)
-            ${searchCriteria.hasParentTask.operation} m_prj_task.parentTaskId IS NULL
         #end
 
         #ifnotnull($searchCriteria.saccountid)
@@ -154,7 +133,7 @@
             SELECT m_prj_task.id, m_prj_task.name, m_prj_task.percentagecomplete, m_prj_task.startDate, m_prj_task.endDate, m_prj_task.priority,
                  m_prj_task.duration, m_prj_task.isestimated, m_prj_task.projectId, m_prj_task.dueDate, m_prj_task.description,
                  m_prj_task.originalEstimate, m_prj_task.remainEstimate,
-                 m_prj_task.milestoneId, m_prj_task.createdTime, m_prj_task.lastUpdatedTime, m_prj_task.assignUser, m_prj_task.sAccountId, m_prj_task.parentTaskId,
+                 m_prj_task.milestoneId, m_prj_task.createdTime, m_prj_task.lastUpdatedTime, m_prj_task.assignUser, m_prj_task.sAccountId,
                  m_prj_milestone.name AS milestoneName, m_prj_project.name AS projectName, m_prj_project.shortname AS projectShortname, m_prj_task.status,
                  m_prj_task.createdUser, m_prj_ticket_key.ticketKey AS ticketKey, s_user.avatarId AS assignUserAvatarId,
                  concat(s_user.firstname, ' ', s_user.lastname) AS assignUserFullName,
@@ -166,14 +145,9 @@
                  component.id as component_id, component.projectId as component_projectid, component.name as component_name,
                  component.userlead as component_userlead, component.description as component_description, component.createdUser as component_createdUser,
                  component.createdTime as component_createdTime, component.lastUpdatedTime as component_lastUpdatedTime,
-                 parentTask.name AS parentTaskName, NULL AS parentTaskKey,
                  (SELECT count(*)
                     FROM m_comment
                     WHERE m_comment.type='Project-Task' AND m_comment.typeId=m_prj_task.id) AS numComments,
-                 (SELECT count(*)
-                    FROM m_prj_task AS subtask_tbl
-                    WHERE subtask_tbl.parentTaskId = m_prj_task.id
-                 ) AS numSubTasks,
                  (SELECT COALESCE(SUM(m_prj_time_logging.logValue), 0)
                      FROM m_prj_time_logging
                      WHERE m_prj_time_logging.projectId = m_prj_task.projectId
@@ -191,7 +165,6 @@
               LEFT OUTER JOIN s_user ON (s_user.username = m_prj_task.assignUser)
               LEFT OUTER JOIN s_user AS log_user ON (log_user.username = m_prj_task.createdUser)
               LEFT OUTER JOIN m_prj_ticket_key ON (m_prj_task.id = m_prj_ticket_key.ticketId AND m_prj_ticket_key.ticketType = 'Project-Task')
-              LEFT OUTER JOIN m_prj_task AS parentTask ON (m_prj_task.parentTaskId = parentTask.id)
               LEFT OUTER JOIN m_prj_ticket_relation AS relatedItem1 ON (relatedItem1.ticketId = m_prj_task.id AND relatedItem1.ticketType='Project-Task' AND relatedItem1.rel='AffVersion')
               LEFT OUTER JOIN m_prj_version AS affectedversion ON (affectedversion.id = relatedItem1.typeId AND relatedItem1.type='Project-Version')
               LEFT OUTER JOIN m_prj_ticket_relation AS relatedItem2 ON (relatedItem2.ticketId = m_prj_task.id AND relatedItem2.ticketType='Project-Task' AND relatedItem2.rel='Component')
