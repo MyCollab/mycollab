@@ -9,15 +9,18 @@ import com.mycollab.module.project.domain.TicketHierarchy;
 import com.mycollab.module.project.domain.criteria.ProjectTicketSearchCriteria;
 import com.mycollab.module.project.i18n.TaskI18nEnum;
 import com.mycollab.module.project.service.ProjectTicketService;
+import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.UserUIContext;
+import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.IBeanList;
 import com.mycollab.vaadin.ui.NotificationUtil;
 import com.mycollab.vaadin.web.ui.DefaultBeanPagedList;
 import com.mycollab.vaadin.web.ui.WebThemes;
+import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Component;
 import org.vaadin.viritin.button.MButton;
-import org.vaadin.viritin.layouts.MCssLayout;
+import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 import org.vaadin.viritin.layouts.MWindow;
 
@@ -71,7 +74,8 @@ public class SelectChildTicketWindow extends MWindow {
 
                 close();
             }).withStyleName(WebThemes.BUTTON_LINK, WebThemes.TEXT_ELLIPSIS).withFullWidth();
-            return new MCssLayout(ticketLink).withStyleName("list-row").withFullWidth();
+            return new MHorizontalLayout(ELabel.fontIcon(ProjectAssetsManager.getAsset(item.getType())), ticketLink).expand(ticketLink).withStyleName("list-row").withFullWidth()
+                    .alignAll(Alignment.MIDDLE_LEFT);
         }
     }
 }

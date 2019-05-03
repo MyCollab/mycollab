@@ -16,6 +16,9 @@
         <result column="nonBillableHours" property="nonBillableHours" jdbcType="DOUBLE"/>
         <result column="numFollowers" property="numFollowers" jdbcType="INTEGER"/>
         <result column="ticketKey" property="ticketKey" jdbcType="INTEGER"/>
+        <result column="parentTicketKey" property="parentTicketKey" jdbcType="INTEGER"/>
+        <result column="parentTicketId" property="parentTicketId" jdbcType="INTEGER"/>
+        <result column="parentTicketType" property="parentTicketType" jdbcType="VARCHAR"/>
         <collection columnPrefix="affectedversion_" notNullColumn="id"
                     ofType="com.mycollab.module.project.domain.Version"
                     property="affectedVersions"
@@ -158,17 +161,20 @@
                          AND m_prj_time_logging.type='Project-Task' AND m_prj_time_logging.typeId=m_prj_task.id AND m_prj_time_logging.isBillable = 0) AS nonBillableHours,
                  (SELECT COUNT(*)
                      FROM m_monitor_item
-                     WHERE m_monitor_item.typeId = m_prj_task.id AND m_monitor_item.type = 'Project-Task') AS numFollowers
+                     WHERE m_monitor_item.typeId = m_prj_task.id AND m_monitor_item.type = 'Project-Task') AS numFollowers,
+                 parentKeyTbl.ticketKey AS parentTicketKey, parentKeyTbl.ticketId AS parentTicketId, m_prj_ticket_hierarchy.parentType AS parentTicketType
             FROM m_prj_task
-              LEFT OUTER JOIN m_prj_project ON (m_prj_task.projectId = m_prj_project.id)
-              LEFT OUTER JOIN m_prj_milestone ON (m_prj_milestone.id = m_prj_task.milestoneId)
-              LEFT OUTER JOIN s_user ON (s_user.username = m_prj_task.assignUser)
-              LEFT OUTER JOIN s_user AS log_user ON (log_user.username = m_prj_task.createdUser)
-              LEFT OUTER JOIN m_prj_ticket_key ON (m_prj_task.id = m_prj_ticket_key.ticketId AND m_prj_ticket_key.ticketType = 'Project-Task')
-              LEFT OUTER JOIN m_prj_ticket_relation AS relatedItem1 ON (relatedItem1.ticketId = m_prj_task.id AND relatedItem1.ticketType='Project-Task' AND relatedItem1.rel='AffVersion')
-              LEFT OUTER JOIN m_prj_version AS affectedversion ON (affectedversion.id = relatedItem1.typeId AND relatedItem1.type='Project-Version')
-              LEFT OUTER JOIN m_prj_ticket_relation AS relatedItem2 ON (relatedItem2.ticketId = m_prj_task.id AND relatedItem2.ticketType='Project-Task' AND relatedItem2.rel='Component')
-              LEFT OUTER JOIN m_prj_component AS component ON (component.id = relatedItem2.typeId AND relatedItem2.type = 'Project-Component')
+                LEFT OUTER JOIN m_prj_project ON (m_prj_task.projectId = m_prj_project.id)
+                LEFT OUTER JOIN m_prj_milestone ON (m_prj_milestone.id = m_prj_task.milestoneId)
+                LEFT OUTER JOIN s_user ON (s_user.username = m_prj_task.assignUser)
+                LEFT OUTER JOIN s_user AS log_user ON (log_user.username = m_prj_task.createdUser)
+                LEFT OUTER JOIN m_prj_ticket_key ON (m_prj_task.id = m_prj_ticket_key.ticketId AND m_prj_ticket_key.ticketType = 'Project-Task')
+                LEFT OUTER JOIN m_prj_ticket_relation AS relatedItem1 ON (relatedItem1.ticketId = m_prj_task.id AND relatedItem1.ticketType='Project-Task' AND relatedItem1.rel='AffVersion')
+                LEFT OUTER JOIN m_prj_version AS affectedversion ON (affectedversion.id = relatedItem1.typeId AND relatedItem1.type='Project-Version')
+                LEFT OUTER JOIN m_prj_ticket_relation AS relatedItem2 ON (relatedItem2.ticketId = m_prj_task.id AND relatedItem2.ticketType='Project-Task' AND relatedItem2.rel='Component')
+                LEFT OUTER JOIN m_prj_component AS component ON (component.id = relatedItem2.typeId AND relatedItem2.type = 'Project-Component')
+                LEFT OUTER JOIN m_prj_ticket_hierarchy ON (m_prj_ticket_hierarchy.ticketId = m_prj_task.id AND m_prj_ticket_hierarchy.ticketType = 'Project-Task')
+                LEFT OUTER JOIN m_prj_ticket_key AS parentKeyTbl ON (m_prj_ticket_hierarchy.parentId = parentKeyTbl.ticketId AND m_prj_ticket_hierarchy.parentType = parentKeyTbl.ticketType)
         ]]>
     </sql>
 

@@ -74,6 +74,12 @@ class SimpleBug : BugWithBLOBs() {
             return duedate?.plusDays(1)
         }
 
+    var parentTicketKey: Int? = null
+
+    var parentTicketId: Int? = null
+
+    var parentTicketType: String? = null
+
     enum class Field {
         selected,
         components,

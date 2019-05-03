@@ -38,6 +38,7 @@ import com.mycollab.module.project.service.TicketRelationService;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.module.project.ui.components.*;
 import com.mycollab.module.project.view.ProjectView;
+import com.mycollab.module.project.view.ticket.ParentTicketComp;
 import com.mycollab.module.project.view.ticket.TicketRelationComp;
 import com.mycollab.module.project.view.ticket.TicketRelationWindow;
 import com.mycollab.spring.AppContextUtil;
@@ -223,15 +224,14 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
             toggleTaskSummaryField.addLabelStyleNames(ValoTheme.LABEL_H3, ValoTheme.LABEL_NO_MARGIN);
             MVerticalLayout header = new VerticalRemoveInlineComponentMarker().withMargin(false).withFullWidth();
 
-            // TODO
-//            if (task.getParenttaskid() == null) {
-//                header.with(toggleTaskSummaryField);
-//                this.addHeader(header);
-//            } else {
-//                ParentTaskComp parentTaskComp = new ParentTaskComp(task.getParenttaskid(), task);
-//                header.with(parentTaskComp, toggleTaskSummaryField);
-//                this.addHeader(header);
-//            }
+            if (task.getParentTicketKey() == null) {
+                header.with(toggleTaskSummaryField);
+                this.addHeader(header);
+            } else {
+                ParentTicketComp parentTaskComp = new ParentTicketComp(task.getParentTicketType(), task.getParentTicketId(), ProjectTicket.buildTicketByTask(task));
+                header.with(parentTaskComp, toggleTaskSummaryField);
+                this.addHeader(header);
+            }
 
             if (task.isCompleted()) {
                 toggleTaskSummaryField.closeTask();
@@ -271,19 +271,6 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
         @Override
         public void addTitleStyleName(String styleName) {
             toggleTaskSummaryField.addLabelStyleNames(styleName);
-        }
-    }
-
-    private static class ParentTaskComp extends MHorizontalLayout {
-        ParentTaskComp(Integer parentTaskId, SimpleTask childTask) {
-            ELabel titleLbl = new ELabel(UserUIContext.getMessage(TaskI18nEnum.FORM_PARENT_TASK)).withStyleName(WebThemes.ARROW_BTN)
-                    .withUndefinedWidth();
-            with(titleLbl);
-            TaskService taskService = AppContextUtil.getSpringBean(TaskService.class);
-            SimpleTask parentTask = taskService.findById(parentTaskId, AppUI.getAccountId());
-            if (parentTask != null) {
-                with(new ToggleTaskSummaryWithChildRelationshipField(parentTask, childTask));
-            }
         }
     }
 

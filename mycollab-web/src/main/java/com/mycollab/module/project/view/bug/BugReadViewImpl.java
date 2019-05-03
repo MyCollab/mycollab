@@ -36,6 +36,7 @@ import com.mycollab.module.project.service.TicketRelationService;
 import com.mycollab.module.project.ui.ProjectAssetsManager;
 import com.mycollab.module.project.ui.components.*;
 import com.mycollab.module.project.view.ProjectView;
+import com.mycollab.module.project.view.ticket.ParentTicketComp;
 import com.mycollab.module.project.view.ticket.TicketRelationWindow;
 import com.mycollab.module.project.view.ticket.TicketRelationComp;
 import com.mycollab.spring.AppContextUtil;
@@ -260,6 +261,12 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
                 toggleBugSummaryField.addLabelStyleNames(WebThemes.LINK_COMPLETED);
             } else if (bug.isOverdue()) {
                 toggleBugSummaryField.addLabelStyleNames(WebThemes.LABEL_OVERDUE);
+            }
+
+            if (bug.getParentTicketKey() != null) {
+                ParentTicketComp parentTaskComp = new ParentTicketComp(bug.getParentTicketType(), bug.getParentTicketId(), ProjectTicket.buildTicketByBug(bug));
+                header.with(parentTaskComp);
+                this.addHeader(header);
             }
 
             TicketRelationService ticketRelationService = AppContextUtil.getSpringBean(TicketRelationService.class);
