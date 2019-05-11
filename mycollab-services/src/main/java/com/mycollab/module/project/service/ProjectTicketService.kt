@@ -59,6 +59,4 @@ interface ProjectTicketService : ISearchableService<ProjectTicketSearchCriteria>
     fun removeTicket(ticket: ProjectTicket, username: String)
 
     fun isTicketIdSatisfyCriteria(type: String, typeId: Int, criteria: ProjectTicketSearchCriteria): Boolean
-
-    fun findSubTickets(parentType:String, parentId: Int): List<ProjectTicket>
 }

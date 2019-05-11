@@ -26,10 +26,10 @@ import com.mycollab.module.project.ProjectTypeConstants
 import com.mycollab.module.project.dao.ProjectTicketMapper
 import com.mycollab.module.project.domain.ProjectTicket
 import com.mycollab.module.project.domain.criteria.ProjectTicketSearchCriteria
-import com.mycollab.module.project.service.BugService
+import com.mycollab.module.project.service.TaskService
 import com.mycollab.module.project.service.ProjectTicketService
 import com.mycollab.module.project.service.RiskService
-import com.mycollab.module.project.service.TaskService
+import com.mycollab.module.project.service.BugService
 import com.mycollab.spring.AppContextUtil
 import org.apache.ibatis.session.RowBounds
 import org.springframework.beans.factory.annotation.Autowired
@@ -130,6 +130,4 @@ abstract class AbstractProjectTicketServiceImpl : DefaultSearchService<ProjectTi
             }
         }
     }
-
-    override fun findSubTickets(parentType: String, parentId: Int): List<ProjectTicket> = projectTicketMapper.findSubTickets(parentType, parentId)
 }

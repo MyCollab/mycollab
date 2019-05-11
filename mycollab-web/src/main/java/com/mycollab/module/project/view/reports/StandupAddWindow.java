@@ -37,8 +37,8 @@ class StandupAddWindow extends MWindow implements IEditFormHandler<StandupReport
     private LocalDate onDate;
 
     StandupAddWindow(StandupReportStatistic standupReportStatistic, LocalDate onDate) {
-        this.withModal(true).withClosable(true).withResizable(false).withCenter().withWidth(UIUtils.getBrowserWidth() + "px")
-                .withHeight(UIUtils.getBrowserHeight() + "px");
+        this.withModal(true).withClosable(true).withResizable(false).withCenter().withWidth(UIUtils.INSTANCE.getBrowserWidth() + "px")
+                .withHeight(UIUtils.INSTANCE.getBrowserHeight() + "px");
 
         this.onDate = onDate;
         standupReportService = AppContextUtil.getSpringBean(StandupReportService.class);

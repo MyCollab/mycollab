@@ -39,9 +39,4 @@ public class DbFileSystemExt extends DbFileSystem {
         this.password = ds.getPassword();
         this.url = ds.getJdbcUrl();
     }
-
-    @Override
-    protected ConnectionHelper createConnectionHelper(DataSource dataSrc) throws Exception {
-        return new MySqlConnectionHelper(dataSrc);
-    }
 }

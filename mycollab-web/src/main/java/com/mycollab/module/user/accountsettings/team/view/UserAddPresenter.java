@@ -33,11 +33,11 @@ import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.EventBusFactory;
 import com.mycollab.vaadin.UserUIContext;
-import com.mycollab.vaadin.Utils;
 import com.mycollab.vaadin.event.DefaultEditFormHandler;
 import com.mycollab.vaadin.mvp.ScreenData;
 import com.mycollab.vaadin.mvp.ViewManager;
 import com.mycollab.vaadin.mvp.ViewPermission;
+import com.mycollab.vaadin.ui.UIUtils;
 import com.mycollab.vaadin.web.ui.AbstractPresenter;
 import com.vaadin.ui.HasComponents;
 import com.vaadin.ui.UI;
@@ -103,7 +103,7 @@ public class UserAddPresenter extends AbstractPresenter<UserAddView> {
         }
 
         if (isRefreshable) {
-            Utils.reloadPage();
+            UIUtils.reloadPage();
         }
     }
 

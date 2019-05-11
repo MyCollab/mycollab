@@ -33,6 +33,7 @@
     </Workspace>
     <!-- Configures the versioning -->
 
+
     <Versioning rootPath='repo2/version'>
         <FileSystem class='com.mycollab.module.ecm.DbFileSystemExt'>
             <param name="schemaObjectPrefix" value="ecm_s_" />
@@ -44,6 +45,7 @@
     </Versioning>
 
     <!-- Cluster configuration with system variables. -->
+
     <Cluster>
         <Journal class="com.mycollab.module.ecm.DatabaseJournalExt">
             <param name="schemaObjectPrefix" value="ecm_journal" />

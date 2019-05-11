@@ -140,7 +140,7 @@ public class ProjectAddViewImpl extends AbstractVerticalPageView implements Proj
             } else if (Project.Field.name.equalTo(propertyId)) {
                 return new MTextField().withRequiredIndicatorVisible(true);
             } else if (Project.Field.clientid.equalTo(propertyId)) {
-                return UIUtils.getComponent("com.mycollab.pro.module.project.view.client.ClientSelectionField");
+                return UIUtils.INSTANCE.getComponent("com.mycollab.pro.module.project.view.client.ClientSelectionField");
             } else if (Project.Field.memlead.equalTo(propertyId)) {
                 return new ProjectMemberSelectionField();
             } else if (Project.Field.defaultbillingrate.equalTo(propertyId)

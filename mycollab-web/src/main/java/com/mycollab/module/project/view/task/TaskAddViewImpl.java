@@ -44,7 +44,6 @@ import static com.mycollab.vaadin.web.ui.utils.FormControlsGenerator.generateEdi
  * @author MyCollab Ltd.
  * @since 1.0
  */
-// TODO
 @ViewComponent
 public class TaskAddViewImpl extends AbstractEditItemComp<SimpleTask> implements TaskAddView {
     private static final long serialVersionUID = 1L;
@@ -89,11 +88,11 @@ public class TaskAddViewImpl extends AbstractEditItemComp<SimpleTask> implements
     @Override
     protected IFormLayoutFactory initFormLayoutFactory() {
         if (beanItem.getId() == null) {
-            return new DefaultDynaFormLayout(ProjectTypeConstants.TASK, TaskDefaultFormLayoutFactory.getAddForm()
-                    /*Task.Field.parenttaskid.name()*/);
+            return new DefaultDynaFormLayout(ProjectTypeConstants.TASK, TaskDefaultFormLayoutFactory.getAddForm(),
+                    Task.Field.parenttaskid.name());
         } else {
-            return new DefaultDynaFormLayout(ProjectTypeConstants.TASK, TaskDefaultFormLayoutFactory.getAddForm()
-                    /*Task.Field.parenttaskid.name()*/, "selected");
+            return new DefaultDynaFormLayout(ProjectTypeConstants.TASK, TaskDefaultFormLayoutFactory.getAddForm(),
+                    Task.Field.parenttaskid.name(), "selected");
         }
     }
 

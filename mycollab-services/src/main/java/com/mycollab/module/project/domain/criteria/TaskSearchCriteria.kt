@@ -31,11 +31,14 @@ import com.mycollab.module.project.i18n.TaskI18nEnum
 class TaskSearchCriteria : SearchCriteria() {
 
     var projectId: NumberSearchField? = null
+    var parentTaskId: NumberSearchField? = null
     var name: StringSearchField? = null
     var dueDate: DateSearchField? = null
     var milestoneId: NumberSearchField? = null
     var assignUser: StringSearchField? = null
     var statuses: SetSearchField<String>? = null
+    var priorities: SetSearchField<String>? = null
+    var hasParentTask: BooleanSearchField? = null
 
     companion object {
         private val serialVersionUID = 1L

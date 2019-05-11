@@ -207,8 +207,8 @@ object ThemeManager {
             Page.getCurrent().styles.add(extraStyles.toString())
         }
 
-        Page.getCurrent().styles.add(".window-max-height{max-height: ${UIUtils.getBrowserHeight() - 220}px;}")
-        Page.getCurrent().styles.add(".content-height{min-height: ${UIUtils.getBrowserHeight() - 45}px;}")
+        Page.getCurrent().styles.add(".window-max-height{max-height: ${UIUtils.browserHeight - 220}px;}")
+        Page.getCurrent().styles.add(".content-height{min-height: ${UIUtils.browserHeight - 45}px;}")
         Page.getCurrent().styles.add(".vertical-tabsheet .v-button-tab.collapsed-tab::after{content: '${String(Character.toChars(VaadinIcons.ANGLE_RIGHT.codepoint))}';" +
                 "color: #${accountTheme.vtabsheettext};}")
         Page.getCurrent().styles.add(".vertical-tabsheet .v-button-tab.un-collapsed-tab::after{content: '${String(Character.toChars(VaadinIcons.ANGLE_DOWN.codepoint))}';" +

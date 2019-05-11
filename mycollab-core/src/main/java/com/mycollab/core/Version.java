@@ -28,11 +28,11 @@ public class Version {
     public static final String THEME_VERSION = "mycollab_20190414";
 
     public static String getVersion() {
-        return "7.0.2";
+        return "7.0.3";
     }
 
     public static LocalDate getReleasedDate() {
-        return LocalDate.of(2019, 4, 14);
+        return LocalDate.of(2019, 5, 11);
     }
 
     static int[] getVersionNumbers(String ver) {

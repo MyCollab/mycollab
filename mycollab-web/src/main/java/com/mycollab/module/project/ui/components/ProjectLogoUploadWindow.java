@@ -26,7 +26,7 @@ import com.mycollab.module.project.ui.ProjectAssetsUtil;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.UserUIContext;
-import com.mycollab.vaadin.Utils;
+import com.mycollab.vaadin.ui.UIUtils;
 import com.mycollab.vaadin.web.ui.ImagePreviewCropWindow;
 import com.mycollab.vaadin.web.ui.UploadImageField;
 import com.vaadin.ui.Alignment;
@@ -61,6 +61,6 @@ public class ProjectLogoUploadWindow extends MWindow implements ImagePreviewCrop
         ProjectService projectService = AppContextUtil.getSpringBean(ProjectService.class);
         project.setAvatarid(newLogoId);
         projectService.updateSelectiveWithSession(project, UserUIContext.getUsername());
-        Utils.reloadPage();
+        UIUtils.reloadPage();
     }
 }

@@ -56,8 +56,6 @@ class ProjectTicketSearchCriteria : SearchCriteria() {
 
     var componentIds: SetSearchField<Int>? = null
 
-    var hasParentTicket: BooleanSearchField? = null
-
     companion object {
         private const val serialVersionUID = 1L
 

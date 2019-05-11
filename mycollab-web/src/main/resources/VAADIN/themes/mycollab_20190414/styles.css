@@ -2207,6 +2207,19 @@ div.v-window .v-panel {
 	background-color: #369b6f;
 }
 
+.block.v-link-block a {
+	text-decoration: none;
+}
+
+.block.v-link-block a:hover {
+	text-decoration: none;
+	color: #ffffff !important;
+}
+
+.v-link.v-link-block {
+	text-decoration: none;
+}
+
 .wizard .wizard-progress-bar {
 	padding: 6px 0px;
 	border-bottom: 1px solid #e5e5e5;
@@ -17039,6 +17052,19 @@ div.v-window .v-panel {
 
 .block:hover {
 	background-color: #369b6f;
+}
+
+.block.v-link-block a {
+	text-decoration: none;
+}
+
+.block.v-link-block a:hover {
+	text-decoration: none;
+	color: #ffffff !important;
+}
+
+.v-link.v-link-block {
+	text-decoration: none;
 }
 
 .wizard .wizard-progress-bar {

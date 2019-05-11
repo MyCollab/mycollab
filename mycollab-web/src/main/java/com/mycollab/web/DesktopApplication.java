@@ -36,17 +36,24 @@ import com.mycollab.module.user.service.UserService;
 import com.mycollab.shell.event.ShellEvent;
 import com.mycollab.shell.view.*;
 import com.mycollab.spring.AppContextUtil;
-import com.mycollab.vaadin.*;
+import com.mycollab.vaadin.AppUI;
+import com.mycollab.vaadin.AsyncInvoker;
+import com.mycollab.vaadin.EventBusFactory;
+import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.mvp.ControllerRegistry;
 import com.mycollab.vaadin.mvp.PresenterResolver;
 import com.mycollab.vaadin.ui.NotificationUtil;
+import com.mycollab.vaadin.ui.UIUtils;
 import com.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.mycollab.vaadin.web.ui.service.BroadcastReceiverService;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Title;
 import com.vaadin.annotations.Viewport;
 import com.vaadin.annotations.Widgetset;
-import com.vaadin.server.*;
+import com.vaadin.server.BrowserWindowOpener;
+import com.vaadin.server.DefaultErrorHandler;
+import com.vaadin.server.Page;
+import com.vaadin.server.VaadinRequest;
 import com.vaadin.shared.communication.PushMode;
 import com.vaadin.spring.annotation.SpringUI;
 import com.vaadin.ui.Button;
@@ -143,7 +150,7 @@ public class DesktopApplication extends AppUI {
             String attr = headerNames.nextElement();
             requestInfo.append(attr).append(": ").append(request.getHeader(attr)).append('\n');
         }
-        requestInfo.append("Subdomain: ").append(Utils.getSubDomain(request)).append('\n');
+        requestInfo.append("Subdomain: ").append(UIUtils.getSubDomain(request)).append('\n');
         requestInfo.append("Remote address: ").append(request.getRemoteAddr()).append('\n');
         requestInfo.append("Path info: ").append(request.getPathInfo()).append('\n');
         requestInfo.append("Remote smtphost: ").append(request.getRemoteHost()).append('\n');
@@ -165,7 +172,7 @@ public class DesktopApplication extends AppUI {
 
         SessionExpireException sessionExpireException = getExceptionType(e, SessionExpireException.class);
         if (sessionExpireException != null) {
-            Utils.reloadPage();
+            UIUtils.reloadPage();
             return;
         }
 

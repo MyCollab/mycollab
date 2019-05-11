@@ -27,7 +27,6 @@ import com.mycollab.module.user.accountsettings.localization.UserI18nEnum;
 import com.mycollab.module.user.domain.User;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.UserUIContext;
-import com.mycollab.vaadin.Utils;
 import com.mycollab.vaadin.mvp.AbstractVerticalPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.*;
@@ -121,7 +120,7 @@ public class ProfileReadViewImpl extends AbstractVerticalPageView implements Pro
     public void process(BufferedImage image) {
         UserAvatarService userAvatarService = AppContextUtil.getSpringBean(UserAvatarService.class);
         userAvatarService.uploadAvatar(image, UserUIContext.getUsername(), UserUIContext.getUserAvatarId());
-        Utils.reloadPage();
+        UIUtils.reloadPage();
     }
 
     private class PreviewForm extends AdvancedPreviewBeanForm<User> {

@@ -32,6 +32,7 @@ import com.mycollab.vaadin.EventBusFactory
 import com.mycollab.vaadin.UserUIContext
 import com.mycollab.vaadin.ui.ELabel
 import com.vaadin.icons.VaadinIcons
+import com.vaadin.server.ExternalResource
 import com.vaadin.ui.*
 import org.vaadin.hene.popupbutton.PopupButton
 import org.vaadin.viritin.button.MButton
@@ -149,7 +150,7 @@ abstract class AbstractNotificationComponent : PopupButton(), PopupButton.PopupV
                 lblWrapper.addComponent(lbl)
                 return when {
                     UserUIContext.isAdmin() -> {
-                        val upgradeBtn = MButton(UserUIContext.getMessage(ShellI18nEnum.ACTION_UPGRADE)) { _ ->
+                        val upgradeBtn = MButton(UserUIContext.getMessage(ShellI18nEnum.ACTION_UPGRADE)) {
                             UI.getCurrent().addWindow(UpgradeConfirmWindow(item.version, item.manualDownloadLink, item.installerFile))
                             this@AbstractNotificationComponent.isPopupVisible = false
                         }.withStyleName(WebThemes.BLOCK)
@@ -160,7 +161,7 @@ abstract class AbstractNotificationComponent : PopupButton(), PopupButton.PopupV
             }
             is RequestUploadAvatarNotification -> {
                 val avatarUploadLbl = ELabel.html("${VaadinIcons.EXCLAMATION_CIRCLE.html} ${UserUIContext.getMessage(ShellI18nEnum.OPT_REQUEST_UPLOAD_AVATAR)}")
-                val uploadAvatarBtn = MButton(UserUIContext.getMessage(ShellI18nEnum.ACTION_UPLOAD_AVATAR)) { _ ->
+                val uploadAvatarBtn = MButton(UserUIContext.getMessage(ShellI18nEnum.ACTION_UPLOAD_AVATAR)) {
                     EventBusFactory.getInstance().post(ShellEvent.GotoUserAccountModule(this, arrayOf("preview")))
                     this@AbstractNotificationComponent.isPopupVisible = false
                 }.withStyleName(WebThemes.BLOCK)
@@ -168,10 +169,13 @@ abstract class AbstractNotificationComponent : PopupButton(), PopupButton.PopupV
                         .withFullWidth()
             }
             is SmtpSetupNotification -> {
-                val smtpBtn = MButton(UserUIContext.getMessage(GenericI18Enum.ACTION_SETUP)) { _ ->
-                    EventBusFactory.getInstance().post(ShellEvent.GotoUserAccountModule(this, arrayOf("setup")))
-                    this@AbstractNotificationComponent.isPopupVisible = false
-                }.withStyleName(WebThemes.BLOCK)
+                val smtpBtn =  Link("Help", ExternalResource("https://docs.mycollab.com/administration/email-configuration/"))
+                smtpBtn.targetName = "_blank"
+                smtpBtn.styleName = WebThemes.BLOCK
+//                val smtpBtn = MButton(UserUIContext.getMessage(GenericI18Enum.ACTION_SETUP)) {
+//                    EventBusFactory.getInstance().post(ShellEvent.GotoUserAccountModule(this, arrayOf("setup")))
+//                    this@AbstractNotificationComponent.isPopupVisible = false
+//                }.withStyleName(WebThemes.BLOCK)
                 val lbl = ELabel.html("${VaadinIcons.EXCLAMATION_CIRCLE.html} ${UserUIContext.getMessage(ShellI18nEnum.ERROR_NO_SMTP_SETTING)}").withFullWidth()
                 return MHorizontalLayout(lbl, smtpBtn).expand(lbl).withDefaultComponentAlignment(Alignment.TOP_LEFT)
             }

@@ -26,6 +26,7 @@ import com.mycollab.spring.AppContextUtil
 import com.mycollab.vaadin.UserUIContext
 import com.mycollab.vaadin.ui.NotificationUtil
 import com.mycollab.vaadin.web.ui.ConfirmDialogExt
+import com.vaadin.server.Page
 import com.vaadin.ui.UI
 
 /**
@@ -49,7 +50,7 @@ object SystemUIChecker {
                                 UserUIContext.getMessage(GenericI18Enum.ACTION_NO)
                         ) { confirmDialog ->
                             if (confirmDialog.isConfirmed) {
-                                EventBusFactory.getInstance().post(ShellEvent.GotoUserAccountModule(UI.getCurrent(), arrayOf("setup")))
+                                Page.getCurrent().javaScript.execute("window.open('https://docs.mycollab.com/administration/email-configuration/', \"_blank\", \"\");")
                             }
                         }
                         else -> NotificationUtil.showErrorNotification(UserUIContext.getMessage(ShellI18nEnum.WINDOW_SMTP_CONFIRM_SETUP_FOR_USER))

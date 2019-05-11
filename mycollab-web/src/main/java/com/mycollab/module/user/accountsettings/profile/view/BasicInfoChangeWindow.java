@@ -27,8 +27,8 @@ import com.mycollab.module.user.service.UserService;
 import com.mycollab.module.user.ui.components.LanguageSelectionField;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.UserUIContext;
-import com.mycollab.vaadin.Utils;
 import com.mycollab.vaadin.ui.NotificationUtil;
+import com.mycollab.vaadin.ui.UIUtils;
 import com.mycollab.vaadin.web.ui.TimeZoneSelectionField;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
@@ -130,6 +130,6 @@ class BasicInfoChangeWindow extends MWindow {
         UserService userService = AppContextUtil.getSpringBean(UserService.class);
         userService.updateWithSession(user, UserUIContext.getUsername());
         close();
-        Utils.reloadPage();
+        UIUtils.reloadPage();
     }
 }

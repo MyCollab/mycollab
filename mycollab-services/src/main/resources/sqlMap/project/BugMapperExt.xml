@@ -15,9 +15,6 @@
         <result column="nonBillableHours" property="nonBillableHours" jdbcType="DOUBLE" />
         <result column="numFollowers" property="numFollowers" jdbcType="INTEGER"/>
         <result column="ticketKey" property="ticketKey" jdbcType="INTEGER"/>
-        <result column="parentTicketKey" property="parentTicketKey" jdbcType="INTEGER"/>
-        <result column="parentTicketId" property="parentTicketId" jdbcType="INTEGER"/>
-        <result column="parentTicketType" property="parentTicketType" jdbcType="VARCHAR"/>
         <collection columnPrefix="affectedversion_" notNullColumn="id"
             ofType="com.mycollab.module.project.domain.Version"
             property="affectedVersions"
@@ -243,18 +240,17 @@
                  affectedversion.name as affectedversion_name, affectedversion.createdUser as affectedversion_createdUser,
                  affectedversion.createdTime as affectedversion_createdTime, affectedversion.lastUpdatedTime as affectedversion_lastUpdatedTime,
                  fixedversion.id as fixedversion_id, fixedversion.projectId as fixedversion_projectid,
-                 fixedversion.description as fixedversion_description, fixedversion.duedate as fixedversion_duedate,
+                 fixedversion.description as fixedversion_description, fixedversion.duedate as fixedversion_duedate, 
                  fixedversion.name as fixedversion_name, fixedversion.createdUser as fixedversion_createdUser,
                  fixedversion.createdTime as fixedversion_createdTime, fixedversion.lastUpdatedTime as fixedversion_lastUpdatedTime,
                  component.id as component_id, component.projectId as component_projectid, component.name as component_name,
-                 component.userlead as component_userlead, component.description as component_description, component.createdUser as component_createdUser,
+                 component.userlead as component_userlead, component.description as component_description, component.createdUser as component_createdUser, 
                  component.createdTime as component_createdTime, component.lastUpdatedTime as component_lastUpdatedTime,
                  (SELECT COALESCE(SUM(m_prj_time_logging.logValue), 0) FROM m_prj_time_logging WHERE m_prj_time_logging.projectId = m_prj_bug.projectId
                      AND m_prj_time_logging.type='Project-Bug' AND m_prj_time_logging.typeId=m_prj_bug.id AND m_prj_time_logging.isBillable = 1) AS billableHours,
                  (SELECT COALESCE(SUM(m_prj_time_logging.logValue), 0) FROM m_prj_time_logging WHERE m_prj_time_logging.projectId = m_prj_bug.projectId
                      AND m_prj_time_logging.type='Project-Bug' AND m_prj_time_logging.typeId=m_prj_bug.id AND m_prj_time_logging.isBillable = 0) AS nonBillableHours,
-                 (SELECT COUNT(*) FROM m_monitor_item WHERE m_monitor_item.typeId = m_prj_bug.id AND m_monitor_item.type = 'Project-Bug') AS numFollowers,
-                 parentKeyTbl.ticketKey AS parentTicketKey, parentKeyTbl.ticketId AS parentTicketId, m_prj_ticket_hierarchy.parentType AS parentTicketType
+                 (SELECT COUNT(*) FROM m_monitor_item WHERE m_monitor_item.typeId = m_prj_bug.id AND m_monitor_item.type = 'Project-Bug') AS numFollowers
             FROM m_prj_bug
                 LEFT OUTER JOIN m_prj_project ON (m_prj_bug.projectId = m_prj_project.id)
                 LEFT OUTER JOIN s_user AS assignuserTbl ON (m_prj_bug.assignUser=assignuserTbl.username)
@@ -267,8 +263,7 @@
                 LEFT OUTER JOIN m_prj_component AS component ON (component.id = relatedItem3.typeId AND relatedItem3.type = 'Project-Component')
                 LEFT OUTER JOIN m_prj_milestone AS milestone ON (m_prj_bug.milestoneId = milestone.id)
                 LEFT OUTER JOIN m_prj_ticket_key ON (m_prj_ticket_key.ticketId = m_prj_bug.id AND m_prj_ticket_key.ticketType = 'Project-Bug')
-                LEFT OUTER JOIN m_prj_ticket_hierarchy ON (m_prj_ticket_hierarchy.ticketId = m_prj_bug.id AND m_prj_ticket_hierarchy.ticketType = 'Project-Bug')
-                LEFT OUTER JOIN m_prj_ticket_key AS parentKeyTbl ON (m_prj_ticket_hierarchy.parentId = parentKeyTbl.ticketId AND m_prj_ticket_hierarchy.parentType = parentKeyTbl.ticketType)
+               
         ]]>
     </sql>
 

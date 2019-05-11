@@ -37,12 +37,12 @@ import com.mycollab.security.RolePermissionCollections;
 import com.mycollab.spring.AppContextUtil;
 import com.mycollab.vaadin.AppUI;
 import com.mycollab.vaadin.UserUIContext;
-import com.mycollab.vaadin.Utils;
 import com.mycollab.vaadin.mvp.AbstractVerticalPageView;
 import com.mycollab.vaadin.mvp.ViewComponent;
 import com.mycollab.vaadin.ui.AccountAssetsResolver;
 import com.mycollab.vaadin.ui.ELabel;
 import com.mycollab.vaadin.ui.FormContainer;
+import com.mycollab.vaadin.ui.UIUtils;
 import com.mycollab.vaadin.web.ui.ServiceMenu;
 import com.mycollab.vaadin.web.ui.WebThemes;
 import com.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
@@ -215,7 +215,7 @@ public class GeneralSettingViewImpl extends AbstractVerticalPageView implements 
             BillingAccountService billingAccountService = AppContextUtil.getSpringBean(BillingAccountService.class);
             billingAccount.setLogopath(null);
             billingAccountService.updateWithSession(billingAccount, UserUIContext.getUsername());
-            Utils.reloadPage();
+            UIUtils.reloadPage();
         }).withStyleName(WebThemes.BUTTON_OPTION);
         resetButton.setVisible(UserUIContext.canBeYes(RolePermissionCollections.ACCOUNT_THEME));
 
@@ -261,7 +261,7 @@ public class GeneralSettingViewImpl extends AbstractVerticalPageView implements 
                         String newFavIconPath = favIconService.upload(UserUIContext.getUsername(), image, AppUI.getAccountId());
                         favIconRes.setSource(new ExternalResource(StorageUtils.getFavIconPath(billingAccount.getId(),
                                 newFavIconPath)));
-                        Utils.reloadPage();
+                        UIUtils.reloadPage();
                     } catch (IOException e) {
                         throw new MyCollabException(e);
                     }
@@ -279,7 +279,7 @@ public class GeneralSettingViewImpl extends AbstractVerticalPageView implements 
             BillingAccountService billingAccountService = AppContextUtil.getSpringBean(BillingAccountService.class);
             billingAccount.setFaviconpath(null);
             billingAccountService.updateWithSession(billingAccount, UserUIContext.getUsername());
-            Utils.reloadPage();
+            UIUtils.reloadPage();
         }).withStyleName(WebThemes.BUTTON_OPTION);
         resetButton.setVisible(UserUIContext.canBeYes(RolePermissionCollections.ACCOUNT_THEME));
 

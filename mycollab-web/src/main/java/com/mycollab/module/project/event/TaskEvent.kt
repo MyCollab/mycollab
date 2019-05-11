@@ -30,6 +30,8 @@ object TaskEvent {
 
     class TaskDeleted(source: Any, val data: Int) : ApplicationEvent(source)
 
+    class RemoveParentRelationship(source: Any, val data: Int) : ApplicationEvent(source)
+
     class Search(source: Any, val data: Any?) : ApplicationEvent(source)
 
     class GotoAdd(source: Any, val data: Any?) : ApplicationEvent(source)

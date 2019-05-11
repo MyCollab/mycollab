@@ -112,26 +112,26 @@ public class TicketComponentFactoryImpl implements TicketComponentFactory {
     }
 
     @Override
-    public AbstractComponent createPriorityPopupField(ProjectTicket ticket) {
-        return new MetaFieldBuilder().withCaption(ProjectAssetsManager.getPriorityHtml(ticket.getPriority()) + " " +
-                UserUIContext.getMessage(Priority.class, ticket.getPriority()))
+    public AbstractComponent createPriorityPopupField(ProjectTicket assignment) {
+        return new MetaFieldBuilder().withCaption(ProjectAssetsManager.getPriorityHtml(assignment.getPriority()) + " " +
+                UserUIContext.getMessage(Priority.class, assignment.getPriority()))
                 .withDescription(UserUIContext.getMessage(ShellI18nEnum.OPT_UPGRADE_PRO_INTRO,
                         UserUIContext.getMessage(GenericI18Enum.FORM_PRIORITY))).build();
     }
 
     @Override
-    public AbstractComponent createBillableHoursPopupField(ProjectTicket ticket) {
+    public AbstractComponent createBillableHoursPopupField(ProjectTicket task) {
         return null;
     }
 
     @Override
-    public AbstractComponent createNonBillableHoursPopupField(ProjectTicket ticket) {
+    public AbstractComponent createNonBillableHoursPopupField(ProjectTicket task) {
         return null;
     }
 
     @Override
-    public AbstractComponent createFollowersPopupField(ProjectTicket ticket) {
-        return new MetaFieldBuilder().withCaptionAndIcon(VaadinIcons.EYE, "" + NumberUtils.zeroIfNull(ticket.getNumFollowers()))
+    public AbstractComponent createFollowersPopupField(ProjectTicket assignment) {
+        return new MetaFieldBuilder().withCaptionAndIcon(VaadinIcons.EYE, "" + NumberUtils.zeroIfNull(assignment.getNumFollowers()))
                 .withDescription(UserUIContext.getMessage(ShellI18nEnum.OPT_UPGRADE_PRO_INTRO,
                         UserUIContext.getMessage(FollowerI18nEnum.OPT_SUB_INFO_WATCHERS))).build();
     }

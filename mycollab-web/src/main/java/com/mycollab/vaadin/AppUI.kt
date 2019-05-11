@@ -22,7 +22,6 @@ import com.mycollab.common.SessionIdGenerator
 import com.mycollab.common.i18n.ErrorI18nEnum
 import com.mycollab.configuration.ApplicationConfiguration
 import com.mycollab.configuration.IDeploymentMode
-import com.mycollab.core.utils.BeanUtility
 import com.mycollab.core.utils.StringUtils
 import com.mycollab.db.arguments.GroupIdProvider
 import com.mycollab.module.billing.SubDomainNotExistException
@@ -30,6 +29,7 @@ import com.mycollab.module.user.domain.SimpleBillingAccount
 import com.mycollab.module.user.service.BillingAccountService
 import com.mycollab.spring.AppContextUtil
 import com.mycollab.vaadin.ui.ThemeManager
+import com.mycollab.vaadin.ui.UIUtils
 import com.vaadin.server.Page
 import com.vaadin.server.VaadinRequest
 import com.vaadin.server.VaadinServletRequest
@@ -54,7 +54,7 @@ abstract class AppUI : UI() {
     private val attributes = mutableMapOf<String, Any?>()
 
     protected fun postSetupApp(request: VaadinRequest) {
-        initialSubDomain = Utils.getSubDomain(request)
+        initialSubDomain = UIUtils.getSubDomain(request)
         val billingService = AppContextUtil.getSpringBean(BillingAccountService::class.java)
         LOG.info("Load account info of sub-domain $initialSubDomain from ${(request as VaadinServletRequest).serverName}")
         _billingAccount = billingService.getAccountByDomain(initialSubDomain)

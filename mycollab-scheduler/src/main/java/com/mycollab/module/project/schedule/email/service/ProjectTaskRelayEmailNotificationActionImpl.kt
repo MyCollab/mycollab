@@ -173,6 +173,7 @@ class ProjectTaskRelayEmailNotificationActionImpl : SendMailToFollowersAction<Si
             put(Task.Field.isestimated, TaskI18nEnum.FORM_IS_ESTIMATED)
             put(Task.Field.remainestimate, TaskI18nEnum.FORM_REMAIN_ESTIMATE)
             put(Task.Field.milestoneid, MilestoneFieldFormat(Task.Field.milestoneid.name, MilestoneI18nEnum.SINGLE))
+            put(Task.Field.parenttaskid, TaskFieldFormat(Task.Field.parenttaskid.name, TaskI18nEnum.FORM_PARENT_TASK))
             put(Task.Field.description, GenericI18Enum.FORM_DESCRIPTION)
             put(Task.Field.status, GenericI18Enum.FORM_STATUS)
         }
@@ -208,34 +209,34 @@ class ProjectTaskRelayEmailNotificationActionImpl : SendMailToFollowersAction<Si
         }
     }
 
-//    class TaskFieldFormat(fieldName: String, displayName: Enum<*>) : FieldFormat(fieldName, displayName) {
-//
-//        override fun formatField(context: MailContext<*>): String {
-//            val task = context.wrappedBean as SimpleTask
-//            return if (task.parenttaskid != null) {
-//                val img = Text(ProjectResources.getFontIconHtml(ProjectTypeConstants.TASK))
-//                val parentTaskLink = ProjectLinkGenerator.generateTaskPreviewFullLink(context.siteUrl, task.projectShortname!!, task.parentTaskKey)
-//                val link = FormatUtils.newA(parentTaskLink, task.name)
-//                FormatUtils.newLink(img, link).write()
-//            } else Span().write()
-//        }
-//
-//        override fun formatField(context: MailContext<*>, value: String): String {
-//            if (StringUtils.isBlank(value)) {
-//                return Span().write()
-//            }
-//
-//            val taskId = value.toInt()
-//            val taskService = AppContextUtil.getSpringBean(TaskService::class.java)
-//            val task = taskService.findById(taskId, context.saccountid)
-//            return if (task != null) {
-//                val img = Text(ProjectResources.getFontIconHtml(ProjectTypeConstants.TASK))
-//                val taskListLink = ProjectLinkGenerator.generateTaskPreviewFullLink(context.siteUrl, task.projectShortname!!, task.ticketKey)
-//                val link = FormatUtils.newA(taskListLink, task.name)
-//                return FormatUtils.newLink(img, link).write()
-//            } else value
-//        }
-//    }
+    class TaskFieldFormat(fieldName: String, displayName: Enum<*>) : FieldFormat(fieldName, displayName) {
+
+        override fun formatField(context: MailContext<*>): String {
+            val task = context.wrappedBean as SimpleTask
+            return if (task.parenttaskid != null) {
+                val img = Text(ProjectResources.getFontIconHtml(ProjectTypeConstants.TASK))
+                val parentTaskLink = ProjectLinkGenerator.generateTaskPreviewFullLink(context.siteUrl, task.projectShortname!!, task.parentTaskKey)
+                val link = FormatUtils.newA(parentTaskLink, task.name)
+                FormatUtils.newLink(img, link).write()
+            } else Span().write()
+        }
+
+        override fun formatField(context: MailContext<*>, value: String): String {
+            if (StringUtils.isBlank(value)) {
+                return Span().write()
+            }
+
+            val taskId = value.toInt()
+            val taskService = AppContextUtil.getSpringBean(TaskService::class.java)
+            val task = taskService.findById(taskId, context.saccountid)
+            return if (task != null) {
+                val img = Text(ProjectResources.getFontIconHtml(ProjectTypeConstants.TASK))
+                val taskListLink = ProjectLinkGenerator.generateTaskPreviewFullLink(context.siteUrl, task.projectShortname!!, task.ticketKey)
+                val link = FormatUtils.newA(taskListLink, task.name)
+                return FormatUtils.newLink(img, link).write()
+            } else value
+        }
+    }
 
     class MilestoneFieldFormat(fieldName: String, displayName: Enum<*>) : FieldFormat(fieldName, displayName) {
 

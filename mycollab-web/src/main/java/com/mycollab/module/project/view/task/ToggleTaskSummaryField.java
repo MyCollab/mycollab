@@ -59,17 +59,17 @@ import org.vaadin.viritin.layouts.MHorizontalLayout;
  * @author MyCollab Ltd
  * @since 5.2.3
  */
-public class ToggleTaskSummaryField extends AbstractToggleSummaryField {
+class ToggleTaskSummaryField extends AbstractToggleSummaryField {
     private boolean isRead = true;
     private SimpleTask task;
     private int maxLength;
     private CheckBox toggleStatusSelect;
 
-    public ToggleTaskSummaryField(SimpleTask task, boolean toggleStatusSupport) {
+    ToggleTaskSummaryField(final SimpleTask task, boolean toggleStatusSupport) {
         this(task, Integer.MAX_VALUE, toggleStatusSupport, false);
     }
 
-    public ToggleTaskSummaryField(SimpleTask task, int maxLength, boolean toggleStatusSupport, boolean canRemove) {
+    ToggleTaskSummaryField(final SimpleTask task, int maxLength, boolean toggleStatusSupport, boolean canRemove) {
         this.setWidth("100%");
         this.maxLength = maxLength;
         this.task = task;

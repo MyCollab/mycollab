@@ -37,9 +37,4 @@ public class DatabaseJournalExt extends DatabaseJournal {
         setUrl(ds.getJdbcUrl());
         setDatabaseType(DbUtil.getSchemaType(ds.getDriverClassName()));
     }
-
-    @Override
-    protected ConnectionHelper createConnectionHelper(DataSource dataSrc) throws Exception {
-        return new MySqlConnectionHelper(dataSrc);
-    }
 }

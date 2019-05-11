@@ -40,7 +40,7 @@ public class DefaultBeanPagedList<SearchService extends ISearchableService<S>, S
         this.searchService = searchService;
     }
 
-    public int setSearchCriteria(S searchCriteria) {
+    public int setSearchCriteria(final S searchCriteria) {
         this.removeAllComponents();
         searchRequest = new BasicSearchRequest<>(searchCriteria, currentPage, defaultNumberSearchItems);
         doSearch();

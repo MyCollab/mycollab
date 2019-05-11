@@ -22,6 +22,7 @@ import com.mycollab.module.file.StorageUtils
 import com.mycollab.module.user.service.BillingAccountService
 import com.mycollab.spring.AppContextUtil
 import com.mycollab.vaadin.TooltipHelper.TOOLTIP_ID
+import com.mycollab.vaadin.ui.UIUtils
 import com.vaadin.server.BootstrapFragmentResponse
 import com.vaadin.server.BootstrapListener
 import com.vaadin.server.BootstrapPageResponse
@@ -36,7 +37,7 @@ class AppBootstrapListener : BootstrapListener {
 
     override fun modifyBootstrapPage(response: BootstrapPageResponse) {
         val request = response.request
-        val domain = Utils.getSubDomain(request)
+        val domain = UIUtils.getSubDomain(request)
         val billingService = AppContextUtil.getSpringBean(BillingAccountService::class.java)
 
         val account = billingService.getAccountByDomain(domain)

@@ -142,7 +142,7 @@ class AccountCreatedCommand(private val optionValService: OptionValService,
         taskC.name = "Task C"
         taskC.startdate = nowDate.plusDays(3)
         taskC.enddate = nowDate.plusDays(5)
-//        taskC.parenttaskid = taskAId
+        taskC.parenttaskid = taskAId
         taskService.saveWithSession(taskC, initialUser)
 
         val taskD = BeanUtility.deepClone(taskA)

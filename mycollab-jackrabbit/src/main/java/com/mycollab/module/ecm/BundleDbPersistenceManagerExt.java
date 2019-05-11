@@ -45,9 +45,4 @@ public class BundleDbPersistenceManagerExt extends BundleDbPersistenceManager {
         setDatabaseType(DbUtil.getSchemaType(ds.getDriverClassName()));
         super.init(context);
     }
-
-    @Override
-    protected ConnectionHelper createConnectionHelper(DataSource dataSrc) throws Exception {
-        return new MySqlConnectionHelper(dataSrc);
-    }
 }
