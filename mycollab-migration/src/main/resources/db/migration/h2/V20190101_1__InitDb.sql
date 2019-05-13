@@ -1,154 +1,3 @@
-CREATE TABLE `ECM_JOURNALGLOBAL_REVISION` (
-  `REVISION_ID` bigint(20) NOT NULL,
-  UNIQUE KEY `ECM_JOURNALGLOBAL_REVISION_IDX` (`REVISION_ID`)
-) ;
-
-CREATE TABLE `ECM_JOURNALJOURNAL` (
-  `REVISION_ID` bigint(20) NOT NULL,
-  `JOURNAL_ID` varchar(255)  DEFAULT NULL,
-  `PRODUCER_ID` varchar(255)  DEFAULT NULL,
-  `REVISION_DATA` longblob,
-  UNIQUE KEY `ECM_JOURNALJOURNAL_IDX` (`REVISION_ID`)
-) ;
-
-CREATE TABLE `ECM_JOURNALLOCAL_REVISIONS` (
-  `JOURNAL_ID` varchar(255)  NOT NULL,
-  `REVISION_ID` bigint(20) NOT NULL
-) ;
-
-CREATE TABLE `ECM_P_VERSIONBINVAL` (
-  `BINVAL_ID` varchar(64)  NOT NULL,
-  `BINVAL_DATA` longblob NOT NULL,
-  UNIQUE KEY `ECM_P_VERSIONBINVAL_IDX` (`BINVAL_ID`)
-) ;
-
-CREATE TABLE `ECM_P_VERSIONBUNDLE` (
-  `NODE_ID` varbinary(16) NOT NULL,
-  `BUNDLE_DATA` longblob NOT NULL,
-  UNIQUE KEY `ECM_P_VERSIONBUNDLE_IDX` (`NODE_ID`)
-) ;
-
-CREATE TABLE `ECM_P_VERSIONNAMES` (
-  `ID` int(11) NOT NULL AUTO_INCREMENT,
-  `NAME` varchar(255)  NOT NULL,
-  PRIMARY KEY (`ID`)
-) ;
-
-CREATE TABLE `ECM_P_VERSIONREFS` (
-  `NODE_ID` varbinary(16) NOT NULL,
-  `REFS_DATA` longblob NOT NULL,
-  UNIQUE KEY `ECM_P_VERSIONREFS_IDX` (`NODE_ID`)
-) ;
-
-CREATE TABLE `ECM_P_WORKSPACEBINVAL` (
-  `BINVAL_ID` varchar(64)  NOT NULL,
-  `BINVAL_DATA` longblob NOT NULL,
-  UNIQUE KEY `ECM_P_WORKSPACEBINVAL_IDX` (`BINVAL_ID`)
-) ;
-
-CREATE TABLE `ECM_P_WORKSPACEBUNDLE` (
-  `NODE_ID` varbinary(16) NOT NULL,
-  `BUNDLE_DATA` longblob NOT NULL,
-  UNIQUE KEY `ECM_P_WORKSPACEBUNDLE_IDX` (`NODE_ID`)
-) ;
-
-CREATE TABLE `ECM_P_WORKSPACENAMES` (
-  `ID` int(11) NOT NULL AUTO_INCREMENT,
-  `NAME` varchar(255)  NOT NULL,
-  PRIMARY KEY (`ID`)
-) ;
-
-CREATE TABLE `ECM_P_WORKSPACEREFS` (
-  `NODE_ID` varbinary(16) NOT NULL,
-  `REFS_DATA` longblob NOT NULL,
-  UNIQUE KEY `ECM_P_WORKSPACEREFS_IDX` (`NODE_ID`)
-) ;
-
-CREATE TABLE `ECM_S_FSENTRY` (
-  `FSENTRY_PATH` varbinary NOT NULL,
-  `FSENTRY_NAME` varchar(255) NOT NULL,
-  `FSENTRY_DATA` longblob,
-  `FSENTRY_LASTMOD` bigint(20) NOT NULL,
-  `FSENTRY_LENGTH` bigint(20) NOT NULL,
-  UNIQUE KEY `ECM_S_FSENTRY_IDX` (`FSENTRY_PATH`,`FSENTRY_NAME`)
-) ;
-
-
-CREATE TABLE `WIKI_JOURNALGLOBAL_REVISION` (
-  `REVISION_ID` bigint(20) NOT NULL,
-  UNIQUE KEY `WIKI_JOURNALGLOBAL_REVISION_IDX` (`REVISION_ID`)
-) ;
-
-CREATE TABLE `WIKI_JOURNALJOURNAL` (
-  `REVISION_ID` bigint(20) NOT NULL,
-  `JOURNAL_ID` varchar(255)  DEFAULT NULL,
-  `PRODUCER_ID` varchar(255)  DEFAULT NULL,
-  `REVISION_DATA` longblob,
-  UNIQUE KEY `WIKI_JOURNALJOURNAL_IDX` (`REVISION_ID`)
-) ;
-
-CREATE TABLE `WIKI_JOURNALLOCAL_REVISIONS` (
-  `JOURNAL_ID` varchar(255)  NOT NULL,
-  `REVISION_ID` bigint(20) NOT NULL
-) ;
-
-CREATE TABLE `WIKI_P_VERSIONBINVAL` (
-  `BINVAL_ID` varchar(64)  NOT NULL,
-  `BINVAL_DATA` longblob NOT NULL,
-  UNIQUE KEY `WIKI_P_VERSIONBINVAL_IDX` (`BINVAL_ID`)
-) ;
-
-CREATE TABLE `WIKI_P_VERSIONBUNDLE` (
-  `NODE_ID` varbinary(16) NOT NULL,
-  `BUNDLE_DATA` longblob NOT NULL,
-  UNIQUE KEY `WIKI_P_VERSIONBUNDLE_IDX` (`NODE_ID`)
-) ;
-
-CREATE TABLE `WIKI_P_VERSIONNAMES` (
-  `ID` int(11) NOT NULL AUTO_INCREMENT,
-  `NAME` varchar(255)  NOT NULL,
-  PRIMARY KEY (`ID`)
-) ;
-
-CREATE TABLE `WIKI_P_VERSIONREFS` (
-  `NODE_ID` varbinary(16) NOT NULL,
-  `REFS_DATA` longblob NOT NULL,
-  UNIQUE KEY `WIKI_P_VERSIONREFS_IDX` (`NODE_ID`)
-) ;
-
-CREATE TABLE `WIKI_P_WORKSPACEBINVAL` (
-  `BINVAL_ID` varchar(64)  NOT NULL,
-  `BINVAL_DATA` longblob NOT NULL,
-  UNIQUE KEY `WIKI_P_WORKSPACEBINVAL_IDX` (`BINVAL_ID`)
-) ;
-
-CREATE TABLE `WIKI_P_WORKSPACEBUNDLE` (
-  `NODE_ID` varbinary(16) NOT NULL,
-  `BUNDLE_DATA` longblob NOT NULL,
-  UNIQUE KEY `WIKI_P_WORKSPACEBUNDLE_IDX` (`NODE_ID`)
-) ;
-
-CREATE TABLE `WIKI_P_WORKSPACENAMES` (
-  `ID` int(11) NOT NULL AUTO_INCREMENT,
-  `NAME` varchar(255)  NOT NULL,
-  PRIMARY KEY (`ID`)
-) ;
-
-CREATE TABLE `WIKI_P_WORKSPACEREFS` (
-  `NODE_ID` varbinary(16) NOT NULL,
-  `REFS_DATA` longblob NOT NULL,
-  UNIQUE KEY `WIKI_P_WORKSPACEREFS_IDX` (`NODE_ID`)
-) ;
-
-CREATE TABLE `WIKI_S_FSENTRY` (
-  `FSENTRY_PATH` varbinary  NOT NULL,
-  `FSENTRY_NAME` varchar(255) NOT NULL,
-  `FSENTRY_DATA` longblob,
-  `FSENTRY_LASTMOD` bigint(20) NOT NULL,
-  `FSENTRY_LENGTH` bigint(20) NOT NULL,
-  UNIQUE KEY `WIKI_S_FSENTRY_IDX` (`FSENTRY_PATH`,`FSENTRY_NAME`)
-) ;
-
 --
 -- Table structure for table `s_user`
 --
@@ -896,8 +745,7 @@ CREATE TABLE `m_prj_task` (
   `isestimated` bit(1) DEFAULT NULL,
   `projectId` int(10) unsigned NOT NULL,
   `dueDate` date DEFAULT NULL,
-  `description` mediumtext  ,
-  `taskindex` int(10) unsigned DEFAULT NULL,
+  `description` mediumtext,
   `createdTime` datetime DEFAULT NULL,
   `lastUpdatedTime` datetime DEFAULT NULL,
   `assignUser` varchar(45) DEFAULT NULL,
@@ -906,24 +754,31 @@ CREATE TABLE `m_prj_task` (
   `createdUser` varchar(45) DEFAULT NULL,
   `originalEstimate` double DEFAULT NULL,
   `remainEstimate` double DEFAULT NULL,
-  `parentTaskId` int(10) unsigned DEFAULT NULL,
   `milestoneId` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `FK_m_prj_task_1` (`projectId`),
   KEY `FK_m_prj_task_4` (`sAccountId`),
   KEY `FK_m_prj_task_3` (`assignUser`),
   KEY `FK_m_prj_task_5` (`createdUser`),
-  KEY `FK_m_prj_task_6_idx` (`parentTaskId`),
   KEY `FK_m_prj_task_7_idx` (`milestoneId`),
   CONSTRAINT `FK_m_prj_task_1` FOREIGN KEY (`projectId`) REFERENCES `m_prj_project` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_m_prj_task_3` FOREIGN KEY (`assignUser`) REFERENCES `s_user` (`username`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `FK_m_prj_task_4` FOREIGN KEY (`sAccountId`) REFERENCES `s_account` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_m_prj_task_5` FOREIGN KEY (`createdUser`) REFERENCES `s_user` (`username`) ON DELETE SET NULL ON UPDATE CASCADE,
-  CONSTRAINT `FK_m_prj_task_6` FOREIGN KEY (`parentTaskId`) REFERENCES `m_prj_task` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_m_prj_task_7` FOREIGN KEY (`milestoneId`) REFERENCES `m_prj_milestone` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ;
 
-
+CREATE TABLE `m_prj_ticket_hierarchy` (
+  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `parentId` int(10) NOT NULL,
+  `parentType` varchar(45) NOT NULL,
+  `ticketId` int(10) NOT NULL,
+  `ticketType` varchar(45) NOT NULL,
+  `projectId` int(10) UNSIGNED NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `FK_m_prj_ticket_hierarchy_1` (`projectId` ASC),
+  CONSTRAINT `FK_m_prj_ticket_hierarchy` FOREIGN KEY (`projectId`) REFERENCES `m_prj_project` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+);
 
 --
 -- Table structure for table `m_prj_time_logging`

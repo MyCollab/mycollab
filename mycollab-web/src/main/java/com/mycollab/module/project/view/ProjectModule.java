@@ -100,7 +100,7 @@ public class ProjectModule extends AbstractModule {
 
             MButton newTicketButton = new MButton(UserUIContext.getMessage(TicketI18nEnum.SINGLE), clickEvent -> {
                 UI.getCurrent().addWindow(AppContextUtil.getSpringBean(TicketComponentFactory.class)
-                        .createNewTicketWindow(null, null, null, false));
+                        .createNewTicketWindow(null, null, null, false, null));
                 newBtn.setPopupVisible(false);
             }).withIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.TICKET));
             contentLayout.addOption(newTicketButton);

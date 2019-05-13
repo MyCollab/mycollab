@@ -79,9 +79,10 @@ public class TaskReadPresenter extends AbstractPresenter<TaskReadView> {
             @Override
             public void onPrint(Object source, SimpleTask data) {
                 PrintButton btn = (PrintButton) source;
-                btn.doPrint(data, new FormReportLayout(ProjectTypeConstants.TASK, Task.Field.name.name(),
-                        TaskDefaultFormLayoutFactory.getReadForm(), Task.Field.name.name(), Task.Field.id.name(),
-                        Task.Field.parenttaskid.name(), "selected"));
+                // TODO
+//                btn.doPrint(data, new FormReportLayout(ProjectTypeConstants.TASK, Task.Field.name.name(),
+//                        TaskDefaultFormLayoutFactory.getReadForm(), Task.Field.name.name(), Task.Field.id.name(),
+//                        Task.Field.parenttaskid.name(), "selected"));
             }
 
             @Override

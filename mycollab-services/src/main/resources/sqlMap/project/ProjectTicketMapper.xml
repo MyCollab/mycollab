@@ -345,7 +345,7 @@
         ]]>
     </sql>
 
-    <sql id="selectGenericTaskFromRisk">
+    <sql id="selectTicketFromRisk">
     <![CDATA[
           SELECT mainTbl.name, mainTbl.description, mainTbl.assignUser,
             concat(assignUserTbl.firstname, ' ', assignUserTbl.lastname) AS assignUserFullName,
@@ -375,7 +375,7 @@
         ]]>
     </sql>
 
-    <sql id="selectGenericTaskFromMilestone">
+    <sql id="selectTicketFromMilestone">
         <![CDATA[
           SELECT mainTbl.name, mainTbl.description, mainTbl.assignUser,
             concat(assignUserTbl.firstname, ' ', assignUserTbl.lastname) AS assignUserFullName,
@@ -399,7 +399,7 @@
         ]]>
     </sql>
 
-    <sql id="selectGenericTaskFromBug">
+    <sql id="selectTicketFromBug">
     <![CDATA[
           SELECT mainTbl.name, mainTbl.description, mainTbl.assignUser,
                 concat(assignUserTbl.firstname, ' ', assignUserTbl.lastname) AS assignUserFullName,
@@ -429,7 +429,7 @@
         ]]>
     </sql>
 
-    <sql id="selectGenericTaskFromTask">
+    <sql id="selectTicketFromTask">
     <![CDATA[
           SELECT mainTbl.name,  mainTbl.description, mainTbl.assignUser,
             concat(assignUserTbl.firstname, ' ', assignUserTbl.lastname) AS assignUserFullName,
@@ -511,7 +511,7 @@
 
     <select id="findTicketsByCriteria" parameterType="com.mycollab.module.project.domain.criteria.ProjectTicketSearchCriteria" resultMap="BaseResultMap" lang="velocity">
         (
-        <include refid="selectGenericTaskFromTask" />
+        <include refid="selectTicketFromTask" />
         #ifnotnull($_parameter.searchCriteria)
           #trimext("WHERE" "AND|OR")
             <include refid="queryTaskSearchCriteria" />
@@ -520,7 +520,7 @@
         )
         UNION
         (
-        <include refid="selectGenericTaskFromRisk" />
+        <include refid="selectTicketFromRisk" />
         #ifnotnull($_parameter.searchCriteria)
           #trimext("WHERE" "AND|OR")
             <include refid="queryRiskSearchCriteria" />
@@ -530,7 +530,7 @@
 
         UNION
         (
-        <include refid="selectGenericTaskFromBug" />
+        <include refid="selectTicketFromBug" />
         #ifnotnull($_parameter.searchCriteria)
           #trimext("WHERE" "AND|OR")
             <include refid="queryBugSearchCriteria" />
@@ -543,9 +543,10 @@
         #end
     </select>
 
-    <select id="findPageableListByCriteria" parameterType="com.mycollab.module.project.domain.criteria.ProjectTicketSearchCriteria" resultMap="BaseResultMap" lang="velocity">
+    <select id="findPageableListByCriteria" parameterType="com.mycollab.module.project.domain.criteria.ProjectTicketSearchCriteria"
+            resultMap="BaseResultMap" lang="velocity">
         (
-        <include refid="selectGenericTaskFromRisk" />
+        <include refid="selectTicketFromRisk" />
         #ifnotnull($_parameter.searchCriteria)
           #trimext("WHERE" "AND|OR")
             <include refid="queryRiskSearchCriteria" />
@@ -556,7 +557,7 @@
         UNION
 
         (
-        <include refid="selectGenericTaskFromBug" />
+        <include refid="selectTicketFromBug" />
         #ifnotnull($_parameter.searchCriteria)
           #trimext("WHERE" "AND|OR")
             <include refid="queryBugSearchCriteria" />
@@ -566,17 +567,16 @@
 
         UNION
         (
-        <include refid="selectGenericTaskFromTask" />
+        <include refid="selectTicketFromTask" />
         #ifnotnull($_parameter.searchCriteria)
           #trimext("WHERE" "AND|OR")
             <include refid="queryTaskSearchCriteria" />
           #end
-          AND mainTbl.parentTaskId IS NULL
         #end
         )
         UNION
         (
-        <include refid="selectGenericTaskFromMilestone" />
+        <include refid="selectTicketFromMilestone" />
         #ifnotnull($_parameter.searchCriteria)
           #trimext("WHERE" "AND|OR")
             <include refid="queryMilestoneSearchCriteria" />
@@ -624,7 +624,8 @@
         ORDER BY s_account.id ASC
     </select>
 
-    <select id="getProjectsHasOverdueAssignments" parameterType="com.mycollab.module.project.domain.criteria.ProjectTicketSearchCriteria" resultType="Integer" lang="velocity">
+    <select id="getProjectsHasOverdueAssignments" parameterType="com.mycollab.module.project.domain.criteria.ProjectTicketSearchCriteria"
+            resultType="Integer" lang="velocity">
         SELECT m_prj_project.id
         FROM m_prj_project
         WHERE
@@ -728,5 +729,36 @@
             #end
           #end)) AS tmpTbl
         GROUP BY tmpTbl.priority
+    </select>
+
+    <select id="findSubTickets" parameterType="map"
+            resultMap="com.mycollab.module.project.dao.ProjectTicketMapper.BaseResultMap" lang="velocity">
+
+        (<include refid="selectTicketFromRisk" />
+        WHERE EXISTS(SELECT *
+            FROM m_prj_ticket_hierarchy
+            WHERE m_prj_ticket_hierarchy.parentType = @{_parameter.parentType}
+                AND m_prj_ticket_hierarchy.parentId = @{_parameter.parentId}
+                AND m_prj_ticket_hierarchy.ticketType = 'Project-Risk'
+                AND m_prj_ticket_hierarchy.ticketId = mainTbl.id)
+        )
+        UNION
+        (<include refid="selectTicketFromBug" />
+        WHERE EXISTS(SELECT *
+            FROM m_prj_ticket_hierarchy
+            WHERE m_prj_ticket_hierarchy.parentType = @{_parameter.parentType}
+                AND m_prj_ticket_hierarchy.parentId = @{_parameter.parentId}
+                AND m_prj_ticket_hierarchy.ticketType = 'Project-Bug'
+                AND m_prj_ticket_hierarchy.ticketId = mainTbl.id)
+        )
+        UNION
+        (<include refid="selectTicketFromTask" />
+        WHERE EXISTS(SELECT *
+            FROM m_prj_ticket_hierarchy
+            WHERE m_prj_ticket_hierarchy.parentType = @{_parameter.parentType}
+                AND m_prj_ticket_hierarchy.parentId = @{_parameter.parentId}
+                AND m_prj_ticket_hierarchy.ticketType = 'Project-Task'
+                AND m_prj_ticket_hierarchy.ticketId = mainTbl.id)
+        )
     </select>
 </mapper>

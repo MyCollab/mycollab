@@ -166,7 +166,7 @@ public class TicketDashboardViewImpl extends AbstractVerticalPageView implements
 
         MButton newTicketBtn = new MButton(UserUIContext.getMessage(TicketI18nEnum.NEW), clickEvent -> {
             UI.getCurrent().addWindow(AppContextUtil.getSpringBean(TicketComponentFactory.class)
-                    .createNewTicketWindow(null, CurrentProjectVariables.getProjectId(), null, false));
+                    .createNewTicketWindow(null, CurrentProjectVariables.getProjectId(), null, false, null));
         }).withIcon(VaadinIcons.PLUS).withStyleName(WebThemes.BUTTON_ACTION)
                 .withVisible(CurrentProjectVariables.canWriteTicket());
         extraCompsHeaderLayout.addComponent(newTicketBtn);

@@ -30,7 +30,6 @@ import com.mycollab.core.cache.CacheKey
 import com.mycollab.core.cache.CleanCache
 import com.mycollab.core.utils.StringUtils
 import com.mycollab.db.arguments.NumberSearchField
-import com.mycollab.db.arguments.SearchCriteria
 import com.mycollab.db.arguments.SearchField
 import com.mycollab.db.persistence.ICrudGenericDAO
 import com.mycollab.db.persistence.ISearchableDAO
@@ -38,21 +37,16 @@ import com.mycollab.db.persistence.service.DefaultService
 import com.mycollab.module.project.ProjectTypeConstants
 import com.mycollab.module.project.dao.TaskMapper
 import com.mycollab.module.project.dao.TaskMapperExt
-import com.mycollab.module.project.domain.SimpleTask
 import com.mycollab.module.project.domain.Task
 import com.mycollab.module.project.domain.TaskExample
 import com.mycollab.module.project.domain.criteria.TaskSearchCriteria
 import com.mycollab.module.project.esb.DeleteProjectTaskEvent
 import com.mycollab.module.project.i18n.OptionI18nEnum.Priority
 import com.mycollab.module.project.service.*
-import org.apache.ibatis.session.RowBounds
-import org.springframework.jdbc.core.BatchPreparedStatementSetter
 import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Isolation
 import org.springframework.transaction.annotation.Transactional
-import java.sql.PreparedStatement
-import java.sql.SQLException
 import java.util.concurrent.TimeUnit
 import javax.sql.DataSource
 
@@ -97,7 +91,7 @@ class TaskServiceImpl(private val taskMapper: TaskMapper,
                 val key = ticketKeyService.getMaxKey(record.projectid!!)
                 val taskKey = if (key == null) 1 else key + 1
 
-                val taskId =  super.saveWithSession(record, username)
+                val taskId = super.saveWithSession(record, username)
                 ticketKeyService.saveKey(record.projectid!!, taskId, ProjectTypeConstants.TASK, taskKey)
                 return taskId
             } else {
@@ -158,17 +152,8 @@ class TaskServiceImpl(private val taskMapper: TaskMapper,
     override fun getAssignedTasksSummary(criteria: TaskSearchCriteria): List<GroupItem> =
             taskMapperExt.getAssignedDefectsSummary(criteria)
 
-    override fun findSubTasks(parentTaskId: Int, sAccountId: Int, orderField: SearchCriteria.OrderField): List<SimpleTask> {
-        val searchCriteria = TaskSearchCriteria()
-        searchCriteria.saccountid = NumberSearchField(sAccountId)
-        searchCriteria.parentTaskId = NumberSearchField(parentTaskId)
-        searchCriteria.setOrderFields(arrayListOf(orderField))
-        return taskMapperExt.findPageableListByCriteria(searchCriteria, RowBounds(0, Integer.MAX_VALUE)) as List<SimpleTask>
-    }
-
     override fun getCountOfOpenSubTasks(taskId: Int): Int {
         val searchCriteria = TaskSearchCriteria()
-        searchCriteria.parentTaskId = NumberSearchField(taskId)
         searchCriteria.addExtraField(TaskSearchCriteria.p_status.buildPropertyParamNotInList(SearchField.AND,
                 setOf(StatusI18nEnum.Closed.name)))
         return taskMapperExt.getTotalCount(searchCriteria)
@@ -176,7 +161,6 @@ class TaskServiceImpl(private val taskMapper: TaskMapper,
 
     override fun massUpdateTaskStatuses(parentTaskId: Int, status: String, @CacheKey sAccountId: Int) {
         val searchCriteria = TaskSearchCriteria()
-        searchCriteria.parentTaskId = NumberSearchField(parentTaskId)
         searchCriteria.saccountid = NumberSearchField(sAccountId)
         val jdbcTemplate = JdbcTemplate(dataSource)
         jdbcTemplate.update("UPDATE `m_prj_task` SET `status`=? WHERE `parentTaskId`=?", status, parentTaskId)

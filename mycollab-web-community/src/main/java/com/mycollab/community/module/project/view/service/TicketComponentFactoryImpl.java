@@ -54,6 +54,7 @@ import org.vaadin.viritin.layouts.MWindow;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author MyCollab Ltd
@@ -112,26 +113,26 @@ public class TicketComponentFactoryImpl implements TicketComponentFactory {
     }
 
     @Override
-    public AbstractComponent createPriorityPopupField(ProjectTicket assignment) {
-        return new MetaFieldBuilder().withCaption(ProjectAssetsManager.getPriorityHtml(assignment.getPriority()) + " " +
-                UserUIContext.getMessage(Priority.class, assignment.getPriority()))
+    public AbstractComponent createPriorityPopupField(ProjectTicket ticket) {
+        return new MetaFieldBuilder().withCaption(ProjectAssetsManager.getPriorityHtml(ticket.getPriority()) + " " +
+                UserUIContext.getMessage(Priority.class, ticket.getPriority()))
                 .withDescription(UserUIContext.getMessage(ShellI18nEnum.OPT_UPGRADE_PRO_INTRO,
                         UserUIContext.getMessage(GenericI18Enum.FORM_PRIORITY))).build();
     }
 
     @Override
-    public AbstractComponent createBillableHoursPopupField(ProjectTicket task) {
+    public AbstractComponent createBillableHoursPopupField(ProjectTicket ticket) {
         return null;
     }
 
     @Override
-    public AbstractComponent createNonBillableHoursPopupField(ProjectTicket task) {
+    public AbstractComponent createNonBillableHoursPopupField(ProjectTicket ticket) {
         return null;
     }
 
     @Override
-    public AbstractComponent createFollowersPopupField(ProjectTicket assignment) {
-        return new MetaFieldBuilder().withCaptionAndIcon(VaadinIcons.EYE, "" + NumberUtils.zeroIfNull(assignment.getNumFollowers()))
+    public AbstractComponent createFollowersPopupField(ProjectTicket ticket) {
+        return new MetaFieldBuilder().withCaptionAndIcon(VaadinIcons.EYE, "" + NumberUtils.zeroIfNull(ticket.getNumFollowers()))
                 .withDescription(UserUIContext.getMessage(ShellI18nEnum.OPT_UPGRADE_PRO_INTRO,
                         UserUIContext.getMessage(FollowerI18nEnum.OPT_SUB_INFO_WATCHERS))).build();
     }
@@ -161,7 +162,7 @@ public class TicketComponentFactoryImpl implements TicketComponentFactory {
     }
 
     @Override
-    public MWindow createNewTicketWindow(LocalDate date, Integer prjId, Integer milestoneId, boolean isIncludeMilestone) {
+    public MWindow createNewTicketWindow(LocalDate date, Integer prjId, Integer milestoneId, boolean isIncludeMilestone, Map<String, ?> arguments) {
         return new NewTicketWindow(date, prjId, milestoneId, isIncludeMilestone);
     }
 

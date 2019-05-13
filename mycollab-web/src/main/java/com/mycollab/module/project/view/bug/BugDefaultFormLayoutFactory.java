@@ -183,6 +183,13 @@ public class BugDefaultFormLayoutFactory {
         return mainSection;
     }
 
+    private static DynaSection subTicketSections() {
+        DynaSection subTicketsSection = new DynaSectionBuilder().layoutType(LayoutType.ONE_COLUMN).header(TicketI18nEnum.FORM_SUB_TICKETS)
+                .contextHelp(TicketI18nEnum.FORM_SUB_TICKETS_HELP).build();
+        subTicketsSection.fields(new TextDynaFieldBuilder().fieldName("section-subTickets").fieldIndex(0).build());
+        return subTicketsSection;
+    }
+
     private static DynaSection attachmentSection() {
         DynaSection attachmentSection = new DynaSectionBuilder().layoutType(LayoutType.ONE_COLUMN).header(GenericI18Enum.FORM_ATTACHMENTS).build();
         attachmentSection.fields(new TextDynaFieldBuilder().fieldName("section-attachments")
@@ -199,7 +206,7 @@ public class BugDefaultFormLayoutFactory {
     }
 
     public static DynaForm getReadForm() {
-        return new DynaForm(mainReadSection(), attachmentSection());
+        return new DynaForm(mainReadSection(), subTicketSections(), attachmentSection());
     }
 
     public static DynaForm getAddForm() {

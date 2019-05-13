@@ -34,5 +34,7 @@ object TicketEvent {
 
     class GotoRead(source: Any, val projectId: Int, val ticketKey: Int) : ApplicationEvent(source)
 
-    class DependencyChange(source: Any, val ticketId: Int): ApplicationEvent(source)
+    class DependencyChange(source: Any, val ticketType:String, val ticketId: Int): ApplicationEvent(source)
+
+    class SubTicketAdded(source: Any, val ticketType:String, val ticketId: Int): ApplicationEvent(source)
 }

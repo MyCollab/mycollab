@@ -1,6 +1,6 @@
 # Free, open source Project Management software
 [![License](http://img.shields.io/badge/License-AGPLv3-orange.svg)](https://www.gnu.org/licenses/agpl-3.0.en.html) [![Project Stats](https://www.openhub.net/p/mycollab/widgets/project_thin_badge.gif)](https://www.openhub.net/p/mycollab) [![Build](https://travis-ci.org/MyCollab/mycollab.svg)](https://travis-ci.org/MyCollab/mycollab)
-[![Version](https://img.shields.io/badge/Version-7.0.2-brightgreen.svg)](https://docs.mycollab.com/)
+[![Version](https://img.shields.io/badge/Version-7.0.3-brightgreen.svg)](https://docs.mycollab.com/)
 [![Github](https://img.shields.io/github/downloads/MyCollab/mycollab/total.svg)](https://github.com/MyCollab/mycollab/releases)
 
 

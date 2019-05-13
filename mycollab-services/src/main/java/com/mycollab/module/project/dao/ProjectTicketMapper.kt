@@ -50,4 +50,7 @@ interface ProjectTicketMapper : ISearchableDAO<ProjectTicketSearchCriteria> {
 
     fun findTicketsByCriteria(@Param("searchCriteria") criteria: ProjectTicketSearchCriteria,
                               rowBounds: RowBounds): List<ProjectTicket>
+
+    fun findSubTickets(@Param("parentType") parentType:String,
+                       @Param("parentId") parentId: Int): List<ProjectTicket>
 }

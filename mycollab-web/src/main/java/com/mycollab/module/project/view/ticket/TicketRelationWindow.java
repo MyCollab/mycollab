@@ -110,7 +110,7 @@ public class TicketRelationWindow extends MWindow {
                         relatedBugService.saveWithSession(ticketRelation, UserUIContext.getUsername());
                         close();
 
-                        EventBusFactory.getInstance().post(new TicketEvent.DependencyChange(this, hostedTicket.getTypeId()));
+                        EventBusFactory.getInstance().post(new TicketEvent.DependencyChange(this, hostedTicket.getType(), hostedTicket.getTypeId()));
                     }
                 }).withIcon(VaadinIcons.CLIPBOARD).withStyleName(WebThemes.BUTTON_ACTION);
 

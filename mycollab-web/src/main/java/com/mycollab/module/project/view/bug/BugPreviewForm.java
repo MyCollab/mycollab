@@ -19,6 +19,7 @@ package com.mycollab.module.project.view.bug;
 import com.mycollab.common.i18n.GenericI18Enum;
 import com.mycollab.core.utils.StringUtils;
 import com.mycollab.module.project.ProjectTypeConstants;
+import com.mycollab.module.project.domain.ProjectTicket;
 import com.mycollab.module.project.i18n.OptionI18nEnum;
 import com.mycollab.module.project.i18n.OptionI18nEnum.BugResolution;
 import com.mycollab.module.project.i18n.OptionI18nEnum.BugSeverity;
@@ -30,6 +31,7 @@ import com.mycollab.module.project.ui.form.VersionsViewField;
 import com.mycollab.module.project.view.settings.component.ProjectUserFormLinkField;
 import com.mycollab.module.project.domain.BugWithBLOBs;
 import com.mycollab.module.project.domain.SimpleBug;
+import com.mycollab.module.project.view.ticket.SubTicketsComp;
 import com.mycollab.vaadin.UserUIContext;
 import com.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.mycollab.vaadin.ui.GenericBeanForm;
@@ -73,6 +75,8 @@ public class BugPreviewForm extends AdvancedPreviewBeanForm<SimpleBug> {
             } else if ("section-attachments".equals(propertyId)) {
                 return new ProjectFormAttachmentDisplayField(
                         beanItem.getProjectid(), ProjectTypeConstants.BUG, beanItem.getId());
+            } else if ("section-subTickets".equals(propertyId)) {
+                return new SubTicketsComp(ProjectTicket.buildTicketByBug(beanItem));
             } else if (SimpleBug.Field.components.equalTo(propertyId)) {
                 return new ComponentsViewField();
             } else if (SimpleBug.Field.affectedVersions.equalTo(propertyId)
