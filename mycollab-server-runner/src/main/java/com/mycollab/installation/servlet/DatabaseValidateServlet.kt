@@ -43,7 +43,7 @@ class DatabaseValidateServlet : HttpServlet() {
             LOG.error("Can not load mysql driver", e)
         }
 
-        val dbUrl = "jdbc:mysql://$databaseServer/$databaseName?useUnicode=true"
+        val dbUrl = "jdbc:mysql://$databaseServer/$databaseName?useUnicode=true&characterEncoding=utf-8&autoReconnect=true&rewriteBatchedStatements=true&useCompression=true&useServerPrepStmts=false&verifyServerCertificate=false&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC"
         try {
             DriverManager.getConnection(dbUrl, dbUserName, dbPassword).use { connection -> connection.metaData }
         } catch (e: Exception) {

@@ -44,7 +44,6 @@ import static com.mycollab.vaadin.web.ui.utils.FormControlsGenerator.generateEdi
  * @author MyCollab Ltd.
  * @since 1.0
  */
-// TODO
 @ViewComponent
 public class TaskAddViewImpl extends AbstractEditItemComp<SimpleTask> implements TaskAddView {
     private static final long serialVersionUID = 1L;

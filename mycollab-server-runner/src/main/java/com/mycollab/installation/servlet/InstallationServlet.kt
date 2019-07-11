@@ -55,7 +55,7 @@ class InstallationServlet : HttpServlet() {
         val tls = request.getParameter("tls")
         val ssl = request.getParameter("ssl")
 
-        val dbUrl = "jdbc:mysql://$databaseServer/$databaseName?useUnicode=true&characterEncoding=utf-8&autoReconnect=true&rewriteBatchedStatements=true&useCompression=true&useServerPrepStmts=false&verifyServerCertificate=false&useSSL=false&allowPublicKeyRetrieval=true"
+        val dbUrl = "jdbc:mysql://$databaseServer/$databaseName?useUnicode=true&characterEncoding=utf-8&autoReconnect=true&rewriteBatchedStatements=true&useCompression=true&useServerPrepStmts=false&verifyServerCertificate=false&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC"
 
 //        try {
 //            Class.forName("com.mysql.jdbc.Driver")

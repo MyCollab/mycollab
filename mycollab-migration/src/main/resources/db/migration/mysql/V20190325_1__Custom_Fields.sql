@@ -32,7 +32,6 @@ DROP FOREIGN KEY `FK_m_tracker_bug_5`;
 ALTER TABLE `m_prj_bug` 
 ;
 ALTER TABLE `m_prj_bug` RENAME INDEX `FK_m_tracker_bug_5` TO `FK_m_prj_bug_5`;
-ALTER TABLE `m_prj_bug` ALTER INDEX `FK_m_prj_bug_5` VISIBLE;
 ALTER TABLE `m_prj_bug` 
 ADD CONSTRAINT `FK_m_prj_bug_1`
   FOREIGN KEY (`createdUser`)
@@ -60,16 +59,11 @@ ADD CONSTRAINT `FK_m_prj_bug_5`
   ON DELETE CASCADE
   ON UPDATE CASCADE;
   
-ALTER TABLE `m_prj_bug` 
-;
+ALTER TABLE `m_prj_bug` ;
 ALTER TABLE `m_prj_bug` RENAME INDEX `FK_m_tracker_bug_6` TO `FK_m_prj_bug_6`;
-ALTER TABLE `m_prj_bug` ALTER INDEX `FK_m_prj_bug_6` VISIBLE;
 ALTER TABLE `m_prj_bug` RENAME INDEX `FK_m_tracker_bug_4` TO `FK_m_prj_bug_4`;
-ALTER TABLE `m_prj_bug` ALTER INDEX `FK_m_prj_bug_4` VISIBLE;
 ALTER TABLE `m_prj_bug` RENAME INDEX `FK_m_tracker_bug_1` TO `FK_m_prj_bug_1`;
-ALTER TABLE `m_prj_bug` ALTER INDEX `FK_m_prj_bug_1` VISIBLE;
 ALTER TABLE `m_prj_bug` RENAME INDEX `FK_m_tracker_bug_2` TO `FK_m_prj_bug_2`;
-ALTER TABLE `m_prj_bug` ALTER INDEX `FK_m_prj_bug_2` VISIBLE;  
 
 ALTER TABLE `m_tracker_component`  RENAME TO  `m_prj_component` ;
 ALTER TABLE `m_prj_component` 
@@ -80,13 +74,9 @@ DROP FOREIGN KEY `FK_m_tracker_component_4`;
 ALTER TABLE `m_prj_component` 
 ;
 ALTER TABLE `m_prj_component` RENAME INDEX `FK_m_tracker_component_1` TO `FK_m_prj_component_1`;
-ALTER TABLE `m_prj_component` ALTER INDEX `FK_m_prj_component_1` VISIBLE;
 ALTER TABLE `m_prj_component` RENAME INDEX `FK_m_tracker_component_4` TO `FK_m_prj_component_4`;
-ALTER TABLE `m_prj_component` ALTER INDEX `FK_m_prj_component_4` VISIBLE;
 ALTER TABLE `m_prj_component` RENAME INDEX `FK_m_tracker_component_2` TO `FK_m_prj_component_2`;
-ALTER TABLE `m_prj_component` ALTER INDEX `FK_m_prj_component_2` VISIBLE;
 ALTER TABLE `m_prj_component` RENAME INDEX `FK_m_tracker_component_3` TO `FK_m_prj_component_3`;
-ALTER TABLE `m_prj_component` ALTER INDEX `FK_m_prj_component_3` VISIBLE;
 ALTER TABLE `m_prj_component` 
 ADD CONSTRAINT `FK_m_prj_component_1`
   FOREIGN KEY (`projectId`)
@@ -118,11 +108,8 @@ DROP FOREIGN KEY `FK_m_tracker_version_3`;
 ALTER TABLE `m_prj_version` 
 ;
 ALTER TABLE `m_prj_version` RENAME INDEX `FK_m_tracker_version_1` TO `FK_m_prj_version_1`;
-ALTER TABLE `m_prj_version` ALTER INDEX `FK_m_prj_version_1` VISIBLE;
 ALTER TABLE `m_prj_version` RENAME INDEX `FK_m_tracker_version_3` TO `FK_m_prj_version_3`;
-ALTER TABLE `m_prj_version` ALTER INDEX `FK_m_prj_version_3` VISIBLE;
 ALTER TABLE `m_prj_version` RENAME INDEX `FK_m_tracker_version_2` TO `FK_m_prj_version_2`;
-ALTER TABLE `m_prj_version` ALTER INDEX `FK_m_prj_version_2` VISIBLE;
 ALTER TABLE `m_prj_version` 
 ADD CONSTRAINT `FK_m_prj_version_1`
   FOREIGN KEY (`projectId`)
@@ -160,9 +147,7 @@ CHANGE COLUMN `ticketType` `ticketType` VARCHAR(45) NOT NULL ;
 
 ALTER TABLE `m_prj_ticket_relation`;
 ALTER TABLE `m_prj_ticket_relation` RENAME INDEX `INDEX_m_tracker_bug_related_item_2` TO `INDEX_m_prj_ticket_relation_item_2`;
-ALTER TABLE `m_prj_ticket_relation` ALTER INDEX `INDEX_m_prj_ticket_relation_item_2` VISIBLE;
 ALTER TABLE `m_prj_ticket_relation` RENAME INDEX `INDEX_m_tracker_bug_related_item_3` TO `INDEX_m_prj_ticket_relation_item_3`;
-ALTER TABLE `m_prj_ticket_relation` ALTER INDEX `INDEX_m_prj_ticket_relation_item_3` VISIBLE;
 
 CREATE TABLE `m_prj_ticket_key` (
   `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -171,7 +156,7 @@ CREATE TABLE `m_prj_ticket_key` (
   `ticketType` VARCHAR(45) NOT NULL,
   `ticketKey` INT(11) UNSIGNED NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `PK_m_prj_ticket_id_1_idx` (`projectId` ASC) VISIBLE,
+  INDEX `PK_m_prj_ticket_id_1_idx` (`projectId` ASC),
   CONSTRAINT `PK_m_prj_ticket_id_1`
     FOREIGN KEY (`projectId`)
     REFERENCES `m_prj_project` (`id`)

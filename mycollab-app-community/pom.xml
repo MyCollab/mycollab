@@ -12,7 +12,7 @@
     </parent>
     <packaging>jar</packaging>
     <properties>
-        <dockerfile-maven-plugin.version>1.4.0</dockerfile-maven-plugin.version>
+        <dockerfile-maven-plugin.version>1.4.10</dockerfile-maven-plugin.version>
         <installer.staging.dir>${project.build.directory}/staging</installer.staging.dir>
         <installer.resource.dir.app>${basedir}/src/main/installer-resources</installer.resource.dir.app>
         <staging.dir.app>${installer.staging.dir}</staging.dir.app>
@@ -327,7 +327,7 @@
                     </execution>
                 </executions>
             </plugin>
-            <!--
+
             <plugin>
                 <groupId>com.spotify</groupId>
                 <artifactId>dockerfile-maven-plugin</artifactId>
@@ -347,7 +347,7 @@
                     <contextDirectory>${project.build.directory}</contextDirectory>
                 </configuration>
             </plugin>
-            -->
+
         </plugins>
     </build>
 </project>
