@@ -24,9 +24,6 @@ mycollab-web/src/main/resources/VAADIN/themes/mycollab/components/_project.scss
 mycollab-web/src/main/resources/VAADIN/themes/mycollab/components/_tooltip.scss
 mycollab-web/src/main/resources/VAADIN/themes/mycollab/components/_button.scss
 *.bak
-mycollab-app-community/src/main/scripts/installService.bat
-mycollab-app-community/src/main/scripts/service.bat
-mycollab-app-community/src/main/scripts/unInstallService.bat
 mycollab-app-community/src/main/scripts/MyCollab5.exe
 mycollab-app-community/src/main/scripts/MyCollab5amd64.exe
 mycollab-app-community/src/main/scripts/MyCollab5ia64.exe
@@ -38,4 +35,7 @@ mycollab-services-community/.mycollab/.app.properties
 mycollab-app-community/.mycollab/.app.properties
 default-mycollab-test.properties
 mycollab-app-community/src/main/config/mycollab.properties
-mycollab-app-community
+.mycollab.pid
+application.properties
+mycollab-app-community/src/main/docker/app.yml
+mycollab-app-community/src/main/docker/mysql.yml
