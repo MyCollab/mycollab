@@ -6,7 +6,7 @@
 
 ## Introduction
 
-MyCollab is the free and open source project management software. Intuitive UI, rich features, high performance and stable are the advantages compare with various popular tools in the market such as Redmine, Bugzilla, Mantis etc. This open source is included into a trusted commercial product that is deployed on hundreds of companies' servers.
+`MyCollab` is the free and open source project management software. Intuitive UI, rich features, high performance and stable are the advantages compare with various popular tools in the market such as Redmine, Bugzilla, Mantis etc. This open source is included into a trusted commercial product that is deployed on hundreds of companies' servers.
 
 <table>
   <tr>
