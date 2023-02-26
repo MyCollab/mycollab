@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: com.vaadin.external.slf4j:vaadin-slf4j-jdk14:1.6.1">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/vaadin/external/slf4j/vaadin-slf4j-jdk14/1.6.1/vaadin-slf4j-jdk14-1.6.1.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/com/vaadin/external/slf4j/vaadin-slf4j-jdk14/1.6.1/vaadin-slf4j-jdk14-1.6.1-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/vaadin/external/slf4j/vaadin-slf4j-jdk14/1.6.1/vaadin-slf4j-jdk14-1.6.1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

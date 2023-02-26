@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: org.tepi.listbuilder:listbuilder:1.0.0.v8">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/tepi/listbuilder/listbuilder/1.0.0.v8/listbuilder-1.0.0.v8.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/org/tepi/listbuilder/listbuilder/1.0.0.v8/listbuilder-1.0.0.v8-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/tepi/listbuilder/listbuilder/1.0.0.v8/listbuilder-1.0.0.v8-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

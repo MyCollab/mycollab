@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: image4j:image4j:0.7.2">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/image4j/image4j/0.7.2/image4j-0.7.2.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/image4j/image4j/0.7.2/image4j-0.7.2-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/image4j/image4j/0.7.2/image4j-0.7.2-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

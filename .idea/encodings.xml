@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/mycollab-app-community/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mycollab-app-community/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mycollab-caching/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mycollab-caching/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mycollab-config/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mycollab-config/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mycollab-core/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mycollab-core/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mycollab-dao/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mycollab-dao/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mycollab-esb/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mycollab-esb/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mycollab-jackrabbit/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mycollab-jackrabbit/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mycollab-localization/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mycollab-localization/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mycollab-migration/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mycollab-migration/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mycollab-parent-community/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mycollab-parent-community/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mycollab-reporting/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mycollab-reporting/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mycollab-scheduler-community/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mycollab-scheduler-community/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mycollab-scheduler/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mycollab-scheduler/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mycollab-server-runner/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mycollab-server-runner/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mycollab-services-community/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mycollab-services-community/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mycollab-services/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mycollab-services/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mycollab-servlet/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mycollab-servlet/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mycollab-template/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mycollab-template/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mycollab-test/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mycollab-test/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mycollab-web-community/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mycollab-web-community/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mycollab-web/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mycollab-web/src/main/resources" charset="UTF-8" />
+  </component>
+</project>
