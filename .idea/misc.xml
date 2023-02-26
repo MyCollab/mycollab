@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="MavenProjectsManager">
+    <option name="originalFiles">
+      <list>
+        <option value="$PROJECT_DIR$/mycollab-dao/pom.xml" />
+        <option value="$PROJECT_DIR$/mycollab-esb/pom.xml" />
+        <option value="$PROJECT_DIR$/mycollab-web/pom.xml" />
+        <option value="$PROJECT_DIR$/mycollab-core/pom.xml" />
+        <option value="$PROJECT_DIR$/mycollab-test/pom.xml" />
+        <option value="$PROJECT_DIR$/mycollab-config/pom.xml" />
+        <option value="$PROJECT_DIR$/mycollab-caching/pom.xml" />
+        <option value="$PROJECT_DIR$/mycollab-servlet/pom.xml" />
+        <option value="$PROJECT_DIR$/mycollab-services/pom.xml" />
+        <option value="$PROJECT_DIR$/mycollab-template/pom.xml" />
+        <option value="$PROJECT_DIR$/mycollab-migration/pom.xml" />
+        <option value="$PROJECT_DIR$/mycollab-reporting/pom.xml" />
+        <option value="$PROJECT_DIR$/mycollab-scheduler/pom.xml" />
+        <option value="$PROJECT_DIR$/mycollab-jackrabbit/pom.xml" />
+        <option value="$PROJECT_DIR$/mycollab-localization/pom.xml" />
+        <option value="$PROJECT_DIR$/mycollab-app-community/pom.xml" />
+        <option value="$PROJECT_DIR$/mycollab-server-runner/pom.xml" />
+        <option value="$PROJECT_DIR$/mycollab-web-community/pom.xml" />
+        <option value="$PROJECT_DIR$/mycollab-parent-community/pom.xml" />
+        <option value="$PROJECT_DIR$/mycollab-deployer-community/pom.xml" />
+        <option value="$PROJECT_DIR$/mycollab-services-community/pom.xml" />
+        <option value="$PROJECT_DIR$/mycollab-scheduler-community/pom.xml" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_18" default="true" project-jdk-name="18" project-jdk-type="JavaSDK" />
+</project>

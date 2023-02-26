@@ -60,8 +60,10 @@ abstract class ReportTemplateExecutor(protected var timeZone: ZoneId, protected 
                         .setFixedDimension(150, 28), cmp.horizontalGap(20),
                 cmp.verticalList(
                         cmp.text("https://www.mycollab.com").setStyle(reportStyles.italicStyle).setHyperLink(link)
-                                .setHorizontalTextAlignment(HorizontalTextAlignment.RIGHT), cmp.text("Generated at: ${DateTimeUtils.formatDate(LocalDateTime.now(), "yyyy-MM-dd'T'HH:mm:ss",
-                        Locale.US, timeZone)}")
+                                .setHorizontalTextAlignment(HorizontalTextAlignment.RIGHT), cmp.text("Generated at: ${
+                    DateTimeUtils.formatDate(LocalDateTime.now(), "yyyy-MM-dd'T'HH:mm:ss",
+                            Locale.US, timeZone)
+                }")
                         .setHorizontalTextAlignment(HorizontalTextAlignment.RIGHT))
         )
 
@@ -136,7 +138,6 @@ abstract class ReportTemplateExecutor(protected var timeZone: ZoneId, protected 
         } catch (e: IOException) {
             throw MyCollabException(e)
         }
-
         return `in`
     }
 

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/mycollab.iml" filepath="$PROJECT_DIR$/.idea/mycollab.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mycollab-app-community/mycollab-app-community.iml" filepath="$PROJECT_DIR$/mycollab-app-community/mycollab-app-community.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mycollab-caching/mycollab-caching.iml" filepath="$PROJECT_DIR$/mycollab-caching/mycollab-caching.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mycollab-config/mycollab-config.iml" filepath="$PROJECT_DIR$/mycollab-config/mycollab-config.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mycollab-core/mycollab-core.iml" filepath="$PROJECT_DIR$/mycollab-core/mycollab-core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mycollab-dao/mycollab-dao.iml" filepath="$PROJECT_DIR$/mycollab-dao/mycollab-dao.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mycollab-deployer-community/mycollab-deployer-community.iml" filepath="$PROJECT_DIR$/mycollab-deployer-community/mycollab-deployer-community.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mycollab-esb/mycollab-esb.iml" filepath="$PROJECT_DIR$/mycollab-esb/mycollab-esb.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mycollab-jackrabbit/mycollab-jackrabbit.iml" filepath="$PROJECT_DIR$/mycollab-jackrabbit/mycollab-jackrabbit.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mycollab-localization/mycollab-localization.iml" filepath="$PROJECT_DIR$/mycollab-localization/mycollab-localization.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mycollab-migration/mycollab-migration.iml" filepath="$PROJECT_DIR$/mycollab-migration/mycollab-migration.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mycollab-parent-community/mycollab-parent-community.iml" filepath="$PROJECT_DIR$/mycollab-parent-community/mycollab-parent-community.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mycollab-reporting/mycollab-reporting.iml" filepath="$PROJECT_DIR$/mycollab-reporting/mycollab-reporting.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mycollab-scheduler/mycollab-scheduler.iml" filepath="$PROJECT_DIR$/mycollab-scheduler/mycollab-scheduler.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mycollab-scheduler-community/mycollab-scheduler-community.iml" filepath="$PROJECT_DIR$/mycollab-scheduler-community/mycollab-scheduler-community.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mycollab-server-runner/mycollab-server-runner.iml" filepath="$PROJECT_DIR$/mycollab-server-runner/mycollab-server-runner.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mycollab-services/mycollab-services.iml" filepath="$PROJECT_DIR$/mycollab-services/mycollab-services.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mycollab-services-community/mycollab-services-community.iml" filepath="$PROJECT_DIR$/mycollab-services-community/mycollab-services-community.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mycollab-servlet/mycollab-servlet.iml" filepath="$PROJECT_DIR$/mycollab-servlet/mycollab-servlet.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mycollab-template/mycollab-template.iml" filepath="$PROJECT_DIR$/mycollab-template/mycollab-template.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mycollab-test/mycollab-test.iml" filepath="$PROJECT_DIR$/mycollab-test/mycollab-test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mycollab-web/mycollab-web.iml" filepath="$PROJECT_DIR$/mycollab-web/mycollab-web.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mycollab-web-community/mycollab-web-community.iml" filepath="$PROJECT_DIR$/mycollab-web-community/mycollab-web-community.iml" />
+    </modules>
+  </component>
+</project>

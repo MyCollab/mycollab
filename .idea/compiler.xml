@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="mycollab-app-community" target="1.8" />
+      <module name="mycollab-caching" target="1.8" />
+      <module name="mycollab-config" target="1.8" />
+      <module name="mycollab-core" target="1.8" />
+      <module name="mycollab-dao" target="1.8" />
+      <module name="mycollab-deployer-community" target="1.5" />
+      <module name="mycollab-esb" target="1.8" />
+      <module name="mycollab-jackrabbit" target="1.8" />
+      <module name="mycollab-localization" target="1.8" />
+      <module name="mycollab-migration" target="1.8" />
+      <module name="mycollab-parent-community" target="1.8" />
+      <module name="mycollab-reporting" target="1.8" />
+      <module name="mycollab-scheduler" target="1.8" />
+      <module name="mycollab-scheduler-community" target="1.8" />
+      <module name="mycollab-server-runner" target="1.8" />
+      <module name="mycollab-services" target="1.8" />
+      <module name="mycollab-services-community" target="1.8" />
+      <module name="mycollab-servlet" target="1.8" />
+      <module name="mycollab-template" target="1.8" />
+      <module name="mycollab-test" target="1.8" />
+      <module name="mycollab-web" target="1.8" />
+      <module name="mycollab-web-community" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="mycollab-app-community" options="-parameters -proc:none" />
+      <module name="mycollab-caching" options="-parameters -proc:none" />
+      <module name="mycollab-config" options="-parameters -proc:none" />
+      <module name="mycollab-core" options="-parameters -proc:none" />
+      <module name="mycollab-dao" options="-parameters -proc:none" />
+      <module name="mycollab-esb" options="-parameters -proc:none" />
+      <module name="mycollab-jackrabbit" options="-parameters -proc:none" />
+      <module name="mycollab-localization" options="-parameters -proc:none" />
+      <module name="mycollab-migration" options="-parameters -proc:none" />
+      <module name="mycollab-parent-community" options="-parameters -proc:none" />
+      <module name="mycollab-reporting" options="-parameters -proc:none" />
+      <module name="mycollab-scheduler" options="-parameters -proc:none" />
+      <module name="mycollab-scheduler-community" options="-parameters -proc:none" />
+      <module name="mycollab-server-runner" options="-parameters -proc:none" />
+      <module name="mycollab-services" options="-parameters -proc:none" />
+      <module name="mycollab-services-community" options="-parameters -proc:none" />
+      <module name="mycollab-servlet" options="-parameters -proc:none" />
+      <module name="mycollab-template" options="-parameters -proc:none" />
+      <module name="mycollab-test" options="-parameters -proc:none" />
+      <module name="mycollab-web" options="-parameters -proc:none" />
+      <module name="mycollab-web-community" options="-parameters -proc:none" />
+    </option>
+  </component>
+</project>

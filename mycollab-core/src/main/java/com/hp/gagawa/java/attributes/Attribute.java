@@ -21,6 +21,11 @@ THE SOFTWARE.*/
 
 package com.hp.gagawa.java.attributes;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Setter
+@Getter
 public class Attribute {
 	private String name;
 	private String value;
@@ -51,19 +56,4 @@ public class Attribute {
 		return this.write();
 	}
 
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getValue() {
-		return value;
-	}
-
-	public void setValue(String value) {
-		this.value = value;
-	}
 }
