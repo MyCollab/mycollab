@@ -1,3 +1,8 @@
+
+> **⚠️ Archived Project Notice**  
+> This project has been archived as it is no longer actively maintained. Thank you to everyone who supported and contributed to this project.  
+> For a modern and actively maintained alternative, we recommend exploring [FlowInquiry](https://github.com/flowinquiry), a freemium open-source platform designed to streamline team requests and project management with customizable workflows and SLA tracking.
+
 # Free, open source Project Management software
 [![License](http://img.shields.io/badge/License-AGPLv3-orange.svg)](https://www.gnu.org/licenses/agpl-3.0.en.html) [![Project Stats](https://www.openhub.net/p/mycollab/widgets/project_thin_badge.gif)](https://www.openhub.net/p/mycollab) [![Build](https://travis-ci.org/MyCollab/mycollab.svg)](https://travis-ci.org/MyCollab/mycollab)
 [![Version](https://img.shields.io/badge/Version-7.0.3-brightgreen.svg)](https://docs.mycollab.com/)
